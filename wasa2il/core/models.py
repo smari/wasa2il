@@ -16,7 +16,15 @@ class BaseIssue(models.Model):
 
 class Polity(BaseIssue, getCreationBase('polity')):
 	parent			= models.ForeignKey('Polity', **nullblank)
+	members			= models.ManyToManyField(User)
 	invite_threshold	= models.IntegerField(default=3)
+
+	is_listed		= models.BooleanField(default=True)
+	is_nonmembers_readable	= models.BooleanField(default=True)
+
+	def is_member(user):
+		return user in self.members
+
 
 
 class Topic(BaseIssue, getCreationBase('topic')):
