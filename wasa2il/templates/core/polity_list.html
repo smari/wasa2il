@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Polities</h1>
+
+{% for polity in polities %}
+{{polity.name}} !!! <br/>
+{% endfor %}
+
+{% endblock %}

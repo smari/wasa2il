@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block content %}
+
+<div class="page-header"><h1>Log in <small>and partake in democracy...</small></h1></div>
+
+<div class="row">
+	<div class="span8">
+		<form action="/accounts/login/" method="POST">
+			{%csrf_token%}
+			<fieldset> 
+			{{form|bootstrap}}
+				<label></label>
+				<input class="btn primary" type="submit" value="Log in"/>
+				<a href="/accounts/register/" class="btn">Sign up</a>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="span4">
+		<ul>
+			<li><a href="/about/">About Wasa2il</a></li>
+		</ul>
+	</div>
+
+</div>
+
+{% endblock %}
