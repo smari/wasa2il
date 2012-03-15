@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Topics</h1>
+
+{% for topic in topics %}
+{{topic.name}} !!! <br/>
+{% endfor %}
+
+{% endblock %}

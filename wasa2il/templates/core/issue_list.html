@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Issues</h1>
+
+{% for issue in issues %}
+{{issue.name}} !!! <br/>
+{% endfor %}
+
+{% endblock %}
