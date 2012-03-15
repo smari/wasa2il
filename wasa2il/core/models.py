@@ -4,34 +4,41 @@ from fields import NameField, NameSlugField, CreatedField, ModifiedField, AutoUs
 
 nullblank = { 'null': True, 'blank': True }
 
+def getCreationBase(prefix=None):
+	class CreationBase(models.Model):
+		if prefix:
+			created_by		= AutoUserField(related_name='%s_created_by'%prefix)
+			modified_by		= AutoUserField(related_name='%s_modified_by'%prefix)
+		else:
+			created_by		= AutoUserField(related_name='created_by')
+			modified_by		= AutoUserField(related_name='modified_by')
+		created			= CreatedField()
+		modified		= ModifiedField()
+		class Meta:
+			abstract = True
+	return CreationBase
 
-class CreationBase(models.Model):
-	created_by		= AutoUserField()
-	modified_by		= AutoUserField()
-	created			= CreatedField()
-	modified		= ModifiedField()
-	class Meta:
-		abstract = True
+def getBaseIssue(prefix=None):
+	class BaseIssue(getCreationBase(prefix)):
+		name			= NameField()
+		slug			= NameSlugField()
+		description		= models.TextField(**nullblank)
+		class Meta:
+			abstract = True
+	return BaseIssue
 
-class BaseIssue(CreationBase):
-	name			= NameField()
-	slug			= NameSlugField()
-	description		= models.TextField(**nullblank)
-	class Meta:
-		abstract = True
-
-class Polity(BaseIssue):
+class Polity(getBaseIssue('polity')):
 	parent			= models.ForeignKey('Polity')
 	invite_threshold	= models.IntegerField(default=3)
 
 
-class Topic(BaseIssue):
+class Topic(getBaseIssue('topic')):
 	polity			= models.ForeignKey(Polity)
 
-class Issue(BaseIssue):
+class Issue(getBaseIssue('issue')):
 	topic			= models.ManyToManyField(Topic)
 
-class Comment(CreationBase):
+class Comment(getCreationBase('comment')):
 	comment			= models.TextField()
 	issue			= models.ForeignKey(Issue)
 
