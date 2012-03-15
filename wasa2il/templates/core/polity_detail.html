@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{polity.name}}</h1>
+
+<table>
+<tr>
+	<th>Topic</th>
+	<th>Issues</th>
+</tr>
+{% for topic in polity.topic_set.all %}
+<tr>
+	<td><a href="/topic/{{topic.id}}/">{{topic.name}}</a></td>
+	<td></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

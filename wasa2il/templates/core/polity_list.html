@@ -4,8 +4,19 @@
 
 <h1>Polities</h1>
 
+<table>
+<tr>
+	<th>Polity</th>
+	<th>Members</th>
+	<th>Topics</th>
+</tr>
 {% for polity in polities %}
-{{polity.name}} !!! <br/>
+<tr>
+	<td><a href="/polity/{{polity.id}}/">{{polity.name}}</a></td>
+	<td>{{polity.members.count}}</td>
+	<td>{{polity.topic_set.count}}</td>
+</tr>
 {% endfor %}
+</table>
 
 {% endblock %}
