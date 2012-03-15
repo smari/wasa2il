@@ -11,11 +11,13 @@
 	<th>Topics</th>
 </tr>
 {% for polity in polities %}
+{% if polity.is_listed %}
 <tr>
 	<td><a href="/polity/{{polity.id}}/">{{polity.name}}</a></td>
 	<td>{{polity.members.count}}</td>
 	<td>{{polity.topic_set.count}}</td>
 </tr>
+{% endif %}
 {% endfor %}
 </table>
 
