@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<h1>Create new topic for polity {{polity.name}}</h1>
+
 <form action="/polity/{{polity.id}}/topic/new/" method="POST"/>
 {%csrf_token%}
 <table>
