@@ -2,19 +2,15 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
-from fields import NameField, NameSlugField, CreatedField, ModifiedField, AutoUserField
-from base_classes import getCreationBase
+#from fields import CreatedField, ModifiedField, AutoUserField
+from base_classes import NameSlugBase, getCreationBase
 
 nullblank = { 'null': True, 'blank': True }
 
 
 
-class BaseIssue(models.Model):
-	name			= NameField()
-	slug			= NameSlugField()
+class BaseIssue(NameSlugBase):
 	description		= models.TextField(**nullblank)
-	def __unicode__(self):
-		return u'%s' % (self.name)
 
 class Polity(BaseIssue, getCreationBase('polity')):
 	parent			= models.ForeignKey('Polity', **nullblank)
@@ -33,6 +29,7 @@ class Topic(BaseIssue, getCreationBase('topic')):
 
 class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)
+	options			= models.ManyToManyField('VoteOption')
 	def topics_str(self):
 		return ', '.join(map(str, self.topics.all()))
 
@@ -44,3 +41,12 @@ class Delegate(models.Model):
 	user			= models.ForeignKey(User)
 	delegate		= models.ForeignKey(User, related_name='delegate_user')
 	base_issue		= models.ForeignKey(BaseIssue)
+
+class VoteOption(NameSlugBase):
+	pass
+
+class Vote(models.Model):
+	user			= models.ForeignKey(User)
+	option			= models.ForeignKey(VoteOption)
+	cast			= models.DateTimeField(auto_now_add=True)
+
