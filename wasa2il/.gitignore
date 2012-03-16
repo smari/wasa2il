@@ -1,2 +1,4 @@
 *.pyc
 wasa2il.sqlite3
+*.mo
+*~
