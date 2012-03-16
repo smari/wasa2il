@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 
-from models import Polity, Topic, Issue, VoteOption
+from models import Polity, Topic, Issue, VoteOption, Comment
 
 
 def getDerivedAdmin(base_admin, **kwargs):
@@ -37,7 +37,7 @@ BaseIssueAdmin.fieldsets = [
 		NameSlugAdmin.fieldsets[0],
 		(None, { 'fields': ['description'] }),
 	]
-
+BaseIssueAdmin.save_model = save_model
 
 class PolityAdmin(BaseIssueAdmin):
 	fieldsets = None
@@ -61,6 +61,8 @@ class Delegate(admin.ModelAdmin):
 class VoteOptionAdmin(NameSlugAdmin):
 	pass
 
+class CommentAdmin(admin.ModelAdmin):
+	save_model = save_model
 
 # Register the admins
 register = admin.site.register
@@ -68,3 +70,4 @@ register(Polity, PolityAdmin)
 register(Topic, TopicAdmin)
 register(Issue, IssueAdmin)
 register(VoteOption, VoteOptionAdmin)
+register(Comment, CommentAdmin)
