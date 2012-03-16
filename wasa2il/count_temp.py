@@ -3,10 +3,12 @@
 from wasa2il.core.models import Issue, Vote, Delegate
 from collections import defaultdict
 
+
 def flatten(lst):
 	return [item for sublist in lst for item in sublist]
 
 def main():
+
 	
 	# Get a issue
 	issue = Issue.objects.all()[0]
@@ -17,23 +19,26 @@ def main():
 	# Create the base_issue list delegates must be bound
 	base_issues = [derived_issue.baseissue_ptr for derived_issue in [issue] + topics + polities]
 	
+	print 'Issue:',
+	print '', issue
 	print 'Topics:'
 	for topic in topics:
 		print '', topic
 	print 'Polities:'
 	for polity in polities:
 		print '', polity
-	print 'Base issues:'
+	print '\nBase issues:'
 	for base_issue in base_issues:
 		print '', base_issue
 	
 	
+	# Get the "weight" behind the vote
+	def get_weight(votee):
+		return 1 + sum(get_weight(delegate.user) for delegate in Delegate.objects.filter(delegate=votee, base_issue__in=base_issues))
+	
 	# Aggregate the votes
 	options = defaultdict(lambda: 0)
 	for vote in Vote.objects.filter(issue=issue):
-		# Get the "weight" behind the vote
-		def get_weight(votee):
-			return 1 + sum(get_weight(delegate.user) for delegate in Delegate.objects.filter(delegate=votee, base_issue__in=base_issues))
 		weight = get_weight(vote.user)
 		options[vote.option.name] += weight
 	
