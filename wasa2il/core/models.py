@@ -13,6 +13,8 @@ class BaseIssue(models.Model):
 	name			= NameField()
 	slug			= NameSlugField()
 	description		= models.TextField(**nullblank)
+	def __unicode__(self):
+		return u'%s' % (self.name)
 
 class Polity(BaseIssue, getCreationBase('polity')):
 	parent			= models.ForeignKey('Polity', **nullblank)
@@ -26,12 +28,13 @@ class Polity(BaseIssue, getCreationBase('polity')):
 		return user in self.members
 
 
-
 class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)
 
 class Issue(BaseIssue, getCreationBase('issue')):
-	topic			= models.ManyToManyField(Topic)
+	topics			= models.ManyToManyField(Topic)
+	def topics_str(self):
+		return ', '.join(map(str, self.topics.all()))
 
 class Comment(getCreationBase('comment')):
 	comment			= models.TextField()
