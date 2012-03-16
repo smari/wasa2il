@@ -47,6 +47,7 @@ class VoteOption(NameSlugBase):
 
 class Vote(models.Model):
 	user			= models.ForeignKey(User)
+	issue			= models.ForeignKey(Issue)
 	option			= models.ForeignKey(VoteOption)
 	cast			= models.DateTimeField(auto_now_add=True)
 

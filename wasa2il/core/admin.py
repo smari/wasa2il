@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 
-from models import Polity, Topic, Issue, VoteOption, Comment
+from models import Polity, Topic, Issue, VoteOption, Comment, Vote, Delegate
 
 
 def getDerivedAdmin(base_admin, **kwargs):
@@ -54,12 +54,15 @@ class IssueAdmin(BaseIssueAdmin):
 	list_display = BaseIssueAdmin.list_display + ['topics_str']
 
 
-class Delegate(admin.ModelAdmin):
+class DelegateAdmin(admin.ModelAdmin):
 	list_display = ['user', 'delegate', 'base_issue']
 
 
 class VoteOptionAdmin(NameSlugAdmin):
 	pass
+
+class VoteAdmin(admin.ModelAdmin):
+	list_display = ['user', 'option']
 
 class CommentAdmin(admin.ModelAdmin):
 	save_model = save_model
@@ -71,3 +74,5 @@ register(Topic, TopicAdmin)
 register(Issue, IssueAdmin)
 register(VoteOption, VoteOptionAdmin)
 register(Comment, CommentAdmin)
+register(Delegate, DelegateAdmin)
+register(Vote, VoteAdmin)
