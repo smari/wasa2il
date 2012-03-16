@@ -1,14 +1,19 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 
-<h1>Polities</h1>
+<div style="float:right;">
+	<a class"btn" href="/polity/new/">{% trans "New polity" %}</a>
+</div>
+
+<h1>{% trans "Polities" %}</h1>
 
 <table>
 <tr>
-	<th>Polity</th>
-	<th>Members</th>
-	<th>Topics</th>
+	<th>{% trans "Polity" %}</th>
+	<th>{% trans "Members" %}</th>
+	<th>{% trans "Topics" %}</th>
 </tr>
 {% for polity in polities %}
 {% if polity.is_listed %}
