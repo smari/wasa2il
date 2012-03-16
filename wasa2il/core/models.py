@@ -41,6 +41,8 @@ class Delegate(models.Model):
 	user			= models.ForeignKey(User)
 	delegate		= models.ForeignKey(User, related_name='delegate_user')
 	base_issue		= models.ForeignKey(BaseIssue)
+	class Meta:
+		unique_together = (('user', 'base_issue'))
 
 class VoteOption(NameSlugBase):
 	pass
@@ -50,4 +52,6 @@ class Vote(models.Model):
 	issue			= models.ForeignKey(Issue)
 	option			= models.ForeignKey(VoteOption)
 	cast			= models.DateTimeField(auto_now_add=True)
+	class Meta:
+		unique_together = (('user', 'issue'))
 
