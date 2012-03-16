@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{issue.name}}</h1>
+
+<table>
+<tr>
+	<th>Comments</th>
+</tr>
+{% for comment in issue.comment_set.all %}
+<tr>
+	<td><a href="/comment/{{comment.id}}/">{{comment.created_by}}: {{comment.comment}}</a></td>
+	<td></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

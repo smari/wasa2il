@@ -7,17 +7,17 @@ from models import Polity, Topic, Issue
 urlpatterns = patterns('',
 	(r'^$', 'core.views.home'),
 
-	(r'^polity/$',			login_required(ListView.as_view(model=Polity, context_object_name="polities"))),
+	(r'^polities/$',		login_required(ListView.as_view(model=Polity, context_object_name="polities"))),
 	(r'^polity/new/$',		login_required(CreateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
 	(r'^polity/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
 	(r'^polity/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Polity, context_object_name="polity"))),
 
-	(r'^topic/$',			login_required(ListView.as_view(model=Topic, context_object_name="topics"))),
+	(r'^topics/$',			login_required(ListView.as_view(model=Topic, context_object_name="topics"))),
 	(r'^topic/new/$',		login_required(CreateView.as_view(model=Topic, success_url="/topic/%(id)d/"))),
 	(r'^topic/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Topic, success_url="/topic/%(id)d/"))),
 	(r'^topic/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Topic, context_object_name="topic"))),
 
-	(r'^issue/$',			login_required(ListView.as_view(model=Issue, context_object_name="issues"))),
+	(r'^issues/$',			login_required(ListView.as_view(model=Issue, context_object_name="issues"))),
 	(r'^issue/new/$',		login_required(CreateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
 	(r'^issue/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
 	(r'^issue/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Issue, context_object_name="issue"))),
