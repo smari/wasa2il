@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="/issue/new/" method="POST"/>
+<form action="/polity/{{polity.id}}/issue/new/" method="POST"/>
 {%csrf_token%}
 <table>
 {{form.as_table}}
