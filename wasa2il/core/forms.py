@@ -6,3 +6,9 @@ class TopicForm(ModelForm):
 		model = Topic
 		exclude = ('polity', 'slug')
 
+
+class IssueForm(ModelForm):
+	class Meta:
+		model = Issue
+		exclude = ('slug')
+
