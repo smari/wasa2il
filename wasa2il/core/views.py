@@ -32,18 +32,42 @@ class TopicCreateView(CreateView):
 	success_url="/polity/%(polity)d/topic/%(id)d/"
 
 	def dispatch(self, *args, **kwargs):
-		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		self.polity = get_object_or_404(Topic, id=kwargs["polity"])
 		self.success_url = "/polity/" + str(self.polity.id) + "/topic/%(id)d/"
 		return super(TopicCreateView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(TopicCreateView, self).get_context_data(*args, **kwargs)
-		context_data.update({'polity': self.polity})
+		context_data.update({'polity': self.topic.polity})
 		return context_data
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
 		self.object.polity = self.polity
+		self.object.save()
+		return HttpResponseRedirect(self.get_success_url())
+
+
+class IssueCreateView(CreateView):
+	context_object_name = "issue"
+	template_name = "core/issue_form.html"
+	form_class = IssueForm
+	success_url="/polity/%(polity)d/topic/%(id)d/"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		self.topic = get_object_or_404(Topic, id=kwargs["topic"])
+		self.success_url = "/polity/" + str(self.polity.id) + "/topic/" + str(self.topic.id) + "/issue/%(id)d/"
+		return super(IssueCreateView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(IssueCreateView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.topic.polity, 'topic': self.topic})
+		return context_data
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.topic = self.topic
 		self.object.save()
 		return HttpResponseRedirect(self.get_success_url())
 

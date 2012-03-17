@@ -10,11 +10,16 @@
 <table>
 <tr>
 	<th>Topics</th>
+	<th>All Issues</th>
+	<th>Open Issues</th>
+	<th>Voting Issues</th>
 </tr>
 {% for topic in polity.topic_set.all %}
 <tr>
-	<td><a href="/topic/{{topic.id}}/">{{topic.name}}</a></td>
-	<td></td>
+	<td><a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a></td>
+	<td>{{topic.issue_set.count}}</td>
+	<td>{{topic.issue_set.count}}</td>
+	<td>{{topic.issue_set.count}}</td>
 </tr>
 {% endfor %}
 </table>
