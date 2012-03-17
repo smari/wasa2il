@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DetailView
 from django.contrib.auth.decorators import login_required
 
-from core.views import TopicListView, TopicCreateView, IssueCreateView
+from core.views import TopicListView, TopicCreateView, IssueCreateView, IssueDetailView
 from core.models import Polity, Topic, Issue
 
 urlpatterns = patterns('',
@@ -19,5 +19,5 @@ urlpatterns = patterns('',
 
 	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issues/new/$',		login_required(IssueCreateView.as_view())),
 	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issue/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
-	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issue/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Issue, context_object_name="issue"))),
+	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issue/(?P<pk>\d+)/$',	login_required(IssueDetailView.as_view())),
 )
