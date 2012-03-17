@@ -20,12 +20,15 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	is_listed		= models.BooleanField(default=True)
 	is_nonmembers_readable	= models.BooleanField(default=True)
 
+	image			= models.ImageField(**nullblank)
+
 	def is_member(user):
 		return user in self.members
 
 
 class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)
+	image			= models.ImageField(**nullblank)
 
 class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)

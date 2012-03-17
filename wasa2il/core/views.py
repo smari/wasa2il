@@ -6,13 +6,16 @@ from core.forms import *
 
 def home(request):
 	ctx = {}
+	if request.user.is_authenticated():
+		# Get some context vars (tempoarily just fetch the first one)
+		ctx['mainPolity'] = Polity.objects.all()[0]
+		ctx['polities'] = Polity.objects.filter(members=request.user)
+		ctx['topics' ] = ctx['mainPolity'].topic_set.all()
+		return render_to_response("home.html", ctx)
+	else:
+	
 
-	# Get some context vars (tempoarily just fetch the first one)
-	ctx['mainPolity'] = Polity.objects.all()[0]
-	ctx['polities'] = Polity.objects.filter(members=request.user)
-
-
-	return render_to_response("home.html", ctx)
+		return render_to_response("hom01.html", ctx)
 
 
 def profile(request):
