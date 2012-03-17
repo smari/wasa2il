@@ -7,6 +7,11 @@ from core.forms import *
 def home(request):
 	ctx = {}
 
+	# Get some context vars (tempoarily just fetch the first one)
+	ctx['mainPolity'] = Polity.objects.all()[0]
+	ctx['polities'] = Polity.objects.filter(members=request.user)
+
+
 	return render_to_response("home.html", ctx)
 
 
