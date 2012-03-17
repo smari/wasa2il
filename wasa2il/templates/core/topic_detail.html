@@ -15,7 +15,7 @@
 </tr>
 {% for issue in topic.issue_set.all %}
 <tr>
-	<td><a href="/issue/{{issue.id}}/">{{issue.name}}</a></td>
+	<td><a href="/polity/{{topic.polity.id}}/topic/{{topic.id}}/issue/{{issue.id}}/">{{issue.name}}</a></td>
 	<td>{{issue.vote_set.count}}</td>
 </tr>
 {% endfor %}

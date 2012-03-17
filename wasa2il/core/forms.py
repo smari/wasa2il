@@ -10,5 +10,5 @@ class TopicForm(ModelForm):
 class IssueForm(ModelForm):
 	class Meta:
 		model = Issue
-		exclude = ('slug')
+		exclude = ('slug', 'topics', 'options')
 
