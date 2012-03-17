@@ -32,13 +32,13 @@ class TopicCreateView(CreateView):
 	success_url="/polity/%(polity)d/topic/%(id)d/"
 
 	def dispatch(self, *args, **kwargs):
-		self.polity = get_object_or_404(Topic, id=kwargs["polity"])
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
 		self.success_url = "/polity/" + str(self.polity.id) + "/topic/%(id)d/"
 		return super(TopicCreateView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(TopicCreateView, self).get_context_data(*args, **kwargs)
-		context_data.update({'polity': self.topic.polity})
+		context_data.update({'polity': self.polity})
 		return context_data
 
 	def form_valid(self, form):
