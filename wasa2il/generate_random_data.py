@@ -31,6 +31,7 @@ NO_TOPICS = 4
 NO_ISSUES = 5
 DELEGATION_LIKELYHOOD = 0.5
 VOTE_LIKELYHOOD = 0.9
+POLITY_LIKELYHOOD = 0.5
 
 def main():
 	
@@ -48,6 +49,7 @@ def main():
 		u.last_name = 'Generated'
 		u.save()
 		name_counter[name] += 1
+	users = User.objects.all()#.filter(last_name='Generated')
 	
 	
 	# Set up voting options
@@ -70,6 +72,16 @@ def main():
 	p_rr = Polity.objects.create(name="Rabat-Salé-Zemmour-Zaer ", slug="rabat-sale-zemmour-zaer", parent=p_m)
 	p_r = Polity.objects.create(name="Rabat", slug="rabat", parent=p_rr)
 	p_s = Polity.objects.create(name="Salé", slug="sale", parent=p_rr)
+	polities = Polity.objects.all()
+	
+	# Give each user atleast one polity
+	for user in users:
+		choice(polities).members.add(user)
+		# Add more polities.. perhaps
+		while True:
+		    if random() > POLITY_LIKELYHOOD: break
+		    choice(polities).members.add(user)
+
 	
 	
 	# Generate random topics
@@ -93,7 +105,6 @@ def main():
 	
 	# Generate some delegations
 	Delegate.objects.all().delete()
-	users = User.objects.filter(last_name='Generated')
 	for user in users:
 		if random() > DELEGATION_LIKELYHOOD:
 			continue
