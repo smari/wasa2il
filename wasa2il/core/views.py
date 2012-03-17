@@ -67,7 +67,7 @@ class IssueCreateView(CreateView):
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
-		self.object.topic = self.topic
 		self.object.save()
+		self.object.topics.add(self.topic)
 		return HttpResponseRedirect(self.get_success_url())
 

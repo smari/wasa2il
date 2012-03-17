@@ -30,8 +30,15 @@ class Topic(BaseIssue, getCreationBase('topic')):
 class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)
 	options			= models.ManyToManyField('VoteOption')
+
 	def topics_str(self):
 		return ', '.join(map(str, self.topics.all()))
+
+	def polity(self):
+		try:
+			return self.topics.all()[0].polity
+		except:
+			return None
 
 class Comment(getCreationBase('comment')):
 	comment			= models.TextField()
