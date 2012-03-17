@@ -71,3 +71,14 @@ class IssueCreateView(CreateView):
 		self.object.topics.add(self.topic)
 		return HttpResponseRedirect(self.get_success_url())
 
+
+class IssueDetailView(DetailView):
+	model = Issue
+	context_object_name = "issue"
+	template_name = "core/issue_detail.html"
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
+		context_data.update({'comment_form': CommentForm()})
+		return context_data
+

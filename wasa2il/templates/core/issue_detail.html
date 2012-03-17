@@ -7,16 +7,33 @@
 </div>
 <h1>{{issue.name}}</h1>
 
-<table>
-<tr>
-	<th>Comments</th>
-</tr>
-{% for comment in issue.comment_set.all %}
-<tr>
-	<td><a href="/comment/{{comment.id}}/">{{comment.created_by}}: {{comment.comment}}</a></td>
-	<td></td>
-</tr>
-{% endfor %}
-</table>
+<p>{{issue.description}}</p>
+
+<div class="row">
+	<div class="span12">
+		<h2>Issue text</h2>
+
+		Here is the text of the proposal.
+	</div>
+
+	<div class="span12">
+		<h2>Comments</h2>
+		{% for comment in issue.comment_set.all %}
+		<div class="comment" id="comment_{{comment.id}}">
+			<div class="comment_created_by"><a href="/accounts/{{comment.created_by}}/">{{comment.created_by}}</a></div>
+			<div class="comment_created">{{comment.created|date:"d/M/Y H:i:s"}}</div>
+			
+			<div class="comment_content">{{comment.comment}}</div>
+		</div>
+		{% endfor %}
+
+		<div class="comment_form">
+			<table>
+			{{comment_form.as_table}}
+			</table>
+		</div>
+	</div>
+</div>
+
 
 {% endblock %}
