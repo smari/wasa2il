@@ -27,6 +27,7 @@ COMMON_NAMES = """
 	""".split()
 
 NO_USERS = 20
+NO_POLITIES = 5
 NO_TOPICS = 4
 NO_ISSUES = 5
 DELEGATION_LIKELYHOOD = 0.5
@@ -72,6 +73,9 @@ def main():
 	p_rr = Polity.objects.create(name="Rabat-Salé-Zemmour-Zaer ", slug="rabat-sale-zemmour-zaer", parent=p_m)
 	p_r = Polity.objects.create(name="Rabat", slug="rabat", parent=p_rr)
 	p_s = Polity.objects.create(name="Salé", slug="sale", parent=p_rr)
+	# Add some random poilities.. all belong to Morocco for now..
+	for i in range(4, 4+NO_POLITIES):
+		Polity.objects.create(name='Polity %d'%i, slug='polity-%d'%i, parent=p_m)
 	polities = Polity.objects.all()
 	
 	# Give each user atleast one polity
