@@ -62,3 +62,14 @@ class Vote(models.Model):
 	class Meta:
 		unique_together = (('user', 'issue'))
 
+
+class MembershipRequest(models.Model):
+	requestor		= models.ForeignKey(User)
+	polity			= models.ForeignKey(Polity)
+
+	class Meta:
+		unique_together = ( ("requestor", "polity"), )
+
+class MembershipVotes(models.Model):
+	voter			= models.ForeignKey(User, related_name="membership_granter")
+	user			= models.ForeignKey(User, related_name="membership_seeker")

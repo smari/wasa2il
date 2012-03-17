@@ -3,9 +3,29 @@
 {% block content %}
 
 <div style="float:right;">
+{% if user_is_member %}
 	<a class"btn" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
+	<a class"btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
+{% endif %}
+{% if polity.invite_threshold == 0 %}
+	<a class"btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
+{% else %}
+	<a class"btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
+{% endif %}
 </div>
 <h1>{{polity.name}}</h1>
+
+{% if user_requested_membership %}
+	<div class="alert alert-success">{% trans "Your request to join has been sent." %}</div>
+{% endif %}
+
+<div id="polity_stats">
+	<ul>
+		<li>{{polity.members.count}} {% trans "members" %}</li>
+		<li>{{polity.topic_set.count}} {% trans "topics" %}</li>
+		<li>{{polity.polity_set.count}} {% trans "subpolities" %}</li>
+	</ul>
+</div>
 
 <table>
 <tr>
@@ -23,5 +43,16 @@
 </tr>
 {% endfor %}
 </table>
+
+{% if polity.polity_set.all %}
+<div>
+	<h2>{% trans "Subpolities" %}</h2>
+	<ul>
+	{% for subpolity in polity.polity_set.all %}
+		<li><a href="/polity/{{subpolity.id}}/">{{subpolity.name}}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
 
 {% endblock %}

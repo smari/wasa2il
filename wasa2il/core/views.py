@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from core.models import Polity, Topic, Issue, Vote
+from core.models import *
 from core.forms import *
 
 def home(request):
@@ -85,5 +85,36 @@ class IssueDetailView(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
 		context_data.update({'comment_form': CommentForm()})
+		return context_data
+
+
+
+class PolityDetailView(DetailView):
+	model = Polity
+	context_object_name = "polity"
+	template_name = "core/polity_detail.html"
+	requested_membership = False
+
+	def dispatch(self, *args, **kwargs):
+		res = super(PolityDetailView, self).dispatch(*args, **kwargs)
+		if kwargs.get("action") == "leave":
+			self.object.members.remove(self.request.user)
+		if kwargs.get("action") == "join":
+			if self.object.invite_threshold > 0:
+				request, self.requested_membership = MembershipRequest.objects.get_or_create(polity=self.object, requestor=self.request.user)
+				
+			self.object.members.add(self.request.user)
+
+		return res
+		
+
+	def get_context_data(self, *args, **kwargs):
+		ctx = {}
+		context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
+
+		ctx['user_is_member'] = self.request.user in self.object.members.all()
+		ctx["user_requested_membership"] = self.requested_membership
+
+		context_data.update(ctx)
 		return context_data
 
