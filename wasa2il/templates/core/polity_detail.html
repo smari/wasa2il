@@ -4,48 +4,65 @@
 
 <div style="float:right;">
 {% if user_is_member %}
-	<a class"btn" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
-	<a class"btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
 {% endif %}
 {% if polity.invite_threshold == 0 %}
-	<a class"btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
 {% else %}
-	<a class"btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
 {% endif %}
 </div>
 <h1>{{polity.name}}</h1>
 
 {% if user_requested_membership %}
-	<div class="alert alert-success">{% trans "Your request to join has been sent." %}</div>
+	{% if user_requested_membership_now %}
+		<div class="alert alert-success">{% trans "Your request to join has been sent." %}</div>
+	{% else %}
+		<div class="alert alert-success">{% trans "Your request to join this polity is still pending." %}</div>
+	{% endif %}
 {% endif %}
 
-<div id="polity_stats">
-	<ul>
-		<li>{{polity.members.count}} {% trans "members" %}</li>
-		<li>{{polity.topic_set.count}} {% trans "topics" %}</li>
-		<li>{{polity.polity_set.count}} {% trans "subpolities" %}</li>
+<div id="polity_stats" class="subnav">
+	<ul class="nav nav-pills">
+		<li><a href="#" onclick="alert('Show members');">{{polity.members.count}} {% trans "members" %}</a></li>
+		<li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
+		<li><a href="#subpolities">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
+		{% if user_is_member %}
+		<li><a href="#" onclick="alert('Show membership requests');">{{membershiprequests.count}} {% trans "membership requests" %}</a></li>
+		{% endif %}
 	</ul>
 </div>
 
-<table>
-<tr>
-	<th>Topics</th>
-	<th>All Issues</th>
-	<th>Open Issues</th>
-	<th>Voting Issues</th>
-</tr>
-{% for topic in polity.topic_set.all %}
-<tr>
-	<td><a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a></td>
-	<td>{{topic.issue_set.count}}</td>
-	<td>{{topic.issue_set.count}}</td>
-	<td>{{topic.issue_set.count}}</td>
-</tr>
-{% endfor %}
-</table>
+<div><a name="topics"></a>
+	<h2>{% trans "Topics" %}</h2>
+	<table class="table table-striped table-bordered">
+	<tr>
+		<th>{% trans "Topics" %}</th>
+		<th>{% trans "Issues" %}</th>
+		<th>{% trans "Open Issues" %}</th>
+		<th>{% trans "Voting Issues" %}</th>
+	</tr>
+	{% for topic in polity.topic_set.all %}
+	<tr>
+		<td><a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a></td>
+		<td>{{topic.issue_set.count}}</td>
+		<td>{{topic.issue_set.count}}</td>
+		<td>{{topic.issue_set.count}}</td>
+	</tr>
+	{% empty %}
+	<tr>
+		<td colspan="4" style="text-align: center; font-size: 110%;">
+			{% trans "There are no topics in this polity!" %}
+			{% if user_is_member %}<a href="/polity/{{polity.id}}/topic/new/">Start a new topic</a>{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+	</table>
+</div>
 
 {% if polity.polity_set.all %}
-<div>
+<div><a name="subpolities"></a>
 	<h2>{% trans "Subpolities" %}</h2>
 	<ul>
 	{% for subpolity in polity.polity_set.all %}
