@@ -97,16 +97,27 @@ class PolityDetailView(DetailView):
 	context_object_name = "polity"
 	template_name = "core/polity_detail.html"
 	requested_membership = False
+	membershiprequest = None
 
 	def dispatch(self, *args, **kwargs):
 		res = super(PolityDetailView, self).dispatch(*args, **kwargs)
+
 		if kwargs.get("action") == "leave":
 			self.object.members.remove(self.request.user)
+
 		if kwargs.get("action") == "join":
-			if self.object.invite_threshold > 0:
-				request, self.requested_membership = MembershipRequest.objects.get_or_create(polity=self.object, requestor=self.request.user)
-				
-			self.object.members.add(self.request.user)
+			self.membershiprequest, self.requested_membership = MembershipRequest.objects.get_or_create(polity=self.object, requestor=self.request.user)
+			invite_count = MembershipVote.objects.filter(user=self.request.user, polity=self.object).count()
+			threshold_met = self.object.invite_threshold <= invite_count
+
+			if threshold_met:
+				self.object.members.add(self.request.user)
+		else:
+			try:	self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user)
+			except:	self.membershiprequest = None
+			
+
+		res = super(PolityDetailView, self).dispatch(*args, **kwargs)
 
 		return res
 		
@@ -116,7 +127,9 @@ class PolityDetailView(DetailView):
 		context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
 
 		ctx['user_is_member'] = self.request.user in self.object.members.all()
-		ctx["user_requested_membership"] = self.requested_membership
+		ctx["user_requested_membership"] = self.membershiprequest != None
+		ctx["user_requested_membership_now"] = self.requested_membership
+		ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
 
 		context_data.update(ctx)
 		return context_data

@@ -12,6 +12,7 @@ nullblank = { 'null': True, 'blank': True }
 class BaseIssue(NameSlugBase):
 	description		= models.TextField(**nullblank)
 
+
 class Polity(BaseIssue, getCreationBase('polity')):
 	parent			= models.ForeignKey('Polity', **nullblank)
 	members			= models.ManyToManyField(User)
@@ -20,7 +21,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	is_listed		= models.BooleanField(default=True)
 	is_nonmembers_readable	= models.BooleanField(default=True)
 
-	image			= models.ImageField(**nullblank)
+	image			= models.ImageField(upload_to="polities", **nullblank)
 
 	def is_member(user):
 		return user in self.members
@@ -28,7 +29,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
 class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)
-	image			= models.ImageField(**nullblank)
+	image			= models.ImageField(upload_to="polities", **nullblank)
 
 class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)
@@ -66,13 +67,31 @@ class Vote(models.Model):
 		unique_together = (('user', 'issue'))
 
 
+class MembershipVote(models.Model):
+	voter			= models.ForeignKey(User, related_name="membership_granter")
+	user			= models.ForeignKey(User, related_name="membership_seeker")
+	polity			= models.ForeignKey(Polity)
+
+	class Meta:
+		unique_together = ( ("voter", "user", "polity"), )
+
+
 class MembershipRequest(models.Model):
 	requestor		= models.ForeignKey(User)
 	polity			= models.ForeignKey(Polity)
+	fulfilled		= models.BooleanField(default=False)
+	fulfilled_timestamp	= models.DateTimeField(null=True)
 
 	class Meta:
 		unique_together = ( ("requestor", "polity"), )
 
-class MembershipVotes(models.Model):
-	voter			= models.ForeignKey(User, related_name="membership_granter")
-	user			= models.ForeignKey(User, related_name="membership_seeker")
+	def votes(self):
+		return MembershipVote.objects.filter(user=self.requestor, polity=self.polity).count()
+
+	def get_fulfilled(self):
+		# Recalculate at most once per hour.
+		if self.fulfilled_timestamp == None or self.fulfilled_timestamp < datetime.now() - timedelta(seconds=3600):
+			self.fulfilled = self.votes() >= self.polity.invite_threshold
+			self.save()
+
+		return self.fulfilled
