@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.auth.models import User
-from wasa2il.core.models import Polity, Topic, Issue, VoteOption, Vote, Delegate, BaseIssue
+from core.models import Polity, Topic, Issue, VoteOption, Vote, Delegate, BaseIssue
 
 from collections import defaultdict
 from random import choice, random

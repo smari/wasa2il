@@ -1,0 +1,27 @@
+#statements_declarations ol {
+	list-style-type:        lower-alpha;
+}
+
+.state_buttons {
+	display:                none;
+}
+
+.statementset li:hover > .state_buttons {
+	display:                inline-block;
+}
+
+.helptext {
+	font-size:	8pt;
+	color:	#888;
+}
+
+
+.thumbnail {
+	float:		left;
+	position:	relative;
+	width:		80px;
+	height:		80px;
+	display:	inline-block;
+	margin:		3px;
+	overflow:	hidden;
+}

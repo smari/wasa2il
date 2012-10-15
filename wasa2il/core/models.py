@@ -1,3 +1,4 @@
+#coding:utf8
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -14,12 +15,12 @@ class BaseIssue(NameSlugBase):
 
 
 class Polity(BaseIssue, getCreationBase('polity')):
-	parent			= models.ForeignKey('Polity', **nullblank)
+	parent			= models.ForeignKey('Polity', help_text="Parent polity",**nullblank)
 	members			= models.ManyToManyField(User)
-	invite_threshold	= models.IntegerField(default=3)
+	invite_threshold	= models.IntegerField(default=3, help_text="How many members need to vouch for a new member before he can join.")
 
-	is_listed		= models.BooleanField(default=True)
-	is_nonmembers_readable	= models.BooleanField(default=True)
+	is_listed		= models.BooleanField("Publicly listed?", default=True, help_text="Whether this polity is publicly listed or not.")
+	is_nonmembers_readable	= models.BooleanField("Publicly viewable?", default=True, help_text="Whether non-members can view the polity and its activities.")
 
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
@@ -30,6 +31,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
 class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)
 	image			= models.ImageField(upload_to="polities", **nullblank)
+
 
 class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)
@@ -44,6 +46,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
 		except:
 			return None
 
+
 class Comment(getCreationBase('comment')):
 	comment			= models.TextField()
 	issue			= models.ForeignKey(Issue)
@@ -55,8 +58,10 @@ class Delegate(models.Model):
 	class Meta:
 		unique_together = (('user', 'base_issue'))
 
+
 class VoteOption(NameSlugBase):
 	pass
+
 
 class Vote(models.Model):
 	user			= models.ForeignKey(User)
@@ -95,3 +100,58 @@ class MembershipRequest(models.Model):
 			self.save()
 
 		return self.fulfilled
+
+
+class Document(NameSlugBase):
+	polity			= models.ForeignKey(Polity)
+	user			= models.ForeignKey(User)
+	is_adopted		= models.BooleanField(default=False)
+	is_proposed		= models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return self.name
+
+	def get_references(self):
+		return self.statement_set.filter(type=0)
+
+	def get_assumptions(self):
+		return self.statement_set.filter(type=1)
+
+	def get_declarations(self):
+		return self.statement_set.filter(type=2)
+
+	pass
+
+
+class Statement(models.Model):
+	user			= models.ForeignKey(User)
+	document		= models.ForeignKey(Document)
+	type			= models.IntegerField()
+	number			= models.IntegerField()
+	text			= models.ManyToManyField('StatementOption')
+
+	def __unicode__(self):
+		print self.get_text()
+		return self.get_text()
+
+
+	def get_text(self, rev=0):
+		try:
+			text = self.text.all()[rev].text
+		except:
+			text = ""
+
+		if self.type == 0:
+			try:
+				doc = Document.objects.get(id=text)
+				return u"Með tilvísun í <a href=\"/polity/%d/document/%d/\">%s</a>" % (doc.polity.id, doc.id, doc.name)
+			except Exception, e:
+				print e
+				return u"Með tilvísun í óþekkt skjal."
+		else:
+			return text
+
+class StatementOption(models.Model):
+	user			= models.ForeignKey(User)
+	text			= models.TextField()
+	
