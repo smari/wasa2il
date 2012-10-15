@@ -5,12 +5,15 @@
 <div style="float:right;">
 {% if user_is_member %}
 	<a class="btn" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a>
 	<a class="btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
 {% endif %}
 {% if polity.invite_threshold == 0 %}
 	<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
 {% else %}
+	{% if not user_is_member and not user_requested_membership %}
 	<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
+	{% endif %}
 {% endif %}
 </div>
 <h1>{{polity.name}}</h1>
@@ -25,11 +28,11 @@
 
 <div id="polity_stats" class="subnav">
 	<ul class="nav nav-pills">
-		<li><a href="#" onclick="alert('Show members');">{{polity.members.count}} {% trans "members" %}</a></li>
+		<li><a href="#" onclick="$('#modal_members').modal('show');">{{polity.members.count}} {% trans "members" %}</a></li>
 		<li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
 		<li><a href="#subpolities">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
 		{% if user_is_member %}
-		<li><a href="#" onclick="alert('Show membership requests');">{{membershiprequests.count}} {% trans "membership requests" %}</a></li>
+		<li><a href="#" onclick="$('#modal_requests').modal('show');">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
 		{% endif %}
 	</ul>
 </div>
@@ -61,6 +64,16 @@
 	</table>
 </div>
 
+
+<div><a name="documents"></a>
+	<h2>{% trans "Documents" %}</h2>
+
+	{% with polity.document_set.all as documents %}
+	{% include "core/_document_list_table.html" %}
+	{% endwith %}
+</div>
+
+
 {% if polity.polity_set.all %}
 <div><a name="subpolities"></a>
 	<h2>{% trans "Subpolities" %}</h2>
@@ -71,5 +84,47 @@
 	</ul>
 </div>
 {% endif %}
+
+
+
+<div class="modal hide fade" id="modal_members">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{% trans "Members of this polity" %}</h3>
+  </div>
+  <div class="modal-body">
+
+	{% for m in polity.members.all %}
+		<a href="/accounts/profile/{{m.username}}/" class="thumbnail" style="background: url('/static/img/blank-user-icon.jpg') no-repeat">
+			{{m.username}}
+		</a>
+	{% endfor %}
+
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#modal_members').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
+  </div>
+</div>
+
+
+<div class="modal hide fade" id="modal_requests">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{% trans "Users requsting membership" %}</h3>
+  </div>
+  <div class="modal-body">
+
+	{% for m in membership_requests %}
+		<a class="thumbnail" style="background: url('/static/img/blank-user-icon.jpg') no-repeat">
+			{{m.username}}
+		</a>
+	{% endfor %}
+
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#modal_requests').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
+  </div>
+</div>
+
 
 {% endblock %}

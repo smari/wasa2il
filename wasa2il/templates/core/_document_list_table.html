@@ -1,0 +1,29 @@
+{% load i18n %}
+<table class="table table-striped table-bordered">
+<tr>
+	<th>{% trans "Document" %}</th>
+	<th>{% trans "Adopted?" %}</th>
+	<th>{% trans "Proposed?" %}</th>
+	<th>{% trans "Original author" %}</th>
+	<th>{% trans "Contributors" %}</th>
+	<th>{% trans "Last edit" %}</th>
+</tr>
+{% for document in documents %}
+<tr>
+	<td><a href="/polity/{{polity.id}}/document/{{document.id}}/">{{document.name}}</a></td>
+	<td>{{document.is_adopted}}</td>
+	<td>{{document.is_proposed}}</td>
+	<td><a href="/accounts/{{document.user.username}}/">{{document.user}}</a></td>
+	<td>{% for u in document.get_contributors %}<a href="/accounts/{{u.username}}/">{{u}}</a>{% if not forloop.last %},{% endif %}{% endfor %}</td>
+	<td>{{document.get_last_edit}}</td>
+</tr>
+{% empty %}
+<tr>
+	<td colspan="7" style="text-align: center; font-size: 110%;">
+		{% trans "There are no documents in this polity!" %}
+		{% if user_is_member %}<a href="/polity/{{polity.id}}/document/new/">Start a new document</a>{% endif %}
+	</td>
+</tr>
+
+{% endfor %}
+</table>

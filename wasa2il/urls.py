@@ -16,7 +16,8 @@ urlpatterns = patterns('',
 
 	# Core app
 	(r'^', include('wasa2il.core.urls')),
-	(r'^accounts/profile/', 'core.views.profile'),
+	(r'^accounts/profile/$', 'core.views.profile'),
+	(r'^accounts/profile/(?P<user>.+)/$', 'core.views.profile'),
 	(r'^accounts/', include('registration.urls')),
 )
 

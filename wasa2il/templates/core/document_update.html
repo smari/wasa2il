@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div style="float:right">
+	{% if document.user == user %}
+		{% if document.is_proposed %}
+			<a class="btn" onclick="document_propose(0);">Withdraw proposal</a>
+		{% else %}
+			<a class="btn" onclick="document_propose(1);">Propose this document</a>
+		{% endif %}
+	{% endif %}
+	<a class="btn" href="/polity/{{polity.id}}/document/{{document.id}}/">{% trans "View this document" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/">{% trans "Back to polity" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/document/">{% trans "Back to document list" %}</a>
+</div>
+<div style="clear:both;"></div>
+<h1>
+{% if document.is_adopted %}Declaration {{document.decid}}:{% endif %}
+{% if document.is_proposed %}Proposal {{document.id}}:{% endif %}
+{% if not document.is_adopted and not document.is_proposed %}Draft proposal:{% endif %}
+{{document.name}}</h1>
+
+<h3>{% trans "Assumptions" %}</h3>
+
+<ol class="statementset" style="list-style-type: square;" id="statements_references">
+{% for a in document.get_references %}
+	<li>{{a|safe}}</li>
+{% endfor %}
+</ol>
+
+<ol class="statementset" style="list-style-type: upper-roman;" id="statements_assumptions">
+{% for a in document.get_assumptions %}
+	<li>{{a|safe}}</li>
+{% endfor %}
+</ol>
+
+<a onclick="$('#modal_reference').modal('show');" class="btn">Ný tilvísun</a>
+<a onclick="$('#modal_assumption').modal('show');" class="btn">Ný forsenda</a>
+
+
+<h3>{% trans "Declarations" %}</h3>
+
+<ol class="statementset" id="statements_declarations">
+{% for a in document.get_declarations %}
+	<li>{{a|safe}}</li>
+{% endfor %}
+</ol>
+
+<a onclick="$('#modal_declaration').modal('show');" class="btn">Ný fullyrðing</a>
+<a onclick="$('#modal_subheading').modal('show');" class="btn">Ný millifyrirsögn</a>
+
+
+<div class="modal hide fade" id="modal_reference">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Ný tilvísun</h3>
+  </div>
+  <div class="modal-body">
+    <p>Veldu skjal til að vísa í:</p>
+        <form>
+                <select id="reference">
+			{% for doc in referabledocs %}
+			<option value="{{doc.id}}">{{doc.name}}</option>
+			{% endfor %}
+                </select>
+        </form>
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#modal_reference').modal('hide');" class="btn">Loka</a>
+    <a onclick="new_reference();" class="btn btn-primary">Vista tilvísun</a>
+  </div>
+</div>
+
+
+<div class="modal hide fade" id="modal_assumption">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Ný forsenda</h3>
+  </div>
+  <div class="modal-body">
+    <p>Skrifaðu forsendu:</p>
+        <form>
+                <textarea style="width: 90%; min-height: 100px;" id="assumption"></textarea>
+        </form>
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#modal_assumption').modal('hide');" class="btn">Loka</a>
+    <a onclick="new_assumption();" class="btn btn-primary">Vista forsendu</a>
+  </div>
+</div>
+
+
+<div class="modal hide fade" id="modal_declaration">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Ný fullyrðing</h3>
+  </div>
+  <div class="modal-body">
+        <form>
+                <textarea style="width: 90%; min-height: 100px;" id="declaration"></textarea>
+        </form>
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#modal_declaration').modal('hide');" class="btn">Loka</a>
+    <a onclick="new_declaration();" class="btn btn-primary">Vista fullyrðingu</a>
+  </div>
+</div>
+
+
+<div class="modal hide fade" id="modal_subheading">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Ný millifyrirsögn</h3>
+  </div>
+  <div class="modal-body">
+        <form>
+                <input type="text" id="subheading"/>
+        </form>
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#modal_subheading').modal('hide');" class="btn">Loka</a>
+    <a onclick="new_subheading();" class="btn btn-primary">Vista millifyrirsögn</a>
+  </div>
+</div>
+
+
+
+<script>
+function make_reference(node) {
+	node.append('<div class="state_buttons">'
+	          + '<a onclick="delete_statement(this);" class="btn btn-mini">Eyða</a>'
+	          + '<a onclick="fork_statement(this);" class="btn btn-mini">Gaffla</a>'
+	          + '</div>');
+}
+
+$(function() {
+	$('#modal_reference').modal({show: false, keyboard: true, backdrop: false});
+	$('#modal_assumption').modal({show: false, keyboard: true, backdrop: false});
+	$('#modal_declaration').modal({show: false, keyboard: true, backdrop: false});
+	$('#modal_subheading').modal({show: false, keyboard: true, backdrop: false});
+
+	$("#statements_references li").each(function(id, node) {
+		make_reference($(node));
+	});
+
+	$("#statements_assumptions li").each(function(id, node) {
+		make_reference($(node));
+	});
+                
+	$("#statements_declarations li").each(function(id, node) {
+		make_reference($(node));
+	});
+
+});
+
+function new_reference() {
+	var ref = $("#reference").val();
+	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/0/", 
+		{text: ref}, function(data) {
+		if (data.ok) {
+			var k = $('#statements_references').append('<li>' + data.html + '</li>');
+			make_reference(k);
+			$('#modal_reference').modal('hide');
+		} else {
+			// Error message
+		}
+	});
+}
+
+function new_assumption() {
+	var ref = $("#assumption").val();
+	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/1/", 
+		{text: ref}, function(data) {
+		if (data.ok) {
+			var k = $('#statements_assumptions').append('<li>' + data.html + '</li>');
+			make_reference(k);
+			$('#modal_assumption').modal('hide');
+		} else {
+			// Error message
+		}
+	});
+}
+
+function new_declaration() {
+	var ref = $("#declaration").val();
+	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/2/", 
+		{text: ref}, function(data) {
+		if (data.ok) {
+			var k = $('#statements_declarations').append('<li>' + data.html + '</li>');
+			make_reference(k);
+			$('#modal_declaration').modal('hide');
+		} else {
+			// Error message
+		}
+	});
+}
+
+function new_subheading() {
+	var ref = $("#subheading").val();
+	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/3/", 
+		{text: ref}, function(data) {
+		if (data.ok) {
+			var k = $('#statements_declarations').append('</ol><h4>' + data.html + '</h4><ol>');
+			make_reference(k);
+			$('#modal_declaration').modal('hide');
+		} else {
+			// Error message
+		}
+	});
+}
+
+
+</script>
+
+
+{% endblock %}

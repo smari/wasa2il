@@ -1,27 +1,74 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
+from django.template import RequestContext
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+import simplejson as json
+
 from core.models import *
 from core.forms import *
+
+def jsonize(f):
+        def wrapped(*args, **kwargs):
+                return HttpResponse(json.dumps(f(*args, **kwargs)))
+
+        return wrapped
+
+
 
 def home(request):
 	ctx = {}
 	if request.user.is_authenticated():
 		# Get some context vars (tempoarily just fetch the first one)
-		ctx['mainPolity'] = Polity.objects.all()[0]
+		ctx['allpolities'] = Polity.objects.filter(Q(is_listed=True) | Q(members=request.user))
 		ctx['polities'] = Polity.objects.filter(members=request.user)
-		ctx['topics' ] = ctx['mainPolity'].topic_set.all()
-		return render_to_response("home.html", ctx)
+		# ctx['topics' ] = ctx['mainPolity'].topic_set.all()
+
+		ctx["yourdocuments"] = Document.objects.filter(user=request.user)[:9]
+		ctx["adopteddocuments"] = Document.objects.filter(is_adopted=True, polity__in=request.user.polity_set.all())[:9]
+		ctx["proposeddocuments"] = Document.objects.filter(is_proposed=True, polity__in=request.user.polity_set.all())[:9]
+
+		return render_to_response("home.html", ctx, context_instance=RequestContext(request))
 	else:
 	
 
-		return render_to_response("hom01.html", ctx)
+		return render_to_response("hom01.html", ctx, context_instance=RequestContext(request))
 
 
-def profile(request):
+def profile(request, user=None):
+	ctx = {}
+	if user:
+		ctx["user"] = get_object_or_404(User, username=user)
+
+	return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
+
+@login_required
+@jsonize
+def newstatement(request, polity, document, type):
 	ctx = {}
 
-	return render_to_response("profile.html", ctx)
+	s = Statement()
+	s.user = request.user
+	s.document = get_object_or_404(Document, id=document)
+	s.type = type
+	try:
+		s.number = Statement.objects.get(document=s.document, type=s.type).order_by('-number')[0].number + 1
+	except:
+		s.number = 1
+	s.save()
+
+	so = StatementOption()
+
+	so.text = request.REQUEST.get("text", "")
+	so.user = request.user
+	so.save()
+	s.text.add(so)
+
+	ctx["ok"] = True
+	ctx["html"] = s.get_text()
+
+	return ctx
 
 
 class TopicListView(ListView):
@@ -108,14 +155,23 @@ class PolityDetailView(DetailView):
 		if kwargs.get("action") == "join":
 			self.membershiprequest, self.requested_membership = MembershipRequest.objects.get_or_create(polity=self.object, requestor=self.request.user)
 			invite_count = MembershipVote.objects.filter(user=self.request.user, polity=self.object).count()
-			threshold_met = self.object.invite_threshold <= invite_count
+			invite_threshold = self.object.invite_threshold
+
+			if self.object.members.count() < invite_threshold:
+				invite_threshold = self.object.members.count()
+
+			threshold_met = invite_threshold <= invite_count
 
 			if threshold_met:
 				self.object.members.add(self.request.user)
 		else:
-			try:	self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user)
-			except:	self.membershiprequest = None
+			try:
+				self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user)
+			except:
+				self.membershiprequest = None
 			
+		if self.request.user in self.object.members.all():
+			self.membershiprequest = None
 
 		res = super(PolityDetailView, self).dispatch(*args, **kwargs)
 
@@ -134,3 +190,86 @@ class PolityDetailView(DetailView):
 		context_data.update(ctx)
 		return context_data
 
+
+class PolityCreateView(CreateView):
+	model = Polity
+	context_object_name = "polity"
+	template_name = "core/polity_form.html"
+	form_class = PolityForm
+	success_url="/polity/%(id)d/"
+
+
+
+class DocumentCreateView(CreateView):
+	model = Document
+	context_object_name = "document"
+	template_name = "core/document_form.html"
+	form_class = DocumentForm
+	success_url="/polity/%(polity)d/document/%(id)d/"
+
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		self.success_url = "/polity/" + str(self.polity.id) + "/document/$(id)d/"
+		return super(DocumentCreateView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(DocumentCreateView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		return context_data
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.polity = self.polity
+		self.object.user = self.request.user
+		self.object.save()
+		self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/"
+		return HttpResponseRedirect(self.get_success_url())
+
+
+class DocumentDetailView(DetailView):
+	model = Document
+	context_object_name = "document"
+	template_name = "core/document_detail.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(DocumentDetailView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(DocumentDetailView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		return context_data
+
+
+class DocumentListView(ListView):
+	model = Document
+	context_object_name = "documents"
+	template_name = "core/document_list.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(DocumentListView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(DocumentListView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		return context_data
+
+
+class DocumentUpdateView(UpdateView):
+	model = Document
+	context_object_name = "document"
+	template_name = "core/document_update.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(DocumentUpdateView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(DocumentUpdateView, self).get_context_data(*args, **kwargs)
+		referabledocs = Document.objects.filter(is_adopted=True)
+		print "Referabledocs: ", referabledocs
+
+		context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
+		return context_data

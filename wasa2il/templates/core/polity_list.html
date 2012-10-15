@@ -4,16 +4,17 @@
 {% block content %}
 
 <div style="float:right;">
-	<a class"btn" href="/polity/new/">{% trans "New polity" %}</a>
+	<a class="btn" href="/polity/new/">{% trans "New polity" %}</a>
 </div>
 
 <h1>{% trans "Polities" %}</h1>
 
-<table>
+<table class="table table-striped table-bordered">
 <tr>
 	<th>{% trans "Polity" %}</th>
 	<th>{% trans "Members" %}</th>
 	<th>{% trans "Topics" %}</th>
+	<th>{% trans "Documents" %}</th>
 </tr>
 {% for polity in polities %}
 {% if polity.is_listed %}
@@ -21,6 +22,7 @@
 	<td><a href="/polity/{{polity.id}}/">{{polity.name}}</a></td>
 	<td>{{polity.members.count}}</td>
 	<td>{{polity.topic_set.count}}</td>
+	<td>{{polity.document_set.count}}</td>
 </tr>
 {% endif %}
 {% endfor %}

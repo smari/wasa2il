@@ -1,17 +1,29 @@
 
 {% load i18n %}
 <div class="span3">
-      <p><img src="{{ mainPolity.image}}" alt=" {{ mainPolity.name }}"></p>
-      <h3>PolicyName</h3>
-	   <div class="btn-group">
-          <button class=" btn btn-warning btn btn-large">{% trans "Polities" %}</button>
-          <button class="btn btn-warning btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+      <h2>{% trans "Your Polities" %}</h2>
+	<div class="btn-group">
           
           <ul class="dropdown-menu">
 		{% for polity in polities %}
 			<li><a href="#">{{polity.name}}</a></li>
+		{% empty %}
+			There are no polities!
 		{% endfor %}
           </ul>
-        </div><!-- /btn-group -->
-      <p>{{ mainPolity.description}}</p>         
-</div><!-- /.span -->
+	</div>
+</div>
+
+<div class="span3">
+      <h2>{% trans "Other Polities" %}</h2>
+	<div class="btn-group">
+          
+          <ul class="dropdown-menu">
+		{% for polity in allpolities %}
+			<li><a href="#">{{polity.name}}</a></li>
+		{% empty %}
+			There are no polities!
+		{% endfor %}
+          </ul>
+	</div>
+</div>
