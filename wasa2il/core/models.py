@@ -118,7 +118,7 @@ class Document(NameSlugBase):
 		return self.statement_set.filter(type=1)
 
 	def get_declarations(self):
-		return self.statement_set.filter(type=2)
+		return self.statement_set.filter(type__in=[2,3])
 
 	pass
 
