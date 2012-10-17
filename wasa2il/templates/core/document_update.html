@@ -42,9 +42,17 @@
 <h3>{% trans "Declarations" %}</h3>
 
 <ol class="statementset" id="statements_declarations">
+<ol>
 {% for a in document.get_declarations %}
+	{% if a.type == 3 %}
+	</ol>
+	<li><h4>{{a|safe}}</h4></li>
+	<ol>
+	{% else %}
 	<li>{{a|safe}}</li>
+	{% endif %}
 {% endfor %}
+</ol>
 </ol>
 
 <a onclick="$('#modal_declaration').modal('show');" class="btn">Ný fullyrðing</a>
@@ -203,7 +211,7 @@ function new_subheading() {
 		if (data.ok) {
 			var k = $('#statements_declarations').append('</ol><h4>' + data.html + '</h4><ol>');
 			make_reference(k);
-			$('#modal_declaration').modal('hide');
+			$('#modal_subheading').modal('hide');
 		} else {
 			// Error message
 		}
