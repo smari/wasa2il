@@ -5,9 +5,9 @@
 <div style="float:right">
 	{% if document.user == user %}
 		{% if document.is_proposed %}
-			<a class="btn" onclick="document_propose(0);">Withdraw proposal</a>
+			<a class="btn" onclick="document_propose({{document.id}}, 0);">Withdraw proposal</a>
 		{% else %}
-			<a class="btn" onclick="document_propose(1);">Propose this document</a>
+			<a class="btn" onclick="document_propose({{document.id}}, 1);">Propose this document</a>
 		{% endif %}
 	{% endif %}
 	<a class="btn" href="/polity/{{polity.id}}/document/{{document.id}}/edit/">{% trans "Edit this document" %}</a>
