@@ -3,6 +3,7 @@ from django.views.generic import ListView, TemplateView, CreateView, UpdateView,
 from django.contrib.auth.decorators import login_required
 
 from core.views import *
+from core.json import *
 from core.models import Polity, Topic, Issue
 
 urlpatterns = patterns('',
@@ -16,8 +17,6 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$',		login_required(DocumentDetailView.as_view())),
 	(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$',	login_required(DocumentUpdateView.as_view())),
 
-	(r'^polity/(?P<polity>\d+)/document/(?P<document>\d+)/statement/new/(?P<type>\d+)/$',	newstatement),
-
 	(r'^polity/(?P<pk>\d+)/edit/$',				login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
 	(r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$',		login_required(PolityDetailView.as_view())),
 	(r'^polity/(?P<pk>\d+)/$',				login_required(PolityDetailView.as_view())),
@@ -29,5 +28,9 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issues/new/$',		login_required(IssueCreateView.as_view())),
 	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issue/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
 	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issue/(?P<pk>\d+)/$',	login_required(IssueDetailView.as_view())),
+
+	(r'^api/document/statement/new/(?P<document>\d+)/(?P<type>\d+)/$', document_statement_new),
+	(r'^api/document/propose/(?P<document>\d+)/(?P<val>\d+)/$', document_propose),
+	# (r'^api/document/$',
 
 )

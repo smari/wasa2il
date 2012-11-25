@@ -164,7 +164,7 @@ $(function() {
 
 function new_reference() {
 	var ref = $("#reference").val();
-	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/0/", 
+	$.getJSON("/api/document/statement/new/{{document.id}}/0/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_references').append('<li>' + data.html + '</li>');
@@ -178,7 +178,7 @@ function new_reference() {
 
 function new_assumption() {
 	var ref = $("#assumption").val();
-	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/1/", 
+	$.getJSON("/api/document/statement/new/{{document.id}}/1/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_assumptions').append('<li>' + data.html + '</li>');
@@ -192,7 +192,7 @@ function new_assumption() {
 
 function new_declaration() {
 	var ref = $("#declaration").val();
-	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/2/", 
+	$.getJSON("/api/document/statement/{{document.id}}/2/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_declarations').append('<li>' + data.html + '</li>');
@@ -206,7 +206,7 @@ function new_declaration() {
 
 function new_subheading() {
 	var ref = $("#subheading").val();
-	$.getJSON("/polity/{{polity.id}}/document/{{document.id}}/statement/new/3/", 
+	$.getJSON("/api/document/statement/new/{{document.id}}/3/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_declarations').append('</ol><h4>' + data.html + '</h4><ol>');
