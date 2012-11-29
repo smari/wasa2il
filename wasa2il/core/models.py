@@ -103,7 +103,7 @@ class MembershipRequest(models.Model):
 
 
 class Document(NameSlugBase):
-	polity			= models.ForeignKey(Polity)
+	issue			= models.ForeignKey(BaseIssue)
 	user			= models.ForeignKey(User)
 	is_adopted		= models.BooleanField(default=False)
 	is_proposed		= models.BooleanField(default=False)

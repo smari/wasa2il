@@ -19,6 +19,15 @@
 		Here is the text of the proposal.
 	</div>
 
+	<div class="span12"><a name="documents"></a>
+        <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
+
+        {% with issue.document_set.all as documents %}
+        {% include "core/_document_list_table.html" %}
+        {% endwith %}
+	</div>
+
+
 	<div class="span12">
 		<h2>Comments</h2>
 		{% for comment in issue.comment_set.all %}

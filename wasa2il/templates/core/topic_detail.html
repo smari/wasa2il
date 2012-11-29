@@ -8,14 +8,20 @@
 </div>
 <h1>{{topic.name}}</h1>
 
-<table>
+<table class="table table-striped table-bordered">
 <tr>
+	<th>{% trans "ID" %}</th>
 	<th>{% trans "Issues" %}</th>
+	<th>{% trans "State" %}</th>
+	<th>{% trans "Documents" %}</th>
 	<th>{% trans "Votes" %}</th>
 </tr>
 {% for issue in topic.issue_set.all %}
 <tr>
+	<td>{{issue.id}}</td>
 	<td><a href="/polity/{{topic.polity.id}}/topic/{{topic.id}}/issue/{{issue.id}}/">{{issue.name}}</a></td>
+	<td>{{issue.state}}</td>
+	<td>{{issue.document_set.count}}</td>
 	<td>{{issue.vote_set.count}}</td>
 </tr>
 {% endfor %}
