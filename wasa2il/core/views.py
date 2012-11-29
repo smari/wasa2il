@@ -23,7 +23,7 @@ def home(request):
 
 		return render_to_response("home.html", ctx, context_instance=RequestContext(request))
 	else:
-	
+		ctx['somepolities'] = Polity.objects.filter(is_listed=True).order_by("-id")[:4]
 
 		return render_to_response("hom01.html", ctx, context_instance=RequestContext(request))
 

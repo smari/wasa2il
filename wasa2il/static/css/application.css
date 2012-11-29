@@ -25,3 +25,38 @@
 	margin:		3px;
 	overflow:	hidden;
 }
+
+.mainaction {
+	display:	block;
+	background:	#ccf;
+	border:		1px solid #7768cc;
+	border-radius:	15px;
+	padding:	30px;
+	color:		#000;
+	min-height:	100px;
+}
+
+.mainaction:hover {
+	text-decoration: none;
+	background:	#eef;
+}
+
+
+footer {
+	font-size:	10pt;
+	margin-top:	30px;
+}
+
+
+.subnav {
+	background:	#ccf;
+	border-radius:	5px;
+	padding-left:	10px;
+	padding-right:	10px;
+	margin-bottom:	20px;
+}
+
+
+.subnav > .nav {
+	margin-bottom:	0px;
+}
