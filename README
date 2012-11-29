@@ -37,11 +37,38 @@ both in a coherent and comprehensive way. In particular, there needs to be an
 available list of the laws which the polity has adopted, and changes to those
 laws which have meta-effects must alter the way Wasa2il works for that polity.
 
-## Topics
+## Topics, Issues, Documents and Votes
 
 Within any polity, there can be any number of different topics that need to be
 discussed. The members of a polity decide which topics are relevant to them.
 The way in which this is decided depends on the meta-rules of the polity.
+
+Topics are used to manage and display a list of issues. Issues are conversations
+which have been brought to discussion within a polity, and can belong to 
+numerous topics. The purpose of an issue and its associated conversation is to
+arrive at a decision. The decision is represented by a document which can be
+adopted or rejected.
+
+Documents which have been adopted represent the law of the polity. Sometimes
+laws need to change, so it needs to be possible to propose changes to a law
+even after it has been adopted. Doing so would cause a new issue to be raised
+and deliberated on.
+
+The decision making process is normally concluded by a vote. Votes can take
+many forms. There are multiple methods of voting and multiple ways of calculating
+the results. While in most cases the correct approach for the creation of new
+laws would be to decide on one unique result.
+
+[As a side: If faced with multiple options for a particular article, for instance, the
+Condorcet method may be the best way to get an acceptable result. It might even
+be determined that if no Condorcet winner exists amongst the proposals, there
+should be some process to push closer to a consensus. This is tricky, as if the
+Schultze method is simply used to create a winner there could be a complaint that
+results are being forced out, whereas if there is a simple method to postpone an
+issue indefinitely opponents could gang up to game the system and eliminate the
+possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
+should support the creation of that.]
+
 
 
 
