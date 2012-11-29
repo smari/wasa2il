@@ -1,3 +1,50 @@
-wasa2il - ‫وسائل
+# wasa2il - ‫وسائل
 
-Direct democracy project... tell me more!
+Wasa2il is a participatory democracy software project. It is based around the core
+idea of polities - political entities - which users of the system can join or leave, 
+make proposals in, alter existing proposals, and adopt laws to self-govern.
+
+The goal of this is to make it easy for groups on any scale - from the local 
+whiskey club to the largest nation - to self-organize and manage their intents,
+goals and mutual understandings.
+
+
+## Polities
+
+A polity is a political entity which consists of a group of people and a set of laws
+the group has decided to adhere to. In an abstract sense, membership in a polity
+grants a person certain rights and priviledges. For instance, membership in a 
+school's student body may grant you the right to attend their annual prom,
+and membership in a country (i.e. residency or citizenship) grants you a right 
+to live there and do certain things there, such as start companies. stand in 
+elections, and so on.
+
+Each polity has different rules - these are also called statutes, bylaws or laws - 
+which affect the polity on two different levels.
+
+Firstly, there are meta-rules, which describe how rules are formed, how
+decisions are made, how meetings happen, and how governance in general 
+happens. Wasa2il has to be flexible enough to accomodate the varying 
+meta-rules of a given polity, otherwise the polity may decide that Wasa2il isn't 
+useful to them. Sometimes these rules are referred to as "rules of procedure" 
+or "constitution", depending on the type of polity which is using them.
+
+Secondly there are external rules, which are the decisions the polity makes which
+don't affect its internal decisionmaking process.
+
+Wasa2il needs to have the capacity to manage both types of rules and present
+both in a coherent and comprehensive way. In particular, there needs to be an
+available list of the laws which the polity has adopted, and changes to those
+laws which have meta-effects must alter the way Wasa2il works for that polity.
+
+## Topics
+
+Within any polity, there can be any number of different topics that need to be
+discussed. The members of a polity decide which topics are relevant to them.
+The way in which this is decided depends on the meta-rules of the polity.
+
+
+
+# Roadmap
+
+ * 
