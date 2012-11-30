@@ -45,7 +45,11 @@
           <span class="icon-bar"></span>
         </a>
         <a class="brand" href="/">{% trans "‫وسائل" %}</a>
-        {% if polity %}<a class="brand" href="/polity/{{polity.id}}/">{{polity}}</a>{% endif %}
+        {% if polity %}<a class="brand" href="/polity/{{polity.id}}/">{{polity}}</a>
+        	{% if topic %}<a class="brand" href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic}}</a>
+		        {% if issue %}<a class="brand" href="/polity/{{polity.id}}/">{{issue}}</a>{% endif %}
+		{% endif %}
+	{% endif %}
         <div class="nav-collapse">
           <ul class="nav">
 	{% if polity %}
