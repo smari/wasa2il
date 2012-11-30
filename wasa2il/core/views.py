@@ -18,8 +18,8 @@ def home(request):
 		# ctx['topics' ] = ctx['mainPolity'].topic_set.all()
 
 		ctx["yourdocuments"] = Document.objects.filter(user=request.user)[:9]
-		ctx["adopteddocuments"] = Document.objects.filter(is_adopted=True, polity__in=request.user.polity_set.all())[:9]
-		ctx["proposeddocuments"] = Document.objects.filter(is_proposed=True, polity__in=request.user.polity_set.all())[:9]
+		ctx["adopteddocuments"] = Document.objects.filter(is_adopted=True, issue__in=request.user.polity_set.all())[:9]
+		ctx["proposeddocuments"] = Document.objects.filter(is_proposed=True, issue__in=request.user.polity_set.all())[:9]
 
 		return render_to_response("home.html", ctx, context_instance=RequestContext(request))
 	else:
@@ -101,7 +101,6 @@ class IssueDetailView(DetailView):
 		context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
 		context_data.update({'comment_form': CommentForm()})
 		return context_data
-
 
 
 class PolityDetailView(DetailView):
