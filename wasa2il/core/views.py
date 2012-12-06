@@ -162,6 +162,10 @@ class PolityCreateView(CreateView):
 	form_class = PolityForm
 	success_url="/polity/%(id)d/"
 
+	def form_valid(self, form):
+		self.object = form.save()
+		self.object.members.add(self.request.user)
+		return super(PolityCreateView, self).form_valid(form)
 
 
 class DocumentCreateView(CreateView):
