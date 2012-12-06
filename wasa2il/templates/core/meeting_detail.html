@@ -31,27 +31,41 @@
 
 <h2>Agenda</h2>
 
-<div class="btn-group">
-	{% if meeting.is_agenda_open %}
-	<a class="btn btn-small" onclick="meeting_agenda_add({{meeting.id}});">{% trans "Add agenda item" %}</a>
-	{% endif %}
-	{% if user in meeting.managers.all %}
+<div class="btn-toolbar">
+	<div class="btn-group">
 		{% if meeting.is_agenda_open %}
-		<a class="btn btn-small" onclick="meeting_agenda_close({{meeting.id}});">{% trans "Close agenda" %}</a>	
-		{% else %}
-		<a class="btn btn-small" onclick="meeting_agenda_open({{meeting.id}});">{% trans "Open agenda" %}</a>	
+		<a class="btn btn-small" onclick="meeting_agenda_add({{meeting.id}});"><i class="icon-asterisk"></i> {% trans "Add agenda item" %}</a>
 		{% endif %}
+		{% if user in meeting.managers.all %}
+			{% if meeting.is_agenda_open %}
+			<a class="btn btn-small" onclick="meeting_agenda_close({{meeting.id}});"><i class="icon-lock"></i> {% trans "Close agenda" %}</a>	
+			{% else %}
+			<a class="btn btn-small" onclick="meeting_agenda_open({{meeting.id}});"><i class="icon-lock"></i> {% trans "Open agenda" %}</a>	
+			{% endif %}
+		{% endif %}
+	</div>
+
+	{% if user in meeting.managers.all %}
+	<div class="btn-group">
+		<a class="btn btn-small" onclick="meeting_intervention_previous({{meeting.id}});"><i class="icon-chevron-up"></i> {% trans "Previous agenda item" %}</a>
+		<a class="btn btn-small" onclick="meeting_intervention_next({{meeting.id}});"><i class="icon-chevron-down"></i> {% trans "Next agenda item" %}</a>
+		<a class="btn btn-small" onclick="meeting_intervention_previous({{meeting.id}});"><i class="icon-chevron-left"></i> {% trans "Previous speaker" %}</a>
+		<a class="btn btn-small" onclick="meeting_intervention_next({{meeting.id}});"><i class="icon-chevron-right"></i> {% trans "Next speaker" %}</a>
+	</div>
 	{% endif %}
+
 </div>
 
-<h2>Intervention list</h2>
-
-<div class="btn-group">
-	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 1);">{% trans "Want to talk" %}</a>
-	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 2);">{% trans "Direct response" %}</a>
-	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 3);">{% trans "Clarify" %}</a>
-	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 4);">{% trans "Point of order" %}</a>
+{% if user in meeting.attendees.all %}
+<div class="btn-toolbar">
+	<div class="btn-group">
+		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 1);"><i class="icon-hand-up"></i> {% trans "Want to talk" %}</a>
+		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 2);"><i class="icon-hand-left"></i> {% trans "Direct response" %}</a>
+		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 3);"><i class="icon-question-sign"></i> {% trans "Clarify" %}</a>
+		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 4);"><i class="icon-info-sign"></i> {% trans "Point of order" %}</a>
+	</div>
 </div>
+{% endif %}
 
 
 
