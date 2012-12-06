@@ -262,6 +262,7 @@ class MeetingCreateView(CreateView):
 		self.object.polity = self.polity
 		self.object.user = self.request.user
 		self.object.save()
+		self.object.managers.add(self.request.user)
 		self.success_url = "/polity/" + str(self.polity.id) + "/meeting/" + str(self.object.id) + "/"
 		return HttpResponseRedirect(self.get_success_url())
 

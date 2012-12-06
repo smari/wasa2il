@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div style="float:right">
+	{% if meeting.ongoing %}
+	<a class="btn" onclick="meeting_attend({{meeting.id}}, 1);">{% trans "Attend meeting" %}</a>
+	{% endif %}
+	<a class="btn" href="/polity/{{polity.id}}/">{% trans "Back to polity" %}</a>
+</div>
+<h1>{{polity.name}} meeting {{meeting.time_starts|date:"d/m/Y H:i"}}</h1>
+
+<div style="float:right; width: 200px; background: #fff; border: 1px solid #eee; padding-left: 10px; padding-right: 10px;">
+	<h4>Attendance list</h4>
+	<ul>
+	{% for name in meeting.attendees.all %}
+	<li><a href="/accounts/profile/{{name}}/">{{name}}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+
+{% if meeting.notstarted %}
+<div class="alert alert-info" style="width: 600px;">{% trans "This meeting will start in"%} {{self.time_starts|timeuntil}}</div>
+{% endif %}
+{% if meeting.ongoing %}
+<div class="alert alert-info" style="width: 600px;">{% trans "This meeting is ongoing."%}</div>
+{% endif %}
+{% if meeting.ended %}
+<div class="alert alert-info" style="width: 600px;">{% trans "This meeting ended at"%} {{self.time_ended|timesince}}</div>
+{% endif %}
+
+<h2>Agenda</h2>
+
+<div class="btn-group">
+	{% if meeting.is_agenda_open %}
+	<a class="btn btn-small" onclick="meeting_agenda_add({{meeting.id}});">{% trans "Add agenda item" %}</a>
+	{% endif %}
+	{% if user in meeting.managers.all %}
+		{% if meeting.is_agenda_open %}
+		<a class="btn btn-small" onclick="meeting_agenda_close({{meeting.id}});">{% trans "Close agenda" %}</a>	
+		{% else %}
+		<a class="btn btn-small" onclick="meeting_agenda_open({{meeting.id}});">{% trans "Open agenda" %}</a>	
+		{% endif %}
+	{% endif %}
+</div>
+
+<h2>Intervention list</h2>
+
+<div class="btn-group">
+	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 1);">{% trans "Want to talk" %}</a>
+	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 2);">{% trans "Direct response" %}</a>
+	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 3);">{% trans "Clarify" %}</a>
+	<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 4);">{% trans "Point of order" %}</a>
+</div>
+
+
+
+{% endblock %}
