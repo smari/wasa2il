@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from base_classes import NameSlugBase, getCreationBase
 
 nullblank = { 'null': True, 'blank': True }
-
+from datetime import datetime
 
 
 class BaseIssue(NameSlugBase):
@@ -24,8 +24,8 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
-	def is_member(user):
-		return user in self.members
+	def is_member(self, user):
+		return user in self.members.all()
 
 
 class Topic(BaseIssue, getCreationBase('topic')):
@@ -159,11 +159,29 @@ class StatementOption(models.Model):
 class Meeting(models.Model):
 	user			= models.ForeignKey(User, related_name="created_by")
 	polity			= models.ForeignKey(Polity)
-	time_starts		= models.DateTimeField(blank=True)
-	time_started		= models.DateTimeField(blank=True)
-	time_ends		= models.DateTimeField(blank=True)
-	time_ended		= models.DateTimeField(blank=True)
-	attendees		= models.ManyToManyField(User)
+	time_starts		= models.DateTimeField(blank=True, null=True)
+	time_started		= models.DateTimeField(blank=True, null=True)
+	time_ends		= models.DateTimeField(blank=True, null=True)
+	time_ended		= models.DateTimeField(blank=True, null=True)
+	is_agenda_open		= models.BooleanField(default=True)
+	managers		= models.ManyToManyField(User, related_name="managers")
+	attendees		= models.ManyToManyField(User, related_name="attendees")
+
+	def notstarted(self):
+		if not self.time_started:
+			return True
+		return False
+
+	def ongoing(self):
+		if datetime.now() > self.time_started and (not self.time_ended or datetime.now() < self.time_ended):
+			return True
+
+		return False
+
+	def ended(self):
+		if datetime.now() > self.time_ended:
+			return True
+		return False
 
 
 class MeetingAgenda(models.Model):

@@ -33,4 +33,4 @@ class PolityForm(ModelForm):
 class MeetingForm(ModelForm):
 	class Meta:
 		model = Meeting
-		exclude = ('user', 'polity', 'attendees', 'time_started', 'time_ended')
+		exclude = ('user', 'polity', 'is_agenda_open', 'managers', 'attendees', 'time_started', 'time_ended')

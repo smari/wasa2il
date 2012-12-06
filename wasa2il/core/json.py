@@ -79,4 +79,17 @@ def document_propose(request, document, state):
 	return ctx
 
 
+@login_required
+@jsonize
+def meeting_attend(request, meeting):
+	ctx = {}
 
+	meeting = get_object_or_404(Meeting, id=meeting)
+
+	if not meeting.polity.is_member(request.user):
+		ctx["ok"] = False
+		return ctx	
+
+	meeting.attendees.add(request.user)
+	ctx["ok"] = True
+	return ctx
