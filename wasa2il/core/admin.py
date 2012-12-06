@@ -1,7 +1,11 @@
 
 from django.contrib import admin
 
-from models import Polity, Topic, Issue, VoteOption, Comment, Vote, Delegate
+from models import (
+	Polity, Topic, Issue,
+	VoteOption, Comment, Vote,
+	Delegate, MembershipRequest
+	)
 
 
 def getDerivedAdmin(base_admin, **kwargs):
@@ -76,3 +80,4 @@ register(VoteOption, VoteOptionAdmin)
 register(Comment, CommentAdmin)
 register(Delegate, DelegateAdmin)
 register(Vote, VoteAdmin)
+register(MembershipRequest)
