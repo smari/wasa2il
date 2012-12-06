@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from core.models import Topic, Issue, Comment, Document, Polity
+from core.models import Topic, Issue, Comment, Document, Polity, Meeting
 
 class TopicForm(ModelForm):
 	class Meta:
@@ -28,3 +28,9 @@ class PolityForm(ModelForm):
 	class Meta:
 		model = Polity
 		exclude = ('slug', 'parent', 'members', 'image')
+
+
+class MeetingForm(ModelForm):
+	class Meta:
+		model = Meeting
+		exclude = ('user', 'polity', 'attendees', 'time_started', 'time_ended')

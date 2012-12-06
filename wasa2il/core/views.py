@@ -237,3 +237,78 @@ class DocumentUpdateView(UpdateView):
 
 		context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
 		return context_data
+
+
+class MeetingCreateView(CreateView):
+	model = Meeting
+	context_object_name = "meeting"
+	template_name = "core/meeting_form.html"
+	form_class = MeetingForm
+	success_url="/polity/%(polity)d/meeting/%(id)d/"
+
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		self.success_url = "/polity/" + str(self.polity.id) + "/meeting/$(id)d/"
+		return super(MeetingCreateView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(MeetingCreateView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		return context_data
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.polity = self.polity
+		self.object.user = self.request.user
+		self.object.save()
+		self.success_url = "/polity/" + str(self.polity.id) + "/meeting/" + str(self.object.id) + "/"
+		return HttpResponseRedirect(self.get_success_url())
+
+
+class MeetingDetailView(DetailView):
+	model = Meeting
+	context_object_name = "meeting"
+	template_name = "core/meeting_detail.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(MeetingDetailView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(MeetingDetailView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		return context_data
+
+
+class MeetingListView(ListView):
+	model = Meeting
+	context_object_name = "meetings"
+	template_name = "core/meeting_list.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(MeetingListView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(MeetingListView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		return context_data
+
+
+class MeetingUpdateView(UpdateView):
+	model = Meeting
+	context_object_name = "meeting"
+	template_name = "core/meeting_update.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(MeetingUpdateView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(MeetingUpdateView, self).get_context_data(*args, **kwargs)
+		referabledocs = Meeting.objects.filter(is_adopted=True)
+		print "Referabledocs: ", referabledocs
+
+		context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
+		return context_data
