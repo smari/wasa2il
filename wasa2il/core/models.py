@@ -154,4 +154,33 @@ class Statement(models.Model):
 class StatementOption(models.Model):
 	user			= models.ForeignKey(User)
 	text			= models.TextField()
+
 	
+class Meeting(models.Model):
+	user			= models.ForeignKey(User, related_name="created_by")
+	polity			= models.ForeignKey(Polity)
+	time_starts		= models.DateTimeField(blank=True)
+	time_started		= models.DateTimeField(blank=True)
+	time_ends		= models.DateTimeField(blank=True)
+	time_ended		= models.DateTimeField(blank=True)
+	attendees		= models.ManyToManyField(User)
+
+
+class MeetingAgenda(models.Model):
+	meeting			= models.ForeignKey(Meeting)
+	item			= models.CharField(max_length=200)
+	order			= models.IntegerField()
+
+	def __unicode__(self):
+		return self.item
+
+
+class MeetingSpeakers(models.Model):
+	meeting			= models.ForeignKey(Meeting)
+	user			= models.ForeignKey(User)
+	motion			= models.CharField(max_length=10)
+	order			= models.IntegerField()
+
+	def __unicode__(self):
+		return user.username
+

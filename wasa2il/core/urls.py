@@ -17,6 +17,11 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$',		login_required(DocumentDetailView.as_view())),
 	(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$',	login_required(DocumentUpdateView.as_view())),
 
+	(r'^polity/(?P<polity>\d+)/meeting/$',				login_required(MeetingListView.as_view())),
+	(r'^polity/(?P<polity>\d+)/meeting/new/$',			login_required(MeetingCreateView.as_view())),
+	(r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/$',		login_required(MeetingDetailView.as_view())),
+	(r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/edit/$',		login_required(MeetingUpdateView.as_view())),
+
 	(r'^polity/(?P<pk>\d+)/edit/$',				login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
 	(r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$',		login_required(PolityDetailView.as_view())),
 	(r'^polity/(?P<pk>\d+)/$',				login_required(PolityDetailView.as_view())),
