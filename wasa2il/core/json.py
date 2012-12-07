@@ -18,6 +18,32 @@ def jsonize(f):
 
 @login_required
 @jsonize
+def polity_membershipvote(request):
+	ctx = {}
+
+	polity = request.REQUEST.get("polity", 0)
+	polity = get_object_or_404(Polity, id=polity)
+	user = request.REQUEST.get("user", 0)
+	user = get_object_or_404(User, id=user)
+
+	membershiprequest = get_object_or_404(MembershipRequest, requestor=user, polity=polity)
+
+	vote, created = MembershipVote.objects.get_or_create(voter=request.user, user=user, polity=polity)
+	if not created:
+		vote.delete()
+
+	ctx["accepted"] = membershiprequest.get_fulfilled()
+	ctx["percent"] = membershiprequest.votespercent()
+	ctx["votes"] = membershiprequest.votes()
+	ctx["votesneeded"] = membershiprequest.votesneeded()
+	ctx["username"] = user.username
+	ctx["ok"] = True
+
+	return ctx	
+
+
+@login_required
+@jsonize
 def document_statement_new(request, document, type):
 	ctx = {}
 
