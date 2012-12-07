@@ -73,3 +73,10 @@ footer {
 .subnav > .nav {
 	margin-bottom:	0px;
 }
+
+
+.meeting-notongoing, .meeting-ongoing, .meeting-notstarted, .meeting-ended,
+.meeting-agendaopen, .meeting-agendaclosed, .meeting-manager, .meeting-attendee {
+	display:	none;
+}
+

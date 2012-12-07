@@ -173,12 +173,21 @@ class Meeting(models.Model):
 		return False
 
 	def ongoing(self):
+		if not self.time_started:
+			return False
+
+		if not self.time_ended:
+			return True
+
 		if datetime.now() > self.time_started and (not self.time_ended or datetime.now() < self.time_ended):
 			return True
 
 		return False
 
 	def ended(self):
+		if not self.time_ended:
+			return False
+
 		if datetime.now() > self.time_ended:
 			return True
 		return False
@@ -188,6 +197,7 @@ class MeetingAgenda(models.Model):
 	meeting			= models.ForeignKey(Meeting)
 	item			= models.CharField(max_length=200)
 	order			= models.IntegerField()
+	done			= models.IntegerField()	# 0 = Not done, 1 = Active, 2 = Done
 
 	def __unicode__(self):
 		return self.item
@@ -196,8 +206,9 @@ class MeetingAgenda(models.Model):
 class MeetingSpeakers(models.Model):
 	meeting			= models.ForeignKey(Meeting)
 	user			= models.ForeignKey(User)
-	motion			= models.CharField(max_length=10)
+	motion			= models.CharField(max_length=3)
 	order			= models.IntegerField()
+	done			= models.IntegerField()	# 0 = Not done, 1 = Active, 2 = Done
 
 	def __unicode__(self):
 		return user.username

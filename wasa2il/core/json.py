@@ -93,3 +93,51 @@ def meeting_attend(request, meeting):
 	meeting.attendees.add(request.user)
 	ctx["ok"] = True
 	return ctx
+
+
+@login_required
+@jsonize
+def meeting_poll(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		print "No meeting id"
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not meeting.polity.is_member(request.user):
+		ctx["ok"] = False
+		return ctx	
+
+	try:	time_starts = meeting.time_starts.strftime("%d/%m/%Y %H:%I")
+	except:	time_starts = None
+	try:	time_started = meeting.time_started.strftime("%d/%m/%Y %H:%I")
+	except:	time_started = None
+	try:	time_ends = meeting.time_ends.strftime("%d/%m/%Y %H:%I")
+	except:	time_ends = None
+	try:	time_ended = meeting.time_ended.strftime("%d/%m/%Y %H:%I")
+	except:	time_ended = None
+
+
+	ctx["polity"] = {"name": meeting.polity.name}
+	ctx["meeting"] = {
+		"called_by": meeting.user.username, 
+		"time_starts": time_starts,
+		"time_started": time_started,
+		"time_ends": time_ends,
+		"time_ended": time_ended,
+		"is_agenda_open": meeting.is_agenda_open,
+		"is_not_started": meeting.notstarted(),
+		"is_ongoing": meeting.ongoing(),
+		"is_ended": meeting.ended(),
+		"managers": [user.username for user in meeting.managers.all()],
+		"attendees": [user.username for user in meeting.attendees.all()],
+		"user_is_manager": request.user in meeting.managers.all(),
+		"user_is_attendee": request.user in meeting.attendees.all(),
+	}
+	ctx["ok"] = True
+	
+	return ctx
