@@ -68,6 +68,7 @@ class Vote(models.Model):
 	issue			= models.ForeignKey(Issue)
 	option			= models.ForeignKey(VoteOption)
 	cast			= models.DateTimeField(auto_now_add=True)
+
 	class Meta:
 		unique_together = (('user', 'issue'))
 
@@ -76,6 +77,15 @@ class MembershipVote(models.Model):
 	voter			= models.ForeignKey(User, related_name="membership_granter")
 	user			= models.ForeignKey(User, related_name="membership_seeker")
 	polity			= models.ForeignKey(Polity)
+
+	def save(self):
+		super(MembershipVote).save()
+		try:
+			m = MembershipRequest.objects.get(requestor=self.user, polity=self.polity)
+			if m.get_fulfilled():
+				self.polity.members.add(self.user)
+		except:
+			pass
 
 	class Meta:
 		unique_together = ( ("voter", "user", "polity"), )
@@ -92,6 +102,17 @@ class MembershipRequest(models.Model):
 
 	def votes(self):
 		return MembershipVote.objects.filter(user=self.requestor, polity=self.polity).count()
+
+	def votesneeded(self):
+		return self.polity.invite_threshold
+
+	def votespercent(self):
+		pc = int(100*(float(self.votes())/self.polity.invite_threshold))
+		if pc < 0:
+			pc = 0
+		if pc > 100:
+			pc = 100
+		return pc
 
 	def get_fulfilled(self):
 		# Recalculate at most once per hour.

@@ -9,6 +9,23 @@ function document_propose(doc, val) {
 }
 
 
+function polity_membership_vote(polity, user) {
+	$.getJSON("/api/polity/membershipvote/", {"polity": polity, "user": user}, function(data) {
+		if (data.ok) {
+			if (data.accepted) {
+				$("#membershiprequest_" + user).hide();
+				$("#modal_members_list").append("<a href=\"/accounts/profile/" + data.username + "/\" class=\"thumbnail\">" + data.username + "</a>");
+			} else {
+				$("#membershiprequest_percent_" + user).css("width", data.percent);
+				$("#membershiprequest_percent_" + user).text(data.votes + "/" + data.votesneeded);
+			}
+		} else {
+
+		}
+	});
+}
+
+
 function meeting_poll(meeting) {
 	$.getJSON("/api/meeting/poll/", {"meeting": meeting}, function(data) {
 		if (data.ok) {

@@ -93,7 +93,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>{% trans "Members of this polity" %}</h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" id="modal_members_list">
 
 	{% for m in polity.members.all %}
 		<a href="/accounts/profile/{{m.username}}/" class="thumbnail" style="background: url('/static/img/blank-user-icon.jpg') no-repeat">
@@ -111,13 +111,16 @@
 <div class="modal hide fade" id="modal_requests">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "Users requsting membership" %}</h3>
+    <h3>{% trans "Users requesting membership" %}</h3>
   </div>
   <div class="modal-body">
 
 	{% for m in membership_requests %}
-		<a class="thumbnail" style="background: url('/static/img/blank-user-icon.jpg') no-repeat">
-			{{m.username}}
+		<a id="membershiprequest_{{m.requestor.id}}" class="thumbnail" style="vertical-align: bottom; background: url('/static/img/blank-user-icon.jpg') no-repeat" onclick="polity_membership_vote({{polity.id}}, {{m.requestor.id}});">
+			{{m.requestor.username}}
+			<div class="progress">
+				<div id="membershiprequest_percent_{{m.requestor.id}}" class="bar bar-success" style="width: {{m.votespercent}}%;">{{m.votes}}/{{m.votesneeded}}</div>
+			</div>
 		</a>
 	{% endfor %}
 
