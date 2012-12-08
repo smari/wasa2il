@@ -27,6 +27,9 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	def is_member(self, user):
 		return user in self.members.all()
 
+	def get_invite_threshold(self):
+		return min(self.members.count(), self.invite_threshold)
+
 
 class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)

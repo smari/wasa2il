@@ -117,17 +117,12 @@ class PolityDetailView(DetailView):
 			self.object.members.remove(self.request.user)
 
 		if kwargs.get("action") == "join":
+			invite_threshold = self.object.get_invite_threshold()
 			self.membershiprequest, self.requested_membership = MembershipRequest.objects.get_or_create(polity=self.object, requestor=self.request.user)
-			invite_count = MembershipVote.objects.filter(user=self.request.user, polity=self.object).count()
-			invite_threshold = self.object.invite_threshold
 
-			if self.object.members.count() < invite_threshold:
-				invite_threshold = self.object.members.count()
-
-			threshold_met = invite_threshold <= invite_count
-
-			if threshold_met:
-				self.object.members.add(self.request.user)
+			# See if we have already satisfied the limits
+			if self.membershiprequest.votes >= invite_threshold:
+				self.membershiprequests.accept()
 		else:
 			try:
 				self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user)
