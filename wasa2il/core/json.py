@@ -103,6 +103,43 @@ def document_propose(request, document, state):
 
 @login_required
 @jsonize
+def meeting_start(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	meeting.time_started = datetime.now()
+	meeting.save()
+
+	return ctx
+
+
+@login_required
+@jsonize
+def meeting_end(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	meeting.time_ended = datetime.now()
+	meeting.save()
+
+	return ctx
+
+
+
+@login_required
+@jsonize
 def meeting_attend(request, meeting):
 	ctx = {}
 
@@ -124,7 +161,6 @@ def meeting_poll(request):
 
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
-		print "No meeting id"
 		ctx["ok"] = False
 		return ctx	
 		
@@ -148,9 +184,13 @@ def meeting_poll(request):
 	ctx["meeting"] = {
 		"called_by": meeting.user.username, 
 		"time_starts": time_starts,
+		"time_starts_iso": str(meeting.time_starts),
 		"time_started": time_started,
+		"time_started_iso": str(meeting.time_started),
 		"time_ends": time_ends,
+		"time_ends_iso": str(meeting.time_ends),
 		"time_ended": time_ended,
+		"time_ended_iso": str(meeting.time_ended),
 		"is_agenda_open": meeting.is_agenda_open,
 		"is_not_started": meeting.notstarted(),
 		"is_ongoing": meeting.ongoing(),
