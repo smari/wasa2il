@@ -28,6 +28,9 @@
 	color:	#888;
 }
 
+ul.nobullets {
+	list-style-type: none;
+}
 
 .thumbnail {
 	float:		left;
@@ -37,6 +40,22 @@
 	display:	inline-block;
 	margin:		3px;
 	overflow:	hidden;
+}
+
+.thumbnail.member {
+}
+.thumbnail.member > img {
+	position: absolute;
+	z-index: -1;
+}
+.thumbnail.member .title {
+	position: absolute;
+	margin-right: auto;
+	margin-left: auto;
+	width: 80px;
+	bottom: 0;
+	text-align: center;
+	background: rgba(255,255,255, 0.5);
 }
 
 .mainaction {

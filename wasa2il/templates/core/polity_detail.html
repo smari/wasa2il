@@ -115,14 +115,29 @@
   </div>
   <div class="modal-body">
 
+  	<ul class="nobullets">
 	{% for m in membership_requests %}
-		<a id="membershiprequest_{{m.requestor.id}}" class="thumbnail" style="vertical-align: bottom; background: url('/static/img/blank-user-icon.jpg') no-repeat" onclick="polity_membership_vote({{polity.id}}, {{m.requestor.id}});">
-			{{m.requestor.username}}
-			<div class="progress">
-				<div id="membershiprequest_percent_{{m.requestor.id}}" class="bar bar-success" style="width: {{m.votespercent}}%;">{{m.votes}}/{{m.votesneeded}}</div>
-			</div>
-		</a>
+		<li>
+			<a
+				id="membershiprequest_{{m.requestor.id}}"
+				class="thumbnail member membership_request"
+				href="#"
+				data-id="{{m.id}}"
+				data-csrftoken="{{csrf_token}}"
+				onclick="polity_membership_vote({{polity.id}}, {{m.requestor.id}});">
+	            <img src="/static/img/blank-user-icon.jpg" />
+	            <div class="title">
+	                <div class="title">{{m.requestor.username}}</div>
+	                <div class="progress">
+						<div id="membershiprequest_percent_{{m.requestor.id}}" class="bar bar-success" style="width: {{m.votespercent}}%;">
+							{{m.votes}}/{{m.votesneeded}}
+						</div>
+					</div>
+	            </div>
+	        </a>
+    	</li>
 	{% endfor %}
+	</ul>
 
   </div>
   <div class="modal-footer">

@@ -20,26 +20,22 @@ def jsonize(f):
 @jsonize
 def polity_membershipvote(request):
 	ctx = {}
+	try:
+		id = int(request.POST.get('id'))
+	except ValueError:
+		id = None
+	validator = request.user
+	mrequest = MembershipRequest.objects.get(id=id, polity__members=validator)
+	vote, created = MembershipVote.objects.get_or_create(voter=request.user, user=mrequest.requestor, polity=mrequest.polity)
 
-	polity = request.REQUEST.get("polity", 0)
-	polity = get_object_or_404(Polity, id=polity)
-	user = request.REQUEST.get("user", 0)
-	user = get_object_or_404(User, id=user)
-
-	membershiprequest = get_object_or_404(MembershipRequest, requestor=user, polity=polity)
-
-	vote, created = MembershipVote.objects.get_or_create(voter=request.user, user=user, polity=polity)
-	if not created:
-		vote.delete()
-
-	ctx["accepted"] = membershiprequest.get_fulfilled()
-	ctx["percent"] = membershiprequest.votespercent()
-	ctx["votes"] = membershiprequest.votes()
-	ctx["votesneeded"] = membershiprequest.votesneeded()
-	ctx["username"] = user.username
+	ctx["accepted"] = mrequest.get_fulfilled()
+	ctx["percent"] = mrequest.votespercent()
+	ctx["votes"] = mrequest.votes()
+	ctx["votesneeded"] = mrequest.votesneeded()
+	ctx["username"] = mrequest.requestor.username
 	ctx["ok"] = True
 
-	return ctx	
+	return ctx
 
 
 @login_required

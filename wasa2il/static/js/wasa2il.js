@@ -9,22 +9,6 @@ function document_propose(doc, val) {
 }
 
 
-function polity_membership_vote(polity, user) {
-	$.getJSON("/api/polity/membershipvote/", {"polity": polity, "user": user}, function(data) {
-		if (data.ok) {
-			if (data.accepted) {
-				$("#membershiprequest_" + user).hide();
-				$("#modal_members_list").append("<a href=\"/accounts/profile/" + data.username + "/\" class=\"thumbnail\">" + data.username + "</a>");
-			} else {
-				$("#membershiprequest_percent_" + user).css("width", data.percent);
-				$("#membershiprequest_percent_" + user).text(data.votes + "/" + data.votesneeded);
-			}
-		} else {
-
-		}
-	});
-}
-
 
 function meeting_poll(meeting) {
 	$.getJSON("/api/meeting/poll/", {"meeting": meeting}, function(data) {
@@ -130,3 +114,30 @@ function meeting_intervention_next(meeting) {
 function meeting_intervention_previous(meeting) {
 
 }
+
+$(function() {
+
+	$('.membership_request').click(function (e) {
+		var id = $(this).attr('data-id');
+
+		$.ajax({
+			url: '/api/polity/membershipvote/',
+			type: 'POST',
+			data: { id: id, csrfmiddlewaretoken: $(this).attr('data-csrftoken') },
+			success: function (e2) {
+				if (data.accepted) {
+					$("#membershiprequest_" + user).hide();
+					$("#modal_members_list").append("<a href=\"/accounts/profile/" + data.username + "/\" class=\"thumbnail\">" + data.username + "</a>");
+				} else {
+					$("#membershiprequest_percent_" + user).css("width", data.percent);
+					$("#membershiprequest_percent_" + user).text(data.votes + "/" + data.votesneeded);
+				}
+			},
+			error: function (e2) {
+				alert('Some error happened with voting...');
+			}
+		})
+		return false;
+	});
+
+});

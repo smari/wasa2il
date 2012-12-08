@@ -1,14 +1,16 @@
 #coding:utf8
-from django.db import models
 
+from datetime import datetime, timedelta
+import logging
+
+from django.db import models
 from django.contrib.auth.models import User
 
 #from fields import CreatedField, ModifiedField, AutoUserField
 from base_classes import NameSlugBase, getCreationBase
 
-nullblank = { 'null': True, 'blank': True }
-from datetime import datetime
 
+nullblank = {'null': True, 'blank': True}
 
 class BaseIssue(NameSlugBase):
 	description		= models.TextField(**nullblank)
@@ -81,14 +83,15 @@ class MembershipVote(models.Model):
 	user			= models.ForeignKey(User, related_name="membership_seeker")
 	polity			= models.ForeignKey(Polity)
 
-	def save(self):
-		super(MembershipVote).save()
+	def save(self, *args, **kwargs):
+		super(MembershipVote, self).save(*args, **kwargs)
 		try:
 			m = MembershipRequest.objects.get(requestor=self.user, polity=self.polity)
 			if m.get_fulfilled():
+				logging.debug('fulfilled!')
 				self.polity.members.add(self.user)
-		except:
-			pass
+		except MembershipRequest.DoesNotExist:
+			logging.error('MembershipRequest object not found for requestor %s (id:%d) and polity %s (id:%d)' % (self.requestor, self.requestor.id, self.polity, self.polity.id))
 
 	class Meta:
 		unique_together = ( ("voter", "user", "polity"), )
@@ -107,20 +110,16 @@ class MembershipRequest(models.Model):
 		return MembershipVote.objects.filter(user=self.requestor, polity=self.polity).count()
 
 	def votesneeded(self):
-		return self.polity.invite_threshold
+		return self.polity.get_invite_threshold()
 
 	def votespercent(self):
-		pc = int(100*(float(self.votes())/self.polity.invite_threshold))
-		if pc < 0:
-			pc = 0
-		if pc > 100:
-			pc = 100
-		return pc
+		pc = int(100 * (float(self.votes()) / self.votesneeded()))
+		return min(max(pc, 0), 100)
 
 	def get_fulfilled(self):
 		# Recalculate at most once per hour.
 		if self.fulfilled_timestamp == None or self.fulfilled_timestamp < datetime.now() - timedelta(seconds=3600):
-			self.fulfilled = self.votes() >= self.polity.invite_threshold
+			self.fulfilled = self.votes() >= self.votesneeded()
 			self.save()
 
 		return self.fulfilled
