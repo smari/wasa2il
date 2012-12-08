@@ -10,14 +10,7 @@
 
 <div style="float:right; width: 200px; background: #fff; border: 1px solid #eee; padding-left: 10px; padding-right: 10px;">
 	<h4>Attendance list</h4>
-	<ul class="attendancelist">
-	{% for name in meeting.attendees.all %}
-	<li>
-	{% if name in meeting.managers.all %}<i class="icon-bullhorn"></i>
-	{% else %}<i class="icon-user"></i>{% endif %}
-	<a href="/accounts/profile/{{name}}/">{{name}}</a>
-	</li>
-	{% endfor %}
+	<ul class="attendancelist" id="attendancelist">
 	</ul>
 </div>
 
@@ -29,7 +22,7 @@
 
 <div class="btn-toolbar">
 	<div class="btn-group meeting-manager">
-		<a class="btn btn-small btn-warning meeting-ongoing" onclick="meeting_end({{meeting.id}});"><i class="icon-stop"></i> {% trans "Meeting ended" %}</a>	
+		<a class="btn btn-small btn-warning meeting-ongoing" onclick="meeting_end({{meeting.id}});"><i class="icon-stop"></i> {% trans "Ajourn meeting" %}</a>	
 		<a class="btn btn-small btn-success meeting-notongoing" onclick="meeting_start({{meeting.id}});"><i class="icon-play"></i> {% trans "Start meeting" %}</a>	
 	</div>
 
@@ -42,16 +35,18 @@
 	</div>
 
 	<div class="btn-group meeting-manager">
-		<a class="btn btn-small" onclick="meeting_agenda_previous({{meeting.id}});"><i class="icon-chevron-up"></i> {% trans "Previous agenda item" %}</a>
-		<a class="btn btn-small" onclick="meeting_agenda_next({{meeting.id}});"><i class="icon-chevron-down"></i> {% trans "Next agenda item" %}</a>
-		<a class="btn btn-small" onclick="meeting_intervention_previous({{meeting.id}});"><i class="icon-chevron-left"></i> {% trans "Previous speaker" %}</a>
-		<a class="btn btn-small" onclick="meeting_intervention_next({{meeting.id}});"><i class="icon-chevron-right"></i> {% trans "Next speaker" %}</a>
+		<span class="meeting-ongoing">
+			<a class="btn btn-small" onclick="meeting_agenda_previous({{meeting.id}});"><i class="icon-chevron-up"></i> {% trans "Previous agenda item" %}</a>
+			<a class="btn btn-small" onclick="meeting_agenda_next({{meeting.id}});"><i class="icon-chevron-down"></i> {% trans "Next agenda item" %}</a>
+			<a class="btn btn-small" onclick="meeting_intervention_previous({{meeting.id}});"><i class="icon-chevron-left"></i> {% trans "Previous speaker" %}</a>
+			<a class="btn btn-small" onclick="meeting_intervention_next({{meeting.id}});"><i class="icon-chevron-right"></i> {% trans "Next speaker" %}</a>
+		</span>
 	</div>
 
 </div>
 
 <div class="btn-toolbar meeting-attendee">
-	<div class="btn-group">
+	<div class="btn-group meeting-ongoing">
 		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 1);"><i class="icon-hand-up"></i> {% trans "Want to talk" %}</a>
 		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 2);"><i class="icon-hand-left"></i> {% trans "Direct response" %}</a>
 		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 3);"><i class="icon-question-sign"></i> {% trans "Clarify" %}</a>
@@ -59,11 +54,40 @@
 	</div>
 </div>
 
+
+<div class="agenda">
+	<ol id="agenda-items">
+
+	</ol>
+	<div id="agenda-item-add" class="hide">
+		<form>
+			<input type="text" placeholder="{% trans "Agenda item title" %}" id="agenda-item-text"/>
+			<a class="btn btn">{% trans "Add" %}</a>
+		</form>
+	</div>
+</div>
+
+
 <script>
 $(function() {
 	window.setInterval(function() { meeting_poll({{meeting.id}}); }, 1000);
 });
 </script>
 
+
+<div id="meeting_start_early" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{% trans "Start meeting early?" %}</h3>
+  </div>
+  <div class="modal-body">
+  	<p>{% trans "The meeting is scheduled to start at " %}{{meeting.time_starts|date:"d/m/Y H:i"}}.</p>
+    <p>{% trans "Are you sure you want to start this meeting ahead of schedule?" %}</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" onclick="$('#meeting_start_early').modal('hide');" class="btn">{% trans "No, don't start the meeting!" %}</a>
+    <a href="#" onclick="meeting_start({{meeting.id}}, true); $('#meeting_start_early').modal('hide');" class="btn btn-primary">{% trans "Yes, start the meeting." %}</a>
+  </div>
+</div>
 
 {% endblock %}

@@ -39,6 +39,8 @@ urlpatterns = patterns('',
 	(r'^api/document/propose/(?P<document>\d+)/(?P<val>\d+)/$', document_propose),
 	(r'^api/meeting/attend/(?P<meeting>\d+)/$', meeting_attend),
 	(r'^api/meeting/poll/$', meeting_poll),
+	(r'^api/meeting/start/$', meeting_start),
+	(r'^api/meeting/end/$', meeting_end),
 	# (r'^api/document/$',
 
 )

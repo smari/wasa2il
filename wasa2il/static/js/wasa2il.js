@@ -1,4 +1,5 @@
 
+var meeting_object;
 
 function document_propose(doc, val) {
 	$.getJSON("/api/propose/", {"document": doc, "status": val}, function(data) {
@@ -13,6 +14,8 @@ function document_propose(doc, val) {
 function meeting_poll(meeting) {
 	$.getJSON("/api/meeting/poll/", {"meeting": meeting}, function(data) {
 		if (data.ok) {
+			meeting_object = data.meeting;
+
 			if (data.meeting.is_agenda_open) {
 				$('.meeting-agendaclosed').hide();
 				$('.meeting-agendaopen').show();
@@ -52,6 +55,17 @@ function meeting_poll(meeting) {
 			} else {
 				$('.meeting-attendee').hide();
 			}
+
+			$("#attendancelist").empty();
+			for (i in data.meeting.attendees) {
+				entry = data.meeting.attendees[i];
+				if ($.inArray(entry, data.meeting.managers) > -1) {
+					st = "icon-bullhorn";
+				} else {
+					st = "icon-user";
+				}
+				$("#attendancelist").append("<li><i class=\"" + st + "\"></i> <a href=\"/accounts/profile/" + entry + "/\">" + entry + "</a></li>")
+			}
 //.meeting-notongoing, .meeting-ongoing, .meeting-notstarted, .meeting-ended,
 //.meeting-agendaopen, .meeting-agendaclosed, .meeting-manager, .meeting-attendee
 			
@@ -69,20 +83,33 @@ function meeting_render(meeting, structure) {
 
 function meeting_attend(meeting, val) {
 	$.getJSON("/api/meeting/attend/" + meeting + "/", {"meeting": meeting, "status": val}, function(data) {
-		if (data) {
+		if (data.ok) {
 			
 		}
 	});
 }
 
 
-function meeting_start(meeting) {
-
+function meeting_start(meeting, force) {
+	now = new Date();
+	if (!force && Date.parse(meeting_object.time_starts_iso) > now.getTime()) {
+		$("#meeting_start_early").modal();
+		return;
+	}
+	$.getJSON("/api/meeting/start/", {"meeting": meeting}, function(data) {
+		if (data.ok) {
+			
+		}
+	});
 }
 
 
-function meeting_stop(meeting) {
-
+function meeting_end(meeting) {
+	$.getJSON("/api/meeting/end/", {"meeting": meeting}, function(data) {
+		if (data.ok) {
+			
+		}
+	});
 }
 
 
@@ -97,7 +124,7 @@ function meeting_agenda_open(meeting) {
 
 
 function meeting_agenda_add(meeting) {
-
+	$("#agenda-item-add").show();
 }
 
 
