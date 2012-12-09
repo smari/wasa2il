@@ -28,6 +28,10 @@ def home(request):
 		return render_to_response("hom01.html", ctx, context_instance=RequestContext(request))
 
 
+def help(request, page):
+	return render_to_response("help/%s.html" % page)
+
+
 def profile(request, user=None):
 	ctx = {}
 	if user:

@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -19,4 +20,7 @@ urlpatterns = patterns('',
 	(r'^accounts/profile/$', 'core.views.profile'),
 	(r'^accounts/profile/(?P<user>.+)/$', 'core.views.profile'),
 	(r'^accounts/', include('registration.urls')),
+
+	(r'^help/$', direct_to_template, {"template": "help/index.html"}),
+	(r'^help/(?P<page>.*)/$', "core.views.help"),
 )

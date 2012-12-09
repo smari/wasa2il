@@ -61,6 +61,7 @@
           <ul class="nav pull-right">
 	{% if user.is_authenticated %}
 	    <li><a href="/accounts/profile/">{{user.username}}</a></li>
+            <li><a href="/help/">{% trans "Help" %}</a></li>
             <li><a href="/accounts/logout">{% trans "Logout" %}</a></li>
 	{% else %}
             <li><a href="/accounts/login">{% trans "Log in" %}</a></li>
