@@ -10,6 +10,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+ACCOUNT_ACTIVATION_DAYS = 7
 
 DATABASES = {
     'default': {
