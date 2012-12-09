@@ -3,15 +3,27 @@
 {% block content %}
 
 <div style="float:right">
-	<a class="btn meeting-ongoing" onclick="meeting_attend({{meeting.id}}, 1);">{% trans "Attend meeting" %}</a>
 	<a class="btn" href="/polity/{{polity.id}}/">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{polity.name}} meeting {{meeting.time_starts|date:"d/m/Y H:i"}}</h1>
 
 <div style="float:right; width: 200px; background: #fff; border: 1px solid #eee; padding-left: 10px; padding-right: 10px;">
-	<h4>Attendance list</h4>
+	<h4>{% trans "Attendance list" %}</h4>
+	<a class="btn meeting-ongoing" onclick="meeting_attend({{meeting.id}}, 1);">{% trans "Attend meeting" %}</a>
+	<p class="meeting-notstarted">{% trans "You can sign in to attendance when the meeting has started." %}</p>
 	<ul class="attendancelist" id="attendancelist">
 	</ul>
+
+	<h4>{% trans "Meeting managers" %}</h4>
+	<ul class="managerlist" id="managerlist">
+	</ul>
+	<div class="meeting-manager">
+		<b>Add meeting manager</b>
+		<div class="form-inline">
+			<input type="text" class="input-small" id="meeting_manager_add"/>
+			<a class="btn btn-small" id="meeting_manager_add_btn"/>Arr</a>
+		</div>
+	</div>
 </div>
 
 <div class="alert alert-info meeting-notstarted" style="width: 600px;">{% trans "This meeting will start in"%} {{self.time_starts|timeuntil}}</div>
@@ -22,35 +34,43 @@
 
 <div class="btn-toolbar">
 	<div class="btn-group meeting-manager">
-		<a class="btn btn-small btn-warning meeting-ongoing" onclick="meeting_end({{meeting.id}});"><i class="icon-stop"></i> {% trans "Ajourn meeting" %}</a>	
-		<a class="btn btn-small btn-success meeting-notongoing" onclick="meeting_start({{meeting.id}});"><i class="icon-play"></i> {% trans "Start meeting" %}</a>	
-	</div>
-
-	<div class="btn-group">
-		<a class="btn btn-small meeting-agendaopen" onclick="meeting_agenda_add({{meeting.id}});"><i class="icon-asterisk"></i> {% trans "Add agenda item" %}</a>
 		<span class="meeting-manager">
-			<a class="btn btn-small meeting-agendaopen" onclick="meeting_agenda_close({{meeting.id}});"><i class="icon-lock"></i> {% trans "Close agenda" %}</a>	
-			<a class="btn btn-small meeting-agendaclosed" onclick="meeting_agenda_open({{meeting.id}});"><i class="icon-lock"></i> {% trans "Open agenda" %}</a>	
+			<span class="meeting-ongoing">
+			<a class="btn btn-warning" onclick="meeting_end({{meeting.id}});"><i class="icon-stop"></i> {% trans "Ajourn meeting" %}</a></span>
+			<span class="meeting-notongoing"><a class="btn btn-success" onclick="meeting_start({{meeting.id}});"><i class="icon-play"></i> {% trans "Start meeting" %}</a></span>
+		</span>
+
+		<span class="meeting-manager">
+			<span class="meeting-agendaopen">
+				<a class="btn" onclick="meeting_agenda_close({{meeting.id}});"><i class="icon-lock"></i> {% trans "Close agenda" %}</a>	
+			</span>
+			<span class="meeting-agendaclosed">
+				<a class="btn" onclick="meeting_agenda_open({{meeting.id}});"><i class="icon-lock"></i> {% trans "Open agenda" %}</a>	
+			</span>
+		</span>
+
+		<span class="meeting-agendaopen">
+			<a class="btn" onclick="$('#agenda-item-add').show();"><i class="icon-asterisk"></i> {% trans "Add agenda item" %}</a>
 		</span>
 	</div>
 
-	<div class="btn-group meeting-manager">
-		<span class="meeting-ongoing">
-			<a class="btn btn-small" onclick="meeting_agenda_previous({{meeting.id}});"><i class="icon-chevron-up"></i> {% trans "Previous agenda item" %}</a>
-			<a class="btn btn-small" onclick="meeting_agenda_next({{meeting.id}});"><i class="icon-chevron-down"></i> {% trans "Next agenda item" %}</a>
-			<a class="btn btn-small" onclick="meeting_intervention_previous({{meeting.id}});"><i class="icon-chevron-left"></i> {% trans "Previous speaker" %}</a>
-			<a class="btn btn-small" onclick="meeting_intervention_next({{meeting.id}});"><i class="icon-chevron-right"></i> {% trans "Next speaker" %}</a>
-		</span>
+	<div class="meeting-ongoing">
+		<div class="btn-group meeting-manager">
+			<a class="btn" onclick="meeting_agenda_prev({{meeting.id}});"><i class="icon-chevron-up"></i> {% trans "Previous agenda item" %}</a>
+			<a class="btn" onclick="meeting_agenda_next({{meeting.id}});"><i class="icon-chevron-down"></i> {% trans "Next agenda item" %}</a>
+			<a class="btn" onclick="meeting_intervention_prev({{meeting.id}});"><i class="icon-chevron-left"></i> {% trans "Previous speaker" %}</a>
+			<a class="btn" onclick="meeting_intervention_next({{meeting.id}});"><i class="icon-chevron-right"></i> {% trans "Next speaker" %}</a>
+		</div>
 	</div>
 
 </div>
 
 <div class="btn-toolbar meeting-attendee">
 	<div class="btn-group meeting-ongoing">
-		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 1);"><i class="icon-hand-up"></i> {% trans "Want to talk" %}</a>
-		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 2);"><i class="icon-hand-left"></i> {% trans "Direct response" %}</a>
-		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 3);"><i class="icon-question-sign"></i> {% trans "Clarify" %}</a>
-		<a class="btn btn-small" onclick="meeting_intervention_add({{meeting.id}}, 4);"><i class="icon-info-sign"></i> {% trans "Point of order" %}</a>
+		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 1);"><i class="icon-hand-up"></i> {% trans "Want to talk" %}</a>
+		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 2);"><i class="icon-hand-left"></i> {% trans "Direct response" %}</a>
+		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 3);"><i class="icon-question-sign"></i> {% trans "Clarify" %}</a>
+		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 4);"><i class="icon-info-sign"></i> {% trans "Point of order" %}</a>
 	</div>
 </div>
 
@@ -60,9 +80,12 @@
 
 	</ol>
 	<div id="agenda-item-add" class="hide">
-		<form>
-			<input type="text" placeholder="{% trans "Agenda item title" %}" id="agenda-item-text"/>
-			<a class="btn btn">{% trans "Add" %}</a>
+		<form class="form-inline">
+			<fieldset>
+				<input type="text" placeholder="{% trans "Agenda item title" %}" id="agenda-item-text"/>
+				<a class="btn" onclick="meeting_agenda_add({{meeting.id}}, $('#agenda-item-text').val());">{% trans "Add" %}</a>
+				<a class="btn" onclick="$('#agenda-item-add').hide();">{% trans "Cancel" %}</a>
+			</fieldset>
 		</form>
 	</div>
 </div>
@@ -70,7 +93,8 @@
 
 <script>
 $(function() {
-	window.setInterval(function() { meeting_poll({{meeting.id}}); }, 1000);
+	meeting_id = {{meeting.id}};
+	meeting_timer_start();
 });
 </script>
 
