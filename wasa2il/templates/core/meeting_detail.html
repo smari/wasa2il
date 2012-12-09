@@ -77,14 +77,13 @@
 
 <div class="agenda">
 	<ol id="agenda-items">
-
 	</ol>
 	<div id="agenda-item-add" class="hide">
-		<form class="form-inline">
+		<form class="form-inline" action="#" onsubmit="meeting_agenda_add({{meeting.id}}, $('#agenda-item-text').val()); $('#agenda-item-text').val(''); return false;">
 			<fieldset>
 				<input type="text" placeholder="{% trans "Agenda item title" %}" id="agenda-item-text"/>
-				<a class="btn" onclick="meeting_agenda_add({{meeting.id}}, $('#agenda-item-text').val());">{% trans "Add" %}</a>
-				<a class="btn" onclick="$('#agenda-item-add').hide();">{% trans "Cancel" %}</a>
+				<input type="submit" class="btn" value="{% trans "Add" %}" />
+				<input type="button" class="btn" value="{% trans "Cancel" %}" onclick="$('#agenda-item-add').hide();" />
 			</fieldset>
 		</form>
 	</div>
