@@ -57,6 +57,9 @@
 		</ul>
 	</div>
 	<h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
+
+	<p class="muted">{% trans "Topics are thematic categories that contain specific issues." %}</p>
+
 	<table class="table table-striped table-bordered table-condensed" id="topics_list">
 	<thead>
 	<tr>
@@ -77,6 +80,8 @@
 
 <div class="span6"><a name="documents"></a>
 	<h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
+	
+	<p class="muted">{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
 
 	{% with polity.document_set.all as documents %}
 	{% include "core/_document_list_table.html" %}
@@ -87,6 +92,9 @@
 {% if polity.polity_set.all %}
 <div class="span6"><a name="subpolities"></a>
 	<h2>{% trans "Subpolities" %}</h2>
+
+	<p class="muted">{% trans "A polity can have subordinate organizational units, such as how a municipality relates to a country." %}</p>
+
 	<ul>
 	{% for subpolity in polity.polity_set.all %}
 		<li><a href="/polity/{{subpolity.id}}/">{{subpolity.name}}</a></li>
@@ -105,6 +113,9 @@
 		</ul>
 	</div>
 	<h2>{% trans "Meetings" %} <small>{% trans "physical or virtual" %}</small></h2>
+
+	<p class="muted">{% trans "A meeting is an event where people come together to discuss a set of agenda items." %}</p>
+
 	<table class="table table-striped table-bordered table-condensed">
 	<tr>
 		<th>{% trans "When" %}</th>
@@ -122,9 +133,9 @@
 	{% endfor %}
 	{% for meeting in polity.meetings_upcoming %}
 	<tr>
-		<td>{{meeting.time_starts|date:"d/M/Y h:i"}}</td>
+		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/M/Y h:i"}}</td>
 		<td>{{meeting.where}}</td>
-		<td>{{meeting.get_managers}}</td>
+		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
 		<td>{{meeting.get_status}}</td>
 	</tr>	
 	{% endfor %}
