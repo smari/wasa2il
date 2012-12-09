@@ -176,17 +176,15 @@
 	{% for m in membership_requests %}
 		<li>
 			<a
-				id="membershiprequest_{{m.requestor.id}}"
 				class="thumbnail member membership_request"
 				href="#"
 				data-id="{{m.id}}"
-				data-csrftoken="{{csrf_token}}"
-				onclick="polity_membership_vote({{polity.id}}, {{m.requestor.id}});">
+				data-csrftoken="{{csrf_token}}">
 	            <img src="/static/img/blank-user-icon.jpg" />
 	            <div class="title">
 	                <div class="title">{{m.requestor.username}}</div>
 	                <div class="progress">
-						<div id="membershiprequest_percent_{{m.requestor.id}}" class="bar bar-success" style="width: {{m.votespercent}}%;">
+						<div class="membershiprequest_percent bar bar-success" style="width: {{m.votespercent}}%;">
 							{{m.votes}}/{{m.votesneeded}}
 						</div>
 					</div>
