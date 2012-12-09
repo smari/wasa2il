@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Help"%}: Wasa2il</h1>
+
+{% blocktrans %}
+<p>
+Wasa2il is a participatory democracy software project. It is based around the core
+idea of polities - political entities - which users of the system can join or leave, 
+make proposals in, alter existing proposals, and adopt laws to self-govern.
+</p>
+<p>
+The goal of this is to make it easy for groups on any scale - from the local 
+whiskey club to the largest nation - to self-organize and manage their intents,
+goals and mutual understandings.
+</p>
+<p>
+The word "wasa2il" (pronounced "wasa'il") is from Arabic, where it means "means" - the
+ability to accomplish something. The first part of the word, "wasa", means "liquid", which
+appropriately describes the concept of liquid democracy. We like this mish-mash of meaning,
+but if it doesn't mean much to you, don't worry - it's just a name. You can call it "Bob"
+for all we care.
+<p>
+{% endblocktrans %}
+
+<h2>{% trans "Related help pages" %}</h2>
+<ul>
+	<li><a href="/help/democracy/">{% trans "How does electronic democracy work?" %}</a></li>
+	<li><a href="/help/who/">{% trans "Who can use wasa2il?" %}</a></li>
+</ul>
+
+{% endblock %}

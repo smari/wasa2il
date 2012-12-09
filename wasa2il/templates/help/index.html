@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Help" %}</h1>
+
+<p>{% trans "Hello! Welcome to the Wasa2il help system. Here we will try to help you with all of the problems you might run into when using a direct democracy system." %}</p>
+<p>{% trans "If you ever feel like you aren't getting a good enough explanation, please <a href=\"http://www.github.com/smari/wasa2il/issues\">contact the authors and tell us why!</a>" %}</p>
+
+<ul>
+	<li><a href="/help/wasa2il/">{% trans "What is wasa2il?" %}</a></li>
+	<li><a href="/help/democracy/">{% trans "How does electronic democracy work?" %}</a></li>
+	<li><a href="/help/who/">{% trans "Who can use wasa2il?" %}</a></li>
+	<li><a href="/help/polity/">{% trans "What is a polity?" %}</a></li>
+	<li><a href="/help/topic/">{% trans "What is a topic?" %}</a></li>
+	<li><a href="/help/issue/">{% trans "What is an issue?" %}</a></li>
+	<li><a href="/help/process/">{% trans "What's a sensible process for a polity?" %}</a></li>
+</ul>
+
+{% endblock %}
