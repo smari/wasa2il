@@ -49,6 +49,15 @@ class Polity(BaseIssue, getCreationBase('polity')):
 		return topics
 
 
+	def meetings_upcoming(self):
+		return self.meeting_set.filter(time_started=None)
+
+	def meetings_ongoing(self):
+		return self.meeting_set.filter(time_started__gt=datetime.now(), time_ended=None)
+
+	def meetings_ended(self):
+		return self.meeting_set.filter(time_ended__gt=datetime.now())
+
 
 class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)
@@ -217,6 +226,9 @@ class StatementOption(models.Model):
 
 	
 class Meeting(models.Model):
+	class Meta:
+		ordering	= ["time_starts", "time_ends"]
+
 	user			= models.ForeignKey(User, related_name="created_by")
 	polity			= models.ForeignKey(Polity)
 	time_starts		= models.DateTimeField(blank=True, null=True)
@@ -226,6 +238,16 @@ class Meeting(models.Model):
 	is_agenda_open		= models.BooleanField(default=True)
 	managers		= models.ManyToManyField(User, related_name="managers")
 	attendees		= models.ManyToManyField(User, related_name="attendees")
+
+	def get_status(self):
+		if self.notstarted():
+			return "Not started"
+
+		if self.ongoing():
+			return "Ongoing"
+
+		if self.ended():
+			return "Ended"
 
 	def notstarted(self):
 		if not self.time_started:
