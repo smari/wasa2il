@@ -118,7 +118,7 @@ function meeting_render() {
 		}
 		interventions += "</ol>";
 
-		$("#agenda-items").append("<li data-seqid=\"" + item.id + "\"" + done + ">" + item.item + actions + interventions + "</li>");
+		$("#agenda-items").append("<li data-seqid=\"" + item.id + "\"" + done + "><span class=\"title\">" + item.item + '</span>' + actions + interventions + "</li>");
 	}
 	if (meeting_object.is_agenda_open) {
 		$("#agenda-items").sortable({ update: function(event, ui) {

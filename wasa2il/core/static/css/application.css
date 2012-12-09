@@ -99,10 +99,19 @@ footer {
 	display:	none;
 }
 
+#agenda-items.ui-sortable > li {
+	cursor: move;
+	min-height: 1.5em;
+}
+#agenda-items.ui-sortable-disabled > li {
+	cursor: auto;
+}
+
 .agenda-actions {
 	margin-left:	40px;
 	display:	none;
 	cursor:		pointer;
+	position: absolute;
 }
 
 .agenda-actions:hover {
