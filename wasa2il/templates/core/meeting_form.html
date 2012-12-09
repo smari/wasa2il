@@ -3,18 +3,47 @@
 {% block content %}
 
 <form action="/polity/{{polity.id}}/meeting/new/" method="POST"/>
-{%csrf_token%}
-<table>
-<fieldset>
-{{form.as_table}}
-<tr><td></td><td><button type="submit"/>Save</button></td></tr>
-</fieldset>
-</table>
+	{%csrf_token%}
+	<table>
+		<fieldset>
+			{{form.as_table}}
+			<tr>
+				<td></td>
+				<td>
+					<button type="submit"/>Save</button>
+				</td>
+			</tr>
+		</fieldset>
+	</table>
 </form>
 
 <script>
+
+
+$('#id_time_starts').bind('change', function () {
+
+	var starts = $(this),
+		starts_date = starts.datetimepicker('getDate'),
+		ends = $('#id_time_ends'),
+		ends_date = ends.datetimepicker('getDate');
+
+	if (ends_date == null || starts_date >= ends_date) {
+		ends_date = new Date(starts_date.getTime() + 60 * 60 * 1000);
+		ends.datetimepicker('setDate', ends_date);
+	}
+
+	ends.datetimepicker('option', 'minDate', starts_date);
+	ends.datetimepicker('option', 'minDateTime', starts_date);
+});
+
 $('#id_time_starts').datetimepicker();
 $('#id_time_ends').datetimepicker();
+var next_hour = new Date((new Date()).getTime() + 60 * 60 * 1000);
+next_hour.setMinutes(0)
+next_hour.setSeconds(0)
+next_hour.setMilliseconds(0)
+$('#id_time_starts').datetimepicker('setDate', next_hour)
+
 </script>
 
 {% endblock %}
