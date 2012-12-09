@@ -271,6 +271,13 @@ function meeting_intervention_previous(meeting) {
 function topic_star(topic) {
 	$.getJSON("/api/topic/star/", {"topic": topic}, function(data) {
 		if (data.ok) {
+			if (data.starred) {
+				$("#topicstar_" + topic).removeclass("icon-star-blank");
+				$("#topicstar_" + topic).addclass("icon-star");
+			} else {
+				$("#topicstar_" + topic).removeclass("icon-star");
+				$("#topicstar_" + topic).addclass("icon-star-blank");
+			}
 			topics_render();
 		}
 	});
