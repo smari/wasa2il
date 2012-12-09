@@ -5,7 +5,7 @@
 <div style="float:right">
 	<a class="btn" href="/polity/{{polity.id}}/">{% trans "Back to polity" %}</a>
 </div>
-<h1>{{polity.name}} meeting {{meeting.time_starts|date:"d/m/Y H:i"}}</h1>
+<h1>{{polity.name}} meeting {{meeting.time_starts|date:"d/m/Y H:i"}}{% if meeting %} @ {{meeting.location}}{% endif %}</h1>
 
 <div style="float:right; width: 200px; background: #fff; border: 1px solid #eee; padding-left: 10px; padding-right: 10px;">
 	<h4>{% trans "Attendance list" %}</h4>
