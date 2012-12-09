@@ -231,6 +231,7 @@ class Meeting(models.Model):
 
 	user			= models.ForeignKey(User, related_name="created_by")
 	polity			= models.ForeignKey(Polity)
+	location		= models.CharField(max_length=200, **nullblank)
 	time_starts		= models.DateTimeField(blank=True, null=True)
 	time_started		= models.DateTimeField(blank=True, null=True)
 	time_ends		= models.DateTimeField(blank=True, null=True)
