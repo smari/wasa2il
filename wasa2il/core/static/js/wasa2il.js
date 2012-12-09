@@ -293,20 +293,28 @@ function topics_showstarred_toggle(polity) {
 $(function() {
 
 	$('.membership_request').click(function (e) {
-		var id = $(this).attr('data-id');
+		var self = $(this),
+			id = $(this).attr('data-id');
 
 		$.ajax({
 			url: '/api/polity/membershipvote/',
 			type: 'POST',
 			data: { id: id, csrfmiddlewaretoken: $(this).attr('data-csrftoken') },
-			success: function (e2) {
+			success: function (data) {
+				var user = data
 				if (data.accepted) {
-					$("#membershiprequest_" + user).hide();
+					$(this).find(".membership_request").hide();
 					$("#modal_members_list").append("<a href=\"/accounts/profile/" + data.username + "/\" class=\"thumbnail\">" + data.username + "</a>");
 				} else {
-					$("#membershiprequest_percent_" + user).css("width", data.percent);
-					$("#membershiprequest_percent_" + user).text(data.votes + "/" + data.votesneeded);
+					$(this).find(".membershiprequest_percent").css("width", data.percent);
+					$(this).find(".membershiprequest_percent").text(data.votes + "/" + data.votesneeded);
 				}
+				self.css('opacity', '0.5');
+				self.unbind('click');
+				self.click(function(e3) {
+					e.preventDefault();
+					return false;
+				})
 			},
 			error: function (e2) {
 				alert('Some error happened with voting...');

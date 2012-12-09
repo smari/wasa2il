@@ -121,6 +121,9 @@ class MembershipVote(models.Model):
 		except MembershipRequest.DoesNotExist:
 			logging.error('MembershipRequest object not found for requestor %s (id:%d) and polity %s (id:%d)' % (self.requestor, self.requestor.id, self.polity, self.polity.id))
 
+	def __repr__(self):
+		return 'Vote: %s for %s' % (repr(self.voter), repr(self.user))
+
 	class Meta:
 		unique_together = ( ("voter", "user", "polity"), )
 
@@ -151,6 +154,12 @@ class MembershipRequest(models.Model):
 			self.save()
 
 		return self.fulfilled
+
+	def __unicode__(self):
+		ret = u'Request: %s for %s' % (unicode(self.requestor), self.polity.name)
+		if self.fulfilled:
+			ret += ' (fulfilled)'
+		return ret
 
 
 class Document(NameSlugBase):

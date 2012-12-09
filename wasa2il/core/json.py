@@ -32,7 +32,7 @@ def polity_membershipvote(request):
 	mrequest = MembershipRequest.objects.get(id=id, polity__members=validator)
 	vote, created = MembershipVote.objects.get_or_create(voter=request.user, user=mrequest.requestor, polity=mrequest.polity)
 
-	ctx["accepted"] = mrequest.get_fulfilled()
+	ctx["accepted"] = mrequest.fulfilled
 	ctx["percent"] = mrequest.votespercent()
 	ctx["votes"] = mrequest.votes()
 	ctx["votesneeded"] = mrequest.votesneeded()
