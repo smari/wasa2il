@@ -132,7 +132,7 @@
 	</tr>
 	{% for meeting in polity.meetings_ongoing %}
 	<tr>
-		<td>{{meeting.time_starts|date:"d/M/Y h:i"}}</td>
+		<td>{{meeting.time_starts|date:"d/M/Y H:i"}}</td>
 		<td>{{meeting.where}}</td>
 		<td>{{meeting.get_managers}}</td>
 		<td>{{meeting.get_status}}</td>
@@ -140,7 +140,7 @@
 	{% endfor %}
 	{% for meeting in polity.meetings_upcoming %}
 	<tr>
-		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/M/Y h:i"}}</td>
+		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/M/Y H:i"}}</td>
 		<td>{{meeting.where}}</td>
 		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
 		<td>{{meeting.get_status}}</td>

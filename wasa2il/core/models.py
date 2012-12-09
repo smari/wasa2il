@@ -66,6 +66,9 @@ class Topic(BaseIssue, getCreationBase('topic')):
 	class Meta:
 		ordering	= ["name"]
 
+	def new_comments(self):
+		return Comment.objects.filter(issue__topics=self).order_by("-created")[:10]
+
 
 class UserTopic(models.Model):
 	topic			= models.ForeignKey(Topic)
