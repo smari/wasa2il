@@ -45,9 +45,12 @@
 	</ul>
 </div>
 
-<div><a name="topics"></a>
+<div class="row">
+
+
+<div class="span6"><a name="topics"></a>
 	<h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered table-condensed">
 	<tr>
 		<th>{% trans "Topics" %}</th>
 		<th>{% trans "Issues" %}</th>
@@ -73,7 +76,7 @@
 </div>
 
 
-<div><a name="documents"></a>
+<div class="span6"><a name="documents"></a>
 	<h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
 
 	{% with polity.document_set.all as documents %}
@@ -83,7 +86,7 @@
 
 
 {% if polity.polity_set.all %}
-<div><a name="subpolities"></a>
+<div class="span6"><a name="subpolities"></a>
 	<h2>{% trans "Subpolities" %}</h2>
 	<ul>
 	{% for subpolity in polity.polity_set.all %}
@@ -93,6 +96,7 @@
 </div>
 {% endif %}
 
+</div>
 
 
 <div class="modal hide fade" id="modal_members">
