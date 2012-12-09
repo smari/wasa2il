@@ -2,16 +2,17 @@
 {% load i18n %}
 {% block content %}
 
-<div style="float:right;" class="btn-group">
+<div style="float:right;">
 {% if user_is_member %}
-  <a class="btn" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
-  <a class="btn" href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a>
-  <a class="btn" href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a>
-  <a class="btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a>
+	<a class="btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
 {% endif %}
-{% if not user_is_member and not user_requested_membership %}
-<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
-	{% if polity.invite_threshold == 0 %}
+{% if polity.invite_threshold == 0 %}
+	<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
+{% else %}
+	{% if not user_is_member and not user_requested_membership %}
 	<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
 	{% endif %}
 {% endif %}
@@ -30,18 +31,10 @@
 	<ul class="nav nav-pills">
 		<li><a href="#" onclick="$('#modal_members').modal('show');">{{polity.members.count}} {% trans "members" %}</a></li>
 		<li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
-		<li><a href="#documents">{{polity.document_set.count}} {% trans "documents" %}</a></li>
 		<li><a href="#subpolities">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
-	
-	{% if user_is_member %}
-		{% if polity.invite_threshold > 0 %}
-			{% if membership_requests.count == 0 %}
-			<li class="disabled"><a href="#">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
-			{% else %}
-			<li><a href="#" onclick="$('#modal_requests').modal('show');">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
-			{% endif %}
+		{% if user_is_member %}
+		<li><a href="#" onclick="$('#modal_requests').modal('show');">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
 		{% endif %}
-	{% endif %}	
 	</ul>
 </div>
 
