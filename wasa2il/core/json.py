@@ -527,3 +527,16 @@ def meeting_intervention_add(request):
 	intervention.save()
 
 	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def topic_star(request):
+	topicid = int(request.REQUEST.get('topic', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	topic = get_object_or_404(Topic, id=topicid)
+	
+	return {"ok": True}

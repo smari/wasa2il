@@ -41,6 +41,14 @@ class Topic(BaseIssue, getCreationBase('topic')):
 		ordering	= ["name"]
 
 
+class UserTopic(models.Model):
+	topic			= models.ForeignKey(Topic)
+	user			= models.ForeignKey(User)
+
+	class Meta:
+		unique_together	= (("topic", "user"),)
+
+
 class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)
 	options			= models.ManyToManyField('VoteOption')
