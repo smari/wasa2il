@@ -7,19 +7,12 @@
 </div>
 <h1>{{issue.name}}</h1>
 
-<div style="float: right;">
-	
-</div>
-<p>{{issue.description}}</p>
-
 <div class="row">
-	<div class="span12">
-		<h2>Issue text</h2>
-
-		Here is the text of the proposal.
+	<div class="span6">
+		<p>{{issue.description}}</p>
 	</div>
 
-	<div class="span12"><a name="documents"></a>
+	<div class="span6"><a name="documents"></a>
         <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
 
         {% with issue.document_set.all as documents %}
@@ -28,25 +21,27 @@
 	</div>
 
 
-	<div class="span12">
-		<h2>Comments</h2>
-		{% for comment in issue.comment_set.all %}
-		<div class="comment" id="comment_{{comment.id}}">
-			<div class="comment_created_by"><a href="/accounts/{{comment.created_by}}/">{{comment.created_by}}</a></div>
-			<div class="comment_created">{{comment.created|date:"d/M/Y H:i:s"}}</div>
-			
-			<div class="comment_content">{{comment.comment}}</div>
+	<div class="span6">
+		<h2>{% trans "Discussion" %}</h2>
+		<div id="issue_comments">
 		</div>
-		{% endfor %}
 
-		<div class="comment_form">
-			<table>
-			{{comment_form.as_table}}
-			<td></td><td><button class="btn" onclick="alert('Implement me!');">{% trans "Add comment" %}</button></td>
-			</table>
+		<div class="comment_form form-inline">
+			<textarea id="id_comment" class="span4"></textarea>
+			<button class="btn primary" onclick="issue_comment_send({{issue.id}}, $('#id_comment'));">{% trans "Add comment" %}</button>
 		</div>
 	</div>
 </div>
+
+
+<script>
+$(function() {
+	issue_id = {{issue.id}};
+	issue_poll();
+	issue_timer_start();
+});
+</script>
+
 
 
 {% endblock %}
