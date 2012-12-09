@@ -20,10 +20,3 @@ urlpatterns = patterns('',
 	(r'^accounts/profile/(?P<user>.+)/$', 'core.views.profile'),
 	(r'^accounts/', include('registration.urls')),
 )
-
-urlpatterns += patterns('',
-	(r'^static/(?P<path>.*)$', 'django.views.static.serve',
-		{'document_root': settings.STATIC_ROOT, 'show_indexes': True}
-	),
-)
-
