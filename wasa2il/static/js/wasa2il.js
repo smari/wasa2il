@@ -267,6 +267,15 @@ function meeting_intervention_previous(meeting) {
 	});
 }
 
+
+function topic_star(topic) {
+	$.getJSON("/api/topic/star/", {"topic": topic}, function(data) {
+		if (data.ok) {
+			topics_render();
+		}
+	});
+}
+
 $(function() {
 
 	$('.membership_request').click(function (e) {
@@ -293,3 +302,4 @@ $(function() {
 	});
 
 });
+
