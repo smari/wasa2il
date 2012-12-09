@@ -16,6 +16,14 @@ class BaseIssue(NameSlugBase):
 	description		= models.TextField(**nullblank)
 
 
+class UserProfile(models.Model):
+	user			= models.ForeignKey(User)
+	bio			= models.TextField(**nullblank)
+	picture			= models.ImageField(upload_to="users", **nullblank)
+
+	topics_showall		= models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
+
+
 class Polity(BaseIssue, getCreationBase('polity')):
 	parent			= models.ForeignKey('Polity', help_text="Parent polity",**nullblank)
 	members			= models.ManyToManyField(User)
@@ -31,6 +39,15 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
 	def get_invite_threshold(self):
 		return min(self.members.count(), self.invite_threshold)
+
+	def get_topic_list(self, user):
+		if user.get_profile().topics_showall:
+			topics = Topic.objects.filter(polity=self)
+		else:
+			topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self)]
+
+		return topics
+
 
 
 class Topic(BaseIssue, getCreationBase('topic')):

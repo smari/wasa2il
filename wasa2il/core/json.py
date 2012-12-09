@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import simplejson as json
@@ -534,7 +535,7 @@ def meeting_intervention_add(request):
 def topic_star(request):
 	ctx = {}
 	topicid = int(request.REQUEST.get('topic', 0))
-	if not meetingid:
+	if not topicid:
 		ctx["ok"] = False
 		return ctx	
 		
@@ -550,6 +551,32 @@ def topic_star(request):
 		UserTopic(topic=topic, user=request.user).save()
 		ctx["starred"] = True
 
+	topics = topic.polity.get_topic_list(request.user)
+	ctx["html"] = render_to_string("core/_topic_list_table.html", {"topics": topics, "user": request.user, "polity": topic.polity})
+
 	ctx["ok"] = True
 	
+	return ctx
+
+
+@login_required
+@jsonize
+def topic_showstarred(request):
+	ctx = {}
+	profile = request.user.get_profile()
+	profile.topics_showall = not profile.topics_showall
+	profile.save()
+
+	ctx["showstarred"] = not profile.topics_showall
+
+	polity = int(request.REQUEST.get("polity", 0))
+	if polity:
+		try:
+			polity = Polity.objects.get(id=polity)
+			topics = polity.get_topic_list(request.user)
+			ctx["html"] = render_to_string("core/_topic_list_table.html", {"topics": topics, "user": request.user, "polity": polity})
+		except Exception, e:
+			ctx["error"] = e
+
+	ctx["ok"] = True
 	return ctx

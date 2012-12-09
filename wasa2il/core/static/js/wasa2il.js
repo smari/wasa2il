@@ -271,14 +271,21 @@ function meeting_intervention_previous(meeting) {
 function topic_star(topic) {
 	$.getJSON("/api/topic/star/", {"topic": topic}, function(data) {
 		if (data.ok) {
-			if (data.starred) {
-				$("#topicstar_" + topic).removeclass("icon-star-blank");
-				$("#topicstar_" + topic).addclass("icon-star");
+			$("#topics_list tbody").html(data.html);
+		}
+	});
+}
+
+
+function topics_showstarred_toggle(polity) {
+	$.getJSON("/api/topic/showstarred/", {"polity": polity}, function(data) {
+		if (data.ok) {
+			$("#topics_list tbody").html(data.html);
+			if (data.showstarred) {
+				$("#topics_showstarred_toggle i").removeClass("icon-grey");
 			} else {
-				$("#topicstar_" + topic).removeclass("icon-star");
-				$("#topicstar_" + topic).addclass("icon-star-blank");
+				$("#topics_showstarred_toggle i").addClass("icon-grey");
 			}
-			topics_render();
 		}
 	});
 }

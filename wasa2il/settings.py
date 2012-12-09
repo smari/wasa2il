@@ -146,3 +146,6 @@ LOGGING = {
         },
     }
 }
+
+
+AUTH_PROFILE_MODULE="core.UserProfile"
