@@ -5,9 +5,6 @@
 
 <div style="float:right;" class="btn-group">
 {% if user_is_member %}
-  <a class="btn" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
-  <a class="btn" href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a>
-  <a class="btn" href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a>
   <a class="btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
 {% endif %}
 {% if not user_is_member and not user_requested_membership %}
@@ -54,6 +51,8 @@
 		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
 		<ul class="dropdown-menu" style="left: -150px;">
 			<li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{polity.id}});"><i class="icon-ok {% if user.get_profile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
+			<li><a href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a></li>
+
 		</ul>
 	</div>
 	<h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
@@ -79,6 +78,13 @@
 
 
 <div class="span6"><a name="documents"></a>
+	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+		<ul class="dropdown-menu" style="left: -150px;">
+			<li><a href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a></li>
+
+		</ul>
+	</div>
 	<h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
 	
 	<p class="muted">{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
@@ -107,6 +113,7 @@
 	<div class="btn-group" style="float: right">
 		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
 		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+			<li><a href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a></li>
 			<li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
 			<li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
 			<li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
