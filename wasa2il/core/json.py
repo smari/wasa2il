@@ -532,11 +532,24 @@ def meeting_intervention_add(request):
 @login_required
 @jsonize
 def topic_star(request):
+	ctx = {}
 	topicid = int(request.REQUEST.get('topic', 0))
 	if not meetingid:
 		ctx["ok"] = False
 		return ctx	
 		
 	topic = get_object_or_404(Topic, id=topicid)
+
+	ctx["topic"] = topic.id
+
+	try:
+		ut = UserTopic.objects.get(topic=topic, user=request.user)
+		ut.delete()
+		ctx["starred"] = False
+	except:
+		UserTopic(topic=topic, user=request.user).save()
+		ctx["starred"] = True
+
+	ctx["ok"] = True
 	
-	return {"ok": True}
+	return ctx

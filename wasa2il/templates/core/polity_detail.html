@@ -67,7 +67,7 @@
 	{% for topic in polity.topic_set.all %}
 	<tr>
 		<td>
-			{% if topic|topicfavorited:user %}<i class="icon-star"></i>{% else %}<i class="icon-star-empty"></i>{% endif %} 
+			<a onclick="topic_star({{topic.id}});"><i id="topicstar_{{topic.id}}" class="{% if topic|topicfavorited:user %}icon-star{% else %}icon-star-empty{% endif %}"></i></a> 
 			<a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a>
 		</td>
 		<td>{{topic.issue_set.count}}</td>
