@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load wasa2il %}
 {% block content %}
 
 <div style="float:right;" class="btn-group">
@@ -45,9 +46,18 @@
 	</ul>
 </div>
 
-<div><a name="topics"></a>
+<div class="row">
+
+
+<div class="span6"><a name="topics"></a>
+	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+		<ul class="dropdown-menu" style="left: -150px;">
+			<li><a href="#foo">{% trans "Show only starred topics" %}</a></li>
+		</ul>
+	</div>
 	<h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered table-condensed">
 	<tr>
 		<th>{% trans "Topics" %}</th>
 		<th>{% trans "Issues" %}</th>
@@ -56,7 +66,10 @@
 	</tr>
 	{% for topic in polity.topic_set.all %}
 	<tr>
-		<td><a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a></td>
+		<td>
+			<a onclick="topic_star({{topic.id}});"><i id="topicstar_{{topic.id}}" class="{% if topic|topicfavorited:user %}icon-star{% else %}icon-star-empty{% endif %}"></i></a> 
+			<a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a>
+		</td>
 		<td>{{topic.issue_set.count}}</td>
 		<td>{{topic.issue_set.count}}</td>
 		<td>{{topic.issue_set.count}}</td>
@@ -73,7 +86,7 @@
 </div>
 
 
-<div><a name="documents"></a>
+<div class="span6"><a name="documents"></a>
 	<h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
 
 	{% with polity.document_set.all as documents %}
@@ -83,7 +96,7 @@
 
 
 {% if polity.polity_set.all %}
-<div><a name="subpolities"></a>
+<div class="span6"><a name="subpolities"></a>
 	<h2>{% trans "Subpolities" %}</h2>
 	<ul>
 	{% for subpolity in polity.polity_set.all %}
@@ -93,6 +106,43 @@
 </div>
 {% endif %}
 
+<div class="span6"><a name="meetings"></a>
+	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+			<li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
+			<li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
+			<li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
+		</ul>
+	</div>
+	<h2>{% trans "Meetings" %} <small>{% trans "physical or virtual" %}</small></h2>
+	<table class="table table-striped table-bordered table-condensed">
+	<tr>
+		<th>{% trans "When" %}</th>
+		<th>{% trans "Where" %}</th>
+		<th>{% trans "Organized by" %}</th>
+		<th>{% trans "Status" %}</th>
+	</tr>
+	{% for meeting in polity.meetings_ongoing %}
+	<tr>
+		<td>{{meeting.time_starts|date:"d/M/Y h:i"}}</td>
+		<td>{{meeting.where}}</td>
+		<td>{{meeting.get_managers}}</td>
+		<td>{{meeting.get_status}}</td>
+	</tr>	
+	{% endfor %}
+	{% for meeting in polity.meetings_upcoming %}
+	<tr>
+		<td>{{meeting.time_starts|date:"d/M/Y h:i"}}</td>
+		<td>{{meeting.where}}</td>
+		<td>{{meeting.get_managers}}</td>
+		<td>{{meeting.get_status}}</td>
+	</tr>	
+	{% endfor %}
+	</table>
+</div>
+
+</div>
 
 
 <div class="modal hide fade" id="modal_members">
@@ -152,5 +202,10 @@
   </div>
 </div>
 
+<script>
+$('#meetings-menu').click(function(event){
+     event.stopPropagation();
+ });​
+</script>
 
 {% endblock %}

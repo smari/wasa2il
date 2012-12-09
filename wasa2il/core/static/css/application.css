@@ -99,3 +99,48 @@ footer {
 	display:	none;
 }
 
+.agenda-actions {
+	margin-left:	40px;
+	display:	none;
+	cursor:		pointer;
+}
+
+.agenda-actions:hover {
+	color:		#003;
+}
+
+#agenda-items li:hover > .agenda-actions {
+	display:	inline-block;
+}
+
+#agenda-items li.done {
+	text-decoration: line-through;
+	color: #777;
+}
+
+#agenda-items li.ongoing {
+	font-weight: bold;
+}
+
+#agenda-items li.ongoing:before {
+	font-weight: bold;
+	content: ">> ";
+}
+
+ol.interventions {
+	font-weight: normal;
+}
+
+ol.interventions li.active {
+	font-weight: bold;
+}
+
+ol.interventions li.active:before {
+	font-weight: bold;
+	content: ">> ";
+}
+
+
+.attendancelist li, .managerlist li {
+	display:	block;
+}

@@ -37,6 +37,17 @@ class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
+	class Meta:
+		ordering	= ["name"]
+
+
+class UserTopic(models.Model):
+	topic			= models.ForeignKey(Topic)
+	user			= models.ForeignKey(User)
+
+	class Meta:
+		unique_together	= (("topic", "user"),)
+
 
 class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)
@@ -216,6 +227,17 @@ class Meeting(models.Model):
 		return False
 
 
+class MeetingRules(models.Model):
+	length_intervention		= models.IntegerField(default=300, help_text="The maximum length of an intervention.")
+	length_directresponse	= models.IntegerField(default=60, help_text="The maximum length of a direct response.")
+	length_clarify			= models.IntegerField(default=30, help_text="The maximum length of a clarification.")
+	length_pointoforder		= models.IntegerField(default=60, help_text="The maximum length of a point of order.")
+	max_interventions		= models.IntegerField(default=0, help_text="The maximum number of interventions a user can make in one topic. 0 = unlimited.")
+	max_directresponses		= models.IntegerField(default=0, help_text="The maximum number of direct responses a user can make in one topic. 0 = unlimited.")
+	max_clarify				= models.IntegerField(default=0, help_text="The maximum number of clarifications a user can make in one topic. 0 = unlimited.")
+	max_pointoforder		= models.IntegerField(default=0, help_text="The maximum number of points of order a user can make in one topic. 0 = unlimited.")
+
+
 class MeetingAgenda(models.Model):
 	meeting			= models.ForeignKey(Meeting)
 	item			= models.CharField(max_length=200)
@@ -226,10 +248,11 @@ class MeetingAgenda(models.Model):
 		return self.item
 
 
-class MeetingSpeakers(models.Model):
+class MeetingIntervention(models.Model):
 	meeting			= models.ForeignKey(Meeting)
 	user			= models.ForeignKey(User)
-	motion			= models.CharField(max_length=3)
+	agendaitem		= models.ForeignKey(MeetingAgenda)
+	motion			= models.IntegerField()
 	order			= models.IntegerField()
 	done			= models.IntegerField()	# 0 = Not done, 1 = Active, 2 = Done
 

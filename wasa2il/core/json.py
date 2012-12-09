@@ -10,10 +10,13 @@ from core.models import *
 from core.forms import *
 
 def jsonize(f):
-        def wrapped(*args, **kwargs):
-                return HttpResponse(json.dumps(f(*args, **kwargs)))
+	def wrapped(*args, **kwargs):
+		m = f(*args, **kwargs)
+		if isinstance(m, HttpResponse):
+			return m
+		return HttpResponse(json.dumps(m))
 
-        return wrapped
+	return wrapped
 
 
 @login_required
@@ -116,6 +119,13 @@ def meeting_start(request):
 	meeting.time_started = datetime.now()
 	meeting.save()
 
+	try:
+		ag = meeting.meetingagenda_set.all().order_by("order")[0]
+		ag.done = 1
+		ag.save()
+	except:
+		pass
+
 	return ctx
 
 
@@ -199,7 +209,347 @@ def meeting_poll(request):
 		"attendees": [user.username for user in meeting.attendees.all()],
 		"user_is_manager": request.user in meeting.managers.all(),
 		"user_is_attendee": request.user in meeting.attendees.all(),
+		"agenda": [{"id": i.id, "item":i.item, "order":i.order, "done": i.done, "interventions": 
+			[{"user": x.user.username, "order": x.order, "motion": x.motion, "done": x.done} 
+			for x in i.meetingintervention_set.all()]} 
+			for i in meeting.meetingagenda_set.all().order_by("order")],
 	}
+	ctx["ok"] = True
+	
+	return ctx
+
+
+@login_required
+@jsonize
+def meeting_agenda_add(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not meeting.polity.is_member(request.user):
+		ctx["ok"] = False
+		return ctx	
+
+	ag = MeetingAgenda()
+	ag.meeting = meeting
+	ag.item = request.REQUEST.get("item", "")
+	try:
+		ag.order = meeting.meetingagenda_set.all().order_by("-order")[0].order+1
+	except:
+		ag.order = 1
+
+	ag.done = 0
+	ag.save()
+
+	return meeting_poll(request)
+
+@login_required
+@jsonize
+def meeting_agenda_remove(request):
+	ctx = {}
+
+
+	agendaid = int(request.REQUEST.get('item', 0))
+	if not agendaid:
+		ctx["ok"] = False
+		return ctx	
+		
+	agenda = get_object_or_404(MeetingAgenda, id=agendaid)
+
+	if not agenda.meeting.id == int(request.REQUEST.get('meeting', 0)):
+		ctx["ok"] = False
+		return ctx
+
+	if not agenda.meeting.polity.is_member(request.user):
+		ctx["ok"] = False
+		return ctx	
+
+	agenda.delete()
+
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def meeting_agenda_reorder(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not meeting.polity.is_member(request.user):
+		ctx["ok"] = False
+		return ctx
+
+	order = request.REQUEST.getlist("order[]");
+	for i in range(len(order)):
+		agendaitem = MeetingAgenda.objects.get(id=order[i])
+		agendaitem.order = i
+		agendaitem.save()
+
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def meeting_agenda_open(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not request.user in meeting.managers.all():
+		ctx["ok"] = False
+		return ctx
+
+	meeting.is_agenda_open = True
+	meeting.save()
+
+
+@login_required
+@jsonize
+def meeting_agenda_close(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not request.user in meeting.managers.all():
+		ctx["ok"] = False
+		return ctx
+
+	meeting.is_agenda_open = False
+	meeting.save()
+
+
+@login_required
+@jsonize
+def meeting_agenda_next(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not request.user in meeting.managers.all():
+		ctx["ok"] = False
+		return ctx
+
+	lastag = meeting.meetingagenda_set.filter(done=1)
+	for ag in lastag:
+		ag.done = 2
+		ag.save()
+
+	try:
+		nextag = meeting.meetingagenda_set.filter(done=0).order_by("order")[0]
+		nextag.done = 1
+		nextag.save()
+	except:
+		pass
+
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def meeting_agenda_prev(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not request.user in meeting.managers.all():
+		ctx["ok"] = False
+		return ctx
+
+	lastag = meeting.meetingagenda_set.filter(done=1)
+	for ag in lastag:
+		ag.done = 0
+		ag.save()
+
+	try:
+		nextag = meeting.meetingagenda_set.filter(done=2).order_by("-order")[0]
+		nextag.done = 1
+		nextag.save()
+	except:
+		pass
+
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def meeting_intervention_next(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not request.user in meeting.attendees.all():
+		ctx["ok"] = False
+		return ctx
+
+	try:
+		currentitem = meeting.meetingagenda_set.get(done=1)
+	except:
+		ctx["ok"] = False
+		return ctx
+
+	
+
+
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def meeting_intervention_prev(request):
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def meeting_intervention_add(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not request.user in meeting.attendees.all():
+		ctx["ok"] = False
+		return ctx
+
+	motion = int(request.REQUEST.get('type', 0))
+	if not motion:
+		ctx["ok"] = False
+		return ctx	
+
+	try:
+		currentitem = meeting.meetingagenda_set.get(done=1)
+	except:
+		ctx["ok"] = False
+		return ctx
+
+	intervention = MeetingIntervention()
+	intervention.meeting = meeting
+	intervention.user = request.user
+	intervention.motion = motion
+	intervention.agendaitem = currentitem
+	intervention.done = 0
+
+	if motion == 1:		# Request to speak
+		try:
+			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0]
+			if lastspeak.user == request.user:
+				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
+				return meeting_poll(request)
+		except:
+			pass
+		try:
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0].order+1
+		except:
+			intervention.order = 1
+	elif motion == 2:	# Request to reply directly
+		try:
+			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0]
+			if lastspeak.user == request.user:
+				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
+				return meeting_poll(request)
+		except:
+			pass
+		try:
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0].order+1
+		except:
+			return meeting_poll(request)
+	elif motion == 3:	# Request to clarify
+		try:
+			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0]
+			if lastspeak.user == request.user:
+				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
+				return meeting_poll(request)
+		except:
+			pass
+		try:
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0].order+1
+		except:
+			return meeting_poll(request)
+	elif motion == 4:	# Request to make a point of order
+		try:
+			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3,4]).order_by("-order")[0]
+			if lastspeak.user == request.user:
+				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
+				return meeting_poll(request)
+		except:
+			pass
+
+		try:
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3,4]).order_by("-order")[0].order+1
+		except:
+			intervention.order = 1
+	
+	shift = MeetingIntervention.objects.filter(agendaitem=currentitem, order__gt=intervention.order)
+	for i in shift:
+		i.order += 1
+		i.save()
+		
+	intervention.save()
+
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
+def topic_star(request):
+	ctx = {}
+	topicid = int(request.REQUEST.get('topic', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	topic = get_object_or_404(Topic, id=topicid)
+
+	ctx["topic"] = topic.id
+
+	try:
+		ut = UserTopic.objects.get(topic=topic, user=request.user)
+		ut.delete()
+		ctx["starred"] = False
+	except:
+		UserTopic(topic=topic, user=request.user).save()
+		ctx["starred"] = True
+
 	ctx["ok"] = True
 	
 	return ctx
