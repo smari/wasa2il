@@ -144,3 +144,9 @@ ol.interventions li.active:before {
 .attendancelist li, .managerlist li {
 	display:	block;
 }
+
+
+.icon-grey {
+  background-image: url("../img/glyphicons-halflings-grey.png");
+}
+

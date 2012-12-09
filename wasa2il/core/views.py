@@ -145,6 +145,7 @@ class PolityDetailView(DetailView):
 		ctx["user_requested_membership"] = self.membershiprequest != None
 		ctx["user_requested_membership_now"] = self.requested_membership
 		ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
+		ctx["politytopics"] = self.object.get_topic_list(self.request.user)
 
 		context_data.update(ctx)
 		return context_data

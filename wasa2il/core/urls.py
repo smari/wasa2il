@@ -36,6 +36,7 @@ urlpatterns = patterns('',
 
 	(r'^api/polity/membershipvote/$', polity_membershipvote),
 	(r'^api/topic/star/$', topic_star),
+	(r'^api/topic/showstarred/$', topic_showstarred),
 	(r'^api/document/statement/new/(?P<document>\d+)/(?P<type>\d+)/$', document_statement_new),
 	(r'^api/document/propose/(?P<document>\d+)/(?P<val>\d+)/$', document_propose),
 	(r'^api/meeting/attend/(?P<meeting>\d+)/$', meeting_attend),

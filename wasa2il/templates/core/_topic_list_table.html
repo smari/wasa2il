@@ -1,0 +1,20 @@
+{% load wasa2il %}
+{% load i18n %}
+{% for topic in topics %}
+<tr>
+	<td>
+		<a onclick="topic_star({{topic.id}});"><i id="topicstar_{{topic.id}}" class="icon-star {% if topic|topicfavorited:user %}{% else %}icon-grey{% endif %}"></i></a>
+		<a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a>
+	</td>
+	<td>{{topic.issue_set.count}}</td>
+	<td>{{topic.issue_set.count}}</td>
+	<td>{{topic.issue_set.count}}</td>
+</tr>
+{% empty %}
+<tr>
+	<td colspan="4" style="text-align: center; font-size: 110%;">
+		{% trans "There are no topics in this polity!" %}
+		{% if user_is_member %}<a href="/polity/{{polity.id}}/topic/new/">Start a new topic</a>{% endif %}
+	</td>
+</tr>
+{% endfor %}
