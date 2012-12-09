@@ -107,6 +107,32 @@ def document_propose(request, document, state):
 
 @login_required
 @jsonize
+def issue_comment_send(request):
+	ctx = {}
+	issue = get_object_or_404(Issue, id=request.REQUEST.get("issue", 0))
+	text = request.REQUEST.get("comment")
+	comment = Comment()
+	comment.created_by = request.user
+	comment.comment = text
+	comment.issue = issue
+	comment.save()
+	return issue_poll(request)
+
+
+@login_required
+@jsonize
+def issue_poll(request):
+	issue = get_object_or_404(Issue, id=request.REQUEST.get("issue", 0))
+	ctx = {}
+	comments = [{"id": comment.id, "created_by": comment.created_by.username, "created": str(comment.created), "comment": comment.comment} for comment in issue.comment_set.all().order_by("created")]
+	documents = []
+	ctx["issue"] = {"comments": comments, "documents": documents}
+	ctx["ok"] = True
+	return ctx
+
+
+@login_required
+@jsonize
 def meeting_start(request):
 	ctx = {}
 

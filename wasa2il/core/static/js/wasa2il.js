@@ -2,6 +2,9 @@
 var meeting_object;
 var meeting_timer;
 var meeting_id;
+var issue_timer;
+var issue_object;
+var issue_id;
 
 function document_propose(doc, val) {
 	$.getJSON("/api/propose/", {"document": doc, "status": val}, function(data) {
@@ -289,6 +292,57 @@ function topics_showstarred_toggle(polity) {
 		}
 	});
 }
+
+
+function issue_comment_send(issue, comment) {
+	comment_text = comment.val();
+	if (comment_text == "") { return; }
+	$.getJSON("/api/issue/comment/send/", {"issue": issue, "comment": comment_text}, function(data) {
+		if (data.ok) {
+			comment.val("");
+			issue_object = data.issue;
+			issue_render();
+		} else {
+			// Silent error reporting?
+		}
+	});
+}
+
+
+function issue_timer_start() {
+	issue_timer = window.setInterval(function() { issue_poll(issue_id); }, 5000);
+}
+
+function issue_timer_stop() {
+	window.clearInterval(issue_timer);
+}
+
+
+function issue_poll(issue) {
+	$.getJSON("/api/issue/poll/", {"issue": issue}, function(data) {
+		if (data.ok) {
+			issue_object = data.issue;
+			issue_render();
+		} else {
+			// Silent error reporting?
+		}
+	});
+}
+
+
+function issue_render(issue) {
+	$("#issue_comments").empty();
+	for (i in issue_object.comments) {
+		comment = issue_object.comments[i];
+		div = "<div class=\"comment\" id=\"comment_" + comment.id + "\">";
+		div +=	"<div class=\"comment_created_by\"><a href=\"/accounts/profile/" + comment.created_by + "/\">" + comment.created_by + "</a></div>";
+		div +=	"<div class=\"comment_content\">" + comment.comment + "</div>";
+		div +=	"<div class=\"comment_created\">" + comment.created + "</div>";
+		div += "</div>";
+		$("#issue_comments").append(div);
+	}
+}
+
 
 $(function() {
 
