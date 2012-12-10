@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-15 23:43+0000\n"
+"POT-Creation-Date: 2012-12-09 23:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,497 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: templates/base.html:6
+msgid "wassa2il"
+msgstr ""
+
+#: templates/base.html:50
+msgid "‫وسائل"
+msgstr ""
+
+#: templates/base.html:64 templates/notLoginInHome.html:47
+#: templates/help/index.html:6 templates/help/wasa2il.html:6
+msgid "Help"
+msgstr ""
+
+#: templates/base.html:65
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:67 templates/hom01.html:18
+msgid "Log in"
+msgstr ""
+
+#: templates/base.html:82
+msgid "Back to top"
+msgstr ""
+
+#: templates/base.html:83
+msgid "About wasa2il"
+msgstr ""
+
+#: templates/base.html:84
+msgid "License"
+msgstr ""
+
+#: templates/base.html:85
+msgid "Authors"
+msgstr ""
+
+#: templates/hom01.html:12 templates/notLoginInHome.html:14
+msgid "Sign up"
+msgstr ""
+
+#: templates/hom01.html:13
+msgid "In order to use Wasa2il you need to register an account."
+msgstr ""
+
+#: templates/hom01.html:19
+msgid "If you log in, you can participate in your polities."
+msgstr ""
+
+#: templates/hom01.html:24 templates/notLoginInHome.html:33
+msgid "Browse Polities"
+msgstr ""
+
+#: templates/hom01.html:25
+msgid "You can browse publicly visible polities without registering."
+msgstr ""
+
+#: templates/hom01.html:35
+msgid "FAQ"
+msgstr ""
+
+#: templates/hom01.html:37 templates/help/index.html:15
+msgid "What is a polity?"
+msgstr ""
+
+#: templates/hom01.html:38
+msgid "How electronic democracy work?"
+msgstr ""
+
+#: templates/hom01.html:39
+msgid "Who can use Wasa2il?"
+msgstr ""
+
+#: templates/hom01.html:40
+msgid "What does Wasa2il mean?"
+msgstr ""
+
+#: templates/hom01.html:44
+#, fuzzy
+msgid "New polities"
+msgstr "Nouvelle Communauté"
+
+#: templates/hom01.html:52
+msgid "Recent decisions"
+msgstr ""
+
+#: templates/notLoginInHome.html:23
+msgid "Start a Policy"
+msgstr ""
+
+#: templates/notLoginInHome.html:49
+msgid "Join Code"
+msgstr ""
+
+#: templates/notLoginInHome.html:51
+msgid "Free Software"
+msgstr ""
+
+#: templates/core/_document_list_table.html:4
+msgid "Document"
+msgstr ""
+
+#: templates/core/_document_list_table.html:5
+msgid "Adopted?"
+msgstr ""
+
+#: templates/core/_document_list_table.html:6
+msgid "Proposed?"
+msgstr ""
+
+#: templates/core/_document_list_table.html:7
+msgid "Original author"
+msgstr ""
+
+#: templates/core/_document_list_table.html:8
+msgid "Contributors"
+msgstr ""
+
+#: templates/core/_document_list_table.html:9
+msgid "Last edit"
+msgstr ""
+
+#: templates/core/_document_list_table.html:23
+msgid "There are no documents here!"
+msgstr ""
+
+#: templates/core/_documentsMenu.html:5
+msgid "Your Documents"
+msgstr ""
+
+#: templates/core/_documentsMenu.html:19
+msgid "Proposed Documents"
+msgstr ""
+
+#: templates/core/_documentsMenu.html:33
+msgid "Adopted documents"
+msgstr ""
+
+#: templates/core/_politiesMenu.html:4
+msgid "Your Polities"
+msgstr ""
+
+#: templates/core/_politiesMenu.html:18
+msgid "Other Polities"
+msgstr ""
+
+#: templates/core/_topic_list_table.html:16
+msgid "There are no topics in this polity!"
+msgstr ""
+
+#: templates/core/document_detail.html:13
+msgid "Edit this document"
+msgstr ""
+
+#: templates/core/document_detail.html:14
+#: templates/core/document_update.html:14 templates/core/issue_detail.html:6
+#: templates/core/meeting_detail.html:6 templates/core/topic_detail.html:6
+msgid "Back to polity"
+msgstr ""
+
+#: templates/core/document_detail.html:15
+#: templates/core/document_update.html:15
+msgid "Back to document list"
+msgstr ""
+
+#: templates/core/document_detail.html:23
+#: templates/core/document_update.html:24
+msgid "Assumptions"
+msgstr ""
+
+#: templates/core/document_detail.html:37
+#: templates/core/document_update.html:42
+msgid "Declarations"
+msgstr ""
+
+#: templates/core/document_form.html:4
+msgid "New Document"
+msgstr ""
+
+#: templates/core/document_list.html:7 templates/core/polity_detail.html:84
+msgid "New document"
+msgstr ""
+
+#: templates/core/document_list.html:10 templates/core/issue_detail.html:16
+#: templates/core/polity_detail.html:88 templates/core/polity_list.html:17
+#: templates/core/topic_detail.html:24
+msgid "Documents"
+msgstr ""
+
+#: templates/core/document_update.html:13
+msgid "View this document"
+msgstr ""
+
+#: templates/core/issue_detail.html:16 templates/core/polity_detail.html:88
+msgid "proposed or in progress"
+msgstr ""
+
+#: templates/core/issue_detail.html:25
+msgid "Discussion"
+msgstr ""
+
+#: templates/core/issue_detail.html:31
+msgid "Add comment"
+msgstr ""
+
+#: templates/core/issue_form.html:5 templates/core/topic_detail.html:7
+msgid "New issue"
+msgstr ""
+
+#: templates/core/meeting_detail.html:11
+msgid "Attendance list"
+msgstr ""
+
+#: templates/core/meeting_detail.html:12
+msgid "Attend meeting"
+msgstr ""
+
+#: templates/core/meeting_detail.html:13
+msgid "You can sign in to attendance when the meeting has started."
+msgstr ""
+
+#: templates/core/meeting_detail.html:17
+msgid "Meeting managers"
+msgstr ""
+
+#: templates/core/meeting_detail.html:29
+msgid "This meeting will start in"
+msgstr ""
+
+#: templates/core/meeting_detail.html:30
+msgid "This meeting is ongoing."
+msgstr ""
+
+#: templates/core/meeting_detail.html:31
+msgid "This meeting ended at"
+msgstr ""
+
+#: templates/core/meeting_detail.html:39
+msgid "Ajourn meeting"
+msgstr ""
+
+#: templates/core/meeting_detail.html:40
+msgid "Start meeting"
+msgstr ""
+
+#: templates/core/meeting_detail.html:45
+msgid "Close agenda"
+msgstr ""
+
+#: templates/core/meeting_detail.html:48
+msgid "Open agenda"
+msgstr ""
+
+#: templates/core/meeting_detail.html:53
+msgid "Add agenda item"
+msgstr ""
+
+#: templates/core/meeting_detail.html:59
+msgid "Previous agenda item"
+msgstr ""
+
+#: templates/core/meeting_detail.html:60
+msgid "Next agenda item"
+msgstr ""
+
+#: templates/core/meeting_detail.html:61
+msgid "Previous speaker"
+msgstr ""
+
+#: templates/core/meeting_detail.html:62
+msgid "Next speaker"
+msgstr ""
+
+#: templates/core/meeting_detail.html:70
+msgid "Want to talk"
+msgstr ""
+
+#: templates/core/meeting_detail.html:71
+msgid "Direct response"
+msgstr ""
+
+#: templates/core/meeting_detail.html:72
+msgid "Clarify"
+msgstr ""
+
+#: templates/core/meeting_detail.html:73
+msgid "Point of order"
+msgstr ""
+
+#: templates/core/meeting_detail.html:84
+msgid "Agenda item title"
+msgstr ""
+
+#: templates/core/meeting_detail.html:85
+msgid "Add"
+msgstr ""
+
+#: templates/core/meeting_detail.html:86
+msgid "Cancel"
+msgstr ""
+
+#: templates/core/meeting_detail.html:104
+msgid "Start meeting early?"
+msgstr ""
+
+#: templates/core/meeting_detail.html:107
+msgid "The meeting is scheduled to start at "
+msgstr ""
+
+#: templates/core/meeting_detail.html:108
+msgid "Are you sure you want to start this meeting ahead of schedule?"
+msgstr ""
+
+#: templates/core/meeting_detail.html:111
+msgid "No, don't start the meeting!"
+msgstr ""
+
+#: templates/core/meeting_detail.html:112
+msgid "Yes, start the meeting."
+msgstr ""
+
+#: templates/core/polity_detail.html:8
+#, fuzzy
+msgid "Leave polity"
+msgstr "Nouvelle Communauté"
+
+#: templates/core/polity_detail.html:11
+#, fuzzy
+msgid "Join polity"
+msgstr "Nouvelle Communauté"
+
+#: templates/core/polity_detail.html:13
+msgid "Request to join polity"
+msgstr ""
+
+#: templates/core/polity_detail.html:21
+msgid "Your request to join has been sent."
+msgstr ""
+
+#: templates/core/polity_detail.html:23
+msgid "Your request to join this polity is still pending."
+msgstr ""
+
+#: templates/core/polity_detail.html:29
+msgid "members"
+msgstr ""
+
+#: templates/core/polity_detail.html:30
+msgid "topics"
+msgstr ""
+
+#: templates/core/polity_detail.html:31
+msgid "documents"
+msgstr ""
+
+#: templates/core/polity_detail.html:32
+msgid "subpolities"
+msgstr ""
+
+#: templates/core/polity_detail.html:37 templates/core/polity_detail.html:39
+msgid "membership requests"
+msgstr ""
+
+#: templates/core/polity_detail.html:53
+msgid "Show only starred topics"
+msgstr ""
+
+#: templates/core/polity_detail.html:54
+#, fuzzy
+msgid "New topic"
+msgstr "Nouvelle Communauté"
+
+#: templates/core/polity_detail.html:58 templates/core/polity_detail.html:65
+#: templates/core/polity_list.html:16
+msgid "Topics"
+msgstr ""
+
+#: templates/core/polity_detail.html:58
+msgid "of discussion"
+msgstr ""
+
+#: templates/core/polity_detail.html:60
+msgid "Topics are thematic categories that contain specific issues."
+msgstr ""
+
+#: templates/core/polity_detail.html:66 templates/core/topic_detail.html:22
+msgid "Issues"
+msgstr ""
+
+#: templates/core/polity_detail.html:67
+msgid "Open Issues"
+msgstr ""
+
+#: templates/core/polity_detail.html:68
+msgid "Voting Issues"
+msgstr ""
+
+#: templates/core/polity_detail.html:90
+msgid ""
+"Documents are structured texts which contain the laws of the polity, or "
+"proposals for such laws."
+msgstr ""
+
+#: templates/core/polity_detail.html:100
+msgid "Subpolities"
+msgstr ""
+
+#: templates/core/polity_detail.html:102
+msgid ""
+"A polity can have subordinate organizational units, such as how a "
+"municipality relates to a country."
+msgstr ""
+
+#: templates/core/polity_detail.html:116
+msgid "New meeting"
+msgstr ""
+
+#: templates/core/polity_detail.html:117
+msgid "Show ongoing meetings"
+msgstr ""
+
+#: templates/core/polity_detail.html:118
+msgid "Show upcoming meetings"
+msgstr ""
+
+#: templates/core/polity_detail.html:119
+msgid "Show finished meetings"
+msgstr ""
+
+#: templates/core/polity_detail.html:122
+msgid "Meetings"
+msgstr ""
+
+#: templates/core/polity_detail.html:122
+msgid "physical or virtual"
+msgstr ""
+
+#: templates/core/polity_detail.html:124
+msgid ""
+"A meeting is an event where people come together to discuss a set of agenda "
+"items."
+msgstr ""
+
+#: templates/core/polity_detail.html:128
+msgid "When"
+msgstr ""
+
+#: templates/core/polity_detail.html:129
+msgid "Where"
+msgstr ""
+
+#: templates/core/polity_detail.html:130
+msgid "Organized by"
+msgstr ""
+
+#: templates/core/polity_detail.html:131
+msgid "Status"
+msgstr ""
+
+#: templates/core/polity_detail.html:158
+msgid "Members of this polity"
+msgstr ""
+
+#: templates/core/polity_detail.html:170 templates/core/polity_detail.html:206
+msgid "Close"
+msgstr ""
+
+#: templates/core/polity_detail.html:178
+msgid "Users requesting membership"
+msgstr ""
+
+#: templates/core/polity_detail.html:214
+msgid "Leave this polity?"
+msgstr ""
+
+#: templates/core/polity_detail.html:217
+msgid "Are you sure you want to stop being a member of this polity?"
+msgstr ""
+
+#: templates/core/polity_detail.html:219
+msgid "Only members get to participate in the polity's activities."
+msgstr ""
+
+#: templates/core/polity_detail.html:223
+msgid "No, I hit that button by accident"
+msgstr ""
+
+#: templates/core/polity_detail.html:224
+msgid "Yes, I want to leave this polity."
+msgstr ""
 
 #: templates/core/polity_list.html:7
 msgid "New polity"
@@ -34,6 +525,104 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: templates/core/polity_list.html:16
-msgid "Topics"
+#: templates/core/topic_detail.html:21
+msgid "ID"
+msgstr ""
+
+#: templates/core/topic_detail.html:23
+msgid "State"
+msgstr ""
+
+#: templates/core/topic_detail.html:25
+msgid "Comments"
+msgstr ""
+
+#: templates/core/topic_detail.html:26
+msgid "Votes"
+msgstr ""
+
+#: templates/core/topic_detail.html:42
+msgid "New discussions"
+msgstr ""
+
+#: templates/core/topic_detail.html:47
+msgid "in"
+msgstr ""
+
+#: templates/help/index.html:8
+msgid ""
+"Hello! Welcome to the Wasa2il help system. Here we will try to help you with "
+"all of the problems you might run into when using a direct democracy system."
+msgstr ""
+
+#: templates/help/index.html:9
+msgid ""
+"If you ever feel like you aren't getting a good enough explanation, please "
+"<a href=\\"
+msgstr ""
+
+#: templates/help/index.html:12
+msgid "What is wasa2il?"
+msgstr ""
+
+#: templates/help/index.html:13 templates/help/wasa2il.html:30
+msgid "How does electronic democracy work?"
+msgstr ""
+
+#: templates/help/index.html:14 templates/help/wasa2il.html:31
+msgid "Who can use wasa2il?"
+msgstr ""
+
+#: templates/help/index.html:16
+msgid "What is a topic?"
+msgstr ""
+
+#: templates/help/index.html:17
+msgid "What is an issue?"
+msgstr ""
+
+#: templates/help/index.html:18
+msgid "What's a sensible process for a polity?"
+msgstr ""
+
+#: templates/help/wasa2il.html:8
+msgid ""
+"\n"
+"<p>\n"
+"Wasa2il is a participatory democracy software project. It is based around "
+"the core\n"
+"idea of polities - political entities - which users of the system can join "
+"or leave, \n"
+"make proposals in, alter existing proposals, and adopt laws to self-govern.\n"
+"</p>\n"
+"<p>\n"
+"The goal of this is to make it easy for groups on any scale - from the "
+"local \n"
+"whiskey club to the largest nation - to self-organize and manage their "
+"intents,\n"
+"goals and mutual understandings.\n"
+"</p>\n"
+"<p>\n"
+"The word \"wasa2il\" (pronounced \"wasa'il\") is from Arabic, where it means "
+"\"means\" - the\n"
+"ability to accomplish something. The first part of the word, \"wasa\", means "
+"\"liquid\", which\n"
+"appropriately describes the concept of liquid democracy. We like this mish-"
+"mash of meaning,\n"
+"but if it doesn't mean much to you, don't worry - it's just a name. You can "
+"call it \"Bob\"\n"
+"for all we care.\n"
+"<p>\n"
+msgstr ""
+
+#: templates/help/wasa2il.html:28
+msgid "Related help pages"
+msgstr ""
+
+#: templates/registration/activate.html:5
+msgid "Welcome to Wasa2il!"
+msgstr ""
+
+#: templates/registration/activate.html:6
+msgid "You are now successfully signed up. Sign in to start having fun!"
 msgstr ""

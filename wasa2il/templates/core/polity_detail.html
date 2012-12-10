@@ -5,7 +5,7 @@
 
 <div style="float:right;" class="btn-group">
 {% if user_is_member %}
-  <a class="btn" href="/polity/{{polity.id}}/leave/">{% trans "Leave polity" %}</a>
+  <a class="btn" onclick="$('#leave_polity').modal('show');">{% trans "Leave polity" %}</a>
 {% endif %}
 {% if not user_is_member and not user_requested_membership %}
 <a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
@@ -132,16 +132,16 @@
 	</tr>
 	{% for meeting in polity.meetings_ongoing %}
 	<tr>
-		<td>{{meeting.time_starts|date:"d/M/Y H:i"}}</td>
-		<td>{{meeting.where}}</td>
-		<td>{{meeting.get_managers}}</td>
+		<td>{{meeting.time_starts|date:"d/m/Y H:i"}}</td>
+		<td>{{meeting.location}}</td>
+		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
 		<td>{{meeting.get_status}}</td>
 	</tr>	
 	{% endfor %}
 	{% for meeting in polity.meetings_upcoming %}
 	<tr>
-		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/M/Y H:i"}}</td>
-		<td>{{meeting.where}}</td>
+		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</td>
+		<td>{{meeting.location}}</td>
 		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
 		<td>{{meeting.get_status}}</td>
 	</tr>	
@@ -206,6 +206,25 @@
     <a onclick="$('#modal_requests').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
   </div>
 </div>
+
+
+<div id="leave_polity" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{% trans "Leave this polity?" %}</h3>
+  </div>
+  <div class="modal-body">
+  	<p>{% trans "Are you sure you want to stop being a member of this polity?" %}.</p>
+    <p>
+    	{% trans "Only members get to participate in the polity's activities." %}
+    </p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" onclick="$('#leave_polity').modal('hide');" class="btn">{% trans "No, I hit that button by accident" %}</a>
+    <a href="/polity/{{polity.id}}/leave/" class="btn btn-primary">{% trans "Yes, I want to leave this polity." %}</a>
+  </div>
+</div>
+
 
 <script>
 $('#meetings-menu').click(function(event){
