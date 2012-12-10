@@ -23,4 +23,6 @@ urlpatterns = patterns('',
 
 	(r'^help/$', direct_to_template, {"template": "help/index.html"}),
 	(r'^help/(?P<page>.*)/$', "core.views.help"),
+
+	(r'^static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': 'core/static/'}),
 )
