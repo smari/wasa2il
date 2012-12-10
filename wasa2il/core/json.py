@@ -558,6 +558,31 @@ def meeting_intervention_add(request):
 
 @login_required
 @jsonize
+def meeting_manager_add(request):
+	ctx = {}
+
+	meetingid = int(request.REQUEST.get('meeting', 0))
+	if not meetingid:
+		ctx["ok"] = False
+		return ctx	
+		
+	meeting = get_object_or_404(Meeting, id=meetingid)
+
+	if not request.user in meeting.managers.all():
+		ctx["ok"] = False
+		return ctx
+
+	try:
+		u = user.objects.get(username=request.REQUEST.get("user", ""))
+		meeting.managers.add(u)
+	except:
+		pass
+
+	return meeting_poll(request)
+
+
+@login_required
+@jsonize
 def topic_star(request):
 	ctx = {}
 	topicid = int(request.REQUEST.get('topic', 0))

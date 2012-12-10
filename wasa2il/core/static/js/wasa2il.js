@@ -271,6 +271,16 @@ function meeting_intervention_previous(meeting) {
 }
 
 
+function meeting_manager_add(username) {
+	$.getJSON("/api/meeting/manager/add/", {"meeting": meeting_id, "user": username}, function(data) {
+		if (data.ok) {
+			meeting_object = data.meeting;
+			meeting_render();
+		}
+	})
+}
+
+
 function topic_star(topic) {
 	$.getJSON("/api/topic/star/", {"topic": topic}, function(data) {
 		if (data.ok) {
