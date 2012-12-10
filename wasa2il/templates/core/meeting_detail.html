@@ -21,7 +21,7 @@
 		<b>Add meeting manager</b>
 		<div class="form-inline">
 			<input type="text" class="input-small" id="meeting_manager_add"/>
-			<a class="btn btn-small" id="meeting_manager_add_btn"/>Arr</a>
+			<a onclick="meeting_manager_add($('#meeting_manager_add').val());" class="btn btn-small" id="meeting_manager_add_btn"/>{% trans "Add" %}</a>
 		</div>
 	</div>
 </div>
@@ -37,10 +37,10 @@
 		<span class="meeting-manager">
 			<span class="meeting-ongoing">
 			<a class="btn btn-warning" onclick="meeting_end({{meeting.id}});"><i class="icon-stop"></i> {% trans "Ajourn meeting" %}</a></span>
-			<span class="meeting-notongoing"><a class="btn btn-success" onclick="meeting_start({{meeting.id}});"><i class="icon-play"></i> {% trans "Start meeting" %}</a></span>
+			<span class="meeting-notstarted"><a class="btn btn-success" onclick="meeting_start({{meeting.id}});"><i class="icon-play"></i> {% trans "Start meeting" %}</a></span>
 		</span>
 
-		<span class="meeting-manager">
+		<span class="meeting-manager meeting-notended">
 			<span class="meeting-agendaopen">
 				<a class="btn" onclick="meeting_agenda_close({{meeting.id}});"><i class="icon-lock"></i> {% trans "Close agenda" %}</a>	
 			</span>
