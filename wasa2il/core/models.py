@@ -23,6 +23,9 @@ class UserProfile(models.Model):
 
 	topics_showall		= models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
 
+	def __unicode__(self):
+		return 'Profile for %s (%d)' % (unicode(self.user), self.user.id)
+
 
 class Polity(BaseIssue, getCreationBase('polity')):
 	parent			= models.ForeignKey('Polity', help_text="Parent polity",**nullblank)
