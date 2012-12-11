@@ -2,13 +2,21 @@
 {% load i18n %}
 {% block content %}
 <h1>{%trans "New Document"%}</h1>
-
-<p>
+{% if polity %}
+	<p>{% trans "In polity:" %} <a href="/polity/{{polity.id}}/">{{polity.name}}</a></p>
+{% endif %}
+{% if issues %}
+	<p>{% if issues.length > 1 %}{% trans "Related to issues:" %}{% else %}{% trans "Related to issue:"%}{% endif %}
+	{% for i in issues %}
+		<a href="/issue/{{i.id}}">{{i.name}}</a>{% if not forloop.last %}, {% endif %}
+	{% endfor %}
+	</p>
+{% endif %}
 <form action="/polity/{{polity.id}}/document/new/" method="POST"/>
 {%csrf_token%}
 <table>
 {{form.as_table}}
-<tr><td></td><td><button type="submit"/>Save</button></td></tr>
+<tr><td></td><td><button type="submit"/>{% trans "Save" %}</button></td></tr>
 </table>
 </form>
 </p>

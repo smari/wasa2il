@@ -10,7 +10,7 @@ class TopicForm(ModelForm):
 class IssueForm(ModelForm):
 	class Meta:
 		model = Issue
-		exclude = ('slug', 'topics', 'options')
+		exclude = ('slug', 'options')
 
 
 class CommentForm(ModelForm):
@@ -22,7 +22,7 @@ class CommentForm(ModelForm):
 class DocumentForm(ModelForm):
 	class Meta:
 		model = Document
-		exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug')
+		exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug', 'issues')
 
 class PolityForm(ModelForm):
 	class Meta:
