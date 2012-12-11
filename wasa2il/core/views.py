@@ -123,13 +123,14 @@ class PolityDetailView(DetailView):
 			self.membershiprequest, self.requested_membership = MembershipRequest.objects.get_or_create(polity=self.object, requestor=self.request.user)
 
 			# See if we have already satisfied the limits
-			if self.membershiprequest.votes() >= invite_threshold:
+			print self.membershiprequest.votes(), invite_threshold
+			if self.membershiprequest.votes() >= invite_threshold and self.membershiprequest.left == False:
 				self.object.members.add(self.request.user)
 				self.membershiprequest.fulfilled = True
 				self.membershiprequest.save()
 		else:
 			try:
-				self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user)
+				self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user, pending=True)
 			except:
 				self.membershiprequest = None
 			

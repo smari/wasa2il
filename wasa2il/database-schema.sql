@@ -120,6 +120,7 @@ CREATE TABLE "core_membershiprequest" (
     "polity_id" integer NOT NULL REFERENCES "core_polity" ("baseissue_ptr_id"),
     "fulfilled" bool NOT NULL,
     "fulfilled_timestamp" datetime,
+    "left" bool NOT NULL,
     UNIQUE ("requestor_id", "polity_id")
 )
 ;
