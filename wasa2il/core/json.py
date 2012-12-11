@@ -52,7 +52,7 @@ def document_statement_new(request, document, type):
 	s.document = get_object_or_404(Document, id=document)
 	s.type = type
 
-	if s.document.proposed:
+	if s.document.is_proposed:
 		if s.user not in s.document.polity.members.all():
 			return {"error": 403}
 	else:

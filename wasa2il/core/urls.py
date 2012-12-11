@@ -13,6 +13,10 @@ urlpatterns = patterns('',
 	(r'^polity/new/$',					login_required(PolityCreateView.as_view())),
 
 	(r'^issue/(?P<issue>\d+)/document/new/',			login_required(DocumentCreateView.as_view())),
+	(r'^issue/(?P<pk>\d+)/edit/$',						login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
+	(r'^issue/(?P<pk>\d+)/$',							login_required(IssueDetailView.as_view())),
+
+	(r'^polity/(?P<polity>\d+)/issue/new/$',				login_required(IssueCreateView.as_view())),
 
 	(r'^polity/(?P<polity>\d+)/document/$',				login_required(DocumentListView.as_view())),
 	(r'^polity/(?P<polity>\d+)/document/new/$',			login_required(DocumentCreateView.as_view())),
@@ -31,11 +35,6 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/topic/new/$',		login_required(TopicCreateView.as_view())),
 	(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
 	(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Topic, context_object_name="topic"))),
-
-	(r'^polity/(?P<polity>\d+)/issue/new/$',							login_required(IssueCreateView.as_view())),
-	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issues/new/$',		login_required(IssueCreateView.as_view())),
-	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issue/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
-	(r'^polity/(?P<polity>\d+)/topic/(?P<topic>\d+)/issue/(?P<pk>\d+)/$',	login_required(IssueDetailView.as_view())),
 
 	(r'^api/polity/membershipvote/$', polity_membershipvote),
 	(r'^api/topic/star/$', topic_star),

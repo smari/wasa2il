@@ -76,17 +76,15 @@ class IssueCreateView(CreateView):
 	context_object_name = "issue"
 	template_name = "core/issue_form.html"
 	form_class = IssueForm
-	success_url="/polity/%(polity)d/topic/%(id)d/"
+	success_url="/issue/%(id)d/"
 
 	def dispatch(self, *args, **kwargs):
 		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-		self.topic = [get_object_or_404(Topic, id=kwargs["topic"])]
-		self.success_url = "/polity/" + str(self.polity.id) + "/topic/" + str(self.topic.id) + "/issue/%(id)d/"
 		return super(IssueCreateView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(IssueCreateView, self).get_context_data(*args, **kwargs)
-		context_data.update({'polity': self.topic.polity, 'topic': self.topic})
+		context_data.update({'polity': self.polity})
 		return context_data
 
 	def form_valid(self, form):
@@ -175,17 +173,28 @@ class DocumentCreateView(CreateView):
 	context_object_name = "document"
 	template_name = "core/document_form.html"
 	form_class = DocumentForm
-	success_url="/polity/%(polity)d/document/%(id)d/"
+	success_url="/document/%(id)d/"
 
 
 	def dispatch(self, *args, **kwargs):
-		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-		self.success_url = "/polity/" + str(self.polity.id) + "/document/$(id)d/"
+		try:
+			self.issues = [get_object_or_404(Issue, id=kwargs["issue"])]
+		except:
+			self.issues = []
+		try:
+			self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		except:
+			self.polity = None
+
+		if len(self.issues) > 0 and not self.polity:
+			self.polity = self.issues[0].polity
+
 		return super(DocumentCreateView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(DocumentCreateView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
+		context_data.update({'issues': self.issues})
 		return context_data
 
 	def form_valid(self, form):
