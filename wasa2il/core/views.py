@@ -80,7 +80,7 @@ class IssueCreateView(CreateView):
 
 	def dispatch(self, *args, **kwargs):
 		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-		self.topic = get_object_or_404(Topic, id=kwargs["topic"])
+		self.topic = [get_object_or_404(Topic, id=kwargs["topic"])]
 		self.success_url = "/polity/" + str(self.polity.id) + "/topic/" + str(self.topic.id) + "/issue/%(id)d/"
 		return super(IssueCreateView, self).dispatch(*args, **kwargs)
 

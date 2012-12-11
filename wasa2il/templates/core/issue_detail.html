@@ -8,20 +8,23 @@
 <h1>{{issue.name}}</h1>
 
 <div class="row">
-	<div class="span6">
+	<div class="span6 pull-left">
 		<p>{{issue.description}}</p>
 	</div>
 
-	<div class="span6"><a name="documents"></a>
+	<div class="span6 pull-right"><a name="documents"></a>
+		<div class="btn-group" style="float: right">
+			<a class="btn btn-mini" href="/issue/{{issue.id}}/document/new/">{% trans "New document" %}</a>
+		</div>
         <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
-
+		<p>{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
         {% with issue.document_set.all as documents %}
         {% include "core/_document_list_table.html" %}
         {% endwith %}
 	</div>
 
 
-	<div class="span6">
+	<div class="span6 pull-left">
 		<h2>{% trans "Discussion" %}</h2>
 		<div id="issue_comments">
 		</div>
