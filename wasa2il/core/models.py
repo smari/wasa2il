@@ -133,7 +133,7 @@ class MembershipVote(models.Model):
 		super(MembershipVote, self).save(*args, **kwargs)
 		try:
 			m = MembershipRequest.objects.get(requestor=self.user, polity=self.polity)
-			if m.get_fulfilled():
+			if m.get_fulfilled() and m.left == False:
 				logging.debug('fulfilled!')
 				self.polity.members.add(self.user)
 		except MembershipRequest.DoesNotExist:
@@ -151,6 +151,7 @@ class MembershipRequest(models.Model):
 	polity			= models.ForeignKey(Polity)
 	fulfilled		= models.BooleanField(default=False)
 	fulfilled_timestamp	= models.DateTimeField(null=True)
+	left			= models.BooleanField(default=False)
 
 	class Meta:
 		unique_together = ( ("requestor", "polity"), )
