@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Help"%}: {% trans "Agreements" %}</h1>
+
+{% blocktrans %}
+<p>
+<a href="/help/polity/">Polities</a> are groups of people who come together to make decisions and enact their will.
+The decisions they make collectively are <b>agreements</b>. An agreement is generally made about a document, which
+generally consists of a list of statements which the members of the polity generally agree to.
+</p>
+<p>
+There's a lot of "generally" in there, because different polities do things in different ways.
+</p>
+<h3>Conditions of adoption</h3>
+<p>
+Depending on the rules of the polity, different conditions may apply to how an agreement gets accepted.
+When an agreement has been accepted under the rules of a polity, it is normally said that it has been "adopted".
+In the most simple approach, if more than half of the members of the polity who participate in a vote on the matter
+agree, then the relevant document gets adopted.
+</p>
+<p>More complicated methods might require consensus (everybody agrees), some other amount of support (say, 2/3), or
+there could be a minimum number of members required to cast votes in order for it to be adopted.
+</p>
+<p>A more obscure, but interesting condition, is "rolling adoption" - that at every point in time, enough
+members of the polity must accept the document for it to remain adopted, otherwise it becomes "unadopted".
+This requires that new members go through previous agreements and acccept or reject them, otherwise they
+might simply be aged out of the polity.
+</p>
+<h3>Document structure</h3>
+<p>
+Depending on the rules of the polity, an agreement document may have very varying structure. A common example for international treaties is that documents
+consist of references to previous agreements, followed by a list of assumptions made by the authors of the agreement, followed by a list of declarations
+which the signatory polities agree to. <a href="http://www.europarl.europa.eu/sides/getDoc.do?pubRef=-//EP//NONSGML+WDECL+P7-DCL-2010-0047+0+DOC+PDF+V0//EN&language=EN">Here is a delightful example</a> - hover over different parts to see what they're for.
+<div style="margin: 20px; margin-left:  50px; width: 500px; padding: 30px; border: 1px solid #000;">
+	<p><b>0047/2010</b></p>
+	<p id="expl_title"><b>Written declaration on the establishment of European Home-Made Ice Cream Day</b></p>
+	<p id="expl_polity"><i>The European Parliament,</i></p>
+	<p id="expl_reference">&mdash;&nbsp;&nbsp; having regard to Rule 123 of its Rules of Procedure,</p>
+	<ol type="A" id="expl_assumptions">
+		<li>whereas the quality of food is a distinctive feature of European products and home-made ice cream is synonymous 
+		with quality as far as fresh dairy products are concerned,</li>
+		<li>whereas in some areas home-made ice cream is a typical food product in the fresh dairy 
+product category and can therefore contribute to the development of such areas,</li>
+		<li>whereas turnover in the home-made ice cream industry in Europe and in other countries is 
+continually on the rise, employing an ever increasing number of workers in the sector,</li>
+	</ol>
+	<ol id="expl_declarations">
+		<li>Calls on the Member States to support the quality product that is home-made ice cream as 
+an area of competitiveness for our economies, an important choice to back given the 
+current crisis affecting the dairy sector;</li>
+		<li>Considers it important, to that end, to establish European Home-Made Ice Cream Day, to 
+be celebrated on 24 March, to contribute to the growth of this industry;</li>
+		<li>Instructs its President to forward this declaration, together with the names of the 
+signatories, to the governments and parliaments of the Member States.</li>
+	</ol>
+</div>
+</p>
+{% endblocktrans %}
+
+<script>
+$("#expl_title").popover({trigger:'hover', title:"{% trans "The title"%}", content:"{% trans "Agreements may have various forms of reference. One is a reference number, which should be unique and cannonical. Another is a human readable title that is descriptive. Some polities might choose not to use either one, but rules around this should generally be decided on."%}"});
+$("#expl_polity").popover({trigger:'hover', title:"{% trans "The polity"%}", content:"{% trans "Many polities make sure that their agreements contain their name, so as not to be confusing."%}"});
+$("#expl_reference").popover({trigger:'hover', title:"{% trans "References section" %}", content:"{% trans "In the references section, a polity may choose to include references to previous agreements, or articles in those agreements."%}"});
+$("#expl_assumptions").popover({trigger:'hover', title:"{% trans "Assumptions section" %}", content:"{% trans "The assumptions section generally contains a list of assumptions that are being made. Often these are factual references, or slightly more oblique references to previous decisions. Sometimes they're bizzarre statements of opinion, or even, if used incorrectly, declarations of their own right."%}"});
+$("#expl_declarations").popover({trigger:'hover', title:"{% trans "Declarations section" %}", content:"{% trans "This is the meat of the agreement. It contains one or more statements which are considered to be agreed upon by the polity when the document is adopted. One might even call this the law."%}"});
+</script>
+
+<h2>{% trans "Related help pages" %}</h2>
+<ul>
+	<li><a href="/help/democracy/">{% trans "How does electronic democracy work?" %}</a></li>
+</ul>
+
+{% endblock %}
