@@ -1,0 +1,5 @@
+You can go to the .git/hooks directory (at the root of this git repository) and create symlinks to the hooks found here.
+
+E.g.
+
+    $ ln -s ../../wasa2il/git-hooks/*
