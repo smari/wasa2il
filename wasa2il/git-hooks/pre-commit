@@ -1,0 +1,8 @@
+#!/bin/sh
+
+BASE=`dirname $GIT_DIR`
+cd wasa2il
+python manage.py sqlall core > database-schema.sql
+cd ..
+git add wasa2il/database-schema.sql
+exit 0
