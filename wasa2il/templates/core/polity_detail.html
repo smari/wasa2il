@@ -46,8 +46,9 @@
 <div class="row">
 
 
-<div class="span6"><a name="topics"></a>
+<div class="span6 pull-left"><a name="topics"></a>
 	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a>
 		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
 		<ul class="dropdown-menu" style="left: -150px;">
 			<li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{polity.id}});"><i class="icon-ok {% if user.get_profile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
@@ -77,39 +78,7 @@
 </div>
 
 
-<div class="span6"><a name="documents"></a>
-	<div class="btn-group" style="float: right">
-		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-		<ul class="dropdown-menu" style="left: -150px;">
-			<li><a href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a></li>
-
-		</ul>
-	</div>
-	<h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
-	
-	<p class="muted">{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
-
-	{% with polity.document_set.all as documents %}
-	{% include "core/_document_list_table.html" %}
-	{% endwith %}
-</div>
-
-
-{% if polity.polity_set.all %}
-<div class="span6"><a name="subpolities"></a>
-	<h2>{% trans "Subpolities" %}</h2>
-
-	<p class="muted">{% trans "A polity can have subordinate organizational units, such as how a municipality relates to a country." %}</p>
-
-	<ul>
-	{% for subpolity in polity.polity_set.all %}
-		<li><a href="/polity/{{subpolity.id}}/">{{subpolity.name}}</a></li>
-	{% endfor %}
-	</ul>
-</div>
-{% endif %}
-
-<div class="span6"><a name="meetings"></a>
+<div class="span6 pull-right"><a name="meetings"></a>
 	<div class="btn-group" style="float: right">
 		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
 		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
@@ -148,6 +117,41 @@
 	{% endfor %}
 	</table>
 </div>
+
+
+
+{% if polity.polity_set.all %}
+<div class="span6 pull-left"><a name="subpolities"></a>
+	<h2>{% trans "Subpolities" %}</h2>
+
+	<p class="muted">{% trans "A polity can have subordinate organizational units, such as how a municipality relates to a country." %}</p>
+
+	<ul>
+	{% for subpolity in polity.polity_set.all %}
+		<li><a href="/polity/{{subpolity.id}}/">{{subpolity.name}}</a></li>
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
+
+<div class="span6 pull-right"><a name="documents"></a>
+	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+		<ul class="dropdown-menu" style="left: -150px;">
+			<li><a href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a></li>
+
+		</ul>
+	</div>
+	<h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
+	
+	<p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
+
+	{% with polity.agreements as documents %}
+	{% include "core/_document_agreement_list_table.html" %}
+	{% endwith %}
+</div>
+
 
 </div>
 

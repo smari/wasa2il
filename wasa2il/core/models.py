@@ -61,6 +61,9 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	def meetings_ended(self):
 		return self.meeting_set.filter(time_ended__gt=datetime.now())
 
+	def agreements(self):
+		return self.document_set.filter(is_adopted=True)
+
 
 class Topic(BaseIssue, getCreationBase('topic')):
 	polity			= models.ForeignKey(Polity)
@@ -178,7 +181,8 @@ class MembershipRequest(models.Model):
 
 
 class Document(NameSlugBase):
-	issue			= models.ForeignKey(BaseIssue)
+	polity			= models.ForeignKey(Polity)
+	issues			= models.ManyToManyField(Issue)
 	user			= models.ForeignKey(User)
 	is_adopted		= models.BooleanField(default=False)
 	is_proposed		= models.BooleanField(default=False)
@@ -195,7 +199,9 @@ class Document(NameSlugBase):
 	def get_declarations(self):
 		return self.statement_set.filter(type__in=[2,3])
 
-	pass
+	def support(self):
+		# % of support for the document in its polity.
+		return 100
 
 
 class Statement(models.Model):
@@ -219,9 +225,11 @@ class Statement(models.Model):
 		if self.type == 0:
 			try:
 				doc = Document.objects.get(id=text)
+				# FIXME: BLERGH!!!!
 				return u"Með tilvísun í <a href=\"/polity/%d/document/%d/\">%s</a>" % (doc.polity.id, doc.id, doc.name)
 			except Exception, e:
 				print e
+				# FIXME: BLERGH!!!!
 				return u"Með tilvísun í óþekkt skjal."
 		else:
 			return text
