@@ -232,7 +232,7 @@ def meeting_poll(request):
 		"is_not_started": meeting.notstarted(),
 		"is_ongoing": meeting.ongoing(),
 		"is_ended": meeting.ended(),
-		"managers": [user.username for user in meeting.managers.all()],
+		"managers": [{'username': user.username, 'id': user.id, 'str': user.get_full_name() or str(user)} for user in meeting.managers.all()],
 		"attendees": [user.username for user in meeting.attendees.all()],
 		"user_is_manager": request.user in meeting.managers.all(),
 		"user_is_attendee": request.user in meeting.attendees.all(),
@@ -639,7 +639,7 @@ def get_polity_members(request, polity_id):
 	ctx = {}
 
 	polity = get_object_or_404(Polity, id=polity_id)
-	ctx['members'] = [{'username': m.username, 'id': m.id, 'str': str(m)} for m in polity.members.all()]
+	ctx['members'] = [{'username': m.username, 'id': m.id, 'str': m.get_full_name() or str(m)} for m in polity.members.all()]
 	ctx['ok'] = True
 
 	return ctx
