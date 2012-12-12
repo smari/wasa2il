@@ -40,10 +40,13 @@ urlpatterns = patterns('',
 	(r'^api/polity/(?P<polity_id>\d+)/members/$', get_polity_members),
 	(r'^api/topic/star/$', topic_star),
 	(r'^api/topic/showstarred/$', topic_showstarred),
+
 	(r'^api/issue/comment/send/$', issue_comment_send),
 	(r'^api/issue/poll/$', issue_poll),
+
 	(r'^api/document/statement/new/(?P<document>\d+)/(?P<type>\d+)/$', document_statement_new),
 	(r'^api/document/propose/(?P<document>\d+)/(?P<val>\d+)/$', document_propose),
+
 	(r'^api/meeting/attend/(?P<meeting>\d+)/$', meeting_attend),
 	(r'^api/meeting/poll/$', meeting_poll),
 	(r'^api/meeting/start/$', meeting_start),
@@ -59,6 +62,5 @@ urlpatterns = patterns('',
 	(r'^api/meeting/intervention/next/$', meeting_intervention_next),
 	(r'^api/meeting/intervention/prev/$', meeting_intervention_prev),
 	(r'^api/meeting/intervention/add/$', meeting_intervention_add),
-	# (r'^api/document/$',
 
 )
