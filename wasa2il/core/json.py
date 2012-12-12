@@ -631,3 +631,15 @@ def topic_showstarred(request):
 
 	ctx["ok"] = True
 	return ctx
+
+
+@login_required
+@jsonize
+def get_polity_members(request, polity_id):
+	ctx = {}
+
+	polity = get_object_or_404(Polity, id=polity_id)
+	ctx['members'] = [{'username': m.username, 'id': m.id, 'str': str(m)} for m in polity.members.all()]
+	ctx['ok'] = True
+
+	return ctx
