@@ -190,7 +190,7 @@ function new_assumption() {
 
 function new_declaration() {
 	var ref = $("#declaration").val();
-	$.getJSON("/api/document/statement/{{document.id}}/2/", 
+	$.getJSON("/api/document/statement/new/{{document.id}}/2/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_declarations').append('<li>' + data.html + '</li>');
