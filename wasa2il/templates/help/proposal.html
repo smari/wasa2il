@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Help"%}: {% trans "Proposals" %}</h1>
+
+{% blocktrans %}
+<p>
+Before members of a <a href="/help/polity/">polity</a> can reach an <a href="/help/agreement/">agreement</a>, somebody needs to
+propose something to be agreed upon. There are many ways in which a proposal can come about - such as through a lone member
+thinking about a problem, a group of people working together to solve a problem, or couple of people brainstorming. Exactly
+how people come up with ideas isn't really as important, for this discussion, as what happens after the idea has come up.
+</p>
+<p>
+In Wasa2il, a user who realizes a problem can raise an <a href="/help/issue/">issue</a> in his polity. The issue belongs in
+one or more of the <a href="/help/topic/">topics</a> that the polity is interested in. 
+</p>
+<p>
+Depending on the purpose of the polity, a particular issue might not even be appropriate - for instance, if your polity 
+is a golf club, it would be strange to raise an issue relating to a tennis court on the other side of town. A good rule 
+of thumb is, if there isn't a topic that your issue belongs in, then it's likely that the issue doesn't belong in the
+polity. If you think that it is, perhaps you should raise the issue that there are too few or overly narrow topics in 
+your polity!
+</p>
+<p>
+Once an issue has been raised, there are two things that happen. First, members of the polity can discuss the issue. Secondly,
+members of the polity can work on a solution. The discussion is covered more thoroughly elsewhere. Here, we focus on the
+juicy bit: proposals!
+</p>
+<h3>Proposing a new agreement</h3>
+<p>
+In order to propose a new agreement, one makes a <a href="/help/document/">document</a> and attaches it to the issue.
+</p>
+<h3>Proposing changes to a previous agreement</h3>
+<p>
+Rather than making a new agreement from scratch every time, which in the best case leads to redundancy, and in the worst case
+can lead to internal contradictions, it is sometimes more appropriate to propose changes to a previous agreement. These can be
+minor changes, such as dropping a word, a sentence or a clause; or major changes, such as restructuring the document in its
+entirety or adding a new chapter.
+</p>
+<h3>Making changes to a proposal</h3>
+<p>
+When somebody has made a proposal, members of the polity might agree with it in general but disagree with some specific points,
+or think the wording or language needs some clean up.
+</p>
+<h3>Voting on a proposal</h3>
+<p>
+In order for a proposal to be accepted, it needs to be <a href="/help/vote">voted</a> on in accordance with the rules of the polity.
+Before the entire proposal can be voted on, the polity first needs to resolve which version of the document it is voting on. This
+is done by voting on all of the change proposals to the proposal individually first.
+</p>
+{% endblocktrans %}
+
+<h2>{% trans "Related help pages" %}</h2>
+<ul>
+	<li><a href="/help/agreement/">{% trans "What is an agreement?" %}</a></li>
+	<li><a href="/help/democracy/">{% trans "How does electronic democracy work?" %}</a></li>
+</ul>
+
+{% endblock %}
