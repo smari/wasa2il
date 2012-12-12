@@ -253,7 +253,7 @@ class Meeting(models.Model):
 	time_ended		= models.DateTimeField(blank=True, null=True)
 	is_agenda_open		= models.BooleanField(default=True)
 	managers		= models.ManyToManyField(User, related_name="managers")
-	attendees		= models.ManyToManyField(User, related_name="attendees")
+	attendees		= models.ManyToManyField(User, related_name="attendees", **nullblank)
 
 	def get_status(self):
 		if self.notstarted():
