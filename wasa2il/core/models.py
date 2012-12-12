@@ -12,6 +12,7 @@ from base_classes import NameSlugBase, getCreationBase
 
 nullblank = {'null': True, 'blank': True}
 
+
 class BaseIssue(NameSlugBase):
 	description		= models.TextField(**nullblank)
 
@@ -28,7 +29,7 @@ class UserProfile(models.Model):
 
 
 class Polity(BaseIssue, getCreationBase('polity')):
-	parent			= models.ForeignKey('Polity', help_text="Parent polity",**nullblank)
+	parent			= models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
 	members			= models.ManyToManyField(User)
 	invite_threshold	= models.IntegerField(default=3, help_text="How many members need to vouch for a new member before he can join.")
 
@@ -50,7 +51,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
 			topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self)]
 
 		return topics
-
 
 	def meetings_upcoming(self):
 		return self.meeting_set.filter(time_started=None)
@@ -102,10 +102,12 @@ class Comment(getCreationBase('comment')):
 	comment			= models.TextField()
 	issue			= models.ForeignKey(Issue)
 
+
 class Delegate(models.Model):
 	user			= models.ForeignKey(User)
 	delegate		= models.ForeignKey(User, related_name='delegate_user')
 	base_issue		= models.ForeignKey(BaseIssue)
+
 	class Meta:
 		unique_together = (('user', 'base_issue'))
 
@@ -143,7 +145,7 @@ class MembershipVote(models.Model):
 		return 'Vote: %s for %s' % (repr(self.voter), repr(self.user))
 
 	class Meta:
-		unique_together = ( ("voter", "user", "polity"), )
+		unique_together = (("voter", "user", "polity"),)
 
 
 class MembershipRequest(models.Model):
@@ -154,7 +156,7 @@ class MembershipRequest(models.Model):
 	left			= models.BooleanField(default=False)
 
 	class Meta:
-		unique_together = ( ("requestor", "polity"), )
+		unique_together = (("requestor", "polity"),)
 
 	def votes(self):
 		return MembershipVote.objects.filter(user=self.requestor, polity=self.polity).count()
@@ -198,7 +200,7 @@ class Document(NameSlugBase):
 		return self.statement_set.filter(type=1)
 
 	def get_declarations(self):
-		return self.statement_set.filter(type__in=[2,3])
+		return self.statement_set.filter(type__in=[2, 3])
 
 	def support(self):
 		# % of support for the document in its polity.
@@ -215,7 +217,6 @@ class Statement(models.Model):
 	def __unicode__(self):
 		print self.get_text()
 		return self.get_text()
-
 
 	def get_text(self, rev=0):
 		try:
@@ -235,11 +236,12 @@ class Statement(models.Model):
 		else:
 			return text
 
+
 class StatementOption(models.Model):
 	user			= models.ForeignKey(User)
 	text			= models.TextField()
 
-	
+
 class Meeting(models.Model):
 	class Meta:
 		ordering	= ["time_starts", "time_ends"]
@@ -290,6 +292,12 @@ class Meeting(models.Model):
 			return True
 		return False
 
+	def __unicode__(self):
+		ret = 'Meeting %sat %s' % (('at %s' % self.location) if self.location else '', self.time_starts)
+		if self.ended():
+			ret += ' (finished)'
+		return ret
+
 
 class MeetingRules(models.Model):
 	length_intervention		= models.IntegerField(default=300, help_text="The maximum length of an intervention.")
@@ -306,7 +314,7 @@ class MeetingAgenda(models.Model):
 	meeting			= models.ForeignKey(Meeting)
 	item			= models.CharField(max_length=200)
 	order			= models.IntegerField()
-	done			= models.IntegerField()	# 0 = Not done, 1 = Active, 2 = Done
+	done			= models.IntegerField()	 # 0 = Not done, 1 = Active, 2 = Done
 
 	def __unicode__(self):
 		return self.item
@@ -318,8 +326,7 @@ class MeetingIntervention(models.Model):
 	agendaitem		= models.ForeignKey(MeetingAgenda)
 	motion			= models.IntegerField()
 	order			= models.IntegerField()
-	done			= models.IntegerField()	# 0 = Not done, 1 = Active, 2 = Done
+	done			= models.IntegerField()	 # 0 = Not done, 1 = Active, 2 = Done
 
 	def __unicode__(self):
-		return user.username
-
+		return self.user.username
