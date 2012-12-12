@@ -397,7 +397,14 @@ $(function() {
 		Also, this means we can use the api call directly..
 		Well. This will have to do for now :p Optimize later.
 	*/
-	var add_manager_input = $('.meeting-manager #meeting_manager_add');
+	var meeting_manager = $('.meeting-manager form')
+		add_manager_input = meeting_manager.find('#meeting_manager_add');
+	meeting_manager.bind('submit', function (e) {
+		meeting_manager_add($('#meeting_manager_add').val());
+		$(this)[0].reset();
+		e.preventDefault();
+		return false;
+	});
 	add_manager_input.autocomplete({
 		source: function (request, response) {
 			$.ajax({
