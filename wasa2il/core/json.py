@@ -564,19 +564,35 @@ def meeting_manager_add(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
+		ctx['error'] = 'Meeting not found'
+		return ctx
 		
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.managers.all():
 		ctx["ok"] = False
+		ctx['error'] = 'You are not a manger!'
 		return ctx
 
+	uq = request.REQUEST.get("user", "")
 	try:
-		u = user.objects.get(username=request.REQUEST.get("user", ""))
-		meeting.managers.add(u)
-	except:
-		pass
+		u = User.objects.get(Q(username__iexact=uq) | Q(first_name__iexact=uq) | Q(last_name__iexact=uq))
+		print u
+	except User.DoesNotExist:
+		ctx["ok"] = False
+		ctx['error'] = 'User "%s" not found' % uq
+		return ctx
+	except User.MultipleObjectsReturned:
+		ctx["ok"] = False
+		ctx['error'] = 'Too many users found for query: %s' % uq
+		return ctx
+
+	if u in meeting.managers.all():
+		ctx["ok"] = False
+		ctx['error'] = 'User already a manger!'
+		return ctx
+
+	meeting.managers.add(u)
 
 	return meeting_poll(request)
 
