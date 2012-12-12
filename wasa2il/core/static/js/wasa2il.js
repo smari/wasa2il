@@ -417,7 +417,7 @@ $(function() {
 							m.value = m.username;
 							return m;
 						}),
-						current_admins = [null, $('.managerlist li').attr('data-user-id')];
+						current_admins = $('.managerlist li').map(function () { return $(this).attr('data-user-id')*1; } );
 					//var re = new RegExp('^' + request.term.toLowerCase() + '.*'),
 					var re = new RegExp(request.term.toLowerCase()),
 						max_ret = 3;
@@ -425,7 +425,7 @@ $(function() {
 					filtered = $.grep(members, function (m) {
 							if (count > max_ret)
 								return false;
-							if (m.id in current_admins)
+							if ($.inArray(m.id, current_admins) != -1)
 								return false;
 							return re.exec(m.str.toLowerCase()) !== null && ++count;
 						});
