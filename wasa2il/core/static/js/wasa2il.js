@@ -356,6 +356,8 @@ function issue_render(issue) {
 
 $(function() {
 
+	/* --- MEMBERSHIP RELATED --- */
+
 	$('.membership_request').click(function (e) {
 		var self = $(this),
 			id = $(this).attr('data-id');
@@ -365,7 +367,7 @@ $(function() {
 			type: 'POST',
 			data: { id: id, csrfmiddlewaretoken: $(this).attr('data-csrftoken') },
 			success: function (data) {
-				var user = data
+				var user = data;
 				if (data.accepted) {
 					$(this).find(".membership_request").hide();
 					$("#modal_members_list").append("<a href=\"/accounts/profile/" + data.username + "/\" class=\"thumbnail\">" + data.username + "</a>");
@@ -378,12 +380,12 @@ $(function() {
 				self.click(function(e3) {
 					e.preventDefault();
 					return false;
-				})
+				});
 			},
 			error: function (e2) {
 				alert('Some error happened with voting...');
 			}
-		})
+		});
 		return false;
 	});
 
