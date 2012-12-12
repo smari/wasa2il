@@ -5,7 +5,8 @@ from models import (
 	Polity, Topic, Issue,
 	VoteOption, Comment, Vote,
 	Delegate, MembershipRequest,
-	MembershipVote, UserProfile
+	MembershipVote, UserProfile,
+	Meeting
 	)
 
 
@@ -84,3 +85,4 @@ register(Vote, VoteAdmin)
 register(MembershipRequest)
 register(MembershipVote)
 register(UserProfile)
+register(Meeting)
