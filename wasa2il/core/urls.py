@@ -37,6 +37,7 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Topic, context_object_name="topic"))),
 
 	(r'^api/polity/membershipvote/$', polity_membershipvote),
+	(r'^api/polity/(?P<polity_id>\d+)/members/$', get_polity_members),
 	(r'^api/topic/star/$', topic_star),
 	(r'^api/topic/showstarred/$', topic_showstarred),
 	(r'^api/issue/comment/send/$', issue_comment_send),
