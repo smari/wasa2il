@@ -1,0 +1,39 @@
+
+0.	[blank]
+1.	Foo
+2.	Bar
+3.	Baz
+4.	Crud
+
+
+-----
+Possible changes:
+
+1. - Remove an item
+2. - Move an item item	(Change order of items)
+3. - Change an item	(Propose an alternative item)
+4. - Add a new item	(Add an item after the referenced item)
+
+
+class ChangeProposal(self):
+	actiontype	= models.IntegerField()		# Type of change							[all*]
+	refitem		= models.IntegerField()		# Number what in the sequence to act on					[all*]
+	destination	= models.IntegerField()		# Destination of moved item, or of new item				[move, add]
+	content		= models.TextField()		# Content for new item, or for changed item (blank=same on change)	[change, add]
+	contenttype	= models.IntegerField()		# Type for new content item, or of changed item (0=same on change)	[change, add]
+
+== Examples ==
+
+ChangeProposal(actiontype=1, refitem=2)						# Delete item 2 from the proposal
+ChangeProposal(actiontype=2, refitem=2, destination=3)				# Move item 2 to after item 3 (Bar after Baz)
+ChangeProposal(actiontype=2, refitem=2, destination=0)				# Move item 2 to after item 0 (beginning of list)
+ChangeProposal(actiontype=3, refitem=2, content="Splurg")			# Change text of item 2 from "Bar" to "Splurg"
+ChangeProposal(actiontype=4, refitem=2, content="Splurg", contenttype=2)	# Add "statement" object containing "Splurg" after "Bar"
+
+== Dud changes (ignore) ==
+
+ChangeProposal(actiontype=1, refitem=0)						# Delete blank dud item
+ChangeProposal(actiontype=2, refitem=n, destination=n)				# Move item to same place
+ChangeProposal(actiontype=3, refitem=n, content="", contenttype=0)		# Don't actually change anything
+ChangeProposal(actiontype=4, refitem=n, content="", contenttype=0)		# 
+
