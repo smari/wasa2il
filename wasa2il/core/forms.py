@@ -22,7 +22,7 @@ class CommentForm(ModelForm):
 class DocumentForm(ModelForm):
 	class Meta:
 		model = Document
-		exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug', 'issues')
+		exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug')
 
 class PolityForm(ModelForm):
 	class Meta:

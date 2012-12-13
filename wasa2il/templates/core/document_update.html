@@ -12,58 +12,87 @@
 	{% endif %}
 	<a class="btn" href="/polity/{{polity.id}}/document/{{document.id}}/">{% trans "View this document" %}</a>
 </div>
-<div style="clear:both;"></div>
 <h1>
 {% if document.is_adopted %}<small>{% trans "Agreement" %} {{document.decid}}:</small>{% endif %}
 {% if document.is_proposed %}<small>{% trans "Proposal" %} {{document.id}}:</small>{% endif %}
 {% if not document.is_adopted and not document.is_proposed %}<small>{% trans "Draft proposal:"%}</small>{% endif %}
 {{document.name}}</h1>
 
-<h3>{% trans "Assumptions" %}</h3>
+<div class="row">
+<div class="span6 pull-left">
+	<p><b>{% trans "[Unnumbered proposal]" %}</b></p>
 
-<ol class="statementset" style="list-style-type: square;" id="statements_references">
-{% for a in document.get_references %}
-	<li>{{a|safe}}</li>
-{% endfor %}
-</ol>
+	<p><b>{{document.name}}</b></p>
 
-<ol class="statementset" style="list-style-type: upper-roman;" id="statements_assumptions">
-{% for a in document.get_assumptions %}
-	<li>{{a|safe}}</li>
-{% endfor %}
-</ol>
+	<p><i>{{document.polity.document_frontmatter}}</i></p>
 
-<a onclick="$('#modal_reference').modal('show');" class="btn">Ný tilvísun</a>
-<a onclick="$('#modal_assumption').modal('show');" class="btn">Ný forsenda</a>
-
-
-<h3>{% trans "Declarations" %}</h3>
-
-<ol class="statementset" id="statements_declarations">
-<ol>
-{% for a in document.get_declarations %}
-	{% if a.type == 3 %}
+	<ol class="statementset" style="list-style-type: square;" id="statements_references">
+	{% for a in document.get_references %}
+		<li>{{a|safe}}</li>
+	{% endfor %}
 	</ol>
-	<li><h4>{{a|safe}}</h4></li>
+
+	<ol class="statementset" style="list-style-type: upper-roman;" id="statements_assumptions">
+	{% for a in document.get_assumptions %}
+		<li>{{a|safe}}</li>
+	{% endfor %}
+	</ol>
+
+	<p>{{document.polity.document_midmatter}}</p>
+
+	<div class="statementset" id="statements_declarations">
 	<ol>
-	{% else %}
-	<li>{{a|safe}}</li>
+	{% for a in document.get_declarations %}
+		{% if a.type == 3 %}
+		<li class="statement_subheading">{{a|safe}}</li>
+		{% else %}
+		<li>{{a|safe}}</li>
+		{% endif %}
+	{% endfor %}
+	</ol>
+	</div>
+
+	<p>{{document.polity.document_footer}}</p>
+
+</div>
+
+<div class="span4 pull-right">
+	{% if document.issues.count %}
+		<h3>{% trans "Referenced by issues" %}</h3>
+		<ul>
+		{% for i in document.issues.all %}
+		<li><a href="/issue/{{i.id}}/">{{i.name}}</a></li>
+		{% endfor %}
+		</ul>
 	{% endif %}
-{% endfor %}
-</ol>
-</ol>
 
-<a onclick="$('#modal_declaration').modal('show');" class="btn">Ný fullyrðing</a>
-<a onclick="$('#modal_subheading').modal('show');" class="btn">Ný millifyrirsögn</a>
+	<h3>{% trans "Contributors to this document" %}</h3>
+	<ul>
+	{% for i in document.get_contributors %}
+		<li><a href="/accounts/profile/{{i.username}}">{{i.username}}</a></li>
+	{% endfor %}
+	</ul>
+</div>
 
+<div class="span2 pull-right">
+	<div class="btn-group btn-group-vertical">
+	<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
+	<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
+	<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
+	<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
+
+	</div>
+</div>
+
+</div>
 
 <div class="modal hide fade" id="modal_reference">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Ný tilvísun</h3>
+    <h3>{% trans "New reference" %}</h3>
   </div>
   <div class="modal-body">
-    <p>Veldu skjal til að vísa í:</p>
+    <p>{% trans "Choose a document to reference:" %}</p>
         <form>
                 <select id="reference">
 			{% for doc in referabledocs %}
@@ -73,8 +102,8 @@
         </form>
   </div>
   <div class="modal-footer">
-    <a onclick="$('#modal_reference').modal('hide');" class="btn">Loka</a>
-    <a onclick="new_reference();" class="btn btn-primary">Vista tilvísun</a>
+    <a onclick="$('#modal_reference').modal('hide');" class="btn">{% trans "Close" %}</a>
+    <a onclick="new_reference();" class="btn btn-primary">{% trans "Save reference" %}</a>
   </div>
 </div>
 
@@ -82,17 +111,17 @@
 <div class="modal hide fade" id="modal_assumption">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Ný forsenda</h3>
+    <h3>{% trans "New assumption" %}</h3>
   </div>
   <div class="modal-body">
-    <p>Skrifaðu forsendu:</p>
+    <p>{% trans "Write assumption:" %}</p>
         <form>
                 <textarea style="width: 90%; min-height: 100px;" id="assumption"></textarea>
         </form>
   </div>
   <div class="modal-footer">
-    <a onclick="$('#modal_assumption').modal('hide');" class="btn">Loka</a>
-    <a onclick="new_assumption();" class="btn btn-primary">Vista forsendu</a>
+    <a onclick="$('#modal_assumption').modal('hide');" class="btn">{% trans "Close" %}</a>
+    <a onclick="new_assumption();" class="btn btn-primary">{% trans "Save assumption" %}</a>
   </div>
 </div>
 
@@ -100,7 +129,7 @@
 <div class="modal hide fade" id="modal_declaration">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Ný fullyrðing</h3>
+    <h3>{% trans "New statement" %}</h3>
   </div>
   <div class="modal-body">
         <form>
@@ -108,8 +137,8 @@
         </form>
   </div>
   <div class="modal-footer">
-    <a onclick="$('#modal_declaration').modal('hide');" class="btn">Loka</a>
-    <a onclick="new_declaration();" class="btn btn-primary">Vista fullyrðingu</a>
+    <a onclick="$('#modal_declaration').modal('hide');" class="btn">{% trans "Close" %}</a>
+    <a onclick="new_declaration();" class="btn btn-primary">{% trans "Save statement" %}</a>
   </div>
 </div>
 
@@ -117,7 +146,7 @@
 <div class="modal hide fade" id="modal_subheading">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Ný millifyrirsögn</h3>
+    <h3>{% trans "New subheading" %}</h3>
   </div>
   <div class="modal-body">
         <form>
@@ -125,8 +154,8 @@
         </form>
   </div>
   <div class="modal-footer">
-    <a onclick="$('#modal_subheading').modal('hide');" class="btn">Loka</a>
-    <a onclick="new_subheading();" class="btn btn-primary">Vista millifyrirsögn</a>
+    <a onclick="$('#modal_subheading').modal('hide');" class="btn">{% trans "Close" %}</a>
+    <a onclick="new_subheading();" class="btn btn-primary">{% trans "Save subheading" %}</a>
   </div>
 </div>
 
@@ -134,9 +163,9 @@
 
 <script>
 function make_reference(node) {
-	node.append('<div class="state_buttons">'
-	          + '<a onclick="delete_statement(this);" class="btn btn-mini">Eyða</a>'
-	          + '<a onclick="fork_statement(this);" class="btn btn-mini">Gaffla</a>'
+	node.append('<div class="btn-group state_buttons">'
+	          + '<a onclick="statement_delete($(this));" class="btn btn-mini">{% trans "Delete" %}</a>'
+	          + '<a onclick="statement_fork($(this));" class="btn btn-mini">{% trans "Propose alternative" %}</a>'
 	          + '</div>');
 }
 
@@ -160,12 +189,25 @@ $(function() {
 
 });
 
+function statement_fork(item) {
+	var ref = $("#newversion").val();
+	$.getJSON("/api/document/statement/fork/", {"document": {{document.id}}, "original": item.data("id"), "text": ref}, function(data) {
+		if (data.ok) {
+			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
+			make_reference(k);
+			$('#modal_reference').modal('hide');
+		} else {
+			// Error message
+		}
+	});
+}
+
 function new_reference() {
 	var ref = $("#reference").val();
 	$.getJSON("/api/document/statement/new/{{document.id}}/0/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
-			var k = $('#statements_references').append('<li>' + data.html + '</li>');
+			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_reference').modal('hide');
 		} else {
@@ -179,7 +221,7 @@ function new_assumption() {
 	$.getJSON("/api/document/statement/new/{{document.id}}/1/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
-			var k = $('#statements_assumptions').append('<li>' + data.html + '</li>');
+			var k = $('#statements_assumptions').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_assumption').modal('hide');
 		} else {
@@ -193,7 +235,7 @@ function new_declaration() {
 	$.getJSON("/api/document/statement/new/{{document.id}}/2/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
-			var k = $('#statements_declarations').append('<li>' + data.html + '</li>');
+			var k = $('#statements_declarations').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_declaration').modal('hide');
 		} else {
@@ -207,7 +249,7 @@ function new_subheading() {
 	$.getJSON("/api/document/statement/new/{{document.id}}/3/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
-			var k = $('#statements_declarations').append('</ol><h4>' + data.html + '</h4><ol>');
+			var k = $('#statements_declarations').append('<li class="statement_subheading" data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_subheading').modal('hide');
 		} else {

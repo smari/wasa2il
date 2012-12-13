@@ -13,6 +13,9 @@
 	</p>
 {% endif %}
 <form action="/polity/{{polity.id}}/document/new/" method="POST"/>
+{% for i in issues %}
+	<input type="hidden" name="issues" value="{{i.id}}">
+{% endfor %}
 {%csrf_token%}
 <table>
 {{form.as_table}}

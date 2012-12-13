@@ -70,11 +70,13 @@ def document_statement_new(request, document, type):
 
 	so.text = request.REQUEST.get("text", "")
 	so.user = request.user
+	so.statement = s
 	so.save()
-	s.text.add(so)
 
 	ctx["ok"] = True
-	ctx["html"] = s.get_text()
+	ctx["id"] = s.id
+	ctx["seq"] = s.number
+	ctx["html"] = str(s)
 
 	return ctx
 

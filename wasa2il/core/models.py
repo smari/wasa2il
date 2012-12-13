@@ -38,6 +38,10 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
+	document_frontmatter	= models.TextField(**nullblank)
+	document_midmatter		= models.TextField(**nullblank)
+	document_footer			= models.TextField(**nullblank)
+
 	def is_member(self, user):
 		return user in self.members.all()
 
@@ -206,40 +210,37 @@ class Document(NameSlugBase):
 		# % of support for the document in its polity.
 		return 100
 
+	def get_contributors(self):
+		return set([x.user for x in self.statement_set.all()])
+
 
 class Statement(models.Model):
 	user			= models.ForeignKey(User)
 	document		= models.ForeignKey(Document)
 	type			= models.IntegerField()
 	number			= models.IntegerField()
-	text			= models.ManyToManyField('StatementOption')
 
 	def __unicode__(self):
-		print self.get_text()
-		return self.get_text()
-
-	def get_text(self, rev=0):
 		try:
-			text = self.text.all()[rev].text
+			return self.statementoption_set.filter(user=self.user)[0].text
 		except:
-			text = ""
+			return ""
 
-		if self.type == 0:
-			try:
-				doc = Document.objects.get(id=text)
-				# FIXME: BLERGH!!!!
-				return u"Með tilvísun í <a href=\"/polity/%d/document/%d/\">%s</a>" % (doc.polity.id, doc.id, doc.name)
-			except Exception, e:
-				print e
-				# FIXME: BLERGH!!!!
-				return u"Með tilvísun í óþekkt skjal."
-		else:
-			return text
+	def get_options(self):
+		return self.statementoption_set.all()
+
+	def get_options_count(self):
+		return self.statementoption_set.count()
+
 
 
 class StatementOption(models.Model):
+	statement 		= models.ForeignKey(Statement)
 	user			= models.ForeignKey(User)
 	text			= models.TextField()
+
+	def __unicode__(self):
+		return self.text
 
 
 class Meeting(models.Model):
