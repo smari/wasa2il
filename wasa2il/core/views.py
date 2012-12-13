@@ -203,6 +203,8 @@ class DocumentCreateView(CreateView):
 		self.object.polity = self.polity
 		self.object.user = self.request.user
 		self.object.save()
+		for i in self.issues:
+			self.object.issues.add(i)
 		self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/"
 		return HttpResponseRedirect(self.get_success_url())
 

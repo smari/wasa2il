@@ -10,7 +10,7 @@
 </tr>
 {% for document in documents %}
 <tr>
-	<td><a href="/polity/{{polity.id}}/document/{{document.id}}/">{{document.name}}</a></td>
+	<td><a href="/polity/{{document.polity.id}}/document/{{document.id}}/">{{document.name}}</a></td>
 	<td>{{document.is_adopted}}</td>
 	<td>{{document.is_proposed}}</td>
 	<td><a href="/accounts/{{document.user.username}}/">{{document.user}}</a></td>

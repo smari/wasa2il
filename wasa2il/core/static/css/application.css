@@ -11,8 +11,21 @@
 .ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
 
 
-#statements_declarations ol ol {
-	list-style-type:        lower-alpha;
+#statements_declarations ol li:before {
+	content: value(statement-counter);
+}
+
+#statements_declarations ol {
+	/* list-style-type:        lower-alpha; */
+	counter-reset: 			statement-counter -1;
+}
+
+.statement_subheading {
+	list-style-type:		none;
+	counter-increment:		statement-counter;
+	font-size:				150%;
+	margin-top:				6px;
+	margin-bottom:			2px;
 }
 
 .state_buttons {
@@ -20,7 +33,7 @@
 }
 
 .statementset li:hover > .state_buttons {
-	display:                inline-block;
+	display:                block;
 }
 
 .helptext {
