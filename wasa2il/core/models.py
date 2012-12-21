@@ -22,6 +22,7 @@ class UserProfile(models.Model):
 	bio			= models.TextField(**nullblank)
 	picture			= models.ImageField(upload_to="users", **nullblank)
 
+	language		= models.CharField(max_length="6", default="en")
 	topics_showall		= models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
 
 	def __unicode__(self):

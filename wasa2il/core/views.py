@@ -40,6 +40,29 @@ def profile(request, user=None):
 	return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
 
 
+class UserDetailView(DetailView):
+	context_object_name = "user"
+	template_name = "core/user_detail.html"
+	model = UserProfile
+
+
+class UserUpdateView(UpdateView):
+	context_object_name = "user"
+	template_name = "core/user_update.html"
+	model = User
+
+	def dispatch(self, *args, **kwargs):
+		# self.object = get_object_or_404(User, id=kwargs["request"].user)
+		super(UserUpdateView, self).dispatch(*args, **kwargs)
+		self.object = self.request.user
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(UserDetailView, self).get_context_data(*args, **kwargs)
+
+
+		return context_data
+
+
 class TopicListView(ListView):
 	context_object_name = "topics"
 	template_name = "core/topic_list.html"
