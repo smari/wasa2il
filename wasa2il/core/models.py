@@ -90,6 +90,7 @@ class UserTopic(models.Model):
 
 
 class Issue(BaseIssue, getCreationBase('issue')):
+	polity 			= models.ForeignKey(Polity)
 	topics			= models.ManyToManyField(Topic)
 	options			= models.ManyToManyField('VoteOption')
 
