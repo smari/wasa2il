@@ -4,7 +4,7 @@
 
 <h1>{% trans "New issue" %}</h1>
 
-<form action="/polity/{{polity.id}}/topic/{{topic.id}}/issues/new/" method="POST"/>
+<form action="/polity/{{polity.id}}/issue/new/" method="POST"/>
 {%csrf_token%}
 <table>
 {{form.as_table}}
