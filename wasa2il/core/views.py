@@ -107,6 +107,11 @@ class IssueCreateView(CreateView):
 		self.object = form.save(commit=False)
 		self.object.polity = self.polity
 		self.object.save()
+		for topic in form.cleaned_data.get('topics'):
+			self.object.topics.add(topic)
+
+		self.object.save()
+
 		return HttpResponseRedirect(self.get_success_url())
 
 

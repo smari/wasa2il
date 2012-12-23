@@ -10,6 +10,7 @@
 <div class="row">
 	<div class="span6 pull-left">
 		<p>{{issue.description}}</p>
+		<p>{% trans "In topics:" %} {% for i in issue.topics.all %}<a href="/polity/{{issue.polity.id}}/topic/{{i.id}}/">{{i.name}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 	</div>
 
 	<div class="span6 pull-right"><a name="documents"></a>

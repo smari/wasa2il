@@ -96,6 +96,9 @@ class Issue(BaseIssue, getCreationBase('issue')):
 	topics			= models.ManyToManyField(Topic)
 	options			= models.ManyToManyField('VoteOption')
 
+	def __unicode__(self):
+		return self.name
+
 	def topics_str(self):
 		return ', '.join(map(str, self.topics.all()))
 
