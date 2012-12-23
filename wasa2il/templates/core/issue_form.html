@@ -7,9 +7,29 @@
 <form action="/polity/{{polity.id}}/issue/new/" method="POST"/>
 {%csrf_token%}
 <table>
-{{form.as_table}}
+<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" maxlength="128" /></td>
+<td rowspan="3">
+<label for="id_topics">Topics:</label></th><td rowspan="3"><select multiple="multiple" name="topics" id="id_topics" size="10">
+	{% for i in polity.topic_set.all %}
+		<option value="{{i.id}}">{{i.name}}</option>
+	{% endfor %}
+</select>
+</td>
+</tr>
+<tr><th><label for="id_description">Description:</label></th><td><textarea id="id_description" rows="10" cols="40" name="description"></textarea></td></tr>
 <tr><td></td><td><button type="submit"/>{% trans "Save" %}</button></td></tr>
 </table>
 </form>
+
+<script>
+$(function() {
+	$("#id_topics").multiselect({
+	    noneSelectedText: '{% trans "Select topics" %}'
+      	selectedList: 10
+	})
+	.multiselectfilter();
+});
+
+</script>
 
 {% endblock %}

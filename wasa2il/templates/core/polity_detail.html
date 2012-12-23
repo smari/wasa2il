@@ -111,7 +111,7 @@
 	<tr>
 		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</td>
 		<td>{{meeting.location}}</td>
-		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
+		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% if not forloop.last%}, {% endif %}{% endfor %}</td>
 		<td>{{meeting.get_status}}</td>
 	</tr>	
 	{% endfor %}
