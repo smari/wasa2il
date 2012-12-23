@@ -18,7 +18,7 @@ class BaseIssue(NameSlugBase):
 
 
 class UserProfile(models.Model):
-	user			= models.ForeignKey(User)
+	user			= models.OneToOneField(User)
 	bio			= models.TextField(**nullblank)
 	picture			= models.ImageField(upload_to="users", **nullblank)
 
