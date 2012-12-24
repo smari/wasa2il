@@ -1,5 +1,6 @@
 
 from django.contrib import admin
+from django.contrib import auth
 
 from models import (
 	Polity, Topic, Issue,
@@ -73,6 +74,13 @@ class VoteAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
 	save_model = save_model
 
+class UserProfileInline(admin.StackedInline):
+	model = UserProfile
+	can_delete = False
+
+class UserAdmin(auth.admin.UserAdmin):
+	inlines = (UserProfileInline, )
+
 # Register the admins
 register = admin.site.register
 register(Polity, PolityAdmin)
@@ -84,5 +92,8 @@ register(Delegate, DelegateAdmin)
 register(Vote, VoteAdmin)
 register(MembershipRequest)
 register(MembershipVote)
-register(UserProfile)
 register(Meeting)
+
+# User profile mucking
+admin.site.unregister(auth.models.User)
+register(auth.models.User, UserAdmin)

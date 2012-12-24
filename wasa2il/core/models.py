@@ -18,7 +18,9 @@ class BaseIssue(NameSlugBase):
 
 
 class UserProfile(models.Model):
-	user			= models.ForeignKey(User)
+	user			= models.OneToOneField(User)
+	displayname = models.CharField(max_length="255", help_text="The name to display on the site.", **nullblank)
+	email_visible = models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
 	bio			= models.TextField(**nullblank)
 	picture			= models.ImageField(upload_to="users", **nullblank)
 
