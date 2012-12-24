@@ -32,35 +32,28 @@ def help(request, page):
 	return render_to_response("help/%s.html" % page)
 
 
-def profile(request, user=None):
+def profile(request, username=None):
 	ctx = {}
-	if user:
-		ctx["user"] = get_object_or_404(User, username=user)
+	if username:
+		subject = get_object_or_404(User, username=username)
+	else:
+		subject = request.user
+
+	ctx["subject"] = subject
+	ctx["profile"] = subject.get_profile()
+	if subject == request.user:
+		ctx["polities"] = subject.polity_set.all()
+		for polity in ctx["polities"]:
+			polity.readable = True
+	else:
+		ctx["polities"] = [p for p in subject.polity_set.all() if p.is_member(request.user) or p.is_listed]
+		for polity in ctx["polities"]:
+			if polity.is_nonmembers_readable or polity.is_member(request.user):
+				polity.readable = True
+			else:
+				polity.readable = False
 
 	return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
-
-
-class UserDetailView(DetailView):
-	context_object_name = "user"
-	template_name = "core/user_detail.html"
-	model = UserProfile
-
-
-class UserUpdateView(UpdateView):
-	context_object_name = "user"
-	template_name = "core/user_update.html"
-	model = User
-
-	def dispatch(self, *args, **kwargs):
-		# self.object = get_object_or_404(User, id=kwargs["request"].user)
-		super(UserUpdateView, self).dispatch(*args, **kwargs)
-		self.object = self.request.user
-
-	def get_context_data(self, *args, **kwargs):
-		context_data = super(UserDetailView, self).get_context_data(*args, **kwargs)
-
-
-		return context_data
 
 
 class TopicListView(ListView):
