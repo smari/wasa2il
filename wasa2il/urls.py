@@ -4,8 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.generic.simple import direct_to_template
 
-from core.views import UserUpdateView, UserDetailView
-
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -19,8 +17,7 @@ urlpatterns = patterns('',
 
 	# Core app
 	(r'^', include('wasa2il.core.urls')),
-	(r'^accounts/profile/$', 'core.views.profile'), # login_required(UserUpdateView.as_view())),
-	(r'^accounts/profile/(?P<username>.+)/$', 'core.views.profile'), # UserDetailView.as_view()),
+	(r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
 	(r'^accounts/', include('registration.urls')),
 
 	(r'^help/$', direct_to_template, {"template": "help/index.html"}),
