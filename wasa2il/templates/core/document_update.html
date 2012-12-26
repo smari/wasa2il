@@ -76,10 +76,10 @@
 <div class="span2 pull-right">
 	<div class="btn-group btn-group-vertical">
 	{% if document.polity in user.polity_set.all %}
-	<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
-	<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
-	<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
-	<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
+		<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
+		<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
+		<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
+		<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
 	{% endif %}
 	</div>
 </div>

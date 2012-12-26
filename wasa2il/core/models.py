@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 #from fields import CreatedField, ModifiedField, AutoUserField
 from base_classes import NameSlugBase, getCreationBase
+from django.utils.translation import ugettext as _
 
 
 nullblank = {'null': True, 'blank': True}
@@ -121,6 +122,101 @@ class Delegate(models.Model):
 
 	class Meta:
 		unique_together = (('user', 'base_issue'))
+
+	def __unicode__(self):
+		return "[%s:%s] %s -> %s" % (self.type(), self.base_issue, self.user, self.delegate)
+
+	def polity(self):
+		try: return self.base_issue.issue.polity
+		except: pass
+		try: return self.base_issue.topic.polity
+		except: pass
+		try: return self.base_issue.polity
+		except: pass
+
+	def result(self):
+		# Work through the delegations and figure out where it ends
+		print self.get_path()
+		return self.get_path()[-1].delegate
+
+	def type(self):
+		try:
+			b = self.base_issue.issue
+			return _("Issue")
+		except: pass
+		try:
+			b = self.base_issue.topic
+			return _("Topic")
+		except: pass
+		try:
+			b = self.base_issue.polity
+			return _("Polity")
+		except: pass	
+
+	def get_path(self):
+		path = [self]
+		while True:
+			item = path[-1]
+			user = item.delegate
+			dels = user.delegate_set.filter(base_issue=item.base_issue)
+			if len(dels) > 0:
+				path.append(dels[0])
+				continue
+
+			try: # If this works, we are working with an "Issue"
+				base_issue = item.base_issue.issue
+				for topic in base_issue.topics.all():
+					dels = user.delegate_set.filter(base_issue=topic)
+					if len(dels) > 0:
+						# TODO: FIXME
+						# Problem: Whereas an issue can belong to multiple topics, this is
+						#  basically picking the first delegation to a topic, rather than
+						#  creating weightings. Should we do weightings?
+						path.append(dels[0])
+						continue
+			except: pass
+			
+			try: # If this works, we are working with an "Issue"
+				base_issue = item.base_issue.topic
+				dels = user.delegate_set.filter(base_issue=base_issue)
+				if len(dels) > 0:
+					path.append(dels[0])
+					continue
+			except: pass
+			
+			break
+
+		return path
+
+
+def get_delegate(user, issue):
+	# Check for direct delegation:
+	dels = user.delegate_set.filter(base_issue=issue)
+
+	if len(dels) > 0:
+		return dels[0].delegate.get_delegate(issue)
+
+	# Check for indirect delegation (through a Topic, Polity, ..):
+	if isinstance(issue, Issue):
+		for topic in issue.topics.all():
+			dels = user.delegate_set.filter(base_issue=topic)
+			if len(dels) > 0:
+				# TODO: FIXME
+				# Problem: Whereas an issue can belong to multiple topics, this is
+				#  basically picking the first delegation to a topic, rather than
+				#  creating weightings. Should we do weightings?
+				return dels[0].delegate.get_delegate(topic)
+
+	elif isinstance(issue, Topic):
+		dels = user.delegate_set.filter(base_issue=issue.polity)
+		if len(dels) > 0:
+			return dels[0].delegate.get_delegate(issue.polity)
+
+	# If nothing, then it isn't being delegated, so we return the original user.
+	return user
+
+
+User.get_delegate = get_delegate
 
 
 class VoteOption(NameSlugBase):

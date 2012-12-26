@@ -119,6 +119,16 @@
 </div>
 
 
+<div class="span6 pull-left"><a name="delegations"></a>
+	<h2>{% trans "Delegations" %} <small>{% trans "votes entrusted to others" %}</small></h2>
+	<p class="muted">
+		{% trans "You can set up delgations for the polity, for topics, or for issues." %}
+		{% trans "Here you can see all of your active delegations and where they lead to." %}
+	</p>
+	{% with user.delegate_set.all as delegations %}
+	{% include "core/_delegations_table.html" %}
+	{% endwith %}
+</div>
 
 {% if polity.polity_set.all %}
 <div class="span6 pull-left"><a name="subpolities"></a>
