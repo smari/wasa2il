@@ -102,11 +102,11 @@ class Issue(BaseIssue, getCreationBase('issue')):
 	def topics_str(self):
 		return ', '.join(map(str, self.topics.all()))
 
-	def polity(self):
-		try:
-			return self.topics.all()[0].polity
-		except:
-			return None
+	def proposed_documents(self):
+		return self.document_set.filter(is_proposed=True)
+
+	def user_documents(self, user):
+		return self.document_set.filter(is_proposed=False, user=user)
 
 
 class Comment(getCreationBase('comment')):
@@ -248,6 +248,25 @@ class StatementOption(models.Model):
 
 	def __unicode__(self):
 		return self.text
+
+
+class ChangeProposal(models.Model):
+	document 		= models.ForeignKey(Document)	# Document to reference
+	user 			= models.ForeignKey(User)		# Who proposed it
+	timestamp 		= models.DateTimeField(auto_now_add=True)	# When
+	actiontype		= models.IntegerField()			# Type of change to make [all]
+	refitem			= models.IntegerField()			# Number what in the sequence to act on [all]
+	destination		= models.IntegerField()			# Destination of moved item, or of new item [move, add]
+	content			= models.TextField()			# Content for new item, or for changed item (blank=same on change) [change, add]
+	contenttype		= models.IntegerField()			# Type for new content, or of changed item (0=same on change) [change, add]
+
+	# == Examples ==
+	#	ChangeProposal(actiontype=1, refitem=2)                                         # Delete item 2 from the proposal
+	#	ChangeProposal(actiontype=2, refitem=2, destination=3)                          # Move item 2 to after item 3 (Bar after Baz)
+	#	ChangeProposal(actiontype=2, refitem=2, destination=0)                          # Move item 2 to after item 0 (beginning of list)
+	#	ChangeProposal(actiontype=3, refitem=2, content="Splurg")                       # Change text of item 2 from "Bar" to "Splurg"
+	#	ChangeProposal(actiontype=4, refitem=2, content="Splurg", contenttype=2)        # Add "statement" object containing "Splurg" after "Bar"
+	#
 
 
 class Meeting(models.Model):

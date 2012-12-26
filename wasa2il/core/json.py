@@ -44,20 +44,46 @@ def polity_membershipvote(request):
 
 @login_required
 @jsonize
+def document_changeproposal_new(request, document, type):
+	ctx = {}
+
+	doc = get_object_or_404(Document, id=document)
+
+	if doc.is_proposed:
+		return document_statement_new(request, document, type)
+
+	if request.user not in doc.polity.users.all():
+		return {"error": 403}
+
+	s = ChangeProposal()
+	s.user = request.user
+	s.document = doc
+	s.contenttype = type
+
+	# s.actiontype = 
+	# s.refitem = 
+	# s.destination =
+	# s.content = 
+	# 
+
+
+@login_required
+@jsonize
 def document_statement_new(request, document, type):
 	ctx = {}
 
+	doc = get_object_or_404(Document, id=document)
+
+	if doc.is_proposed:
+		return document_changeproposal_new(request, document, type)
+
 	s = Statement()
 	s.user = request.user
-	s.document = get_object_or_404(Document, id=document)
+	s.document = doc
 	s.type = type
 
-	if s.document.is_proposed:
-		if s.user not in s.document.polity.members.all():
-			return {"error": 403}
-	else:
-		if s.user != s.document.user:
-			return {"error": 403}
+	if s.user != s.document.user:
+		return {"error": 403}
 
 	try:
 		s.number = Statement.objects.get(document=s.document, type=s.type).order_by('-number')[0].number + 1
@@ -102,6 +128,10 @@ def document_propose(request, document, state):
 
 	if request.user != document.user:
 		return {"error": 403}
+
+	ctx["state"] = bool(int(state))
+	document.is_proposed = bool(int(state))
+	document.save()
 
 	ctx["ok"] = True	
 	return ctx

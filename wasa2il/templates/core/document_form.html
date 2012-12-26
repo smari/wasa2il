@@ -14,11 +14,11 @@
 {% endif %}
 <form action="/polity/{{polity.id}}/document/new/" method="POST"/>
 {% for i in issues %}
-	<input type="hidden" name="issues" value="{{i.id}}">
+	<input type="hidden" name="issues" value="{{i.id}}" id="id_issues">
 {% endfor %}
 {%csrf_token%}
 <table>
-{{form.as_table}}
+<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" maxlength="128" /></td></tr>
 <tr><td></td><td><button type="submit"/>{% trans "Save" %}</button></td></tr>
 </table>
 </form>

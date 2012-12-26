@@ -2,17 +2,16 @@
 {% load i18n %}
 {% block content %}
 
-<div style="float:right">
+<div class="btn-group pull-right">
 	{% if document.user == user %}
 		{% if document.is_proposed %}
-			<a class="btn" onclick="document_propose({{document.id}}, 0);">Withdraw proposal</a>
+			<a class="btn" onclick="document_propose({{document.id}}, 0);">{% trans "Withdraw proposal" %}</a>
 		{% else %}
-			<a class="btn" onclick="document_propose({{document.id}}, 1);">Propose this document</a>
+			<a class="btn" onclick="document_propose({{document.id}}, 1);">{% trans "Propose this document" %}</a>
 		{% endif %}
 	{% endif %}
 	<a class="btn" href="/polity/{{polity.id}}/document/{{document.id}}/edit/">{% trans "Edit this document" %}</a>
 	<a class="btn" href="/polity/{{polity.id}}/">{% trans "Back to polity" %}</a>
-	<a class="btn" href="/polity/{{polity.id}}/document/">{% trans "Back to document list" %}</a>
 </div>
 <h1>
 {% if document.is_adopted %}Declaration {{document.decid}}:{% endif %}

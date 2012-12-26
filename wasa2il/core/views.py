@@ -122,7 +122,7 @@ class IssueDetailView(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
-		context_data.update({'comment_form': CommentForm()})
+		context_data.update({'comment_form': CommentForm(), 'user_proposals': self.object.user_documents(self.request.user)})
 		return context_data
 
 
@@ -224,8 +224,8 @@ class DocumentCreateView(CreateView):
 		self.object.polity = self.polity
 		self.object.user = self.request.user
 		self.object.save()
-		for i in self.issues:
-			self.object.issues.add(i)
+		for issue in form.cleaned_data.get('issues'):
+			self.object.issues.add(issue)
 		self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/"
 		return HttpResponseRedirect(self.get_success_url())
 
@@ -233,7 +233,7 @@ class DocumentCreateView(CreateView):
 class DocumentDetailView(DetailView):
 	model = Document
 	context_object_name = "document"
-	template_name = "core/document_detail.html"
+	template_name = "core/document_update.html"
 
 	def dispatch(self, *args, **kwargs):
 		self.polity = get_object_or_404(Polity, id=kwargs["polity"])

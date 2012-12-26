@@ -19,9 +19,18 @@
 		</div>
         <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
 		<p>{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
-        {% with issue.document_set.all as documents %}
+		<h4>{% trans "Proposed documents" %}</h4>
+        {% with issue.proposed_documents as documents %}
         {% include "core/_document_list_table.html" %}
         {% endwith %}
+
+        {% if user_proposals %}
+		<h4>{% trans "Your documents" %}</h4>
+        <p>{% trans "Documents you are working on that haven't been proposed:" %}</p>
+        {% with user_proposals as documents %}
+        {% include "core/_document_proposals_list_table.html" %}
+        {% endwith %}
+        {% endif %}
 	</div>
 
 

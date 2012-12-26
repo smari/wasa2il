@@ -7,7 +7,7 @@ var issue_object;
 var issue_id;
 
 function document_propose(doc, val) {
-	$.getJSON("/api/propose/", {"document": doc, "status": val}, function(data) {
+	$.getJSON("/api/document/propose/" + doc + "/" + val + "/", function(data) {
 		if (data.ok) {
 			
 		}
