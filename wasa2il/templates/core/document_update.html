@@ -5,12 +5,11 @@
 <div class="btn-group pull-right">
 	{% if document.user == user %}
 		{% if document.is_proposed %}
-			<a class="btn" onclick="document_propose(0);">{% trans "Withdraw proposal" %}</a>
+			<a class="btn" onclick="document_propose({{document.id}}, 0);">{% trans "Withdraw proposal" %}</a>
 		{% else %}
-			<a class="btn" onclick="document_propose(1);">{% trans "Propose this document" %}</a>
+			<a class="btn" onclick="document_propose({{document.id}}, 1);">{% trans "Propose this document" %}</a>
 		{% endif %}
 	{% endif %}
-	<a class="btn" href="/polity/{{polity.id}}/document/{{document.id}}/">{% trans "View this document" %}</a>
 </div>
 <h1>
 {% if document.is_adopted %}<small>{% trans "Agreement" %} {{document.decid}}:</small>{% endif %}
@@ -76,11 +75,12 @@
 
 <div class="span2 pull-right">
 	<div class="btn-group btn-group-vertical">
+	{% if document.polity in user.polity_set.all %}
 	<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
 	<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
 	<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
 	<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
-
+	{% endif %}
 	</div>
 </div>
 
