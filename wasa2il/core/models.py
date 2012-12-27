@@ -46,6 +46,16 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	document_midmatter		= models.TextField(**nullblank)
 	document_footer			= models.TextField(**nullblank)
 
+	def get_delegation(self, user):
+		"""Check if there is a delegation on this polity."""
+		try:
+			d = Delegate.objects.get(user=user, base_issue=self)
+			return d.get_path()
+		except:
+			pass
+		return []
+
+
 	def is_member(self, user):
 		return user in self.members.all()
 
@@ -80,6 +90,15 @@ class Topic(BaseIssue, getCreationBase('topic')):
 	class Meta:
 		ordering	= ["name"]
 
+
+	def get_delegation(self, user):
+		"""Check if there is a delegation on this topic."""
+		try:
+			d = Delegate.objects.get(user=user, base_issue=self)
+			return d.get_path()
+		except:
+			return self.polity.get_delegation(user)
+
 	def new_comments(self):
 		return Comment.objects.filter(issue__topics=self).order_by("-created")[:10]
 
@@ -100,6 +119,15 @@ class Issue(BaseIssue, getCreationBase('issue')):
 	def __unicode__(self):
 		return self.name
 
+	def get_delegation(self, user):
+		"""Check if there is a delegation on this topic."""
+		try:
+			d = Delegate.objects.get(user=user, base_issue=self)
+			return d.get_path()
+		except:
+			for i in self.topics.all():
+				return self.topics.get_delegation(user)
+
 	def topics_str(self):
 		return ', '.join(map(str, self.topics.all()))
 
@@ -116,6 +144,7 @@ class Comment(getCreationBase('comment')):
 
 
 class Delegate(models.Model):
+	polity			= models.ForeignKey(Polity)
 	user			= models.ForeignKey(User)
 	delegate		= models.ForeignKey(User, related_name='delegate_user')
 	base_issue		= models.ForeignKey(BaseIssue)

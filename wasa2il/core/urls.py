@@ -34,7 +34,7 @@ urlpatterns = patterns('',
 
 	(r'^polity/(?P<polity>\d+)/topic/new/$',		login_required(TopicCreateView.as_view())),
 	(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$',	login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
-	(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Topic, context_object_name="topic"))),
+	(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$',	login_required(TopicDetailView.as_view())),
 
 	(r'^delegation/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Delegate, context_object_name="delegation"))),
 
