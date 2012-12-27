@@ -127,6 +127,7 @@ class Delegate(models.Model):
 		return "[%s:%s] %s -> %s" % (self.type(), self.base_issue, self.user, self.delegate)
 
 	def polity(self):
+		"""Gets the polity that the delegation exists within."""
 		try: return self.base_issue.issue.polity
 		except: pass
 		try: return self.base_issue.topic.polity
@@ -135,11 +136,12 @@ class Delegate(models.Model):
 		except: pass
 
 	def result(self):
-		# Work through the delegations and figure out where it ends
+		"""Work through the delegations and figure out where it ends"""
 		print self.get_path()
 		return self.get_path()[-1].delegate
 
 	def type(self):
+		"""Figure out what kind of thing is being delegated. Returns a translated string."""
 		try:
 			b = self.base_issue.issue
 			return _("Issue")
@@ -151,9 +153,16 @@ class Delegate(models.Model):
 		try:
 			b = self.base_issue.polity
 			return _("Polity")
-		except: pass	
+		except: pass
+
+	def get_power(self):
+		"""Get how much power has been transferred through to this point in the (reverse) delegation chain."""
+		# TODO: FIXME
+		pass
+
 
 	def get_path(self):
+		"""Get the delegation pathway from here to the end of the chain."""
 		path = [self]
 		while True:
 			item = path[-1]
@@ -189,35 +198,6 @@ class Delegate(models.Model):
 		return path
 
 
-def get_delegate(user, issue):
-	# Check for direct delegation:
-	dels = user.delegate_set.filter(base_issue=issue)
-
-	if len(dels) > 0:
-		return dels[0].delegate.get_delegate(issue)
-
-	# Check for indirect delegation (through a Topic, Polity, ..):
-	if isinstance(issue, Issue):
-		for topic in issue.topics.all():
-			dels = user.delegate_set.filter(base_issue=topic)
-			if len(dels) > 0:
-				# TODO: FIXME
-				# Problem: Whereas an issue can belong to multiple topics, this is
-				#  basically picking the first delegation to a topic, rather than
-				#  creating weightings. Should we do weightings?
-				return dels[0].delegate.get_delegate(topic)
-
-	elif isinstance(issue, Topic):
-		dels = user.delegate_set.filter(base_issue=issue.polity)
-		if len(dels) > 0:
-			return dels[0].delegate.get_delegate(issue.polity)
-
-	# If nothing, then it isn't being delegated, so we return the original user.
-	return user
-
-
-User.get_delegate = get_delegate
-
 
 class VoteOption(NameSlugBase):
 	pass
@@ -231,6 +211,12 @@ class Vote(models.Model):
 
 	class Meta:
 		unique_together = (('user', 'issue'))
+
+	def power(self):
+		# Follow reverse delgation chain to discover how much power we have.
+		p = 1
+
+		return p
 
 
 class MembershipVote(models.Model):
