@@ -88,6 +88,18 @@ class TopicCreateView(CreateView):
 		return HttpResponseRedirect(self.get_success_url())
 
 
+class TopicDetailView(DetailView):
+	model = Topic
+	context_object_name = "topic"
+	template_name = "core/topic_detail.html"
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
+		context_data["delegation"] = self.object.get_delegation(self.request.user)
+		context_data["polity"] = self.object.polity
+		return context_data
+
+
 class IssueCreateView(CreateView):
 	context_object_name = "issue"
 	template_name = "core/issue_form.html"
@@ -123,6 +135,7 @@ class IssueDetailView(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
 		context_data.update({'comment_form': CommentForm(), 'user_proposals': self.object.user_documents(self.request.user)})
+		context_data["delegation"] = self.object.get_delegation(self.request.user)
 		return context_data
 
 
@@ -172,6 +185,8 @@ class PolityDetailView(DetailView):
 		ctx["user_requested_membership_now"] = self.requested_membership
 		ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
 		ctx["politytopics"] = self.object.get_topic_list(self.request.user)
+		ctx["delegation"] = self.object.get_delegation(self.request.user)
+		ctx["delegations"] = Delegate.objects.filter(user=self.request.user, polity=self.object)
 
 		context_data.update(ctx)
 		return context_data

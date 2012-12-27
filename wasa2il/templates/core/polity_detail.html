@@ -16,6 +16,10 @@
 </div>
 <h1>{{polity.name}}</h1>
 
+{% if delegation %}
+<div class="alert alert-notice">{% trans "This polity is delegated." %} <a href="/delegation/{{delegation.0.id}}">{% trans "View details." %}</a></div>
+{% endif %}
+
 {% if user_requested_membership %}
 	{% if user_requested_membership_now %}
 		<div class="alert alert-success">{% trans "Your request to join has been sent." %}</div>
@@ -28,7 +32,7 @@
 	<ul class="nav nav-pills">
 		<li><a href="#" onclick="$('#modal_members').modal('show');">{{polity.members.count}} {% trans "members" %}</a></li>
 		<li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
-		<li><a href="#documents">{{polity.document_set.count}} {% trans "documents" %}</a></li>
+		<li><a href="#documents">{{polity.agreements.count}} {% trans "agreements" %}</a></li>
 		<li><a href="#subpolities">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
 	
 	{% if user_is_member %}
@@ -38,6 +42,10 @@
 			{% else %}
 			<li><a href="#" onclick="$('#modal_requests').modal('show');">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
 			{% endif %}
+		{% endif %}
+
+		{% if delegations.count > 0 %}
+			<li><a href="#delegations">{% trans "You have" %} {{delegations.count}} {% trans "delegations" %}</a></li>
 		{% endif %}
 	{% endif %}	
 	</ul>
