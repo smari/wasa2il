@@ -20,8 +20,8 @@ class BaseIssue(NameSlugBase):
 
 class UserProfile(models.Model):
 	user			= models.OneToOneField(User)
-	displayname = models.CharField(max_length="255", help_text="The name to display on the site.", **nullblank)
-	email_visible = models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
+	displayname		= models.CharField(max_length="255", help_text="The name to display on the site.", **nullblank)
+	email_visible		= models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
 	bio			= models.TextField(**nullblank)
 	picture			= models.ImageField(upload_to="users", **nullblank)
 
@@ -30,6 +30,57 @@ class UserProfile(models.Model):
 
 	def __unicode__(self):
 		return 'Profile for %s (%d)' % (unicode(self.user), self.user.id)
+
+
+class PolityRuleset(models.Model):
+	polity			= models.ForeignKey('Polity')
+	name			= models.CharField(max_length=255)
+
+	# Issue quora is how many members need to support a discussion
+	# before it goes into proposal mode. If 0, use timer.
+	# If issue_quora_percent, user percentage of polity members.
+	issue_quora_percent	= models.BooleanField()
+	issue_quora		= models.IntegerField()
+
+	# Issue majority is how many percent of the polity are needed
+	# for a decision to be made on the issue.
+	issue_majority		= models.IntegerField()
+
+	# Denotes how many seconds an issue is in various phases.
+	issue_discussion_time	= models.IntegerField()
+	issue_proposal_time	= models.IntegerField()
+	issue_vote_time		= models.IntegerField()
+
+	# Sometimes we require an issue to be confirmed with a secondary vote.
+	# Note that one option here is to reference the same ruleset, and thereby
+	# force continuous confirmation (such as with annual budgets, etc..)
+	# Also, can be used to create multiple discussion rounds
+	confirm_with		= models.ForeignKey('PolityRuleset', **nullblank)
+
+	# For multi-round discussions, we may want corresponding documents not to
+	# be adopted when the vote is complete, but only for the successful vote
+	# to allow progression into the next round.
+	adopted_if_accepted	= models.BooleanField()
+
+
+	def has_quora(self, issue):
+		# TODO: Return whether this has acheived quora on this ruleset
+		pass
+
+	def has_majority(self, issue):
+		# TODO: Return whether this has majority on this ruleset
+		pass
+
+	def get_phase(self, issue):
+		# TODO: Return information about the current phase
+		pass
+
+	def get_timeline(self, issue):
+		# TODO: Return a data structure describing when things will happen
+		# Should contain reference to confirmation actions, but not expand
+		# on them (as this could be an infinite loop, and confirmation 
+		# actions aren't actually determined until post-vote.
+		pass
 
 
 class Polity(BaseIssue, getCreationBase('polity')):
@@ -43,8 +94,8 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
 	document_frontmatter	= models.TextField(**nullblank)
-	document_midmatter		= models.TextField(**nullblank)
-	document_footer			= models.TextField(**nullblank)
+	document_midmatter	= models.TextField(**nullblank)
+	document_footer		= models.TextField(**nullblank)
 
 	def get_delegation(self, user):
 		"""Check if there is a delegation on this polity."""
@@ -115,6 +166,8 @@ class Issue(BaseIssue, getCreationBase('issue')):
 	polity 			= models.ForeignKey(Polity)
 	topics			= models.ManyToManyField(Topic)
 	options			= models.ManyToManyField('VoteOption')
+	deadline_proposals	= models.DateTimeField()
+	deadline_votes		= models.DateTimeField()
 
 	def __unicode__(self):
 		return self.name
@@ -126,7 +179,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
 			return d.get_path()
 		except:
 			for i in self.topics.all():
-				return self.topics.get_delegation(user)
+				return i.get_delegation(user)
 
 	def topics_str(self):
 		return ', '.join(map(str, self.topics.all()))
