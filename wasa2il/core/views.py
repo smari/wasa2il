@@ -186,7 +186,7 @@ class PolityDetailView(DetailView):
 		ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
 		ctx["politytopics"] = self.object.get_topic_list(self.request.user)
 		ctx["delegation"] = self.object.get_delegation(self.request.user)
-		ctx["delegations"] = Delegate.objects.filter(user=self.request.user, polity=self.object)
+		# ctx["delegations"] = Delegate.objects.filter(user=self.request.user, polity=self.object)
 
 		context_data.update(ctx)
 		return context_data
