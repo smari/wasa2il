@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load bootstrap %}
+
+{% block content %}
+<div class="page-header">
+  <h1>{% trans "Settings" %}</h1>
+ <p>{% trans "You are signed in as" %} {% if user.get_profile.displayname %}{{ user.get_profile.displayname }}{% else %}{{user}}{% endif %}.</p>
+</div>
+<form action="/accounts/settings/" method="post" class="form-horizontal">{% csrf_token %}
+  {{ form|bootstrap }}
+  <div class="control-group">
+    <div class="controls">
+      <button class="btn-primary btn-large" type="submit">{% trans "Submit" %}</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

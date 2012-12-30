@@ -1,5 +1,7 @@
 from django.forms import ModelForm
-from core.models import Topic, Issue, Comment, Document, Polity, Meeting
+from django.forms import EmailField
+
+from core.models import Topic, Issue, Comment, Document, Polity, Meeting, UserProfile
 
 class TopicForm(ModelForm):
 	class Meta:
@@ -34,3 +36,11 @@ class MeetingForm(ModelForm):
 	class Meta:
 		model = Meeting
 		exclude = ('user', 'polity', 'is_agenda_open', 'managers', 'attendees', 'time_started', 'time_ended')
+
+
+class UserProfileForm(ModelForm):
+	email = EmailField(help_text="The email address you'd like to use for the site.")
+
+	class Meta:
+		model = UserProfile
+		fields = ('displayname', 'email', 'email_visible', 'picture', 'bio')
