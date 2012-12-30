@@ -2,34 +2,18 @@
 {% load i18n %}
 
 {% block content %}
-
-<div class="row">
-  <div class="span10">
-    <div class="page-header">
-      {% if profile.email_visible %}<div class="pull-right"><small>{{subject.email}}</small></div>{% endif %}
-      <h1>
-        {% if profile.displayname %}
-        {{ profile.displayname }} <small>({{subject.username}})</small>
-        {% else %}
-        {{subject.username}}
-        {% endif %}
-      </h1>
-    </div>
-    <div id="user-bio">
-      {{profile.bio}}
-    </div>
-    <hr>
-  </div>
-  <div class="span2">
-      {% if profile.picture %}
-      <img class="img-polaroid" src="{{ profile.picture.url }}" />
-      {% else %}
-      <img class="img-polaroid" src="http://placekitten.com/g/200/300" />
-      {% endif %}
-  </div>
+<div class="page-header">
+  {% if profile.email_visible %}<div class="pull-right"><small>{{subject.email}}</small></div>{% endif %}
+  <h1>
+    {% if profile.displayname %}
+    {{ profile.displayname }} <small>({{subject.username}})</small>
+    {% else %}
+    {{subject.username}}
+    {% endif %}
+  </h1>
 </div>
 
-<div class="tabbable">
+<div class="tabbable tabs-left">
   <ul class="nav nav-tabs">
     <li class="active"><a href="#summary" data-toggle="tab">{% trans "Summary" %}</a></li>
     {% for polity in polities %}
@@ -38,7 +22,35 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="summary">
-      <img src="http://cdn.memegenerator.net/instances/400x/32393202.jpg">
+      <div class="row-fluid">
+        <div class="span9">
+          <div id="user-bio">
+            {% if profile.bio %}
+            {{profile.bio}}
+            {% else %}
+            {% trans "This user hasn't provided a biography." %}
+            {% endif %}
+          </div>
+          <hr>
+          <div id="summary-stats">
+            <p>
+              {% trans "This user has created:" %}
+            </p>
+            <ul>
+              <li>{{ subject.polity_created_by.count }} {% trans "polities" %}</li>
+              <li>{{ subject.issue_created_by.count }} {% trans "issues" %}</li>
+              <li>{{ subject.created_by.count }} {% trans "documents" %}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="span2">
+          {% if profile.picture %}
+          <img class="img-polaroid" src="{{ profile.picture.url }}" />
+          {% else %}
+          <img class="img-polaroid" src="http://placekitten.com/g/200/300" />
+          {% endif %}
+        </div>
+      </div>
     </div>
     {% for polity in polities %}
     <div class="tab-pane" id="polity{{ polity.id }}">
@@ -51,10 +63,8 @@
         <strong>{{ polity }}</strong> {% trans "is not viewable by non-members." %}
       </p></div>
       {% endif %}
-      
     </div>
     {% endfor %}
   </div>
 </div>
-
 {% endblock %}

@@ -17,7 +17,9 @@ urlpatterns = patterns('',
 
 	# Core app
 	(r'^', include('wasa2il.core.urls')),
+
 	(r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
+	(r'^accounts/settings/', 'core.views.settings'),
 	(r'^accounts/', include('registration.urls')),
 
 	(r'^help/$', direct_to_template, {"template": "help/index.html"}),
