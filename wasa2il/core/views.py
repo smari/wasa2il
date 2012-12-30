@@ -55,6 +55,21 @@ def profile(request, username=None):
 
 	return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
 
+@login_required
+def settings (request):
+	ctx = {}
+	if request.method == 'POST':
+		form = UserProfileForm(request.POST, instance=request.user.get_profile())
+		if form.is_valid():
+			request.user.email = form.cleaned_data['email']
+			request.user.save()
+			form.save()
+			return HttpResponseRedirect("/accounts/profile/")
+	else:
+		form = UserProfileForm(initial={'email': request.user.email}, instance=request.user.get_profile())
+
+	ctx["form"] = form
+	return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
 
 class TopicListView(ListView):
 	context_object_name = "topics"
