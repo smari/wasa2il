@@ -22,7 +22,6 @@ class UserProfile(models.Model):
 	"""A user's profile data. Contains various informative areas, plus various settings."""
 	user			= models.OneToOneField(User)
 
-
 	# User information
 	displayname		= models.CharField(max_length="255", verbose_name="Display name", help_text="The name to display on the site.", **nullblank)
 	email_visible		= models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
