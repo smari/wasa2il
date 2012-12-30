@@ -19,20 +19,27 @@ class BaseIssue(NameSlugBase):
 
 
 class UserProfile(models.Model):
+	"""A user's profile data. Contains various informative areas, plus various settings."""
 	user			= models.OneToOneField(User)
+
+
+	# User information
 	displayname		= models.CharField(max_length="255", verbose_name="Display name", help_text="The name to display on the site.", **nullblank)
 	email_visible		= models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
 	bio			= models.TextField(**nullblank)
 	picture			= models.ImageField(upload_to="users", **nullblank)
 
+	# User settings
 	language		= models.CharField(max_length="6", default="en")
 	topics_showall		= models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
+
 
 	def __unicode__(self):
 		return 'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 
 
 class PolityRuleset(models.Model):
+	"""A polity's ruleset."""
 	polity			= models.ForeignKey('Polity')
 	name			= models.CharField(max_length=255)
 
@@ -84,6 +91,8 @@ class PolityRuleset(models.Model):
 
 
 class Polity(BaseIssue, getCreationBase('polity')):
+	"""A political entity. See the manual."""
+
 	parent			= models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
 	members			= models.ManyToManyField(User)
 	invite_threshold	= models.IntegerField(default=3, help_text="How many members need to vouch for a new member before he can join.")
@@ -135,6 +144,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
 
 class Topic(BaseIssue, getCreationBase('topic')):
+	"""A collection of issues unified categorically."""
 	polity			= models.ForeignKey(Polity)
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
@@ -155,6 +165,7 @@ class Topic(BaseIssue, getCreationBase('topic')):
 
 
 class UserTopic(models.Model):
+	"""Whether a user likes a topic."""
 	topic			= models.ForeignKey(Topic)
 	user			= models.ForeignKey(User)
 
@@ -168,6 +179,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
 	options			= models.ManyToManyField('VoteOption')
 	deadline_proposals	= models.DateTimeField()
 	deadline_votes		= models.DateTimeField()
+	ruleset			= models.ForeignKey(PolityRuleset)
 
 	def __unicode__(self):
 		return self.name
