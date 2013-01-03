@@ -131,6 +131,7 @@ class IssueCreateView(CreateView):
 		return context_data
 
 	def form_valid(self, form):
+		print "Saving issue..."
 		self.object = form.save(commit=False)
 		self.object.polity = self.polity
 		self.object.save()
@@ -138,7 +139,8 @@ class IssueCreateView(CreateView):
 			self.object.topics.add(topic)
 
 		self.object.save()
-
+		print "Issue saved as %d" % self.object.id
+		print "Redirecting to %s" % self.get_success_url()
 		return HttpResponseRedirect(self.get_success_url())
 
 

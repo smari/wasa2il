@@ -176,8 +176,8 @@ class Issue(BaseIssue, getCreationBase('issue')):
 	polity 			= models.ForeignKey(Polity)
 	topics			= models.ManyToManyField(Topic)
 	options			= models.ManyToManyField('VoteOption')
-	deadline_proposals	= models.DateTimeField()
-	deadline_votes		= models.DateTimeField()
+	deadline_proposals	= models.DateTimeField(**nullblank)
+	deadline_votes		= models.DateTimeField(**nullblank)
 	ruleset			= models.ForeignKey(PolityRuleset)
 
 	def __unicode__(self):
@@ -532,3 +532,21 @@ class MeetingIntervention(models.Model):
 
 	def __unicode__(self):
 		return self.user.username
+
+
+def get_power(user, issue):
+	power = 1
+	bases = [issue, issue.polity]
+	for i in issue.topics.all():
+		bases.append(i)
+	# print "Getting power for user %s on issue %s" % (user, issue)
+	delegations = Delegate.objects.filter(delegate=user, base_issue__in=bases)
+	for i in delegations:
+		power += get_power(i.user, issue)
+	return power
+
+def get_issue_power(issue, user):
+	return get_power(user, issue)
+
+Issue.get_power = get_issue_power
+User.get_power = get_power
