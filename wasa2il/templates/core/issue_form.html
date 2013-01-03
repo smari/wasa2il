@@ -4,9 +4,22 @@
 
 <h1>{% trans "New issue" %}</h1>
 
+{% for i in form.errors %}
+{{i}}
+{% endfor %}
+
 <form action="/polity/{{polity.id}}/issue/new/" method="POST"/>
 {%csrf_token%}
+<input type="hidden" name="id_polity" value="{{polity.id}}"/>
 <table>
+<tr><th><label for="id_ruleset">Rules:</label></th><td>
+	<select name="ruleset" id="id_ruleset">
+	{% for i in polity.polityruleset_set.all %}
+		<option value="{{i.id}}">{{i.name}}</option>
+	{% endfor %}
+	</select>
+</td></tr>
+
 <tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" maxlength="128" /></td>
 <td rowspan="3">
 <label for="id_topics">Topics:</label></th><td rowspan="3"><select multiple="multiple" name="topics" id="id_topics" size="10">
