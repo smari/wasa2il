@@ -14,6 +14,10 @@ urlpatterns = patterns('',
 	(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	# Uncomment the next line to enable the admin:
 	(r'^admin/', include(admin.site.urls)),
+	
+	# Enabling i18n language changes per
+        # https://docs.djangoproject.com/en/1.4/topics/i18n/translation/#the-set-language-redirect-view
+        (r'^i18n/', include('django.conf.urls.i18n')),
 
 	# Core app
 	(r'^', include('wasa2il.core.urls')),
