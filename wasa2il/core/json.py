@@ -377,6 +377,8 @@ def meeting_agenda_open(request):
 	meeting.is_agenda_open = True
 	meeting.save()
 
+	return ctx
+
 
 @login_required
 @jsonize
@@ -396,6 +398,8 @@ def meeting_agenda_close(request):
 
 	meeting.is_agenda_open = False
 	meeting.save()
+
+	return ctx
 
 
 @login_required
