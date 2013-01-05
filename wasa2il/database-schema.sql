@@ -8,10 +8,27 @@ CREATE TABLE "core_baseissue" (
 ;
 CREATE TABLE "core_userprofile" (
     "id" integer NOT NULL PRIMARY KEY,
-    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    "user_id" integer NOT NULL UNIQUE REFERENCES "auth_user" ("id"),
+    "displayname" varchar(255),
+    "email_visible" bool NOT NULL,
     "bio" text,
     "picture" varchar(100),
+    "language" varchar(6) NOT NULL,
     "topics_showall" bool NOT NULL
+)
+;
+CREATE TABLE "core_polityruleset" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "polity_id" integer NOT NULL,
+    "name" varchar(255) NOT NULL,
+    "issue_quora_percent" bool NOT NULL,
+    "issue_quora" integer NOT NULL,
+    "issue_majority" integer NOT NULL,
+    "issue_discussion_time" integer NOT NULL,
+    "issue_proposal_time" integer NOT NULL,
+    "issue_vote_time" integer NOT NULL,
+    "confirm_with_id" integer,
+    "adopted_if_accepted" bool NOT NULL
 )
 ;
 CREATE TABLE "core_polity_members" (
@@ -31,7 +48,10 @@ CREATE TABLE "core_polity" (
     "invite_threshold" integer NOT NULL,
     "is_listed" bool NOT NULL,
     "is_nonmembers_readable" bool NOT NULL,
-    "image" varchar(100)
+    "image" varchar(100),
+    "document_frontmatter" text,
+    "document_midmatter" text,
+    "document_footer" text
 )
 ;
 CREATE TABLE "core_topic" (
@@ -70,7 +90,11 @@ CREATE TABLE "core_issue" (
     "created_by_id" integer REFERENCES "auth_user" ("id"),
     "modified_by_id" integer REFERENCES "auth_user" ("id"),
     "created" datetime NOT NULL,
-    "modified" datetime NOT NULL
+    "modified" datetime NOT NULL,
+    "polity_id" integer NOT NULL REFERENCES "core_polity" ("baseissue_ptr_id"),
+    "deadline_proposals" datetime,
+    "deadline_votes" datetime,
+    "ruleset_id" integer NOT NULL REFERENCES "core_polityruleset" ("id")
 )
 ;
 CREATE TABLE "core_comment" (
@@ -141,13 +165,6 @@ CREATE TABLE "core_document" (
     "is_proposed" bool NOT NULL
 )
 ;
-CREATE TABLE "core_statement_text" (
-    "id" integer NOT NULL PRIMARY KEY,
-    "statement_id" integer NOT NULL,
-    "statementoption_id" integer NOT NULL,
-    UNIQUE ("statement_id", "statementoption_id")
-)
-;
 CREATE TABLE "core_statement" (
     "id" integer NOT NULL PRIMARY KEY,
     "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
@@ -158,8 +175,21 @@ CREATE TABLE "core_statement" (
 ;
 CREATE TABLE "core_statementoption" (
     "id" integer NOT NULL PRIMARY KEY,
+    "statement_id" integer NOT NULL REFERENCES "core_statement" ("id"),
     "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
     "text" text NOT NULL
+)
+;
+CREATE TABLE "core_changeproposal" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "document_id" integer NOT NULL REFERENCES "core_document" ("id"),
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    "timestamp" datetime NOT NULL,
+    "actiontype" integer NOT NULL,
+    "refitem" integer NOT NULL,
+    "destination" integer NOT NULL,
+    "content" text NOT NULL,
+    "contenttype" integer NOT NULL
 )
 ;
 CREATE TABLE "core_meeting_managers" (
@@ -218,7 +248,8 @@ CREATE TABLE "core_meetingintervention" (
     "done" integer NOT NULL
 )
 ;
-CREATE INDEX "core_userprofile_fbfc09f1" ON "core_userprofile" ("user_id");
+CREATE INDEX "core_polityruleset_45004adb" ON "core_polityruleset" ("polity_id");
+CREATE INDEX "core_polityruleset_b4cb649" ON "core_polityruleset" ("confirm_with_id");
 CREATE INDEX "core_polity_b5de30be" ON "core_polity" ("created_by_id");
 CREATE INDEX "core_polity_6162aa58" ON "core_polity" ("modified_by_id");
 CREATE INDEX "core_polity_63f17a16" ON "core_polity" ("parent_id");
@@ -229,6 +260,8 @@ CREATE INDEX "core_usertopic_57732028" ON "core_usertopic" ("topic_id");
 CREATE INDEX "core_usertopic_fbfc09f1" ON "core_usertopic" ("user_id");
 CREATE INDEX "core_issue_b5de30be" ON "core_issue" ("created_by_id");
 CREATE INDEX "core_issue_6162aa58" ON "core_issue" ("modified_by_id");
+CREATE INDEX "core_issue_45004adb" ON "core_issue" ("polity_id");
+CREATE INDEX "core_issue_839a6c5" ON "core_issue" ("ruleset_id");
 CREATE INDEX "core_comment_b5de30be" ON "core_comment" ("created_by_id");
 CREATE INDEX "core_comment_6162aa58" ON "core_comment" ("modified_by_id");
 CREATE INDEX "core_comment_18752524" ON "core_comment" ("issue_id");
@@ -247,7 +280,10 @@ CREATE INDEX "core_document_45004adb" ON "core_document" ("polity_id");
 CREATE INDEX "core_document_fbfc09f1" ON "core_document" ("user_id");
 CREATE INDEX "core_statement_fbfc09f1" ON "core_statement" ("user_id");
 CREATE INDEX "core_statement_f4226d13" ON "core_statement" ("document_id");
+CREATE INDEX "core_statementoption_668ca7b2" ON "core_statementoption" ("statement_id");
 CREATE INDEX "core_statementoption_fbfc09f1" ON "core_statementoption" ("user_id");
+CREATE INDEX "core_changeproposal_f4226d13" ON "core_changeproposal" ("document_id");
+CREATE INDEX "core_changeproposal_fbfc09f1" ON "core_changeproposal" ("user_id");
 CREATE INDEX "core_meeting_fbfc09f1" ON "core_meeting" ("user_id");
 CREATE INDEX "core_meeting_45004adb" ON "core_meeting" ("polity_id");
 CREATE INDEX "core_meetingagenda_784bb48" ON "core_meetingagenda" ("meeting_id");
