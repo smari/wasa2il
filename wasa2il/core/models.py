@@ -522,11 +522,23 @@ class MeetingAgenda(models.Model):
 		return self.item
 
 
+MOTION = {
+	'TALK': 1,
+	'REPLY': 2,
+	'CLARIFY': 3,
+	'POINT': 4,
+}
+
+
+def invert_map(d):
+	return dict([v, k] for k, v in d.items())
+
+
 class MeetingIntervention(models.Model):
 	meeting			= models.ForeignKey(Meeting)
 	user			= models.ForeignKey(User)
 	agendaitem		= models.ForeignKey(MeetingAgenda)
-	motion			= models.IntegerField()
+	motion			= models.IntegerField(choices=invert_map(MOTION).items())  # c.f. MOTION above
 	order			= models.IntegerField()
 	done			= models.IntegerField()	 # 0 = Not done, 1 = Active, 2 = Done
 

@@ -7,7 +7,7 @@ from models import (
 	VoteOption, Comment, Vote,
 	Delegate, MembershipRequest,
 	MembershipVote, UserProfile,
-	Meeting
+	Meeting, MeetingIntervention
 	)
 
 
@@ -97,3 +97,5 @@ register(Meeting)
 # User profile mucking
 admin.site.unregister(auth.models.User)
 register(auth.models.User, UserAdmin)
+
+register(MeetingIntervention)
