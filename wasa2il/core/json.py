@@ -1,7 +1,6 @@
-from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from django.template import RequestContext
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -9,6 +8,7 @@ import simplejson as json
 
 from core.models import *
 from core.forms import *
+
 
 def jsonize(f):
 	def wrapped(*args, **kwargs):
@@ -53,18 +53,20 @@ def document_changeproposal_new(request, document, type):
 		return document_statement_new(request, document, type)
 
 	if request.user not in doc.polity.users.all():
-		return {"error": 403}
+		ctx['error'] = 403
+		return ctx
 
 	s = ChangeProposal()
 	s.user = request.user
 	s.document = doc
 	s.contenttype = type
 
-	# s.actiontype = 
-	# s.refitem = 
+	# s.actiontype =
+	# s.refitem =
 	# s.destination =
-	# s.content = 
-	# 
+	# s.content =
+
+	return ctx
 
 
 @login_required
@@ -133,14 +135,13 @@ def document_propose(request, document, state):
 	document.is_proposed = bool(int(state))
 	document.save()
 
-	ctx["ok"] = True	
+	ctx["ok"] = True
 	return ctx
 
 
 @login_required
 @jsonize
 def issue_comment_send(request):
-	ctx = {}
 	issue = get_object_or_404(Issue, id=request.REQUEST.get("issue", 0))
 	text = request.REQUEST.get("comment")
 	comment = Comment()
@@ -171,8 +172,8 @@ def meeting_start(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	meeting.time_started = datetime.now()
@@ -196,15 +197,14 @@ def meeting_end(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	meeting.time_ended = datetime.now()
 	meeting.save()
 
 	return ctx
-
 
 
 @login_required
@@ -216,7 +216,7 @@ def meeting_attend(request, meeting):
 
 	if not meeting.polity.is_member(request.user):
 		ctx["ok"] = False
-		return ctx	
+		return ctx
 
 	meeting.attendees.add(request.user)
 	ctx["ok"] = True
@@ -231,13 +231,13 @@ def meeting_poll(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not meeting.polity.is_member(request.user):
 		ctx["ok"] = False
-		return ctx	
+		return ctx
 
 	try:	time_starts = meeting.time_starts.strftime("%d/%m/%Y %H:%I")
 	except:	time_starts = None
@@ -248,10 +248,9 @@ def meeting_poll(request):
 	try:	time_ended = meeting.time_ended.strftime("%d/%m/%Y %H:%I")
 	except:	time_ended = None
 
-
 	ctx["polity"] = {"name": meeting.polity.name}
 	ctx["meeting"] = {
-		"called_by": meeting.user.username, 
+		"called_by": meeting.user.username,
 		"time_starts": time_starts,
 		"time_starts_iso": str(meeting.time_starts),
 		"time_started": time_started,
@@ -268,13 +267,13 @@ def meeting_poll(request):
 		"attendees": [user.username for user in meeting.attendees.all()],
 		"user_is_manager": request.user in meeting.managers.all(),
 		"user_is_attendee": request.user in meeting.attendees.all(),
-		"agenda": [{"id": i.id, "item":i.item, "order":i.order, "done": i.done, "interventions": 
-			[{"user": x.user.username, "order": x.order, "motion": x.motion, "done": x.done} 
-			for x in i.meetingintervention_set.all()]} 
+		"agenda": [{"id": i.id, "item":i.item, "order":i.order, "done": i.done, "interventions":
+			[{"user": x.user.username, "order": x.order, "motion": x.motion, "done": x.done}
+			for x in i.meetingintervention_set.all()]}
 			for i in meeting.meetingagenda_set.all().order_by("order")],
 	}
 	ctx["ok"] = True
-	
+
 	return ctx
 
 
@@ -286,19 +285,19 @@ def meeting_agenda_add(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not meeting.polity.is_member(request.user):
 		ctx["ok"] = False
-		return ctx	
+		return ctx
 
 	ag = MeetingAgenda()
 	ag.meeting = meeting
 	ag.item = request.REQUEST.get("item", "")
 	try:
-		ag.order = meeting.meetingagenda_set.all().order_by("-order")[0].order+1
+		ag.order = meeting.meetingagenda_set.all().order_by("-order")[0].order + 1
 	except:
 		ag.order = 1
 
@@ -307,17 +306,17 @@ def meeting_agenda_add(request):
 
 	return meeting_poll(request)
 
+
 @login_required
 @jsonize
 def meeting_agenda_remove(request):
 	ctx = {}
 
-
 	agendaid = int(request.REQUEST.get('item', 0))
 	if not agendaid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	agenda = get_object_or_404(MeetingAgenda, id=agendaid)
 
 	if not agenda.meeting.id == int(request.REQUEST.get('meeting', 0)):
@@ -326,7 +325,7 @@ def meeting_agenda_remove(request):
 
 	if not agenda.meeting.polity.is_member(request.user):
 		ctx["ok"] = False
-		return ctx	
+		return ctx
 
 	agenda.delete()
 
@@ -341,15 +340,15 @@ def meeting_agenda_reorder(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not meeting.polity.is_member(request.user):
 		ctx["ok"] = False
 		return ctx
 
-	order = request.REQUEST.getlist("order[]");
+	order = request.REQUEST.getlist("order[]")
 	for i in range(len(order)):
 		agendaitem = MeetingAgenda.objects.get(id=order[i])
 		agendaitem.order = i
@@ -366,8 +365,8 @@ def meeting_agenda_open(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.managers.all():
@@ -388,8 +387,8 @@ def meeting_agenda_close(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.managers.all():
@@ -410,8 +409,8 @@ def meeting_agenda_next(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.managers.all():
@@ -441,8 +440,8 @@ def meeting_agenda_prev(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.managers.all():
@@ -472,8 +471,8 @@ def meeting_intervention_next(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.attendees.all():
@@ -485,9 +484,6 @@ def meeting_intervention_next(request):
 	except:
 		ctx["ok"] = False
 		return ctx
-
-	
-
 
 	return meeting_poll(request)
 
@@ -506,8 +502,8 @@ def meeting_intervention_add(request):
 	meetingid = int(request.REQUEST.get('meeting', 0))
 	if not meetingid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.attendees.all():
@@ -517,7 +513,7 @@ def meeting_intervention_add(request):
 	motion = int(request.REQUEST.get('type', 0))
 	if not motion:
 		ctx["ok"] = False
-		return ctx	
+		return ctx
 
 	try:
 		currentitem = meeting.meetingagenda_set.get(done=1)
@@ -541,36 +537,36 @@ def meeting_intervention_add(request):
 		except:
 			pass
 		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0].order+1
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0].order + 1
 		except:
 			intervention.order = 1
 	elif motion == 2:	# Request to reply directly
 		try:
-			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0]
+			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0]
 			if lastspeak.user == request.user:
 				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
 				return meeting_poll(request)
 		except:
 			pass
 		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0].order+1
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0].order + 1
 		except:
 			return meeting_poll(request)
 	elif motion == 3:	# Request to clarify
 		try:
-			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0]
+			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0]
 			if lastspeak.user == request.user:
 				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
 				return meeting_poll(request)
 		except:
 			pass
 		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3]).order_by("-order")[0].order+1
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0].order + 1
 		except:
 			return meeting_poll(request)
 	elif motion == 4:	# Request to make a point of order
 		try:
-			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3,4]).order_by("-order")[0]
+			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3, 4]).order_by("-order")[0]
 			if lastspeak.user == request.user:
 				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
 				return meeting_poll(request)
@@ -578,15 +574,15 @@ def meeting_intervention_add(request):
 			pass
 
 		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2,3,4]).order_by("-order")[0].order+1
+			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3, 4]).order_by("-order")[0].order + 1
 		except:
 			intervention.order = 1
-	
+
 	shift = MeetingIntervention.objects.filter(agendaitem=currentitem, order__gt=intervention.order)
 	for i in shift:
 		i.order += 1
 		i.save()
-		
+
 	intervention.save()
 
 	return meeting_poll(request)
@@ -602,7 +598,7 @@ def meeting_manager_add(request):
 		ctx["ok"] = False
 		ctx['error'] = 'Meeting not found'
 		return ctx
-		
+
 	meeting = get_object_or_404(Meeting, id=meetingid)
 
 	if not request.user in meeting.managers.all():
@@ -640,8 +636,8 @@ def topic_star(request):
 	topicid = int(request.REQUEST.get('topic', 0))
 	if not topicid:
 		ctx["ok"] = False
-		return ctx	
-		
+		return ctx
+
 	topic = get_object_or_404(Topic, id=topicid)
 
 	ctx["topic"] = topic.id
@@ -658,7 +654,7 @@ def topic_star(request):
 	ctx["html"] = render_to_string("core/_topic_list_table.html", {"topics": topics, "user": request.user, "polity": topic.polity})
 
 	ctx["ok"] = True
-	
+
 	return ctx
 
 
