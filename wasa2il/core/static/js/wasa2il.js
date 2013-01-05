@@ -129,7 +129,7 @@ function meeting_render() {
 			$("#agenda-items li").each(function(item) {
 				ord.push($($("#agenda-items li")[item]).data("seqid"));
 			});
-			$.getJSON("/api/meeting/agenda/reorder/", {"meeting": meeting_id, "order": ord}, function() {
+			$.getJSON("/api/meeting/agenda/reorder/", {"meeting": meeting_id, "order": ord}, function(data) {
 				if (data.ok) {
 					meeting_object = data.meeting;
 					meeting_render();
