@@ -431,7 +431,7 @@ class ChangeProposal(models.Model):
 	timestamp 		= models.DateTimeField(auto_now_add=True)	# When
 	actiontype		= models.IntegerField()			# Type of change to make [all]
 	refitem			= models.IntegerField()			# Number what in the sequence to act on [all]
-	destination		= models.IntegerField()			# Destination of moved item, or of new item [move, add]
+	destination		= models.IntegerField()			# Destination of moved item, or of new item [move]
 	content			= models.TextField()			# Content for new item, or for changed item (blank=same on change) [change, add]
 	contenttype		= models.IntegerField()			# Type for new content, or of changed item (0=same on change) [change, add]
 
@@ -442,6 +442,12 @@ class ChangeProposal(models.Model):
 	#	ChangeProposal(actiontype=3, refitem=2, content="Splurg")                       # Change text of item 2 from "Bar" to "Splurg"
 	#	ChangeProposal(actiontype=4, refitem=2, content="Splurg", contenttype=2)        # Add "statement" object containing "Splurg" after "Bar"
 	#
+
+	def get_refitem(self):
+		print self.document.statement_set.all()
+		self.document.statement_set.get(number=self.refitem)
+
+
 
 
 class Meeting(models.Model):

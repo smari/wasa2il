@@ -7,9 +7,18 @@ var issue_object;
 var issue_id;
 
 function document_propose(doc, val) {
-	$.getJSON("/api/document/propose/" + doc + "/" + val + "/", function(data) {
+	data = {};
+	if (issue_id != undefined) {
+		data["issue"] = issue_id;
+	}
+	$.getJSON("/api/document/propose/" + doc + "/" + val + "/", data, function(data) {
 		if (data.ok) {
-			
+			if (data.html_user_documents != undefined) {
+				$("#document_user_proposals_table").html(data.html_user_documents);
+			}
+			if (data.html_all_documents != undefined) {
+				$("#document_all_proposals_table").html(data.html_all_documents);
+			}
 		}
 	});
 }
@@ -409,56 +418,57 @@ $(function() {
 		e.preventDefault();
 		return false;
 	});
-	add_manager_input.autocomplete({
-		source: function (request, response) {
-			$.ajax({
-				url: '/api/polity/' + add_manager_input.attr('data-polity-id') + '/members/',
-				type: 'GET',
-				dataType: 'json',
-				success: function (data) {
-					var members = $.map(data.members, function (m) {
-							m.label = m.str;
-							m.value = m.username;
-							return m;
-						}),
-						current_admins = $('.managerlist li').map(function () { return $(this).attr('data-user-id')*1; } );
-					//var re = new RegExp('^' + request.term.toLowerCase() + '.*'),
-					var re = new RegExp(request.term.toLowerCase()),
-						max_ret = 3;
-					count = 0;
-					filtered = $.grep(members, function (m) {
-							if (count > max_ret)
-								return false;
-							if ($.inArray(m.id, current_admins) != -1)
-								return false;
-							return re.exec(m.str.toLowerCase()) !== null && ++count;
-						});
-					if (filtered.length >= max_ret) {
-						filtered[filtered.length - 1] = '...';
-					}
-					response(filtered);
-				},
-				error: function (data) { console.log('Autocomplete error'); /* handle errors! */ },
-				async: false
-			});
-		},
-		minLength: 0
-	}).data('autocomplete')._renderItem = function (ul, item) {
-		/* TODO: And this most certainly is a bit of an overkill.. Refacor later :p */
-		var dots = item == '...';
-		return $('<li' + (dots? ' style="padding: 2px 0.4em"' : '') + '>')
-			.data('item.autocomplete', item)
-			.append(dots ? item : '<a>' + item.str + '</a>')
-			.appendTo( ul );
-	};
-	/*
-		TODO: The focus attribute is apparently not working on current jquery-ui
-		Should update soon, and remove this comment.
-	*/
-	add_manager_input.bind('focus', function (event, ui) {
-			$(this).autocomplete("search", '');
-	});
-
+	if (add_manager_input.length > 0) {
+		add_manager_input.autocomplete({
+			source: function (request, response) {
+				$.ajax({
+					url: '/api/polity/' + add_manager_input.attr('data-polity-id') + '/members/',
+					type: 'GET',
+					dataType: 'json',
+					success: function (data) {
+						var members = $.map(data.members, function (m) {
+								m.label = m.str;
+								m.value = m.username;
+								return m;
+							}),
+							current_admins = $('.managerlist li').map(function () { return $(this).attr('data-user-id')*1; } );
+						//var re = new RegExp('^' + request.term.toLowerCase() + '.*'),
+						var re = new RegExp(request.term.toLowerCase()),
+							max_ret = 3;
+						count = 0;
+						filtered = $.grep(members, function (m) {
+								if (count > max_ret)
+									return false;
+								if ($.inArray(m.id, current_admins) != -1)
+									return false;
+								return re.exec(m.str.toLowerCase()) !== null && ++count;
+							});
+						if (filtered.length >= max_ret) {
+							filtered[filtered.length - 1] = '...';
+						}
+						response(filtered);
+					},
+					error: function (data) { console.log('Autocomplete error'); /* handle errors! */ },
+					async: false
+				});
+			},
+			minLength: 0
+		}).data('autocomplete')._renderItem = function (ul, item) {
+			/* TODO: And this most certainly is a bit of an overkill.. Refacor later :p */
+			var dots = item == '...';
+			return $('<li' + (dots? ' style="padding: 2px 0.4em"' : '') + '>')
+				.data('item.autocomplete', item)
+				.append(dots ? item : '<a>' + item.str + '</a>')
+				.appendTo( ul );
+		};
+		/*
+			TODO: The focus attribute is apparently not working on current jquery-ui
+			Should update soon, and remove this comment.
+		*/
+		add_manager_input.bind('focus', function (event, ui) {
+				$(this).autocomplete("search", '');
+		});
+	}
 
 });
 

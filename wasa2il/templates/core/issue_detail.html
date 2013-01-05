@@ -31,16 +31,20 @@
         <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
 		<p>{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
 		<h4>{% trans "Proposed documents" %}</h4>
+		<div id="document_all_proposals_table">
         {% with issue.proposed_documents as documents %}
         {% include "core/_document_list_table.html" %}
         {% endwith %}
+    	</div>
 
         {% if user_proposals %}
 		<h4>{% trans "Your documents" %}</h4>
         <p>{% trans "Documents you are working on that haven't been proposed:" %}</p>
+        <div id="document_user_proposals_table">
         {% with user_proposals as documents %}
         {% include "core/_document_proposals_list_table.html" %}
         {% endwith %}
+    	</div>
         {% endif %}
 	</div>
 
@@ -59,9 +63,9 @@
 
 
 <script>
+issue_id = {{issue.id}};
 $(function() {
-	issue_id = {{issue.id}};
-	issue_poll();
+	issue_poll(issue_id);
 	issue_timer_start();
 });
 </script>

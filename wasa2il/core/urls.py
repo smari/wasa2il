@@ -40,6 +40,7 @@ urlpatterns = patterns('',
 
 	(r'^api/polity/membershipvote/$', polity_membershipvote),
 	(r'^api/polity/(?P<polity_id>\d+)/members/$', get_polity_members),
+
 	(r'^api/topic/star/$', topic_star),
 	(r'^api/topic/showstarred/$', topic_showstarred),
 
