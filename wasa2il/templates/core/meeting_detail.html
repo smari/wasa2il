@@ -65,8 +65,10 @@
 	<div class="btn-group meeting-ongoing">
 		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 1);"><i class="icon-hand-up"></i> {% trans "Want to talk" %}</a>
 		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 2);"><i class="icon-hand-left"></i> {% trans "Direct response" %}</a>
+		{% comment TODO: Finish this! %}
 		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 3);"><i class="icon-question-sign"></i> {% trans "Clarify" %}</a>
 		<a class="btn" onclick="meeting_intervention_add({{meeting.id}}, 4);"><i class="icon-info-sign"></i> {% trans "Point of order" %}</a>
+		{% endcomment %}
 	</div>
 </div>
 
