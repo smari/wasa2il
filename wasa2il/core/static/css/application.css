@@ -21,7 +21,7 @@
 }
 
 .statement_subheading {
-	list-style-type:		none;
+	/*list-style-type:		none;*/
 	counter-increment:		statement-counter;
 	font-size:				150%;
 	margin-top:				6px;

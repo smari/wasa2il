@@ -41,13 +41,15 @@
 
 	<div class="statementset" id="statements_declarations">
 	<ol>
+	<ol>
 	{% for a in document.get_declarations %}
 		{% if a.type == 3 %}
-		<li class="statement_subheading">{{a|safe}}</li>
+		</ol><li class="statement_subheading">{{a|safe}}</li><ol>
 		{% else %}
 		<li>{{a|safe}}</li>
 		{% endif %}
 	{% endfor %}
+	</ol>
 	</ol>
 	</div>
 
@@ -71,6 +73,12 @@
 		<li><a href="/accounts/profile/{{i.username}}">{{i.username}}</a></li>
 	{% endfor %}
 	</ul>
+	{% if not document.is_proposed %}
+	<form class="form-inline" action="#">
+		<input type="text" class="input-small" id="meeting_manager_add" data-polity-id="{{polity.id}}"/>
+		<input type="submit" class="btn btn-small" id="meeting_manager_add_btn" value="{% trans "Add" %}"/>
+	</form>
+	{% endif %}
 </div>
 
 <div class="span2 pull-right">
@@ -84,6 +92,37 @@
 	</div>
 </div>
 
+</div>
+
+<div class="row" id="changeproposals">
+	<div class="span8">
+		<h3>{% trans "Change proposals" %}</h3>
+		<table class="table table-striped">
+		{% for cp in document.changeproposal_set.all %}
+			<tr>
+				{% if cp.actiontype == 1 %}
+				<td>{{cp.getref}}</td><td>[{% trans "Deleted" %}]</td>
+				{% endif %}
+				{% if cp.actiontype == 2 %}
+				<td>{{cp.getref}}</td><td>[{% trans "Moved" %}]</td>
+				{% endif %}
+				{% if cp.actiontype == 3 %}
+				<td>{{cp.getref}}</td><td>{{cp.content}}</td>
+				{% endif %}
+				{% if cp.actiontype == 4 %}
+				<td>{% if cp.refitem == 0 %}
+					{% trans "Added at beginning" %}
+					{% else %}
+					{% trans "Added after:" %}
+					{{cp.get_refitem}}
+					{% endif %}
+				</td>
+				<td>{{cp.content}}</td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
 </div>
 
 <div class="modal hide fade" id="modal_reference">

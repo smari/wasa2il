@@ -135,7 +135,14 @@ def document_propose(request, document, state):
 	document.is_proposed = bool(int(state))
 	document.save()
 
-	ctx["ok"] = True
+	issue_id = int(request.REQUEST.get("issue", 0))
+	if issue_id:
+		issue = Issue.objects.get(id=issue_id)
+		ctx["html_user_documents"] = render_to_string("core/_document_proposals_list_table.html", {"documents": issue.user_documents(request.user)})
+		ctx["html_all_documents"] = render_to_string("core/_document_list_table.html", {"documents": issue.proposed_documents()})
+
+
+	ctx["ok"] = True	
 	return ctx
 
 

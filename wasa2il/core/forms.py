@@ -43,4 +43,4 @@ class UserProfileForm(ModelForm):
 
 	class Meta:
 		model = UserProfile
-		fields = ('displayname', 'email', 'email_visible', 'picture', 'bio')
+		fields = ('displayname', 'email', 'email_visible', 'picture', 'bio', 'language')
