@@ -40,9 +40,11 @@ function meeting_render() {
 	if (meeting_object.is_agenda_open) {
 		$('.meeting-agendaclosed').hide();
 		$('.meeting-agendaopen').show();
+		$('#agenda-item-add').show();
 	} else {
 		$('.meeting-agendaclosed').show();
 		$('.meeting-agendaopen').hide();
+		$('#agenda-item-add').hide();
 	}
 
 	if (meeting_object.is_ongoing) {
@@ -188,6 +190,7 @@ function meeting_agenda_close(meeting) {
 			meeting_render();
 		}
 	});
+	$('#agenda-item-add').hide();
 }
 
 
@@ -198,6 +201,7 @@ function meeting_agenda_open(meeting) {
 			meeting_render();
 		}
 	});
+	$('#agenda-item-add').show();
 }
 
 
