@@ -528,7 +528,7 @@ def meeting_intervention_add(request):
 	intervention.agendaitem = currentitem
 	intervention.done = 0
 
-	if motion == 1:		# Request to speak
+	if motion == MOTION['TALK']:		# Request to speak
 		try:
 			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0]
 			if lastspeak.user == request.user:
@@ -540,7 +540,7 @@ def meeting_intervention_add(request):
 			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0].order + 1
 		except:
 			intervention.order = 1
-	elif motion == 2:	# Request to reply directly
+	elif motion == MOTION['REPLY']:	# Request to reply directly
 		try:
 			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0]
 			if lastspeak.user == request.user:
@@ -552,7 +552,7 @@ def meeting_intervention_add(request):
 			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0].order + 1
 		except:
 			return meeting_poll(request)
-	elif motion == 3:	# Request to clarify
+	elif motion == MOTION['CLARIFY']:	# Request to clarify
 		try:
 			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0]
 			if lastspeak.user == request.user:
@@ -564,7 +564,7 @@ def meeting_intervention_add(request):
 			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0].order + 1
 		except:
 			return meeting_poll(request)
-	elif motion == 4:	# Request to make a point of order
+	elif motion == MOTION['POINT']:	# Request to make a point of order
 		try:
 			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3, 4]).order_by("-order")[0]
 			if lastspeak.user == request.user:
