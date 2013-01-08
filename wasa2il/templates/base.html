@@ -19,6 +19,7 @@
     <link href="/static/jquery-ui-1.9.2.custom/css/ui-lightness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet"/>
     <link href="/static/css/application.css" rel="stylesheet" />
 
+    {% block javascript %}
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -27,6 +28,7 @@
     <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/wasa2il.js"></script>
+    {% endblock %}
 
     <link rel="shortcut icon" href="/static/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
