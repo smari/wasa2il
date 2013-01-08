@@ -45,6 +45,7 @@ urlpatterns = patterns('',
 	(r'^api/topic/showstarred/$', topic_showstarred),
 
 	(r'^api/issue/comment/send/$', issue_comment_send),
+	(r'^api/issue/import/$', issue_document_import),
 	(r'^api/issue/poll/$', issue_poll),
 
 	(r'^api/document/statement/new/(?P<document>\d+)/(?P<type>\d+)/$', document_statement_new),

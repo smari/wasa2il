@@ -2,16 +2,12 @@
 <table class="table table-striped table-bordered table-condensed">
 <tr>
 	<th>{% trans "Document" %}</th>
-	<th>{% trans "Type" %}</th>	
 	<th>{% trans "Adopted" %}</th>
-	<th>{% trans "Support" %}</th>
 </tr>
 {% for document in documents %}
 <tr>
 	<td><a href="/polity/{{polity.id}}/document/{{document.id}}/">{{document.name}}</a></td>
-	<td>{{document.type}}</td>
 	<td>{{document.timestamp_adopted|date:"d/m/Y"}}</td>
-	<td>{{document.supporters}}</td>
 </tr>
 {% empty %}
 <tr>
