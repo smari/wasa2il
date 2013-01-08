@@ -20,6 +20,12 @@ def jsonize(f):
 	return wrapped
 
 
+def error(msg, ctx={}):
+	ctx['ok'] = False
+	ctx['error'] = msg
+	return ctx
+
+
 @login_required
 @jsonize
 def polity_membershipvote(request):
@@ -554,62 +560,46 @@ def meeting_intervention_add(request):
 	intervention.motion = motion
 	intervention.agendaitem = currentitem
 	intervention.done = 0
+	intervention.order = 1
 
-	if motion == MOTION['TALK']:		# Request to speak
-		try:
-			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0]
-			if lastspeak.user == request.user:
-				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
-				return meeting_poll(request)
-		except:
-			pass
-		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by("-order")[0].order + 1
-		except:
-			intervention.order = 1
-	elif motion == MOTION['REPLY']:	# Request to reply directly
-		try:
-			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0]
-			if lastspeak.user == request.user:
-				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
-				return meeting_poll(request)
-		except:
-			pass
-		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0].order + 1
-		except:
-			return meeting_poll(request)
-	elif motion == MOTION['CLARIFY']:	# Request to clarify
-		try:
-			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0]
-			if lastspeak.user == request.user:
-				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
-				return meeting_poll(request)
-		except:
-			pass
-		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3]).order_by("-order")[0].order + 1
-		except:
-			return meeting_poll(request)
-	elif motion == MOTION['POINT']:	# Request to make a point of order
-		try:
-			lastspeak = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3, 4]).order_by("-order")[0]
-			if lastspeak.user == request.user:
-				# TODO: Make this return an error, stating that you can't ask to talk twice in a row.
-				return meeting_poll(request)
-		except:
-			pass
+	try:
+		last_speaker = MeetingIntervention.objects.filter(agendaitem=currentitem).order_by('-order')[0]
+	except IndexError:
+		last_speaker = None
+		if motion != MOTION['TALK']:
+			return error('The first intervention must be a talk (FOR NOW)', ctx)
+	else:
 
-		try:
-			intervention.order = MeetingIntervention.objects.filter(agendaitem=currentitem, motion__in=[2, 3, 4]).order_by("-order")[0].order + 1
-		except:
-			intervention.order = 1
+		same = last_speaker.user == request.user
+		intervention.order = last_speaker.order + 1
 
-	shift = MeetingIntervention.objects.filter(agendaitem=currentitem, order__gt=intervention.order)
-	for i in shift:
+		if motion == MOTION['TALK']:           # Request to talk
+
+			if same and last_speaker.motion == MOTION['TALK']:
+				return error('One cannot TALK twice in a row.')
+
+		if motion == MOTION['REPLY']:           # Request to reply directly
+
+			if same and last_speaker.motion in (MOTION['TALK'], MOTION['REPLY']):
+				return error('One cannot REPLY to own\'s REPLY.')
+
+			if last_speaker.motion not in (MOTION['TALK'], MOTION['REPLY'], ):
+				return error('One can only REPLY to a TALK or another REPLY', ctx)
+
+		elif motion == MOTION['CLARIFY']:		# Request to clarify
+
+			raise NotImplementedError('This is not implemented now. TALK and REPLY should be enough for now.')
+
+		elif motion == MOTION['POINT']:		    # Request to make a point of order
+
+			raise NotImplementedError('This is not implemented now. TALK and REPLY should be enough for now.')
+
+	# Shift all existing interventions with greater-or-equal order
+	for i in MeetingIntervention.objects.filter(agendaitem=currentitem, order__gte=intervention.order):
 		i.order += 1
 		i.save()
 
+	# Finally save the new intervention
 	intervention.save()
 
 	return meeting_poll(request)
