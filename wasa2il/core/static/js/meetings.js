@@ -123,9 +123,11 @@ function meeting_render() {
 			});
 		}});
 	} else {
-		var isDisabled = $( "#agenda-items" ).sortable( "option", "disabled" );
-		if (!isDisabled) {
-			$("#agenda-items").sortable("disable");
+		if ($('#agenda-items.ui-sortable').length) {
+			var isDisabled = $( "#agenda-items" ).sortable( "option", "disabled" );
+			if (!isDisabled) {
+				$("#agenda-items").sortable("disable");
+			}
 		}
 	}
 	$("#agenda-items li").mousedown(function(){ meeting_timer_stop(); });
