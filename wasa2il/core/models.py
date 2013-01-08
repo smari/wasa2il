@@ -133,10 +133,10 @@ class Polity(BaseIssue, getCreationBase('polity')):
 		return self.meeting_set.filter(time_started=None)
 
 	def meetings_ongoing(self):
-		return self.meeting_set.filter(time_started__gt=datetime.now(), time_ended=None)
+		return self.meeting_set.filter(time_started__lte=datetime.now(), time_ended=None)
 
 	def meetings_ended(self):
-		return self.meeting_set.filter(time_ended__gt=datetime.now())
+		return self.meeting_set.filter(time_ended__lt=datetime.now())
 
 	def agreements(self):
 		return self.document_set.filter(is_adopted=True)
