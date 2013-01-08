@@ -44,6 +44,26 @@ def polity_membershipvote(request):
 
 @login_required
 @jsonize
+def issue_document_import(request):
+	ctx = {"ok": True}
+
+	issue = get_object_or_404(Issue, id=request.REQUEST.get("issue"))
+	doc = get_object_or_404(Document, id=request.REQUEST.get("document"))
+
+	if not doc.polity == issue.polity:
+		return {"ok": False}
+
+	if not doc.is_adopted:
+		return {"ok": False}
+
+	doc.issues.add(issue)
+
+	return ctx
+
+
+
+@login_required
+@jsonize
 def document_changeproposal_new(request, document, type):
 	ctx = {}
 

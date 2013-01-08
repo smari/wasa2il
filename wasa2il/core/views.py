@@ -153,6 +153,7 @@ class IssueDetailView(DetailView):
 		context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
 		context_data.update({'comment_form': CommentForm(), 'user_proposals': self.object.user_documents(self.request.user)})
 		context_data["delegation"] = self.object.get_delegation(self.request.user)
+		context_data["polity"] = self.object.polity
 		return context_data
 
 

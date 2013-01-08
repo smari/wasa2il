@@ -25,7 +25,7 @@
 
 	<div class="span6 pull-right"><a name="documents"></a>
 		<div class="btn-group" style="float: right">
-			<a class="btn btn-mini" href="/issue/{{issue.id}}/document/import/">{% trans "Import document" %}</a>
+			<a class="btn btn-mini" onclick="$('#document_import').modal('show');">{% trans "Import agreement" %}</a>
 			<a class="btn btn-mini" href="/issue/{{issue.id}}/document/new/">{% trans "New document" %}</a>
 		</div>
         <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
@@ -69,6 +69,29 @@ $(function() {
 	issue_timer_start();
 });
 </script>
+
+<div class="modal hide fade" id="document_import">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{% trans "Import agreement" %}</h3>
+  </div>
+  <div class="modal-body">
+    <p>{% trans "Choose an agreement to import:" %}</p>
+        <form>
+			<select id="document_id">
+				{% for i in issue.polity.agreements %}
+				<option value="{{i.id}}">{{i.name}}</option>
+				{% endfor %}
+			</select>
+        </form>
+    <p>{% trans "The purpose of importing an agreement to an issue is to be able to propose changes to it." %}</p>
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#document_import').modal('hide');" class="btn">{% trans "Close" %}</a>
+    <a onclick="document_import($('#document_id').val());" class="btn btn-primary">{% trans "Import document to issue" %}</a>
+  </div>
+</div>
+
 
 
 

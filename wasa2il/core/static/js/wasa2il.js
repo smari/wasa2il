@@ -13,6 +13,7 @@ function document_propose(doc, val) {
 	}
 	$.getJSON("/api/document/propose/" + doc + "/" + val + "/", data, function(data) {
 		if (data.ok) {
+			$('#document_import').modal('hide');
 			if (data.html_user_documents != undefined) {
 				$("#document_user_proposals_table").html(data.html_user_documents);
 			}
@@ -21,6 +22,26 @@ function document_propose(doc, val) {
 			}
 		}
 	});
+}
+
+
+function document_import(doc) {
+	data = {};
+	if (issue_id != undefined) {
+		data["issue"] = issue_id;
+	}
+	data["document"] = doc;
+
+	$.getJSON("/api/issue/import/", data, function(data) {
+		if (data.ok) {
+			if (data.html_user_documents != undefined) {
+				$("#document_user_proposals_table").html(data.html_user_documents);
+			}
+			if (data.html_all_documents != undefined) {
+				$("#document_all_proposals_table").html(data.html_all_documents);
+			}
+		}
+	});	
 }
 
 function topic_star(topic) {
