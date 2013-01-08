@@ -16,7 +16,9 @@
 
 <div style="float:right; width: 200px; background: #fff; border: 1px solid #eee; padding-left: 10px; padding-right: 10px;">
 	<h4>{% trans "Attendance list" %}</h4>
-	<a class="btn meeting-ongoing" onclick="meeting_attend({{meeting.id}}, 1);">{% trans "Attend meeting" %}</a>
+	{% if not attending %}
+	<a id="attend_meeting_btn" class="btn meeting-ongoing" data-meeting-id="{{meeting.id}}">{% trans "Attend meeting" %}</a>
+	{% endif %}
 	<p class="meeting-notstarted">{% trans "You can sign in to attendance when the meeting has started." %}</p>
 	<ul class="attendancelist" id="attendancelist">
 	</ul>

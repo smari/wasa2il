@@ -350,7 +350,13 @@ class MeetingDetailView(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(MeetingDetailView, self).get_context_data(*args, **kwargs)
-		context_data.update({'polity': self.polity, "now": datetime.now().strftime("%d/%m/%Y %H:%I")})
+		context_data.update(
+			{
+				'polity': self.polity,
+				"now": datetime.now().strftime("%d/%m/%Y %H:%I"),
+				'attending': self.request.user in self.object.attendees.all(),
+			}
+		)
 		return context_data
 
 
