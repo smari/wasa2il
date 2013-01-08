@@ -270,3 +270,74 @@ function meeting_manager_add(username) {
 		}
 	})
 }
+
+
+$(function() {
+
+	/*
+		TODO: Why on earth didn't I delegate the filtering to the server...
+		Probably because I wanted to try doing it on the client side.
+		Also, this means we can use the api call directly..
+		Well. This will have to do for now :p Optimize later.
+	*/
+	var meeting_manager = $('.meeting-manager form')
+		add_manager_input = meeting_manager.find('#meeting_manager_add');
+	meeting_manager.bind('submit', function (e) {
+		meeting_manager_add($('#meeting_manager_add').val());
+		$(this)[0].reset();
+		e.preventDefault();
+		return false;
+	});
+	if (add_manager_input.length > 0) {
+		add_manager_input.autocomplete({
+			source: function (request, response) {
+				$.ajax({
+					url: '/api/polity/' + add_manager_input.attr('data-polity-id') + '/members/',
+					type: 'GET',
+					dataType: 'json',
+					success: function (data) {
+						var members = $.map(data.members, function (m) {
+								m.label = m.str;
+								m.value = m.username;
+								return m;
+							}),
+							current_admins = $('.managerlist li').map(function () { return $(this).attr('data-user-id')*1; } );
+						//var re = new RegExp('^' + request.term.toLowerCase() + '.*'),
+						var re = new RegExp(request.term.toLowerCase()),
+							max_ret = 3;
+						count = 0;
+						filtered = $.grep(members, function (m) {
+								if (count > max_ret)
+									return false;
+								if ($.inArray(m.id, current_admins) != -1)
+									return false;
+								return re.exec(m.str.toLowerCase()) !== null && ++count;
+							});
+						if (filtered.length >= max_ret) {
+							filtered[filtered.length - 1] = '...';
+						}
+						response(filtered);
+					},
+					error: function (data) { console.log('Autocomplete error'); /* handle errors! */ },
+					async: false
+				});
+			},
+			minLength: 0
+		}).data('autocomplete')._renderItem = function (ul, item) {
+			/* TODO: And this most certainly is a bit of an overkill.. Refacor later :p */
+			var dots = item == '...';
+			return $('<li' + (dots? ' style="padding: 2px 0.4em"' : '') + '>')
+				.data('item.autocomplete', item)
+				.append(dots ? item : '<a>' + item.str + '</a>')
+				.appendTo( ul );
+		};
+		/*
+			TODO: The focus attribute is apparently not working on current jquery-ui
+			Should update soon, and remove this comment.
+		*/
+		add_manager_input.bind('focus', function (event, ui) {
+				$(this).autocomplete("search", '');
+		});
+	}
+
+});
