@@ -549,7 +549,7 @@ class MeetingIntervention(models.Model):
 	done			= models.IntegerField()	 # 0 = Not done, 1 = Active, 2 = Done
 
 	def __unicode__(self):
-		return self.user.username
+		return 'A %s from user %s of order %d' % (invert_map(MOTION)[self.motion], self.user.username, self.order)
 
 
 def get_power(user, issue):
