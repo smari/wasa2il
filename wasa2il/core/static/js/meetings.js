@@ -135,14 +135,6 @@ function meeting_render() {
 }
 
 
-function meeting_attend(meeting, val) {
-	$.getJSON("/api/meeting/attend/" + meeting + "/", {"meeting": meeting, "status": val}, function(data) {
-		if (data.ok) {
-			
-		}
-	});
-}
-
 
 function meeting_start(meeting, force) {
 	now = new Date();
@@ -273,6 +265,18 @@ function meeting_manager_add(username) {
 
 
 $(function() {
+
+	// Attach some delegations
+	$('#attend_meeting_btn').bind('click', function (e) {
+		var button = $(this),
+			meeting = button.attr('data-meeting-id');
+		$.getJSON("/api/meeting/attend/" + meeting + "/", {"meeting": meeting, "status": 1}, function(data) {
+			if (data.ok) {
+				button.remove();
+			}
+		});
+	});
+
 
 	/*
 		TODO: Why on earth didn't I delegate the filtering to the server...
