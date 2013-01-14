@@ -280,6 +280,41 @@ $(function() {
 	});
 
 
+	$('#btn_add_speaker').bind('click', function (e) {
+		$('form#add_speaker_form').show();
+	});
+
+	$('form#add_speaker_form').bind('submit', function (e) {
+		console.log('submit)');
+		e.preventDefault();
+		return false;
+	});
+
+	$('form#add_speaker_form input[name="name"]').autocomplete({
+		source: '/api/meeting/list_attendees/' + meeting_id + '/'
+	});
+	$('form#add_speaker_form input[name="name"]').autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: '/api/meeting/list_attendees/' + meeting_id + '/',
+				type: 'GET',
+				data: {filter: request.term},
+				success: function (data) {
+					var attendees = data.attendees;
+					response(attendees);
+				},
+				dataType: 'json'
+			});
+		}
+	}).data('autocomplete')._renderItem = function (ul, item) {
+			var dots = item == '...';
+			return $('<li' + (dots? ' style="padding: 2px 0.4em"' : '') + '>')
+				.data('item.autocomplete', item)
+				.append(dots ? item : '<a>' + item.str + '</a>')
+				.appendTo( ul );
+		};
+
+
 	/*
 		TODO: Why on earth didn't I delegate the filtering to the server...
 		Probably because I wanted to try doing it on the client side.

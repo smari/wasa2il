@@ -68,6 +68,7 @@
 			<a class="btn" onclick="meeting_agenda_next({{meeting.id}});"><i class="icon-chevron-down"></i> {% trans "Next agenda item" %}</a>
 			<a class="btn" onclick="meeting_intervention_prev({{meeting.id}});"><i class="icon-chevron-left"></i> {% trans "Previous speaker" %}</a>
 			<a class="btn" onclick="meeting_intervention_next({{meeting.id}});"><i class="icon-chevron-right"></i> {% trans "Next speaker" %}</a>
+			<a id="btn_add_speaker" class="btn"><i class="icon-plus"></i> {% trans "Add speaker" %}</a>
 		</div>
 	</div>
 
@@ -83,6 +84,11 @@
 		{% endcomment %}
 	</div>
 </div>
+
+<form method="GET" action="#" id="add_speaker_form" class="hide">
+	<input name="name" placeholder="{% trans "Who?" %}" />
+	<input type="submit" value="Add" />
+</form>
 
 
 <div class="agenda">
