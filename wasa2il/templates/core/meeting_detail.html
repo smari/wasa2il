@@ -5,6 +5,9 @@
 {% block javascript %}
 {{block.super}}
     <script src="/static/js/meetings.js"></script>
+    <script>
+    	var meeting_id = {{meeting.id}};
+    </script>
 {% endblock %}
 
 {% block content %}
