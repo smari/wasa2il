@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 import simplejson as json
 
 from core.models import *
@@ -705,6 +706,61 @@ def get_polity_members(request, polity_id):
 
 	polity = get_object_or_404(Polity, id=polity_id)
 	ctx['members'] = [{'username': m.username, 'id': m.id, 'str': m.get_full_name() or str(m)} for m in polity.members.all()]
+	ctx['ok'] = True
+
+	return ctx
+
+
+@login_required
+@jsonize
+def list_attendees(request, meeting_id):
+	'''
+	List attendees for a specific meeting.
+	Requesting user must be an admin in the meeting.
+	Supplying a 'filter' GET parameter to filter the results by name/username.
+	'''
+	ctx = {}
+
+	try:
+		meeting_id = int(meeting_id)
+	except ValueError:
+		return error('Invalid parameter (meeting_id). Should be a positive integer.')
+
+	try:
+		meeting = Meeting.objects.get(id=meeting_id)
+	except Meeting.DoesNotExist:
+		return error('Meeting object not found')
+
+	try:
+		meeting.managers.get(id=request.user.id)
+	except User.DoesNotExist:
+		return error('You must be a meeting manager to list the attendees.')
+
+	filter_term = request.GET.get('filter', None)
+
+	limit = 10
+	qs = (
+		Q(first_name__istartswith=filter_term) |
+		Q(last_name__istartswith=filter_term) |
+		Q(username__istartswith=filter_term)
+	)
+	attendees = meeting.attendees.filter(qs)[:limit]
+
+	# TODO: Why will the below not work? Later...
+	#qs = (
+	#>	Q(first_name__icontains=filter_term) |
+	#	Q(last_name__icontains=filter_term) |
+	#	Q(username__icontains=filter_term) 
+	#)
+	#attendees = meeting.attendees.filter(qs, id__not=[a.id for a in attendees])[:limit - len(attendees)]
+
+	ctx['attendees'] = [
+		{
+			'id': m.id,
+			'username': m.username,
+			'str': m.get_full_name() or str(m),
+		} for m in attendees
+	]
 	ctx['ok'] = True
 
 	return ctx

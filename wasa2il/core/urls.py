@@ -66,5 +66,6 @@ urlpatterns = patterns('',
 	(r'^api/meeting/intervention/next/$', meeting_intervention_next),
 	(r'^api/meeting/intervention/prev/$', meeting_intervention_prev),
 	(r'^api/meeting/intervention/add/$', meeting_intervention_add),
+	(r'^api/meeting/list_attendees/(?P<meeting_id>\d+)/$', list_attendees),
 
 )
