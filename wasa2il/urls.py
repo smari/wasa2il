@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from settings import here
 from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
@@ -29,7 +30,7 @@ urlpatterns = patterns('',
 	(r'^help/$', direct_to_template, {"template": "help/index.html"}),
 	(r'^help/(?P<page>.*)/$', "core.views.help"),
 
-	(r'^static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': 'core/static/'}),
+	(r'^static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': settings.STATIC_ROOT}),
 )
 
 if settings.DEBUG:

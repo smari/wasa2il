@@ -135,6 +135,16 @@
 
 {% if user_is_member %}
 <div class="span6 pull-left"><a name="delegations"></a>
+	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini" href="#">{% trans "New delegation" %}</a>
+		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+			<li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
+			<li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
+			<li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
+		</ul>
+	</div>
+
 	<h2>{% trans "Delegations" %} <small>{% trans "votes entrusted to others" %}</small></h2>
 	<p class="muted">
 		{% trans "You can set up delgations for the polity, for topics, or for issues." %}

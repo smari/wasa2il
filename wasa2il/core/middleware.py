@@ -14,4 +14,5 @@ class UserSettingsMiddleware(object):
 				pro.user = request.user
 				pro.save()
 				request.session['django_language'] = pro.language
-
+		else:
+			request.session['django_language'] = "is"
