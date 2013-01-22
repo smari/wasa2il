@@ -87,9 +87,8 @@ def document_changeproposal_new(request, document, type):
 	s.user = request.user
 	s.document = doc
 	s.contenttype = type
-
-	# s.actiontype =
-	# s.refitem =
+	s.actiontype = 4
+	# s.refitem = 
 	# s.destination =
 	# s.content =
 

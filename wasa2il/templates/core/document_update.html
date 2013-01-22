@@ -19,8 +19,6 @@
 
 <div class="row">
 <div class="span6 pull-left">
-	<p><b>{% trans "[Unnumbered proposal]" %}</b></p>
-
 	<p><b>{{document.name}}</b></p>
 
 	<p><i>{{document.polity.document_frontmatter}}</i></p>
@@ -82,14 +80,14 @@
 </div>
 
 <div class="span2 pull-right">
+	{% if document.polity in user.polity_set.all and not document.is_proposed %}
 	<div class="btn-group btn-group-vertical">
-	{% if document.polity in user.polity_set.all %}
 		<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
 		<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
 		<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
 		<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
-	{% endif %}
 	</div>
+	{% endif %}
 </div>
 
 </div>
@@ -199,12 +197,17 @@
 </div>
 
 
-
 <script>
 function make_reference(node) {
 	node.append('<div class="btn-group state_buttons">'
 	          + '<a onclick="statement_delete($(this));" class="btn btn-mini">{% trans "Delete" %}</a>'
-	          + '<a onclick="statement_fork($(this));" class="btn btn-mini">{% trans "Propose alternative" %}</a>'
+	          + '<a onclick="statement_change($(this));" class="btn btn-mini">{% trans "Propose alternative" %}</a>'
+	{% if document.is_proposed %}
+			  + '<a onclick="$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini">{% trans "New reference" %}</a>'
+			  + '<a onclick="$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini">{% trans "New assumption" %}</a>'
+			  + '<a onclick="$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini">{% trans "New statement" %}</a>'
+			  + '<a onclick="$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini">{% trans "New subheading" %}</a>'
+	{% endif %}
 	          + '</div>');
 }
 
