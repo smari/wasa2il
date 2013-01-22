@@ -1,1 +1,8 @@
-Welcome to Wasa2il.
+{% include i18n %}
+{% trans "Welcome to Wasa2il!" %}
+
+{% trans "You need to activate your account at" %}
+
+https://{{ site.domain }}{% url registration_activate activation_key %}
+
+{% blocktrans %}This link will be active for {{ expiration_days }} days.{% endblocktrans %}
