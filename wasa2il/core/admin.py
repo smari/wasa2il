@@ -7,7 +7,8 @@ from models import (
 	VoteOption, Comment, Vote,
 	Delegate, MembershipRequest,
 	MembershipVote, UserProfile,
-	Meeting, MeetingIntervention
+	Meeting, MeetingIntervention,
+	PolityRuleset
 	)
 
 
@@ -99,3 +100,6 @@ admin.site.unregister(auth.models.User)
 register(auth.models.User, UserAdmin)
 
 register(MeetingIntervention)
+
+register(UserProfile)
+register(PolityRuleset)
