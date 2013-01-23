@@ -5,6 +5,8 @@ var meeting_id;
 var issue_timer;
 var issue_object;
 var issue_id;
+var statement_active;
+
 
 function document_propose(doc, val) {
 	data = {};

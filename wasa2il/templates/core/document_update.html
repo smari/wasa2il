@@ -25,13 +25,13 @@
 
 	<ol class="statementset" style="list-style-type: square;" id="statements_references">
 	{% for a in document.get_references %}
-		<li>{{a|safe}}</li>
+		<li data-id="{{a.id}}" data-type="0">{{a|safe}}</li>
 	{% endfor %}
 	</ol>
 
 	<ol class="statementset" style="list-style-type: upper-roman;" id="statements_assumptions">
 	{% for a in document.get_assumptions %}
-		<li>{{a|safe}}</li>
+		<li data-id="{{a.id}}" data-type="1">{{a|safe}}</li>
 	{% endfor %}
 	</ol>
 
@@ -42,9 +42,9 @@
 	<ol>
 	{% for a in document.get_declarations %}
 		{% if a.type == 3 %}
-		</ol><li class="statement_subheading">{{a|safe}}</li><ol>
+		</ol><li  data-id="{{a.id}}" data-type="3" class="statement_subheading">{{a|safe}}</li><ol>
 		{% else %}
-		<li>{{a|safe}}</li>
+		<li data-id="{{a.id}}" data-type="2">{{a|safe}}</li>
 		{% endif %}
 	{% endfor %}
 	</ol>
@@ -199,14 +199,26 @@
 
 <script>
 function make_reference(node) {
+	var nodeid = node.data("id");
+	var type = node.data("type");
+
+	{% if document.is_proposed %}
+	if (type == 0 || type == 1) {
+		console.log("Type: " + type + " - !!!");
+		prop = '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini">{% trans "Add reference" %}</a>'
+			  + '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini">{% trans "Add assumption" %}</a>';
+	} else {
+		console.log("Type: " + type + " - ???");
+		prop = '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini">{% trans "Add statement" %}</a>'
+			  + '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini">{% trans "Add subheading" %}</a>';
+
+	}
+	{% endif %}
+
 	node.append('<div class="btn-group state_buttons">'
 	          + '<a onclick="statement_delete($(this));" class="btn btn-mini">{% trans "Delete" %}</a>'
-	          + '<a onclick="statement_change($(this));" class="btn btn-mini">{% trans "Propose alternative" %}</a>'
 	{% if document.is_proposed %}
-			  + '<a onclick="$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini">{% trans "New reference" %}</a>'
-			  + '<a onclick="$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini">{% trans "New assumption" %}</a>'
-			  + '<a onclick="$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini">{% trans "New statement" %}</a>'
-			  + '<a onclick="$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini">{% trans "New subheading" %}</a>'
+			  + prop
 	{% endif %}
 	          + '</div>');
 }
