@@ -204,11 +204,9 @@ function make_reference(node) {
 
 	{% if document.is_proposed %}
 	if (type == 0 || type == 1) {
-		console.log("Type: " + type + " - !!!");
 		prop = '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini">{% trans "Add reference" %}</a>'
 			  + '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini">{% trans "Add assumption" %}</a>';
 	} else {
-		console.log("Type: " + type + " - ???");
 		prop = '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini">{% trans "Add statement" %}</a>'
 			  + '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini">{% trans "Add subheading" %}</a>';
 
