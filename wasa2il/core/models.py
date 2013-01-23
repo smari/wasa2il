@@ -401,28 +401,21 @@ class Statement(models.Model):
 	document		= models.ForeignKey(Document)
 	type			= models.IntegerField()
 	number			= models.IntegerField()
+	text			= models.TextField(blank=True)  # TODO: Blank for now, make mandatory when StatementOption removed
 
 	def __unicode__(self):
-		try:
-			return self.statementoption_set.filter(user=self.user)[0].text
-		except:
-			return ""
-
-	def get_options(self):
-		return self.statementoption_set.all()
-
-	def get_options_count(self):
-		return self.statementoption_set.count()
-
-
-
-class StatementOption(models.Model):
-	statement 		= models.ForeignKey(Statement)
-	user			= models.ForeignKey(User)
-	text			= models.TextField()
-
-	def __unicode__(self):
+		if self.text is None:
+			self.text = '. '.join(s.text for s in StatementOption.objects.filter(statement=self))
+			self.save()
 		return self.text
+
+
+# NOTA BENE: Will be deprecated soon. Text is automagically compied to the statement
+# when stringified in the future
+class StatementOption(models.Model):
+	statement				= models.ForeignKey(Statement)
+	user					= models.ForeignKey(User)
+	text					= models.TextField()
 
 
 class ChangeProposal(models.Model):

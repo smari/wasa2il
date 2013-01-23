@@ -8,7 +8,8 @@ from models import (
 	Delegate, MembershipRequest,
 	MembershipVote, UserProfile,
 	Meeting, MeetingIntervention,
-	PolityRuleset
+	PolityRuleset,
+	Document, Statement, ChangeProposal
 	)
 
 
@@ -103,3 +104,7 @@ register(MeetingIntervention)
 
 register(UserProfile)
 register(PolityRuleset)
+
+register(Document)
+register(Statement)
+register(ChangeProposal)
