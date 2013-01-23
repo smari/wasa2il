@@ -109,6 +109,7 @@ def document_statement_new(request, document, type):
 	s.user = request.user
 	s.document = doc
 	s.type = type
+	s.text = request.GET.get('text', '')
 
 	if s.user != s.document.user:
 		return {"error": 403}
@@ -119,13 +120,6 @@ def document_statement_new(request, document, type):
 		s.number = 1
 
 	s.save()
-
-	so = StatementOption()
-
-	so.text = request.REQUEST.get("text", "")
-	so.user = request.user
-	so.statement = s
-	so.save()
 
 	ctx["ok"] = True
 	ctx["id"] = s.id
