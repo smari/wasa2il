@@ -34,7 +34,7 @@
 
 .statementset li:hover > .state_buttons {
 	display:                block;
-	position:				fixed;
+	position:				relative;
 	padding-left:			50px;
 }
 
