@@ -80,7 +80,7 @@
 </div>
 
 <div class="span2 pull-right">
-	{% if document.polity in user.polity_set.all and not document.is_proposed %}
+	{% if document.polity in user.polity_set.all and not document.is_proposed and not document.is_adopted %}
 	<div class="btn-group btn-group-vertical">
 		<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
 		<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
@@ -94,6 +94,13 @@
 		<b>{% trans "Please note:" %}</b>
 		{% trans "This document has been proposed." %}
 		{% trans "Changes you make to it now will become change proposals, which will be voted on individually." %}
+	</div>
+	{% endif %}
+	{% if document.polity in user.polity_set.all and document.is_adopted and not document.is_proposed %}
+	<div class="alert alert-success">
+		<b>{% trans "Please note:" %}</b>
+		{% trans "This document has been adopted." %}
+		{% trans "In order to make change proposals to it, you must import it into a new open issue." %}
 	</div>
 	{% endif %}
 </div>
