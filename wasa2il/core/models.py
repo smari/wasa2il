@@ -165,6 +165,26 @@ class Topic(BaseIssue, getCreationBase('topic')):
 	class Meta:
 		ordering	= ["name"]
 
+	def issues_open(self):
+		s = 0
+		for i in self.issue_set.all():
+			if i.is_open():
+				s += 1
+		return s
+
+	def issues_voting(self):
+		s = 0
+		for i in self.issue_set.all():
+			if i.is_voting():
+				s += 1
+		return s	
+
+	def issues_closed(self):
+		s = 0
+		for i in self.issue_set.all():
+			if i.is_closed():
+				s += 1
+		return s	
 
 	def get_delegation(self, user):
 		"""Check if there is a delegation on this topic."""
@@ -197,6 +217,29 @@ class Issue(BaseIssue, getCreationBase('issue')):
 
 	def __unicode__(self):
 		return self.name
+
+	def is_open(self):
+		if not self.is_closed():
+			return True
+		return False
+
+	def is_voting(self):
+		if not self.deadline_proposals or not self.deadline_votes:
+			return False
+
+		if datetime.now() > self.deadline_proposals and datetime.now() < self.deadline_votes:
+			return True
+
+		return False		
+
+	def is_closed(self):
+		if not self.deadline_votes:
+			return False
+
+		if datetime.now() > self.deadline_votes:
+			return True
+
+		return False
 
 	def get_delegation(self, user):
 		"""Check if there is a delegation on this topic."""

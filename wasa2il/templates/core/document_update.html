@@ -88,6 +88,13 @@
 		<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
 	</div>
 	{% endif %}
+	{% if document.polity in user.polity_set.all and document.is_proposed %}
+	<div class="alert alert-success">
+		<b>{% trans "Please note:" %}</b>
+		{% trans "This document has been proposed." %}
+		{% trans "Changes you make to it now will become change proposals, which will be voted on individually." %}
+	</div>
+	{% endif %}
 </div>
 
 </div>
