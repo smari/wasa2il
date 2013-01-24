@@ -216,7 +216,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
 	ruleset			= models.ForeignKey(PolityRuleset)
 
 	class Meta:
-		ordering = ["deadline_votes"]
+		ordering = ["-deadline_votes"]
 
 	def __unicode__(self):
 		return self.name
