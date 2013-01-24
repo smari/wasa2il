@@ -103,9 +103,9 @@
 <div class="span6 pull-right"><a name="meetings"></a>
 	{% if user_is_member %}
 	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini" href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a>
 		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
 		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
-			<li><a href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a></li>
 			<li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
 			<li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
 			<li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
