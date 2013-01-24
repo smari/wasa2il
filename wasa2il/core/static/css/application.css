@@ -41,6 +41,10 @@
 	display:                none;
 }
 
+.statementset li:hover {
+	background:		#eee;
+}
+
 .statementset li:hover > .state_buttons {
 	display:                block;
 	position:				absolute;

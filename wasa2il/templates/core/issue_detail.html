@@ -18,8 +18,8 @@
 		<table class="table table-compact">
 			<tr><th>{% trans "In topics:" %}</th><td>{% for i in issue.topics.all %}<a href="/polity/{{issue.polity.id}}/topic/{{i.id}}/">{{i.name}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
 
-			<tr><th>{% trans "Deadline for proposals:" %}</th><td>{{issue.deadline_proposals|date:"d/m/Y h:i:s"}}</td></tr>
-			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{issue.deadline_votes|date:"d/m/Y h:i:s"}}</td></tr>
+			<tr><th>{% trans "Deadline for proposals:" %}</th><td>{{issue.deadline_proposals|date:"d/m/Y h:i:s"}} ({{issue.deadline_proposals|timeuntil}})</td></tr>
+			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{issue.deadline_votes|date:"d/m/Y h:i:s"}} ({{issue.deadline_votes|timeuntil}})</td></tr>
 		</table>
 	</div>
 
