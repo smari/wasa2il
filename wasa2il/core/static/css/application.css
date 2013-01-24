@@ -20,6 +20,15 @@
 	counter-reset: 			statement-counter -1;
 }
 
+.memberstatusbox {
+	padding:			5px;
+	margin:				2px;
+	margin-right:			10px;
+	background:			#eee;
+	border:				1px solid #ddd;
+	border-radius:			3px;
+}
+
 .statement_subheading {
 	/*list-style-type:		none;*/
 	counter-increment:		statement-counter;
