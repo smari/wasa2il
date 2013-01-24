@@ -86,6 +86,7 @@
 		<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
 		<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
 		<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
+		<a onclick="$('#modal_import').modal('show');" class="btn">{% trans "Import structure" %}</a>
 	</div>
 	{% endif %}
 	{% if document.polity in user.polity_set.all and document.is_proposed %}
@@ -204,6 +205,24 @@
 </div>
 
 
+<div class="modal hide fade" id="modal_import">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>{% trans "Import statements" %}</h3>
+  </div>
+  <div class="modal-body">
+    <p>{% trans "Statements:" %}</p>
+        <form>
+                <textarea style="width: 90%; min-height: 100px;" id="import_structure"></textarea>
+        </form>
+  </div>
+  <div class="modal-footer">
+    <a onclick="$('#modal_import').modal('hide');" class="btn">{% trans "Close" %}</a>
+    <a onclick="structure_import();" class="btn btn-primary">{% trans "Import" %}</a>
+  </div>
+</div>
+
+
 <script>
 function make_reference(node) {
 	var nodeid = node.data("id");
@@ -259,6 +278,23 @@ function statement_fork(item) {
 			// Error message
 		}
 	});
+}
+
+function structure_import() {
+	var ref = $("#import_structure").val();
+	$.getJSON("/api/document/statement/import/", {"document": {{document.id}}, "text": ref}, function(data) {
+		if (data.ok) {
+			for (i = 0; i < data.new.length; i++) {
+				d = data[i];
+				var k = $('#statements_references').append('<li data-id="' + d.seq + '" data-seq="' + d.seq + '">' + d.html + '</li>');
+				make_reference(k);
+			}
+			$('#modal_reference').modal('hide');
+		} else {
+			// Error message
+		}
+	});
+	
 }
 
 function new_reference() {

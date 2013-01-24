@@ -97,6 +97,59 @@ def document_changeproposal_new(request, document, type):
 
 @login_required
 @jsonize
+def document_statements_import(request):
+	ctx = {}
+	ctx["list"] = []
+
+	doc = get_object_or_404(Document, id=request.GET.get("document"))
+	text = request.GET.get("text", "")
+	lines = text.split("\n")
+
+	if request.user != doc.user:
+		return {"error": 403}
+
+	for line in lines:
+		s = Statement()
+		s.user = request.user
+		s.document = doc
+		s.text = line[1:].strip()
+
+		if len(line) == 0:
+			continue
+
+		if line[0] == "\#":
+			# Subheading
+			s.type = 3
+		elif line[0] == "-":
+			# Reference
+			s.type = 0
+		elif line[0] == ":":
+			# Assumption
+			s.type = 1
+		elif line[0] == "*":
+			# Statement
+			s.type = 2
+		else:
+			continue
+
+		try:
+			s.number = Statement.objects.get(document=s.document, type=s.type).order_by('-number')[0].number + 1
+		except:
+			s.number = 1
+
+		s.save()
+
+		boom = {}
+		boom["id"] = s.id
+		boom["seq"] = s.number
+		boom["html"] = str(s)
+		ctx["list"].append(boom)
+
+	return ctx
+
+
+@login_required
+@jsonize
 def document_statement_new(request, document, type):
 	ctx = {}
 
