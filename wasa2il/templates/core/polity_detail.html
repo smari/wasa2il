@@ -14,6 +14,16 @@
 	{% endif %}
 {% endif %}
 </div>
+{% if user_is_member %}
+<div style="float:right;" class="memberstatusbox">
+  {% if user in polity.officers.all %}
+    {% trans "You are an officer in this polity." %}
+  {% else %}
+    {% trans "You are a member of this polity." %}
+  {% endif %}
+</div>
+{% endif %}
+
 <h1>{{polity.name}}</h1>
 
 {% if user_is_member %}
@@ -39,7 +49,7 @@
 		<li><a href="#subpolities">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
 	
 	{% if user_is_member %}
-		{% if polity.invite_threshold > 0 %}
+		{% if polity_show_membership_requests %}
 			{% if membership_requests.count == 0 %}
 			<li class="disabled"><a href="#">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
 			{% else %}

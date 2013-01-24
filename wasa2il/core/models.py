@@ -94,8 +94,10 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
 	parent			= models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
 	members			= models.ManyToManyField(User)
+	officers		= models.ManyToManyField(User, related_name="officers")
 	invite_threshold	= models.IntegerField(default=3, help_text="How many members need to vouch for a new member before he can join.")
 
+	is_administrated	= models.BooleanField("Are there officers?", default=False, help_text="Is there a group of people who are administrators?")
 	is_listed		= models.BooleanField("Publicly listed?", default=True, help_text="Whether this polity is publicly listed or not.")
 	is_nonmembers_readable	= models.BooleanField("Publicly viewable?", default=True, help_text="Whether non-members can view the polity and its activities.")
 
@@ -104,6 +106,19 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	document_frontmatter	= models.TextField(**nullblank)
 	document_midmatter	= models.TextField(**nullblank)
 	document_footer		= models.TextField(**nullblank)
+
+	def is_show_membership_requests(self, user):
+		print "User: ", user
+		if self.is_administrated and user in self.officers.all():
+			print "User is officer in administered polity."
+			return True
+
+		if (not self.is_administrated) and self.invite_threshold > 0:
+			print "Polity is not administered, but positive invite threshold."
+			return True
+
+		return False
+
 
 	def get_delegation(self, user):
 		"""Check if there is a delegation on this polity."""

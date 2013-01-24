@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+import settings
 
 from core.models import *
 from core.forms import *
@@ -13,7 +14,7 @@ def home(request):
 	ctx = {}
 	if request.user.is_authenticated():
 		if settings.FRONT_POLITY:
-			HttpResponseRdirect("/polity/" + settings.FRONT_POLITY + "/")
+			return HttpResponseRedirect("/polity/" + str(settings.FRONT_POLITY) + "/")
 
 		# Get some context vars (tempoarily just fetch the first one)
 		ctx['allpolities'] = Polity.objects.filter(Q(is_listed=True) | Q(members=request.user))
@@ -204,6 +205,7 @@ class PolityDetailView(DetailView):
 		ctx['user_is_member'] = self.request.user in self.object.members.all()
 		ctx["user_requested_membership"] = self.membershiprequest != None
 		ctx["user_requested_membership_now"] = self.requested_membership
+		ctx["polity_show_membership_requests"] = self.object.is_show_membership_requests(self.request.user)
 		ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
 		ctx["politytopics"] = self.object.get_topic_list(self.request.user)
 		ctx["delegation"] = self.object.get_delegation(self.request.user)
