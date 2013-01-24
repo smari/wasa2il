@@ -7,6 +7,10 @@
 </div>
 <h1>{{issue.name}}</h1>
 
+{% if issue.is_closed %}
+<div class="alert alert-error">{% trans "This issue is closed." %}</div>
+{% endif %}
+
 {% if delegation %}
 <div class="alert alert-notice">{% trans "This issue is delegated." %} <a href="/delegation/{{delegation.0.id}}">{% trans "View details." %}</a></div>
 {% endif %}
@@ -25,10 +29,12 @@
 
 	<div class="span6 pull-right"><a name="documents"></a>
 		<div class="btn-group" style="float: right">
+			{% if issue.is_open %}
 			<a class="btn btn-mini" onclick="$('#document_import').modal('show');">{% trans "Import agreement" %}</a>
 			<a class="btn btn-mini" href="/issue/{{issue.id}}/document/new/">{% trans "New document" %}</a>
+			{% endif %}
 		</div>
-        <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
+	        <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
 		<p>{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
 		<h4>{% trans "Proposed documents" %}</h4>
 		<div id="document_all_proposals_table">
@@ -54,10 +60,12 @@
 		<div id="issue_comments">
 		</div>
 
+		{% if issue.is_open %}
 		<div class="comment_form form-inline">
 			<textarea id="id_comment" class="span4"></textarea>
 			<button class="btn primary" onclick="issue_comment_send({{issue.id}}, $('#id_comment'));">{% trans "Add comment" %}</button>
 		</div>
+		{% endif %}
 	</div>
 </div>
 
