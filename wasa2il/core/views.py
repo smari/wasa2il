@@ -12,6 +12,9 @@ from core.forms import *
 def home(request):
 	ctx = {}
 	if request.user.is_authenticated():
+		if settings.FRONT_POLITY:
+			HttpResponseRdirect("/polity/" + settings.FRONT_POLITY + "/")
+
 		# Get some context vars (tempoarily just fetch the first one)
 		ctx['allpolities'] = Polity.objects.filter(Q(is_listed=True) | Q(members=request.user))
 		ctx['polities'] = Polity.objects.filter(members=request.user)
@@ -56,7 +59,7 @@ def profile(request, username=None):
 	return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
 
 @login_required
-def settings (request):
+def view_settings(request):
 	ctx = {}
 	if request.method == 'POST':
 		form = UserProfileForm(request.POST, instance=request.user.get_profile())
