@@ -2,7 +2,7 @@ msgid ""
 msgstr "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-13 17:44+0000\n"
-"PO-Revision-Date: 2012-12-15 18:22+0100\n"
+"PO-Revision-Date: 2013-01-24 19:50+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -733,8 +733,8 @@ msgid "Hello! Welcome to the Wasa2il help system. Here we will try to help you w
 msgstr "Hello! Welcome to the Wasa2il help system. Here we will try to help you with all of the problems you might run into when using a direct democracy system."
 
 #: templates/help/index.html:9
-msgid "If you ever feel like you aren't getting a good enough explanation, please <a href=\\\""
-msgstr "If you ever feel like you aren't getting a good enough explanation, please <a href=\\\""
+msgid "If you ever feel like you aren't getting a good enough explanation, please <a href=\\"
+msgstr "If you ever feel like you aren't getting a good enough explanation, please <a href=\\"
 
 #: templates/help/index.html:12
 msgid "What is wasa2il?"

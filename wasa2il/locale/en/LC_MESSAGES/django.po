@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-13 17:44+0000\n"
+"POT-Creation-Date: 2013-01-24 18:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,46 +17,67 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: core/models.py:301 templates/core/polity_detail.html:110
+msgid "Issue"
+msgstr ""
+
+#: core/models.py:305
+msgid "Topic"
+msgstr ""
+
+#: core/models.py:309 templates/core/polity_list.html:14
+msgid "Polity"
+msgstr ""
+
 #: templates/base.html:6
 msgid "wassa2il"
 msgstr ""
 
-#: templates/base.html:48
+#: templates/base.html:50
 msgid "‫وسائل"
 msgstr ""
 
-#: templates/base.html:62 templates/notLoginInHome.html:47
+#: templates/base.html:63 templates/notLoginInHome.html:47
 #: templates/help/agreement.html:6 templates/help/index.html:6
-#: templates/help/proposal.html:6 templates/help/wasa2il.html:6
+#: templates/help/polity.html:6 templates/help/proposal.html:6
+#: templates/help/wasa2il.html:6
 msgid "Help"
 msgstr ""
 
-#: templates/base.html:63
+#: templates/base.html:67
+msgid "My profile"
+msgstr ""
+
+#: templates/base.html:68
+msgid "My settings"
+msgstr ""
+
+#: templates/base.html:69
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:65 templates/hom01.html:18
+#: templates/base.html:73 templates/hom01.html:18
 msgid "Log in"
 msgstr ""
 
-#: templates/base.html:66 templates/hom01.html:12
+#: templates/base.html:74 templates/hom01.html:12
 #: templates/notLoginInHome.html:14
 msgid "Sign up"
 msgstr ""
 
-#: templates/base.html:81
+#: templates/base.html:89
 msgid "Back to top"
 msgstr ""
 
-#: templates/base.html:82
+#: templates/base.html:90
 msgid "About wasa2il"
 msgstr ""
 
-#: templates/base.html:83
+#: templates/base.html:91
 msgid "License"
 msgstr ""
 
-#: templates/base.html:84
+#: templates/base.html:92
 msgid "Authors"
 msgstr ""
 
@@ -116,29 +137,92 @@ msgstr ""
 msgid "Free Software"
 msgstr ""
 
+#: templates/profile.html:18
+msgid "Summary"
+msgstr ""
+
+#: templates/profile.html:31
+msgid "This user hasn't provided a biography."
+msgstr ""
+
+#: templates/profile.html:37
+msgid "This user has created:"
+msgstr ""
+
+#: templates/profile.html:40
+msgid "polities"
+msgstr ""
+
+#: templates/profile.html:41
+msgid "issues"
+msgstr ""
+
+#: templates/profile.html:42
+msgid "documents"
+msgstr ""
+
+#: templates/profile.html:63
+msgid "is not viewable by non-members."
+msgstr ""
+
+#: templates/settings.html:7
+msgid "Settings"
+msgstr ""
+
+#: templates/settings.html:8
+msgid "You are signed in as"
+msgstr ""
+
+#: templates/settings.html:14
+msgid "Submit"
+msgstr ""
+
+#: templates/core/_delegations_table.html:4
+msgid "Type"
+msgstr ""
+
+#: templates/core/_delegations_table.html:5
+msgid "Item"
+msgstr ""
+
+#: templates/core/_delegations_table.html:6
+msgid "To"
+msgstr ""
+
+#: templates/core/_delegations_table.html:7
+msgid "Result"
+msgstr ""
+
+#: templates/core/_delegations_table.html:8
+#: templates/core/_delegations_table.html:16
+#: templates/core/delegate_detail.html:29
+msgid "Details"
+msgstr ""
+
+#: templates/core/_delegations_table.html:21
+msgid "There are no delegations"
+msgstr ""
+
+#: templates/core/_delegations_table.html:22
+msgid "What is a delegation?"
+msgstr ""
+
 #: templates/core/_document_agreement_list_table.html:4
 #: templates/core/_document_list_table.html:4
+#: templates/core/_document_proposals_list_table.html:4
 msgid "Document"
 msgstr ""
 
 #: templates/core/_document_agreement_list_table.html:5
-msgid "Type"
-msgstr ""
-
-#: templates/core/_document_agreement_list_table.html:6
 msgid "Adopted"
 msgstr ""
 
-#: templates/core/_document_agreement_list_table.html:7
-msgid "Support"
-msgstr ""
-
-#: templates/core/_document_agreement_list_table.html:19
+#: templates/core/_document_agreement_list_table.html:15
 msgid "This polity has no agreements."
 msgstr ""
 
-#: templates/core/_document_agreement_list_table.html:20
-#: templates/help/proposal.html:64
+#: templates/core/_document_agreement_list_table.html:16
+#: templates/help/polity.html:119 templates/help/proposal.html:64
 msgid "What is an agreement?"
 msgstr ""
 
@@ -147,23 +231,29 @@ msgid "Adopted?"
 msgstr ""
 
 #: templates/core/_document_list_table.html:6
-msgid "Proposed?"
-msgstr ""
-
-#: templates/core/_document_list_table.html:7
 msgid "Original author"
 msgstr ""
 
-#: templates/core/_document_list_table.html:8
+#: templates/core/_document_list_table.html:7
 msgid "Contributors"
 msgstr ""
 
-#: templates/core/_document_list_table.html:9
+#: templates/core/_document_list_table.html:8
+#: templates/core/_document_proposals_list_table.html:5
 msgid "Last edit"
 msgstr ""
 
-#: templates/core/_document_list_table.html:23
+#: templates/core/_document_list_table.html:21
+#: templates/core/_document_proposals_list_table.html:17
 msgid "There are no documents here!"
+msgstr ""
+
+#: templates/core/_document_proposals_list_table.html:6
+msgid "Actions"
+msgstr ""
+
+#: templates/core/_document_proposals_list_table.html:12
+msgid "Propose"
 msgstr ""
 
 #: templates/core/_documentsMenu.html:5
@@ -190,24 +280,66 @@ msgstr ""
 msgid "There are no topics in this polity!"
 msgstr ""
 
+#: templates/core/delegate_detail.html:6
+#: templates/core/document_detail.html:14 templates/core/issue_detail.html:6
+#: templates/core/meeting_detail.html:16 templates/core/topic_detail.html:6
+msgid "Back to polity"
+msgstr ""
+
+#: templates/core/delegate_detail.html:8
+msgid "Delegation:"
+msgstr ""
+
+#: templates/core/delegate_detail.html:8
+msgid "to"
+msgstr ""
+
+#: templates/core/delegate_detail.html:13
+msgid "Stop delegating"
+msgstr ""
+
+#: templates/core/delegate_detail.html:14
+msgid "Change delegation"
+msgstr ""
+
+#: templates/core/delegate_detail.html:33
+msgid "Delegation type"
+msgstr ""
+
+#: templates/core/delegate_detail.html:37
+msgid "Delegated item"
+msgstr ""
+
+#: templates/core/delegate_detail.html:41
+msgid "Delegated to user"
+msgstr ""
+
+#: templates/core/delegate_detail.html:45
+msgid "Resulting delegation"
+msgstr ""
+
+#: templates/core/delegate_detail.html:54
+msgid "Pathway breakdown"
+msgstr ""
+
+#: templates/core/document_detail.html:8 templates/core/document_update.html:8
+msgid "Withdraw proposal"
+msgstr ""
+
+#: templates/core/document_detail.html:10
+#: templates/core/document_update.html:10
+msgid "Propose this document"
+msgstr ""
+
 #: templates/core/document_detail.html:13
 msgid "Edit this document"
 msgstr ""
 
-#: templates/core/document_detail.html:14 templates/core/issue_detail.html:6
-#: templates/core/meeting_detail.html:6 templates/core/topic_detail.html:6
-msgid "Back to polity"
-msgstr ""
-
-#: templates/core/document_detail.html:15
-msgid "Back to document list"
-msgstr ""
-
-#: templates/core/document_detail.html:23
+#: templates/core/document_detail.html:22
 msgid "Assumptions"
 msgstr ""
 
-#: templates/core/document_detail.html:37
+#: templates/core/document_detail.html:36
 msgid "Declarations"
 msgstr ""
 
@@ -227,248 +359,372 @@ msgstr ""
 msgid "Related to issue:"
 msgstr ""
 
-#: templates/core/document_form.html:22 templates/core/issue_form.html:11
+#: templates/core/document_form.html:22 templates/core/issue_form.html:33
 msgid "Save"
 msgstr ""
 
-#: templates/core/document_list.html:7 templates/core/issue_detail.html:17
-#: templates/core/polity_detail.html:142
+#: templates/core/document_list.html:7 templates/core/issue_detail.html:34
+#: templates/core/polity_detail.html:218
 msgid "New document"
 msgstr ""
 
-#: templates/core/document_list.html:10 templates/core/issue_detail.html:19
-#: templates/core/polity_list.html:17 templates/core/topic_detail.html:24
+#: templates/core/document_list.html:10 templates/core/issue_detail.html:37
+#: templates/core/polity_detail.html:112 templates/core/polity_list.html:17
+#: templates/core/topic_detail.html:28
 msgid "Documents"
 msgstr ""
 
-#: templates/core/document_update.html:8
-msgid "Withdraw proposal"
-msgstr ""
-
-#: templates/core/document_update.html:10
-msgid "Propose this document"
-msgstr ""
-
-#: templates/core/document_update.html:13
-msgid "View this document"
-msgstr ""
-
-#: templates/core/document_update.html:16
+#: templates/core/document_update.html:15
 msgid "Agreement"
 msgstr ""
 
-#: templates/core/document_update.html:17
+#: templates/core/document_update.html:16
 msgid "Proposal"
 msgstr ""
 
-#: templates/core/document_update.html:18
+#: templates/core/document_update.html:17
 msgid "Draft proposal:"
 msgstr ""
 
-#: templates/core/document_update.html:23
-msgid "[Unnumbered proposal]"
-msgstr ""
-
-#: templates/core/document_update.html:61
+#: templates/core/document_update.html:60
 msgid "Referenced by issues"
 msgstr ""
 
-#: templates/core/document_update.html:69
+#: templates/core/document_update.html:68
 msgid "Contributors to this document"
 msgstr ""
 
-#: templates/core/document_update.html:79
-#: templates/core/document_update.html:92
+#: templates/core/document_update.html:77
+#: templates/core/meeting_detail.html:36
+#: templates/core/meeting_detail.html:101
+msgid "Add"
+msgstr ""
+
+#: templates/core/document_update.html:85
+#: templates/core/document_update.html:144
 msgid "New reference"
 msgstr ""
 
-#: templates/core/document_update.html:80
-#: templates/core/document_update.html:114
+#: templates/core/document_update.html:86
+#: templates/core/document_update.html:166
 msgid "New assumption"
 msgstr ""
 
-#: templates/core/document_update.html:81
-#: templates/core/document_update.html:132
+#: templates/core/document_update.html:87
+#: templates/core/document_update.html:184
 msgid "New statement"
 msgstr ""
 
-#: templates/core/document_update.html:82
-#: templates/core/document_update.html:149
+#: templates/core/document_update.html:88
+#: templates/core/document_update.html:201
 msgid "New subheading"
 msgstr ""
 
+#: templates/core/document_update.html:89
+msgid "Import structure"
+msgstr ""
+
+#: templates/core/document_update.html:94
+#: templates/core/document_update.html:101
+msgid "Please note:"
+msgstr ""
+
 #: templates/core/document_update.html:95
-msgid "Choose a document to reference:"
+msgid "This document has been proposed."
 msgstr ""
 
-#: templates/core/document_update.html:105
-#: templates/core/document_update.html:123
-#: templates/core/document_update.html:140
-#: templates/core/document_update.html:157
-#: templates/core/polity_detail.html:174 templates/core/polity_detail.html:210
-msgid "Close"
+#: templates/core/document_update.html:96
+msgid ""
+"Changes you make to it now will become change proposals, which will be voted "
+"on individually."
 msgstr ""
 
-#: templates/core/document_update.html:106
-msgid "Save reference"
+#: templates/core/document_update.html:102
+msgid "This document has been adopted."
+msgstr ""
+
+#: templates/core/document_update.html:103
+msgid ""
+"In order to make change proposals to it, you must import it into a new open "
+"issue."
+msgstr ""
+
+#: templates/core/document_update.html:112
+msgid "Change proposals"
 msgstr ""
 
 #: templates/core/document_update.html:117
-msgid "Write assumption:"
+msgid "Deleted"
 msgstr ""
 
-#: templates/core/document_update.html:124
-msgid "Save assumption"
+#: templates/core/document_update.html:120
+msgid "Moved"
 msgstr ""
 
-#: templates/core/document_update.html:141
-msgid "Save statement"
+#: templates/core/document_update.html:127
+msgid "Added at beginning"
+msgstr ""
+
+#: templates/core/document_update.html:129
+msgid "Added after:"
+msgstr ""
+
+#: templates/core/document_update.html:147
+msgid "Choose a document to reference:"
+msgstr ""
+
+#: templates/core/document_update.html:157
+#: templates/core/document_update.html:175
+#: templates/core/document_update.html:192
+#: templates/core/document_update.html:209
+#: templates/core/document_update.html:227 templates/core/issue_detail.html:98
+#: templates/core/polity_detail.html:251 templates/core/polity_detail.html:287
+msgid "Close"
 msgstr ""
 
 #: templates/core/document_update.html:158
+msgid "Save reference"
+msgstr ""
+
+#: templates/core/document_update.html:169
+msgid "Write assumption:"
+msgstr ""
+
+#: templates/core/document_update.html:176
+msgid "Save assumption"
+msgstr ""
+
+#: templates/core/document_update.html:193
+msgid "Save statement"
+msgstr ""
+
+#: templates/core/document_update.html:210
 msgid "Save subheading"
 msgstr ""
 
-#: templates/core/document_update.html:167
+#: templates/core/document_update.html:218
+msgid "Import statements"
+msgstr ""
+
+#: templates/core/document_update.html:221
+msgid "Statements:"
+msgstr ""
+
+#: templates/core/document_update.html:228
+msgid "Import"
+msgstr ""
+
+#: templates/core/document_update.html:240
+msgid "Add reference"
+msgstr ""
+
+#: templates/core/document_update.html:241
+msgid "Add assumption"
+msgstr ""
+
+#: templates/core/document_update.html:243
+msgid "Add statement"
+msgstr ""
+
+#: templates/core/document_update.html:244
+msgid "Add subheading"
+msgstr ""
+
+#: templates/core/document_update.html:250
 msgid "Delete"
 msgstr ""
 
-#: templates/core/document_update.html:168
-msgid "Propose alternative"
+#: templates/core/issue_detail.html:11
+msgid "This issue is closed."
 msgstr ""
 
-#: templates/core/issue_detail.html:19
+#: templates/core/issue_detail.html:15
+msgid "This issue is delegated."
+msgstr ""
+
+#: templates/core/issue_detail.html:15 templates/core/polity_detail.html:31
+#: templates/core/topic_detail.html:12
+msgid "View details."
+msgstr ""
+
+#: templates/core/issue_detail.html:23
+msgid "In topics:"
+msgstr ""
+
+#: templates/core/issue_detail.html:25
+msgid "Deadline for proposals:"
+msgstr ""
+
+#: templates/core/issue_detail.html:26
+msgid "Deadline for votes:"
+msgstr ""
+
+#: templates/core/issue_detail.html:33 templates/core/issue_detail.html:84
+msgid "Import agreement"
+msgstr ""
+
+#: templates/core/issue_detail.html:37
 msgid "proposed or in progress"
 msgstr ""
 
-#: templates/core/issue_detail.html:20
+#: templates/core/issue_detail.html:38
 msgid ""
 "Documents are structured texts which contain the laws of the polity, or "
 "proposals for such laws."
 msgstr ""
 
-#: templates/core/issue_detail.html:28
+#: templates/core/issue_detail.html:39
+msgid "Proposed documents"
+msgstr ""
+
+#: templates/core/issue_detail.html:47
+msgid "Your documents"
+msgstr ""
+
+#: templates/core/issue_detail.html:48
+msgid "Documents you are working on that haven't been proposed:"
+msgstr ""
+
+#: templates/core/issue_detail.html:59
 msgid "Discussion"
 msgstr ""
 
-#: templates/core/issue_detail.html:34
+#: templates/core/issue_detail.html:66
 msgid "Add comment"
 msgstr ""
 
-#: templates/core/issue_form.html:5 templates/core/polity_detail.html:51
+#: templates/core/issue_detail.html:87
+msgid "Choose an agreement to import:"
+msgstr ""
+
+#: templates/core/issue_detail.html:95
+msgid ""
+"The purpose of importing an agreement to an issue is to be able to propose "
+"changes to it."
+msgstr ""
+
+#: templates/core/issue_detail.html:99
+msgid "Import document to issue"
+msgstr ""
+
+#: templates/core/issue_form.html:5 templates/core/polity_detail.html:72
 #: templates/core/topic_detail.html:7
 msgid "New issue"
 msgstr ""
 
-#: templates/core/meeting_detail.html:11
+#: templates/core/issue_form.html:40
+msgid "Select topics"
+msgstr ""
+
+#: templates/core/meeting_detail.html:21
 msgid "Attendance list"
 msgstr ""
 
-#: templates/core/meeting_detail.html:12
+#: templates/core/meeting_detail.html:23
 msgid "Attend meeting"
 msgstr ""
 
-#: templates/core/meeting_detail.html:13
+#: templates/core/meeting_detail.html:25
 msgid "You can sign in to attendance when the meeting has started."
 msgstr ""
 
-#: templates/core/meeting_detail.html:17
+#: templates/core/meeting_detail.html:29
 msgid "Meeting managers"
 msgstr ""
 
-#: templates/core/meeting_detail.html:24 templates/core/meeting_detail.html:85
-msgid "Add"
-msgstr ""
-
-#: templates/core/meeting_detail.html:29
+#: templates/core/meeting_detail.html:41
 msgid "This meeting will start in"
 msgstr ""
 
-#: templates/core/meeting_detail.html:30
+#: templates/core/meeting_detail.html:42
 msgid "This meeting is ongoing."
 msgstr ""
 
-#: templates/core/meeting_detail.html:31
+#: templates/core/meeting_detail.html:43
 msgid "This meeting ended at"
 msgstr ""
 
-#: templates/core/meeting_detail.html:39
+#: templates/core/meeting_detail.html:51
 msgid "Ajourn meeting"
 msgstr ""
 
-#: templates/core/meeting_detail.html:40
+#: templates/core/meeting_detail.html:52
 msgid "Start meeting"
 msgstr ""
 
-#: templates/core/meeting_detail.html:45
+#: templates/core/meeting_detail.html:57
 msgid "Close agenda"
 msgstr ""
 
-#: templates/core/meeting_detail.html:48
+#: templates/core/meeting_detail.html:60
 msgid "Open agenda"
 msgstr ""
 
-#: templates/core/meeting_detail.html:53
-msgid "Add agenda item"
-msgstr ""
-
-#: templates/core/meeting_detail.html:59
+#: templates/core/meeting_detail.html:67
 msgid "Previous agenda item"
 msgstr ""
 
-#: templates/core/meeting_detail.html:60
+#: templates/core/meeting_detail.html:68
 msgid "Next agenda item"
 msgstr ""
 
-#: templates/core/meeting_detail.html:61
+#: templates/core/meeting_detail.html:69
 msgid "Previous speaker"
 msgstr ""
 
-#: templates/core/meeting_detail.html:62
+#: templates/core/meeting_detail.html:70
 msgid "Next speaker"
 msgstr ""
 
-#: templates/core/meeting_detail.html:70
+#: templates/core/meeting_detail.html:71
+msgid "Add speaker"
+msgstr ""
+
+#: templates/core/meeting_detail.html:79
 msgid "Want to talk"
 msgstr ""
 
-#: templates/core/meeting_detail.html:71
+#: templates/core/meeting_detail.html:80
 msgid "Direct response"
 msgstr ""
 
-#: templates/core/meeting_detail.html:72
+#: templates/core/meeting_detail.html:82
 msgid "Clarify"
 msgstr ""
 
-#: templates/core/meeting_detail.html:73
+#: templates/core/meeting_detail.html:83
 msgid "Point of order"
 msgstr ""
 
-#: templates/core/meeting_detail.html:84
+#: templates/core/meeting_detail.html:89
+msgid "Who?"
+msgstr ""
+
+#: templates/core/meeting_detail.html:100
 msgid "Agenda item title"
 msgstr ""
 
-#: templates/core/meeting_detail.html:86
+#: templates/core/meeting_detail.html:102
 msgid "Cancel"
 msgstr ""
 
-#: templates/core/meeting_detail.html:104
+#: templates/core/meeting_detail.html:120
 msgid "Start meeting early?"
 msgstr ""
 
-#: templates/core/meeting_detail.html:107
+#: templates/core/meeting_detail.html:123
 msgid "The meeting is scheduled to start at "
 msgstr ""
 
-#: templates/core/meeting_detail.html:108
+#: templates/core/meeting_detail.html:124
 msgid "Are you sure you want to start this meeting ahead of schedule?"
 msgstr ""
 
-#: templates/core/meeting_detail.html:111
+#: templates/core/meeting_detail.html:127
 msgid "No, don't start the meeting!"
 msgstr ""
 
-#: templates/core/meeting_detail.html:112
+#: templates/core/meeting_detail.html:128
 msgid "Yes, start the meeting."
 msgstr ""
 
@@ -484,160 +740,236 @@ msgstr ""
 msgid "Request to join polity"
 msgstr ""
 
-#: templates/core/polity_detail.html:21
-msgid "Your request to join has been sent."
+#: templates/core/polity_detail.html:20
+msgid "You are an officer in this polity."
 msgstr ""
 
-#: templates/core/polity_detail.html:23
-msgid "Your request to join this polity is still pending."
-msgstr ""
-
-#: templates/core/polity_detail.html:29
-msgid "members"
-msgstr ""
-
-#: templates/core/polity_detail.html:30
-msgid "topics"
+#: templates/core/polity_detail.html:22
+msgid "You are a member of this polity."
 msgstr ""
 
 #: templates/core/polity_detail.html:31
-msgid "documents"
+msgid "This polity is delegated."
 msgstr ""
 
-#: templates/core/polity_detail.html:32
+#: templates/core/polity_detail.html:37
+msgid "Your request to join has been sent."
+msgstr ""
+
+#: templates/core/polity_detail.html:39
+msgid "Your request to join this polity is still pending."
+msgstr ""
+
+#: templates/core/polity_detail.html:46
+msgid "members"
+msgstr ""
+
+#: templates/core/polity_detail.html:47
+msgid "topics"
+msgstr ""
+
+#: templates/core/polity_detail.html:48
+msgid "agreements"
+msgstr ""
+
+#: templates/core/polity_detail.html:49
 msgid "subpolities"
 msgstr ""
 
-#: templates/core/polity_detail.html:37 templates/core/polity_detail.html:39
+#: templates/core/polity_detail.html:54 templates/core/polity_detail.html:56
 msgid "membership requests"
 msgstr ""
 
-#: templates/core/polity_detail.html:54
+#: templates/core/polity_detail.html:61
+msgid "You have"
+msgstr ""
+
+#: templates/core/polity_detail.html:61
+msgid "delegations"
+msgstr ""
+
+#: templates/core/polity_detail.html:75
 msgid "Show only starred topics"
 msgstr ""
 
-#: templates/core/polity_detail.html:55
+#: templates/core/polity_detail.html:76
 msgid "New topic"
 msgstr ""
 
-#: templates/core/polity_detail.html:59 templates/core/polity_detail.html:66
+#: templates/core/polity_detail.html:81 templates/core/polity_detail.html:88
 #: templates/core/polity_list.html:16
 msgid "Topics"
 msgstr ""
 
-#: templates/core/polity_detail.html:59
+#: templates/core/polity_detail.html:81
 msgid "of discussion"
 msgstr ""
 
-#: templates/core/polity_detail.html:61
+#: templates/core/polity_detail.html:83
 msgid "Topics are thematic categories that contain specific issues."
 msgstr ""
 
-#: templates/core/polity_detail.html:67 templates/core/topic_detail.html:22
+#: templates/core/polity_detail.html:89 templates/core/topic_detail.html:26
 msgid "Issues"
 msgstr ""
 
-#: templates/core/polity_detail.html:68
+#: templates/core/polity_detail.html:90
 msgid "Open Issues"
 msgstr ""
 
-#: templates/core/polity_detail.html:69
+#: templates/core/polity_detail.html:91
 msgid "Voting Issues"
 msgstr ""
 
-#: templates/core/polity_detail.html:85
+#: templates/core/polity_detail.html:103
+msgid "New issues"
+msgstr ""
+
+#: templates/core/polity_detail.html:103
+msgid "in discussion"
+msgstr ""
+
+#: templates/core/polity_detail.html:105
+msgid "These are the newest issues being discussed in this polity."
+msgstr ""
+
+#: templates/core/polity_detail.html:111 templates/core/topic_detail.html:27
+msgid "State"
+msgstr ""
+
+#: templates/core/polity_detail.html:113 templates/core/topic_detail.html:29
+msgid "Comments"
+msgstr ""
+
+#: templates/core/polity_detail.html:114 templates/core/topic_detail.html:30
+msgid "Votes"
+msgstr ""
+
+#: templates/core/polity_detail.html:121
+msgid "Voting"
+msgstr ""
+
+#: templates/core/polity_detail.html:121
+msgid "Open"
+msgstr ""
+
+#: templates/core/polity_detail.html:121
+msgid "Closed"
+msgstr ""
+
+#: templates/core/polity_detail.html:135
 msgid "New meeting"
 msgstr ""
 
-#: templates/core/polity_detail.html:86
+#: templates/core/polity_detail.html:138 templates/core/polity_detail.html:181
 msgid "Show ongoing meetings"
 msgstr ""
 
-#: templates/core/polity_detail.html:87
+#: templates/core/polity_detail.html:139 templates/core/polity_detail.html:182
 msgid "Show upcoming meetings"
 msgstr ""
 
-#: templates/core/polity_detail.html:88
+#: templates/core/polity_detail.html:140 templates/core/polity_detail.html:183
 msgid "Show finished meetings"
 msgstr ""
 
-#: templates/core/polity_detail.html:91
+#: templates/core/polity_detail.html:144
 msgid "Meetings"
 msgstr ""
 
-#: templates/core/polity_detail.html:91
+#: templates/core/polity_detail.html:144
 msgid "physical or virtual"
 msgstr ""
 
-#: templates/core/polity_detail.html:93
+#: templates/core/polity_detail.html:146
 msgid ""
 "A meeting is an event where people come together to discuss a set of agenda "
 "items."
 msgstr ""
 
-#: templates/core/polity_detail.html:97
+#: templates/core/polity_detail.html:150
 msgid "When"
 msgstr ""
 
-#: templates/core/polity_detail.html:98
+#: templates/core/polity_detail.html:151
 msgid "Where"
 msgstr ""
 
-#: templates/core/polity_detail.html:99
+#: templates/core/polity_detail.html:152
 msgid "Organized by"
 msgstr ""
 
-#: templates/core/polity_detail.html:100
+#: templates/core/polity_detail.html:153
 msgid "Status"
 msgstr ""
 
-#: templates/core/polity_detail.html:125
+#: templates/core/polity_detail.html:178
+msgid "New delegation"
+msgstr ""
+
+#: templates/core/polity_detail.html:187
+msgid "Delegations"
+msgstr ""
+
+#: templates/core/polity_detail.html:187
+msgid "votes entrusted to others"
+msgstr ""
+
+#: templates/core/polity_detail.html:189
+msgid "You can set up delgations for the polity, for topics, or for issues."
+msgstr ""
+
+#: templates/core/polity_detail.html:190
+msgid "Here you can see all of your active delegations and where they lead to."
+msgstr ""
+
+#: templates/core/polity_detail.html:200
 msgid "Subpolities"
 msgstr ""
 
-#: templates/core/polity_detail.html:127
+#: templates/core/polity_detail.html:202
 msgid ""
 "A polity can have subordinate organizational units, such as how a "
 "municipality relates to a country."
 msgstr ""
 
-#: templates/core/polity_detail.html:146 templates/help/agreement.html:6
+#: templates/core/polity_detail.html:223 templates/help/agreement.html:6
 msgid "Agreements"
 msgstr ""
 
-#: templates/core/polity_detail.html:146
+#: templates/core/polity_detail.html:223
 msgid "of this polity"
 msgstr ""
 
-#: templates/core/polity_detail.html:148
+#: templates/core/polity_detail.html:225
 msgid "Here are all of the agreements this polity has arrived at."
 msgstr ""
 
-#: templates/core/polity_detail.html:162
+#: templates/core/polity_detail.html:239
 msgid "Members of this polity"
 msgstr ""
 
-#: templates/core/polity_detail.html:182
+#: templates/core/polity_detail.html:259
 msgid "Users requesting membership"
 msgstr ""
 
-#: templates/core/polity_detail.html:218
+#: templates/core/polity_detail.html:295
 msgid "Leave this polity?"
 msgstr ""
 
-#: templates/core/polity_detail.html:221
+#: templates/core/polity_detail.html:298
 msgid "Are you sure you want to stop being a member of this polity?"
 msgstr ""
 
-#: templates/core/polity_detail.html:223
+#: templates/core/polity_detail.html:300
 msgid "Only members get to participate in the polity's activities."
 msgstr ""
 
-#: templates/core/polity_detail.html:227
+#: templates/core/polity_detail.html:304
 msgid "No, I hit that button by accident"
 msgstr ""
 
-#: templates/core/polity_detail.html:228
+#: templates/core/polity_detail.html:305
 msgid "Yes, I want to leave this polity."
 msgstr ""
 
@@ -645,39 +977,27 @@ msgstr ""
 msgid "New polity"
 msgstr ""
 
-#: templates/core/polity_list.html:10
+#: templates/core/polity_list.html:10 templates/help/polity.html:6
 msgid "Polities"
-msgstr ""
-
-#: templates/core/polity_list.html:14
-msgid "Polity"
 msgstr ""
 
 #: templates/core/polity_list.html:15
 msgid "Members"
 msgstr ""
 
-#: templates/core/topic_detail.html:21
-msgid "ID"
-msgstr ""
-
-#: templates/core/topic_detail.html:23
-msgid "State"
+#: templates/core/topic_detail.html:12
+msgid "This topic is delegated."
 msgstr ""
 
 #: templates/core/topic_detail.html:25
-msgid "Comments"
+msgid "ID"
 msgstr ""
 
-#: templates/core/topic_detail.html:26
-msgid "Votes"
-msgstr ""
-
-#: templates/core/topic_detail.html:42
+#: templates/core/topic_detail.html:46
 msgid "New discussions"
 msgstr ""
 
-#: templates/core/topic_detail.html:47
+#: templates/core/topic_detail.html:51
 msgid "in"
 msgstr ""
 
@@ -825,8 +1145,8 @@ msgid ""
 "One might even call this the law."
 msgstr ""
 
-#: templates/help/agreement.html:71 templates/help/proposal.html:62
-#: templates/help/wasa2il.html:28
+#: templates/help/agreement.html:71 templates/help/polity.html:117
+#: templates/help/proposal.html:62 templates/help/wasa2il.html:28
 msgid "Related help pages"
 msgstr ""
 
@@ -835,7 +1155,8 @@ msgid "How does one make a proposal?"
 msgstr ""
 
 #: templates/help/agreement.html:74 templates/help/index.html:13
-#: templates/help/proposal.html:65 templates/help/wasa2il.html:30
+#: templates/help/polity.html:120 templates/help/proposal.html:65
+#: templates/help/wasa2il.html:30
 msgid "How does electronic democracy work?"
 msgstr ""
 
@@ -869,6 +1190,163 @@ msgstr ""
 
 #: templates/help/index.html:18
 msgid "What's a sensible process for a polity?"
+msgstr ""
+
+#: templates/help/polity.html:8
+msgid ""
+"\n"
+"<p>\n"
+"Polities are groups of people who come together to make decisions and enact "
+"their will.\n"
+"These are given various names depending on their form, structure, intent, "
+"scale and scope.\n"
+"Therefore they are variously called \"countries\", \"towns\", \"clubs\", "
+"\"cabals\", \"mafias\", \"federations\",\n"
+"\"treaties\", \"unions\", \"associations\", \"companies\", \"phyles\", "
+"\"tribes\", \"counties\", \"regions\", \n"
+"or any other of a number of different terms.\n"
+"</p>\n"
+"<p>\n"
+"The reason we use the word \"polity\" in Wasa2il is that it is the most "
+"generic term we could\n"
+"find. It says nothing of the form, the structure, the intent, scale or scope "
+"of the group\n"
+"of people, nor does it preclude anything. Using the word \"group\" could "
+"work too, but it lacks\n"
+"the imporant factor that there is an intent to make decisions and enact "
+"will.\n"
+"</p>\n"
+"<p>\n"
+"In addition to consisting of a group of people, a polity will have a set of "
+"laws\n"
+"the group has decided to adhere to. In an abstract sense, membership in a "
+"polity\n"
+"grants a person certain rights and priviledges. For instance, membership in "
+"a \n"
+"school's student body may grant you the right to attend their annual prom,\n"
+"and membership in a country (i.e. residency or citizenship) grants you a "
+"right \n"
+"to live there and do certain things there, such as start companies. stand "
+"in \n"
+"elections, and so on.\n"
+"</p>\n"
+"<p>\n"
+"Each polity has different rules - these are also called statutes, bylaws or "
+"laws - \n"
+"which affect the polity on two different levels.\n"
+"</p>\n"
+"<p>\n"
+"Firstly, there are meta-rules, which describe how rules are formed, how\n"
+"decisions are made, how meetings happen, and how governance in general \n"
+"happens. Wasa2il has to be flexible enough to accomodate the varying \n"
+"meta-rules of a given polity, otherwise the polity may decide that Wasa2il "
+"isn't \n"
+"useful to them. Sometimes these rules are referred to as \"rules of procedure"
+"\" \n"
+"or \"constitution\", depending on the type of polity which is using them.\n"
+"</p>\n"
+"<p>\n"
+"Secondly there are external rules, which are the decisions the polity makes "
+"which\n"
+"don't affect its internal decisionmaking process.\n"
+"</p>\n"
+"<p>\n"
+"It is hard to talk about a term completely in the abstract. We can describe "
+"its features, but\n"
+"that only gets us so far. So let's look at some of the things that can vary "
+"from one polity\n"
+"to another, and then take a few examples in each.\n"
+"</p>\n"
+"<h2>Scope</h2>\n"
+"<p>\n"
+"The scope of a polity determines the range of things that the polity "
+"concerns itself with. The\n"
+"scope may be a geographic region, a set of ideas, a particular part of "
+"social activity, or\n"
+"a common interest of its members.\n"
+"</p>\n"
+"<p>\n"
+"<i>La Casa Invisible</i> is a social center in Málaga, Spain, which works in "
+"the Málaga region\n"
+"to promote ideas of social cohesion, autonomy, and democracy. It operates a "
+"café, a book store,\n"
+"a music hall, and various other projects, each of which could be considered "
+"a sub-polity of\n"
+"the social center itself. The scope of La Casa Invisible's actions is mostly "
+"bound to decisions\n"
+"regarding the social center itself, and the activities that take place "
+"within it.\n"
+"</p>\n"
+"<p>\n"
+"<i>The Union of the Comoros (Udzima wa Komori)</i> is an island nation to "
+"the east of Africa, \n"
+"just north of Madagascar. It has a population of 798.000 people living in an "
+"area of 2.235km². \n"
+"The scope of The Comoros as a polity is the land and national waters they "
+"control, their airspace,\n"
+"and their foreign trade, defense and other agreements they are party to. As "
+"such, they have\n"
+"municipal sub-polities, and are a member of the African Union, Francophonie, "
+"Organization of Islamic\n"
+"Cooperation, Arab League and Indian Ocean Commission superpolities, amongst "
+"others.\n"
+"</p>\n"
+"<h2>Scale</h2>\n"
+"<p>\n"
+"The scale of a polity determines how large it can be expected to become. "
+"Some polities are specifically\n"
+"structured with intent to grow, while others intentionally try to stay at a "
+"constant size.\n"
+"</p>\n"
+"<p>\n"
+"<i>Muff Divers</i> is a diving club in the village of Muff in Ireland. It "
+"claims to be the fastest\n"
+"growing diving club in the world, most likely owing to its name.\n"
+"</p>\n"
+"<h2>Intent</h2>\n"
+"<p>\n"
+"A polity is created around intent. Some polities intend to take over the "
+"world, others intend to make\n"
+"the nicest cupcakes in all of the land. Some polities intend to send people "
+"into space, and others\n"
+"intend to track down and arrest criminals. Polities have all sorts of "
+"motives and intents.\n"
+"</p>\n"
+"<p>\n"
+"On the most basic level, a polity's intent is a description of what it "
+"intends to do. This has nothing\n"
+"to do with whether the polity has the ability to do it, or whether anybody "
+"or anything - such as another\n"
+"polity, or the laws of physics - stand in their way.\n"
+"</p>\n"
+"<p>\n"
+"<i></i>\n"
+"</p>\n"
+"<h2>Structure</h2>\n"
+"<p>\n"
+"Representative democracy, direct democracy, participatory democracy, "
+"dictatorship. There are lots of terms\n"
+"which describe the structure of a polity. In one sense, it refers to where "
+"in the structure of relations\n"
+"between people the authority lies. In a dictatorship, one person has "
+"ultimate authority, although he may\n"
+"choose to grant some authority downstream to trusted advisors, who in turn "
+"have trusted advisors, and so\n"
+"on. In a fully egealitarian system, each individual is equipotent, meaning "
+"he has an equal ability to\n"
+"everybody else to instigate decisions - however, it depends on the structure "
+"what ability the individual\n"
+"has to actually complete the decision making.\n"
+"</p>\n"
+"<p>\n"
+"<i></i>\n"
+"</p>\n"
+"<h2>Form</h2>\n"
+"<p>\n"
+"</p>\n"
+"<p>\n"
+"<i></i>\n"
+"</p>\n"
 msgstr ""
 
 #: templates/help/proposal.html:6
