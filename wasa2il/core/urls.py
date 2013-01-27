@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from core.views import *
 from core.json import *
+from core.feeds import *
 from core.models import Polity, Topic, Issue
 
 urlpatterns = patterns('',
@@ -37,6 +38,9 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$',	login_required(TopicDetailView.as_view())),
 
 	(r'^delegation/(?P<pk>\d+)/$',	login_required(DetailView.as_view(model=Delegate, context_object_name="delegation"))),
+
+	(r'^feeds/json/(?P<polity>\d+)/(?P<item>.*)/$', feed_json),
+	(r'^feeds/rss/(?P<polity>\d+)/(?P<item>.*)/$', feed_rss),
 
 	(r'^api/polity/membershipvote/$', polity_membershipvote),
 	(r'^api/polity/(?P<polity_id>\d+)/members/$', get_polity_members),

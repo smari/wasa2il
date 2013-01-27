@@ -9,10 +9,11 @@
 	<td>{{topic.issue_set.count}}</td>
 	<td>{{topic.issues_open}}</td>
 	<td>{{topic.issues_voting}}</td>
+	<td>{{topic.usertopic_set.count}}</td>
 </tr>
 {% empty %}
 <tr>
-	<td colspan="4" style="text-align: center; font-size: 110%;">
+	<td colspan="5" style="text-align: center; font-size: 110%;">
 		{% trans "There are no topics in this polity!" %}
 		{% if user_is_member %}<a href="/polity/{{polity.id}}/topic/new/">Start a new topic</a>{% endif %}
 	</td>
