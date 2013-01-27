@@ -33,7 +33,7 @@
 		<tr>
 			<td>{{issue.id}}</td>
 			<td><a href="/issue/{{issue.id}}/">{{issue.name}}</a></td>
-			<td>{{issue.state}}</td>
+			<td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
 			<td>{{issue.document_set.count}}</td>
 			<td>{{issue.comment_set.count}}</td>
 			<td>{{issue.vote_set.count}}</td>
