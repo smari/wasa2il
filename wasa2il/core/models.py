@@ -210,7 +210,7 @@ class UserTopic(models.Model):
 class Issue(BaseIssue, getCreationBase('issue')):
 	polity 			= models.ForeignKey(Polity)
 	topics			= models.ManyToManyField(Topic)
-	options			= models.ManyToManyField('VoteOption')
+	# options			= models.ManyToManyField('VoteOption')
 	deadline_proposals	= models.DateTimeField(**nullblank)
 	deadline_votes		= models.DateTimeField(**nullblank)
 	ruleset			= models.ForeignKey(PolityRuleset)
@@ -261,6 +261,15 @@ class Issue(BaseIssue, getCreationBase('issue')):
 
 	def user_documents(self, user):
 		return self.document_set.filter(is_proposed=False, user=user)
+
+	def get_votes(self):
+		votes = {}
+		votes["yes"] = sum([x.get_value() for x in self.vote_set.filter(value=1)])
+		votes["abstain"] = sum([x.get_value() for x in self.vote_set.filter(value=0)])
+		votes["no"] = -sum([x.get_value() for x in self.vote_set.filter(value=-1)])
+		votes["total"] = sum([x.get_value() for x in self.vote_set.all()])
+		votes["count"] = self.vote_set.exclude(value=0).count()
+		return votes
 
 
 class Comment(getCreationBase('comment')):
@@ -353,24 +362,40 @@ class Delegate(models.Model):
 
 
 
-class VoteOption(NameSlugBase):
-	pass
+#class VoteOption(NameSlugBase):
+#	pass
 
 
 class Vote(models.Model):
 	user			= models.ForeignKey(User)
 	issue			= models.ForeignKey(Issue)
-	option			= models.ForeignKey(VoteOption)
+	# option			= models.ForeignKey(VoteOption)
+	value			= models.IntegerField()
 	cast			= models.DateTimeField(auto_now_add=True)
+	power_when_cast		= models.IntegerField()
 
 	class Meta:
 		unique_together = (('user', 'issue'))
+
+	def save(self, *largs, **kwargs):
+		if self.value > 1:
+			self.value = 1
+		elif self.value < -1:
+			self.value = -1
+
+		self.power_when_cast = self.power()
+		super(Vote, self).save(*largs, **kwargs)
+		
 
 	def power(self):
 		# Follow reverse delgation chain to discover how much power we have.
 		p = 1
 
 		return p
+
+	def get_value(self):
+		return self.power() * self.value
+
 
 
 class MembershipVote(models.Model):

@@ -51,6 +51,7 @@ urlpatterns = patterns('',
 	(r'^api/issue/comment/send/$', issue_comment_send),
 	(r'^api/issue/import/$', issue_document_import),
 	(r'^api/issue/poll/$', issue_poll),
+	(r'^api/issue/vote/$', issue_vote),
 
 	(r'^api/document/statement/new/(?P<document>\d+)/(?P<type>\d+)/$', document_statement_new),
 	(r'^api/document/statement/import/$', document_statements_import),

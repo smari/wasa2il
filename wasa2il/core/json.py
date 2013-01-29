@@ -29,6 +29,25 @@ def error(msg, ctx={}):
 
 @login_required
 @jsonize
+def issue_vote(request):
+	ctx = {}
+	issue = int(request.REQUEST.get("issue", 0))
+	issue = get_object_or_404(Issue, id=issue)
+
+	if not issue.is_voting():
+		return issue_poll(request)
+
+	val = int(request.REQUEST.get("vote", 0))
+
+	(vote, created) = Vote.objects.get_or_create(user=request.user, issue=issue)
+	vote.value = val
+	vote.save()
+
+	return issue_poll(request)
+
+
+@login_required
+@jsonize
 def polity_membershipvote(request):
 	ctx = {}
 	try:
@@ -241,6 +260,11 @@ def issue_poll(request):
 	documents = []
 	ctx["issue"] = {"comments": comments, "documents": documents}
 	ctx["ok"] = True
+	ctx["issue"]["votes"] = issue.get_votes()
+	try:
+		v = Vote.objects.get(user=request.user, issue=issue)
+		ctx["issue"]["vote"] = v.get_value()
+	except: pass
 	return ctx
 
 
