@@ -4,7 +4,7 @@ from django.contrib import auth
 
 from models import (
 	Polity, Topic, Issue,
-	VoteOption, Comment, Vote,
+	Comment, Vote,
 	Delegate, MembershipRequest,
 	MembershipVote, UserProfile,
 	Meeting, MeetingIntervention,
@@ -67,11 +67,11 @@ class DelegateAdmin(admin.ModelAdmin):
 	list_display = ['user', 'delegate', 'base_issue']
 
 
-class VoteOptionAdmin(NameSlugAdmin):
-	pass
+#class VoteOptionAdmin(NameSlugAdmin):
+#	pass
 
 class VoteAdmin(admin.ModelAdmin):
-	list_display = ['user', 'option']
+	list_display = ['user'] #, 'option']
 
 class CommentAdmin(admin.ModelAdmin):
 	save_model = save_model
@@ -88,7 +88,7 @@ register = admin.site.register
 register(Polity, PolityAdmin)
 register(Topic, TopicAdmin)
 register(Issue, IssueAdmin)
-register(VoteOption, VoteOptionAdmin)
+# register(VoteOption, VoteOptionAdmin)
 register(Comment, CommentAdmin)
 register(Delegate, DelegateAdmin)
 register(Vote, VoteAdmin)
