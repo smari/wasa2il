@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils.timesince import timesince
 import simplejson as json
+import settings
 
 from core.models import *
 from core.forms import *
@@ -25,6 +26,30 @@ def jsonize(f):
 def error(msg, ctx={}):
 	ctx['ok'] = False
 	ctx['error'] = msg
+	return ctx
+
+
+@jsonize
+def user_create(request):
+	from hashlib import sha1
+
+	ctx = {}
+	username = request.REQUEST.get("username")
+	password = request.REQUEST.get("password")
+	signature = request.REQUEST.get("signature")
+	m = sha1()
+	m.update(":"+username+":"+password+":"+settings.SHARED_SECRET+":")
+	if m.hexdigest() != signature:
+		ctx["ok"] = False
+		return ctx
+
+	(user, created) = User.objects.get_or_create(username=username)
+	user.is_active = True
+	user.save()
+
+	ctx["ok"] = True
+	ctx["username"] = user.username
+	ctx["id"] = user.id
 	return ctx
 
 
