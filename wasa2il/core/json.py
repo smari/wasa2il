@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.utils.timesince import timesince
 import simplejson as json
 
 from core.models import *
@@ -256,7 +257,7 @@ def issue_comment_send(request):
 def issue_poll(request):
 	issue = get_object_or_404(Issue, id=request.REQUEST.get("issue", 0))
 	ctx = {}
-	comments = [{"id": comment.id, "created_by": comment.created_by.username, "created": str(comment.created), "comment": comment.comment} for comment in issue.comment_set.all().order_by("created")]
+	comments = [{"id": comment.id, "created_by": comment.created_by.username, "created": str(comment.created), "created_since": timesince(comment.created), "comment": comment.comment} for comment in issue.comment_set.all().order_by("created")]
 	documents = []
 	ctx["issue"] = {"comments": comments, "documents": documents}
 	ctx["ok"] = True
