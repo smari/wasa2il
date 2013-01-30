@@ -10,3 +10,17 @@ def topicfavorited(topic, user):
 		return True
 	except:
 		return False
+
+
+@register.filter(name='issuevoted')
+def issuevoted(issue, user):
+	try:
+		ut = Vote.objects.get(user=user, issue=issue)
+		print "FOO:", user, issue, ut.value
+		if ut.value == 0:
+			return False
+
+		return True
+	except Exception, e:
+		print e
+		return False
