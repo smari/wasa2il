@@ -119,7 +119,8 @@
 	{% for issue in newissues %}
 	<tr>
                 <td>
-			<i id="issuestar_{{issue.id}}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"></i>
+			<i id="issuestar_{{issue.id}}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
+				title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}"></i>
 			<a href="/issue/{{issue.id}}/">{{issue.name}}</a>
 		</td>
                 <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
