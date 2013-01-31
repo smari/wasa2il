@@ -12,6 +12,7 @@ class UserSettingsMiddleware(object):
 			except:
 				pro = UserProfile()
 				pro.user = request.user
+				pro.language = settings.LANGUAGE_CODE
 				pro.save()
 				request.session['django_language'] = pro.language
 		else:
