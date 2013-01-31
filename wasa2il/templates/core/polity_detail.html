@@ -4,7 +4,7 @@
 {% block content %}
 
 <div style="float:right;" class="btn-group">
-{% if user_is_member %}
+{% if user_is_member and settings.ALLOW_LEAVE_POLITY %}
   <a class="btn" onclick="$('#leave_polity').modal('show');">{% trans "Leave polity" %}</a>
 {% endif %}
 {% if not user_is_member and not user_requested_membership %}
