@@ -1,3 +1,4 @@
+#coding:utf-8
 # Django settings for wasa2il project.
 import os
 here = lambda x: os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), x))
@@ -38,6 +39,13 @@ TIME_ZONE = 'Africa/Casablanca'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGES = (
+  ('is', 'Íslenska'),
+  ('en', 'English'),
+  ('nl', 'Dutch'),
+  ('es', 'Spanish'),
+)
+
 LANGUAGE_CODE = 'is' # "en-us"
 
 SITE_ID = 1
@@ -104,12 +112,12 @@ CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'core.middleware.UserSettingsMiddleware',
 )
 
