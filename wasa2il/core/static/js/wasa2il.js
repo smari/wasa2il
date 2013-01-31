@@ -7,7 +7,6 @@ var issue_object;
 var issue_id;
 var statement_active;
 
-
 function document_propose(doc, val) {
 	data = {};
 	if (issue_id != undefined) {
@@ -146,6 +145,8 @@ function issue_render(issue) {
 
 
 $(function() {
+
+	$("i[rel='tooltip'],a[rel='tooltip']").tooltip({'placement': 'top'});
 
 	/* --- MEMBERSHIP RELATED --- */
 

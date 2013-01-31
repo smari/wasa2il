@@ -29,6 +29,9 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/$',		login_required(MeetingDetailView.as_view())),
 	(r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/edit/$',		login_required(MeetingUpdateView.as_view())),
 
+	#("^polity/(?P<polity>\d+)/forum/$", ForumView.as_view()),
+	#("^polity/(?P<polity>\d+)/forum/(?P<category>\d+)/$", ForumCategoryView.as_view()),
+
 	(r'^polity/(?P<pk>\d+)/edit/$',				login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
 	(r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$',		login_required(PolityDetailView.as_view())),
 	(r'^polity/(?P<pk>\d+)/$',				login_required(PolityDetailView.as_view())),
@@ -75,5 +78,4 @@ urlpatterns = patterns('',
 	(r'^api/meeting/intervention/prev/$', meeting_intervention_prev),
 	(r'^api/meeting/intervention/add/$', meeting_intervention_add),
 	(r'^api/meeting/list_attendees/(?P<meeting_id>\d+)/$', list_attendees),
-
 )
