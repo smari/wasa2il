@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-31 20:51+0000\n"
-"PO-Revision-Date: 2012-12-15 18:20+0100\n"
+"PO-Revision-Date: 2013-01-24 19:50+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -931,9 +931,8 @@ msgid "You have voted on this issue"
 msgstr ""
 
 #: templates/core/polity_detail.html:123 templates/core/topic_detail.html:36
-#, fuzzy
 msgid "You have not voted on this issue"
-msgstr "¡Todavía no hay ningún tema en esta entidad!"
+msgstr ""
 
 #: templates/core/polity_detail.html:126 templates/core/topic_detail.html:40
 #, fuzzy
@@ -1370,13 +1369,12 @@ msgstr ""
 "directa."
 
 #: templates/help/index.html:9
-#, fuzzy
 msgid ""
 "If you ever feel like you aren't getting a good enough explanation, please "
 "<a href=\\"
 msgstr ""
 "Si en algún momento crees que la explicación no es suficiente, por favor <a "
-"href = \\\""
+"href=\\"
 
 #: templates/help/index.html:12
 msgid "What is wasa2il?"
@@ -1775,9 +1773,6 @@ msgid "You are now successfully signed up. Sign in to start having fun!"
 msgstr ""
 "¡Listo! Ya estás registrado. ¡Ahora ya puedes iniciar sesión y diviértete!"
 
-#~ msgid "ID"
-#~ msgstr "ID"
-
 #~ msgid "Back to document list"
 #~ msgstr "Volver a la lista de documentos"
 
@@ -1792,3 +1787,6 @@ msgstr ""
 
 #~ msgid "Add agenda item"
 #~ msgstr "Añadir un punto a la agenda"
+
+#~ msgid "ID"
+#~ msgstr "ID"
