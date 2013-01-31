@@ -42,7 +42,7 @@ def user_exists(request):
 		return ctx
 
 	try:
-		User.objects.get(username=username):
+		User.objects.get(username=username)
 		ctx["user_exists"] = True
 	except:
 		ctx["user_exists"] = False
