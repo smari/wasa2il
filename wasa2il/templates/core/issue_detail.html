@@ -48,7 +48,7 @@
 
 	<div class="span6 pull-right"><a name="documents"></a>
 		<div class="btn-group" style="float: right">
-			{% if issue.is_open %}
+			{% if issue.is_open and not issue.is_voting %}
 			<a class="btn btn-mini" onclick="$('#document_import').modal('show');">{% trans "Import agreement" %}</a>
 			<a class="btn btn-mini" href="/issue/{{issue.id}}/document/new/">{% trans "New document" %}</a>
 			{% endif %}
