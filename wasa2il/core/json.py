@@ -45,9 +45,10 @@ def user_create(request):
 
 	(user, created) = User.objects.get_or_create(username=username)
 	user.is_active = True
+	user.set_password(password)
 	user.save()
 	pro = UserProfile()
-	pro.user = request.user
+	pro.user = user
 	pro.save()
 
 	ctx["ok"] = True
