@@ -30,6 +30,28 @@ def error(msg, ctx={}):
 
 
 @jsonize
+def user_exists(request):
+	from hashlib import sha1
+	ctx = {}
+	username = request.REQUEST.get("username")
+	signature = request.REQUEST.get("signature")
+	m = sha1()
+	m.update(":"+username+":"+settings.SHARED_SECRET+":")
+	if m.hexdigest() != signature:
+		ctx["ok"] = False
+		return ctx
+
+	try:
+		User.objects.get(username=username):
+		ctx["user_exists"] = True
+	except:
+		ctx["user_exists"] = False
+	
+	ctx["ok"] = True
+	return ctx
+
+
+@jsonize
 def user_create(request):
 	from hashlib import sha1
 

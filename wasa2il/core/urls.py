@@ -46,6 +46,7 @@ urlpatterns = patterns('',
 	(r'^feeds/rss/(?P<polity>\d+)/(?P<item>.*)/$', feed_rss),
 
 	(r'^api/user/create/$', user_create),
+	(r'^api/user/exists/$', user_exists),
 
 	(r'^api/polity/membershipvote/$', polity_membershipvote),
 	(r'^api/polity/(?P<polity_id>\d+)/members/$', get_polity_members),
