@@ -3,29 +3,29 @@ msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-31 20:51+0000\n"
-"PO-Revision-Date: 2012-12-15 18:20+0100\n"
+"PO-Revision-Date: 2013-01-24 19:50+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
-"Language-Team: Spanish\n"
-"Language: es_ES\n"
+"Language-Team: Turkish\n"
+"Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: crowdin.net\n"
 
 #: core/models.py:310 templates/core/polity_detail.html:111
 #, fuzzy
 msgid "Issue"
-msgstr "Asuntos"
+msgstr "Issues"
 
 #: core/models.py:314
 #, fuzzy
 msgid "Topic"
-msgstr "Temas"
+msgstr "Topics"
 
 #: core/models.py:318 templates/core/polity_list.html:14
 msgid "Polity"
-msgstr "Entidad"
+msgstr "Polity"
 
 #: templates/base.html:6
 msgid "wassa2il"
@@ -40,7 +40,7 @@ msgstr "‫وسائل"
 #: templates/help/polity.html:6 templates/help/proposal.html:6
 #: templates/help/wasa2il.html:6
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Yardım"
 
 #: templates/base.html:67
 msgid "My profile"
@@ -49,92 +49,92 @@ msgstr ""
 #: templates/base.html:68
 #, fuzzy
 msgid "My settings"
-msgstr "Reuniones"
+msgstr "Meetings"
 
 #: templates/base.html:69
 msgid "Logout"
-msgstr "Cerrar sesión"
+msgstr "Oturumu kapat"
 
 #: templates/base.html:73 templates/hom01.html:18
 msgid "Log in"
-msgstr "Iniciar sesión"
+msgstr "Oturum aç"
 
 #: templates/base.html:74 templates/hom01.html:12
 #: templates/notLoginInHome.html:14
 msgid "Sign up"
-msgstr "Registrarse"
+msgstr "Kayıt ol"
 
 #: templates/base.html:89
 msgid "Back to top"
-msgstr "Ir arriba"
+msgstr "Başa dön"
 
 #: templates/base.html:90
 msgid "About wasa2il"
-msgstr "Acerca de"
+msgstr "wasa2il hakkında"
 
 #: templates/base.html:91
 msgid "License"
-msgstr "Licencia"
+msgstr "Lisans"
 
 #: templates/base.html:92
 msgid "Authors"
-msgstr "Autores"
+msgstr "Yazarlar"
 
 #: templates/hom01.html:13
 msgid "In order to use Wasa2il you need to register an account."
-msgstr "Para usar Wasa2il primero tienes que registrarte."
+msgstr "Wasa2il kullanmak için bir hesaba kayıt olmanız gerek."
 
 #: templates/hom01.html:19
 msgid "If you log in, you can participate in your polities."
-msgstr "Una vez inicies sesión, podrás participar en tus entidades."
+msgstr "If you log in, you can participate in your polities."
 
 #: templates/hom01.html:24 templates/notLoginInHome.html:33
 msgid "Browse Polities"
-msgstr "Buscar Entidades"
+msgstr "Browse Polities"
 
 #: templates/hom01.html:25
 msgid "You can browse publicly visible polities without registering."
-msgstr "Puedes explorar las entidades públicamente visibles sin registrarte."
+msgstr "You can browse publicly visible polities without registering."
 
 #: templates/hom01.html:35
 msgid "FAQ"
-msgstr "Preguntas frecuentes"
+msgstr "SSS"
 
 #: templates/hom01.html:37 templates/help/index.html:15
 msgid "What is a polity?"
-msgstr "¿Qué es una entidad?"
+msgstr "What is a polity?"
 
 #: templates/hom01.html:38
 msgid "How electronic democracy work?"
-msgstr "¿Cómo funciona la democracia electrónica?"
+msgstr "Elektronik demokrasi nasıl işler?"
 
 #: templates/hom01.html:39
 msgid "Who can use Wasa2il?"
-msgstr "¿Quién puede usar Wasa2il?"
+msgstr "Wasa2il'i kimler kullanabilir?"
 
 #: templates/hom01.html:40
 msgid "What does Wasa2il mean?"
-msgstr "¿Qué significa Wasa2il?"
+msgstr "Wasa2il ne demek?"
 
 #: templates/hom01.html:44
 msgid "New polities"
-msgstr "Nuevas entidades"
+msgstr "New polities"
 
 #: templates/hom01.html:52
 msgid "Recent decisions"
-msgstr "Decisiones recientes"
+msgstr "En yeni kararlar"
 
 #: templates/notLoginInHome.html:23
 msgid "Start a Policy"
-msgstr "Comenzar una Entidad"
+msgstr "Start a Policy"
 
 #: templates/notLoginInHome.html:49
 msgid "Join Code"
-msgstr "Código de membresía"
+msgstr "Join Code"
 
 #: templates/notLoginInHome.html:51
 msgid "Free Software"
-msgstr "Software libre"
+msgstr "Özgür Yazılım"
 
 #: templates/profile.html:18
 msgid "Summary"
@@ -151,16 +151,16 @@ msgstr ""
 #: templates/profile.html:40
 #, fuzzy
 msgid "polities"
-msgstr "Entidades"
+msgstr "Polities"
 
 #: templates/profile.html:41
 #, fuzzy
 msgid "issues"
-msgstr "Asuntos"
+msgstr "Issues"
 
 #: templates/profile.html:42
 msgid "documents"
-msgstr "documentos"
+msgstr "documents"
 
 #: templates/profile.html:63
 msgid "is not viewable by non-members."
@@ -169,7 +169,7 @@ msgstr ""
 #: templates/settings.html:7
 #, fuzzy
 msgid "Settings"
-msgstr "Reuniones"
+msgstr "Meetings"
 
 #: templates/settings.html:8
 msgid "You are signed in as"
@@ -181,7 +181,7 @@ msgstr ""
 
 #: templates/core/_delegations_table.html:4
 msgid "Type"
-msgstr "Tipo"
+msgstr "Type"
 
 #: templates/core/_delegations_table.html:5
 msgid "Item"
@@ -204,98 +204,98 @@ msgstr ""
 #: templates/core/_delegations_table.html:21
 #, fuzzy
 msgid "There are no delegations"
-msgstr "¡Todavía no hay ningún documento!"
+msgstr "Burada doküman yok!"
 
 #: templates/core/_delegations_table.html:22
 #, fuzzy
 msgid "What is a delegation?"
-msgstr "¿Qué es un tema?"
+msgstr "What is a topic?"
 
 #: templates/core/_document_agreement_list_table.html:4
 #: templates/core/_document_list_table.html:4
 #: templates/core/_document_proposals_list_table.html:4
 msgid "Document"
-msgstr "Documento"
+msgstr "Doküman"
 
 #: templates/core/_document_agreement_list_table.html:5
 msgid "Adopted"
-msgstr "Aprobado"
+msgstr "Adopted"
 
 #: templates/core/_document_agreement_list_table.html:15
 msgid "This polity has no agreements."
-msgstr "Esta entidad no ha llegado aún a ningún acuerdo."
+msgstr "This polity has no agreements."
 
 #: templates/core/_document_agreement_list_table.html:16
 #: templates/help/polity.html:119 templates/help/proposal.html:64
 msgid "What is an agreement?"
-msgstr "¿Qué es un acuerdo?"
+msgstr "What is an agreement?"
 
 #: templates/core/_document_list_table.html:5
 msgid "Adopted?"
-msgstr "¿Aprobado?"
+msgstr "Adopted?"
 
 #: templates/core/_document_list_table.html:6
 msgid "Original author"
-msgstr "Autor original"
+msgstr "Özgün yazar"
 
 #: templates/core/_document_list_table.html:7
 msgid "Contributors"
-msgstr "Colaboradores"
+msgstr "Katılımcılar"
 
 #: templates/core/_document_list_table.html:8
 #: templates/core/_document_proposals_list_table.html:5
 msgid "Last edit"
-msgstr "Última edición"
+msgstr "Son edit"
 
 #: templates/core/_document_list_table.html:21
 #: templates/core/_document_proposals_list_table.html:17
 msgid "There are no documents here!"
-msgstr "¡Todavía no hay ningún documento!"
+msgstr "Burada doküman yok!"
 
 #: templates/core/_document_proposals_list_table.html:6
 #, fuzzy
 msgid "Actions"
-msgstr "Supuestos"
+msgstr "Varsayımlar"
 
 #: templates/core/_document_proposals_list_table.html:12
 #, fuzzy
 msgid "Propose"
-msgstr "¿Propuesto?"
+msgstr "Proposed?"
 
 #: templates/core/_documentsMenu.html:5
 msgid "Your Documents"
-msgstr "Tus Documentos"
+msgstr "Senin dokümanların"
 
 #: templates/core/_documentsMenu.html:19
 msgid "Proposed Documents"
-msgstr "Documentos Propuestos"
+msgstr "Proposed Documents"
 
 #: templates/core/_documentsMenu.html:33
 msgid "Adopted documents"
-msgstr "Documentos Aprobados"
+msgstr "Adopted documents"
 
 #: templates/core/_politiesMenu.html:4
 msgid "Your Polities"
-msgstr "Tus Entidades"
+msgstr "Your Polities"
 
 #: templates/core/_politiesMenu.html:18
 msgid "Other Polities"
-msgstr "Otras Entidades"
+msgstr "Other Polities"
 
 #: templates/core/_topic_list_table.html:17
 msgid "There are no topics in this polity!"
-msgstr "¡Todavía no hay ningún tema en esta entidad!"
+msgstr "There are no topics in this polity!"
 
 #: templates/core/delegate_detail.html:6
 #: templates/core/document_detail.html:14 templates/core/issue_detail.html:6
 #: templates/core/meeting_detail.html:16 templates/core/topic_detail.html:7
 msgid "Back to polity"
-msgstr "Volver a la entidad"
+msgstr "Back to polity"
 
 #: templates/core/delegate_detail.html:8
 #, fuzzy
 msgid "Delegation:"
-msgstr "Declaraciones"
+msgstr "Bildirimler"
 
 #: templates/core/delegate_detail.html:8
 msgid "to"
@@ -304,7 +304,7 @@ msgstr ""
 #: templates/core/delegate_detail.html:13
 #, fuzzy
 msgid "Stop delegating"
-msgstr "Comenzar la reunión"
+msgstr "Start meeting"
 
 #: templates/core/delegate_detail.html:14
 msgid "Change delegation"
@@ -317,12 +317,12 @@ msgstr ""
 #: templates/core/delegate_detail.html:37
 #, fuzzy
 msgid "Delegated item"
-msgstr "Punto siguiente de la agenda"
+msgstr "Next agenda item"
 
 #: templates/core/delegate_detail.html:41
 #, fuzzy
 msgid "Delegated to user"
-msgstr "Relacionado con el asunto:"
+msgstr "Related to issue:"
 
 #: templates/core/delegate_detail.html:45
 msgid "Resulting delegation"
@@ -334,101 +334,101 @@ msgstr ""
 
 #: templates/core/document_detail.html:8 templates/core/document_update.html:8
 msgid "Withdraw proposal"
-msgstr "Retirar la propuesta"
+msgstr "Withdraw proposal"
 
 #: templates/core/document_detail.html:10
 #: templates/core/document_update.html:10
 msgid "Propose this document"
-msgstr "Proponer este documento"
+msgstr "Propose this document"
 
 #: templates/core/document_detail.html:13
 msgid "Edit this document"
-msgstr "Editar este documento"
+msgstr "Bu dokümanı editle"
 
 #: templates/core/document_detail.html:22
 msgid "Assumptions"
-msgstr "Supuestos"
+msgstr "Varsayımlar"
 
 #: templates/core/document_detail.html:36
 msgid "Declarations"
-msgstr "Declaraciones"
+msgstr "Bildirimler"
 
 #: templates/core/document_form.html:4
 msgid "New Document"
-msgstr "Nuevo documento"
+msgstr "Yeni dokuman"
 
 #: templates/core/document_form.html:6
 msgid "In polity:"
-msgstr "En la entidad:"
+msgstr "In polity:"
 
 #: templates/core/document_form.html:9
 msgid "Related to issues:"
-msgstr "Relacionado con los siguientes asuntos:"
+msgstr "Konularla ilgili:"
 
 #: templates/core/document_form.html:9
 msgid "Related to issue:"
-msgstr "Relacionado con el asunto:"
+msgstr "Related to issue:"
 
 #: templates/core/document_form.html:22 templates/core/issue_form.html:33
 msgid "Save"
-msgstr "Guardar"
+msgstr "Save"
 
 #: templates/core/document_list.html:7 templates/core/issue_detail.html:53
 #: templates/core/polity_detail.html:223
 msgid "New document"
-msgstr "Nuevo documento"
+msgstr "New document"
 
 #: templates/core/document_list.html:10 templates/core/issue_detail.html:56
 #: templates/core/polity_detail.html:113 templates/core/polity_list.html:17
 #: templates/core/topic_detail.html:28
 msgid "Documents"
-msgstr "Documentos"
+msgstr "Documents"
 
 #: templates/core/document_update.html:15
 msgid "Agreement"
-msgstr "Acuerdo"
+msgstr "Agreement"
 
 #: templates/core/document_update.html:16
 msgid "Proposal"
-msgstr "Propuesta"
+msgstr "Proposal"
 
 #: templates/core/document_update.html:17
 msgid "Draft proposal:"
-msgstr "Propuesta de borrador:"
+msgstr "Draft proposal:"
 
 #: templates/core/document_update.html:60
 msgid "Referenced by issues"
-msgstr "Mencionado en asuntos"
+msgstr "Referenced by issues"
 
 #: templates/core/document_update.html:68
 msgid "Contributors to this document"
-msgstr "Colaboradores en este documento"
+msgstr "Contributors to this document"
 
 #: templates/core/document_update.html:77
 #: templates/core/meeting_detail.html:36
 #: templates/core/meeting_detail.html:101
 msgid "Add"
-msgstr "Añadir"
+msgstr "Add"
 
 #: templates/core/document_update.html:85
 #: templates/core/document_update.html:144
 msgid "New reference"
-msgstr "Nueva referencia"
+msgstr "New reference"
 
 #: templates/core/document_update.html:86
 #: templates/core/document_update.html:166
 msgid "New assumption"
-msgstr "Nuevo supuesto"
+msgstr "New assumption"
 
 #: templates/core/document_update.html:87
 #: templates/core/document_update.html:184
 msgid "New statement"
-msgstr "Nueva afirmación"
+msgstr "New statement"
 
 #: templates/core/document_update.html:88
 #: templates/core/document_update.html:201
 msgid "New subheading"
-msgstr "Nuevo subtítulo"
+msgstr "New subheading"
 
 #: templates/core/document_update.html:89
 msgid "Import structure"
@@ -462,12 +462,12 @@ msgstr ""
 #: templates/core/document_update.html:112
 #, fuzzy
 msgid "Change proposals"
-msgstr "Retirar la propuesta"
+msgstr "Withdraw proposal"
 
 #: templates/core/document_update.html:117
 #, fuzzy
 msgid "Deleted"
-msgstr "Borrar"
+msgstr "Delete"
 
 #: templates/core/document_update.html:120
 msgid "Moved"
@@ -483,7 +483,7 @@ msgstr ""
 
 #: templates/core/document_update.html:147
 msgid "Choose a document to reference:"
-msgstr "Elije un documento al que referir:"
+msgstr "Choose a document to reference:"
 
 #: templates/core/document_update.html:157
 #: templates/core/document_update.html:175
@@ -493,66 +493,66 @@ msgstr "Elije un documento al que referir:"
 #: templates/core/issue_detail.html:117 templates/core/polity_detail.html:256
 #: templates/core/polity_detail.html:292 templates/core/topic_detail.html:85
 msgid "Close"
-msgstr "Cerrar"
+msgstr "Close"
 
 #: templates/core/document_update.html:158
 msgid "Save reference"
-msgstr "Guardar referencia"
+msgstr "Save reference"
 
 #: templates/core/document_update.html:169
 msgid "Write assumption:"
-msgstr "Escribe aquí el supuesto:"
+msgstr "Write assumption:"
 
 #: templates/core/document_update.html:176
 msgid "Save assumption"
-msgstr "Guardar supuesto"
+msgstr "Save assumption"
 
 #: templates/core/document_update.html:193
 msgid "Save statement"
-msgstr "Guardar afirmación"
+msgstr "Save statement"
 
 #: templates/core/document_update.html:210
 msgid "Save subheading"
-msgstr "Guardar subtítulo"
+msgstr "Save subheading"
 
 #: templates/core/document_update.html:218
 #, fuzzy
 msgid "Import statements"
-msgstr "Nueva afirmación"
+msgstr "New statement"
 
 #: templates/core/document_update.html:221
 #, fuzzy
 msgid "Statements:"
-msgstr "Guardar afirmación"
+msgstr "Save statement"
 
 #: templates/core/document_update.html:228
 #, fuzzy
 msgid "Import"
-msgstr "Apoyar"
+msgstr "Destek"
 
 #: templates/core/document_update.html:240
 #, fuzzy
 msgid "Add reference"
-msgstr "Nueva referencia"
+msgstr "New reference"
 
 #: templates/core/document_update.html:241
 #, fuzzy
 msgid "Add assumption"
-msgstr "Supuestos"
+msgstr "Varsayımlar"
 
 #: templates/core/document_update.html:243
 #, fuzzy
 msgid "Add statement"
-msgstr "Nueva afirmación"
+msgstr "New statement"
 
 #: templates/core/document_update.html:244
 #, fuzzy
 msgid "Add subheading"
-msgstr "Nuevo subtítulo"
+msgstr "New subheading"
 
 #: templates/core/document_update.html:250
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Delete"
 
 #: templates/core/issue_detail.html:11
 msgid "This issue is closed."
@@ -570,12 +570,12 @@ msgstr ""
 #: templates/core/issue_detail.html:23
 #, fuzzy
 msgid "In topics:"
-msgstr "temas"
+msgstr "topics"
 
 #: templates/core/issue_detail.html:25
 #, fuzzy
 msgid "Deadline for proposals:"
-msgstr "Propuesta de borrador:"
+msgstr "Draft proposal:"
 
 #: templates/core/issue_detail.html:26
 msgid "Deadline for votes:"
@@ -584,7 +584,7 @@ msgstr ""
 #: templates/core/issue_detail.html:29
 #, fuzzy
 msgid "Votes:"
-msgstr "Votos"
+msgstr "Votes"
 
 #: templates/core/issue_detail.html:30
 msgid "Yes:"
@@ -597,7 +597,7 @@ msgstr ""
 #: templates/core/issue_detail.html:38
 #, fuzzy
 msgid "Vote"
-msgstr "Votos"
+msgstr "Votes"
 
 #: templates/core/issue_detail.html:38
 msgid "for or against the documents in this issue"
@@ -622,34 +622,34 @@ msgstr ""
 #: templates/core/issue_detail.html:45
 #, fuzzy
 msgid "Voting closes in"
-msgstr "Asuntos en votación"
+msgstr "Voting Issues"
 
 #: templates/core/issue_detail.html:52 templates/core/issue_detail.html:103
 #, fuzzy
 msgid "Import agreement"
-msgstr "Acuerdo"
+msgstr "Agreement"
 
 #: templates/core/issue_detail.html:56
 msgid "proposed or in progress"
-msgstr "propuesto o en elaboración"
+msgstr "proposed or in progress"
 
 #: templates/core/issue_detail.html:57
 msgid ""
 "Documents are structured texts which contain the laws of the polity, or "
 "proposals for such laws."
 msgstr ""
-"Los documentos son textos estructurados que contienen las distintas leyes de "
-"la entidad, o propuestas para tales leyes."
+"Documents are structured texts which contain the laws of the polity, or "
+"proposals for such laws."
 
 #: templates/core/issue_detail.html:58
 #, fuzzy
 msgid "Proposed documents"
-msgstr "Documentos Propuestos"
+msgstr "Proposed Documents"
 
 #: templates/core/issue_detail.html:66
 #, fuzzy
 msgid "Your documents"
-msgstr "Tus Documentos"
+msgstr "Senin dokümanların"
 
 #: templates/core/issue_detail.html:67
 msgid "Documents you are working on that haven't been proposed:"
@@ -657,16 +657,16 @@ msgstr ""
 
 #: templates/core/issue_detail.html:78
 msgid "Discussion"
-msgstr "Discusión"
+msgstr "Tartışma"
 
 #: templates/core/issue_detail.html:85
 msgid "Add comment"
-msgstr "Añadir comentario"
+msgstr "Add comment"
 
 #: templates/core/issue_detail.html:106
 #, fuzzy
 msgid "Choose an agreement to import:"
-msgstr "Elije un documento al que referir:"
+msgstr "Choose a document to reference:"
 
 #: templates/core/issue_detail.html:114
 msgid ""
@@ -681,40 +681,40 @@ msgstr ""
 #: templates/core/issue_form.html:5 templates/core/polity_detail.html:72
 #: templates/core/topic_detail.html:8
 msgid "New issue"
-msgstr "Nuevo asunto"
+msgstr "New issue"
 
 #: templates/core/issue_form.html:40
 #, fuzzy
 msgid "Select topics"
-msgstr "Nuevo tema"
+msgstr "New topic"
 
 #: templates/core/meeting_detail.html:21
 msgid "Attendance list"
-msgstr "Lista de asistentes"
+msgstr "Attendance list"
 
 #: templates/core/meeting_detail.html:23
 msgid "Attend meeting"
-msgstr "Asistir"
+msgstr "Attend meeting"
 
 #: templates/core/meeting_detail.html:25
 msgid "You can sign in to attendance when the meeting has started."
-msgstr "Podrás marcar que has asistido una vez que la reunión haya comenzado."
+msgstr "You can sign in to attendance when the meeting has started."
 
 #: templates/core/meeting_detail.html:29
 msgid "Meeting managers"
-msgstr "Organizadores de la reunión"
+msgstr "Meeting managers"
 
 #: templates/core/meeting_detail.html:41
 msgid "This meeting will start in"
-msgstr "La reunión empieza en"
+msgstr "This meeting will start in"
 
 #: templates/core/meeting_detail.html:42
 msgid "This meeting is ongoing."
-msgstr "La reunión ya ha empezado."
+msgstr "This meeting is ongoing."
 
 #: templates/core/meeting_detail.html:43
 msgid "This meeting ended at"
-msgstr "La reunión acabó a las"
+msgstr "This meeting ended at"
 
 #: templates/core/meeting_detail.html:51
 msgid "Ajourn meeting"
@@ -722,52 +722,52 @@ msgstr "Ajourn meeting"
 
 #: templates/core/meeting_detail.html:52
 msgid "Start meeting"
-msgstr "Comenzar la reunión"
+msgstr "Start meeting"
 
 #: templates/core/meeting_detail.html:57
 msgid "Close agenda"
-msgstr "Cerrar agenda"
+msgstr "Close agenda"
 
 #: templates/core/meeting_detail.html:60
 msgid "Open agenda"
-msgstr "Abrir agenda"
+msgstr "Open agenda"
 
 #: templates/core/meeting_detail.html:67
 msgid "Previous agenda item"
-msgstr "Punto anterior de la agenda"
+msgstr "Previous agenda item"
 
 #: templates/core/meeting_detail.html:68
 msgid "Next agenda item"
-msgstr "Punto siguiente de la agenda"
+msgstr "Next agenda item"
 
 #: templates/core/meeting_detail.html:69
 msgid "Previous speaker"
-msgstr "Anterior ponente"
+msgstr "Previous speaker"
 
 #: templates/core/meeting_detail.html:70
 msgid "Next speaker"
-msgstr "Siguiente ponente"
+msgstr "Next speaker"
 
 #: templates/core/meeting_detail.html:71
 #, fuzzy
 msgid "Add speaker"
-msgstr "Siguiente ponente"
+msgstr "Next speaker"
 
 #: templates/core/meeting_detail.html:79
 msgid "Want to talk"
-msgstr "Pide la palabra"
+msgstr "Want to talk"
 
 #: templates/core/meeting_detail.html:80
 msgid "Direct response"
-msgstr "Respuesta directa"
+msgstr "Direct response"
 
 #: templates/core/meeting_detail.html:82
 msgid "Clarify"
-msgstr "Aclarar"
+msgstr "Clarify"
 
 #: templates/core/meeting_detail.html:83
 msgid "Point of order"
-msgstr "Punto del orden del día"
+msgstr "Point of order"
 
 #: templates/core/meeting_detail.html:89
 msgid "Who?"
@@ -775,87 +775,87 @@ msgstr ""
 
 #: templates/core/meeting_detail.html:100
 msgid "Agenda item title"
-msgstr "Título del punto"
+msgstr "Agenda item title"
 
 #: templates/core/meeting_detail.html:102
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Cancel"
 
 #: templates/core/meeting_detail.html:120
 msgid "Start meeting early?"
-msgstr "¿Comenzar la reunión antes de hora?"
+msgstr "Start meeting early?"
 
 #: templates/core/meeting_detail.html:123
 msgid "The meeting is scheduled to start at "
-msgstr "La reunión está programada a las "
+msgstr "The meeting is scheduled to start at "
 
 #: templates/core/meeting_detail.html:124
 msgid "Are you sure you want to start this meeting ahead of schedule?"
-msgstr "¿Estás seguro de querer empezar la reunión antes de hora?"
+msgstr "Are you sure you want to start this meeting ahead of schedule?"
 
 #: templates/core/meeting_detail.html:127
 msgid "No, don't start the meeting!"
-msgstr "¡No, no empezar aún!"
+msgstr "No, don't start the meeting!"
 
 #: templates/core/meeting_detail.html:128
 msgid "Yes, start the meeting."
-msgstr "Sí, empecemos ya."
+msgstr "Yes, start the meeting."
 
 #: templates/core/polity_detail.html:8
 msgid "Leave polity"
-msgstr "Abandonar esta entidad"
+msgstr "Leave polity"
 
 #: templates/core/polity_detail.html:11
 msgid "Join polity"
-msgstr "Unirme a esta entidad"
+msgstr "Join polity"
 
 #: templates/core/polity_detail.html:13
 msgid "Request to join polity"
-msgstr "Solicitar membresía"
+msgstr "Request to join polity"
 
 #: templates/core/polity_detail.html:20
 #, fuzzy
 msgid "You are an officer in this polity."
-msgstr "¡Todavía no hay ningún tema en esta entidad!"
+msgstr "There are no topics in this polity!"
 
 #: templates/core/polity_detail.html:22
 #, fuzzy
 msgid "You are a member of this polity."
-msgstr "Miembros de esta entidad"
+msgstr "Members of this polity"
 
 #: templates/core/polity_detail.html:31
 #, fuzzy
 msgid "This polity is delegated."
-msgstr "Esta entidad no ha llegado aún a ningún acuerdo."
+msgstr "This polity has no agreements."
 
 #: templates/core/polity_detail.html:37
 msgid "Your request to join has been sent."
-msgstr "Se ha enviado tu petición para unirte."
+msgstr "Your request to join has been sent."
 
 #: templates/core/polity_detail.html:39
 msgid "Your request to join this polity is still pending."
-msgstr "Tu petición para unirte está pendiente de aprobación."
+msgstr "Your request to join this polity is still pending."
 
 #: templates/core/polity_detail.html:46
 msgid "members"
-msgstr "miembros"
+msgstr "members"
 
 #: templates/core/polity_detail.html:47
 msgid "topics"
-msgstr "temas"
+msgstr "topics"
 
 #: templates/core/polity_detail.html:48
 #, fuzzy
 msgid "agreements"
-msgstr "Acuerdos"
+msgstr "Agreements"
 
 #: templates/core/polity_detail.html:49
 msgid "subpolities"
-msgstr "subentidades"
+msgstr "subpolities"
 
 #: templates/core/polity_detail.html:54 templates/core/polity_detail.html:56
 msgid "membership requests"
-msgstr "solicitudes de membresía"
+msgstr "membership requests"
 
 #: templates/core/polity_detail.html:61
 msgid "You have"
@@ -864,81 +864,80 @@ msgstr ""
 #: templates/core/polity_detail.html:61
 #, fuzzy
 msgid "delegations"
-msgstr "Declaraciones"
+msgstr "Bildirimler"
 
 #: templates/core/polity_detail.html:75
 msgid "Show only starred topics"
-msgstr "Mostrar sólo temas favoritos"
+msgstr "Show only starred topics"
 
 #: templates/core/polity_detail.html:76
 msgid "New topic"
-msgstr "Nuevo tema"
+msgstr "New topic"
 
 #: templates/core/polity_detail.html:81 templates/core/polity_detail.html:88
 #: templates/core/polity_list.html:16
 msgid "Topics"
-msgstr "Temas"
+msgstr "Topics"
 
 #: templates/core/polity_detail.html:81
 msgid "of discussion"
-msgstr "de discusión"
+msgstr "of discussion"
 
 #: templates/core/polity_detail.html:83
 msgid "Topics are thematic categories that contain specific issues."
-msgstr "Los temas son categorías temáticas que contienen asuntos específicos."
+msgstr "Topics are thematic categories that contain specific issues."
 
 #: templates/core/polity_detail.html:89 templates/core/topic_detail.html:26
 msgid "Issues"
-msgstr "Asuntos"
+msgstr "Issues"
 
 #: templates/core/polity_detail.html:90
 msgid "Open Issues"
-msgstr "Asuntos abiertos"
+msgstr "Open Issues"
 
 #: templates/core/polity_detail.html:91
 msgid "Voting Issues"
-msgstr "Asuntos en votación"
+msgstr "Voting Issues"
 
 #: templates/core/polity_detail.html:104
 #, fuzzy
 msgid "New issues"
-msgstr "Nuevo asunto"
+msgstr "New issue"
 
 #: templates/core/polity_detail.html:104
 #, fuzzy
 msgid "in discussion"
-msgstr "de discusión"
+msgstr "of discussion"
 
 #: templates/core/polity_detail.html:106
 #, fuzzy
 msgid "These are the newest issues being discussed in this polity."
-msgstr "¡Todavía no hay ningún tema en esta entidad!"
+msgstr "There are no topics in this polity!"
 
 #: templates/core/polity_detail.html:112 templates/core/topic_detail.html:27
 msgid "State"
-msgstr "Estado"
+msgstr "State"
 
 #: templates/core/polity_detail.html:114 templates/core/topic_detail.html:29
 msgid "Comments"
-msgstr "Comentarios"
+msgstr "Comments"
 
 #: templates/core/polity_detail.html:115 templates/core/topic_detail.html:30
 msgid "Votes"
-msgstr "Votos"
+msgstr "Votes"
 
 #: templates/core/polity_detail.html:123 templates/core/topic_detail.html:36
 msgid "You have voted on this issue"
 msgstr ""
 
 #: templates/core/polity_detail.html:123 templates/core/topic_detail.html:36
-#, fuzzy
 msgid "You have not voted on this issue"
-msgstr "¡Todavía no hay ningún tema en esta entidad!"
+msgstr ""
 
 #: templates/core/polity_detail.html:126 templates/core/topic_detail.html:40
 #, fuzzy
 msgid "Voting"
-msgstr "Asuntos en votación"
+msgstr "Voting Issues"
 
 #: templates/core/polity_detail.html:126 templates/core/topic_detail.html:40
 msgid "Open"
@@ -947,65 +946,65 @@ msgstr ""
 #: templates/core/polity_detail.html:126 templates/core/topic_detail.html:40
 #, fuzzy
 msgid "Closed"
-msgstr "Cerrar"
+msgstr "Close"
 
 #: templates/core/polity_detail.html:140
 msgid "New meeting"
-msgstr "Nueva reunión"
+msgstr "New meeting"
 
 #: templates/core/polity_detail.html:143 templates/core/polity_detail.html:186
 msgid "Show ongoing meetings"
-msgstr "Mostrar reuniones en curso"
+msgstr "Show ongoing meetings"
 
 #: templates/core/polity_detail.html:144 templates/core/polity_detail.html:187
 msgid "Show upcoming meetings"
-msgstr "Mostrar próximas reuniones"
+msgstr "Show upcoming meetings"
 
 #: templates/core/polity_detail.html:145 templates/core/polity_detail.html:188
 msgid "Show finished meetings"
-msgstr "Mostrar reuniones ya terminadas"
+msgstr "Show finished meetings"
 
 #: templates/core/polity_detail.html:149
 msgid "Meetings"
-msgstr "Reuniones"
+msgstr "Meetings"
 
 #: templates/core/polity_detail.html:149
 msgid "physical or virtual"
-msgstr "física o virtual"
+msgstr "physical or virtual"
 
 #: templates/core/polity_detail.html:151
 msgid ""
 "A meeting is an event where people come together to discuss a set of agenda "
 "items."
 msgstr ""
-"Una reunión es un evento donde varias personas se reúnen para discutir un "
-"conjunto de puntos de una agenda."
+"A meeting is an event where people come together to discuss a set of agenda "
+"items."
 
 #: templates/core/polity_detail.html:155
 msgid "When"
-msgstr "Cuándo"
+msgstr "When"
 
 #: templates/core/polity_detail.html:156
 msgid "Where"
-msgstr "Dónde"
+msgstr "Where"
 
 #: templates/core/polity_detail.html:157
 msgid "Organized by"
-msgstr "Organizada por"
+msgstr "Organized by"
 
 #: templates/core/polity_detail.html:158
 msgid "Status"
-msgstr "Estado"
+msgstr "Status"
 
 #: templates/core/polity_detail.html:183
 #, fuzzy
 msgid "New delegation"
-msgstr "Nueva reunión"
+msgstr "New meeting"
 
 #: templates/core/polity_detail.html:192
 #, fuzzy
 msgid "Delegations"
-msgstr "Declaraciones"
+msgstr "Bildirimler"
 
 #: templates/core/polity_detail.html:192
 msgid "votes entrusted to others"
@@ -1021,67 +1020,67 @@ msgstr ""
 
 #: templates/core/polity_detail.html:205
 msgid "Subpolities"
-msgstr "Subentidades"
+msgstr "Subpolities"
 
 #: templates/core/polity_detail.html:207
 msgid ""
 "A polity can have subordinate organizational units, such as how a "
 "municipality relates to a country."
 msgstr ""
-"Una entidad puede tener unidades organizativas subordinadas, de la misma "
-"forma que un municipio pertenece a un país."
+"A polity can have subordinate organizational units, such as how a "
+"municipality relates to a country."
 
 #: templates/core/polity_detail.html:228 templates/help/agreement.html:6
 msgid "Agreements"
-msgstr "Acuerdos"
+msgstr "Agreements"
 
 #: templates/core/polity_detail.html:228
 msgid "of this polity"
-msgstr "de esta entidad"
+msgstr "of this polity"
 
 #: templates/core/polity_detail.html:230
 msgid "Here are all of the agreements this polity has arrived at."
-msgstr "Estos son todos los acuerdos a los que ha llegado esta entidad."
+msgstr "Here are all of the agreements this polity has arrived at."
 
 #: templates/core/polity_detail.html:244
 msgid "Members of this polity"
-msgstr "Miembros de esta entidad"
+msgstr "Members of this polity"
 
 #: templates/core/polity_detail.html:264
 msgid "Users requesting membership"
-msgstr "Usuarios que han pedido membresía"
+msgstr "Users requesting membership"
 
 #: templates/core/polity_detail.html:300
 msgid "Leave this polity?"
-msgstr "¿Quieres dejar esta entidad?"
+msgstr "Leave this polity?"
 
 #: templates/core/polity_detail.html:303
 msgid "Are you sure you want to stop being a member of this polity?"
-msgstr "¿Estás seguro de querer dejar de ser miembro de esta entidad?"
+msgstr "Are you sure you want to stop being a member of this polity?"
 
 #: templates/core/polity_detail.html:305
 msgid "Only members get to participate in the polity's activities."
-msgstr "Sólo los miembros pueden participar en las actividades de la entidad."
+msgstr "Only members get to participate in the polity's activities."
 
 #: templates/core/polity_detail.html:309
 msgid "No, I hit that button by accident"
-msgstr "No, le he dado sin querer"
+msgstr "No, I hit that button by accident"
 
 #: templates/core/polity_detail.html:310
 msgid "Yes, I want to leave this polity."
-msgstr "Sí, quiero dejar esta entidad."
+msgstr "Yes, I want to leave this polity."
 
 #: templates/core/polity_list.html:7
 msgid "New polity"
-msgstr "Nueva entidad"
+msgstr "New polity"
 
 #: templates/core/polity_list.html:10 templates/help/polity.html:6
 msgid "Polities"
-msgstr "Entidades"
+msgstr "Polities"
 
 #: templates/core/polity_list.html:15
 msgid "Members"
-msgstr "Miembros"
+msgstr "Members"
 
 #: templates/core/topic_detail.html:13
 msgid "This topic is delegated."
@@ -1089,16 +1088,16 @@ msgstr ""
 
 #: templates/core/topic_detail.html:56
 msgid "New discussions"
-msgstr "Nuevas discusiones"
+msgstr "New discussions"
 
 #: templates/core/topic_detail.html:61
 msgid "in"
-msgstr "en"
+msgstr "in"
 
 #: templates/core/topic_detail.html:73
 #, fuzzy
 msgid "Followers of this topic"
-msgstr "Miembros de esta entidad"
+msgstr "Members of this polity"
 
 #: templates/help/agreement.html:8
 #, fuzzy
@@ -1277,7 +1276,7 @@ msgstr ""
 
 #: templates/help/agreement.html:64
 msgid "The title"
-msgstr "El título"
+msgstr "The title"
 
 #: templates/help/agreement.html:64
 msgid ""
@@ -1286,38 +1285,38 @@ msgid ""
 "that is descriptive. Some polities might choose not to use either one, but "
 "rules around this should generally be decided on."
 msgstr ""
-"Los acuerdos pueden tener diversas tipos de referencias. Una de ellas son "
-"los números, que deben ser únicos y canónicos. Otro tipo son las referencias "
-"descriptivas y legibles. Algunas entidades pueden optar por no adoptar "
-"ninguno de esos tipos, pero por norma general conviene decidir cuál usar."
+"Agreements may have various forms of reference. One is a reference number, "
+"which should be unique and cannonical. Another is a human readable title "
+"that is descriptive. Some polities might choose not to use either one, but "
+"rules around this should generally be decided on."
 
 #: templates/help/agreement.html:65
 msgid "The polity"
-msgstr "La entidad"
+msgstr "The polity"
 
 #: templates/help/agreement.html:65
 msgid ""
 "Many polities make sure that their agreements contain their name, so as not "
 "to be confusing."
 msgstr ""
-"Muchas entidades se aseguran de que sus acuerdos contengan su nombre para no "
-"causar confusión."
+"Many polities make sure that their agreements contain their name, so as not "
+"to be confusing."
 
 #: templates/help/agreement.html:66
 msgid "References section"
-msgstr "Sección de referencias"
+msgstr "References section"
 
 #: templates/help/agreement.html:66
 msgid ""
 "In the references section, a polity may choose to include references to "
 "previous agreements, or articles in those agreements."
 msgstr ""
-"En la sección de referencias, una entidad puede incluir referencias a "
-"acuerdos anteriores o incluso a artículos de esos mismos acuerdos."
+"In the references section, a polity may choose to include references to "
+"previous agreements, or articles in those agreements."
 
 #: templates/help/agreement.html:67
 msgid "Assumptions section"
-msgstr "Sección de supuestos"
+msgstr "Assumptions section"
 
 #: templates/help/agreement.html:67
 msgid ""
@@ -1326,14 +1325,14 @@ msgid ""
 "references to previous decisions. Sometimes they're bizzarre statements of "
 "opinion, or even, if used incorrectly, declarations of their own right."
 msgstr ""
-"La sección de supuestos normalmente contiene una lista de supuestos de los "
-"que se parte. En ocasiones son referencias a hechos o a decisiones previas. "
-"A veces son extrañas afirmaciones de opinión o incluso, si no se usan "
-"correctamente, declaraciones que no se basan en ninguna referencia."
+"The assumptions section generally contains a list of assumptions that are "
+"being made. Often these are factual references, or slightly more oblique "
+"references to previous decisions. Sometimes they're bizzarre statements of "
+"opinion, or even, if used incorrectly, declarations of their own right."
 
 #: templates/help/agreement.html:68
 msgid "Declarations section"
-msgstr "Sección de declaraciones"
+msgstr "Declarations section"
 
 #: templates/help/agreement.html:68
 msgid ""
@@ -1341,58 +1340,56 @@ msgid ""
 "are considered to be agreed upon by the polity when the document is adopted. "
 "One might even call this the law."
 msgstr ""
-"Esta es la parte central del acuerdo. Contiene una o más afirmaciones que se "
-"han consensuado por los miembros de la entidad al adoptar el documento. Lo "
-"podemos llamar incluso la ley."
+"This is the meat of the agreement. It contains one or more statements which "
+"are considered to be agreed upon by the polity when the document is adopted. "
+"One might even call this the law."
 
 #: templates/help/agreement.html:71 templates/help/polity.html:117
 #: templates/help/proposal.html:62 templates/help/wasa2il.html:28
 msgid "Related help pages"
-msgstr "Páginas de ayuda relacionadas"
+msgstr "Related help pages"
 
 #: templates/help/agreement.html:73
 msgid "How does one make a proposal?"
-msgstr "¿Cómo hago una propuesta?"
+msgstr "How does one make a proposal?"
 
 #: templates/help/agreement.html:74 templates/help/index.html:13
 #: templates/help/polity.html:120 templates/help/proposal.html:65
 #: templates/help/wasa2il.html:30
 msgid "How does electronic democracy work?"
-msgstr "¿Cómo funciona la democracia electrónica?"
+msgstr "How does electronic democracy work?"
 
 #: templates/help/index.html:8
 msgid ""
 "Hello! Welcome to the Wasa2il help system. Here we will try to help you with "
 "all of the problems you might run into when using a direct democracy system."
 msgstr ""
-"¡Hola! Bienvenido a la ayuda de Wasa2il. Aquí trataremos de ayudarte con "
-"cualquier problema que te hayas encontrado al usar un sistema de democracia "
-"directa."
+"Hello! Welcome to the Wasa2il help system. Here we will try to help you with "
+"all of the problems you might run into when using a direct democracy system."
 
 #: templates/help/index.html:9
-#, fuzzy
 msgid ""
 "If you ever feel like you aren't getting a good enough explanation, please "
 "<a href=\\"
 msgstr ""
-"Si en algún momento crees que la explicación no es suficiente, por favor <a "
-"href = \\\""
+"If you ever feel like you aren't getting a good enough explanation, please "
+"<a href=\\"
 
 #: templates/help/index.html:12
 msgid "What is wasa2il?"
-msgstr "¿Qué es wasa2il?"
+msgstr "What is wasa2il?"
 
 #: templates/help/index.html:14 templates/help/wasa2il.html:31
 msgid "Who can use wasa2il?"
-msgstr "¿Quién puede usar wasa2il?"
+msgstr "Who can use wasa2il?"
 
 #: templates/help/index.html:16
 msgid "What is a topic?"
-msgstr "¿Qué es un tema?"
+msgstr "What is a topic?"
 
 #: templates/help/index.html:17
 msgid "What is an issue?"
-msgstr "¿Qué es un asunto?"
+msgstr "What is an issue?"
 
 #: templates/help/index.html:18
 msgid "What's a sensible process for a polity?"
@@ -1557,7 +1554,7 @@ msgstr ""
 
 #: templates/help/proposal.html:6
 msgid "Proposals"
-msgstr "Propuestas"
+msgstr "Proposals"
 
 #: templates/help/proposal.html:8
 #, fuzzy
@@ -1768,27 +1765,26 @@ msgstr ""
 
 #: templates/registration/activate.html:5
 msgid "Welcome to Wasa2il!"
-msgstr "¡Bienvenido a Wasa2il!"
+msgstr "Welcome to Wasa2il!"
 
 #: templates/registration/activate.html:6
 msgid "You are now successfully signed up. Sign in to start having fun!"
-msgstr ""
-"¡Listo! Ya estás registrado. ¡Ahora ya puedes iniciar sesión y diviértete!"
+msgstr "You are now successfully signed up. Sign in to start having fun!"
+
+#~ msgid "Back to document list"
+#~ msgstr "Doküman listesine dön"
+
+#~ msgid "View this document"
+#~ msgstr "View this document"
+
+#~ msgid "[Unnumbered proposal]"
+#~ msgstr "[Unnumbered proposal]"
+
+#~ msgid "Propose alternative"
+#~ msgstr "Propose alternative"
+
+#~ msgid "Add agenda item"
+#~ msgstr "Add agenda item"
 
 #~ msgid "ID"
 #~ msgstr "ID"
-
-#~ msgid "Back to document list"
-#~ msgstr "Volver a la lista de documentos"
-
-#~ msgid "View this document"
-#~ msgstr "Ver este documento"
-
-#~ msgid "[Unnumbered proposal]"
-#~ msgstr "[Propuesta sin número]"
-
-#~ msgid "Propose alternative"
-#~ msgstr "Proponer alternativa"
-
-#~ msgid "Add agenda item"
-#~ msgstr "Añadir un punto a la agenda"
