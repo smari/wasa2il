@@ -211,6 +211,7 @@ class PolityDetailView(DetailView):
 		ctx["politytopics"] = self.object.get_topic_list(self.request.user)
 		ctx["delegation"] = self.object.get_delegation(self.request.user)
 		ctx["newissues"] = self.object.issue_set.filter(deadline_votes__gt=datetime.now())[:10]
+		ctx["settings"] = settings
 		# ctx["delegations"] = Delegate.objects.filter(user=self.request.user, polity=self.object)
 
 		context_data.update(ctx)
