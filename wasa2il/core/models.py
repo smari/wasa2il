@@ -156,6 +156,30 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	def agreements(self):
 		return self.document_set.filter(is_adopted=True)
 
+	def issues_open(self):
+		s = 0
+		for t in self.topic_set.all():
+			s += t.issues_open()
+
+
+	def issues_voting(self):
+		s = 0
+		for t in self.topic_set.all():
+			s += t.issues_voting()
+
+
+	def issues_closed(self):
+		s = 0
+		for t in self.topic_set.all():
+			s += t.issues_closed()
+
+
+	def issues_unvoted(self, user):
+		s = 0
+		for t in self.topic_set.all():
+			for i in t.issue_set.all():
+				pass
+
 
 class Topic(BaseIssue, getCreationBase('topic')):
 	"""A collection of issues unified categorically."""
