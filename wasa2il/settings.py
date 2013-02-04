@@ -141,6 +141,7 @@ INSTALLED_APPS = (
 	'bootstrapform',
 
 	'core',
+	'forum',
 )
 
 # A sample logging configuration. The only tangible logging

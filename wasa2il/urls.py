@@ -22,6 +22,8 @@ urlpatterns = patterns('',
 
 	# Core app
 	(r'^', include('wasa2il.core.urls')),
+	# Forums app
+	(r'^', include('wasa2il.forum.urls')),
 
 	(r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
 	(r'^accounts/settings/', 'core.views.view_settings'),
