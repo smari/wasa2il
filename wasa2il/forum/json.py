@@ -34,6 +34,9 @@ def error(msg, ctx={}):
 def discussion_comment_send(request):
 	discussion = get_object_or_404(Discussion, id=request.REQUEST.get("discussion", 0))
 	text = request.REQUEST.get("comment")
+	if request.user not in discussion.forum.polity.members.all():
+		return discussion_poll(request)
+
 	comment = DiscussionPost()
 	comment.user = request.user
 	comment.text = text
