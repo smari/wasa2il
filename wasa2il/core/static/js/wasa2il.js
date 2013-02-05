@@ -5,6 +5,9 @@ var meeting_id;
 var issue_timer;
 var issue_object;
 var issue_id;
+var discussion_timer;
+var discussion_object;
+var discussion_id;
 var statement_active;
 
 function document_propose(doc, val) {
@@ -142,6 +145,59 @@ function issue_render(issue) {
 		$("#issue_comments").append(div);
 	}
 }
+
+
+function discussion_poll(discussion) {
+	$.getJSON("/api/discussion/poll/", {"discussion": discussion}, function(data) {
+		if (data.ok) {
+			discussion_object = data.discussion;
+			discussion_render();
+		} else {
+			// Silent error reporting?
+		}
+	});
+}
+
+
+function discussion_render(discussion) {
+	$("#discussion_comments").empty();
+	for (i in discussion_object.comments) {
+		comment = discussion_object.comments[i];
+		div = "<div class=\"comment\" id=\"comment_" + comment.id + "\">";
+		div +=	"<div class=\"comment_created_by\"><a href=\"/accounts/profile/" + comment.created_by + "/\">" + comment.created_by + "</a></div>";
+		div +=	"<div class=\"comment_content\">" + comment.comment + "</div>";
+		div +=	"<div class=\"comment_created\">" + comment.created_since + "</div>";
+		div += "</div>";
+		$("#discussion_comments").append(div);
+	}
+}
+
+
+
+function discussion_comment_send(discussion, comment) {
+	comment_text = comment.val();
+	if (comment_text == "") { return; }
+	$.getJSON("/api/discussion/comment/send/", {"discussion": discussion, "comment": comment_text}, function(data) {
+		if (data.ok) {
+			comment.val("");
+			discussion_object = data.discussion;
+			discussion_render();
+		} else {
+			// Silent error reporting?
+		}
+	});
+}
+
+
+function discussion_timer_start() {
+	discussion_timer = window.setInterval(function() { discussion_poll(discussion_id); }, 5000);
+}
+
+function discussion_timer_stop() {
+	window.clearInterval(discussion_timer);
+}
+
+
 
 
 $(function() {

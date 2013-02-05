@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div style="float: right;" class="btn-group">
+	<a class="btn" href="/polity/{{discussion.forum.polity.id}}">{% trans "Back to polity" %}</a>
+	<a class="btn" href="/forum/{{discussion.forum.id}}">{% trans "Back to forum" %}</a>
+</div>
+<h1><small>{% trans "Discussion" %}</small> {{discussion.name}}</h1>
+
+{% if discussion.is_closed %}
+<div class="alert alert-error">{% trans "This discussion is closed." %}</div>
+{% endif %}
+
+<div class="row">
+	<div class="span6 pull-left">
+		<div id="discussion_comments">
+		</div>
+
+		{% if not discussion.is_closed %}
+		<div class="comment_form form-inline">
+			<textarea id="id_comment" class="span4"></textarea>
+			<button class="btn primary" onclick="discussion_comment_send({{discussion.id}}, $('#id_comment'));">{% trans "Add comment" %}</button>
+		</div>
+		{% endif %}
+	</div>
+</div>
+
+<script>
+discussion_id = {{discussion.id}};
+$(function() {
+	discussion_poll(discussion_id);
+	discussion_timer_start();
+});
+</script>
+
+{% endblock %}
