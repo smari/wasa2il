@@ -98,6 +98,7 @@ class TopicCreateView(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(TopicCreateView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 	def form_valid(self, form):
@@ -116,6 +117,7 @@ class TopicDetailView(DetailView):
 		context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
 		context_data["delegation"] = self.object.get_delegation(self.request.user)
 		context_data["polity"] = self.object.polity
+		context_data['user_is_member'] = self.request.user in self.object.polity.members.all()
 		return context_data
 
 
@@ -132,6 +134,7 @@ class IssueCreateView(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(IssueCreateView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 	def form_valid(self, form):
@@ -159,6 +162,7 @@ class IssueDetailView(DetailView):
 		context_data.update({'comment_form': CommentForm(), 'user_proposals': self.object.user_documents(self.request.user)})
 		context_data["delegation"] = self.object.get_delegation(self.request.user)
 		context_data["polity"] = self.object.polity
+		context_data['user_is_member'] = self.request.user in self.object.polity.members.all()
 		return context_data
 
 
@@ -258,6 +262,7 @@ class DocumentCreateView(CreateView):
 		context_data = super(DocumentCreateView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
 		context_data.update({'issues': self.issues})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 	def form_valid(self, form):
@@ -283,6 +288,7 @@ class DocumentDetailView(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(DocumentDetailView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 
@@ -298,6 +304,7 @@ class DocumentListView(ListView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(DocumentListView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 
@@ -316,6 +323,7 @@ class DocumentUpdateView(UpdateView):
 		print "Referabledocs: ", referabledocs
 
 		context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 
@@ -335,6 +343,7 @@ class MeetingCreateView(CreateView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(MeetingCreateView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 	def form_valid(self, form):
@@ -365,6 +374,7 @@ class MeetingDetailView(DetailView):
 				'attending': self.request.user in self.object.attendees.all(),
 			}
 		)
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 
@@ -380,6 +390,7 @@ class MeetingListView(ListView):
 	def get_context_data(self, *args, **kwargs):
 		context_data = super(MeetingListView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
 
@@ -398,4 +409,5 @@ class MeetingUpdateView(UpdateView):
 		print "Referabledocs: ", referabledocs
 
 		context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
