@@ -698,6 +698,29 @@ class Election(NameSlugBase):
 	def __unicode__(self):
 		return self.name
 
+	def is_open(self):
+		if not self.is_closed():
+			return True
+		return False
+
+	def is_voting(self):
+		if not self.deadline_candidacy or not self.deadline_votes:
+			return False
+
+		if datetime.now() > self.deadline_candidacy and datetime.now() < self.deadline_votes:
+			return True
+
+		return False		
+
+	def is_closed(self):
+		if not self.deadline_votes:
+			return False
+
+		if datetime.now() > self.deadline_votes:
+			return True
+
+		return False
+
 	def get_candidates(self):
 		ctx = {}
 		ctx["count"] = self.candidate_set.count()
