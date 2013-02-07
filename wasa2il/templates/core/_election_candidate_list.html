@@ -1,0 +1,17 @@
+{% load wasa2il %}
+{% load i18n %}
+<table class="table">
+{% for candidate in election.candidate_set.all %}
+<tr>
+	<td>
+		<a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.username}}</a>
+	</td>
+</tr>
+{% empty %}
+<tr>
+	<td colspan="5" style="text-align: center; font-size: 110%;">
+		{% trans "There are no candidates standing in this election yet!" %}
+	</td>
+</tr>
+{% endfor %}
+</table>

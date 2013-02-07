@@ -134,6 +134,48 @@
 </div>
 
 
+<div class="span6 pull-right"><a name="newissues"></a>
+	{% if user_is_member %}
+	<div class="btn-group" style="float: right">
+		<a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
+		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+			<li><a onclick="/polity/{{polity.id}}/election/list/"><i class="icon-ok"></i> {% trans "Closed elections" %}</a></li>
+		</ul>
+	</div>
+	{% endif %}
+
+	<h2>{% trans "Elections" %} <small>{% trans "putting people in power"%}</small></h2>
+
+	<p class="muted">{% trans "Sometimes you need to put people in their places. Elections do just that." %}</p>
+
+	<table class="table table-striped table-bordered table-condensed" id="newissues_list">
+	<thead>
+	<tr>
+		<th>{% trans "Election" %}</th>
+		<th>{% trans "State" %}</th>
+		<th>{% trans "Candidates" %}</th>
+		<th>{% trans "Votes" %}</th>
+	</tr>
+	</thead>
+	<tbody>
+	{% for election in newelections %}
+	<tr>
+                <td>
+			<i id="electionstar_{{election.id}}" class="icon-pencil {% if election|electionvoted:user %}{% else %}icon-grey{% endif %}"
+				title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"></i>
+			<a href="/election/{{election.id}}/">{{election.name}}</a>
+		</td>
+                <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
+                <td>{{election.candidate_set.count}}</td>
+                <td>{{election.get_votes.count}}</td>
+        </tr>
+	{% endfor %}
+	</tbody>
+	</table>
+</div>
+
+
 <div class="span6 pull-right"><a name="meetings"></a>
 	{% if user_is_member %}
 	<div class="btn-group" style="float: right">

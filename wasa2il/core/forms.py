@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django.forms import EmailField
 
-from core.models import Topic, Issue, Comment, Document, Polity, Meeting, UserProfile
+from core.models import Topic, Issue, Comment, Document, Polity, Meeting, UserProfile, Election
 
 class TopicForm(ModelForm):
 	class Meta:
@@ -36,6 +36,11 @@ class MeetingForm(ModelForm):
 	class Meta:
 		model = Meeting
 		exclude = ('user', 'polity', 'is_agenda_open', 'managers', 'attendees', 'time_started', 'time_ended')
+
+class ElectionForm(ModelForm):
+	class Meta:
+		model = Election
+		exclude = ('polity', 'slug')
 
 
 class UserProfileForm(ModelForm):

@@ -29,6 +29,10 @@ urlpatterns = patterns('',
 	(r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/$',		login_required(MeetingDetailView.as_view())),
 	(r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/edit/$',		login_required(MeetingUpdateView.as_view())),
 
+	(r'^polity/(?P<polity>\d+)/election/$',				login_required(ElectionListView.as_view())),
+	(r'^polity/(?P<polity>\d+)/election/new/$',			login_required(ElectionCreateView.as_view())),
+	(r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/$',		login_required(ElectionDetailView.as_view())),
+
 	#("^polity/(?P<polity>\d+)/forum/$", ForumView.as_view()),
 	#("^polity/(?P<polity>\d+)/forum/(?P<category>\d+)/$", ForumCategoryView.as_view()),
 
@@ -58,6 +62,10 @@ urlpatterns = patterns('',
 	(r'^api/issue/import/$', issue_document_import),
 	(r'^api/issue/poll/$', issue_poll),
 	(r'^api/issue/vote/$', issue_vote),
+
+	(r'^api/election/poll/$', election_poll),
+	(r'^api/election/vote/$', election_vote),
+	(r'^api/election/candidacy/$', election_candidacy),
 
 	(r'^api/document/statement/new/(?P<document>\d+)/(?P<type>\d+)/$', document_statement_new),
 	(r'^api/document/statement/import/$', document_statements_import),
