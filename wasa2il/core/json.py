@@ -325,6 +325,46 @@ def issue_poll(request):
 
 @login_required
 @jsonize
+def election_poll(request):
+	election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
+	ctx = {}
+	ctx["election"] = {}
+	ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
+	ctx["election"]["votes"] = election.get_votes()
+	ctx["election"]["candidates"] = election.get_candidates()
+	ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", {"election": election})
+	ctx["ok"] = True
+	return ctx
+
+
+@login_required
+@jsonize
+def election_candidacy(request):
+	election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
+	ctx = {}
+	if not request.user in election.polity.members.all():
+		return election_poll(request)
+
+	val = int(request.REQUEST.get("val", 0))
+	if val == 0:
+		Candidate.objects.filter(user=request.user, election=election).delete()
+	else:
+		cand, created = Candidate.objects.get_or_create(user=request.user, election=election)
+
+	return election_poll(request)
+
+
+@login_required
+@jsonize
+def election_vote(request):
+	election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
+	ctx = {}
+	ctx["ok"] = True
+	return ctx
+
+
+@login_required
+@jsonize
 def meeting_start(request):
 	ctx = {}
 

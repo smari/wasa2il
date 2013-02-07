@@ -671,3 +671,57 @@ def get_issue_power(issue, user):
 
 Issue.get_power = get_issue_power
 User.get_power = get_power
+
+
+
+class VotingSystem(models.Model):
+	name		= models.CharField(max_length=100)
+	systemname	= models.CharField(max_length=50)
+
+	def __unicode__(self):
+		return self.name
+
+
+class Election(NameSlugBase):
+	"""
+	An election is different from an issue vote; it's a vote
+	on people. Users, specifically.
+	"""
+	polity			= models.ForeignKey(Polity)
+	votingsystem		= models.ForeignKey(VotingSystem)
+	deadline_candidacy	= models.DateTimeField()
+	deadline_votes		= models.DateTimeField()
+
+	def export_openstv_ballot(self):
+		return ""
+
+	def __unicode__(self):
+		return self.name
+
+	def get_candidates(self):
+		ctx = {}
+		ctx["count"] = self.candidate_set.count()
+		ctx["users"] = [{"username": x.user.username} for x in self.candidate_set.all().order_by("?")]
+		return ctx
+
+	def get_votes(self):
+		ctx = {}
+		ctx["count"] = self.electionvote_set.count()
+		return ctx
+
+
+class Candidate(models.Model):
+	user		= models.ForeignKey(User)
+	election	= models.ForeignKey(Election)
+
+
+class ElectionVote(models.Model):
+	election	= models.ForeignKey(Election)
+	user		= models.ForeignKey(User)
+	candidate	= models.ForeignKey(Candidate)
+	value		= models.IntegerField()
+
+	class Meta:
+		unique_together = (('election', 'user', 'candidate'), 
+					('election', 'user', 'value'))
+

@@ -16,7 +16,6 @@ def topicfavorited(topic, user):
 def issuevoted(issue, user):
 	try:
 		ut = Vote.objects.get(user=user, issue=issue)
-		print "FOO:", user, issue, ut.value
 		if ut.value == 0:
 			return False
 
@@ -24,3 +23,9 @@ def issuevoted(issue, user):
 	except Exception, e:
 		print e
 		return False
+
+
+@register.filter(name='electionvoted')
+def electionvoted(election, user):
+	ut = ElectionVote.objects.filter(user=user, election=election).count()
+	return (ut > 0)

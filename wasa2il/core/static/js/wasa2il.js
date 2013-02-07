@@ -5,6 +5,9 @@ var meeting_id;
 var issue_timer;
 var issue_object;
 var issue_id;
+var election_timer;
+var election_object;
+var election_id;
 var discussion_timer;
 var discussion_object;
 var discussion_id;
@@ -196,6 +199,78 @@ function discussion_timer_start() {
 function discussion_timer_stop() {
 	window.clearInterval(discussion_timer);
 }
+
+
+function election_timer_start() {
+	election_timer = window.setInterval(function() { election_poll(election_id); }, 5000);
+}
+
+function election_timer_stop() {
+	window.clearInterval(election_timer);
+}
+
+
+function election_vote(val) {
+	election_timer_stop();
+	$.getJSON("/api/election/vote/", {"election": election_id, "vote": val}, function(data) {
+		if (data.ok) {
+			election_object = data.election;
+			election_render();			
+		} else {
+			$("#vote_error").show();
+		}
+		election_timer_start();
+	});
+}
+
+
+function election_candidacy_announce() {
+	return election_candidacy(1);
+}
+
+function election_candidacy_withdraw() {
+	return election_candidacy(0);
+}
+
+
+function election_candidacy(val) {
+	election_timer_stop();
+	$.getJSON("/api/election/candidacy/", {"election": election_id, "val": val}, function(data) {
+		if (data.ok) {
+			election_object = data.election;
+			election_render();			
+		} else {
+		}
+		election_timer_start();
+	});
+}
+
+
+function election_poll(election) {
+	$.getJSON("/api/election/poll/", {"election": election}, function(data) {
+		if (data.ok) {
+			election_object = data.election;
+			election_render();
+		} else {
+			// Silent error reporting?
+		}
+	});
+}
+
+
+function election_render(election) {
+	if (election_object.user_is_candidate) {
+		$("#election_button_announce").hide();
+		$("#election_button_withdraw").show();
+	} else {
+		$("#election_button_withdraw").hide();
+		$("#election_button_announce").show();
+	}
+	$("#election_votes_count").text(election_object.votes.count);
+	$("#election_candidates_count").text(election_object.candidates.count);
+	$("#election_candidates").html(election_object.candidates.html);
+}
+
 
 
 

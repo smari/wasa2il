@@ -411,3 +411,69 @@ class MeetingUpdateView(UpdateView):
 		context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
 		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
+
+
+
+class ElectionCreateView(CreateView):
+	model = Election
+	context_object_name = "election"
+	template_name = "core/election_form.html"
+	form_class = ElectionForm
+	success_url="/polity/%(polity)d/election/%(id)d/"
+
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		self.success_url = "/polity/" + str(self.polity.id) + "/election/$(id)d/"
+		return super(ElectionCreateView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(ElectionCreateView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
+		return context_data
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.polity = self.polity
+		self.object.save()
+		self.success_url = "/polity/" + str(self.polity.id) + "/election/" + str(self.object.id) + "/"
+		return HttpResponseRedirect(self.get_success_url())
+
+
+class ElectionDetailView(DetailView):
+	model = Election
+	context_object_name = "election"
+	template_name = "core/election_detail.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(ElectionDetailView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
+		context_data.update(
+			{
+				'polity': self.polity,
+				"now": datetime.now().strftime("%d/%m/%Y %H:%I"),
+			}
+		)
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
+		return context_data
+
+
+class ElectionListView(ListView):
+	model = Election
+	context_object_name = "elections"
+	template_name = "core/election_list.html"
+
+	def dispatch(self, *args, **kwargs):
+		self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+		return super(ElectionListView, self).dispatch(*args, **kwargs)
+
+	def get_context_data(self, *args, **kwargs):
+		context_data = super(ElectionListView, self).get_context_data(*args, **kwargs)
+		context_data.update({'polity': self.polity})
+		context_data['user_is_member'] = self.request.user in self.polity.members.all()
+		return context_data
+

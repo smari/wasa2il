@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+<div style="float: right;">
+	<a class="btn" href="/polity/{{election.polity.id}}">{% trans "Back to polity" %}</a>
+</div>
+<h1><small>{% trans "Election:" %}</small> {{election.name}}</h1>
+
+{% if election.is_closed %}
+<div class="alert alert-error">{% trans "This election is closed." %}</div>
+{% endif %}
+
+{% if delegation %}
+<div class="alert alert-notice">{% trans "This election is delegated." %} <a href="/delegation/{{delegation.0.id}}">{% trans "View details." %}</a></div>
+{% endif %}
+
+<div class="row">
+	<div class="span6 pull-left">
+		<p>{{election.description}}</p>
+
+		<table class="table table-compact">
+			<tr><th>{% trans "Deadline for candidacy:" %}</th><td>{{election.deadline_candidacy|date:"d/m/Y h:i:s"}} ({{election.deadline_candidacy|timeuntil}})</td></tr>
+			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
+			<tr><th>{% trans "Votes:" %}</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
+			<tr><th>{% trans "Candidates:" %}</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
+		</table>
+	</div>
+
+	<div class="span6 pull-left"><a name="candidates"></a>
+	        <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
+		<a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">Announce candidacy</a>
+		<a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">Withdraw candidacy</a>
+
+		<div id="election_candidates" style="margin-top: 1em;"></div>
+	</div>
+
+	{% if election.is_voting %}
+	<div class="span5 pull-left well">
+		<h2>{% trans "Vote" %} <small>{% trans "for the candidates standing in this election" %}</small></h2>
+		<div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
+		<div style="margin-top: 0.5em; text-align: center;">{% trans "Voting closes in" %} {{election.deadline_votes|timeuntil}}</div>
+	</div>
+	{% endif %}
+</div>
+
+
+<script>
+election_id = {{election.id}};
+$(function() {
+	election_poll(election_id);
+	election_timer_start();
+});
+</script>
+
+
+
+{% endblock %}
