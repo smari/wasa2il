@@ -137,7 +137,9 @@
 <div class="span6 pull-right"><a name="newissues"></a>
 	{% if user_is_member %}
 	<div class="btn-group" style="float: right">
+		{% if not polity.is_administered or polity.is_administered and user in polity.officers.all %}
 		<a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
+		{% endif %}
 		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
 		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
 			<li><a onclick="/polity/{{polity.id}}/election/list/"><i class="icon-ok"></i> {% trans "Closed elections" %}</a></li>
@@ -164,7 +166,7 @@
                 <td>
 			<i id="electionstar_{{election.id}}" class="icon-pencil {% if election|electionvoted:user %}{% else %}icon-grey{% endif %}"
 				title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"></i>
-			<a href="/election/{{election.id}}/">{{election.name}}</a>
+			<a href="/polity/{{polity.id}}/election/{{election.id}}/">{{election.name}}</a>
 		</td>
                 <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
                 <td>{{election.candidate_set.count}}</td>
