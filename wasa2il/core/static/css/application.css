@@ -10,6 +10,10 @@
 .ui-timepicker-rtl dl { text-align: right; }
 .ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
 
+.img-negpad {
+	margin-top:	-5px;
+	margin-bottom:	-5px;
+}
 
 #statements_declarations ol li:before {
 	content: value(statement-counter);
@@ -19,6 +23,23 @@
 	/* list-style-type:        lower-alpha; */
 	counter-reset: 			statement-counter -1;
 }
+
+.candidates {
+
+}
+
+.candidates li {
+	display:			block;
+}
+
+.candidates li a {
+	display:			block;
+}
+
+.candidates li a:hover {
+	text-decoration:		none;
+}
+
 
 .memberstatusbox {
 	padding:			5px;

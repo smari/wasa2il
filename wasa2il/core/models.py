@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 from base_classes import NameSlugBase, getCreationBase
 from django.utils.translation import ugettext as _
 
-
 nullblank = {'null': True, 'blank': True}
 
 
@@ -27,14 +26,34 @@ class UserProfile(models.Model):
 	email_visible		= models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
 	bio			= models.TextField(**nullblank)
 	picture			= models.ImageField(upload_to="users", **nullblank)
+	# thumbnail		= fields.ThumbnailerField(upload_to='users')
 
 	# User settings
 	language		= models.CharField(max_length="6", default="en")
 	topics_showall		= models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
 
+	def save(self, *largs, **kwargs):
+		if not self.picture:
+			self.picture.name = "default.jpg"
+		super(UserProfile, self).save(*largs, **kwargs)
 
 	def __unicode__(self):
 		return 'Profile for %s (%d)' % (unicode(self.user), self.user.id)
+
+
+def get_name(user):
+	name = ""
+	try:
+		name = user.get_profile().displayname
+	except:
+		pass
+
+	if not name:
+		name = user.username
+
+	return name
+
+User.get_name = get_name
 
 
 class PolityRuleset(models.Model):

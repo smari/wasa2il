@@ -317,8 +317,8 @@
   <div class="modal-body" id="modal_members_list">
 
 	{% for m in polity.members.all %}
-		<a href="/accounts/profile/{{m.username}}/" class="thumbnail" style="background: url('/static/img/blank-user-icon.jpg') no-repeat">
-			{{m.username}}
+		<a href="/accounts/profile/{{m.username}}/" class="thumbnail" style="background: url({{m.get_profile.picture|thumbnail:"100x100"}}) no-repeat">
+			{{m.get_name}}
 		</a>
 	{% endfor %}
 
@@ -344,9 +344,9 @@
 				href="#"
 				data-id="{{m.id}}"
 				data-csrftoken="{{csrf_token}}">
-	            <img src="/static/img/blank-user-icon.jpg" />
+	            <img src="{{m.requestor.get_profile.picture|thumbnail:"100x100"}}" />
 	            <div class="title">
-	                <div class="title">{{m.requestor.username}}</div>
+	                <div class="title">{{m.requestor.get_name}}</div>
 	                <div class="progress">
 						<div class="membershiprequest_percent bar bar-success" style="width: {{m.votespercent}}%;">
 							{{m.votes}}/{{m.votesneeded}}
