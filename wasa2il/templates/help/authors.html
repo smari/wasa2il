@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Help"%}: {% trans "Authors" %}</h1>
+
+{% blocktrans %}
+<h2>Developers:</h2>
+<ul>
+        <li>Smári McCarthy</li>
+        <li>Tómas Árni Jónasson</li>
+</ul>
+<h3>Contributors:</h3>
+<ul>
+        <li>Herbert Snorrason</li>
+        <li>Othmane Maniar</li>
+        <li>Zineb Belmkaddem</li>
+        <li>Þórgnýr Thoroddssen</li>
+        <li>Stefán Vignir Skarphéðinsson</li>
+</ul>
+
+<h2>Translations:</h2>
+
+
+<h3>Dutch:</h3>
+<ul>
+        <li>Ruben Bloemgarten / Chokepoint Project</li>
+</ul>
+
+<h3>Icelandic:</h3>
+<ul>
+        <li>Eva Þurríðardóttir</li>
+        <li>Smári McCarthy</li>
+        <li>Tómas Árni Jónasson</li>
+</ul>
+
+<h3>Spanish:</h3>
+<ul>
+        <li>Adán Sánchez de Pedro</li>
+        <li>Pablo Castellano</li>
+</ul>
+{% endblocktrans %}
+
+{% endblock %}
