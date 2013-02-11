@@ -69,9 +69,7 @@ def view_settings(request):
 			request.user.save()
 			form.save()
 			
-			print "FILES:" + str(request.FILES.keys())
-			if request.FILES["picture"]:
-				print "PICTURE!"
+			if request.FILES.has_key("picture"):
 				f = request.FILES.get("picture")
 				m = sha1()
 				m.update(request.user.username)
@@ -87,7 +85,6 @@ def view_settings(request):
 				p = request.user.get_profile()
 				p.picture.name = filename
 				p.save()
-				print "PICTURE SAVED TO %s (%s)" % (path, url)
 			
 			return HttpResponseRedirect("/accounts/profile/")
 		else:
