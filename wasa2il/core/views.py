@@ -8,7 +8,7 @@ import settings
 
 from core.models import *
 from core.forms import *
-
+from hashlib import sha1
 
 def home(request):
 	ctx = {}
@@ -68,7 +68,33 @@ def view_settings(request):
 			request.user.email = form.cleaned_data['email']
 			request.user.save()
 			form.save()
+			
+			print "FILES:" + str(request.FILES.keys())
+			if request.FILES["picture"]:
+				print "PICTURE!"
+				f = request.FILES.get("picture")
+				m = sha1()
+				m.update(request.user.username)
+				hash = m.hexdigest()
+				ext = f.name.split(".")[1]
+				filename = "userimg_%s.%s" % (hash, ext)
+				path = settings.MEDIA_ROOT + "/" + filename
+				url = settings.MEDIA_URL + filename
+				pic = open(path, 'wb+')
+				for chunk in f.chunks():
+					pic.write(chunk)
+				pic.close()
+				p = request.user.get_profile()
+				p.picture.name = filename
+				p.save()
+				print "PICTURE SAVED TO %s (%s)" % (path, url)
+			
 			return HttpResponseRedirect("/accounts/profile/")
+		else:
+			print "FAIL!"
+			ctx["form"] = form
+			return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
+			
 	else:
 		form = UserProfileForm(initial={'email': request.user.email}, instance=request.user.get_profile())
 
