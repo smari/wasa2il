@@ -59,6 +59,7 @@ def user_create(request):
 	username = request.REQUEST.get("username")
 	password = request.REQUEST.get("password")
 	signature = request.REQUEST.get("signature")
+	email = request.REQUEST.get("email", "")
 	m = sha1()
 	m.update(":"+username+":"+password+":"+settings.SHARED_SECRET+":")
 	if m.hexdigest() != signature:
@@ -67,6 +68,7 @@ def user_create(request):
 
 	(user, created) = User.objects.get_or_create(username=username)
 	user.is_active = True
+	user.email = email
 	user.set_password(password)
 	user.save()
 	pro = UserProfile()
