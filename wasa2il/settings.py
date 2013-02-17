@@ -139,6 +139,7 @@ INSTALLED_APPS = (
 
 	'registration',
 	'bootstrapform',
+	'fontawesome',
 
 	'core',
 	'forum',
