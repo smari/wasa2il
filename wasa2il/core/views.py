@@ -158,6 +158,7 @@ class IssueCreateView(CreateView):
 		context_data = super(IssueCreateView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
 		context_data['user_is_member'] = self.request.user in self.polity.members.all()
+		context_data['form'].fields['topics'].queryset = Topic.objects.filter(polity=self.polity)
 		return context_data
 
 	def form_valid(self, form):
