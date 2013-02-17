@@ -50,6 +50,29 @@
 	border-radius:			3px;
 }
 
+.statementset ol {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.statementset#statements_references ol {
+	list-style-type: square;
+}
+.statementset#statements_assumptions ol {
+	list-style-type: upper-roman;
+}
+.statementset.empty-statementset ol {
+	list-style-type: none !important;
+	color: #999;
+	font-style: italic;
+}
+
+.document-fragment {
+	border: 1px solid #eee;
+	padding: 3px;
+	margin: 1em 3px;
+	border-radius: 3px;
+}
+
 .statement_subheading {
 	/*list-style-type:		none;*/
 	counter-increment:		statement-counter;
@@ -62,8 +85,24 @@
 	display:                none;
 }
 
+.statementset li {
+	padding: 5px;
+	margin: 3px;
+	border-radius: 5px;
+}
+
 .statementset li:hover {
 	background:		#eee;
+}
+
+.statementset .mover {
+	display: none;
+}
+
+.statementset li:hover .mover {
+	display: block;
+	float: right;
+	cursor: move;
 }
 
 .statementset li:hover > .state_buttons {
