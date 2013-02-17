@@ -31,6 +31,13 @@ CREATE TABLE "core_polityruleset" (
     "adopted_if_accepted" bool NOT NULL
 )
 ;
+CREATE TABLE "core_polity_officers" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "polity_id" integer NOT NULL,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    UNIQUE ("polity_id", "user_id")
+)
+;
 CREATE TABLE "core_polity_members" (
     "id" integer NOT NULL PRIMARY KEY,
     "polity_id" integer NOT NULL,
@@ -46,6 +53,7 @@ CREATE TABLE "core_polity" (
     "modified" datetime NOT NULL,
     "parent_id" integer,
     "invite_threshold" integer NOT NULL,
+    "is_administrated" bool NOT NULL,
     "is_listed" bool NOT NULL,
     "is_nonmembers_readable" bool NOT NULL,
     "image" varchar(100),
@@ -78,13 +86,6 @@ CREATE TABLE "core_issue_topics" (
     UNIQUE ("issue_id", "topic_id")
 )
 ;
-CREATE TABLE "core_issue_options" (
-    "id" integer NOT NULL PRIMARY KEY,
-    "issue_id" integer NOT NULL,
-    "voteoption_id" integer NOT NULL,
-    UNIQUE ("issue_id", "voteoption_id")
-)
-;
 CREATE TABLE "core_issue" (
     "baseissue_ptr_id" integer NOT NULL PRIMARY KEY REFERENCES "core_baseissue" ("id"),
     "created_by_id" integer REFERENCES "auth_user" ("id"),
@@ -115,18 +116,13 @@ CREATE TABLE "core_delegate" (
     UNIQUE ("user_id", "base_issue_id")
 )
 ;
-CREATE TABLE "core_voteoption" (
-    "id" integer NOT NULL PRIMARY KEY,
-    "name" varchar(128) NOT NULL,
-    "slug" varchar(128) NOT NULL
-)
-;
 CREATE TABLE "core_vote" (
     "id" integer NOT NULL PRIMARY KEY,
     "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
     "issue_id" integer NOT NULL REFERENCES "core_issue" ("baseissue_ptr_id"),
-    "option_id" integer NOT NULL REFERENCES "core_voteoption" ("id"),
+    "value" integer NOT NULL,
     "cast" datetime NOT NULL,
+    "power_when_cast" integer NOT NULL,
     UNIQUE ("user_id", "issue_id")
 )
 ;
@@ -170,7 +166,8 @@ CREATE TABLE "core_statement" (
     "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
     "document_id" integer NOT NULL REFERENCES "core_document" ("id"),
     "type" integer NOT NULL,
-    "number" integer NOT NULL
+    "number" integer NOT NULL,
+    "text" text NOT NULL
 )
 ;
 CREATE TABLE "core_statementoption" (
@@ -248,6 +245,38 @@ CREATE TABLE "core_meetingintervention" (
     "done" integer NOT NULL
 )
 ;
+CREATE TABLE "core_votingsystem" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(100) NOT NULL,
+    "systemname" varchar(50) NOT NULL
+)
+;
+CREATE TABLE "core_election" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "name" varchar(128) NOT NULL,
+    "slug" varchar(128) NOT NULL,
+    "polity_id" integer NOT NULL REFERENCES "core_polity" ("baseissue_ptr_id"),
+    "votingsystem_id" integer NOT NULL REFERENCES "core_votingsystem" ("id"),
+    "deadline_candidacy" datetime NOT NULL,
+    "deadline_votes" datetime NOT NULL
+)
+;
+CREATE TABLE "core_candidate" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    "election_id" integer NOT NULL REFERENCES "core_election" ("id")
+)
+;
+CREATE TABLE "core_electionvote" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "election_id" integer NOT NULL REFERENCES "core_election" ("id"),
+    "user_id" integer NOT NULL REFERENCES "auth_user" ("id"),
+    "candidate_id" integer NOT NULL REFERENCES "core_candidate" ("id"),
+    "value" integer NOT NULL,
+    UNIQUE ("election_id", "user_id", "candidate_id"),
+    UNIQUE ("election_id", "user_id", "value")
+)
+;
 CREATE INDEX "core_polityruleset_45004adb" ON "core_polityruleset" ("polity_id");
 CREATE INDEX "core_polityruleset_b4cb649" ON "core_polityruleset" ("confirm_with_id");
 CREATE INDEX "core_polity_b5de30be" ON "core_polity" ("created_by_id");
@@ -270,7 +299,6 @@ CREATE INDEX "core_delegate_45d71fe7" ON "core_delegate" ("delegate_id");
 CREATE INDEX "core_delegate_6ba13549" ON "core_delegate" ("base_issue_id");
 CREATE INDEX "core_vote_fbfc09f1" ON "core_vote" ("user_id");
 CREATE INDEX "core_vote_18752524" ON "core_vote" ("issue_id");
-CREATE INDEX "core_vote_2f3b0dc9" ON "core_vote" ("option_id");
 CREATE INDEX "core_membershipvote_fb621b2b" ON "core_membershipvote" ("voter_id");
 CREATE INDEX "core_membershipvote_fbfc09f1" ON "core_membershipvote" ("user_id");
 CREATE INDEX "core_membershipvote_45004adb" ON "core_membershipvote" ("polity_id");
@@ -290,4 +318,11 @@ CREATE INDEX "core_meetingagenda_784bb48" ON "core_meetingagenda" ("meeting_id")
 CREATE INDEX "core_meetingintervention_784bb48" ON "core_meetingintervention" ("meeting_id");
 CREATE INDEX "core_meetingintervention_fbfc09f1" ON "core_meetingintervention" ("user_id");
 CREATE INDEX "core_meetingintervention_dff5cc89" ON "core_meetingintervention" ("agendaitem_id");
+CREATE INDEX "core_election_45004adb" ON "core_election" ("polity_id");
+CREATE INDEX "core_election_456b776" ON "core_election" ("votingsystem_id");
+CREATE INDEX "core_candidate_fbfc09f1" ON "core_candidate" ("user_id");
+CREATE INDEX "core_candidate_f7e3fa39" ON "core_candidate" ("election_id");
+CREATE INDEX "core_electionvote_f7e3fa39" ON "core_electionvote" ("election_id");
+CREATE INDEX "core_electionvote_fbfc09f1" ON "core_electionvote" ("user_id");
+CREATE INDEX "core_electionvote_6c1886de" ON "core_electionvote" ("candidate_id");
 COMMIT;
