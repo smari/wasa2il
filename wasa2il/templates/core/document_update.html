@@ -337,7 +337,7 @@ function new_declaration() {
 	$.getJSON("/api/document/statement/new/{{document.id}}/2/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
-			var k = $('#statements_declarations').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
+			var k = $('#statements_declarations ol:last').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_declaration').modal('hide');
 		} else {
