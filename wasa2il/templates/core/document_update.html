@@ -23,13 +23,13 @@
 
 	<p><i>{{document.polity.document_frontmatter}}</i></p>
 
-	<ol class="statementset" style="list-style-type: square;" id="statements_references">
+	<ol class="document-fragment statementset" style="list-style-type: square;" id="statements_references">
 	{% for a in document.get_references %}
 		<li data-id="{{a.id}}" data-type="0">{{a|safe}}</li>
 	{% endfor %}
 	</ol>
 
-	<ol class="statementset" style="list-style-type: upper-roman;" id="statements_assumptions">
+	<ol class="document-fragment statementset" style="list-style-type: upper-roman;" id="statements_assumptions">
 	{% for a in document.get_assumptions %}
 		<li data-id="{{a.id}}" data-type="1">{{a|safe}}</li>
 	{% endfor %}
@@ -37,17 +37,15 @@
 
 	<p>{{document.polity.document_midmatter}}</p>
 
-	<div class="statementset" id="statements_declarations">
-	<ol>
+	<div class="document-fragment statementset" id="statements_declarations">
 	<ol>
 	{% for a in document.get_declarations %}
 		{% if a.type == 3 %}
 		</ol><li  data-id="{{a.id}}" data-type="3" class="statement_subheading">{{a|safe}}</li><ol>
 		{% else %}
-		<li data-id="{{a.id}}" data-type="2">{{a|safe}}</li>
+		<li data-id="{{a.id}}" data-type="2">{{a|urlizetrunc:30|safe}}</li>
 		{% endif %}
 	{% endfor %}
-	</ol>
 	</ol>
 	</div>
 
@@ -326,11 +324,13 @@ function new_assumption() {
 			var k = $('#statements_assumptions').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_assumption').modal('hide');
+			$('#modal_assumption #assumption').val('');
 		} else {
 			// Error message
 		}
 	});
 }
+
 
 function new_declaration() {
 	var ref = $("#declaration").val();
@@ -340,6 +340,7 @@ function new_declaration() {
 			var k = $('#statements_declarations ol:last').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_declaration').modal('hide');
+			$('#modal_declaration #declaration').val('');
 		} else {
 			// Error message
 		}
@@ -354,6 +355,7 @@ function new_subheading() {
 			var k = $('#statements_declarations').append('<li class="statement_subheading" data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
 			$('#modal_subheading').modal('hide');
+			$('#modal_subheading #subheading').val('');
 		} else {
 			// Error message
 		}
