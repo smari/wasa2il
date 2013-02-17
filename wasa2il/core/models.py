@@ -87,6 +87,8 @@ class PolityRuleset(models.Model):
 	# to allow progression into the next round.
 	adopted_if_accepted	= models.BooleanField()
 
+	def __unicode__(self):
+		return self.name
 
 	def has_quora(self, issue):
 		# TODO: Return whether this has acheived quora on this ruleset
