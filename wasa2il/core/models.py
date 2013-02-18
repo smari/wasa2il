@@ -12,6 +12,8 @@ from django.utils.translation import ugettext as _
 
 import settings
 
+from core.utils import AttrDict
+
 nullblank = {'null': True, 'blank': True}
 
 
@@ -502,6 +504,21 @@ class MembershipRequest(models.Model):
 		return ret
 
 
+STATEMENT_TYPE = AttrDict({
+	'REFERENCE': 0,
+	'ASSUMPTION': 1,
+	'STATEMENT': 2,
+	'HEADER': 3,
+})
+
+CP_TYPE = AttrDict({
+	'ADD': 1,
+	'DELETE': 2,
+	'CHANGE': 3,
+	'MOVE': 4,
+})
+
+
 class Document(NameSlugBase):
 	polity			= models.ForeignKey(Polity)
 	issues			= models.ManyToManyField(Issue)
@@ -513,13 +530,19 @@ class Document(NameSlugBase):
 		return self.name
 
 	def get_references(self):
-		return self.statement_set.filter(type=0)
+		return self.statement_set.filter(type=STATEMENT_TYPE.REFERENCE)
 
 	def get_assumptions(self):
-		return self.statement_set.filter(type=1)
+		return self.statement_set.filter(type=STATEMENT_TYPE.ASSUMPTION)
 
 	def get_declarations(self):
-		return self.statement_set.filter(type__in=[2, 3])
+		decs = list(self.statement_set.filter(type__in=[STATEMENT_TYPE.STATEMENT, STATEMENT_TYPE.HEADER]))
+		# Run over change proposals, if any
+		print list(ChangeProposal.objects.filter(document=self))
+		for cp in list(ChangeProposal.objects.filter(document=self)):
+			if cp.actiontype == 4:
+				decs.insert(cp.destination, Statement(text=cp.content))
+		return decs
 
 	def support(self):
 		# % of support for the document in its polity.
