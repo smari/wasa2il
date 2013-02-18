@@ -708,7 +708,7 @@ class Election(NameSlugBase):
 	An election is different from an issue vote; it's a vote
 	on people. Users, specifically.
 	"""
-	polity			= models.ForeignKey(Polity)
+	polity				= models.ForeignKey(Polity)
 	votingsystem		= models.ForeignKey(VotingSystem)
 	deadline_candidacy	= models.DateTimeField()
 	deadline_votes		= models.DateTimeField()
@@ -748,10 +748,19 @@ class Election(NameSlugBase):
 		ctx["users"] = [{"username": x.user.username} for x in self.candidate_set.all().order_by("?")]
 		return ctx
 
+	def get_unchosen_candidates(self, user):
+		votes = ElectionVote.objects.filter(election=self, user=user)
+		votedcands = [x.candidate.id for x in votes]
+		candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands)
+		return candidates
+
 	def get_votes(self):
 		ctx = {}
-		ctx["count"] = self.electionvote_set.count()
+		ctx["count"] = self.electionvote_set.values("user").distinct().count()
 		return ctx
+
+	def get_vote(self, user):
+		return [x.candidate for x in ElectionVote.objects.filter(election=self, user=user).order_by("value")]
 
 
 class Candidate(models.Model):

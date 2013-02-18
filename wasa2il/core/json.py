@@ -332,9 +332,14 @@ def election_poll(request):
 	ctx = {}
 	ctx["election"] = {}
 	ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
+	ctx["election"]["is_voting"] = election.is_voting()
 	ctx["election"]["votes"] = election.get_votes()
 	ctx["election"]["candidates"] = election.get_candidates()
-	ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", {"election": election})
+	context = {"election": election, "candidates": election.get_unchosen_candidates(request.user)}
+	ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", context)
+	ctx["election"]["vote"] = {}
+	context = {"election": election, "candidates": election.get_vote(request.user)}
+	ctx["election"]["vote"]["html"] = render_to_string("core/_election_candidate_list.html", context)
 	ctx["ok"] = True
 	return ctx
 
@@ -362,7 +367,20 @@ def election_vote(request):
 	election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
 	ctx = {}
 	ctx["ok"] = True
-	return ctx
+
+	if not election.polity.is_member(request.user):
+		ctx["ok"] = False
+		return ctx
+
+	order = request.REQUEST.getlist("order[]")
+
+	ElectionVote.objects.filter(election=election, user=request.user).delete()
+
+	for i in range(len(order)):
+		candidate = Candidate.objects.get(id=order[i])
+		vote = ElectionVote(election=election, user=request.user, candidate=candidate, value=i).save()
+
+	return election_poll(request)
 
 
 @login_required

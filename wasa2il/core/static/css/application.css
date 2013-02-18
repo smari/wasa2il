@@ -25,11 +25,18 @@
 }
 
 .candidates {
+	min-height:			50px;
+}
 
+.candidates p {
+	padding:			10px;
+	border:				1px solid #ddd;
 }
 
 .candidates li {
-	display:			block;
+	border-bottom:		1px solid #ddd;
+	padding-bottom:		3px;
+	font-size:			18pt;
 }
 
 .candidates li a {
@@ -38,6 +45,19 @@
 
 .candidates li a:hover {
 	text-decoration:		none;
+}
+
+#candidates li {
+	display:			block;
+}
+
+#votes {
+	background: 		#fff;
+	list-style-type:			decimal;
+}
+
+#votes li {
+	display:			list-item;
 }
 
 

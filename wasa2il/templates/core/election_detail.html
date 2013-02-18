@@ -24,24 +24,35 @@
 			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
 			<tr><th>{% trans "Votes:" %}</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
 			<tr><th>{% trans "Candidates:" %}</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
+			<tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}} <small><a href="/help/votingsystem/">[What is this?]</a></small></td></tr>
 		</table>
 	</div>
 
-	<div class="span6 pull-left"><a name="candidates"></a>
+	<div class="span6 pull-right">
+		{{election.description}}
+	</div>
+
+</div>
+
+<div class="row">
+	<div class="span5 pull-right well"><a name="candidates"></a>
 	        <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
 		<a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">Announce candidacy</a>
 		<a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">Withdraw candidacy</a>
 
-		<div id="election_candidates" style="margin-top: 1em;"></div>
+		<div id="election_candidates" style="margin-top: 1em;">
+			<ul class="candidates" id="candidates">
+			</ul>
+		</div>
 	</div>
 
-	{% if election.is_voting %}
-	<div class="span5 pull-left well">
+	<div class="span5 pull-left well voting">
 		<h2>{% trans "Vote" %} <small>{% trans "for the candidates standing in this election" %}</small></h2>
 		<div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
-		<div style="margin-top: 0.5em; text-align: center;">{% trans "Voting closes in" %} {{election.deadline_votes|timeuntil}}</div>
+		<ol id="vote" class="candidates">
+
+		</ol>
 	</div>
-	{% endif %}
 </div>
 
 
@@ -50,6 +61,28 @@ election_id = {{election.id}};
 $(function() {
 	election_poll(election_id);
 	election_timer_start();
+
+    $(".candidates").sortable({
+    	start: function() { election_timer_stop(); },
+    	stop: function() { election_timer_start(); },
+        distance: 5,
+        delay: 300,
+    	connectWith: ".candidates",
+    	opacity: 0.6,
+        cursor: 'move',
+        update: function() {
+			ord = [];
+			$("#vote li").each(function(item) {
+				ord.push($($("#vote li")[item]).data("seqid"));
+			});
+			$.getJSON("/api/election/vote/", {"election": election_id, "order": ord}, function(data) {
+				if (data.ok) {
+					election_object = data.election;
+					election_render();
+				}
+			});
+        }
+	});
 });
 </script>
 

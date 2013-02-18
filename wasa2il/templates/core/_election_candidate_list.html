@@ -1,16 +1,16 @@
 {% load wasa2il %}
 {% load i18n %}
-{% for candidate in election.candidate_set.all %}
-<ul class="candidates">
-	<li>
-		<a href="/accounts/profile/{{candidate.user.username}}/">
-			<img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded"/>
-			{{candidate.user.get_name}}
-		</a>
-	</li>
-</ul>
+{% for candidate in candidates %}
+<li data-seqid="{{candidate.id}}">
+	<a href="/accounts/profile/{{candidate.user.username}}/">
+		<img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded"/>
+		{{candidate.user.get_name}}
+	</a>
+</li>
 {% empty %}
-<p>
+<p>{% if election.is_voting %}
+		{% trans "Drag candidates here." %}
+{% else %}
 		{% trans "There are no candidates standing in this election yet!" %}
-</p>
+{% endif %}</p>
 {% endfor %}
