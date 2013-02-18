@@ -292,3 +292,9 @@ ol.interventions li.active:before {
 .comment_content {
 	display:	inline;
 }
+
+ul.errorlist {
+	color: #ff0000;
+	list-style: none;
+	margin-left: 4px;
+}
