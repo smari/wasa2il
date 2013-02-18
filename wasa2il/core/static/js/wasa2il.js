@@ -259,16 +259,24 @@ function election_poll(election) {
 
 
 function election_render(election) {
-	if (election_object.user_is_candidate) {
+	if (election_object.is_voting) {
 		$("#election_button_announce").hide();
-		$("#election_button_withdraw").show();
-	} else {
 		$("#election_button_withdraw").hide();
-		$("#election_button_announce").show();
+		$(".voting").show();
+	} else {
+		$(".voting").hide();
+		if (election_object.user_is_candidate) {
+			$("#election_button_announce").hide();
+			$("#election_button_withdraw").show();
+		} else {
+			$("#election_button_withdraw").hide();
+			$("#election_button_announce").show();
+		}
 	}
 	$("#election_votes_count").text(election_object.votes.count);
 	$("#election_candidates_count").text(election_object.candidates.count);
-	$("#election_candidates").html(election_object.candidates.html);
+	$("#candidates").html(election_object.candidates.html);
+	$("#vote").html(election_object.vote.html);
 }
 
 
