@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-31 20:51+0000\n"
+"POT-Creation-Date: 2013-02-18 18:17+0000\n"
 "PO-Revision-Date: 2013-01-24 19:50+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Dutch\n"
@@ -13,70 +13,81 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: crowdin.net\n"
 
-#: core/models.py:310 templates/core/polity_detail.html:111
+#: core/models.py:357 templates/core/polity_detail.html:111
 #, fuzzy
 msgid "Issue"
 msgstr "Onderwerpen"
 
-#: core/models.py:314
+#: core/models.py:361
 #, fuzzy
 msgid "Topic"
 msgstr "Onderwerpen"
 
-#: core/models.py:318 templates/core/polity_list.html:14
+#: core/models.py:365 templates/core/polity_list.html:14
 msgid "Polity"
 msgstr "Polity"
 
-#: templates/base.html:6
+#: templates/403.html:5
+msgid "403 Access Denied"
+msgstr ""
+
+#: templates/404.html:5
+msgid "404 File Not Found"
+msgstr ""
+
+#: templates/base.html:7
 msgid "wassa2il"
 msgstr "wassa2il"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "‫وسائل"
 msgstr "‫وسائل"
 
-#: templates/base.html:63 templates/notLoginInHome.html:47
-#: templates/help/agreement.html:6 templates/help/index.html:6
+#: templates/base.html:65 templates/notLoginInHome.html:47
+#: templates/help/agreement.html:6 templates/help/authors.html:6
+#: templates/help/copyright.html:6 templates/help/index.html:6
 #: templates/help/polity.html:6 templates/help/proposal.html:6
 #: templates/help/wasa2il.html:6
 msgid "Help"
 msgstr "Help"
 
-#: templates/base.html:67
+#: templates/base.html:69
 msgid "My profile"
 msgstr ""
 
-#: templates/base.html:68
+#: templates/base.html:70
 #, fuzzy
 msgid "My settings"
 msgstr "Vergaderingen"
 
-#: templates/base.html:69
+#: templates/base.html:71
 msgid "Logout"
 msgstr "Uitloggen"
 
-#: templates/base.html:73 templates/hom01.html:18
+#: templates/base.html:75 templates/hom01.html:18
+#: templates/registration/login.html:6 templates/registration/login.html:15
+#: templates/registration/password_reset_complete.html:9
 msgid "Log in"
 msgstr "Inloggen"
 
-#: templates/base.html:74 templates/hom01.html:12
-#: templates/notLoginInHome.html:14
+#: templates/base.html:76 templates/hom01.html:12
+#: templates/notLoginInHome.html:14 templates/registration/login.html:16
 msgid "Sign up"
 msgstr "Aanmelden"
 
-#: templates/base.html:89
+#: templates/base.html:91
 msgid "Back to top"
 msgstr "Terug naar boven"
 
-#: templates/base.html:90
+#: templates/base.html:92
 msgid "About wasa2il"
 msgstr "Over wasa2il"
 
-#: templates/base.html:91
+#: templates/base.html:93
 msgid "License"
 msgstr "Licentie"
 
-#: templates/base.html:92
+#: templates/base.html:94 templates/help/authors.html:6
 msgid "Authors"
 msgstr "Auteurs"
 
@@ -124,6 +135,59 @@ msgstr "Nieuwe beslissingsgroepen."
 msgid "Recent decisions"
 msgstr "Recente besluiten"
 
+#: templates/home.html:8
+#, fuzzy
+msgid "Your polities"
+msgstr "Uw Beslissingsgroepen"
+
+#: templates/home.html:14
+#, fuzzy
+msgid "Browse other polities"
+msgstr "Browse Beslissingsgroepen"
+
+#: templates/home.html:19
+#, fuzzy
+msgid "Take Action!"
+msgstr "Veronderstellingen"
+
+#: templates/home.html:21
+#, fuzzy
+msgid "Browse polities"
+msgstr "Browse Beslissingsgroepen"
+
+#: templates/home.html:22
+msgid "Edit your profile"
+msgstr ""
+
+#: templates/home.html:23
+#, fuzzy
+msgid "Create a polity"
+msgstr "Verlaat de beslissingsgroep"
+
+#: templates/home.html:30 templates/core/issue_detail.html:66
+#, fuzzy
+msgid "Your documents"
+msgstr "Uw Documenten"
+
+#: templates/home.html:33 templates/home.html.py:51
+#: templates/core/topic_detail.html:63
+msgid "in"
+msgstr "in"
+
+#: templates/home.html:39
+msgid "Recently adopted law"
+msgstr ""
+
+#: templates/home.html:39 templates/home.html.py:48
+#, fuzzy
+msgid "in your polities"
+msgstr "Uw Beslissingsgroepen"
+
+#: templates/home.html:48
+#, fuzzy
+msgid "New proposals"
+msgstr "Withdraw proposal"
+
 #: templates/notLoginInHome.html:23
 msgid "Start a Policy"
 msgstr "Start een beleid"
@@ -167,15 +231,24 @@ msgid "is not viewable by non-members."
 msgstr ""
 
 #: templates/settings.html:7
+#: templates/registration/password_change_done.html:5
+#: templates/registration/password_change_form.html:5
+#, fuzzy
+msgid "Change password"
+msgstr "Withdraw proposal"
+
+#: templates/settings.html:8
 #, fuzzy
 msgid "Settings"
 msgstr "Vergaderingen"
 
-#: templates/settings.html:8
+#: templates/settings.html:9
 msgid "You are signed in as"
 msgstr ""
 
-#: templates/settings.html:14
+#: templates/settings.html:16
+#: templates/registration/password_change_form.html:10
+#: templates/registration/password_reset_confirm.html:13
 msgid "Submit"
 msgstr ""
 
@@ -274,6 +347,15 @@ msgstr "Voorgestelde Documenten"
 msgid "Adopted documents"
 msgstr "Aangenomen Documenten"
 
+#: templates/core/_election_candidate_list.html:12
+msgid "Drag candidates here."
+msgstr ""
+
+#: templates/core/_election_candidate_list.html:14
+#, fuzzy
+msgid "There are no candidates standing in this election yet!"
+msgstr "Er zijn geen onderwerpen in deze beslissingsgroep"
+
 #: templates/core/_politiesMenu.html:4
 msgid "Your Polities"
 msgstr "Uw Beslissingsgroepen"
@@ -287,8 +369,11 @@ msgid "There are no topics in this polity!"
 msgstr "Er zijn geen onderwerpen in deze beslissingsgroep"
 
 #: templates/core/delegate_detail.html:6
-#: templates/core/document_detail.html:14 templates/core/issue_detail.html:6
+#: templates/core/document_detail.html:14
+#: templates/core/election_detail.html:6 templates/core/issue_detail.html:6
 #: templates/core/meeting_detail.html:16 templates/core/topic_detail.html:7
+#: templates/forum/discussion_detail.html:6
+#: templates/forum/forum_detail.html:7
 msgid "Back to polity"
 msgstr "Terug naar beslissingsgroep"
 
@@ -369,18 +454,19 @@ msgstr "Gerelateerd aan onderwerpen:"
 msgid "Related to issue:"
 msgstr "Related to issue:"
 
-#: templates/core/document_form.html:22 templates/core/issue_form.html:33
+#: templates/core/document_form.html:22 templates/core/issue_form.html:12
+#: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
 msgid "Save"
 msgstr "Save"
 
 #: templates/core/document_list.html:7 templates/core/issue_detail.html:53
-#: templates/core/polity_detail.html:223
+#: templates/core/polity_detail.html:294
 msgid "New document"
 msgstr "New document"
 
 #: templates/core/document_list.html:10 templates/core/issue_detail.html:56
 #: templates/core/polity_detail.html:113 templates/core/polity_list.html:17
-#: templates/core/topic_detail.html:28
+#: templates/core/topic_detail.html:30
 msgid "Documents"
 msgstr "Documents"
 
@@ -396,163 +482,229 @@ msgstr "Proposal"
 msgid "Draft proposal:"
 msgstr "Draft proposal:"
 
-#: templates/core/document_update.html:60
+#: templates/core/document_update.html:48
 msgid "Referenced by issues"
 msgstr "Referenced by issues"
 
-#: templates/core/document_update.html:68
+#: templates/core/document_update.html:56
 msgid "Contributors to this document"
 msgstr "Contributors to this document"
 
-#: templates/core/document_update.html:77
+#: templates/core/document_update.html:65
 #: templates/core/meeting_detail.html:36
 #: templates/core/meeting_detail.html:101
 msgid "Add"
 msgstr "Add"
 
-#: templates/core/document_update.html:85
-#: templates/core/document_update.html:144
+#: templates/core/document_update.html:73
+#: templates/core/document_update.html:132
 msgid "New reference"
 msgstr "New reference"
 
-#: templates/core/document_update.html:86
-#: templates/core/document_update.html:166
+#: templates/core/document_update.html:74
+#: templates/core/document_update.html:154
 msgid "New assumption"
 msgstr "New assumption"
 
-#: templates/core/document_update.html:87
-#: templates/core/document_update.html:184
+#: templates/core/document_update.html:75
+#: templates/core/document_update.html:172
 msgid "New statement"
 msgstr "New statement"
 
-#: templates/core/document_update.html:88
-#: templates/core/document_update.html:201
+#: templates/core/document_update.html:76
+#: templates/core/document_update.html:189
 msgid "New subheading"
 msgstr "New subheading"
 
-#: templates/core/document_update.html:89
+#: templates/core/document_update.html:77
 msgid "Import structure"
 msgstr ""
 
-#: templates/core/document_update.html:94
-#: templates/core/document_update.html:101
+#: templates/core/document_update.html:82
+#: templates/core/document_update.html:89
 msgid "Please note:"
 msgstr ""
 
-#: templates/core/document_update.html:95
+#: templates/core/document_update.html:83
 msgid "This document has been proposed."
 msgstr ""
 
-#: templates/core/document_update.html:96
+#: templates/core/document_update.html:84
 msgid ""
 "Changes you make to it now will become change proposals, which will be voted "
 "on individually."
 msgstr ""
 
-#: templates/core/document_update.html:102
+#: templates/core/document_update.html:90
 msgid "This document has been adopted."
 msgstr ""
 
-#: templates/core/document_update.html:103
+#: templates/core/document_update.html:91
 msgid ""
 "In order to make change proposals to it, you must import it into a new open "
 "issue."
 msgstr ""
 
-#: templates/core/document_update.html:112
+#: templates/core/document_update.html:100
 #, fuzzy
 msgid "Change proposals"
 msgstr "Withdraw proposal"
 
-#: templates/core/document_update.html:117
+#: templates/core/document_update.html:105
 #, fuzzy
 msgid "Deleted"
 msgstr "Delete"
 
-#: templates/core/document_update.html:120
+#: templates/core/document_update.html:108
 msgid "Moved"
 msgstr ""
 
-#: templates/core/document_update.html:127
+#: templates/core/document_update.html:115
 msgid "Added at beginning"
 msgstr ""
 
-#: templates/core/document_update.html:129
+#: templates/core/document_update.html:117
 msgid "Added after:"
 msgstr ""
 
-#: templates/core/document_update.html:147
+#: templates/core/document_update.html:135
 msgid "Choose a document to reference:"
 msgstr "Choose a document to reference:"
 
-#: templates/core/document_update.html:157
-#: templates/core/document_update.html:175
-#: templates/core/document_update.html:192
-#: templates/core/document_update.html:209
-#: templates/core/document_update.html:227
-#: templates/core/issue_detail.html:117 templates/core/polity_detail.html:256
-#: templates/core/polity_detail.html:292 templates/core/topic_detail.html:85
+#: templates/core/document_update.html:145
+#: templates/core/document_update.html:163
+#: templates/core/document_update.html:180
+#: templates/core/document_update.html:197
+#: templates/core/document_update.html:215
+#: templates/core/issue_detail.html:117 templates/core/polity_detail.html:327
+#: templates/core/polity_detail.html:363 templates/core/topic_detail.html:87
+#: templates/forum/forum_detail.html:48
 msgid "Close"
 msgstr "Close"
 
-#: templates/core/document_update.html:158
+#: templates/core/document_update.html:146
 msgid "Save reference"
 msgstr "Save reference"
 
-#: templates/core/document_update.html:169
+#: templates/core/document_update.html:157
 msgid "Write assumption:"
 msgstr "Write assumption:"
 
-#: templates/core/document_update.html:176
+#: templates/core/document_update.html:164
 msgid "Save assumption"
 msgstr "Save assumption"
 
-#: templates/core/document_update.html:193
+#: templates/core/document_update.html:181
 msgid "Save statement"
 msgstr "Save statement"
 
-#: templates/core/document_update.html:210
+#: templates/core/document_update.html:198
 msgid "Save subheading"
 msgstr "Save subheading"
 
-#: templates/core/document_update.html:218
+#: templates/core/document_update.html:206
 #, fuzzy
 msgid "Import statements"
 msgstr "New statement"
 
-#: templates/core/document_update.html:221
+#: templates/core/document_update.html:209
 #, fuzzy
 msgid "Statements:"
 msgstr "Save statement"
 
-#: templates/core/document_update.html:228
+#: templates/core/document_update.html:216
 #, fuzzy
 msgid "Import"
 msgstr "Ondersteuning"
 
-#: templates/core/document_update.html:240
+#: templates/core/document_update.html:228
 #, fuzzy
 msgid "Add reference"
 msgstr "New reference"
 
-#: templates/core/document_update.html:241
+#: templates/core/document_update.html:229
 #, fuzzy
 msgid "Add assumption"
 msgstr "Veronderstellingen"
 
-#: templates/core/document_update.html:243
+#: templates/core/document_update.html:231
 #, fuzzy
 msgid "Add statement"
 msgstr "New statement"
 
-#: templates/core/document_update.html:244
+#: templates/core/document_update.html:232
 #, fuzzy
 msgid "Add subheading"
 msgstr "New subheading"
 
-#: templates/core/document_update.html:250
+#: templates/core/document_update.html:238
 msgid "Delete"
 msgstr "Delete"
+
+#: templates/core/election_detail.html:8
+#, fuzzy
+msgid "Election:"
+msgstr "Verklaringen"
+
+#: templates/core/election_detail.html:11
+#, fuzzy
+msgid "This election is closed."
+msgstr "This meeting is ongoing."
+
+#: templates/core/election_detail.html:15
+#, fuzzy
+msgid "This election is delegated."
+msgstr "Deze beslissingsgroep heeft geen overeenkomsten."
+
+#: templates/core/election_detail.html:15 templates/core/issue_detail.html:15
+#: templates/core/polity_detail.html:31 templates/core/topic_detail.html:15
+msgid "View details."
+msgstr ""
+
+#: templates/core/election_detail.html:23
+#, fuzzy
+msgid "Deadline for candidacy:"
+msgstr "Draft proposal:"
+
+#: templates/core/election_detail.html:24 templates/core/issue_detail.html:26
+msgid "Deadline for votes:"
+msgstr ""
+
+#: templates/core/election_detail.html:25 templates/core/issue_detail.html:29
+#, fuzzy
+msgid "Votes:"
+msgstr "Votes"
+
+#: templates/core/election_detail.html:26
+msgid "Candidates:"
+msgstr ""
+
+#: templates/core/election_detail.html:27
+#, fuzzy
+msgid "Voting system:"
+msgstr "Stemming onderwerpen"
+
+#: templates/core/election_detail.html:39
+#: templates/core/polity_detail.html:159
+msgid "Candidates"
+msgstr ""
+
+#: templates/core/election_detail.html:39
+msgid "running in this election"
+msgstr ""
+
+#: templates/core/election_detail.html:50 templates/core/issue_detail.html:38
+#, fuzzy
+msgid "Vote"
+msgstr "Votes"
+
+#: templates/core/election_detail.html:50
+msgid "for the candidates standing in this election"
+msgstr ""
+
+#: templates/core/election_detail.html:51 templates/core/issue_detail.html:39
+msgid "There was an error while processing your vote. Please try again."
+msgstr ""
 
 #: templates/core/issue_detail.html:11
 msgid "This issue is closed."
@@ -560,11 +712,6 @@ msgstr ""
 
 #: templates/core/issue_detail.html:15
 msgid "This issue is delegated."
-msgstr ""
-
-#: templates/core/issue_detail.html:15 templates/core/polity_detail.html:31
-#: templates/core/topic_detail.html:13
-msgid "View details."
 msgstr ""
 
 #: templates/core/issue_detail.html:23
@@ -577,15 +724,6 @@ msgstr "onderwerpen"
 msgid "Deadline for proposals:"
 msgstr "Draft proposal:"
 
-#: templates/core/issue_detail.html:26
-msgid "Deadline for votes:"
-msgstr ""
-
-#: templates/core/issue_detail.html:29
-#, fuzzy
-msgid "Votes:"
-msgstr "Votes"
-
 #: templates/core/issue_detail.html:30
 msgid "Yes:"
 msgstr ""
@@ -595,16 +733,7 @@ msgid "No:"
 msgstr ""
 
 #: templates/core/issue_detail.html:38
-#, fuzzy
-msgid "Vote"
-msgstr "Votes"
-
-#: templates/core/issue_detail.html:38
 msgid "for or against the documents in this issue"
-msgstr ""
-
-#: templates/core/issue_detail.html:39
-msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 
 #: templates/core/issue_detail.html:41
@@ -646,20 +775,17 @@ msgstr ""
 msgid "Proposed documents"
 msgstr "Voorgestelde Documenten"
 
-#: templates/core/issue_detail.html:66
-#, fuzzy
-msgid "Your documents"
-msgstr "Uw Documenten"
-
 #: templates/core/issue_detail.html:67
 msgid "Documents you are working on that haven't been proposed:"
 msgstr ""
 
 #: templates/core/issue_detail.html:78
+#: templates/forum/discussion_detail.html:9
 msgid "Discussion"
 msgstr "Discussion"
 
 #: templates/core/issue_detail.html:85
+#: templates/forum/discussion_detail.html:23
 msgid "Add comment"
 msgstr "Add comment"
 
@@ -679,14 +805,9 @@ msgid "Import document to issue"
 msgstr ""
 
 #: templates/core/issue_form.html:5 templates/core/polity_detail.html:72
-#: templates/core/topic_detail.html:8
+#: templates/core/topic_detail.html:9
 msgid "New issue"
 msgstr "New issue"
-
-#: templates/core/issue_form.html:40
-#, fuzzy
-msgid "Select topics"
-msgstr "Nieuw onderwerp"
 
 #: templates/core/meeting_detail.html:21
 msgid "Attendance list"
@@ -888,7 +1009,7 @@ msgstr "van discussie"
 msgid "Topics are thematic categories that contain specific issues."
 msgstr "Onderwerpen zijn thematische categorien met daarin specifieke"
 
-#: templates/core/polity_detail.html:89 templates/core/topic_detail.html:26
+#: templates/core/polity_detail.html:89 templates/core/topic_detail.html:28
 msgid "Issues"
 msgstr "Onderwerpen"
 
@@ -915,65 +1036,109 @@ msgstr "van discussie"
 msgid "These are the newest issues being discussed in this polity."
 msgstr "Er zijn geen onderwerpen in deze beslissingsgroep"
 
-#: templates/core/polity_detail.html:112 templates/core/topic_detail.html:27
+#: templates/core/polity_detail.html:112 templates/core/polity_detail.html:158
+#: templates/core/topic_detail.html:29
 msgid "State"
 msgstr "State"
 
-#: templates/core/polity_detail.html:114 templates/core/topic_detail.html:29
+#: templates/core/polity_detail.html:114 templates/core/topic_detail.html:31
 msgid "Comments"
 msgstr "Comments"
 
-#: templates/core/polity_detail.html:115 templates/core/topic_detail.html:30
+#: templates/core/polity_detail.html:115 templates/core/polity_detail.html:160
+#: templates/core/topic_detail.html:32
 msgid "Votes"
 msgstr "Votes"
 
-#: templates/core/polity_detail.html:123 templates/core/topic_detail.html:36
+#: templates/core/polity_detail.html:123 templates/core/topic_detail.html:38
 msgid "You have voted on this issue"
 msgstr ""
 
-#: templates/core/polity_detail.html:123 templates/core/topic_detail.html:36
+#: templates/core/polity_detail.html:123 templates/core/topic_detail.html:38
 msgid "You have not voted on this issue"
 msgstr ""
 
-#: templates/core/polity_detail.html:126 templates/core/topic_detail.html:40
+#: templates/core/polity_detail.html:126 templates/core/polity_detail.html:171
+#: templates/core/topic_detail.html:42
 #, fuzzy
 msgid "Voting"
 msgstr "Stemming onderwerpen"
 
-#: templates/core/polity_detail.html:126 templates/core/topic_detail.html:40
+#: templates/core/polity_detail.html:126 templates/core/polity_detail.html:171
+#: templates/core/topic_detail.html:42
 msgid "Open"
 msgstr ""
 
-#: templates/core/polity_detail.html:126 templates/core/topic_detail.html:40
+#: templates/core/polity_detail.html:126 templates/core/polity_detail.html:171
+#: templates/core/topic_detail.html:42
 #, fuzzy
 msgid "Closed"
 msgstr "Close"
 
-#: templates/core/polity_detail.html:140
+#: templates/core/polity_detail.html:141
+#, fuzzy
+msgid "New election"
+msgstr "Nieuwe vergadering"
+
+#: templates/core/polity_detail.html:145
+#, fuzzy
+msgid "Closed elections"
+msgstr "Verklaringen"
+
+#: templates/core/polity_detail.html:150
+#, fuzzy
+msgid "Elections"
+msgstr "Veronderstellingen"
+
+#: templates/core/polity_detail.html:150
+msgid "putting people in power"
+msgstr ""
+
+#: templates/core/polity_detail.html:152
+msgid ""
+"Sometimes you need to put people in their places. Elections do just that."
+msgstr ""
+
+#: templates/core/polity_detail.html:157
+#, fuzzy
+msgid "Election"
+msgstr "Veronderstellingen"
+
+#: templates/core/polity_detail.html:168
+#, fuzzy
+msgid "You have voted in this election"
+msgstr "Er zijn geen onderwerpen in deze beslissingsgroep"
+
+#: templates/core/polity_detail.html:168
+#, fuzzy
+msgid "You have not voted in this election"
+msgstr "Er zijn geen onderwerpen in deze beslissingsgroep"
+
+#: templates/core/polity_detail.html:184
 msgid "New meeting"
 msgstr "Nieuwe vergadering"
 
-#: templates/core/polity_detail.html:143 templates/core/polity_detail.html:186
+#: templates/core/polity_detail.html:187 templates/core/polity_detail.html:230
 msgid "Show ongoing meetings"
 msgstr "Toon lopende vergaderingen"
 
-#: templates/core/polity_detail.html:144 templates/core/polity_detail.html:187
+#: templates/core/polity_detail.html:188 templates/core/polity_detail.html:231
 msgid "Show upcoming meetings"
 msgstr "Toekomstige vergaderingen weergeven"
 
-#: templates/core/polity_detail.html:145 templates/core/polity_detail.html:188
+#: templates/core/polity_detail.html:189 templates/core/polity_detail.html:232
 msgid "Show finished meetings"
 msgstr "Afgewerkte vergaderingen weergeven"
 
-#: templates/core/polity_detail.html:149
+#: templates/core/polity_detail.html:193
 msgid "Meetings"
 msgstr "Vergaderingen"
 
-#: templates/core/polity_detail.html:149
+#: templates/core/polity_detail.html:193
 msgid "physical or virtual"
 msgstr "fysieke of virtuele"
 
-#: templates/core/polity_detail.html:151
+#: templates/core/polity_detail.html:195
 msgid ""
 "A meeting is an event where people come together to discuss a set of agenda "
 "items."
@@ -981,96 +1146,126 @@ msgstr ""
 "Een vergadering is een evenement waar mensen samenkomen om te discussiëren "
 "over een reeks van de agendapunten."
 
-#: templates/core/polity_detail.html:155
+#: templates/core/polity_detail.html:199
 msgid "When"
 msgstr "Wanneer"
 
-#: templates/core/polity_detail.html:156
+#: templates/core/polity_detail.html:200
 msgid "Where"
 msgstr "Waar"
 
-#: templates/core/polity_detail.html:157
+#: templates/core/polity_detail.html:201
 msgid "Organized by"
 msgstr "Georganiseerd door"
 
-#: templates/core/polity_detail.html:158
+#: templates/core/polity_detail.html:202
 msgid "Status"
 msgstr "Status"
 
-#: templates/core/polity_detail.html:183
+#: templates/core/polity_detail.html:227
 #, fuzzy
 msgid "New delegation"
 msgstr "Nieuwe vergadering"
 
-#: templates/core/polity_detail.html:192
+#: templates/core/polity_detail.html:236
 #, fuzzy
 msgid "Delegations"
 msgstr "Verklaringen"
 
-#: templates/core/polity_detail.html:192
+#: templates/core/polity_detail.html:236
 msgid "votes entrusted to others"
 msgstr ""
 
-#: templates/core/polity_detail.html:194
+#: templates/core/polity_detail.html:238
 msgid "You can set up delgations for the polity, for topics, or for issues."
 msgstr ""
 
-#: templates/core/polity_detail.html:195
+#: templates/core/polity_detail.html:239
 msgid "Here you can see all of your active delegations and where they lead to."
 msgstr ""
 
-#: templates/core/polity_detail.html:205
+#: templates/core/polity_detail.html:249
 msgid "Subpolities"
 msgstr "Subbeslissingsgroepen"
 
-#: templates/core/polity_detail.html:207
+#: templates/core/polity_detail.html:251
 msgid ""
 "A polity can have subordinate organizational units, such as how a "
 "municipality relates to a country."
 msgstr ""
 "Een beslissingsgroep kan ondergeschikte organisatorische eenheden hebben"
 
-#: templates/core/polity_detail.html:228 templates/help/agreement.html:6
+#: templates/core/polity_detail.html:265
+#: templates/forum/discussion_form.html:5 templates/forum/forum_form.html:5
+#, fuzzy
+msgid "New forum"
+msgstr "Nieuw Document"
+
+#: templates/core/polity_detail.html:268
+#, fuzzy
+msgid "Discussion Forums"
+msgstr "Discussion"
+
+#: templates/core/polity_detail.html:270
+msgid ""
+"Often it is important to have open-ended discussions on a range of topics "
+"outside of particular issues."
+msgstr ""
+
+#: templates/core/polity_detail.html:274 templates/forum/forum_detail.html:18
+msgid "Name"
+msgstr ""
+
+#: templates/core/polity_detail.html:275 templates/forum/forum_detail.html:15
+#, fuzzy
+msgid "Discussions"
+msgstr "Discussion"
+
+#: templates/core/polity_detail.html:276
+msgid "Unseen posts"
+msgstr ""
+
+#: templates/core/polity_detail.html:299 templates/help/agreement.html:6
 msgid "Agreements"
 msgstr "Overeenkomsten"
 
-#: templates/core/polity_detail.html:228
+#: templates/core/polity_detail.html:299
 msgid "of this polity"
 msgstr "van deze beslissingsgroep"
 
-#: templates/core/polity_detail.html:230
+#: templates/core/polity_detail.html:301
 msgid "Here are all of the agreements this polity has arrived at."
 msgstr ""
 "Hier zijn alle overeenkomsten die door deze beslissingsgroep zijn gesloten. "
 
-#: templates/core/polity_detail.html:244
+#: templates/core/polity_detail.html:315
 msgid "Members of this polity"
 msgstr "Leden van deze beslissingsgroep"
 
-#: templates/core/polity_detail.html:264
+#: templates/core/polity_detail.html:335
 msgid "Users requesting membership"
 msgstr "Gebruikers die lidmaatschap aanvragen"
 
-#: templates/core/polity_detail.html:300
+#: templates/core/polity_detail.html:371
 msgid "Leave this polity?"
 msgstr "Deze beslissingsgroep verlaten?"
 
-#: templates/core/polity_detail.html:303
+#: templates/core/polity_detail.html:374
 msgid "Are you sure you want to stop being a member of this polity?"
 msgstr ""
 "Weet u zeker dat u niet langer deel wil nemen aan deze beslissingsgroep?"
 
-#: templates/core/polity_detail.html:305
+#: templates/core/polity_detail.html:376
 msgid "Only members get to participate in the polity's activities."
 msgstr ""
 "Alleen deelnemers kunnen deelnemen aan de activiteiten van deze "
 "beslissingsgroep."
 
-#: templates/core/polity_detail.html:309
+#: templates/core/polity_detail.html:380
 msgid "No, I hit that button by accident"
 msgstr "No, I hit that button by accident"
 
-#: templates/core/polity_detail.html:310
+#: templates/core/polity_detail.html:381
 msgid "Yes, I want to leave this polity."
 msgstr "Yes, I want to leave this polity."
 
@@ -1086,22 +1281,54 @@ msgstr "Polities"
 msgid "Members"
 msgstr "Members"
 
-#: templates/core/topic_detail.html:13
+#: templates/core/topic_detail.html:15
 msgid "This topic is delegated."
 msgstr ""
 
-#: templates/core/topic_detail.html:56
+#: templates/core/topic_detail.html:58
 msgid "New discussions"
 msgstr "New discussions"
 
-#: templates/core/topic_detail.html:61
-msgid "in"
-msgstr "in"
-
-#: templates/core/topic_detail.html:73
+#: templates/core/topic_detail.html:75
 #, fuzzy
 msgid "Followers of this topic"
 msgstr "Leden van deze beslissingsgroep"
+
+#: templates/forum/discussion_detail.html:7
+#, fuzzy
+msgid "Back to forum"
+msgstr "Terug naar boven"
+
+#: templates/forum/discussion_detail.html:12
+#, fuzzy
+msgid "This discussion is closed."
+msgstr "van discussie"
+
+#: templates/forum/forum_detail.html:8
+#, fuzzy
+msgid "New discussion"
+msgstr "New discussions"
+
+#: templates/forum/forum_detail.html:10
+msgid "Forum:"
+msgstr ""
+
+#: templates/forum/forum_detail.html:19
+msgid "Messages"
+msgstr ""
+
+#: templates/forum/forum_detail.html:20
+msgid "Participants"
+msgstr ""
+
+#: templates/forum/forum_detail.html:36
+#, fuzzy
+msgid "Followers of this forum"
+msgstr "Leden van deze beslissingsgroep"
+
+#: templates/forum/forum_form.html:16
+msgid "Name:"
+msgstr ""
 
 #: templates/help/agreement.html:8
 #, fuzzy
@@ -1362,6 +1589,56 @@ msgstr "How does one make a proposal?"
 #: templates/help/wasa2il.html:30
 msgid "How does electronic democracy work?"
 msgstr "How does electronic democracy work?"
+
+#: templates/help/authors.html:8
+msgid ""
+"\n"
+"<h2>Developers:</h2>\n"
+"<ul>\n"
+"        <li>Smári McCarthy</li>\n"
+"        <li>Tómas Árni Jónasson</li>\n"
+"</ul>\n"
+"<h3>Contributors:</h3>\n"
+"<ul>\n"
+"        <li>Herbert Snorrason</li>\n"
+"        <li>Othmane Maniar</li>\n"
+"        <li>Zineb Belmkaddem</li>\n"
+"        <li>Þórgnýr Thoroddssen</li>\n"
+"        <li>Stefán Vignir Skarphéðinsson</li>\n"
+"</ul>\n"
+"\n"
+"<h2>Translations:</h2>\n"
+"\n"
+"\n"
+"<h3>Dutch:</h3>\n"
+"<ul>\n"
+"        <li>Ruben Bloemgarten / Chokepoint Project</li>\n"
+"</ul>\n"
+"\n"
+"<h3>Icelandic:</h3>\n"
+"<ul>\n"
+"        <li>Eva Þurríðardóttir</li>\n"
+"        <li>Smári McCarthy</li>\n"
+"        <li>Tómas Árni Jónasson</li>\n"
+"</ul>\n"
+"\n"
+"<h3>Spanish:</h3>\n"
+"<ul>\n"
+"        <li>Adán Sánchez de Pedro</li>\n"
+"        <li>Pablo Castellano</li>\n"
+"</ul>\n"
+msgstr ""
+
+#: templates/help/copyright.html:6
+msgid "Copyright"
+msgstr ""
+
+#: templates/help/copyright.html:8
+msgid ""
+"\n"
+"This is free software, licensed under the GNU Affero General Public "
+"License.\n"
+msgstr ""
 
 #: templates/help/index.html:8
 msgid ""
@@ -1774,6 +2051,47 @@ msgstr "Welcome to Wasa2il!"
 #: templates/registration/activate.html:6
 msgid "You are now successfully signed up. Sign in to start having fun!"
 msgstr "You are now successfully signed up. Sign in to start having fun!"
+
+#: templates/registration/login.html:6
+msgid "and partake in democracy..."
+msgstr ""
+
+#: templates/registration/login.html:17
+#: templates/registration/password_reset_complete.html:5
+#: templates/registration/password_reset_confirm.html:6
+#: templates/registration/password_reset_done.html:5
+#: templates/registration/password_reset_form.html:5
+msgid "Password reset"
+msgstr ""
+
+#: templates/registration/password_change_done.html:7
+msgid "Password changed"
+msgstr ""
+
+#: templates/registration/password_reset_complete.html:7
+msgid "Password reset successfully"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:18
+msgid "Password reset failed"
+msgstr ""
+
+#: templates/registration/password_reset_done.html:6
+msgid "Email with password reset instructions has been sent."
+msgstr ""
+
+#: templates/registration/password_reset_email.html:2
+#, python-format
+msgid "Reset password at %(site_name)s"
+msgstr ""
+
+#: templates/registration/password_reset_form.html:9
+msgid "Send password"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Select topics"
+#~ msgstr "Nieuw onderwerp"
 
 #~ msgid "Back to document list"
 #~ msgstr "Terug naar documentenlijst"
