@@ -26,6 +26,7 @@ class DocumentForm(ModelForm):
 		model = Document
 		exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug')
 
+
 class PolityForm(ModelForm):
 	class Meta:
 		model = Polity
