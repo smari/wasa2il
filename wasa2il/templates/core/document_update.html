@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 {% load i18n %}
+
+
+
+{% block javascript %}
+{{block.super}}
+    <script src="/static/js/documents.js"></script>
+	<script>
+		var document_id = {{document.id}};
+		var selected_item = undefined;
+	</script>
+{% endblock %}
+
+
+
 {% block content %}
 
 <div class="btn-group pull-right">
@@ -216,144 +230,5 @@
     <a onclick="structure_import();" class="btn btn-primary">{% trans "Import" %}</a>
   </div>
 </div>
-
-
-<script>
-function make_reference(node) {
-	var nodeid = node.data("id");
-	var type = node.data("type");
-
-	{% if document.is_proposed %}
-	if (type == 0 || type == 1) {
-		prop = '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini">{% trans "Add reference" %}</a>'
-			  + '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini">{% trans "Add assumption" %}</a>';
-	} else {
-		prop = '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini">{% trans "Add statement" %}</a>'
-			  + '<a onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini">{% trans "Add subheading" %}</a>';
-
-	}
-	{% endif %}
-
-	node.append('<div class="btn-group state_buttons">'
-	          + '<a onclick="statement_delete($(this));" class="btn btn-mini">{% trans "Delete" %}</a>'
-	{% if document.is_proposed %}
-			  + prop
-	{% endif %}
-	          + '</div>');
-}
-
-$(function() {
-	$('#modal_reference').modal({show: false, keyboard: true, backdrop: false});
-	$('#modal_assumption').modal({show: false, keyboard: true, backdrop: false});
-	$('#modal_declaration').modal({show: false, keyboard: true, backdrop: false});
-	$('#modal_subheading').modal({show: false, keyboard: true, backdrop: false});
-
-	$("#statements_references li").each(function(id, node) {
-		make_reference($(node));
-	});
-
-	$("#statements_assumptions li").each(function(id, node) {
-		make_reference($(node));
-	});
-                
-	$("#statements_declarations li").each(function(id, node) {
-		make_reference($(node));
-	});
-
-});
-
-function statement_fork(item) {
-	var ref = $("#newversion").val();
-	$.getJSON("/api/document/statement/fork/", {"document": {{document.id}}, "original": item.data("id"), "text": ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_reference').modal('hide');
-		} else {
-			// Error message
-		}
-	});
-}
-
-function structure_import() {
-	var ref = $("#import_structure").val();
-	$.getJSON("/api/document/statement/import/", {"document": {{document.id}}, "text": ref}, function(data) {
-		if (data.ok) {
-			for (i = 0; i < data.new.length; i++) {
-				d = data[i];
-				var k = $('#statements_references').append('<li data-id="' + d.seq + '" data-seq="' + d.seq + '">' + d.html + '</li>');
-				make_reference(k);
-			}
-			$('#modal_reference').modal('hide');
-		} else {
-			// Error message
-		}
-	});
-	
-}
-
-function new_reference() {
-	var ref = $("#reference").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/0/", 
-		{text: ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_reference').modal('hide');
-		} else {
-			// Error message
-		}
-	});
-}
-
-function new_assumption() {
-	var ref = $("#assumption").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/1/", 
-		{text: ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_assumptions').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_assumption').modal('hide');
-			$('#modal_assumption #assumption').val('');
-		} else {
-			// Error message
-		}
-	});
-}
-
-
-function new_declaration() {
-	var ref = $("#declaration").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/2/", 
-		{text: ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_declarations ol:last').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_declaration').modal('hide');
-			$('#modal_declaration #declaration').val('');
-		} else {
-			// Error message
-		}
-	});
-}
-
-function new_subheading() {
-	var ref = $("#subheading").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/3/", 
-		{text: ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_declarations').append('<li class="statement_subheading" data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_subheading').modal('hide');
-			$('#modal_subheading #subheading').val('');
-		} else {
-			// Error message
-		}
-	});
-}
-
-
-</script>
-
 
 {% endblock %}
