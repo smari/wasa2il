@@ -4,16 +4,16 @@ function make_reference(node) {
 
 	if (PROPOSED) {
 		if (type == 0 || type == 1) {
-			prop = '<a data-type="0" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini add">' + gettext("Add reference") + '</a>'
-				  + '<a data-type="1" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini add">' + gettext("Add assumption") + '</a>';
+			prop = '<a data-type="0" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini add">' + _("Add reference") + '</a>'
+				  + '<a data-type="1" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini add">' + _("Add assumption") + '</a>';
 		} else {
-			prop = '<a data-type="2" onclick="selected_item='+nodeid+'; statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini add">' + gettext("Add statement") + '</a>'
-				  + '<a data-type="3" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini add">' + gettext("Add subheading") + '</a>';
+			prop = '<a data-type="2" onclick="selected_item='+nodeid+'; statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini add">' + _("Add statement") + '</a>'
+				  + '<a data-type="3" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini add">' + _("Add subheading") + '</a>';
 		}
 	}
 
 	node.append('<div class="btn-group state_buttons">'
-	          + '<a class="btn btn-mini delete">' + gettext("Delete") + '</a>'
+	          + '<a class="btn btn-mini delete">' + _("Delete") + '</a>'
 			  + (PROPOSED ? prop : '')
 	          + '</div>');
 }
