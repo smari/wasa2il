@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 
@@ -39,7 +40,7 @@
 		<h3>{% trans "Recently adopted law" %} <small>{% trans "in your polities" %}</small></h3>
 		<div>
 		{% for d in adopteddocuments %}
-			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>({% trnas "in" %} {{d.polity.name}})</small></a>
+			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>({% trans "in" %} {{d.polity.name}})</small></a>
 		{% endfor %}
 		</div>		
 	</span>
