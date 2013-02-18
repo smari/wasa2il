@@ -5,50 +5,50 @@
 <section class="responsive">
   <div class="row">
 	<span class="span8">
-		<h2>Your polities</h2>
+		<h2>{% trans "Your polities" %}</h2>
 		{% spaceless %}
 		<div>
 		{% for p in polities %}
 			<a class="thumbnail" href="/polity/{{p.id}}">{{p.name}}</a>
 		{% endfor %}
-			<a style="background: #eee" class="thumbnail" href="/polities/">Browse other polities</a>
+			<a style="background: #eee" class="thumbnail" href="/polities/">{% trans "Browse other polities" %}</a>
 		</div>
 		{% endspaceless %}
 	</span>
 	<span class="span4">
-		<h3>Take Action!</h3>
+		<h3>{% trans "Take Action!" %}</h3>
 		<div>
-			<a style="background: #eee" class="thumbnail" href="/polities/">Browse polities</a>
-			<a style="background: #eee" class="thumbnail" href="/accounts/profile/">Edit your profile</a>
-			<a style="background: #eee" class="thumbnail" href="/polity/new/">Create a polity</a>
+			<a style="background: #eee" class="thumbnail" href="/polities/">{% trans "Browse polities" %}</a>
+			<a style="background: #eee" class="thumbnail" href="/accounts/profile/">{% trans "Edit your profile" %}</a>
+			<a style="background: #eee" class="thumbnail" href="/polity/new/">{% trans "Create a polity" %}</a>
 		</div>
 	</span>
   </div>
   <hr/>
   <div class="row">
 	<span class="span4">
-		<h3>Your documents</h3>
+		<h3>{% trans "Your documents" %}</h3>
 		<div>
 		{% for d in yourdocuments %}
-			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>(in {{d.polity.name}})</small></a>
+			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>({% trans "in" %} {{d.polity.name}})</small></a>
 		{% endfor %}
 		</div>		
 	</span>
 
 	<span class="span4">
-		<h3>Recently adopted law <small>in your polities</small></h3>
+		<h3>{% trans "Recently adopted law" %} <small>{% trans "in your polities" %}</small></h3>
 		<div>
 		{% for d in adopteddocuments %}
-			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>(in {{d.polity.name}})</small></a>
+			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>({% trnas "in" %} {{d.polity.name}})</small></a>
 		{% endfor %}
 		</div>		
 	</span>
 
 	<span class="span4">
-		<h3>New proposals <small>in your polities</small></h3>
+		<h3>{% trans "New proposals" %} <small>{% trans "in your polities" %}</small></h3>
 		<div>
 		{% for d in proposeddocuments %}
-			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>(in {{d.polity.name}})</small></a>
+			<a class="thumbnail" href="/polity/{{d.polity.id}}/document/{{d.id}}/">{{d.name}} <small>({% trans "in" %} {{d.polity.name}})</small></a>
 		{% endfor %}
 		</div>		
 	</span>
