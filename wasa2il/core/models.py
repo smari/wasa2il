@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from base_classes import NameSlugBase, getCreationBase
 from django.utils.translation import ugettext as _
 
+import settings
+
 nullblank = {'null': True, 'blank': True}
 
 
@@ -29,7 +31,7 @@ class UserProfile(models.Model):
 	# thumbnail		= fields.ThumbnailerField(upload_to='users')
 
 	# User settings
-	language		= models.CharField(max_length="6", default="en")
+	language		= models.CharField(max_length="6", default="en", choices=settings.LANGUAGES)
 	topics_showall		= models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
 
 	def save(self, *largs, **kwargs):

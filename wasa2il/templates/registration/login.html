@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load bootstrap %}
 {% block content %}
 
-<div class="page-header"><h1>Log in <small>and partake in democracy...</small></h1></div>
+<div class="page-header"><h1>{% trans "Log in" %} <small>{% trans "and partake in democracy..." %}</small></h1></div>
 
 <div class="row">
 	<div class="span8">
@@ -11,16 +12,14 @@
 			<fieldset> 
 			{{form|bootstrap}}
 				<label></label>
-				<input class="btn primary" type="submit" value="Log in"/>
-				<a href="/accounts/register/" class="btn">Sign up</a>
+				<input class="btn btn-primary" type="submit" value="{% trans "Log in" %}"/>
+				<a href="/accounts/register/" class="btn">{% trans "Sign up" %}</a>
+				<a href="/accounts/password/reset/" class="btn">{% trans "Password reset" %}</a>
 			</fieldset>
 		</form>
 	</div>
 
 	<div class="span4">
-		<ul>
-			<li><a href="/about/">About Wasa2il</a></li>
-		</ul>
 	</div>
 
 </div>

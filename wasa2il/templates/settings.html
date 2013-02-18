@@ -8,23 +8,14 @@
  <p>{% trans "You are signed in as" %} {% if user.get_profile.displayname %}{{ user.get_profile.displayname }}{% else %}{{user}}{% endif %}.</p>
 </div>
 <form action="/accounts/settings/" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-  {{ form|bootstrap }}
   <div class="control-group">
+  <fieldset>
+  {{ form|bootstrap }}
+  </fieldset>
     <div class="controls">
       <button class="btn-primary btn-large" type="submit">{% trans "Submit" %}</button>
     </div>
   </div>
-</form>
-<form action="/i18n/setlang/" method="post">
-{% csrf_token %}
-<input name="next" type="hidden" value="/accounts/settings" />
-<select name="language">
-{% get_language_info_list for LANGUAGES as languages %}
-{% for language in languages %}
-<option value="{{ language.code }}">{{ language.name_local }} ({{ language.code }})</option>
-{% endfor %}
-</select>
-<input type="submit" value="Go" />
 </form>
 
 {% endblock %}
