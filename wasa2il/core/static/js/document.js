@@ -2,22 +2,19 @@ function make_reference(node) {
 	var nodeid = node.data("id");
 	var type = node.data("type");
 
-	{% if document.is_proposed %}
-	if (type == 0 || type == 1) {
-		prop = '<a data-type="0" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini add">{% trans "Add reference" %}</a>'
-			  + '<a data-type="1" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini add">{% trans "Add assumption" %}</a>';
-	} else {
-		prop = '<a data-type="2" onclick="selected_item='+nodeid+'; statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini add">{% trans "Add statement" %}</a>'
-			  + '<a data-type="3" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini add">{% trans "Add subheading" %}</a>';
-
+	if (PROPOSED) {
+		if (type == 0 || type == 1) {
+			prop = '<a data-type="0" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini add">' + _("Add reference") + '</a>'
+				  + '<a data-type="1" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini add">' + _("Add assumption") + '</a>';
+		} else {
+			prop = '<a data-type="2" onclick="selected_item='+nodeid+'; statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini add">' + _("Add statement") + '</a>'
+				  + '<a data-type="3" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini add">' + _("Add subheading") + '</a>';
+		}
 	}
-	{% endif %}
 
 	node.append('<div class="btn-group state_buttons">'
-	          + '<a class="btn btn-mini delete">{% trans "Delete" %}</a>'
-	{% if document.is_proposed %}
-			  + prop
-	{% endif %}
+	          + '<a class="btn btn-mini delete">' + _("Delete") + '</a>'
+			  + (PROPOSED ? prop : '')
 	          + '</div>');
 }
 
@@ -43,7 +40,7 @@ $(function() {
 
 function statement_fork(item) {
 	var ref = $("#newversion").val();
-	$.getJSON("/api/document/statement/fork/", {"document": {{document.id}}, "original": item.data("id"), "text": ref}, function(data) {
+	$.getJSON("/api/document/statement/fork/", {"document": DOCUMENT_ID, "original": item.data("id"), "text": ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
 			make_reference(k);
@@ -56,7 +53,7 @@ function statement_fork(item) {
 
 function structure_import() {
 	var ref = $("#import_structure").val();
-	$.getJSON("/api/document/statement/import/", {"document": {{document.id}}, "text": ref}, function(data) {
+	$.getJSON("/api/document/statement/import/", {"document": DOCUMENT_ID, "text": ref}, function(data) {
 		if (data.ok) {
 			for (i = 0; i < data.new.length; i++) {
 				d = data[i];
@@ -73,7 +70,7 @@ function structure_import() {
 
 function new_reference() {
 	var ref = $("#reference").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/0/", 
+	$.getJSON("/api/document/statement/new/" + DOCUMENT_ID + "/0/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
@@ -87,7 +84,7 @@ function new_reference() {
 
 function new_assumption() {
 	var ref = $("#assumption").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/1/", 
+	$.getJSON("/api/document/statement/new/" + DOCUMENT_ID + "/1/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_assumptions').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
@@ -103,7 +100,7 @@ function new_assumption() {
 
 function new_declaration() {
 	var ref = $("#declaration").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/2/", 
+	$.getJSON("/api/document/statement/new/" + DOCUMENT_ID + "/2/", 
 		{text: ref, after: selected_item}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_declarations ol:last').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
@@ -118,7 +115,7 @@ function new_declaration() {
 
 function new_subheading() {
 	var ref = $("#subheading").val();
-	$.getJSON("/api/document/statement/new/{{document.id}}/3/", 
+	$.getJSON("/api/document/statement/new/DOCUMENT_ID/3/", 
 		{text: ref}, function(data) {
 		if (data.ok) {
 			var k = $('#statements_declarations').append('<li class="statement_subheading" data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
@@ -136,7 +133,7 @@ function new_subheading() {
 
 	$('body').delegate('.btn-group.state_buttons .delete', 'click', function () {
 		var item = $(this).parent().parent();
-		$.getJSON("/api/document/statement/delete/{{document.id}}/1/", 
+		$.getJSON("/api/document/statement/delete/" + DOCUMENT_ID + "/1/", 
 			{
 				id: $(this).data('id')
 			},
@@ -160,7 +157,7 @@ function new_subheading() {
 		else if (type == 2) text = $('statement').val();
 		else if (type == 3) text = $('subheading').val();
 		console.log(text);
-		$.getJSON("/api/document/statement/delete/{{document.id}}/1/", 
+		$.getJSON("/api/document/statement/delete/" + DOCUMENT_ID + "/1/", 
 			{
 				id: $(this).data('id')
 			},

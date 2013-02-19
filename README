@@ -75,3 +75,10 @@ should support the creation of that.]
 # Roadmap
 
  * 
+
+
+# Installation
+
+Install requirements.txt (pip install -r requirements.txt I think).
+Also, initialize submodules:
+    git submodule update --init

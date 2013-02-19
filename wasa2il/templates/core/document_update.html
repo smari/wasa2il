@@ -5,9 +5,10 @@
 
 {% block javascript %}
 {{block.super}}
-    <script src="/static/js/documents.js"></script>
+    <script src="/static/js/document.js"></script>
 	<script>
-		var document_id = {{document.id}};
+		var DOCUMENT_ID = {{document.id}};
+		var PROPOSED = {% if document.is_proposed %}true{% else %}false{% endif %};
 		var selected_item = undefined;
 	</script>
 {% endblock %}
@@ -25,6 +26,7 @@
 		{% endif %}
 	{% endif %}
 </div>
+
 <h1>
 {% if document.is_adopted %}<small>{% trans "Agreement" %} {{document.decid}}:</small>{% endif %}
 {% if document.is_proposed %}<small>{% trans "Proposal" %} {{document.id}}:</small>{% endif %}
