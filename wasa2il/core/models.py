@@ -17,6 +17,12 @@ from core.utils import AttrDict
 nullblank = {'null': True, 'blank': True}
 
 
+def trim(text, length):
+	if len(text) > length:
+		return '%s...' % text[:length - 3]
+	return text
+
+
 class BaseIssue(NameSlugBase):
 	description		= models.TextField(**nullblank)
 
@@ -510,13 +516,15 @@ STATEMENT_TYPE = AttrDict({
 	'STATEMENT': 2,
 	'HEADER': 3,
 })
+STATEMENT_TYPE_CHOICES = tuple((v, k.title()) for k, v in STATEMENT_TYPE.items())
 
 CP_TYPE = AttrDict({
-	'ADD': 1,
-	'DELETE': 2,
-	'CHANGE': 3,
-	'MOVE': 4,
+	'DELETED': 1,
+	'MOVED': 2,
+	'CHANGED': 3,
+	'ADDED': 4,
 })
+CP_TYPE_CHOICES = tuple((v, k.title()) for k, v in CP_TYPE.items())
 
 
 class Document(NameSlugBase):
@@ -555,7 +563,7 @@ class Document(NameSlugBase):
 class Statement(models.Model):
 	user			= models.ForeignKey(User)
 	document		= models.ForeignKey(Document)
-	type			= models.IntegerField()
+	type			= models.IntegerField(choices=STATEMENT_TYPE_CHOICES)
 	number			= models.IntegerField()
 	text			= models.TextField(blank=True)  # TODO: Blank for now, make mandatory when StatementOption removed
 
@@ -564,6 +572,9 @@ class Statement(models.Model):
 			self.text = '. '.join(s.text for s in StatementOption.objects.filter(statement=self))
 			self.save()
 		return self.text
+
+	def text_short(self):
+		return trim(self.text, 30)
 
 
 # NOTA BENE: Will be deprecated soon. Text is automagically compied to the statement
@@ -578,7 +589,7 @@ class ChangeProposal(models.Model):
 	document 		= models.ForeignKey(Document)	# Document to reference
 	user 			= models.ForeignKey(User)		# Who proposed it
 	timestamp 		= models.DateTimeField(auto_now_add=True)	# When
-	actiontype		= models.IntegerField()			# Type of change to make [all]
+	actiontype		= models.IntegerField(choices=CP_TYPE_CHOICES)			# Type of change to make [all]
 	refitem			= models.IntegerField()			# Number what in the sequence to act on [all]
 	destination		= models.IntegerField()			# Destination of moved item, or of new item [move]
 	content			= models.TextField()			# Content for new item, or for changed item (blank=same on change) [change, add]
@@ -596,7 +607,11 @@ class ChangeProposal(models.Model):
 		print self.document.statement_set.all()
 		self.document.statement_set.get(number=self.refitem)
 
+	def __unicode__(self):
+		return '%s' % (self.actiontype)
 
+	def content_short(self):
+		return trim(self.content, 30)
 
 
 class Meeting(models.Model):
