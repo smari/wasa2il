@@ -107,10 +107,10 @@ def election_poll(request):
 	ctx["election"]["is_voting"] = election.is_voting()
 	ctx["election"]["votes"] = election.get_votes()
 	ctx["election"]["candidates"] = election.get_candidates()
-	context = {"election": election, "candidates": election.get_unchosen_candidates(request.user)}
+	context = {"election": election, "candidates": election.get_unchosen_candidates(request.user), "candidate_selected": False}
 	ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", context)
 	ctx["election"]["vote"] = {}
-	context = {"election": election, "candidates": election.get_vote(request.user)}
+	context = {"election": election, "candidates": election.get_vote(request.user), "candidate_selected": True}
 	ctx["election"]["vote"]["html"] = render_to_string("core/_election_candidate_list.html", context)
 	ctx["ok"] = True
 	return ctx

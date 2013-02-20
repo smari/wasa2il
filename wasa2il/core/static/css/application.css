@@ -39,11 +39,11 @@
 	font-size:			18pt;
 }
 
-.candidates li a {
+.candidates li div {
 	display:			block;
 }
 
-.candidates li a:hover {
+.candidates li div:hover {
 	text-decoration:		none;
 }
 
