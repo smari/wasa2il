@@ -131,6 +131,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	is_administrated	= models.BooleanField("Are there officers?", default=False, help_text="Is there a group of people who are administrators?")
 	is_listed		= models.BooleanField("Publicly listed?", default=True, help_text="Whether this polity is publicly listed or not.")
 	is_nonmembers_readable	= models.BooleanField("Publicly viewable?", default=True, help_text="Whether non-members can view the polity and its activities.")
+	is_newissue_only_officers = models.BooleanField("Can only officers make new issues?", default=False, help_text="If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue.")
 
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
