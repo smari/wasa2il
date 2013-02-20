@@ -2,10 +2,17 @@
 {% load i18n %}
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
-	<a href="/accounts/profile/{{candidate.user.username}}/">
+	<div>
 		<img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded"/>
-		{{candidate.user.get_name}}
-	</a>
+		<a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.get_name}}</a>
+		{% if election.is_voting %}
+		{% if candidate_selected %}
+		<button class="btn pull-right" onclick="election_deselect_candidate(this);">{% trans "Remove from ballot" %}</button>
+		{% else %}
+		<button class="btn pull-right" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+		{% endif %}
+		{% endif %}
+	</div>
 </li>
 {% empty %}
 <p>{% if election.is_voting %}
