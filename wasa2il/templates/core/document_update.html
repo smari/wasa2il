@@ -28,86 +28,104 @@
 </div>
 
 <h1>
-{% if document.is_adopted %}<small>{% trans "Agreement" %} {{document.decid}}:</small>{% endif %}
-{% if document.is_proposed %}<small>{% trans "Proposal" %} {{document.id}}:</small>{% endif %}
-{% if not document.is_adopted and not document.is_proposed %}<small>{% trans "Draft proposal:"%}</small>{% endif %}
-{{document.name}}</h1>
+	<small>
+		{% if document.is_adopted %}
+			{% trans "Agreement" %} {{document.decid}}
+		{% elif document.is_proposed %}
+			{% trans "Proposal" %} {{document.id}}
+		{% else %}
+			{% trans "Draft proposal"%}
+		{% endif %}:
+	</small>
+	{{document.name}}
+</h1>
 
 <div class="row">
-<div class="span6 pull-left">
-	<p><b>{{document.name}}</b></p>
 
-	<p><i>{{document.polity.document_frontmatter}}</i></p>
+	<div class="span6 pull-left document">
 
-	{% with statementset_name='references' statementset=document.get_references %}
-		{% include 'core/_document_statementset.html' %}
-	{% endwith %}
+		<p><b>{{document.name}}</b></p>
 
-	{% with statementset_name='assumptions' statementset=document.get_assumptions %}
-		{% include 'core/_document_statementset.html' %}
-	{% endwith %}
+		{% if document.polity.document_frontmatter %}
+		<p class="document-fragment"><i>{{document.polity.document_frontmatter}}</i></p>
+		{% endif %}
 
-	{% if document.polity.document_midmatter %}
-	<p class="document-fragment">{{document.polity.document_midmatter}}</p>
-	{% endif %}
+		{% with statementset_name='references' statementset=document.get_references %}
+			{% include 'core/_document_statementset.html' %}
+		{% endwith %}
 
-	{% with statementset_name='declarations' statementset=document.get_declarations %}
-		{% include 'core/_document_statementset.html' %}
-	{% endwith %}
+		{% with statementset_name='assumptions' statementset=document.get_assumptions %}
+			{% include 'core/_document_statementset.html' %}
+		{% endwith %}
 
-	<p>{{document.polity.document_footer}}</p>
+		{% if document.polity.document_midmatter %}
+		<p class="document-fragment">{{document.polity.document_midmatter}}</p>
+		{% endif %}
 
-</div>
+		{% with statementset_name='declarations' statementset=document.get_declarations %}
+			{% include 'core/_document_statementset.html' %}
+		{% endwith %}
 
-<div class="span4 pull-right">
-	{% if document.issues.count %}
+		{% if document.polity.document_footer %}
+		<p class="document-fragment">{{document.polity.document_footer}}</p>
+		{% endif %}
+
+	</div>
+
+	<div class="span4 pull-right">
+
+		{% if document.issues.count %}
 		<h3>{% trans "Referenced by issues" %}</h3>
 		<ul>
 		{% for i in document.issues.all %}
-		<li><a href="/issue/{{i.id}}/">{{i.name}}</a></li>
+			<li><a href="/issue/{{i.id}}/">{{i.name}}</a></li>
 		{% endfor %}
 		</ul>
-	{% endif %}
+		{% endif %}
 
-	<h3>{% trans "Contributors to this document" %}</h3>
-	<ul>
-	{% for i in document.get_contributors %}
-		<li><a href="/accounts/profile/{{i.username}}">{{i.username}}</a></li>
-	{% endfor %}
-	</ul>
-	{% if not document.is_proposed %}
-	<form class="form-inline" action="#">
-		<input type="text" class="input-small" id="meeting_manager_add" data-polity-id="{{polity.id}}"/>
-		<input type="submit" class="btn btn-small" id="meeting_manager_add_btn" value="{% trans "Add" %}"/>
-	</form>
-	{% endif %}
-</div>
+		<h3>{% trans "Contributors to this document" %}</h3>
+		<ul>
+		{% for i in document.get_contributors %}
+			<li><a href="/accounts/profile/{{i.username}}">{{i.username}}</a></li>
+		{% endfor %}
+		</ul>
 
-<div class="span2 pull-right">
-	{% if document.polity in user.polity_set.all and not document.is_proposed and not document.is_adopted %}
-	<div class="btn-group btn-group-vertical">
-		<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
-		<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
-		<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
-		<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
-		<a onclick="$('#modal_import').modal('show');" class="btn">{% trans "Import structure" %}</a>
+		{% if not document.is_proposed %}
+		<form class="form-inline" action="#">
+			<input type="text" class="input-small" id="meeting_manager_add" data-polity-id="{{polity.id}}"/>
+			<input type="submit" class="btn btn-small" id="meeting_manager_add_btn" value="{% trans "Add" %}"/>
+		</form>
+		{% endif %}
+
+	</div>
+
+	{% if document.polity in user.polity_set.all %}
+	<div class="span2 pull-right">
+
+		{% if not document.is_proposed and not document.is_adopted %}
+		<div class="btn-group btn-group-vertical">
+			<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
+			<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
+			<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
+			<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
+			<a onclick="$('#modal_import').modal('show');" class="btn">{% trans "Import structure" %}</a>
+		</div>
+		{% elif document.is_proposed %}
+		<div class="alert alert-success">
+			<b>{% trans "Please note:" %}</b>
+			{% trans "This document has been proposed." %}
+			{% trans "Changes you make to it now will become change proposals, which will be voted on individually." %}
+		</div>
+		{% elif document.is_adopted and not document.is_proposed %}
+		<div class="alert alert-success">
+			<b>{% trans "Please note:" %}</b>
+			{% trans "This document has been adopted." %}
+			{% trans "In order to make change proposals to it, you must import it into a new open issue." %}
+		</div>
+		{% endif %}
+
 	</div>
 	{% endif %}
-	{% if document.polity in user.polity_set.all and document.is_proposed %}
-	<div class="alert alert-success">
-		<b>{% trans "Please note:" %}</b>
-		{% trans "This document has been proposed." %}
-		{% trans "Changes you make to it now will become change proposals, which will be voted on individually." %}
-	</div>
-	{% endif %}
-	{% if document.polity in user.polity_set.all and document.is_adopted and not document.is_proposed %}
-	<div class="alert alert-success">
-		<b>{% trans "Please note:" %}</b>
-		{% trans "This document has been adopted." %}
-		{% trans "In order to make change proposals to it, you must import it into a new open issue." %}
-	</div>
-	{% endif %}
-</div>
 
 </div>
 
@@ -142,95 +160,24 @@
 	</div>
 </div>
 
-<div class="modal hide fade" id="modal_reference">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "New reference" %}</h3>
-  </div>
-  <div class="modal-body">
-    <p>{% trans "Choose a document to reference:" %}</p>
-        <form>
-                <select id="reference">
-			{% for doc in referabledocs %}
-			<option value="{{doc.id}}">{{doc.name}}</option>
-			{% endfor %}
-                </select>
-        </form>
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_reference').modal('hide');" class="btn">{% trans "Close" %}</a>
-    <a onclick="new_reference();" class="btn btn-primary">{% trans "Save reference" %}</a>
-  </div>
-</div>
+{% with type_name='reference' %}
+	{% include 'core/_document_modal.html' %}
+{% endwith %}
 
+{% with type_name='assumption' %}
+	{% include 'core/_document_modal.html' %}
+{% endwith %}
 
-<div class="modal hide fade" id="modal_assumption">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "New assumption" %}</h3>
-  </div>
-  <div class="modal-body">
-    <p>{% trans "Write assumption:" %}</p>
-        <form>
-                <textarea style="width: 90%; min-height: 100px;" id="assumption"></textarea>
-        </form>
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_assumption').modal('hide');" class="btn">{% trans "Close" %}</a>
-    <a onclick="new_assumption();" class="btn btn-primary">{% trans "Save assumption" %}</a>
-  </div>
-</div>
+{% with type_name='statement' %}
+	{% include 'core/_document_modal.html' %}
+{% endwith %}
 
+{% with type_name='subheading' %}
+	{% include 'core/_document_modal.html' %}
+{% endwith %}
 
-<div class="modal hide fade" id="modal_declaration">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "New statement" %}</h3>
-  </div>
-  <div class="modal-body">
-        <form>
-                <textarea style="width: 90%; min-height: 100px;" id="declaration"></textarea>
-        </form>
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_declaration').modal('hide');" class="btn">{% trans "Close" %}</a>
-    <a onclick="new_declaration();" class="btn btn-primary">{% trans "Save statement" %}</a>
-  </div>
-</div>
-
-
-<div class="modal hide fade" id="modal_subheading">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "New subheading" %}</h3>
-  </div>
-  <div class="modal-body">
-        <form>
-                <input type="text" id="subheading"/>
-        </form>
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_subheading').modal('hide');" class="btn">{% trans "Close" %}</a>
-    <a onclick="new_subheading();" class="btn btn-primary">{% trans "Save subheading" %}</a>
-  </div>
-</div>
-
-
-<div class="modal hide fade" id="modal_import">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "Import statements" %}</h3>
-  </div>
-  <div class="modal-body">
-    <p>{% trans "Statements:" %}</p>
-        <form>
-                <textarea style="width: 90%; min-height: 100px;" id="import_structure"></textarea>
-        </form>
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_import').modal('hide');" class="btn">{% trans "Close" %}</a>
-    <a onclick="structure_import();" class="btn btn-primary">{% trans "Import" %}</a>
-  </div>
-</div>
+{% with type_name='import' %}
+	{% include 'core/_document_modal.html' %}
+{% endwith %}
 
 {% endblock %}
