@@ -69,12 +69,15 @@
 <div class="span6 pull-left"><a name="topics"></a>
 	{% if user_is_member %}
 	<div class="btn-group" style="float: right">
+		{% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
 		<a class="btn btn-mini" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a>
+		{% endif %}
 		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
 		<ul class="dropdown-menu" style="left: -150px;">
 			<li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{polity.id}});"><i class="icon-ok {% if user.get_profile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
+			{% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
 			<li><a href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a></li>
-
+			{% endif %}
 		</ul>
 	</div>
 	{% endif %}
