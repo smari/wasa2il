@@ -534,6 +534,9 @@ class Document(NameSlugBase):
 	is_adopted		= models.BooleanField(default=False)
 	is_proposed		= models.BooleanField(default=False)
 
+	class Meta:
+		ordering	= ["-id"]
+
 	def __unicode__(self):
 		return self.name
 
