@@ -91,7 +91,7 @@
 		<h3>{% trans "Contributors to this document" %}</h3>
 		<ul>
 		{% for i in document.get_contributors %}
-			<li><a href="/accounts/profile/{{i.username}}"> {{i.get_full_name|default:user.username}}</a></li>
+			<li><a href="/accounts/profile/{{i.username}}"> {{i.get_full_name|default:i.username}}</a></li>
 		{% endfor %}
 		</ul>
 
