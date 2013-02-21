@@ -1,132 +1,3 @@
-function make_reference(node) {
-	var nodeid = node.data("id");
-	var type = node.data("type");
-
-	if (PROPOSED) {
-		if (type == 0 || type == 1) {
-			prop = '<a data-type="0" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_reference\').modal(\'show\');" class="btn btn-mini add">' + _("Add reference") + '</a>'
-				  + '<a data-type="1" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_assumption\').modal(\'show\');" class="btn btn-mini add">' + _("Add assumption") + '</a>';
-		} else {
-			prop = '<a data-type="2" onclick="selected_item='+nodeid+'; statement_active=\'' + nodeid + '\';$(\'#modal_declaration\').modal(\'show\');" class="btn btn-mini add">' + _("Add statement") + '</a>'
-				  + '<a data-type="3" onclick="statement_active=\'' + nodeid + '\';$(\'#modal_subheading\').modal(\'show\');" class="btn btn-mini add">' + _("Add subheading") + '</a>';
-		}
-	}
-
-	node.append('<div class="btn-group state_buttons">'
-	          + '<a class="btn btn-mini delete">' + _("Delete") + '</a>'
-			  + (PROPOSED ? prop : '')
-	          + '</div>');
-}
-
-$(function() {
-	$('#modal_reference').modal({show: false, keyboard: true, backdrop: false});
-	$('#modal_assumption').modal({show: false, keyboard: true, backdrop: false});
-	$('#modal_declaration').modal({show: false, keyboard: true, backdrop: false});
-	$('#modal_subheading').modal({show: false, keyboard: true, backdrop: false});
-
-	$("#statements_references li").each(function(id, node) {
-		make_reference($(node));
-	});
-
-	$("#statements_assumptions li").each(function(id, node) {
-		make_reference($(node));
-	});
-                
-	$("#statements_declarations li").each(function(id, node) {
-		make_reference($(node));
-	});
-
-});
-
-function statement_fork(item) {
-	var ref = $("#newversion").val();
-	$.getJSON("/api/document/statement/fork/", {"document": DOCUMENT_ID, "original": item.data("id"), "text": ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_reference').modal('hide');
-		} else {
-			// Error message
-		}
-	});
-}
-
-function structure_import() {
-	var ref = $("#import_structure").val();
-	$.getJSON("/api/document/statement/import/", {"document": DOCUMENT_ID, "text": ref}, function(data) {
-		if (data.ok) {
-			for (i = 0; i < data.new.length; i++) {
-				d = data[i];
-				var k = $('#statements_references').append('<li data-id="' + d.seq + '" data-seq="' + d.seq + '">' + d.html + '</li>');
-				make_reference(k);
-			}
-			$('#modal_reference').modal('hide');
-		} else {
-			// Error message
-		}
-	});
-	
-}
-
-function new_reference() {
-	var ref = $("#reference").val();
-	$.getJSON("/api/document/statement/new/" + DOCUMENT_ID + "/0/", 
-		{text: ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_references').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_reference').modal('hide');
-		} else {
-			// Error message
-		}
-	});
-}
-
-function new_assumption() {
-	var ref = $("#assumption").val();
-	$.getJSON("/api/document/statement/new/" + DOCUMENT_ID + "/1/", 
-		{text: ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_assumptions').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_assumption').modal('hide');
-			$('#modal_assumption #assumption').val('');
-		} else {
-			// Error message
-		}
-	});
-}
-
-
-function new_declaration() {
-	var ref = $("#declaration").val();
-	$.getJSON("/api/document/statement/new/" + DOCUMENT_ID + "/2/", 
-		{text: ref, after: selected_item}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_declarations ol:last').append('<li data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_declaration').modal('hide');
-			$('#modal_declaration #declaration').val('');
-		} else {
-			// Error message
-		}
-	});
-}
-
-function new_subheading() {
-	var ref = $("#subheading").val();
-	$.getJSON("/api/document/statement/new/DOCUMENT_ID/3/", 
-		{text: ref}, function(data) {
-		if (data.ok) {
-			var k = $('#statements_declarations').append('<li class="statement_subheading" data-id="' + data.seq + '" data-seq="' + data.seq + '">' + data.html + '</li>');
-			make_reference(k);
-			$('#modal_subheading').modal('hide');
-			$('#modal_subheading #subheading').val('');
-		} else {
-			// Error message
-		}
-	});
-}
 
 function markdown_text_to_html(text) {
 	return text.replace(/\n    /g, '<br />&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
@@ -156,6 +27,32 @@ function get_patch(original, amendment) {
 }
 var epiceditor = undefined;
 var file = {'name': 'foobar.txt', defaultContent: 'Hello World'};
+
+function refresh_epiceditor(epiceditor) {
+	epiceditor.reflow();
+	var hide_period = 1000;
+	$('#content').css('visibility', 'hidden');
+	if (epiceditor.is('edit')) {
+		epiceditor.on('preview', function () {
+				setTimeout(function () {
+						epiceditor.edit();
+						$('#content').css('visibility', 'visible');
+					}, hide_period);
+			});
+		epiceditor.preview();
+		epiceditor.removeListener('preview');
+	} else {
+		epiceditor.on('edit', function () {
+				setTimeout(function () {
+						epiceditor.preview();
+						$('#content').css('visibility', 'visible');
+					}, hide_period);
+			});
+		epiceditor.edit();
+		epiceditor.removeListener('edit');
+	}
+}
+
 $(function () {
 
 	function csrfSafeMethod(method) {
@@ -184,23 +81,36 @@ $(function () {
 		epiceditor = new EpicEditor(opts);
 
 	epiceditor.load(function () {
+			var num_loaded = 0;
 			editor = $(epiceditor.editor);
 			previewer = $(epiceditor.previewer);
 			editor.html(markdown_text_to_html(content_org.text()));
-			line_height = parseInt(editor.css('line-height').replace('px', '')) + 2;
 
-			var new_height = Math.max(editor.height(), previewer.height());
-			content.css('height', new_height + line_height);
-			epiceditor.reflow();
-			setTimeout(function () {
-			if (!PROPOSING) {
-				epiceditor.edit();
-				epiceditor.preview();
-			} else {
-				epiceditor.preview();
-				epiceditor.edit();
-			}
-		}, 300);
+			var both_ready = function () {
+					num_loaded++;
+					if (num_loaded < 2) {
+						return;
+					} else if (num_loaded == 2) {
+						setTimeout(both_ready, 300);
+						return;
+					}
+					if (!PROPOSING) {
+						epiceditor.on('preview', function () {
+							line_height = parseInt(editor.css('line-height').replace('px', '')) + 2;
+							var new_height = Math.max(editor.height(), previewer.height());
+							content.css('height', new_height + line_height * 2);
+							refresh_epiceditor(epiceditor);
+							editor.
+						});
+						epiceditor.preview();
+						epiceditor.removeListener('preview');
+					} else {
+						refresh_epiceditor(epiceditor);
+					}
+				};
+
+			editor.ready(both_ready);
+			previewer.ready(both_ready);
 		});
 
 	editor.keyup(function () {
@@ -267,53 +177,7 @@ $(function () {
 		}
 		editor.html(markdown_text_to_html(text));
 		editor.trigger('keyup');
-		epiceditor.edit();
-		setTimeout(function () {
-			epiceditor.preview();
-		}, 300);
-	});
-
-	return;
-
-
-	$('body').delegate('.btn-group.state_buttons .delete', 'click', function () {
-		var item = $(this).parent().parent();
-		$.getJSON("/api/document/statement/delete/" + DOCUMENT_ID + "/1/", 
-			{
-				id: $(this).data('id')
-			},
-			function(data) {
-				if (data.ok) {
-					item.css('color', 'red');
-					item.css('text-decoration', 'line-through');
-				} else {
-					// Error message
-				}
-			}
-		);
-	});
-
-	$('bodyxxx').delegate('.modal .btn-primary', 'click', function () {
-		var item = $(this).parent().parent(),
-			type = $(this).data('type'),
-			text = "";
-		if      (type == 0) text = $('reference').val();
-		else if (type == 1) text = $('assumption').val();
-		else if (type == 2) text = $('statement').val();
-		else if (type == 3) text = $('subheading').val();
-		console.log(text);
-		$.getJSON("/api/document/statement/delete/" + DOCUMENT_ID + "/1/", 
-			{
-				id: $(this).data('id')
-			},
-			function(data) {
-				if (data.ok) {
-					$('<li>Whoo</li>').insertAfter(item);
-				} else {
-					// Error message
-				}
-			}
-		);
+		refresh_epiceditor(EpicEditor);
 	});
 
 });

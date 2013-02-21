@@ -293,10 +293,26 @@ ol.interventions li.active:before {
 	display:	inline;
 }
 
+
 ul.errorlist {
 	color: #ff0000;
 	list-style: none;
 	margin-left: 4px;
+
+#content {
+	visibility: hidden;
+}
+.document {
+	position: relative;
+}
+#content:after {
+	content: "Loading";
+	visibility: visible;
+	position: absolute;
+	top: 100px;
+	left: 50%;
+	font-size: 3em;
+	z-index: -100;
 }
 
 #content_org {
@@ -317,6 +333,3 @@ ul.errorlist {
 	font-weight: bold;
 }
 
-#original_text {
-	display: none;
-}
