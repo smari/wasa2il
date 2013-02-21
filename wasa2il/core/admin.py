@@ -9,7 +9,8 @@ from models import (
 	MembershipVote, UserProfile,
 	Meeting, MeetingIntervention,
 	PolityRuleset,
-	Document, Statement, ChangeProposal
+	Document, Statement, ChangeProposal,
+	DocumentContent
 	)
 
 
@@ -74,6 +75,10 @@ class VoteAdmin(admin.ModelAdmin):
 	list_display = ['user']  # , 'option']
 
 
+class DocumentContentAdmin(admin.ModelAdmin):
+	list_display = ['document', 'order', 'comments', 'user', 'created']
+
+
 class StatementAdmin(admin.ModelAdmin):
 	list_display = ['text_short', 'type', 'user', 'document', 'number']
 
@@ -126,5 +131,6 @@ register(UserProfile)
 register(PolityRuleset)
 
 register(Document)
+register(DocumentContent, DocumentContentAdmin)
 register(Statement, StatementAdmin)
 register(ChangeProposal, ChangeProposalAdmin)

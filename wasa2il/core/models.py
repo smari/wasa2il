@@ -564,6 +564,23 @@ class Document(NameSlugBase):
 		return set([x.user for x in self.statement_set.all()])
 
 
+class DocumentContent(models.Model):
+	user = models.ForeignKey(User)
+	document = models.ForeignKey(Document)
+	created = models.DateTimeField(auto_now_add=True)
+	text = models.TextField()
+	diff = models.TextField()
+	patch = models.TextField()
+	order = models.IntegerField(default=1)
+	comments = models.TextField()
+	STATUS_CHOICES = (
+		('proposed', 'Proposed'),
+		('accepted', 'Accepted'),
+		('rejected', 'Rejected'),
+	)
+	status = models.CharField(max_length='32', choices=STATUS_CHOICES, default='proposed')
+
+
 class Statement(models.Model):
 	user			= models.ForeignKey(User)
 	document		= models.ForeignKey(Document)
