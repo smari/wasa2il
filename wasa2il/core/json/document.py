@@ -3,8 +3,42 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
-from core.models import Document, Issue, ChangeProposal, Statement
+from core.models import Document, Issue, ChangeProposal, Statement, DocumentContent
 from core.json.utils import jsonize
+
+
+@login_required
+@jsonize
+def document_propose_change(request):
+	ctx = {"ok": True}
+	document = get_object_or_404(Document, id=request.POST.get("document_id", 0))
+
+	try:
+		text = request.POST['text']
+	except KeyError:
+		raise Exception('Missing "text"')
+	try:
+		diff = request.POST['diff']
+	except KeyError:
+		raise Exception('Missing "diff"')
+	try:
+		patch = request.POST['patch']
+	except KeyError:
+		raise Exception('Missing "patch"')
+
+	content = DocumentContent()
+	content.document = document
+	content.user = request.user
+	content.comments = request.POST.get('comments', '')
+	content.text = text
+	content.diff = diff
+	content.patch = patch
+	content.order = DocumentContent.objects.filter(document=document).order_by('-order')[0].order + 1
+	content.save()
+
+	ctx['order'] = content.order
+
+	return ctx
 
 
 @login_required

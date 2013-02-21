@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.core.context_processors import csrf
 import settings
 
 from core.models import *
@@ -311,9 +312,22 @@ class DocumentDetailView(DetailView):
 		return super(DocumentDetailView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, *args, **kwargs):
+		doc = self.object
 		context_data = super(DocumentDetailView, self).get_context_data(*args, **kwargs)
 		context_data.update({'polity': self.polity})
 		context_data['user_is_member'] = self.request.user in self.polity.members.all()
+		if 'v' in self.request.GET:
+			try:
+				context_data['current_content'] = get_object_or_404(DocumentContent, order=int(self.request.GET['v']))
+			except ValueError:
+				if self.request.GET['v'] == 'new':
+					context_data['proposing'] = True
+					context_data['current_content'] = DocumentContent.objects.filter(document=doc).order_by('-order')[0]
+				else:
+					raise Exception('Bad "v(ersion)" parameter')
+		else:
+			context_data['current_content'] = self.object.get_content()
+		context_data.update(csrf(self.request))
 		return context_data
 
 
