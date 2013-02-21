@@ -33,7 +33,7 @@
 		</table>
 	</div>
 
-	{% if issue.is_voting %}
+	{% if issue.is_voting and not user.is_anonymous %}
 	<div class="span5 pull-left well">
 		<h2>{% trans "Vote" %} <small>{% trans "for or against the documents in this issue" %}</small></h2>
 		<div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
@@ -79,7 +79,7 @@
 		<div id="issue_comments">
 		</div>
 
-		{% if issue.is_open %}
+		{% if issue.is_open and not user.is_anonymous %}
 		<div class="comment_form form-inline">
 			<textarea id="id_comment" class="span4"></textarea>
 			<button class="btn primary" onclick="issue_comment_send({{issue.id}}, $('#id_comment'));">{% trans "Add comment" %}</button>

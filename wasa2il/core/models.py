@@ -162,7 +162,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
 		return min(self.members.count(), self.invite_threshold)
 
 	def get_topic_list(self, user):
-		if user.get_profile().topics_showall:
+		if user.is_anonymous() or user.get_profile().topics_showall:
 			topics = Topic.objects.filter(polity=self)
 		else:
 			topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self)]
@@ -309,7 +309,10 @@ class Issue(BaseIssue, getCreationBase('issue')):
 		return self.document_set.filter(is_proposed=True)
 
 	def user_documents(self, user):
-		return self.document_set.filter(is_proposed=False, user=user)
+		try:
+			return self.document_set.filter(is_proposed=False, user=user)
+		except TypeError as e:
+			return []
 
 	def get_votes(self):
 		votes = {}

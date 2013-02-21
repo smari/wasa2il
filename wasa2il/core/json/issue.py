@@ -41,7 +41,6 @@ def issue_comment_send(request):
 	return issue_poll(request)
 
 
-@login_required
 @jsonize
 def issue_poll(request):
 	issue = get_object_or_404(Issue, id=request.REQUEST.get("issue", 0))
