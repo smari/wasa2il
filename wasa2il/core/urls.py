@@ -31,7 +31,7 @@ urlpatterns = patterns('',
 
 	(r'^polity/(?P<polity>\d+)/election/$',				login_required(ElectionListView.as_view())),
 	(r'^polity/(?P<polity>\d+)/election/new/$',			login_required(ElectionCreateView.as_view())),
-	(r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/$',		login_required(ElectionDetailView.as_view())),
+	(r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/$',		ElectionDetailView.as_view()),
 
 	#("^polity/(?P<polity>\d+)/forum/$", ForumView.as_view()),
 	#("^polity/(?P<polity>\d+)/forum/(?P<category>\d+)/$", ForumCategoryView.as_view()),

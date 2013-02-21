@@ -850,7 +850,9 @@ class Election(NameSlugBase):
 		return ctx
 
 	def get_unchosen_candidates(self, user):
-		votes = ElectionVote.objects.filter(election=self, user=user)
+		votes = []
+		if not user.is_anonymous:
+			votes = ElectionVote.objects.filter(election=self, user=user)
 		votedcands = [x.candidate.id for x in votes]
 		candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands)
 		return candidates
@@ -861,7 +863,10 @@ class Election(NameSlugBase):
 		return ctx
 
 	def get_vote(self, user):
-		return [x.candidate for x in ElectionVote.objects.filter(election=self, user=user).order_by("value")]
+		votes = []
+		if not user.is_anonymous:
+			votes = ElectionVote.objects.filter(election=self, user=user).order_by("value")
+		return [x.candidate for x in votes]
 
 
 class Candidate(models.Model):
