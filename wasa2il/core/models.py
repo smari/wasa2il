@@ -539,8 +539,8 @@ class Document(NameSlugBase):
 		ordering	= ["-id"]
 
 	def save(self, *args, **kwargs):
-		if 1 or DocumentContent.objects.filter(document=self).count() == 0:
-			self.convert()
+		# if DocumentContent.objects.filter(document=self).count() == 0:
+		#	self.convert()
 		return super(Document, self).save(*args, **kwargs)
 
 	def convert(self):
@@ -566,7 +566,10 @@ class Document(NameSlugBase):
 		return self.name
 
 	def get_content(self):
-		return DocumentContent.objects.filter(document=self).order_by('order')[0]
+		try:
+			return DocumentContent.objects.filter(document=self).order_by('order')[0]
+		except IndexError:
+			return None
 
 	def get_versions(self):
 		return DocumentContent.objects.filter(document=self).order_by('order')
