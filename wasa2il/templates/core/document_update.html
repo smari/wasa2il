@@ -62,6 +62,7 @@
 		<div id="content"></div>
 		<div id="content_diff"><pre>{{current_content.diff|safe}}</pre></div>
 		<div id="content_org">{{current_content.text}}</div>
+		{% if not user.is_anonymous %}
 		<h4>Propose a change</h4>
 		{% if proposing %}
 		<form id="propose_change" action="." method="post">
@@ -72,6 +73,7 @@
 		</form>
 		{% else %}
 			<p>Want to propose a change? <a href="?v=new">Click here!</a></p>
+		{% endif %}
 		{% endif %}
 	</div>
 
