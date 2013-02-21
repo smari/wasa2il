@@ -301,7 +301,15 @@ ul.errorlist {
 }
 #content {
 	visibility: hidden;
+	-webkit-box-shadow: 3px 3px 13px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    3px 3px 13px rgba(50, 50, 50, 0.75);
+	box-shadow:         3px 3px 13px rgba(50, 50, 50, 0.75);
+	margin-top: 2em;
+	margin-bottom: 2em;
+	border: 1px solid transparent;
+	border-radius: 5px;
 }
+
 .document {
 	position: relative;
 }
