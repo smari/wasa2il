@@ -33,7 +33,10 @@ def document_propose_change(request):
 	content.text = text
 	content.diff = diff
 	content.patch = patch
-	content.order = DocumentContent.objects.filter(document=document).order_by('-order')[0].order + 1
+	try:
+		content.order = DocumentContent.objects.filter(document=document).order_by('-order')[0].order + 1
+	except IndexError:
+		pass
 	content.save()
 
 	ctx['order'] = content.order
