@@ -100,7 +100,6 @@ $(function () {
 							var new_height = Math.max(editor.height(), previewer.height());
 							content.css('height', new_height + line_height * 2);
 							refresh_epiceditor(epiceditor);
-							editor.
 						});
 						epiceditor.preview();
 						epiceditor.removeListener('preview');
