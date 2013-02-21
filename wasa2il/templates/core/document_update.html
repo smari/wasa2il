@@ -55,10 +55,6 @@
 		<p class="document-fragment"><i>{{document.polity.document_frontmatter}}</i></p>
 		{% endif %}
 
-		{% with statementset_name='references' statementset=document.get_references %}
-			{% include 'core/_document_statementset.html' %}
-		{% endwith %}
-
 		<ul class="nav nav-tabs">
 			<li data-tab="edit" class="active"><a href="#">Edit</a></li>
 			<li data-tab="diff" ><a href="#">Diff</a></li>
@@ -106,33 +102,6 @@
 
 	</div>
 
-	{% if document.polity in user.polity_set.all %}
-	<div class="span2 pull-right">
-
-		{% if not document.is_proposed and not document.is_adopted %}
-		<div class="btn-group btn-group-vertical">
-			<a onclick="$('#modal_reference').modal('show');" class="btn">{% trans "New reference" %}</a>
-			<a onclick="$('#modal_assumption').modal('show');" class="btn">{% trans "New assumption" %}</a>
-			<a onclick="$('#modal_declaration').modal('show');" class="btn">{% trans "New statement" %}</a>
-			<a onclick="$('#modal_subheading').modal('show');" class="btn">{% trans "New subheading" %}</a>
-			<a onclick="$('#modal_import').modal('show');" class="btn">{% trans "Import structure" %}</a>
-		</div>
-		{% elif document.is_proposed %}
-		<div class="alert alert-success">
-			<b>{% trans "Please note:" %}</b>
-			{% trans "This document has been proposed." %}
-			{% trans "Changes you make to it now will become change proposals, which will be voted on individually." %}
-		</div>
-		{% elif document.is_adopted and not document.is_proposed %}
-		<div class="alert alert-success">
-			<b>{% trans "Please note:" %}</b>
-			{% trans "This document has been adopted." %}
-			{% trans "In order to make change proposals to it, you must import it into a new open issue." %}
-		</div>
-		{% endif %}
-
-	</div>
-	{% endif %}
 
 </div>
 
@@ -167,25 +136,5 @@
 		</table>
 	</div>
 </div>
-
-{% with type_name='reference' %}
-	{% include 'core/_document_modal.html' %}
-{% endwith %}
-
-{% with type_name='assumption' %}
-	{% include 'core/_document_modal.html' %}
-{% endwith %}
-
-{% with type_name='statement' %}
-	{% include 'core/_document_modal.html' %}
-{% endwith %}
-
-{% with type_name='subheading' %}
-	{% include 'core/_document_modal.html' %}
-{% endwith %}
-
-{% with type_name='import' %}
-	{% include 'core/_document_modal.html' %}
-{% endwith %}
 
 {% endblock %}

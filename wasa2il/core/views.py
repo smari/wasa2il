@@ -318,7 +318,7 @@ class DocumentDetailView(DetailView):
 		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		if 'v' in self.request.GET:
 			try:
-				context_data['current_content'] = get_object_or_404(DocumentContent, order=int(self.request.GET['v']))
+				context_data['current_content'] = get_object_or_404(DocumentContent, document=doc, order=int(self.request.GET['v']))
 			except ValueError:
 				if self.request.GET['v'] == 'new':
 					context_data['proposing'] = True
