@@ -10,7 +10,8 @@ from models import (
 	Meeting, MeetingIntervention,
 	PolityRuleset,
 	Document, Statement, ChangeProposal,
-	DocumentContent
+	DocumentContent,
+	Election, Candidate, ElectionVote,
 	)
 
 
@@ -134,3 +135,7 @@ register(Document, NameSlugAdmin)
 register(DocumentContent, DocumentContentAdmin)
 register(Statement, StatementAdmin)
 register(ChangeProposal, ChangeProposalAdmin)
+
+register(Election)
+register(Candidate)
+register(ElectionVote)
