@@ -21,7 +21,7 @@ urlpatterns = patterns('',
 
 	(r'^polity/(?P<polity>\d+)/document/$',				login_required(DocumentListView.as_view())),
 	(r'^polity/(?P<polity>\d+)/document/new/$',			login_required(DocumentCreateView.as_view())),
-	(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$',		login_required(DocumentDetailView.as_view())),
+	(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$',		DocumentDetailView.as_view()),
 	(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$',	login_required(DocumentUpdateView.as_view())),
 
 	(r'^polity/(?P<polity>\d+)/meeting/$',				login_required(MeetingListView.as_view())),
