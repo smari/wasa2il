@@ -538,8 +538,38 @@ class Document(NameSlugBase):
 	class Meta:
 		ordering	= ["-id"]
 
+	def save(self, *args, **kwargs):
+		if 1 or DocumentContent.objects.filter(document=self).count() == 0:
+			self.convert()
+		return super(Document, self).save(*args, **kwargs)
+
+	def convert(self):
+		content, created = DocumentContent.objects.get_or_create(document=self, order=1, user=self.user)
+		content.text = ''
+
+		def copy_statements(statements_queryset, name):
+			if statements_queryset.count():
+				content.text += '\n%s\n' % name
+				content.text += '=' * len(name) + '\n\n'
+				for i, a in enumerate(statements_queryset):
+					content.text += '%s %s\n' % (i == 0 and '1.' or '- ', a.text.replace('\n', '\n    '))
+
+		copy_statements(self.get_assumptions(), 'Assumptions')
+		copy_statements(self.get_declarations(), 'Declarations')
+		content.text = content.text.strip()
+		content.diff = 'IMPLEMENT ME'
+		content.patch = '@@ -0,0 +1,%d @@\n+%s' % (len(content.text), content.text.replace('\n', '%0A'))
+		content.comments = 'Initial version'
+		content.save()
+
 	def __unicode__(self):
 		return self.name
+
+	def get_content(self):
+		return DocumentContent.objects.filter(document=self).order_by('order')[0]
+
+	def get_versions(self):
+		return DocumentContent.objects.filter(document=self).order_by('order')
 
 	def get_references(self):
 		return self.statement_set.filter(type=STATEMENT_TYPE.REFERENCE)
@@ -548,6 +578,7 @@ class Document(NameSlugBase):
 		return self.statement_set.filter(type=STATEMENT_TYPE.ASSUMPTION)
 
 	def get_declarations(self):
+		return self.statement_set.filter(type__in=[STATEMENT_TYPE.STATEMENT, STATEMENT_TYPE.HEADER])
 		decs = list(self.statement_set.filter(type__in=[STATEMENT_TYPE.STATEMENT, STATEMENT_TYPE.HEADER]))
 		# Run over change proposals, if any
 		print list(ChangeProposal.objects.filter(document=self))
@@ -610,11 +641,14 @@ class ChangeProposal(models.Model):
 	document 		= models.ForeignKey(Document)	# Document to reference
 	user 			= models.ForeignKey(User)		# Who proposed it
 	timestamp 		= models.DateTimeField(auto_now_add=True)	# When
+
 	actiontype		= models.IntegerField(choices=CP_TYPE_CHOICES)			# Type of change to make [all]
 	refitem			= models.IntegerField()			# Number what in the sequence to act on [all]
 	destination		= models.IntegerField()			# Destination of moved item, or of new item [move]
 	content			= models.TextField()			# Content for new item, or for changed item (blank=same on change) [change, add]
 	contenttype		= models.IntegerField()			# Type for new content, or of changed item (0=same on change) [change, add]
+
+
 
 	# == Examples ==
 	#	ChangeProposal(actiontype=1, refitem=2)                                         # Delete item 2 from the proposal
