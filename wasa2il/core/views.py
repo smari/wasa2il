@@ -322,7 +322,10 @@ class DocumentDetailView(DetailView):
 			except ValueError:
 				if self.request.GET['v'] == 'new':
 					context_data['proposing'] = True
-					context_data['current_content'] = DocumentContent.objects.filter(document=doc).order_by('-order')[0]
+					try:
+						context_data['current_content'] = DocumentContent.objects.filter(document=doc).order_by('-order')[0]
+					except IndexError:
+						context_data['current_content'] = DocumentContent()
 				else:
 					raise Exception('Bad "v(ersion)" parameter')
 		else:
