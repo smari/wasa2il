@@ -49,6 +49,7 @@
 	<div class="span5 pull-left well voting">
 		<h2>{% trans "Vote" %} <small>{% trans "for the candidates standing in this election" %}</small></h2>
 		<div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
+		<div class="alert alert-info">{% trans "Drag candidates to change order" %}</div>
 		<ol id="vote" class="candidates">
 
 		</ol>
@@ -58,31 +59,47 @@
 
 <script>
 election_id = {{election.id}};
+
+function election_select_candidate(element) {
+	$(element).hide();
+	$(element).parent().parent().appendTo("#vote");
+	election_update();
+}
+
+function election_deselect_candidate(element) {
+	$(element).hide();
+	$(element).parent().parent().appendTo("#candidates");
+	election_update();
+}
+
+function election_update() {
+	ord = [];
+	$("#vote li").each(function(item) {
+		ord.push($($("#vote li")[item]).data("seqid"));
+	});
+	$.getJSON("/api/election/vote/", {"election": election_id, "order": ord}, function(data) {
+		if (data.ok) {
+			election_object = data.election;
+			election_render();
+		}
+	});
+}
+
 $(function() {
 	election_poll(election_id);
 	election_timer_start();
 
-    $(".candidates").sortable({
-    	start: function() { election_timer_stop(); },
-    	stop: function() { election_timer_start(); },
-        distance: 5,
-        delay: 300,
-    	connectWith: ".candidates",
-    	opacity: 0.6,
-        cursor: 'move',
-        update: function() {
-			ord = [];
-			$("#vote li").each(function(item) {
-				ord.push($($("#vote li")[item]).data("seqid"));
-			});
-			$.getJSON("/api/election/vote/", {"election": election_id, "order": ord}, function(data) {
-				if (data.ok) {
-					election_object = data.election;
-					election_render();
-				}
-			});
-        }
+	$(".candidates").sortable({
+	    	start: function() { election_timer_stop(); },
+	    	stop: function() { election_timer_start(); },
+	        distance: 5,
+	        delay: 300,
+	    	connectWith: ".candidates",
+	    	opacity: 0.6,
+	        cursor: 'move',
+	        update: election_update
 	});
+
 });
 </script>
 

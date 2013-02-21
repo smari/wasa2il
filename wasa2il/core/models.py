@@ -17,6 +17,12 @@ from core.utils import AttrDict
 nullblank = {'null': True, 'blank': True}
 
 
+def trim(text, length):
+	if len(text) > length:
+		return '%s...' % text[:length - 3]
+	return text
+
+
 class BaseIssue(NameSlugBase):
 	description		= models.TextField(**nullblank)
 
@@ -125,6 +131,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
 	is_administrated	= models.BooleanField("Are there officers?", default=False, help_text="Is there a group of people who are administrators?")
 	is_listed		= models.BooleanField("Publicly listed?", default=True, help_text="Whether this polity is publicly listed or not.")
 	is_nonmembers_readable	= models.BooleanField("Publicly viewable?", default=True, help_text="Whether non-members can view the polity and its activities.")
+	is_newissue_only_officers = models.BooleanField("Can only officers make new issues?", default=False, help_text="If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue.")
 
 	image			= models.ImageField(upload_to="polities", **nullblank)
 
@@ -513,13 +520,15 @@ STATEMENT_TYPE = AttrDict({
 	'STATEMENT': 2,
 	'HEADER': 3,
 })
+STATEMENT_TYPE_CHOICES = tuple((v, k.title()) for k, v in STATEMENT_TYPE.items())
 
 CP_TYPE = AttrDict({
-	'ADD': 1,
-	'DELETE': 2,
-	'CHANGE': 3,
-	'MOVE': 4,
+	'DELETED': 1,
+	'MOVED': 2,
+	'CHANGED': 3,
+	'ADDED': 4,
 })
+CP_TYPE_CHOICES = tuple((v, k.title()) for k, v in CP_TYPE.items())
 
 
 class Document(NameSlugBase):
@@ -529,8 +538,44 @@ class Document(NameSlugBase):
 	is_adopted		= models.BooleanField(default=False)
 	is_proposed		= models.BooleanField(default=False)
 
+	class Meta:
+		ordering	= ["-id"]
+
+	def save(self, *args, **kwargs):
+		# if DocumentContent.objects.filter(document=self).count() == 0:
+		#	self.convert()
+		return super(Document, self).save(*args, **kwargs)
+
+	def convert(self):
+		content, created = DocumentContent.objects.get_or_create(document=self, order=1, user=self.user)
+		content.text = ''
+
+		def copy_statements(statements_queryset, name):
+			if statements_queryset.count():
+				content.text += '\n%s\n' % name
+				content.text += '=' * len(name) + '\n\n'
+				for i, a in enumerate(statements_queryset):
+					content.text += '%s %s\n' % (i == 0 and '1.' or '- ', a.text.replace('\n', '\n    '))
+
+		copy_statements(self.get_assumptions(), 'Assumptions')
+		copy_statements(self.get_declarations(), 'Declarations')
+		content.text = content.text.strip()
+		content.diff = 'IMPLEMENT ME'
+		content.patch = '@@ -0,0 +1,%d @@\n+%s' % (len(content.text), content.text.replace('\n', '%0A'))
+		content.comments = 'Initial version'
+		content.save()
+
 	def __unicode__(self):
 		return self.name
+
+	def get_content(self):
+		try:
+			return DocumentContent.objects.filter(document=self).order_by('order')[0]
+		except IndexError:
+			return None
+
+	def get_versions(self):
+		return DocumentContent.objects.filter(document=self).order_by('order')
 
 	def get_references(self):
 		return self.statement_set.filter(type=STATEMENT_TYPE.REFERENCE)
@@ -539,6 +584,7 @@ class Document(NameSlugBase):
 		return self.statement_set.filter(type=STATEMENT_TYPE.ASSUMPTION)
 
 	def get_declarations(self):
+		return self.statement_set.filter(type__in=[STATEMENT_TYPE.STATEMENT, STATEMENT_TYPE.HEADER])
 		decs = list(self.statement_set.filter(type__in=[STATEMENT_TYPE.STATEMENT, STATEMENT_TYPE.HEADER]))
 		# Run over change proposals, if any
 		print list(ChangeProposal.objects.filter(document=self))
@@ -555,10 +601,27 @@ class Document(NameSlugBase):
 		return set([x.user for x in self.statement_set.all()])
 
 
+class DocumentContent(models.Model):
+	user = models.ForeignKey(User)
+	document = models.ForeignKey(Document)
+	created = models.DateTimeField(auto_now_add=True)
+	text = models.TextField()
+	diff = models.TextField()
+	patch = models.TextField()
+	order = models.IntegerField(default=1)
+	comments = models.TextField()
+	STATUS_CHOICES = (
+		('proposed', 'Proposed'),
+		('accepted', 'Accepted'),
+		('rejected', 'Rejected'),
+	)
+	status = models.CharField(max_length='32', choices=STATUS_CHOICES, default='proposed')
+
+
 class Statement(models.Model):
 	user			= models.ForeignKey(User)
 	document		= models.ForeignKey(Document)
-	type			= models.IntegerField()
+	type			= models.IntegerField(choices=STATEMENT_TYPE_CHOICES)
 	number			= models.IntegerField()
 	text			= models.TextField(blank=True)  # TODO: Blank for now, make mandatory when StatementOption removed
 
@@ -567,6 +630,9 @@ class Statement(models.Model):
 			self.text = '. '.join(s.text for s in StatementOption.objects.filter(statement=self))
 			self.save()
 		return self.text
+
+	def text_short(self):
+		return trim(self.text, 30)
 
 
 # NOTA BENE: Will be deprecated soon. Text is automagically compied to the statement
@@ -581,11 +647,14 @@ class ChangeProposal(models.Model):
 	document 		= models.ForeignKey(Document)	# Document to reference
 	user 			= models.ForeignKey(User)		# Who proposed it
 	timestamp 		= models.DateTimeField(auto_now_add=True)	# When
-	actiontype		= models.IntegerField()			# Type of change to make [all]
+
+	actiontype		= models.IntegerField(choices=CP_TYPE_CHOICES)			# Type of change to make [all]
 	refitem			= models.IntegerField()			# Number what in the sequence to act on [all]
 	destination		= models.IntegerField()			# Destination of moved item, or of new item [move]
 	content			= models.TextField()			# Content for new item, or for changed item (blank=same on change) [change, add]
 	contenttype		= models.IntegerField()			# Type for new content, or of changed item (0=same on change) [change, add]
+
+
 
 	# == Examples ==
 	#	ChangeProposal(actiontype=1, refitem=2)                                         # Delete item 2 from the proposal
@@ -599,7 +668,11 @@ class ChangeProposal(models.Model):
 		print self.document.statement_set.all()
 		self.document.statement_set.get(number=self.refitem)
 
+	def __unicode__(self):
+		return '%s' % (self.actiontype)
 
+	def content_short(self):
+		return trim(self.content, 30)
 
 
 class Meeting(models.Model):

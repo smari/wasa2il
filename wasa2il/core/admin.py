@@ -9,7 +9,8 @@ from models import (
 	MembershipVote, UserProfile,
 	Meeting, MeetingIntervention,
 	PolityRuleset,
-	Document, Statement, ChangeProposal
+	Document, Statement, ChangeProposal,
+	DocumentContent
 	)
 
 
@@ -71,7 +72,31 @@ class DelegateAdmin(admin.ModelAdmin):
 #	pass
 
 class VoteAdmin(admin.ModelAdmin):
-	list_display = ['user'] #, 'option']
+	list_display = ['user']  # , 'option']
+
+
+class DocumentContentAdmin(admin.ModelAdmin):
+	list_display = ['document', 'order', 'comments', 'user', 'created']
+
+
+class StatementAdmin(admin.ModelAdmin):
+	list_display = ['text_short', 'type', 'user', 'document', 'number']
+
+
+class ChangeProposalAdmin(admin.ModelAdmin):
+	'''
+	Model:
+		document 		= models.ForeignKey(Document)	# Document to reference
+		user 			= models.ForeignKey(User)		# Who proposed it
+		timestamp 		= models.DateTimeField(auto_now_add=True)	# When
+		actiontype		= models.IntegerField()			# Type of change to make [all]
+		refitem			= models.IntegerField()			# Number what in the sequence to act on [all]
+		destination		= models.IntegerField()			# Destination of moved item, or of new item [move]
+		content			= models.TextField()			# Content for new item, or for changed item (blank=same on change) [change, add]
+		contenttype		= models.IntegerField()			# Type for new content, or of changed item (0=same on change) [change, add]
+	'''
+	list_display = ['content_short', 'actiontype', 'contenttype', 'user', 'document', 'refitem']
+
 
 class CommentAdmin(admin.ModelAdmin):
 	save_model = save_model
@@ -105,6 +130,7 @@ register(MeetingIntervention)
 register(UserProfile)
 register(PolityRuleset)
 
-register(Document)
-register(Statement)
-register(ChangeProposal)
+register(Document, NameSlugAdmin)
+register(DocumentContent, DocumentContentAdmin)
+register(Statement, StatementAdmin)
+register(ChangeProposal, ChangeProposalAdmin)
