@@ -130,7 +130,7 @@ register(MeetingIntervention)
 register(UserProfile)
 register(PolityRuleset)
 
-register(Document)
+register(Document, NameSlugAdmin)
 register(DocumentContent, DocumentContentAdmin)
 register(Statement, StatementAdmin)
 register(ChangeProposal, ChangeProposalAdmin)
