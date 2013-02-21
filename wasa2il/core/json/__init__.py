@@ -97,7 +97,6 @@ def polity_membershipvote(request):
 	return ctx
 
 
-@login_required
 @jsonize
 def election_poll(request):
 	election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))

@@ -27,7 +27,12 @@ def issuevoted(issue, user):
 
 @register.filter(name='electionvoted')
 def electionvoted(election, user):
-	ut = ElectionVote.objects.filter(user=user, election=election).count()
+	ut = 0
+	try:
+		ut = ElectionVote.objects.filter(user=user, election=election).count()
+	except TypeError as e:
+		pass
+
 	return (ut > 0)
 
 
