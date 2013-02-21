@@ -15,6 +15,28 @@
 	margin-bottom:	-5px;
 }
 
+@font-face {
+    font-family: 'LeagueGothicRegular';
+    src: url('League_Gothic-webfont.eot');
+    src: url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('League_Gothic-webfont.woff') format('woff'),
+         url('League_Gothic-webfont.ttf') format('truetype'),
+         url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1 { font-family: 'LeagueGothicRegular'; font-weight: normal; font-size: 400%; }
+h2 { font-family: 'LeagueGothicRegular'; font-weight: normal; font-size: 300%; }
+h3 { font-family: 'LeagueGothicRegular'; font-weight: normal; font-size: 250%; }
+a {
+	color: #644f80;
+}
+a:hover {
+	color: #47385b;
+}
+
+
 #statements_declarations ol li:before {
 	content: value(statement-counter);
 }

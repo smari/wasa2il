@@ -8,10 +8,11 @@ try:
 except ImportError:
     pass
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
+	('Smari', 'smari@immi.is'),
     # ('Your Name', 'your_email@example.com'),
 )
 
@@ -100,6 +101,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'm=7tfvbx30-cmu30d-6_mx-ft&-2m^ne5&bwq5i*r@1ytj686#'
+SHARED_SECRET = 'cbd8dbc746786c4f18042bb88028ffea8eb25a10'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -173,5 +175,5 @@ LOGGING = {
 AUTH_PROFILE_MODULE="core.UserProfile"
 ACCOUNT_ACTIVATION_DAYS=7
 LOGIN_REDIRECT_URL="/"
-FRONT_POLITY=0
+FRONT_POLITY=1
 ALLOW_LEAVE_POLITY=False
