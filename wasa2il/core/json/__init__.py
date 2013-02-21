@@ -69,6 +69,9 @@ def user_create(request):
 	pro.user = user
 	pro.save()
 
+        p = Polity.objects.get(id=1)
+        p.members.add(user)
+
 	ctx["ok"] = True
 	ctx["username"] = user.username
 	ctx["id"] = user.id
