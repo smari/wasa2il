@@ -560,7 +560,7 @@ class Document(NameSlugBase):
 		copy_statements(self.get_assumptions(), 'Assumptions')
 		copy_statements(self.get_declarations(), 'Declarations')
 		content.text = content.text.strip()
-		content.diff = 'IMPLEMENT ME'
+		content.diff = '<ins style="background:#e6ffe6;">%s</ins>' % content.text.replace('\n', '<br>')
 		content.patch = '@@ -0,0 +1,%d @@\n+%s' % (len(content.text), content.text.replace('\n', '%0A'))
 		content.comments = 'Initial version'
 		content.save()
