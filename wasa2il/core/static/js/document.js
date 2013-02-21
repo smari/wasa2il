@@ -128,8 +128,153 @@ function new_subheading() {
 	});
 }
 
+function markdown_text_to_html(text) {
+	return text.replace(/\n    /g, '<br />&nbsp;&nbsp;&nbsp;&nbsp;').replace(/\n/g, '<br />');
+}
+function markdown_html_to_text(text) {
+	return text.replace(/&nbsp;/g, ' ').replace(/<br>|<div>|<\/div>/g, '\n');
+}
 
-(function ($) {
+function html_diff(original, amendment) {
+	var dmp = new diff_match_patch();
+	var d = dmp.diff_main(original, amendment);
+	dmp.diff_cleanupSemantic(d);
+	return dmp.diff_prettyHtml(d).replace(/&para;/g, '');
+}
+
+function get_patch(original, amendment) {
+
+	var dmp = new diff_match_patch();
+	var d = dmp.diff_main(original, amendment);
+
+	if (d.length > 2) {
+		dmp.diff_cleanupSemantic(d);
+	}
+
+	var patch_list = dmp.patch_make(original, amendment, d);
+	return dmp.patch_toText(patch_list);
+}
+var epiceditor = undefined;
+var file = {'name': 'foobar.txt', defaultContent: 'Hello World'};
+$(function () {
+
+	function csrfSafeMethod(method) {
+	    // these HTTP methods do not require CSRF protection
+	    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+	$.ajaxSetup({
+	    crossDomain: false, // obviates need for sameOrigin test
+	    beforeSend: function(xhr, settings) {
+	        if (!csrfSafeMethod(settings.type)) {
+	            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+	        }
+	    }
+	});
+
+	var	content = $('#content'),
+		content_org = $('#content_org'),
+		editor = undefined,
+		previewer = undefined,
+		line_height = undefined,
+		opts = {
+			container: content[0],
+			basePath: '/static',
+			file: file
+		};
+		epiceditor = new EpicEditor(opts);
+
+	epiceditor.load(function () {
+			editor = $(epiceditor.editor);
+			previewer = $(epiceditor.previewer);
+			editor.html(markdown_text_to_html(content_org.text()));
+			line_height = parseInt(editor.css('line-height').replace('px', '')) + 2;
+
+			var new_height = Math.max(editor.height(), previewer.height());
+			content.css('height', new_height + line_height);
+			epiceditor.reflow();
+			setTimeout(function () {
+			if (!PROPOSING) {
+				epiceditor.edit();
+				epiceditor.preview();
+			} else {
+				epiceditor.preview();
+				epiceditor.edit();
+			}
+		}, 300);
+		});
+
+	editor.keyup(function () {
+			var new_height = Math.max(editor.height(), previewer.height());
+			content.css('height', new_height + line_height);
+			epiceditor.reflow();
+		});
+
+	$('[data-tab="edit"]').bind('click', function (e) {
+			$(this).parent().find('li').removeClass('active');
+			$(this).addClass('active');
+			$('#content_diff').fadeOut(function () {
+					$('#content').fadeIn();
+				});
+			return false
+		});
+	$('[data-tab="diff"]').bind('click', function (e) {
+			$(this).parent().find('li').removeClass('active');
+			$(this).addClass('active');
+			if (PROPOSING) {
+				$('#content_diff').html('<pre>' + html_diff(content_org.text(), markdown_html_to_text(editor.html())) + '</pre>');
+			}
+			$('#content').fadeOut(function () {
+					$('#content_diff').fadeIn();
+				});
+			e.preventDefault();
+		});
+
+	$('.document #propose_change').submit(function (e) {
+		var inputs = $(this).find('input,textarea');
+		inputs.attr('disabled', 'disabled');
+		$.post(
+			'/api/document/propose-change/',
+			{
+				document_id: DOCUMENT_ID,
+				text: markdown_html_to_text(editor.html()),
+				comments: $(this).find('#comments').val(),
+				patch: get_patch(content_org.text(), markdown_html_to_text(editor.html())),
+				diff: html_diff(content_org.text(), markdown_html_to_text(editor.html()))
+			},
+			function (data) {
+				window.location.replace(window.location.pathname + '?v=' + data.order);
+			},
+			'json'
+		)
+		.fail(function () { inputs.removeAttr('disabled'); });
+		e.preventDefault();
+		return false;
+	});
+
+	$('#versions input[type="checkbox"]').bind('change', function () {
+		var changes = $('#versions tr.change'),
+			text = '',
+			dmp = new diff_match_patch(),
+			patches = [];
+		for (var i=0; i < changes.length; i++) {
+			var $change = $(changes[i]);
+			if ($change.find('input[type="checkbox"]:checked').length == 1) {
+				res = dmp.patch_apply(dmp.patch_fromText($change.data('patch')), text);
+				if (res[1] == false)
+					alert('Err... patching failed!');
+				text = res[0];
+			}
+		}
+		editor.html(markdown_text_to_html(text));
+		editor.trigger('keyup');
+		epiceditor.edit();
+		setTimeout(function () {
+			epiceditor.preview();
+		}, 300);
+	});
+
+	return;
+
 
 	$('body').delegate('.btn-group.state_buttons .delete', 'click', function () {
 		var item = $(this).parent().parent();
@@ -171,4 +316,4 @@ function new_subheading() {
 		);
 	});
 
-})(jQuery);
+});

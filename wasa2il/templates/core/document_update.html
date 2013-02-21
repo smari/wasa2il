@@ -5,9 +5,14 @@
 
 {% block javascript %}
 {{block.super}}
+    <script src="/static/js/jquery.cookie.js"></script>
     <script src="/static/js/document.js"></script>
+    <script src="/static/js/jquery.autosize-min.js"></script>
+    <script src="/static/js/epiceditor.min.js"></script>
+    <script src="/static/js/diff_match_patch.js"></script>
 	<script>
 		var DOCUMENT_ID = {{document.id}};
+		var PROPOSING = {% if proposing %}true{% else %}false{% endif %};
 		var PROPOSED = {% if document.is_proposed %}true{% else %}false{% endif %};
 		var selected_item = undefined;
 	</script>
@@ -54,22 +59,24 @@
 			{% include 'core/_document_statementset.html' %}
 		{% endwith %}
 
-		{% with statementset_name='assumptions' statementset=document.get_assumptions %}
-			{% include 'core/_document_statementset.html' %}
-		{% endwith %}
-
-		{% if document.polity.document_midmatter %}
-		<p class="document-fragment">{{document.polity.document_midmatter}}</p>
+		<ul class="nav nav-tabs">
+			<li data-tab="edit" class="active"><a href="#">Edit</a></li>
+			<li data-tab="diff" ><a href="#">Diff</a></li>
+		</ul>
+		<div id="content"></div>
+		<div id="content_diff"><pre>{{current_content.diff|safe}}</pre></div>
+		<div id="content_org">{{current_content.text}}</div>
+		<h4>Propose a change</h4>
+		{% if proposing %}
+		<form id="propose_change" action="." method="post">
+			{% csrf_token %}
+			<label for="comments">Comments:</label>
+			<textarea id="comments"></textarea>
+			<input type="submit" value="Propose changes"></input>
+		</form>
+		{% else %}
+			<p>Want to propose a change? <a href="?v=new">Click here!</a></p>
 		{% endif %}
-
-		{% with statementset_name='declarations' statementset=document.get_declarations %}
-			{% include 'core/_document_statementset.html' %}
-		{% endwith %}
-
-		{% if document.polity.document_footer %}
-		<p class="document-fragment">{{document.polity.document_footer}}</p>
-		{% endif %}
-
 	</div>
 
 	<div class="span4 pull-right">
@@ -86,7 +93,7 @@
 		<h3>{% trans "Contributors to this document" %}</h3>
 		<ul>
 		{% for i in document.get_contributors %}
-			<li><a href="/accounts/profile/{{i.username}}">{{i.username}}</a></li>
+			<li><a href="/accounts/profile/{{i.username}}"> {{i.get_full_name|default:user.username}}</a></li>
 		{% endfor %}
 		</ul>
 
@@ -129,33 +136,34 @@
 
 </div>
 
-<div class="row" id="changeproposals">
+<div class="row" id="versions">
 	<div class="span8">
-		<h3>{% trans "Change proposals" %}</h3>
+		<h3>{% trans "Versions" %}</h3>
 		<table class="table table-striped">
-		{% for cp in document.changeproposal_set.all %}
 			<tr>
-				{% if cp.actiontype == 1 %}
-				<td>{{cp.getref}}</td><td>[{% trans "Deleted" %}]</td>
-				{% endif %}
-				{% if cp.actiontype == 2 %}
-				<td>{{cp.getref}}</td><td>[{% trans "Moved" %}]</td>
-				{% endif %}
-				{% if cp.actiontype == 3 %}
-				<td>{{cp.getref}}</td><td>{{cp.content}}</td>
-				{% endif %}
-				{% if cp.actiontype == 4 %}
-				<td>{% if cp.refitem == 0 %}
-					{% trans "Added at beginning" %}
-					{% else %}
-					{% trans "Added after:" %}
-					{{cp.get_refitem}}
-					{% endif %}
-				</td>
-				<td>{{cp.content}}</td>
-				{% endif %}
+				<th>Active</th>
+				<th>#</th>
+				<th>Status</th>
+				<th>Author</th>
+				<th>Comments</th>
 			</tr>
-		{% endfor %}
+			{% for content in document.get_versions %}
+			<tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{content.id}}" data-patch="{{content.patch}}">
+				<td><input id="change-{{content.id}}" type="checkbox" checked="checked"></input></td>
+				<td>{{content.order}}{% if content.order != current_content.order%} (<a href="?v={{content.order}}">view</a>){% endif %}</td>
+				<td>{{content.status|title}}</td>
+				<td><a href="/accounts/profile/{{content.user}}"> {{content.user.get_full_name|default:content.user.username}}</a></td>
+				<td>{{content.comments}}</td>
+			</tr>
+			{% endfor %}
+			{% if proposing %}
+			<tr class="current">
+				<td>-</td>
+				<td>New</td>
+				<td><a href="/accounts/profile/{{request.user}}"> {{user.get_full_name|default:user.username}}</a></td>
+				<td>-</td>
+			</tr>
+			{% endif %}
 		</table>
 	</div>
 </div>

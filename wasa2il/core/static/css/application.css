@@ -292,3 +292,25 @@ ol.interventions li.active:before {
 .comment_content {
 	display:	inline;
 }
+
+#content_org {
+	display: none;
+}
+#content_diff {
+	display: none;
+}
+
+#content_diff ins {
+	background-color: #aaffaa !important;
+}
+#content_diff del {
+	background-color: #ffaaaa !important;
+}
+
+#versions .current {
+	font-weight: bold;
+}
+
+#original_text {
+	display: none;
+}
