@@ -27,7 +27,7 @@ msgstr "Þing"
 
 #: templates/403.html:5
 msgid "403 Access Denied"
-msgstr ""
+msgstr "403 Óviðkomandi bannaður aðgangur"
 
 #: templates/404.html:5
 msgid "404 File Not Found"
@@ -173,7 +173,7 @@ msgstr "í"
 
 #: templates/home.html:39
 msgid "Recently adopted law"
-msgstr ""
+msgstr "Nýsamþykkt lög"
 
 #: templates/home.html:39 templates/home.html.py:48
 #, fuzzy
@@ -195,7 +195,7 @@ msgstr "Kóða"
 
 #: templates/notLoginInHome.html:51
 msgid "Free Software"
-msgstr "Frír hugbúnaður"
+msgstr "Frjáls hugbúnaður"
 
 #: templates/profile.html:18
 msgid "Summary"
@@ -207,7 +207,7 @@ msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
 #: templates/profile.html:37
 msgid "This user has created:"
-msgstr "This user has created:"
+msgstr "Notandinn hefur stofnað eða samið:"
 
 #: templates/profile.html:40
 msgid "polities"
@@ -230,7 +230,7 @@ msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
 #: templates/registration/password_change_form.html:5
 #, fuzzy
 msgid "Change password"
-msgstr "Change proposals"
+msgstr "Breyta lykilorði"
 
 #: templates/settings.html:8
 msgid "Settings"
@@ -244,7 +244,7 @@ msgstr "Þú ert innskráð/ur sem"
 #: templates/registration/password_change_form.html:10
 #: templates/registration/password_reset_confirm.html:13
 msgid "Submit"
-msgstr "Submit"
+msgstr "Staðfesta"
 
 #: templates/core/_delegations_table.html:4
 msgid "Type"
@@ -256,25 +256,25 @@ msgstr "Item"
 
 #: templates/core/_delegations_table.html:6
 msgid "To"
-msgstr "To"
+msgstr "Til" #: Eða hvað?
 
 #: templates/core/_delegations_table.html:7
 msgid "Result"
-msgstr "Result"
+msgstr "Niðurstaða"
 
 #: templates/core/_delegations_table.html:8
 #: templates/core/_delegations_table.html:16
 #: templates/core/delegate_detail.html:29
 msgid "Details"
-msgstr "Details"
+msgstr "Nánar"
 
 #: templates/core/_delegations_table.html:21
 msgid "There are no delegations"
-msgstr "There are no delegations"
+msgstr "Engar framvísanir"
 
 #: templates/core/_delegations_table.html:22
 msgid "What is a delegation?"
-msgstr "What is a delegation?"
+msgstr "Hvað er framvísun?"
 
 #: templates/core/_document_agreement_list_table.html:4
 #: templates/core/_document_list_table.html:4
@@ -301,7 +301,7 @@ msgstr "Samþykkt?"
 
 #: templates/core/_document_list_table.html:6
 msgid "Original author"
-msgstr "Upprunalegur höfundur"
+msgstr "Flutningsmaður" #: "Fyrsti höfundur"?
 
 #: templates/core/_document_list_table.html:7
 msgid "Contributors"
@@ -339,7 +339,7 @@ msgstr "Samþykkt skjöl"
 
 #: templates/core/_election_candidate_list.html:12
 msgid "Drag candidates here."
-msgstr ""
+msgstr "Smelltu frambjóðendum hingað"
 
 #: templates/core/_election_candidate_list.html:14
 #, fuzzy
@@ -373,11 +373,11 @@ msgstr "Delegation:"
 
 #: templates/core/delegate_detail.html:8
 msgid "to"
-msgstr "to"
+msgstr "til"
 
 #: templates/core/delegate_detail.html:13
 msgid "Stop delegating"
-msgstr "Stop delegating"
+msgstr "Hætta áframvísun"
 
 #: templates/core/delegate_detail.html:14
 msgid "Change delegation"
@@ -2165,7 +2165,7 @@ msgstr ""
 
 #: templates/registration/login.html:6
 msgid "and partake in democracy..."
-msgstr ""
+msgstr "og taka þátt í lýðræði…"
 
 #: templates/registration/login.html:17
 #: templates/registration/password_reset_complete.html:5
@@ -2177,7 +2177,7 @@ msgstr ""
 
 #: templates/registration/password_change_done.html:7
 msgid "Password changed"
-msgstr ""
+msgstr "Lykilorði breytt"
 
 #: templates/registration/password_reset_complete.html:7
 msgid "Password reset successfully"
@@ -2185,11 +2185,11 @@ msgstr ""
 
 #: templates/registration/password_reset_confirm.html:18
 msgid "Password reset failed"
-msgstr ""
+msgstr "Lykilorðsbreyting mistókst"
 
 #: templates/registration/password_reset_done.html:6
 msgid "Email with password reset instructions has been sent."
-msgstr ""
+msgstr "Tölvupóstur með leiðbeiningum varðandi núllstillingu lykilorðs sendur."
 
 #: templates/registration/password_reset_email.html:2
 #, python-format
@@ -2198,7 +2198,7 @@ msgstr ""
 
 #: templates/registration/password_reset_form.html:9
 msgid "Send password"
-msgstr ""
+msgstr "Senda mér lykilorð"
 
 #~ msgid "Select topics"
 #~ msgstr "Select topics"
