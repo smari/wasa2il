@@ -885,5 +885,5 @@ class ElectionVote(models.Model):
 					('election', 'user', 'value'))
 
 	def __unicode__(self):
-		return 'In %s, user %s voted for %s for seat %d' % (self.election, self.user, self.candidate, self.value)
+		return u'In %s, user %s voted for %s for seat %d' % (self.election, self.user, self.candidate, self.value)
 
