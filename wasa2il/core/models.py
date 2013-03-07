@@ -864,7 +864,7 @@ class Election(NameSlugBase):
 
 	def get_vote(self, user):
 		votes = []
-		if not user.is_anonymous:
+		if not user.is_anonymous():
 			votes = ElectionVote.objects.filter(election=self, user=user).order_by("value")
 		return [x.candidate for x in votes]
 
@@ -883,4 +883,7 @@ class ElectionVote(models.Model):
 	class Meta:
 		unique_together = (('election', 'user', 'candidate'), 
 					('election', 'user', 'value'))
+
+	def __unicode__(self):
+		return 'In %s, user %s voted for %s for seat %d' % (self.election, self.user, self.candidate, self.value)
 
