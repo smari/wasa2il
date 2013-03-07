@@ -11,7 +11,7 @@ from models import (
 	PolityRuleset,
 	Document, Statement, ChangeProposal,
 	DocumentContent,
-	Election, Candidate, ElectionVote,
+	Election, Candidate, ElectionVote, VotingSystem
 	)
 
 
@@ -139,3 +139,4 @@ register(ChangeProposal, ChangeProposalAdmin)
 register(Election)
 register(Candidate)
 register(ElectionVote)
+register(VotingSystem)
