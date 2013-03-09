@@ -42,6 +42,8 @@ class UserProfile(models.Model):
 	language		= models.CharField(max_length="6", default="en", choices=settings.LANGUAGES)
 	topics_showall		= models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
 
+	high_seat = models.BooleanField(default=False)
+
 	def save(self, *largs, **kwargs):
 		if not self.picture:
 			self.picture.name = "default.jpg"
