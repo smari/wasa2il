@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Verified!" %}</h1>
+<div><p>{% trans "Congratulations, you're fully registered."%}. <a href="/accounts/login/">{% trans "Now log in!" %}</a></p></div>
+
+{% endblock %}

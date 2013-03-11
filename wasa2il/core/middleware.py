@@ -19,4 +19,3 @@ class UserSettingsMiddleware(object):
 		else:
 			request.session['django_language'] = "is"
 
-		print request.LANGUAGE_CODE

@@ -852,11 +852,16 @@ class Election(NameSlugBase):
 		return ctx
 
 	def get_unchosen_candidates(self, user):
-		votes = []
-		if not user.is_anonymous:
-			votes = ElectionVote.objects.filter(election=self, user=user)
+		if not user.is_authenticated():
+			return Candidate.objects.filter(election=self)
+		# votes = []
+		votes = ElectionVote.objects.filter(election=self, user=user)
 		votedcands = [x.candidate.id for x in votes]
-		candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands)
+		if len(votedcands) != 0:
+			candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands)
+		else:
+			candidates = Candidate.objects.filter(election=self)
+
 		return candidates
 
 	def get_votes(self):
