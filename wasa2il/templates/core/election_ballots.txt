@@ -1,0 +1,2 @@
+{% for ballot in ballotbox %}{% for vote in ballot %}{{vote}} {% endfor %}
+{% endfor %}
