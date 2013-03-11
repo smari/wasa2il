@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
+from django.core.exceptions import PermissionDenied
 import settings
 
 from core.models import *
@@ -522,5 +523,8 @@ class ElectionListView(ListView):
 def election_ballots(request, pk=None):
 	ctx = {}
 	election = get_object_or_404(Election, pk=pk)
-	ctx["ballotbox"] = election.get_ballots()
-	return render_to_response("core/election_ballots.txt", ctx, mimetype="text/plain", context_instance=RequestContext(request))
+	if election.is_closed():
+		ctx["ballotbox"] = election.get_ballots()
+		return render_to_response("core/election_ballots.txt", ctx, mimetype="text/plain", context_instance=RequestContext(request))
+	else:
+		raise PermissionDenied
