@@ -519,3 +519,8 @@ class ElectionListView(ListView):
 		context_data['user_is_member'] = self.request.user in self.polity.members.all()
 		return context_data
 
+def election_ballots(request, pk=None):
+	ctx = {}
+	election = get_object_or_404(Election, pk=pk)
+	ctx["ballotbox"] = election.get_ballots()
+	return render_to_response("core/election_ballots.txt", ctx, mimetype="text/plain", context_instance=RequestContext(request))
