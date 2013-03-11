@@ -875,6 +875,16 @@ class Election(NameSlugBase):
 			votes = ElectionVote.objects.filter(election=self, user=user).order_by("value")
 		return [x.candidate for x in votes]
 
+	def get_ballots(self):
+		ballot_box = []
+		for voter in self.electionvote_set.values("user").distinct().order_by('?'):
+			user = User.objects.get(pk=voter["user"])
+			ballot = []
+			for vote in user.electionvote_set.filter(election=self).order_by('value'):
+				ballot.append(vote.candidate.user.username)
+			ballot_box.append(ballot)
+		return ballot_box
+
 
 class Candidate(models.Model):
 	user		= models.ForeignKey(User)
