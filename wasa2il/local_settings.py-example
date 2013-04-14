@@ -1,0 +1,17 @@
+
+DEBUG = False
+
+DATABASE_ENGINE = 'django.db.backends.' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_HOST = ''
+DATABASE_PORT = ''
+DATABASE_NAME = ''
+DATABASE_USER = ''
+DATABASE_PASSWORD = ''
+
+SECRET_KEY = ''
+
+#EMAIL_HOST = ''
+#EMAIL_PORT = ''
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_USE_TLS = True
