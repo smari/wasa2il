@@ -24,11 +24,15 @@
 			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
 			<tr><th>{% trans "Votes:" %}</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
 			<tr><th>{% trans "Candidates:" %}</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
-			<tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}} <small><a href="/help/votingsystem/">[What is this?]</a></small></td></tr>
+      <tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}} <small><a href="http://en.wikipedia.org/wiki/Instant-runoff_voting" target="_blank">[What is this?]</a></sma
+
 		</table>
 	</div>
 
 	<div class="span6 pull-right">
+     {% if election.is_voting %}
+       <div class="alert alert-success">{% trans "You don't have to submit your vote; whatever is on your ballot when the vote deadline passes will be counted." %}</div>
+     {% endif %}
 		{{election.description}}
 	</div>
 

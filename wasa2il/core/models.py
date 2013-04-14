@@ -117,7 +117,7 @@ class PolityRuleset(models.Model):
 	def get_timeline(self, issue):
 		# TODO: Return a data structure describing when things will happen
 		# Should contain reference to confirmation actions, but not expand
-		# on them (as this could be an infinite loop, and confirmation 
+		# on them (as this could be an infinite loop, and confirmation
 		# actions aren't actually determined until post-vote.
 		pass
 
@@ -852,11 +852,16 @@ class Election(NameSlugBase):
 		return ctx
 
 	def get_unchosen_candidates(self, user):
-		votes = []
-		if not user.is_anonymous:
-			votes = ElectionVote.objects.filter(election=self, user=user)
+		if not user.is_authenticated():
+			return Candidate.objects.filter(election=self)
+		# votes = []
+		votes = ElectionVote.objects.filter(election=self, user=user)
 		votedcands = [x.candidate.id for x in votes]
-		candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands)
+		if len(votedcands) != 0:
+			candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands)
+		else:
+			candidates = Candidate.objects.filter(election=self)
+
 		return candidates
 
 	def get_votes(self):
@@ -883,7 +888,7 @@ class ElectionVote(models.Model):
 	value		= models.IntegerField()
 
 	class Meta:
-		unique_together = (('election', 'user', 'candidate'), 
+		unique_together = (('election', 'user', 'candidate'),
 					('election', 'user', 'value'))
 
 	def __unicode__(self):
