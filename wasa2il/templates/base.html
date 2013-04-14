@@ -12,8 +12,25 @@
     <link href="/static/css/bootstrap.css" rel="stylesheet"/>
     	<style type="text/css">
 	body {
-	padding-top: 60px;
-	padding-bottom: 40px;
+		padding-top: 100px;
+		padding-bottom: 40px;
+	}
+	.navbar-inner {
+		background-color: #FAFAFA;
+		background-image: url("/static/img/header-bg.png");
+		background-repeat: repeat-x;
+		vertical-align: center;
+	}
+	.navbar .brand {
+		margin: 0px;
+		padding: 0px;
+		color: #fff;
+	}
+	.navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a {
+		color: #fff;
+	}
+	.navbar .nav > li > a:hover {
+		color: #eee;
 	}
 	</style>
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet"/>
@@ -50,12 +67,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="/">{% trans "‫وسائل" %}</a>
+        <a class="brand" href="/"><img src="/static/img/pplogo.png"/><strong style="color: #f00;">BETA</strong></a>
+	{% comment %}
         {% if polity %}<a class="brand" href="/polity/{{polity.id}}/">{{polity}}</a>
         	{% if topic %}<a class="brand" href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic}}</a>
 		        {% if issue %}<a class="brand" href="/polity/{{polity.id}}/">{{issue}}</a>{% endif %}
 		{% endif %}
 	{% endif %}
+	{% endcomment %}
         <div class="nav-collapse">
           <ul class="nav">
 	{% if polity %}
@@ -74,7 +93,7 @@
         </li>
 	{% else %}
             <li><a href="/accounts/login">{% trans "Log in" %}</a></li>
-            <li><a href="/accounts/register">{% trans "Sign up" %}</a></li>
+            <li><a href="https://www.island.is/audkenning?id=piratar.is">{% trans "Sign up" %}</a></li>
 	{% endif %}
           </ul>
         </div>
