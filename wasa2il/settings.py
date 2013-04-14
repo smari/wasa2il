@@ -4,27 +4,27 @@ import os
 here = lambda x: os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), x))
 
 try:
-    from local_email import *
+    import local_settings as ls
 except ImportError:
     pass
 
-DEBUG = True
+DEBUG = ls.DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+	('Smari', 'smari@immi.is'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': here('wasa2il.sqlite3'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': ls.DATABASE_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': ls.DATABASE_NAME,                      # Or path to database file if using sqlite3.
+        'USER': ls.DATABASE_USER,                      # Not used with sqlite3.
+        'PASSWORD': ls.DATABASE_PASSWORD,                  # Not used with sqlite3.
+        'HOST': ls.DATABASE_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': ls.DATABASE_PORT,                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -98,7 +98,8 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'm=7tfvbx30-cmu30d-6_mx-ft&-2m^ne5&bwq5i*r@1ytj686#'
+SECRET_KEY = ls.SECRET_KEY
+SHARED_SECRET = 'cbd8dbc746786c4f18042bb88028ffea8eb25a10'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
