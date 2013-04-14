@@ -1,5 +1,5 @@
-*.pyc
-wasa2il.sqlite3
-*.mo
-*~
-local_email.py
+*.sublime-workspace
+*.sublime-project
+/uploads
+/out.log
+/err.log
