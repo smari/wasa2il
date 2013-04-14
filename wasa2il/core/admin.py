@@ -2,6 +2,7 @@
 from django.contrib import admin
 from django.contrib import auth
 
+
 from models import (
 	Polity, Topic, Issue,
 	Comment, Vote,
@@ -11,7 +12,7 @@ from models import (
 	PolityRuleset,
 	Document, Statement, ChangeProposal,
 	DocumentContent,
-	Election, Candidate, ElectionVote, VotingSystem
+	Election, Candidate, ElectionVote, VotingSystem,
 	)
 
 
@@ -109,6 +110,7 @@ class UserProfileInline(admin.StackedInline):
 class UserAdmin(auth.admin.UserAdmin):
 	inlines = (UserProfileInline, )
 
+
 # Register the admins
 register = admin.site.register
 register(Polity, PolityAdmin)
@@ -140,3 +142,4 @@ register(Election)
 register(Candidate)
 register(ElectionVote)
 register(VotingSystem)
+
