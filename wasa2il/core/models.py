@@ -15,7 +15,7 @@ nullblank = {'null': True, 'blank': True}
 
 def trim(text, length):
     if len(text) > length:
-        return '%s...' % text[:length - 3]
+        return '%s…' % text[:length - 1]
     return text
 
 
@@ -229,12 +229,16 @@ class UserTopic(models.Model):
 
 
 class Issue(BaseIssue, getCreationBase('issue')):
-    polity = models.ForeignKey(Polity)
     topics = models.ManyToManyField(Topic)
-    # options = models.ManyToManyField('VoteOption')
-    deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
     ruleset = models.ForeignKey(PolityRuleset)
+
+    ISSUE_STATUS_CHOICES = (
+        ('NEW', 'New'),
+        ('VOTING', 'Voting'),
+        ('CLOSED', 'Closed'),
+    )
+    status = models.CharField(max_length=10, choices=ISSUE_STATUS_CHOICES, default='NEW')
 
     class Meta:
         ordering = ["-deadline_votes"]
@@ -498,7 +502,6 @@ class Document(NameSlugBase):
     issues = models.ManyToManyField(Issue)
     user = models.ForeignKey(User)
     is_adopted = models.BooleanField(default=False)
-    is_proposed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-id"]
@@ -605,30 +608,22 @@ class StatementOption(models.Model):
     text = models.TextField()
 
 
-class ChangeProposal(models.Model):
+class ChangeProposal(getCreationBase('change_proposal')):
     document = models.ForeignKey(Document)    # Document to reference
-    user = models.ForeignKey(User)        # Who proposed it
-    timestamp = models.DateTimeField(auto_now_add=True)    # When
+    issue = models.ForeignKey(Issue)
 
-    actiontype = models.IntegerField(choices=CP_TYPE_CHOICES)            # Type of change to make [all]
-    refitem = models.IntegerField()            # Number what in the sequence to act on [all]
-    destination = models.IntegerField()            # Destination of moved item, or of new item [move]
-    content = models.TextField()            # Content for new item, or for changed item (blank=same on change) [change, add]
-    contenttype = models.IntegerField()            # Type for new content, or of changed item (0=same on change) [change, add]
+    CHANGE_PROPOSAL_ACTION_CHOICES = (
+        ('NEW', 'New Agreement'),
+        ('CHANGE', 'Change Agreement Text'),
+        ('CHANGE_TITLE', 'Change Agreement Title'),
+        ('RETIRE', 'Retire Agreement'),
+    )
+    action = models.CharField(max_length=20, choices=CHANGE_PROPOSAL_ACTION_CHOICES)
 
-    # == Examples ==
-    #    ChangeProposal(actiontype=1, refitem=2)                                         # Delete item 2 from the proposal
-    #    ChangeProposal(actiontype=2, refitem=2, destination=3)                          # Move item 2 to after item 3 (Bar after Baz)
-    #    ChangeProposal(actiontype=2, refitem=2, destination=0)                          # Move item 2 to after item 0 (beginning of list)
-    #    ChangeProposal(actiontype=3, refitem=2, content="Splurg")                       # Change text of item 2 from "Bar" to "Splurg"
-    #    ChangeProposal(actiontype=4, refitem=2, content="Splurg", contenttype=2)        # Add "statement" object containing "Splurg" after "Bar"
-    #
-
-    def get_refitem(self):
-        self.document.statement_set.get(number=self.refitem)
+    content = models.TextField(help_text='Content of document, or new title', **nullblank)
 
     def __unicode__(self):
-        return '%s' % (self.actiontype)
+        return 'Change Proposal: %s (content: "%s")' % (self.action, self.content_short())
 
     def content_short(self):
         return trim(self.content, 30)
