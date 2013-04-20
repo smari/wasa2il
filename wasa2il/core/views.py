@@ -16,7 +16,7 @@ def home(request):
     ctx = {}
     if request.user.is_authenticated():
         if settings.FRONT_POLITY:
-            return HttpResponseRedirect("/polity/" + str(settings.FRONT_POLITY) + "/")
+            return HttpResponseRedirect("/")
 
         # Get some context vars (tempoarily just fetch the first one)
         ctx['allpolities'] = Polity.objects.filter(Q(is_listed=True) | Q(members=request.user))

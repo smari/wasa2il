@@ -1,15 +1,25 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DetailView
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from core.views import *
 from core.json import *
 from core.feeds import *
 from core.models import Polity, Topic, Issue
 
-urlpatterns = patterns('',
-    (r'^$', 'core.views.home'),
+urlpatterns = patterns('', )
 
+if settings.FRONT_POLITY:
+    urlpatterns = patterns('',
+        (r'^$', login_required(PolityDetailView.as_view()), {'pk': settings.FRONT_POLITY}),
+    )
+else:
+    urlpatterns = patterns('',
+        (r'^$', 'core.views.home'),
+    )
+
+urlpatterns += patterns('',
     (r'^polities/$',                    ListView.as_view(model=Polity, context_object_name="polities")),
     (r'^polity/new/$',                    login_required(PolityCreateView.as_view())),
 
