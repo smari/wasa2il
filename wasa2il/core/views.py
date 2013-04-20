@@ -187,8 +187,11 @@ class IssueDetailView(DetailView):
         context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
         context_data.update({'comment_form': CommentForm(), 'user_proposals': self.object.user_documents(self.request.user)})
         context_data["delegation"] = self.object.get_delegation(self.request.user)
-        context_data["polity"] = self.object.polity
-        context_data['user_is_member'] = self.request.user in self.object.polity.members.all()
+        context_data["polities"] = list(set([t.polity for t in self.object.topics.all()]))
+        # HACK! As it happens, there is only one polity... for now
+        if not settings.FRONT_POLITY:
+            raise NotImplementedError('NEED TO IMPLEMENT!')
+        context_data["polity"] = context_data['polities'][0]
         return context_data
 
 
@@ -240,7 +243,7 @@ class PolityDetailView(DetailView):
         ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
         ctx["politytopics"] = self.object.get_topic_list(self.request.user)
         ctx["delegation"] = self.object.get_delegation(self.request.user)
-        ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now())[:15]
+        ctx['newissues'] = Issue.objects.filter(topics__polity=self.object, status='NEW').order_by('created')[:15]
         ctx["newelections"] = self.object.election_set.filter(deadline_votes__gt=datetime.now())[:10]
         ctx["settings"] = settings
         # ctx["delegations"] = Delegate.objects.filter(user=self.request.user, polity=self.object)

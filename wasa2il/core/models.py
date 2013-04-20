@@ -195,8 +195,8 @@ class Topic(BaseIssue, getCreationBase('topic')):
     class Meta:
         ordering = ["name"]
 
-    def issues_open(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_open()]
+    def issues_new(self):
+        issues = [issue for issue in self.issue_set.all() if issue.is_new()]
         return sum(issues)
 
     def issues_voting(self):
@@ -231,41 +231,36 @@ class UserTopic(models.Model):
 class Issue(BaseIssue, getCreationBase('issue')):
     topics = models.ManyToManyField(Topic)
     deadline_votes = models.DateTimeField(**nullblank)
-    ruleset = models.ForeignKey(PolityRuleset)
+    ruleset = models.ForeignKey(PolityRuleset, editable=False, **nullblank)
 
     ISSUE_STATUS_CHOICES = (
         ('NEW', 'New'),
         ('VOTING', 'Voting'),
         ('CLOSED', 'Closed'),
     )
-    status = models.CharField(max_length=10, choices=ISSUE_STATUS_CHOICES, default='NEW')
+    status = models.CharField(max_length=10, choices=ISSUE_STATUS_CHOICES, editable=False, default='NEW')
 
     class Meta:
         ordering = ["-deadline_votes"]
 
+    def save(self, *args, **kwargs):
+        self.ruleset = PolityRuleset.objects.all()[0]
+        super(Issue, self).save(*args, **kwargs)
+
     def __unicode__(self):
         return self.name
 
-    def is_open(self):
-        return not self.is_closed()
+    def is_new(self):
+        return self.status == 'NEW'
 
     def is_voting(self):
-        if not self.deadline_proposals or not self.deadline_votes:
-            return False
-
-        if datetime.now() > self.deadline_proposals and datetime.now() < self.deadline_votes:
-            return True
-
-        return False
+        return self.status == 'VOTING'
 
     def is_closed(self):
-        if not self.deadline_votes:
-            return False
+        return self.status == 'CLOSED'
 
-        if datetime.now() > self.deadline_votes:
-            return True
-
-        return False
+    def get_status(self):
+        return dict(self.ISSUE_STATUS_CHOICES).get(self.status)
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
@@ -280,11 +275,11 @@ class Issue(BaseIssue, getCreationBase('issue')):
         return ', '.join(map(str, self.topics.all()))
 
     def proposed_documents(self):
-        return self.document_set.filter(is_proposed=True)
+        return self.document_set.filter(is_adopted=False)
 
     def user_documents(self, user):
         try:
-            return self.document_set.filter(is_proposed=False, user=user)
+            return self.document_set.filter(user=user)
         except TypeError as e:
             return []
 

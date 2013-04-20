@@ -22,8 +22,10 @@
 		<table class="table table-compact">
 			<tr><th>{% trans "In topics:" %}</th><td>{% for i in issue.topics.all %}<a href="/polity/{{issue.polity.id}}/topic/{{i.id}}/">{{i.name}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
 
-			<tr><th>{% trans "Deadline for proposals:" %}</th><td>{{issue.deadline_proposals|date:"d/m/Y h:i:s"}} ({{issue.deadline_proposals|timeuntil}})</td></tr>
+			<tr><th>{% trans "Status:" %}</th><td>{{issue.get_status}}</td></tr>
+			{% if issue.is_voting %}
 			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{issue.deadline_votes|date:"d/m/Y h:i:s"}} ({{issue.deadline_votes|timeuntil}})</td></tr>
+			{% endif %}
 
 			{% if issue.is_voting or issue.is_closed %}
 			<tr><th>{% trans "Votes:" %}</th><td id="issue_votes_count">{{issue.get_votes.count}}</td></tr>
@@ -53,7 +55,7 @@
 			<a class="btn btn-mini" href="/issue/{{issue.id}}/document/new/">{% trans "New document" %}</a>
 			{% endif %}
 		</div>
-	        <h2>{% trans "Documents" %} <small>{% trans "proposed or in progress" %}</small></h2>
+	        <h2>{% trans "Proposals" %}</h2>
 		<p>{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
 		<h4>{% trans "Proposed documents" %}</h4>
 		<div id="document_all_proposals_table">

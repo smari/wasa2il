@@ -12,7 +12,7 @@ class TopicForm(ModelForm):
 class IssueForm(ModelForm):
     class Meta:
         model = Issue
-        exclude = ('polity', 'slug', 'options', 'deadline_proposals', 'deadline_votes')
+        exclude = ('slug', )
 
 
 class CommentForm(ModelForm):
