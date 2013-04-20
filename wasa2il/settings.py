@@ -8,6 +8,10 @@ try:
 except ImportError:
     pass
 
+# Some error checking for local_settings
+if not ls.SECRET_KEY:
+    raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
+
 DEBUG = ls.DEBUG
 TEMPLATE_DEBUG = DEBUG
 
