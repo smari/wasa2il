@@ -4,31 +4,26 @@ import os
 here = lambda x: os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), x))
 
 try:
-    import local_settings as ls
+    from local_settings import *
 except ImportError:
     raise Exception('You need to set up local_settings.py (see local_settings.py-example')
 
 # Some error checking for local_settings
-if not ls.SECRET_KEY:
+if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
 
-DEBUG = ls.DEBUG
 TEMPLATE_DEBUG = DEBUG
-
-ADMINS = (
-    ('Smari', 'smari@immi.is'),
-)
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': ls.DATABASE_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': ls.DATABASE_NAME,                      # Or path to database file if using sqlite3.
-        'USER': ls.DATABASE_USER,                      # Not used with sqlite3.
-        'PASSWORD': ls.DATABASE_PASSWORD,                  # Not used with sqlite3.
-        'HOST': ls.DATABASE_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': ls.DATABASE_PORT,                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': DATABASE_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': DATABASE_NAME,                      # Or path to database file if using sqlite3.
+        'USER': DATABASE_USER,                      # Not used with sqlite3.
+        'PASSWORD': DATABASE_PASSWORD,                  # Not used with sqlite3.
+        'HOST': DATABASE_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': DATABASE_PORT,                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -102,7 +97,6 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ls.SECRET_KEY
 SHARED_SECRET = 'cbd8dbc746786c4f18042bb88028ffea8eb25a10'
 
 # List of callables that know how to import templates from various sources.

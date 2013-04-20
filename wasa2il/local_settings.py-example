@@ -6,7 +6,7 @@ INSTANCE_NAME = ''
 INSTANCE_SLUG = ''
 INSTANCE_LOGO = ''
 
-FRONT_POLITY = True
+FRONT_POLITY = 1
 ALLOW_LEAVE_POLITY = False
 
 DATABASE_ENGINE = 'django.db.backends.' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -23,3 +23,7 @@ SECRET_KEY = ''
 #EMAIL_HOST_USER = ''
 #EMAIL_HOST_PASSWORD = ''
 #EMAIL_USE_TLS = True
+
+ADMINS = (
+    ('username', 'user@example.com'),
+)
