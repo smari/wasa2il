@@ -1,18 +1,14 @@
 #coding:utf-8
 
-from datetime import datetime, timedelta
 import logging
-
+from base_classes import NameSlugBase, getCreationBase
+from core.utils import AttrDict
+from datetime import datetime, timedelta
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-
-#from fields import CreatedField, ModifiedField, AutoUserField
-from base_classes import NameSlugBase, getCreationBase
 from django.utils.translation import ugettext as _
-
-import settings
-
-from core.utils import AttrDict
+#from fields import CreatedField, ModifiedField, AutoUserField
 
 nullblank = {'null': True, 'blank': True}
 
@@ -125,24 +121,24 @@ class PolityRuleset(models.Model):
 class Polity(BaseIssue, getCreationBase('polity')):
     """A political entity. See the manual."""
 
-    parent            = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
-    members            = models.ManyToManyField(User)
-    officers        = models.ManyToManyField(User, related_name="officers")
-    invite_threshold    = models.IntegerField(default=3, help_text="How many members need to vouch for a new member before he can join.")
+    parent = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
+    members = models.ManyToManyField(User)
+    officers = models.ManyToManyField(User, related_name="officers")
+    invite_threshold = models.IntegerField(default=3, help_text="How many members need to vouch for a new member before he can join.")
 
-    is_administrated    = models.BooleanField("Are there officers?", default=False, help_text="Is there a group of people who are administrators?")
-    is_listed        = models.BooleanField("Publicly listed?", default=True, help_text="Whether this polity is publicly listed or not.")
-    is_nonmembers_readable    = models.BooleanField("Publicly viewable?", default=True, help_text="Whether non-members can view the polity and its activities.")
+    is_administrated = models.BooleanField("Are there officers?", default=False, help_text="Is there a group of people who are administrators?")
+    is_listed = models.BooleanField("Publicly listed?", default=True, help_text="Whether this polity is publicly listed or not.")
+    is_nonmembers_readable = models.BooleanField("Publicly viewable?", default=True, help_text="Whether non-members can view the polity and its activities.")
     is_newissue_only_officers = models.BooleanField("Can only officers make new issues?", default=False, help_text="If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue.")
 
-    image            = models.ImageField(upload_to="polities", **nullblank)
+    image = models.ImageField(upload_to="polities", **nullblank)
 
-    document_frontmatter    = models.TextField(**nullblank)
-    document_midmatter    = models.TextField(**nullblank)
-    document_footer        = models.TextField(**nullblank)
+    document_frontmatter = models.TextField(**nullblank)
+    document_midmatter = models.TextField(**nullblank)
+    document_footer = models.TextField(**nullblank)
 
     def is_show_membership_requests(self, user):
-        print "User: ", user
+        
         if self.is_administrated and user in self.officers.all():
             print "User is officer in administered polity."
             return True
@@ -190,66 +186,33 @@ class Polity(BaseIssue, getCreationBase('polity')):
     def agreements(self):
         return self.document_set.filter(is_adopted=True)
 
-    def issues_open(self):
-        s = 0
-        for t in self.topic_set.all():
-            s += t.issues_open()
-
-
-    def issues_voting(self):
-        s = 0
-        for t in self.topic_set.all():
-            s += t.issues_voting()
-
-
-    def issues_closed(self):
-        s = 0
-        for t in self.topic_set.all():
-            s += t.issues_closed()
-
-
-    def issues_unvoted(self, user):
-        s = 0
-        for t in self.topic_set.all():
-            for i in t.issue_set.all():
-                pass
-
 
 class Topic(BaseIssue, getCreationBase('topic')):
     """A collection of issues unified categorically."""
-    polity            = models.ForeignKey(Polity)
-    image            = models.ImageField(upload_to="polities", **nullblank)
+    polity = models.ForeignKey(Polity)
+    image = models.ImageField(upload_to="polities", **nullblank)
 
     class Meta:
-        ordering    = ["name"]
+        ordering = ["name"]
 
     def issues_open(self):
-        s = 0
-        for i in self.issue_set.all():
-            if i.is_open():
-                s += 1
-        return s
+        issues = [issue for issue in self.issue_set.all() if issue.is_open()]
+        return sum(issues)
 
     def issues_voting(self):
-        s = 0
-        for i in self.issue_set.all():
-            if i.is_voting():
-                s += 1
-        return s
+        issues = [issue for issue in self.issue_set.all() if issue.is_voting()]
+        return sum(issues)
 
     def issues_closed(self):
-        s = 0
-        for i in self.issue_set.all():
-            if i.is_closed():
-                s += 1
-        return s
+        issues = [issue for issue in self.issue_set.all() if issue.is_closed()]
+        return sum(issues)
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
-        except:
+        except: #Except what?! This is bad exception handling.
             return self.polity.get_delegation(user)
 
     def new_comments(self):
@@ -258,20 +221,20 @@ class Topic(BaseIssue, getCreationBase('topic')):
 
 class UserTopic(models.Model):
     """Whether a user likes a topic."""
-    topic            = models.ForeignKey(Topic)
-    user            = models.ForeignKey(User)
+    topic = models.ForeignKey(Topic)
+    user = models.ForeignKey(User)
 
     class Meta:
-        unique_together    = (("topic", "user"),)
+        unique_together = (("topic", "user"),)
 
 
 class Issue(BaseIssue, getCreationBase('issue')):
-    polity             = models.ForeignKey(Polity)
-    topics            = models.ManyToManyField(Topic)
-    # options            = models.ManyToManyField('VoteOption')
-    deadline_proposals    = models.DateTimeField(**nullblank)
-    deadline_votes        = models.DateTimeField(**nullblank)
-    ruleset            = models.ForeignKey(PolityRuleset)
+    polity = models.ForeignKey(Polity)
+    topics = models.ManyToManyField(Topic)
+    # options = models.ManyToManyField('VoteOption')
+    deadline_proposals = models.DateTimeField(**nullblank)
+    deadline_votes = models.DateTimeField(**nullblank)
+    ruleset = models.ForeignKey(PolityRuleset)
 
     class Meta:
         ordering = ["-deadline_votes"]
@@ -280,9 +243,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
         return self.name
 
     def is_open(self):
-        if not self.is_closed():
-            return True
-        return False
+        return not self.is_closed()
 
     def is_voting(self):
         if not self.deadline_proposals or not self.deadline_votes:
@@ -334,15 +295,15 @@ class Issue(BaseIssue, getCreationBase('issue')):
 
 
 class Comment(getCreationBase('comment')):
-    comment            = models.TextField()
-    issue            = models.ForeignKey(Issue)
+    comment = models.TextField()
+    issue = models.ForeignKey(Issue)
 
 
 class Delegate(models.Model):
-    polity            = models.ForeignKey(Polity)
-    user            = models.ForeignKey(User)
-    delegate        = models.ForeignKey(User, related_name='delegate_user')
-    base_issue        = models.ForeignKey(BaseIssue)
+    polity = models.ForeignKey(Polity)
+    user = models.ForeignKey(User)
+    delegate = models.ForeignKey(User, related_name='delegate_user')
+    base_issue = models.ForeignKey(BaseIssue)
 
     class Meta:
         unique_together = (('user', 'base_issue'))
@@ -360,8 +321,7 @@ class Delegate(models.Model):
         except: pass
 
     def result(self):
-        """Work through the delegations and figure out where it ends"""
-        print self.get_path()
+        """Work through the delegations and figure out where it ends"""        
         return self.get_path()[-1].delegate
 
     def type(self):
@@ -383,7 +343,6 @@ class Delegate(models.Model):
         """Get how much power has been transferred through to this point in the (reverse) delegation chain."""
         # TODO: FIXME
         pass
-
 
     def get_path(self):
         """Get the delegation pathway from here to the end of the chain."""
@@ -428,12 +387,12 @@ class Delegate(models.Model):
 
 
 class Vote(models.Model):
-    user            = models.ForeignKey(User)
-    issue            = models.ForeignKey(Issue)
-    # option            = models.ForeignKey(VoteOption)
-    value            = models.IntegerField()
-    cast            = models.DateTimeField(auto_now_add=True)
-    power_when_cast        = models.IntegerField()
+    user = models.ForeignKey(User)
+    issue = models.ForeignKey(Issue)
+    # option = models.ForeignKey(VoteOption)
+    value = models.IntegerField()
+    cast = models.DateTimeField(auto_now_add=True)
+    power_when_cast = models.IntegerField()
 
     class Meta:
         unique_together = (('user', 'issue'))
@@ -458,11 +417,10 @@ class Vote(models.Model):
         return self.power() * self.value
 
 
-
 class MembershipVote(models.Model):
-    voter            = models.ForeignKey(User, related_name="membership_granter")
-    user            = models.ForeignKey(User, related_name="membership_seeker")
-    polity            = models.ForeignKey(Polity)
+    voter = models.ForeignKey(User, related_name="membership_granter")
+    user = models.ForeignKey(User, related_name="membership_seeker")
+    polity = models.ForeignKey(Polity)
 
     def save(self, *args, **kwargs):
         super(MembershipVote, self).save(*args, **kwargs)
@@ -482,11 +440,11 @@ class MembershipVote(models.Model):
 
 
 class MembershipRequest(models.Model):
-    requestor        = models.ForeignKey(User)
-    polity            = models.ForeignKey(Polity)
-    fulfilled        = models.BooleanField(default=False)
-    fulfilled_timestamp    = models.DateTimeField(null=True)
-    left            = models.BooleanField(default=False)
+    requestor = models.ForeignKey(User)
+    polity = models.ForeignKey(Polity)
+    fulfilled = models.BooleanField(default=False)
+    fulfilled_timestamp = models.DateTimeField(null=True)
+    left = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (("requestor", "polity"),)
@@ -522,6 +480,7 @@ STATEMENT_TYPE = AttrDict({
     'STATEMENT': 2,
     'HEADER': 3,
 })
+
 STATEMENT_TYPE_CHOICES = tuple((v, k.title()) for k, v in STATEMENT_TYPE.items())
 
 CP_TYPE = AttrDict({
@@ -530,18 +489,19 @@ CP_TYPE = AttrDict({
     'CHANGED': 3,
     'ADDED': 4,
 })
+
 CP_TYPE_CHOICES = tuple((v, k.title()) for k, v in CP_TYPE.items())
 
 
 class Document(NameSlugBase):
-    polity            = models.ForeignKey(Polity)
-    issues            = models.ManyToManyField(Issue)
-    user            = models.ForeignKey(User)
-    is_adopted        = models.BooleanField(default=False)
-    is_proposed        = models.BooleanField(default=False)
+    polity = models.ForeignKey(Polity)
+    issues = models.ManyToManyField(Issue)
+    user = models.ForeignKey(User)
+    is_adopted = models.BooleanField(default=False)
+    is_proposed = models.BooleanField(default=False)
 
     class Meta:
-        ordering    = ["-id"]
+        ordering = ["-id"]
 
     def save(self, *args, **kwargs):
         # if DocumentContent.objects.filter(document=self).count() == 0:
@@ -621,11 +581,11 @@ class DocumentContent(models.Model):
 
 
 class Statement(models.Model):
-    user            = models.ForeignKey(User)
-    document        = models.ForeignKey(Document)
-    type            = models.IntegerField(choices=STATEMENT_TYPE_CHOICES)
-    number            = models.IntegerField()
-    text            = models.TextField(blank=True)  # TODO: Blank for now, make mandatory when StatementOption removed
+    user = models.ForeignKey(User)
+    document = models.ForeignKey(Document)
+    type = models.IntegerField(choices=STATEMENT_TYPE_CHOICES)
+    number = models.IntegerField()
+    text = models.TextField(blank=True)  # TODO: Blank for now, make mandatory when StatementOption removed
 
     def __unicode__(self):
         if self.text is None:
@@ -640,23 +600,21 @@ class Statement(models.Model):
 # NOTA BENE: Will be deprecated soon. Text is automagically compied to the statement
 # when stringified in the future
 class StatementOption(models.Model):
-    statement                = models.ForeignKey(Statement)
-    user                    = models.ForeignKey(User)
-    text                    = models.TextField()
+    statement = models.ForeignKey(Statement)
+    user = models.ForeignKey(User)
+    text = models.TextField()
 
 
 class ChangeProposal(models.Model):
-    document         = models.ForeignKey(Document)    # Document to reference
-    user             = models.ForeignKey(User)        # Who proposed it
-    timestamp         = models.DateTimeField(auto_now_add=True)    # When
+    document = models.ForeignKey(Document)    # Document to reference
+    user = models.ForeignKey(User)        # Who proposed it
+    timestamp = models.DateTimeField(auto_now_add=True)    # When
 
-    actiontype        = models.IntegerField(choices=CP_TYPE_CHOICES)            # Type of change to make [all]
-    refitem            = models.IntegerField()            # Number what in the sequence to act on [all]
-    destination        = models.IntegerField()            # Destination of moved item, or of new item [move]
-    content            = models.TextField()            # Content for new item, or for changed item (blank=same on change) [change, add]
-    contenttype        = models.IntegerField()            # Type for new content, or of changed item (0=same on change) [change, add]
-
-
+    actiontype = models.IntegerField(choices=CP_TYPE_CHOICES)            # Type of change to make [all]
+    refitem = models.IntegerField()            # Number what in the sequence to act on [all]
+    destination = models.IntegerField()            # Destination of moved item, or of new item [move]
+    content = models.TextField()            # Content for new item, or for changed item (blank=same on change) [change, add]
+    contenttype = models.IntegerField()            # Type for new content, or of changed item (0=same on change) [change, add]
 
     # == Examples ==
     #    ChangeProposal(actiontype=1, refitem=2)                                         # Delete item 2 from the proposal
@@ -667,7 +625,6 @@ class ChangeProposal(models.Model):
     #
 
     def get_refitem(self):
-        print self.document.statement_set.all()
         self.document.statement_set.get(number=self.refitem)
 
     def __unicode__(self):
@@ -678,19 +635,20 @@ class ChangeProposal(models.Model):
 
 
 class Meeting(models.Model):
-    class Meta:
-        ordering    = ["time_starts", "time_ends"]
 
-    user            = models.ForeignKey(User, related_name="created_by")
-    polity            = models.ForeignKey(Polity)
-    location        = models.CharField(max_length=200, **nullblank)
-    time_starts        = models.DateTimeField(blank=True, null=True)
-    time_started        = models.DateTimeField(blank=True, null=True)
-    time_ends        = models.DateTimeField(blank=True, null=True)
-    time_ended        = models.DateTimeField(blank=True, null=True)
-    is_agenda_open        = models.BooleanField(default=True)
-    managers        = models.ManyToManyField(User, related_name="managers")
-    attendees        = models.ManyToManyField(User, related_name="attendees", **nullblank)
+    class Meta:
+        ordering = ["time_starts", "time_ends"]
+
+    user = models.ForeignKey(User, related_name="created_by")
+    polity = models.ForeignKey(Polity)
+    location = models.CharField(max_length=200, **nullblank)
+    time_starts = models.DateTimeField(blank=True, null=True)
+    time_started = models.DateTimeField(blank=True, null=True)
+    time_ends = models.DateTimeField(blank=True, null=True)
+    time_ended = models.DateTimeField(blank=True, null=True)
+    is_agenda_open = models.BooleanField(default=True)
+    managers = models.ManyToManyField(User, related_name="managers")
+    attendees = models.ManyToManyField(User, related_name="attendees", **nullblank)
 
     def get_status(self):
         if self.notstarted():
@@ -703,9 +661,7 @@ class Meeting(models.Model):
             return "Ended"
 
     def notstarted(self):
-        if not self.time_started:
-            return True
-        return False
+        return not self.time_started
 
     def ongoing(self):
         if not self.time_started:
@@ -735,21 +691,21 @@ class Meeting(models.Model):
 
 
 class MeetingRules(models.Model):
-    length_intervention        = models.IntegerField(default=300, help_text="The maximum length of an intervention.")
-    length_directresponse    = models.IntegerField(default=60, help_text="The maximum length of a direct response.")
-    length_clarify            = models.IntegerField(default=30, help_text="The maximum length of a clarification.")
-    length_pointoforder        = models.IntegerField(default=60, help_text="The maximum length of a point of order.")
-    max_interventions        = models.IntegerField(default=0, help_text="The maximum number of interventions a user can make in one topic. 0 = unlimited.")
-    max_directresponses        = models.IntegerField(default=0, help_text="The maximum number of direct responses a user can make in one topic. 0 = unlimited.")
-    max_clarify                = models.IntegerField(default=0, help_text="The maximum number of clarifications a user can make in one topic. 0 = unlimited.")
-    max_pointoforder        = models.IntegerField(default=0, help_text="The maximum number of points of order a user can make in one topic. 0 = unlimited.")
+    length_intervention = models.IntegerField(default=300, help_text="The maximum length of an intervention.")
+    length_directresponse = models.IntegerField(default=60, help_text="The maximum length of a direct response.")
+    length_clarify = models.IntegerField(default=30, help_text="The maximum length of a clarification.")
+    length_pointoforder = models.IntegerField(default=60, help_text="The maximum length of a point of order.")
+    max_interventions = models.IntegerField(default=0, help_text="The maximum number of interventions a user can make in one topic. 0 = unlimited.")
+    max_directresponses = models.IntegerField(default=0, help_text="The maximum number of direct responses a user can make in one topic. 0 = unlimited.")
+    max_clarify = models.IntegerField(default=0, help_text="The maximum number of clarifications a user can make in one topic. 0 = unlimited.")
+    max_pointoforder = models.IntegerField(default=0, help_text="The maximum number of points of order a user can make in one topic. 0 = unlimited.")
 
 
 class MeetingAgenda(models.Model):
-    meeting            = models.ForeignKey(Meeting)
-    item            = models.CharField(max_length=200)
-    order            = models.IntegerField()
-    done            = models.IntegerField()     # 0 = Not done, 1 = Active, 2 = Done
+    meeting = models.ForeignKey(Meeting)
+    item = models.CharField(max_length=200)
+    order = models.IntegerField()
+    done = models.IntegerField()     # 0 = Not done, 1 = Active, 2 = Done
 
     def __unicode__(self):
         return self.item
@@ -768,12 +724,12 @@ def invert_map(d):
 
 
 class MeetingIntervention(models.Model):
-    meeting            = models.ForeignKey(Meeting)
-    user            = models.ForeignKey(User)
-    agendaitem        = models.ForeignKey(MeetingAgenda)
-    motion            = models.IntegerField(choices=invert_map(MOTION).items())  # c.f. MOTION above
-    order            = models.IntegerField()
-    done            = models.IntegerField()     # 0 = Not done, 1 = Active, 2 = Done
+    meeting = models.ForeignKey(Meeting)
+    user = models.ForeignKey(User)
+    agendaitem = models.ForeignKey(MeetingAgenda)
+    motion = models.IntegerField(choices=invert_map(MOTION).items())  # c.f. MOTION above
+    order = models.IntegerField()
+    done = models.IntegerField()     # 0 = Not done, 1 = Active, 2 = Done
 
     def __unicode__(self):
         return 'A %s from user %s of order %d' % (invert_map(MOTION)[self.motion], self.user.username, self.order)
@@ -782,8 +738,8 @@ class MeetingIntervention(models.Model):
 def get_power(user, issue):
     power = 1
     bases = [issue, issue.polity]
-    for i in issue.topics.all():
-        bases.append(i)
+    bases.extend(issue.topics.all())
+
     # print "Getting power for user %s on issue %s" % (user, issue)
     delegations = Delegate.objects.filter(delegate=user, base_issue__in=bases)
     for i in delegations:
@@ -795,7 +751,6 @@ def get_issue_power(issue, user):
 
 Issue.get_power = get_issue_power
 User.get_power = get_power
-
 
 
 class VotingSystem(models.Model):
@@ -811,10 +766,10 @@ class Election(NameSlugBase):
     An election is different from an issue vote; it's a vote
     on people. Users, specifically.
     """
-    polity                = models.ForeignKey(Polity)
-    votingsystem        = models.ForeignKey(VotingSystem)
-    deadline_candidacy    = models.DateTimeField()
-    deadline_votes        = models.DateTimeField()
+    polity = models.ForeignKey(Polity)
+    votingsystem = models.ForeignKey(VotingSystem)
+    deadline_candidacy = models.DateTimeField()
+    deadline_votes = models.DateTimeField()
 
     def export_openstv_ballot(self):
         return ""
@@ -823,9 +778,7 @@ class Election(NameSlugBase):
         return self.name
 
     def is_open(self):
-        if not self.is_closed():
-            return True
-        return False
+        return not self.is_closed()
 
     def is_voting(self):
         if not self.deadline_candidacy or not self.deadline_votes:
@@ -887,15 +840,15 @@ class Election(NameSlugBase):
 
 
 class Candidate(models.Model):
-    user        = models.ForeignKey(User)
-    election    = models.ForeignKey(Election)
+    user = models.ForeignKey(User)
+    election = models.ForeignKey(Election)
 
 
 class ElectionVote(models.Model):
-    election    = models.ForeignKey(Election)
-    user        = models.ForeignKey(User)
-    candidate    = models.ForeignKey(Candidate)
-    value        = models.IntegerField()
+    election = models.ForeignKey(Election)
+    user = models.ForeignKey(User)
+    candidate = models.ForeignKey(Candidate)
+    value = models.IntegerField()
 
     class Meta:
         unique_together = (('election', 'user', 'candidate'),
