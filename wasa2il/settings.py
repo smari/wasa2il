@@ -6,7 +6,7 @@ here = lambda x: os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__
 try:
     import local_settings as ls
 except ImportError:
-    pass
+    raise Exception('You need to set up local_settings.py (see local_settings.py-example')
 
 # Some error checking for local_settings
 if not ls.SECRET_KEY:
