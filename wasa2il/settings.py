@@ -12,7 +12,7 @@ DEBUG = ls.DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-	('Smari', 'smari@immi.is'),
+    ('Smari', 'smari@immi.is'),
 )
 
 MANAGERS = ADMINS
@@ -124,27 +124,27 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-	here('templates'),
+    here('templates'),
 )
 
 INSTALLED_APPS = (
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.sites',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 
-	'django.contrib.admin',
+    'django.contrib.admin',
 
-	'registration',
-	'bootstrapform',
-	'fontawesome',
+    'registration',
+    'bootstrapform',
+    'fontawesome',
     'epiceditor',
     'google_diff_match_patch',
 
-	'core',
-	'forum',
+    'core',
+    'forum',
 )
 
 # A sample logging configuration. The only tangible logging
