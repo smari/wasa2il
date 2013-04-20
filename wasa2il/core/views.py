@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
-import settings
+from django.conf import settings
 
 from core.models import *
 from core.forms import *
