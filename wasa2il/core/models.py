@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
-#from fields import CreatedField, ModifiedField, AutoUserField
+
 
 nullblank = {'null': True, 'blank': True}
 
@@ -20,23 +20,22 @@ def trim(text, length):
 
 
 class BaseIssue(NameSlugBase):
-    description        = models.TextField(**nullblank)
+    description = models.TextField(**nullblank)
 
 
 class UserProfile(models.Model):
     """A user's profile data. Contains various informative areas, plus various settings."""
-    user            = models.OneToOneField(User)
+    user = models.OneToOneField(User)
 
     # User information
-    displayname        = models.CharField(max_length="255", verbose_name="Display name", help_text="The name to display on the site.", **nullblank)
-    email_visible        = models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
-    bio            = models.TextField(**nullblank)
-    picture            = models.ImageField(upload_to="users", **nullblank)
-    # thumbnail        = fields.ThumbnailerField(upload_to='users')
+    displayname = models.CharField(max_length="255", verbose_name="Display name", help_text="The name to display on the site.", **nullblank)
+    email_visible = models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
+    bio = models.TextField(**nullblank)
+    picture = models.ImageField(upload_to="users", **nullblank)
 
     # User settings
-    language        = models.CharField(max_length="6", default="en", choices=settings.LANGUAGES)
-    topics_showall        = models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
+    language = models.CharField(max_length="6", default="en", choices=settings.LANGUAGES)
+    topics_showall = models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
 
     high_seat = models.BooleanField(default=False)
 
@@ -66,34 +65,34 @@ User.get_name = get_name
 
 class PolityRuleset(models.Model):
     """A polity's ruleset."""
-    polity            = models.ForeignKey('Polity')
-    name            = models.CharField(max_length=255)
+    polity = models.ForeignKey('Polity')
+    name = models.CharField(max_length=255)
 
     # Issue quora is how many members need to support a discussion
     # before it goes into proposal mode. If 0, use timer.
     # If issue_quora_percent, user percentage of polity members.
-    issue_quora_percent    = models.BooleanField()
-    issue_quora        = models.IntegerField()
+    issue_quora_percent = models.BooleanField()
+    issue_quora = models.IntegerField()
 
     # Issue majority is how many percent of the polity are needed
     # for a decision to be made on the issue.
-    issue_majority        = models.IntegerField()
+    issue_majority = models.IntegerField()
 
     # Denotes how many seconds an issue is in various phases.
-    issue_discussion_time    = models.IntegerField()
-    issue_proposal_time    = models.IntegerField()
-    issue_vote_time        = models.IntegerField()
+    issue_discussion_time = models.IntegerField()
+    issue_proposal_time = models.IntegerField()
+    issue_vote_time = models.IntegerField()
 
     # Sometimes we require an issue to be confirmed with a secondary vote.
     # Note that one option here is to reference the same ruleset, and thereby
     # force continuous confirmation (such as with annual budgets, etc..)
     # Also, can be used to create multiple discussion rounds
-    confirm_with        = models.ForeignKey('PolityRuleset', **nullblank)
+    confirm_with = models.ForeignKey('PolityRuleset', **nullblank)
 
     # For multi-round discussions, we may want corresponding documents not to
     # be adopted when the vote is complete, but only for the successful vote
     # to allow progression into the next round.
-    adopted_if_accepted    = models.BooleanField()
+    adopted_if_accepted = models.BooleanField()
 
     def __unicode__(self):
         return self.name
