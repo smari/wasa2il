@@ -1,7 +1,7 @@
 #coding:utf-8
 # Django settings for wasa2il project.
-import os
-here = lambda x: os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), x))
+
+from utils import here
 
 try:
     from local_settings import *
