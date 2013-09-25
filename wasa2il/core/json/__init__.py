@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-import settings
+from django.conf import settings
 
 from core.models import Election
 from core.models import ElectionVote
