@@ -50,10 +50,12 @@ class UserProfile(models.Model):
 
 def get_name(user):
     name = ""
-    try:
-        name = user.get_profile().displayname
-    except:
-        pass
+    if user:
+        try:
+            name = user.get_profile().displayname
+        except AttributeError:
+            print 'User with id %d missing profile?' % user.id
+            pass
 
     if not name:
         name = user.username
@@ -153,7 +155,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
-        except:
+        except Document.DoesNotExist:
             pass
         return []
 
@@ -209,7 +211,7 @@ class Topic(BaseIssue, getCreationBase('topic')):
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
-        except:  # Except what?! This is bad exception handling.
+        except Delegate.DoesNotExist:
             return self.polity.get_delegation(user)
 
     def new_comments(self):
@@ -264,7 +266,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
-        except:
+        except Delegate.DoesNotExist:
             for i in self.topics.all():
                 return i.get_delegation(user)
 
@@ -311,16 +313,16 @@ class Delegate(models.Model):
         """Gets the polity that the delegation exists within."""
         try:
             return self.base_issue.issue.polity
-        except:
+        except AttributeError:
             pass
         try:
             return self.base_issue.topic.polity
-        except:
+        except AttributeError:
             pass
         try:
             return self.base_issue.polity
-        except:
-            pass
+        except AttributeError:
+            print "ERROR: Delegate's base_issue is None, apparently"
 
     def result(self):
         """Work through the delegations and figure out where it ends"""
@@ -331,18 +333,18 @@ class Delegate(models.Model):
         try:
             self.base_issue.issue
             return _("Issue")
-        except:
+        except AttributeError:
             pass
         try:
             self.base_issue.topic
             return _("Topic")
-        except:
+        except AttributeError:
             pass
         try:
             self.base_issue.polity
             return _("Polity")
-        except:
-            pass
+        except AttributeError:
+            print "ERROR: Delegate's base_issue is None, apparently"
 
     def get_power(self):
         """Get how much power has been transferred through to this point in the (reverse) delegation chain."""
@@ -360,19 +362,18 @@ class Delegate(models.Model):
                 path.append(dels[0])
                 continue
 
-            try:  # If this works, we are working with an "Issue"
+            if item.base_issue and item.base_issue.issue:
                 base_issue = item.base_issue.issue
-                for topic in base_issue.topics.all():
-                    dels = user.delegate_set.filter(base_issue=topic)
-                    if len(dels) > 0:
-                        # TODO: FIXME
-                        # Problem: Whereas an issue can belong to multiple topics, this is
-                        #  basically picking the first delegation to a topic, rather than
-                        #  creating weightings. Should we do weightings?
-                        path.append(dels[0])
-                        continue
-            except:
-                pass
+                if base_issue and base_issue.topics: # If this works, we are working with an "Issue"
+                    for topic in base_issue.topics.all():
+                        dels = user.delegate_set.filter(base_issue=topic)
+                        if len(dels) > 0:
+                            # TODO: FIXME
+                            # Problem: Whereas an issue can belong to multiple topics, this is
+                            #  basically picking the first delegation to a topic, rather than
+                            #  creating weightings. Should we do weightings?
+                            path.append(dels[0])
+                            continue
 
             try:  # If this works, we are working with an "Issue"
                 base_issue = item.base_issue.topic
@@ -380,7 +381,7 @@ class Delegate(models.Model):
                 if len(dels) > 0:
                     path.append(dels[0])
                     continue
-            except:
+            except AttributeError:
                 pass
 
             break

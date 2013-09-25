@@ -8,7 +8,7 @@ def topicfavorited(topic, user):
     try:
         ut = UserTopic.objects.get(user=user, topic=topic)
         return True
-    except:
+    except UserTopic.DoesNotExist:
         return False
 
 
@@ -60,10 +60,16 @@ def thumbnail(file, size='104x104'):
             image.thumbnail([x, y], Image.ANTIALIAS)
             try:
                 image.save(miniature_filename, image.format, quality=90, optimize=1)
-            except:
+            except Exception as e:
+                print 'Unimaginable error occurred...'
+                print 'ERROR: %s' % e.message
+                print e
                 image.save(miniature_filename, image.format, quality=90)
 
         return miniature_url
-    except:
+    except Exception as e:
+        print 'Unimaginable error occurred...'
+        print 'ERROR: %s' % e.message
+        print e
         return ""
 

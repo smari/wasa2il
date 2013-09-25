@@ -28,7 +28,7 @@ def meeting_start(request):
         ag = meeting.meetingagenda_set.all().order_by("order")[0]
         ag.done = 1
         ag.save()
-    except:
+    except IndexError:
         pass
 
     return ctx
@@ -85,13 +85,13 @@ def meeting_poll(request):
         return ctx
 
     try:    time_starts = meeting.time_starts.strftime("%d/%m/%Y %H:%I")
-    except:    time_starts = None
+    except AttributeError:    time_starts = None
     try:    time_started = meeting.time_started.strftime("%d/%m/%Y %H:%I")
-    except:    time_started = None
+    except AttributeError:    time_started = None
     try:    time_ends = meeting.time_ends.strftime("%d/%m/%Y %H:%I")
-    except:    time_ends = None
+    except AttributeError:    time_ends = None
     try:    time_ended = meeting.time_ended.strftime("%d/%m/%Y %H:%I")
-    except:    time_ended = None
+    except AttributeError:    time_ended = None
 
     ctx["polity"] = {"name": meeting.polity.name}
     ctx["meeting"] = {
@@ -143,7 +143,7 @@ def meeting_agenda_add(request):
     ag.item = request.REQUEST.get("item", "")
     try:
         ag.order = meeting.meetingagenda_set.all().order_by("-order")[0].order + 1
-    except:
+    except IndexError:
         ag.order = 1
 
     ag.done = 0
@@ -271,7 +271,7 @@ def meeting_agenda_next(request):
         nextag = meeting.meetingagenda_set.filter(done=0).order_by("order")[0]
         nextag.done = 1
         nextag.save()
-    except:
+    except IndexError:
         pass
 
     return meeting_poll(request)
@@ -302,7 +302,7 @@ def meeting_agenda_prev(request):
         nextag = meeting.meetingagenda_set.filter(done=2).order_by("-order")[0]
         nextag.done = 1
         nextag.save()
-    except:
+    except IndexError:
         pass
 
     return meeting_poll(request)
@@ -326,7 +326,7 @@ def meeting_intervention_next(request):
 
     try:
         meeting.meetingagenda_set.get(done=1)
-    except:
+    except MeetingAgenda.DoesNotExist:
         ctx["ok"] = False
         return ctx
 
@@ -362,7 +362,7 @@ def meeting_intervention_add(request):
 
     try:
         currentitem = meeting.meetingagenda_set.get(done=1)
-    except:
+    except MeetingAgenda.DoesNotExist:
         ctx["ok"] = False
         return ctx
 
