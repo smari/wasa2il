@@ -428,7 +428,7 @@ class MembershipVote(models.Model):
         super(MembershipVote, self).save(*args, **kwargs)
         try:
             m = MembershipRequest.objects.get(requestor=self.user, polity=self.polity)
-            if m.get_fulfilled() and m.left == False:
+            if m.get_fulfilled() and m.left is False:
                 logging.debug('fulfilled!')
                 self.polity.members.add(self.user)
         except MembershipRequest.DoesNotExist:
@@ -463,7 +463,7 @@ class MembershipRequest(models.Model):
 
     def get_fulfilled(self):
         # Recalculate at most once per hour.
-        if self.fulfilled_timestamp == None or self.fulfilled_timestamp < datetime.now() - timedelta(seconds=3600):
+        if self.fulfilled_timestamp is None or self.fulfilled_timestamp < datetime.now() - timedelta(seconds=3600):
             self.fulfilled = self.votes() >= self.votesneeded()
             self.save()
 

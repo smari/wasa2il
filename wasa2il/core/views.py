@@ -221,7 +221,7 @@ class PolityDetailView(DetailView):
 
             # See if we have already satisfied the limits
             print self.membershiprequest.votes(), invite_threshold
-            if self.membershiprequest.votes() >= invite_threshold and self.membershiprequest.left == False:
+            if self.membershiprequest.votes() >= invite_threshold and self.membershiprequest.left is False:
                 self.object.members.add(self.request.user)
                 self.membershiprequest.fulfilled = True
                 self.membershiprequest.save()
@@ -243,7 +243,7 @@ class PolityDetailView(DetailView):
         context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
 
         ctx['user_is_member'] = self.request.user in self.object.members.all()
-        ctx["user_requested_membership"] = self.membershiprequest != None
+        ctx["user_requested_membership"] = self.membershiprequest is not None
         ctx["user_requested_membership_now"] = self.requested_membership
         ctx["polity_show_membership_requests"] = self.object.is_show_membership_requests(self.request.user)
         ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
