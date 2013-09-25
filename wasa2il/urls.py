@@ -1,11 +1,15 @@
 
 from django.conf.urls.defaults import patterns, include, url
+from django.shortcuts import redirect
 from django.conf import settings
 from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 admin.autodiscover()
+
+RSK_URL = 'https://www.island.is/audkenning?id=piratar.is'
 
 
 urlpatterns = patterns('',
@@ -25,6 +29,7 @@ urlpatterns = patterns('',
 
     (r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
     (r'^accounts/settings/', 'core.views.view_settings'),
+    (r'^accounts/register/', lambda r: redirect(RSK_URL)),
     (r'^accounts/', include('registration.urls')),
 
     (r'^help/$', direct_to_template, {"template": "help/index.html"}),
