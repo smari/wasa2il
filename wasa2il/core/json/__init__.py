@@ -38,7 +38,7 @@ def user_exists(request):
     try:
         User.objects.get(username=username)
         ctx["user_exists"] = True
-    except:
+    except User.DoesNotExist:
         ctx["user_exists"] = False
 
     ctx["ok"] = True
@@ -174,7 +174,7 @@ def topic_star(request):
         ut = UserTopic.objects.get(topic=topic, user=request.user)
         ut.delete()
         ctx["starred"] = False
-    except:
+    except UserTopic.DoesNotExist:
         UserTopic(topic=topic, user=request.user).save()
         ctx["starred"] = True
 

@@ -228,7 +228,7 @@ class PolityDetailView(DetailView):
         else:
             try:
                 self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user, pending=True)
-            except:
+            except MembershipRequest.DoesNotExist:
                 self.membershiprequest = None
 
         if self.request.user in self.object.members.all():
@@ -280,12 +280,12 @@ class DocumentCreateView(CreateView):
 
     def dispatch(self, *args, **kwargs):
         try:
-            self.issues = [get_object_or_404(Issue, id=kwargs["issue"])]
-        except:
+            self.issues = [Issue.objects.get(id=kwargs["issue"])]
+        except Issue.DoesNotExist:
             self.issues = []
         try:
-            self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        except:
+            self.polity = Polity.objects.get(id=kwargs["polity"])
+        except Polity.DoesNotExist:
             self.polity = None
 
         if len(self.issues) > 0 and not self.polity:

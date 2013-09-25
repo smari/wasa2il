@@ -53,6 +53,6 @@ def issue_poll(request):
     try:
         v = Vote.objects.get(user=request.user, issue=issue)
         ctx["issue"]["vote"] = v.get_value()
-    except:
+    except Vote.DoesNotExist:
         pass
     return ctx

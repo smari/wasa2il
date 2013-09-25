@@ -126,7 +126,9 @@ def document_statements_import(request):
 
         try:
             s.number = Statement.objects.get(document=s.document, type=s.type).order_by('-number')[0].number + 1
-        except:
+        except Statement.DoesNotExist:
+            s.number = 1
+        except IndexError:
             s.number = 1
 
         s.save()
@@ -161,7 +163,9 @@ def document_statement_new(request, document, type):
 
     try:
         s.number = Statement.objects.get(document=s.document, type=s.type).order_by('-number')[0].number + 1
-    except:
+    except Statement.DoesNotExist:
+        s.number = 1
+    except IndexError:
         s.number = 1
 
     s.save()

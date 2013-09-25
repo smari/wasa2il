@@ -9,7 +9,7 @@ class UserSettingsMiddleware(object):
         if request.user.is_authenticated():
             try:
                 request.session['django_language'] = request.user.get_profile().language
-            except:
+            except AttributeError:
                 # pass
                 pro = UserProfile()
                 pro.user = request.user
