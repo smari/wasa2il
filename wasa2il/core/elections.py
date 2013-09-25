@@ -1,5 +1,6 @@
+
 from openstv.ballots import Ballots
-from openstv.plugins import getMethodPlugins, getReportPlugins
+from openstv.plugins import getMethodPlugins
 
 
 class RankedElection:
@@ -34,7 +35,6 @@ class RankedElection:
 
     def get_result(self):
         pass
-
 
 
 if __name__ == "__main__":

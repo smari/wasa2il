@@ -84,14 +84,22 @@ def meeting_poll(request):
         ctx["ok"] = False
         return ctx
 
-    try:    time_starts = meeting.time_starts.strftime("%d/%m/%Y %H:%I")
-    except AttributeError:    time_starts = None
-    try:    time_started = meeting.time_started.strftime("%d/%m/%Y %H:%I")
-    except AttributeError:    time_started = None
-    try:    time_ends = meeting.time_ends.strftime("%d/%m/%Y %H:%I")
-    except AttributeError:    time_ends = None
-    try:    time_ended = meeting.time_ended.strftime("%d/%m/%Y %H:%I")
-    except AttributeError:    time_ended = None
+    try:
+        time_starts = meeting.time_starts.strftime("%d/%m/%Y %H:%I")
+    except AttributeError:
+        time_starts = None
+    try:
+        time_started = meeting.time_started.strftime("%d/%m/%Y %H:%I")
+    except AttributeError:
+        time_started = None
+    try:
+        time_ends = meeting.time_ends.strftime("%d/%m/%Y %H:%I")
+    except AttributeError:
+        time_ends = None
+    try:
+        time_ended = meeting.time_ended.strftime("%d/%m/%Y %H:%I")
+    except AttributeError:
+        time_ended = None
 
     ctx["polity"] = {"name": meeting.polity.name}
     ctx["meeting"] = {
@@ -381,7 +389,6 @@ def meeting_intervention_add(request):
         if motion != MOTION['TALK']:
             return error('The first intervention must be a talk (FOR NOW)', ctx)
     else:
-
         same = last_speaker.user == request.user
         intervention.order = last_speaker.order + 1
 
@@ -456,4 +463,3 @@ def meeting_manager_add(request):
     meeting.managers.add(u)
 
     return meeting_poll(request)
-

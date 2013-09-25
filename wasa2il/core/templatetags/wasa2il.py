@@ -1,12 +1,19 @@
-from core.models import *
+
+import os
+import Image
+
 from django import template
 
+from core.models import UserTopic, Vote, ElectionVote
+
+
 register = template.Library()
+
 
 @register.filter(name='topicfavorited')
 def topicfavorited(topic, user):
     try:
-        ut = UserTopic.objects.get(user=user, topic=topic)
+        UserTopic.objects.get(user=user, topic=topic)
         return True
     except UserTopic.DoesNotExist:
         return False
@@ -30,14 +37,11 @@ def electionvoted(election, user):
     ut = 0
     try:
         ut = ElectionVote.objects.filter(user=user, election=election).count()
-    except TypeError as e:
+    except TypeError:
         pass
 
     return (ut > 0)
 
-
-import os
-import Image
 
 @register.filter(name="thumbnail")
 def thumbnail(file, size='104x104'):
@@ -52,7 +56,7 @@ def thumbnail(file, size='104x104'):
         miniature_filename = os.path.join(filehead, miniature)
         filehead, filetail = os.path.split(file.url)
         miniature_url = filehead + '/' + miniature
-        if os.path.exists(miniature_filename) and os.path.getmtime(filename)>os.path.getmtime(miniature_filename):
+        if os.path.exists(miniature_filename) and os.path.getmtime(filename) > os.path.getmtime(miniature_filename):
             os.unlink(miniature_filename)
         # if the image wasn't already resized, resize it
         if not os.path.exists(miniature_filename):
@@ -72,4 +76,3 @@ def thumbnail(file, size='104x104'):
         print 'ERROR: %s' % e.message
         print e
         return ""
-

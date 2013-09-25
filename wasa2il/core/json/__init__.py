@@ -18,9 +18,6 @@ from core.models import UserProfile
 from core.models import UserTopic
 
 from core.json.utils import jsonize, error
-from core.json.document import *
-from core.json.issue import *
-from core.json.meeting import *
 
 
 @jsonize
@@ -274,4 +271,3 @@ def list_attendees(request, meeting_id):
     ctx['ok'] = True
 
     return ctx
-

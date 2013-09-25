@@ -1,7 +1,8 @@
-from django.forms import ModelForm
-from django.forms import EmailField
 
-from forum.models import Forum, Discussion, DiscussionPost
+from django.forms import ModelForm
+
+from forum.models import Forum, Discussion
+
 
 class ForumForm(ModelForm):
     class Meta:
@@ -13,4 +14,3 @@ class DiscussionForm(ModelForm):
     class Meta:
         model = Discussion
         exclude = ('forum', 'started_by')
-
