@@ -1,5 +1,5 @@
-from django.conf.urls.defaults import patterns, include, url
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DetailView
+from django.conf.urls.defaults import patterns
+from django.views.generic import ListView, UpdateView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 

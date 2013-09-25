@@ -18,7 +18,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': DATABASE_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': DATABASE_ENGINE,  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': DATABASE_NAME,                      # Or path to database file if using sqlite3.
         'USER': DATABASE_USER,                      # Not used with sqlite3.
         'PASSWORD': DATABASE_PASSWORD,                  # Not used with sqlite3.
@@ -36,7 +36,7 @@ LANGUAGES = (
   ('es', 'Spanish'),
 )
 
-LANGUAGE_CODE = 'is' # "en-us"
+LANGUAGE_CODE = 'is'  # "en-us"
 
 SITE_ID = 1
 
@@ -159,7 +159,6 @@ LOGGING = {
     }
 }
 
-AUTH_PROFILE_MODULE="core.UserProfile"
-ACCOUNT_ACTIVATION_DAYS=7
-LOGIN_REDIRECT_URL="/"
-
+AUTH_PROFILE_MODULE = "core.UserProfile"
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = "/"
