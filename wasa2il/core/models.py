@@ -364,7 +364,7 @@ class Delegate(models.Model):
 
             if item.base_issue and item.base_issue.issue:
                 base_issue = item.base_issue.issue
-                if base_issue and base_issue.topics: # If this works, we are working with an "Issue"
+                if base_issue and base_issue.topics:  # If this works, we are working with an "Issue"
                     for topic in base_issue.topics.all():
                         dels = user.delegate_set.filter(base_issue=topic)
                         if len(dels) > 0:

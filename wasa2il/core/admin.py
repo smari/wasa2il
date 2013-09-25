@@ -134,4 +134,3 @@ register(Election)
 register(Candidate)
 register(ElectionVote)
 register(VotingSystem)
-

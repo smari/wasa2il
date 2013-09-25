@@ -1,20 +1,16 @@
-from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from django.template import RequestContext
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-import settings
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.views.generic import CreateView, DetailView
 
-from forum.models import *
-from forum.forms import *
+from forum.models import Polity, Forum, Discussion
+from forum.forms import ForumForm, DiscussionForm
 
 
 class ForumCreateView(CreateView):
     context_object_name = "forum"
     template_name = "forum/forum_form.html"
     form_class = ForumForm
-    success_url="/forum/%(id)d/"
+    success_url = "/forum/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
@@ -49,7 +45,7 @@ class DiscussionCreateView(CreateView):
     context_object_name = "discussion"
     template_name = "forum/discussion_form.html"
     form_class = DiscussionForm
-    success_url="/forum/%(forum)d/discussion/%(id)d/"
+    success_url = "/forum/%(forum)d/discussion/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         self.forum = get_object_or_404(Forum, id=kwargs["forum"])
@@ -80,4 +76,3 @@ class DiscussionDetailView(DetailView):
         context_data = super(DiscussionDetailView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.object.forum.polity, "forum": self.object.forum})
         return context_data
-

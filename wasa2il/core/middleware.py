@@ -1,5 +1,8 @@
+
 from django.conf import settings
-from core.models import *
+
+from core.models import UserProfile
+
 
 class UserSettingsMiddleware(object):
     def __init__(self):
