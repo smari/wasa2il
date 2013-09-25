@@ -1,8 +1,6 @@
+
 from django.conf.urls.defaults import patterns, include, url
-from django.views.generic import ListView, TemplateView, CreateView, UpdateView
-from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from settings import here
 from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:

@@ -125,5 +125,5 @@ def main():
                 continue
             Vote.objects.create(user=user, issue=issue, option=choice(options))
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()
