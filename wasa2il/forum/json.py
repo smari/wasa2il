@@ -1,16 +1,11 @@
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
-from django.template.loader import render_to_string
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.utils.timesince import timesince
 import simplejson as json
-import settings
 
-from forum.models import *
-from forum.forms import *
+from forum.models import Discussion, DiscussionPost
 
 
 def jsonize(f):

@@ -1,5 +1,8 @@
+
+from datetime import datetime, timedelta
+
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
 from django.db.models import Q
@@ -8,9 +11,11 @@ from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 
-from core.models import *
-from core.forms import *
+from django.contrib.auth.models import User
+from core.models import Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, Meeting
+from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm, MeetingForm
 from hashlib import sha1
+
 
 def home(request):
     ctx = {}
@@ -61,6 +66,7 @@ def profile(request, username=None):
 
     return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
 
+
 @login_required
 def view_settings(request):
     ctx = {}
@@ -71,7 +77,7 @@ def view_settings(request):
             request.user.save()
             form.save()
 
-            if request.FILES.has_key("picture"):
+            if 'picture' in request.FILES:
                 f = request.FILES.get("picture")
                 m = sha1()
                 m.update(request.user.username)
@@ -79,7 +85,7 @@ def view_settings(request):
                 ext = f.name.split(".")[1]
                 filename = "userimg_%s.%s" % (hash, ext)
                 path = settings.MEDIA_ROOT + "/" + filename
-                url = settings.MEDIA_URL + filename
+                #url = settings.MEDIA_URL + filename
                 pic = open(path, 'wb+')
                 for chunk in f.chunks():
                     pic.write(chunk)
@@ -100,6 +106,7 @@ def view_settings(request):
     ctx["form"] = form
     return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
 
+
 class TopicListView(ListView):
     context_object_name = "topics"
     template_name = "core/topic_list.html"
@@ -113,7 +120,7 @@ class TopicCreateView(CreateView):
     context_object_name = "topic"
     template_name = "core/topic_form.html"
     form_class = TopicForm
-    success_url="/polity/%(polity)d/topic/%(id)d/"
+    success_url = "/polity/%(polity)d/topic/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
@@ -150,7 +157,7 @@ class IssueCreateView(CreateView):
     context_object_name = "issue"
     template_name = "core/issue_form.html"
     form_class = IssueForm
-    success_url="/issue/%(id)d/"
+    success_url = "/issue/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
@@ -231,7 +238,6 @@ class PolityDetailView(DetailView):
 
         return res
 
-
     def get_context_data(self, *args, **kwargs):
         ctx = {}
         context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
@@ -257,7 +263,7 @@ class PolityCreateView(CreateView):
     context_object_name = "polity"
     template_name = "core/polity_form.html"
     form_class = PolityForm
-    success_url="/polity/%(id)d/"
+    success_url = "/polity/%(id)d/"
 
     def form_valid(self, form):
         self.object = form.save()
@@ -270,8 +276,7 @@ class DocumentCreateView(CreateView):
     context_object_name = "document"
     template_name = "core/document_form.html"
     form_class = DocumentForm
-    success_url="/document/%(id)d/"
-
+    success_url = "/document/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         try:
@@ -378,8 +383,7 @@ class MeetingCreateView(CreateView):
     context_object_name = "meeting"
     template_name = "core/meeting_form.html"
     form_class = MeetingForm
-    success_url="/polity/%(polity)d/meeting/%(id)d/"
-
+    success_url = "/polity/%(polity)d/meeting/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
@@ -459,14 +463,12 @@ class MeetingUpdateView(UpdateView):
         return context_data
 
 
-
 class ElectionCreateView(CreateView):
     model = Election
     context_object_name = "election"
     template_name = "core/election_form.html"
     form_class = ElectionForm
-    success_url="/polity/%(polity)d/election/%(id)d/"
-
+    success_url = "/polity/%(polity)d/election/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
@@ -522,6 +524,7 @@ class ElectionListView(ListView):
         context_data.update({'polity': self.polity})
         context_data['user_is_member'] = self.request.user in self.polity.members.all()
         return context_data
+
 
 def election_ballots(request, pk=None):
     ctx = {}

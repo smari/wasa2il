@@ -137,7 +137,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
     document_footer = models.TextField(**nullblank)
 
     def is_show_membership_requests(self, user):
-        
+
         if self.is_administrated and user in self.officers.all():
             print "User is officer in administered polity."
             return True
@@ -148,7 +148,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
         return False
 
-
     def get_delegation(self, user):
         """Check if there is a delegation on this polity."""
         try:
@@ -157,7 +156,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
         except:
             pass
         return []
-
 
     def is_member(self, user):
         return user in self.members.all()
@@ -211,7 +209,7 @@ class Topic(BaseIssue, getCreationBase('topic')):
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
-        except: #Except what?! This is bad exception handling.
+        except:  # Except what?! This is bad exception handling.
             return self.polity.get_delegation(user)
 
     def new_comments(self):
@@ -279,7 +277,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
     def user_documents(self, user):
         try:
             return self.document_set.filter(user=user)
-        except TypeError as e:
+        except TypeError:
             return []
 
     def get_votes(self):
@@ -311,31 +309,40 @@ class Delegate(models.Model):
 
     def polity(self):
         """Gets the polity that the delegation exists within."""
-        try: return self.base_issue.issue.polity
-        except: pass
-        try: return self.base_issue.topic.polity
-        except: pass
-        try: return self.base_issue.polity
-        except: pass
+        try:
+            return self.base_issue.issue.polity
+        except:
+            pass
+        try:
+            return self.base_issue.topic.polity
+        except:
+            pass
+        try:
+            return self.base_issue.polity
+        except:
+            pass
 
     def result(self):
-        """Work through the delegations and figure out where it ends"""        
+        """Work through the delegations and figure out where it ends"""
         return self.get_path()[-1].delegate
 
     def type(self):
         """Figure out what kind of thing is being delegated. Returns a translated string."""
         try:
-            b = self.base_issue.issue
+            self.base_issue.issue
             return _("Issue")
-        except: pass
+        except:
+            pass
         try:
-            b = self.base_issue.topic
+            self.base_issue.topic
             return _("Topic")
-        except: pass
+        except:
+            pass
         try:
-            b = self.base_issue.polity
+            self.base_issue.polity
             return _("Polity")
-        except: pass
+        except:
+            pass
 
     def get_power(self):
         """Get how much power has been transferred through to this point in the (reverse) delegation chain."""
@@ -353,7 +360,7 @@ class Delegate(models.Model):
                 path.append(dels[0])
                 continue
 
-            try: # If this works, we are working with an "Issue"
+            try:  # If this works, we are working with an "Issue"
                 base_issue = item.base_issue.issue
                 for topic in base_issue.topics.all():
                     dels = user.delegate_set.filter(base_issue=topic)
@@ -364,24 +371,21 @@ class Delegate(models.Model):
                         #  creating weightings. Should we do weightings?
                         path.append(dels[0])
                         continue
-            except: pass
+            except:
+                pass
 
-            try: # If this works, we are working with an "Issue"
+            try:  # If this works, we are working with an "Issue"
                 base_issue = item.base_issue.topic
                 dels = user.delegate_set.filter(base_issue=base_issue)
                 if len(dels) > 0:
                     path.append(dels[0])
                     continue
-            except: pass
+            except:
+                pass
 
             break
 
         return path
-
-
-
-#class VoteOption(NameSlugBase):
-#    pass
 
 
 class Vote(models.Model):
@@ -403,7 +407,6 @@ class Vote(models.Model):
 
         self.power_when_cast = self.power()
         super(Vote, self).save(*largs, **kwargs)
-
 
     def power(self):
         # Follow reverse delgation chain to discover how much power we have.
@@ -735,16 +738,19 @@ def get_power(user, issue):
         power += get_power(i.user, issue)
     return power
 
+
 def get_issue_power(issue, user):
     return get_power(user, issue)
 
+
+# TODO: Why are these set here? Fix later..?
 Issue.get_power = get_issue_power
 User.get_power = get_power
 
 
 class VotingSystem(models.Model):
-    name        = models.CharField(max_length=100)
-    systemname    = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    systemname = models.CharField(max_length=50)
 
     def __unicode__(self):
         return self.name
@@ -845,4 +851,3 @@ class ElectionVote(models.Model):
 
     def __unicode__(self):
         return u'In %s, user %s voted for %s for seat %d' % (self.election, self.user, self.candidate, self.value)
-

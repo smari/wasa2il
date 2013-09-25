@@ -20,7 +20,7 @@ def getDerivedAdmin(base_admin, **kwargs):
     class DerivedAdmin(base_admin):
         pass
     derived = DerivedAdmin
-    for k,v in kwargs.iteritems():
+    for k, v in kwargs.iteritems():
         setattr(derived, k, getattr(base_admin, k, []) + v)
     return derived
 
@@ -34,9 +34,9 @@ def save_model(self, request, obj, form, change):
 
 class NameSlugAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, { 'fields': ['name', 'slug'] }),
+        (None, {'fields': ['name', 'slug']}),
     ]
-    prepopulated_fields = { 'slug': ['name'] }
+    prepopulated_fields = {'slug': ['name']}
     list_display = ['name', 'get_url']
     search_fields = ['name']
 
@@ -47,7 +47,7 @@ BaseIssueAdmin = getDerivedAdmin(NameSlugAdmin,
     )
 BaseIssueAdmin.fieldsets = [
         NameSlugAdmin.fieldsets[0],
-        (None, { 'fields': ['description'] }),
+        (None, {'fields': ['description']}),
     ]
 BaseIssueAdmin.save_model = save_model
 
@@ -93,9 +93,11 @@ class ChangeProposalAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     save_model = save_model
 
+
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
+
 
 class UserAdmin(auth.admin.UserAdmin):
     inlines = (UserProfileInline, )
