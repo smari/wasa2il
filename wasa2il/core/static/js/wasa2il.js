@@ -142,7 +142,7 @@ function issue_render(issue) {
 		comment = issue_object.comments[i];
 		div = "<div class=\"comment\" id=\"comment_" + comment.id + "\">";
 		div +=	"<div class=\"comment_created_by\"><a href=\"/accounts/profile/" + comment.created_by + "/\">" + comment.created_by + "</a></div>";
-		div +=	"<div class=\"comment_content\">" + comment.comment + "</div>";
+		div +=	"<div class=\"comment_content\">" + comment.comment.replace(/\n/g, '<br />') + "</div>";
 		div +=	"<div class=\"comment_created\">" + comment.created_since + "</div>";
 		div += "</div>";
 		$("#issue_comments").append(div);
