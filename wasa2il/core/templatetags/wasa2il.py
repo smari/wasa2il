@@ -42,7 +42,6 @@ def electionvoted(election, user):
 
     return (ut > 0)
 
-
 @register.filter(name="thumbnail")
 def thumbnail(file, size='104x104'):
     try:
@@ -76,4 +75,3 @@ def thumbnail(file, size='104x104'):
         print 'ERROR: %s' % e.message
         print e
         return ""
-
