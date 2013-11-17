@@ -8,3 +8,4 @@ wasa2il.sqlite3
 /err.log
 /local_settings.py
 /local_email.py
+/static
