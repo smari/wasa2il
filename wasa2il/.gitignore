@@ -3,3 +3,6 @@ wasa2il.sqlite3
 *.mo
 *~
 local_email.py
+/uploads/
+err.log
+out.log
