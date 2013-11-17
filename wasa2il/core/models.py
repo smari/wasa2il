@@ -194,17 +194,17 @@ class Topic(BaseIssue, getCreationBase('topic')):
     class Meta:
         ordering = ["name"]
 
-    def issues_new(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_new()]
-        return sum(issues)
+    def issues_open(self):
+        issues = [issue for issue in self.issue_set.all() if issue.is_open()]
+        return len(issues)
 
     def issues_voting(self):
         issues = [issue for issue in self.issue_set.all() if issue.is_voting()]
-        return sum(issues)
+        return len(issues)
 
     def issues_closed(self):
         issues = [issue for issue in self.issue_set.all() if issue.is_closed()]
-        return sum(issues)
+        return len(issues)
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
@@ -228,16 +228,11 @@ class UserTopic(models.Model):
 
 
 class Issue(BaseIssue, getCreationBase('issue')):
+    polity = models.ForeignKey(Polity)
     topics = models.ManyToManyField(Topic)
+    deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
     ruleset = models.ForeignKey(PolityRuleset, editable=False, **nullblank)
-
-    ISSUE_STATUS_CHOICES = (
-        ('NEW', 'New'),
-        ('VOTING', 'Voting'),
-        ('CLOSED', 'Closed'),
-    )
-    status = models.CharField(max_length=10, choices=ISSUE_STATUS_CHOICES, editable=False, default='NEW')
 
     class Meta:
         ordering = ["-deadline_votes"]
@@ -249,17 +244,28 @@ class Issue(BaseIssue, getCreationBase('issue')):
     def __unicode__(self):
         return self.name
 
-    def is_new(self):
-        return self.status == 'NEW'
+    def is_open(self):
+        if not self.is_closed():
+            return True
+        return False
 
     def is_voting(self):
-        return self.status == 'VOTING'
+        if not self.deadline_proposals or not self.deadline_votes:
+            return False
+
+        if datetime.now() > self.deadline_proposals and datetime.now() < self.deadline_votes:
+            return True
+
+        return False
 
     def is_closed(self):
-        return self.status == 'CLOSED'
+        if not self.deadline_votes:
+            return False
 
-    def get_status(self):
-        return dict(self.ISSUE_STATUS_CHOICES).get(self.status)
+        if datetime.now() > self.deadline_votes:
+            return True
+
+        return False
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
