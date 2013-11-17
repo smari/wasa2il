@@ -1,42 +1,31 @@
 #coding:utf-8
 # Django settings for wasa2il project.
-import os
-here = lambda x: os.path.abspath(os.path.join(os.path.abspath(os.path.dirname(__file__)), x))
+
+from utils import here
 
 try:
-    from local_email import *
+    from local_settings import *
 except ImportError:
-    pass
+    raise Exception('You need to set up local_settings.py (see local_settings.py-example')
 
-DEBUG = False
+# Some error checking for local_settings
+if not SECRET_KEY:
+    raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
+
 TEMPLATE_DEBUG = DEBUG
-
-ADMINS = (
-	('Smari', 'smari@immi.is'),
-    # ('Your Name', 'your_email@example.com'),
-)
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'wasa2il',                      # Or path to database file if using sqlite3.
-        'USER': 'wasa2il',                      # Not used with sqlite3.
-        'PASSWORD': '2.21gigawatts',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': DATABASE_ENGINE,  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': DATABASE_NAME,                      # Or path to database file if using sqlite3.
+        'USER': DATABASE_USER,                      # Not used with sqlite3.
+        'PASSWORD': DATABASE_PASSWORD,                  # Not used with sqlite3.
+        'HOST': DATABASE_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': DATABASE_PORT,                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
-TIME_ZONE = 'Africa/Casablanca'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -47,7 +36,7 @@ LANGUAGES = (
   ('es', 'Spanish'),
 )
 
-LANGUAGE_CODE = 'is' # "en-us"
+LANGUAGE_CODE = 'is'  # "en-us"
 
 SITE_ID = 1
 
@@ -99,7 +88,6 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'm=7tfvbx30-cmu30d-6_mx-ft&-2m^ne5&bwq5i*r@1ytj686#'
 SHARED_SECRET = 'cbd8dbc746786c4f18042bb88028ffea8eb25a10'
 
 # List of callables that know how to import templates from various sources.
@@ -125,27 +113,27 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-	here('templates'),
+    here('templates'),
 )
 
 INSTALLED_APPS = (
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.sites',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 
-	'django.contrib.admin',
+    'django.contrib.admin',
 
-	'registration',
-	'bootstrapform',
-	'fontawesome',
+    'registration',
+    'bootstrapform',
+    'fontawesome',
     'epiceditor',
     'google_diff_match_patch',
 
-	'core',
-	'forum',
+    'core',
+    'forum',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -159,9 +147,15 @@ LOGGING = {
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
+    'filters': {
+         'require_debug_false': {
+             '()': 'django.utils.log.RequireDebugFalse'
+         }
+     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
@@ -171,8 +165,6 @@ LOGGING = {
     }
 }
 
-AUTH_PROFILE_MODULE="core.UserProfile"
-ACCOUNT_ACTIVATION_DAYS=7
-LOGIN_REDIRECT_URL="/"
-FRONT_POLITY=1
-ALLOW_LEAVE_POLITY=False
+AUTH_PROFILE_MODULE = "core.UserProfile"
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = "/"

@@ -1,8 +1,9 @@
 *.pyc
-wasa2il.sqlite3
 *.mo
 *~
-local_email.py
+wasa2il.sqlite3
 /uploads/
-err.log
-out.log
+/out.log
+/err.log
+/local_settings.py
+/local_email.py
