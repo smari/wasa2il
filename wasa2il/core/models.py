@@ -155,7 +155,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
-        except Document.DoesNotExist:
+        except Delegate.DoesNotExist:
             pass
         return []
 
