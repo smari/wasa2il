@@ -1,5 +1,6 @@
 {% load wasa2il %}
 {% load i18n %}
+{% if not election.is_closed %}
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
 	<div style="position: relative;">
@@ -24,3 +25,4 @@
 		{% trans "There are no candidates standing in this election yet!" %}
 {% endif %}</p>
 {% endfor %}
+{% endif %}
