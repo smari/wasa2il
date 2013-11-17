@@ -232,14 +232,10 @@ class Issue(BaseIssue, getCreationBase('issue')):
     topics = models.ManyToManyField(Topic)
     deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
-    ruleset = models.ForeignKey(PolityRuleset, editable=False, **nullblank)
+    ruleset = models.ForeignKey(PolityRuleset, editable=True, **nullblank)
 
     class Meta:
         ordering = ["-deadline_votes"]
-
-    def save(self, *args, **kwargs):
-        self.ruleset = PolityRuleset.objects.all()[0]
-        super(Issue, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
