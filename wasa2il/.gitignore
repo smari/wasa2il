@@ -1,6 +1,7 @@
 *.pyc
 *.mo
 *~
+.*.swp
 wasa2il.sqlite3
 /uploads/
 /out.log
