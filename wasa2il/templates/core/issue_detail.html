@@ -81,7 +81,7 @@
 		<div id="issue_comments">
 		</div>
 
-		{% if issue.is_open and not user.is_anonymous %}
+		{% if issue.is_new and not user.is_anonymous %}
 		<div class="comment_form form-inline">
 			<textarea id="id_comment" class="span4"></textarea>
 			<button class="btn primary" onclick="issue_comment_send({{issue.id}}, $('#id_comment'));">{% trans "Add comment" %}</button>
