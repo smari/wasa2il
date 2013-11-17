@@ -535,4 +535,3 @@ def election_ballots(request, pk=None):
     else:
         raise PermissionDenied
 
-
