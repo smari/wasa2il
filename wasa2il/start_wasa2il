@@ -1,0 +1,37 @@
+#!/bin/bash
+# ./manage.py runfcgi host=127.0.0.1 port=8010 method=prefork daemonize=false 
+# errlog=err.log
+
+WORK_DIR="/var/www/wasa2il/wasa2il/"
+DAEMON="/usr/bin/python"
+ARGS="manage.py runfcgi host=127.0.0.1 port=8010 method=prefork outlog=${WORK_DIR}out.log errlog=${WORK_DIR}err.log"
+PIDFILE="/var/run/wasa2il.pid"
+USER="www-data"
+
+case "$1" in
+  start)
+    rm $PIDFILE
+    echo "Starting server"
+    echo "Running in $WORK_DIR"
+    echo "Launching with: $DAEMON $ARGS"
+    mkdir -p "$WORK_DIR"
+    #/sbin/start-stop-daemon --start --pidfile $PIDFILE \
+    #    --user $USER --group $USER \
+    #    -b --make-pidfile \
+    #    --chuid $USER \
+    #    --exec $DAEMON $ARGS
+    $DAEMON $ARGS
+    cat $PIDFILE
+    ;;
+  stop)
+    echo "Stopping server"
+    /sbin/start-stop-daemon --stop --pidfile $PIDFILE --verbose
+    ;;
+  *)
+    echo "Usage: /etc/init.d/$USER {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
