@@ -227,7 +227,7 @@ class PolityDetailView(DetailView):
                 self.membershiprequest.save()
         else:
             try:
-                self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user, pending=True)
+                self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user)
             except MembershipRequest.DoesNotExist:
                 self.membershiprequest = None
 
