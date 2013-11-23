@@ -1,8 +1,12 @@
 {% load wasa2il %}
 {% load i18n %}
+{% if not election.is_closed %}
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
-	<div>
+	<div style="position: relative;">
+		{% if candidate.user.get_profile.high_seat %}
+		<span style="color: #00DD00; position: absolute; right: 10px">•</span>
+		{% endif %}
 		<img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded"/>
 		<a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.get_name}}</a>
 		{% if election.is_voting %}
@@ -21,3 +25,4 @@
 		{% trans "There are no candidates standing in this election yet!" %}
 {% endif %}</p>
 {% endfor %}
+{% endif %}

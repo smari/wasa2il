@@ -1,5 +1,11 @@
 *.pyc
-wasa2il.sqlite3
 *.mo
 *~
-local_email.py
+.*.swp
+wasa2il.sqlite3
+/uploads/
+/out.log
+/err.log
+/local_settings.py
+/local_email.py
+/static

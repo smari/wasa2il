@@ -146,7 +146,7 @@
 				title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></i>
 			<a href="/issue/{{issue.id}}/">{{issue.name}}</a>
 		</td>
-                <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
+                <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
                 <td>{{issue.document_set.count}}</td>
                 <td>{{issue.comment_set.count}}</td>
                 <td>{{issue.get_votes.count}}</td>
@@ -200,7 +200,7 @@
 	</table>
 </div>
 
-
+{% comment %}
 <div class="span6 pull-right"><a name="meetings"></a>
 	{% if user_is_member %}
 	<div class="btn-group" style="float: right">
@@ -242,7 +242,6 @@
 	{% endfor %}
 	</table>
 </div>
-
 
 {% if user_is_member %}
 <div class="span6 pull-left"><a name="delegations"></a>
@@ -308,7 +307,7 @@
 	</table>
 </div>
 
-
+{% endcomment %}
 
 </div>
 
