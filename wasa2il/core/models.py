@@ -502,6 +502,7 @@ class Document(NameSlugBase):
     issues = models.ManyToManyField(Issue)
     user = models.ForeignKey(User)
     is_adopted = models.BooleanField(default=False)
+    is_proposed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-id"]
