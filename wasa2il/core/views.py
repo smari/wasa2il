@@ -279,14 +279,19 @@ class DocumentCreateView(CreateView):
     success_url = "/document/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
-        try:
-            self.issues = [Issue.objects.get(id=kwargs["issue"])]
-        except Issue.DoesNotExist:
-            self.issues = []
-        try:
-            self.polity = Polity.objects.get(id=kwargs["polity"])
-        except Polity.DoesNotExist:
-            self.polity = None
+        self.issues = []
+        if kwargs.has_key('issue'):
+            try:
+                self.issues = [Issue.objects.get(id=kwargs["issue"])]
+            except Issue.DoesNotExist:
+                pass # self.issues defaulted to [] already.
+
+        self.polity = None
+        if kwargs.has_key('polity'):
+            try:
+                self.polity = Polity.objects.get(id=kwargs["polity"])
+            except Polity.DoesNotExist:
+                pass # self.polity defaulted to None already.
 
         if len(self.issues) > 0 and not self.polity:
             self.polity = self.issues[0].polity
