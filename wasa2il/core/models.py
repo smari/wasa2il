@@ -276,7 +276,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
         return ', '.join(map(str, self.topics.all()))
 
     def proposed_documents(self):
-        return self.document_set.filter(is_adopted=False)
+        return self.document_set.filter(is_proposed=True)
 
     def user_documents(self, user):
         try:
