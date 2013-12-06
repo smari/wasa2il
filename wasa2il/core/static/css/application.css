@@ -1,0 +1,365 @@
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+.img-negpad {
+	margin-top:	-5px;
+	margin-bottom:	-5px;
+}
+
+@font-face {
+    font-family: 'LeagueGothicRegular';
+    src: url('League_Gothic-webfont.eot');
+    src: url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('League_Gothic-webfont.woff') format('woff'),
+         url('League_Gothic-webfont.ttf') format('truetype'),
+         url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1 { font-family: 'LeagueGothicRegular'; font-weight: normal; font-size: 400%; }
+h2 { font-family: 'LeagueGothicRegular'; font-weight: normal; font-size: 300%; }
+h3 { font-family: 'LeagueGothicRegular'; font-weight: normal; font-size: 250%; }
+a {
+	color: #644f80;
+}
+a:hover {
+	color: #47385b;
+}
+
+
+#statements_declarations ol li:before {
+	content: value(statement-counter);
+}
+
+#statements_declarations ol {
+	/* list-style-type:        lower-alpha; */
+	counter-reset: 			statement-counter -1;
+}
+
+.candidates {
+	min-height:			50px;
+}
+
+.candidates p {
+	padding:			10px;
+	border:				1px solid #ddd;
+}
+
+.candidates li {
+	border-bottom:		1px solid #ddd;
+	padding-bottom:		3px;
+	font-size:			18pt;
+}
+
+.candidates li div {
+	display:			block;
+}
+
+.candidates li div:hover {
+	text-decoration:		none;
+}
+
+#candidates li {
+	display:			block;
+}
+
+#votes {
+	background: 		#fff;
+	list-style-type:			decimal;
+}
+
+#votes li {
+	display:			list-item;
+}
+
+
+.memberstatusbox {
+	padding:			5px;
+	margin:				2px;
+	margin-right:			10px;
+	background:			#eee;
+	border:				1px solid #ddd;
+	border-radius:			3px;
+}
+
+.statementset ol {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.statementset#statements_references ol {
+	list-style-type: square;
+}
+.statementset#statements_assumptions ol {
+	list-style-type: upper-roman;
+}
+.statementset.empty-statementset ol {
+	list-style-type: none !important;
+	color: #999;
+	font-style: italic;
+}
+
+.document-fragment {
+	border: 1px solid #eee;
+	padding: 3px;
+	margin: 1em 3px;
+	border-radius: 3px;
+}
+
+.statement_subheading {
+	/*list-style-type:		none;*/
+	counter-increment:		statement-counter;
+	font-size:				150%;
+	margin-top:				6px;
+	margin-bottom:			2px;
+}
+
+.state_buttons {
+	display:                none;
+}
+
+.statementset li {
+	padding: 5px;
+	margin: 3px;
+	border-radius: 5px;
+}
+
+.statementset li:hover {
+	background:		#eee;
+}
+
+.statementset .mover {
+	display: none;
+}
+
+.statementset li:hover .mover {
+	display: block;
+	float: right;
+	cursor: move;
+}
+
+.statementset li:hover > .state_buttons {
+	display:                block;
+	position:				absolute;
+	padding-left:			50px;
+}
+
+.helptext {
+	font-size:	8pt;
+	color:	#888;
+}
+
+ul.nobullets {
+	list-style-type: none;
+}
+
+.thumbnail {
+	float:		left;
+	position:	relative;
+	width:		80px;
+	height:		80px;
+	display:	inline-block;
+	margin:		3px;
+	overflow:	hidden;
+}
+
+.thumbnail.member {
+}
+.thumbnail.member > img {
+	position: absolute;
+	z-index: -1;
+}
+.thumbnail.member .title {
+	position: absolute;
+	margin-right: auto;
+	margin-left: auto;
+	width: 80px;
+	bottom: 0;
+	text-align: center;
+	background: rgba(255,255,255, 0.5);
+}
+
+.mainaction {
+	display:	block;
+	background:	#ccf;
+	border:		1px solid #7768cc;
+	border-radius:	15px;
+	padding:	30px;
+	color:		#000;
+	min-height:	100px;
+}
+
+.mainaction:hover {
+	text-decoration: none;
+	background:	#eef;
+}
+
+
+footer {
+	font-size:	10pt;
+	margin-top:	30px;
+}
+
+
+.subnav {
+	background:	#ccf;
+	border-radius:	5px;
+	padding-left:	10px;
+	padding-right:	10px;
+	margin-bottom:	20px;
+}
+
+
+.subnav > .nav {
+	margin-bottom:	0px;
+}
+
+
+.meeting-notongoing, .meeting-ongoing, .meeting-notstarted, .meeting-ended,
+.meeting-agendaopen, .meeting-agendaclosed, .meeting-manager, .meeting-attendee {
+	display:	none;
+}
+
+#agenda-items.ui-sortable > li {
+	cursor: move;
+	min-height: 1.5em;
+}
+#agenda-items.ui-sortable-disabled > li {
+	cursor: auto;
+}
+
+.agenda-actions {
+	margin-left:	40px;
+	display:	none;
+	cursor:		pointer;
+	position: absolute;
+}
+
+.agenda-actions:hover {
+	color:		#003;
+}
+
+#agenda-items li:hover > .agenda-actions {
+	display:	inline-block;
+}
+
+#agenda-items li.done {
+	text-decoration: line-through;
+	color: #777;
+}
+
+#agenda-items li.ongoing {
+	font-weight: bold;
+}
+
+#agenda-items li.ongoing:before {
+	font-weight: bold;
+	content: ">> ";
+}
+
+ol.interventions {
+	font-weight: normal;
+}
+
+ol.interventions li.active {
+	font-weight: bold;
+}
+
+ol.interventions li.active:before {
+	font-weight: bold;
+	content: ">> ";
+}
+
+
+.attendancelist li, .managerlist li {
+	display:	block;
+}
+
+
+.icon-grey {
+  background-image: url("../img/glyphicons-halflings-grey.png");
+}
+
+
+.comment {
+	background: #f7f7f7;
+	margin:		2px;
+	padding:	2px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius:	3px;
+}
+
+.comment_created_by {
+	font-size:	9pt;
+	font-weight: bold;
+	display:	inline;
+	margin-right:	7px;
+}
+
+.comment_created {
+	font-size:	8pt;
+	color:		#888;
+}
+
+.comment_content {
+	display:	inline;
+}
+
+
+ul.errorlist {
+	color: #ff0000;
+	list-style: none;
+	margin-left: 4px;
+}
+#content {
+	visibility: hidden;
+	-webkit-box-shadow: 3px 3px 13px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    3px 3px 13px rgba(50, 50, 50, 0.75);
+	box-shadow:         3px 3px 13px rgba(50, 50, 50, 0.75);
+	margin-top: 2em;
+	margin-bottom: 2em;
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.document {
+	position: relative;
+}
+#content:after {
+	content: "Loading";
+	visibility: visible;
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	font-size: 3em;
+	z-index: -100;
+}
+
+#content_org {
+	display: none;
+}
+#content_diff {
+	display: none;
+}
+
+#content_diff ins {
+	background-color: #aaffaa !important;
+}
+#content_diff del {
+	background-color: #ffaaaa !important;
+}
+
+#versions .current {
+	font-weight: bold;
+}
+
