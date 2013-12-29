@@ -11,6 +11,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   getting_started
+
+ToDo list:
+----------
+
+.. todolist::
 
 
 Indices and tables
