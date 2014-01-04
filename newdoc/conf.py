@@ -18,6 +18,11 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('../wasa2il'))
 
+# This will allow sphinx to run without having this environmental variable set
+# but was mainly added for automatic build from readthedocs.org
+if os.environ.get('DJANGO_SETTINGS_MODULE', None) == None:
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'empty'
+
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
