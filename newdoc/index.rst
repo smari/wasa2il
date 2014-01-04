@@ -12,11 +12,15 @@ Contents:
    :maxdepth: 2
 
    getting_started
+   api
 
 ToDo list:
 ----------
 
 .. todolist::
+
+Test
+-----
 
 
 Indices and tables

@@ -3,11 +3,8 @@ Gettings Started
 
 This section will detail how to get the development environment up and running.
 
-.. note::
-    Since this project blah blah
-
 Getting wasa2il from source
-----------------------
+---------------------------
 
 You will need to have Git versioning control software installed on your machine
 
@@ -18,7 +15,7 @@ To get the most recent development version of the source issuing the following c
 
 ::
 
-    prompt> git clone https://github.com/piratar/wasa2il.git
+    git clone https://github.com/piratar/wasa2il.git
 
 .. hint::
     The project and code directories share the same name, wasa2il.
@@ -27,13 +24,16 @@ To get the most recent development version of the source issuing the following c
 Initialize submodules
 ~~~~~~~~~~~~~~~~~~~~~
 
+.. index::
+    single: OpenSTV
+
 wasa2il requires a 3rd party library called OpenSTV.
 OpenSTV git repository is configured as submodules to wasa2il
 To get git to fetch this project run:
 
 ::
 
-    prompt> git submodule update --init
+    git submodule update --init
 
 This will fetch the libraries project and place it in ``lib/submodules/openSTV``
 
@@ -114,19 +114,24 @@ PYTHONPATH
 DJANGO_SETTINGS_MODLUE
     This variable should be assigned ``wasa2il.settings``
 
+.. note::
+    This is not needed to get the development server started.
+    This is needed for external tools (f.ex sphinx) to find and load the project.
+
+
 Configuring local_settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Included in the source is an example file of local_settings.py
-called local_settings.py-example that you can see here:
+called ``local_settings.py-example`` that you can see here:
 
 .. literalinclude:: ../wasa2il/local_settings.py-example
 
 Make a copy of this file and call it ``local_settings.py``.
 
 Change the database configuration to match your database
-(if sqlite3 then only DATABASE_ENGINE and DATABASE_NAME needs to be defined).
-Change the SECRET_KEY variable.
+(if sqlite3 then only DATABASE_ENGINE and DATABASE_NAME needs to be defined)
+and change the SECRET_KEY variable.
 Thats all that is needed to get django running.
 
 Creating initial database
@@ -142,7 +147,7 @@ The command to run is:
 
 .. warning::
     If a superuser is created it will not have a
-    UserProfile assoiated with it.
+    :class:`~core.models.UserProfile` assoiated with it.
     To fix this you need to enter the shell
 
     ::
@@ -161,3 +166,10 @@ The command to run is:
 
 Collect static media
 ~~~~~~~~~~~~~~~~~~~~
+
+For everything to display correctly we need to gather in the static data and place it in the correct directory.
+
+::
+
+    python manage.py collectstatic
+
