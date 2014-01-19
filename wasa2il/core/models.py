@@ -152,6 +152,8 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
     def get_delegation(self, user):
         """Check if there is a delegation on this polity."""
+        if not user.is_authenticated():
+            return []
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
@@ -208,6 +210,8 @@ class Topic(BaseIssue, getCreationBase('topic')):
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
+        if not user.is_authenticated():
+            return []
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
@@ -265,6 +269,8 @@ class Issue(BaseIssue, getCreationBase('issue')):
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
+        if not user.is_authenticated():
+            return []
         try:
             d = Delegate.objects.get(user=user, base_issue=self)
             return d.get_path()
