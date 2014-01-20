@@ -15,7 +15,7 @@ urlpatterns = patterns('', )
 
 if settings.FRONT_POLITY:
     urlpatterns = patterns('',
-        (r'^$', login_required(PolityDetailView.as_view()), {'pk': settings.FRONT_POLITY}),
+        (r'^$', PolityDetailView.as_view(), {'pk': settings.FRONT_POLITY}),
     )
 else:
     urlpatterns = patterns('',
