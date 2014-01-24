@@ -25,9 +25,9 @@ urlpatterns = patterns('',
         (r'^i18n/', include('django.conf.urls.i18n')),
 
     # Core app
-    (r'^', include('wasa2il.core.urls')),
+    (r'^', include('core.urls')),
     # Forums app
-    (r'^', include('wasa2il.forum.urls')),
+    (r'^', include('forum.urls')),
 
     (r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
     (r'^accounts/settings/', 'core.views.view_settings'),
