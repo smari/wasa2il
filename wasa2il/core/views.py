@@ -278,7 +278,6 @@ class DocumentCreateView(CreateView):
     context_object_name = "document"
     template_name = "core/document_form.html"
     form_class = DocumentForm
-    success_url = "/document/%(id)d/"
 
     def dispatch(self, *args, **kwargs):
         self.issues = []
@@ -314,7 +313,7 @@ class DocumentCreateView(CreateView):
         self.object.save()
         for issue in form.cleaned_data.get('issues'):
             self.object.issues.add(issue)
-        self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/"
+        self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/?v=new"
         return HttpResponseRedirect(self.get_success_url())
 
 
