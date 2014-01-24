@@ -17,7 +17,7 @@
 
 <div class="row">
 	<div class="span6 pull-left">
-		<p>{{issue.description}}</p>
+		{{ issue.description|linebreaks }}
 
 		<table class="table table-compact">
 			<tr><th>{% trans "In topics:" %}</th><td>{% for i in issue.topics.all %}<a href="/polity/{{issue.polity.id}}/topic/{{i.id}}/">{{i.name}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
