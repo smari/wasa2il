@@ -11,7 +11,7 @@
 <tr>
 	<td><a href="/polity/{{document.polity.id}}/document/{{document.id}}/">{{document.name}}</a></td>
 	<td>{{document.is_adopted}}</td>
-	<td><a href="/accounts/{{document.user.username}}/">{{document.user}}</a></td>
+	<td><a href="/accounts/profile/{{document.user.username}}/">{{document.user}}</a></td>
 	<td>{% for u in document.get_contributors %}<a href="/accounts/{{u.username}}/">{{u}}</a>{% if not forloop.last %},{% endif %}{% endfor %}</td>
 	<td>{{document.get_last_edit}}</td>
 </tr>
