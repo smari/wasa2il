@@ -330,6 +330,7 @@ ul.errorlist {
 	margin-bottom: 2em;
 	border: 1px solid transparent;
 	border-radius: 5px;
+    height: 350px;
 }
 
 .document {
