@@ -1,6 +1,6 @@
 
 import os
-import Image
+from PIL import Image
 
 from django import template
 
