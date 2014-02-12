@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% load bootstrap %}
+{% load i18n %}
+
 {% block content %}
 
-<h1>Logged out!</h1>
+<div class="page-header"><h1>{% trans "Logged out" %}</h1></div>
 
-<p>We're sorry you decided to leave us so soon. We hope you'll come back. It'd be fun!</p>
+<div>
+    <p>{% trans "We hope you'll be back soon. It'd be fun!" %}</p>
+</div>
 
 {% endblock %}

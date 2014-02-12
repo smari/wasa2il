@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 20:12+0000\n"
+"POT-Creation-Date: 2014-02-12 20:48+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -73,9 +73,9 @@ msgid "Log in"
 msgstr "Innskrá"
 
 #: templates/base.html:97 templates/hom01.html:12
-#: templates/notLoginInHome.html:14 templates/registration/login.html:16
+#: templates/notLoginInHome.html:14 templates/registration/login.html:19
 #: templates/registration/registration_form.html:6
-#: templates/registration/registration_form.html:15
+#: templates/registration/registration_form.html:18
 msgid "Sign up"
 msgstr "Nýskrá"
 
@@ -2063,17 +2063,38 @@ msgstr ""
 msgid "and partake in democracy..."
 msgstr "og taktu þátt í lýðræðinu..."
 
-#: templates/registration/login.html:15
+#: templates/registration/login.html:8
+msgid ""
+"Please note that as of February 12th 2014, we require the verification of "
+"all user accounts via the so-called Icekey."
+msgstr ""
+"Vinsamlegast athugið að frá og með 12. febrúar 2014 krefjumst við "
+"staðfestingar allra innskráðra notenda með hinum svokallaða Íslykli."
+
+#: templates/registration/login.html:9
+msgid "If problems arise, please send an email to the following email address:"
+msgstr ""
+"Ef vandamál koma upp, vinsamlegast sendið netpóst á eftirfarandi netfang:"
+
+#: templates/registration/login.html:18
 msgid "Login"
 msgstr "Innskrá"
 
-#: templates/registration/login.html:17
+#: templates/registration/login.html:20
 #: templates/registration/password_reset_complete.html:5
 #: templates/registration/password_reset_confirm.html:6
 #: templates/registration/password_reset_done.html:5
 #: templates/registration/password_reset_form.html:5
 msgid "Password reset"
 msgstr ""
+
+#: templates/registration/logout.html:7
+msgid "Logged out"
+msgstr ""
+
+#: templates/registration/logout.html:10
+msgid "We hope you'll be back soon. It'd be fun!"
+msgstr "Við vonum að þú komir fljótt aftur! Það væri gaman!"
 
 #: templates/registration/password_change_done.html:7
 msgid "Password changed"
@@ -2099,6 +2120,18 @@ msgstr ""
 #: templates/registration/password_reset_form.html:10
 msgid "Send password"
 msgstr ""
+
+#: templates/registration/registration_form.html:8
+msgid ""
+"Please be advised that by registering and verifying your account, you become "
+"a member of the Pirate Party of Iceland."
+msgstr ""
+"Vinsamlegast athugið að með því að nýskrá og staðfesta aðgang gerist þú "
+"meðlimur að Pírötum."
+
+#: templates/registration/registration_form.html:9
+msgid "As required by law, we treat our member database with confidentiality."
+msgstr "Við förum með félagatal okkar sem trúnaðarmál samkvæmt lögum."
 
 #: templates/registration/saml_error.html:6
 msgid "Verification error"
@@ -2154,6 +2187,13 @@ msgstr ""
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "Membership-related issues may be raised by sending an email to the "
+#~ "following address:"
+#~ msgstr ""
+#~ "Ef vandamál koma upp, vinsamlegast sendið netpóst á eftirfarandi netfang:"
 
 #, fuzzy
 #~ msgid "Create account"
