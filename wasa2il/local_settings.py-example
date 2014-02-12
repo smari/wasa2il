@@ -11,6 +11,13 @@ TIME_ZONE = 'Iceland'
 FRONT_POLITY = 1
 ALLOW_LEAVE_POLITY = False
 
+AUTH_URL = 'https://innskraning.island.is/?id=audkenni.piratar.is&path=/accounts/verify/'
+AUTH_ISLAND = {
+    'wsdl': 'https://egov.webservice.is/sst/runtime.asvc/com.actional.soapstation.eGOVDKM_AuthConsumer.AccessPoint?WSDL',
+    'login': 'some_login',
+    'password': 'some_password',
+}
+
 DATABASE_ENGINE = 'django.db.backends.' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_HOST = ''
 DATABASE_PORT = ''

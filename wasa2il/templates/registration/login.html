@@ -10,9 +10,9 @@
 		<form action="/accounts/login/" method="POST">
 			{%csrf_token%}
 			<fieldset> 
-			{{form|bootstrap}}
+			{{ form.as_table }}
 				<label></label>
-				<input class="btn btn-primary" type="submit" value="{% trans "Log in" %}"/>
+				<input class="btn btn-primary" type="submit" value="{% trans "Login" %}"/>
 				<a href="/accounts/register/" class="btn">{% trans "Sign up" %}</a>
 				<a href="/accounts/password/reset/" class="btn">{% trans "Password reset" %}</a>
 			</fieldset>

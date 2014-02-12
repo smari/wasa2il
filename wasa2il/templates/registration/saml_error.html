@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Verification error" %}</h1>
+<div>
+    <p>{% trans "The following error occurred during the processing of your account's verification:" %}</p>
+</div>
+<div>
+    <ul class="errorlist"><li>{{ e }}</li></ul>
+</div>
+<div>
+    <p>{% trans "Please try again and if the error persists, contact an administrator." %}</p>
+</div>
+
+{% endblock %}

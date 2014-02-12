@@ -1,16 +1,25 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load bootstrap %}
 {% block content %}
 
-<h1>Sign up</h1>
-<div class="span12">
-<form action="/accounts/register/" method="POST">
-{%csrf_token%}
-<fieldset> 
-{{form|bootstrap}}
-<label></label><input class="btn primary" type="submit" value="Save"/>
-</fieldset>
-</form>
+<div class="page-header"><h1>{% trans "Create account" %} <small>{% trans "and partake in democracy..." %}</small></h1></div>
+
+<div class="row">
+    <div class="span8">
+        <form action="/accounts/register/" method="POST">
+            {%csrf_token%}
+            <fieldset>
+            {{ form.as_table }}
+                <label></label>
+                <input class="btn btn-primary" type="submit" value="{% trans "Sign up" %}"/>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="span4">
+    </div>
+
 </div>
 
 {% endblock %}

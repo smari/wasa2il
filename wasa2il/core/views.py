@@ -11,9 +11,21 @@ from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 
+# BEGIN - Imported from the original login functionality (could probably use cleaning up)
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
+from django.contrib.sites.models import get_current_site
+from django.template.response import TemplateResponse
+import urlparse
+# END
+
 from django.contrib.auth.models import User
-from core.models import Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, Meeting
+from core.models import Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, Meeting, UserProfile
 from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm, MeetingForm
+from core.saml import authenticate, SamlException
 from hashlib import sha1
 
 
@@ -105,6 +117,98 @@ def view_settings(request):
 
     ctx["form"] = form
     return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
+
+
+@sensitive_post_parameters()
+@csrf_protect
+@never_cache
+def login(request, template_name='registration/login.html',
+          redirect_field_name=REDIRECT_FIELD_NAME,
+          authentication_form=AuthenticationForm,
+          current_app=None, extra_context=None):
+    """
+    Displays the login form and handles the login action.
+    """
+    redirect_to = request.REQUEST.get(redirect_field_name, '')
+
+    if request.method == "POST":
+        form = authentication_form(data=request.POST)
+        if form.is_valid():
+            netloc = urlparse.urlparse(redirect_to)[1]
+
+            # Use default setting if redirect_to is empty
+            if not redirect_to:
+                redirect_to = settings.LOGIN_REDIRECT_URL
+
+            # Heavier security check -- don't allow redirection to a different
+            # host.
+            elif netloc and netloc != request.get_host():
+                redirect_to = settings.LOGIN_REDIRECT_URL
+
+            # Okay, security checks complete. Log the user in.
+            auth_login(request, form.get_user())
+
+            if request.session.test_cookie_worked():
+                request.session.delete_test_cookie()
+
+            # Make sure that profile exists
+            try:
+                request.user.get_profile()
+            except:
+                profile = UserProfile()
+                profile.user = request.user
+                profile.save()
+
+            if not request.user.get_profile().kennitala:
+                return HttpResponseRedirect(settings.AUTH_URL)
+
+            return HttpResponseRedirect(redirect_to)
+    else:
+        form = authentication_form(request)
+
+    request.session.set_test_cookie()
+
+    current_site = get_current_site(request)
+
+    context = {
+        'form': form,
+        redirect_field_name: redirect_to,
+        'site': current_site,
+        'site_name': current_site.name,
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return TemplateResponse(request, template_name, context,
+                            current_app=current_app)
+
+
+@login_required
+def verify(request):
+
+    try:
+        auth = authenticate(request, settings.AUTH_URL)
+    except SamlException as e:
+        ctx = {'e': e}
+        return render_to_response('registration/saml_error.html', ctx)
+
+    if UserProfile.objects.filter(kennitala=auth['kennitala']).count() > 0:
+        taken_user = UserProfile.objects.select_related('user').get(kennitala=auth['kennitala']).user
+        ctx = {
+            'auth': auth,
+            'taken_user': taken_user,
+        }
+
+        auth_logout(request)
+
+        return render_to_response('registration/verification_duplicate.html', ctx)
+
+    profile = request.user.get_profile() # It shall exist at this point
+    profile.kennitala = auth['kennitala']
+    profile.verified_token = request.GET['token']
+    profile.verified_timing = datetime.now()
+    profile.save()
+
+    return HttpResponseRedirect('/')
 
 
 class TopicListView(ListView):

@@ -88,12 +88,12 @@
           <ul class="dropdown-menu">
             <li><a href="/accounts/profile/"><i class="icon-user"></i> {% trans "My profile" %}</a></li>
             <li><a href="/accounts/settings/"><i class="icon-wrench"></i> {% trans "My settings" %}</a></li>
-            <li><a href="/accounts/logout"><i class="icon-off"></i> {% trans "Logout" %}</a></li>
+            <li><a href="/accounts/logout/"><i class="icon-off"></i> {% trans "Logout" %}</a></li>
           </ul>
         </li>
 	{% else %}
-            <li><a href="/accounts/login">{% trans "Log in" %}</a></li>
-            <li><a href="https://www.island.is/audkenning?id=piratar.is">{% trans "Sign up" %}</a></li>
+            <li><a href="/accounts/login/">{% trans "Log in" %}</a></li>
+            <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
 	{% endif %}
           </ul>
         </div>
