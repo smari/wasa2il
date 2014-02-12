@@ -50,23 +50,23 @@
 	<div class="span6 pull-left document">
 
 		<ul class="nav nav-tabs">
-			<li data-tab="edit" class="active"><a href="#">Edit</a></li>
-			<li data-tab="diff" ><a href="#">Diff</a></li>
+			<li data-tab="edit" class="active"><a href="#">{% trans "Edit" %}</a></li>
+			<li data-tab="diff" ><a href="#">{% trans "Diff" %}</a></li>
 		</ul>
 		<div id="content"></div>
 		<div id="content_diff"><pre>{{current_content.diff|safe}}</pre></div>
 		<div id="content_org">{{current_content.text}}</div>
 		{% if not user.is_anonymous %}
-		<h4>Propose a change</h4>
+		<h4>{% trans "Propose a change" %}</h4>
 		{% if proposing %}
 		<form id="propose_change" action="." method="post">
 			{% csrf_token %}
-			<label for="comments">Comments:</label>
+			<label for="comments">{% trans "Comments" %}:</label>
 			<textarea id="comments"></textarea>
-			<input type="submit" value="Propose changes"></input>
+			<input type="submit" value="{% trans "Propose change" %}"></input>
 		</form>
 		{% else %}
-			<p>Want to propose a change? <a href="?v=new">Click here!</a></p>
+			<p>{% trans "Want to propose a change?" %} <a href="?v=new">{% trans "Click here!" %}</a></p>
 		{% endif %}
 		{% endif %}
 	</div>
@@ -106,16 +106,16 @@
 		<h3>{% trans "Versions" %}</h3>
 		<table class="table table-striped">
 			<tr>
-				<th>Active</th>
+				<th>{% trans "Active" context "Version" %}</th>
 				<th>#</th>
-				<th>Status</th>
-				<th>Author</th>
-				<th>Comments</th>
+				<th>{% trans "Status" %}</th>
+				<th>{% trans "Author" %}</th>
+				<th>{% trans "Comments" %}</th>
 			</tr>
 			{% for content in document.get_versions %}
 			<tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{content.id}}" data-patch="{{content.patch}}">
 				<td><input id="change-{{content.id}}" type="checkbox" checked="checked"></input></td>
-				<td>{{content.order}}{% if content.order != current_content.order%} (<a href="?v={{content.order}}">view</a>){% endif %}</td>
+				<td>{{content.order}}{% if content.order != current_content.order%} (<a href="?v={{content.order}}">{% trans "view" %}</a>){% endif %}</td>
 				<td>{{content.status|title}}</td>
 				<td><a href="/accounts/profile/{{content.user}}"> {{content.user.get_full_name|default:content.user.username}}</a></td>
 				<td>{{content.comments}}</td>
