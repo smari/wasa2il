@@ -7,13 +7,13 @@
 		{% if candidate.user.get_profile.high_seat %}
 		<span style="color: #00DD00; position: absolute; right: 10px">•</span>
 		{% endif %}
-		<img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded"/>
+		<img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded vote-image" />
 		<a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.get_name}}</a>
 		{% if election.is_voting %}
 		{% if candidate_selected %}
-		<button class="btn pull-right" onclick="election_deselect_candidate(this);">{% trans "Remove from ballot" %}</button>
+		<button class="btn vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
 		{% else %}
-		<button class="btn pull-right" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+		<button class="btn vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
 		{% endif %}
 		{% endif %}
 	</div>

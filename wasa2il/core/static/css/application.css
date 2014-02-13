@@ -58,11 +58,12 @@ a:hover {
 .candidates li {
 	border-bottom:		1px solid #ddd;
 	padding-bottom:		3px;
-	font-size:			18pt;
+	font-size:			15pt;
 }
 
 .candidates li div {
 	display:			block;
+    height: 50px;
 }
 
 .candidates li div:hover {
@@ -71,6 +72,16 @@ a:hover {
 
 #candidates li {
 	display:			block;
+}
+
+.vote-button {
+    float: right;
+    margin-top: 12px;
+}
+
+.vote-image {
+    height: 50px;
+    width: 50px;
 }
 
 #votes {
