@@ -159,6 +159,10 @@ def login(request, template_name='registration/login.html',
                 profile.user = request.user
                 profile.save()
 
+            # Make sure that user is a part of front polity
+            if request.user.polity_set.all().count() == 0:
+                request.user.polity_set.add(settings.FRONT_POLITY)
+
             if not request.user.get_profile().kennitala:
                 return HttpResponseRedirect(settings.AUTH_URL)
 
