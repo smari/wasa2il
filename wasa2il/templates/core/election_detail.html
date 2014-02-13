@@ -24,7 +24,7 @@
 			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
 			<tr><th>{% trans "Votes:" %}</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
 			<tr><th>{% trans "Candidates:" %}</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
-			<tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}} <small><a href="http://en.wikipedia.org/wiki/Instant-runoff_voting" target="_blank">[What is this?]</a></small></td></tr>
+			<tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}} <small><a href="http://en.wikipedia.org/wiki/Instant-runoff_voting" target="_blank">[{% trans "What is this?" %}]</a></small></td></tr>
 		</table>
 	</div>
 
@@ -54,7 +54,7 @@
 	</div>
 
 	<div class="span5 pull-left well voting">
-		<h2>{% trans "Vote" %} <small>{% trans "for the candidates standing in this election" %}</small></h2>
+		<h2>{% trans "Votes" %}</h2>
 		<div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
 		<div class="alert alert-info">{% trans "Drag candidates to change order" %}</div>
 		<ol id="vote" class="candidates">

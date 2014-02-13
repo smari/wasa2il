@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-12 20:48+0000\n"
+"POT-Creation-Date: 2014-02-13 21:52+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -374,17 +374,17 @@ msgid "Adopted documents"
 msgstr "Samþykkt skjöl"
 
 #: templates/core/_election_candidate_list.html:14
-msgid "Remove from ballot"
+msgid "Remove"
 msgstr ""
 
 #: templates/core/_election_candidate_list.html:16
-#: templates/core/election_detail.html:57 templates/core/issue_detail.html:38
+#: templates/core/issue_detail.html:38
 msgid "Vote"
 msgstr "Kjósa"
 
 #: templates/core/_election_candidate_list.html:23
 msgid "Drag candidates here."
-msgstr ""
+msgstr "Dragðu frambjóðendur hingað."
 
 #: templates/core/_election_candidate_list.html:25
 #, fuzzy
@@ -582,9 +582,8 @@ msgid "view"
 msgstr ""
 
 #: templates/core/election_detail.html:8
-#, fuzzy
 msgid "Election:"
-msgstr "Delegation:"
+msgstr "Kosning:"
 
 #: templates/core/election_detail.html:11
 #, fuzzy
@@ -602,13 +601,12 @@ msgid "View details."
 msgstr "View details."
 
 #: templates/core/election_detail.html:23
-#, fuzzy
 msgid "Deadline for candidacy:"
-msgstr "Deadline for votes:"
+msgstr "Tímamörk fyrir framboð:"
 
 #: templates/core/election_detail.html:24 templates/core/issue_detail.html:26
 msgid "Deadline for votes:"
-msgstr "Deadline for votes:"
+msgstr "Tímamörk fyrir atkvæði:"
 
 #: templates/core/election_detail.html:25 templates/core/issue_detail.html:29
 msgid "Votes:"
@@ -616,31 +614,38 @@ msgstr "Atkvæði:"
 
 #: templates/core/election_detail.html:26
 msgid "Candidates:"
-msgstr ""
+msgstr "Frambjóðendur:"
 
 #: templates/core/election_detail.html:27
-#, fuzzy
 msgid "Voting system:"
-msgstr "Mál í kosningu"
+msgstr "Kosningakerfi:"
+
+#: templates/core/election_detail.html:27
+msgid "What is this?"
+msgstr "Hvað er þetta?"
 
 #: templates/core/election_detail.html:33
 msgid ""
 "You don't have to submit your vote; whatever is on your ballot when the vote "
 "deadline passes will be counted."
 msgstr ""
+"Það þarf ekki að skila inn atkvæði sérstaklega, heldur verður það talið eins "
+"og það lítur út þegar kosningunni lýkur."
 
 #: templates/core/election_detail.html:44
 #: templates/core/polity_detail.html:182
 msgid "Candidates"
-msgstr ""
+msgstr "Frambjóðendur"
 
 #: templates/core/election_detail.html:44
 msgid "running in this election"
-msgstr ""
+msgstr "í þessari kosningu"
 
 #: templates/core/election_detail.html:57
-msgid "for the candidates standing in this election"
-msgstr ""
+#: templates/core/polity_detail.html:138 templates/core/polity_detail.html:183
+#: templates/core/topic_detail.html:34
+msgid "Votes"
+msgstr "Atkvæði"
 
 #: templates/core/election_detail.html:58 templates/core/issue_detail.html:39
 msgid "There was an error while processing your vote. Please try again."
@@ -649,7 +654,7 @@ msgstr ""
 
 #: templates/core/election_detail.html:59
 msgid "Drag candidates to change order"
-msgstr ""
+msgstr "Dragðu frambjóðendur með músinni til að breyta röðun"
 
 #: templates/core/issue_detail.html:11
 msgid "This issue is closed."
@@ -983,11 +988,6 @@ msgstr "Þetta eru nýjustu málin til umræðu í þessu þingi."
 #: templates/core/topic_detail.html:31
 msgid "State"
 msgstr "Ástand"
-
-#: templates/core/polity_detail.html:138 templates/core/polity_detail.html:183
-#: templates/core/topic_detail.html:34
-msgid "Votes"
-msgstr "Atkvæði"
 
 #: templates/core/polity_detail.html:146 templates/core/topic_detail.html:40
 msgid "You have voted on this issue"
@@ -2187,6 +2187,10 @@ msgstr ""
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Candidates voted"
+#~ msgstr "Frambjóðendur"
 
 #, fuzzy
 #~ msgid ""
