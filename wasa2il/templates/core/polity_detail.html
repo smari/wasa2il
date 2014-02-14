@@ -234,7 +234,7 @@
 	{% endfor %}
 	{% for meeting in polity.meetings_upcoming %}
 	<tr>
-		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</td>
+		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</a></td>
 		<td>{{meeting.location}}</td>
 		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% if not forloop.last%}, {% endif %}{% endfor %}</td>
 		<td>{{meeting.get_status}}</td>
@@ -299,7 +299,7 @@
 	</tr>
 	{% for forum in polity.forum_set.all %}
 	<tr>
-		<td><a href="/forum/{{forum.id}}/">{{forum.name}}</td>
+		<td><a href="/forum/{{forum.id}}/">{{forum.name}}</a></td>
 		<td>{{forum.discussion_set.count}}</td>
 		<td></td>
 	</tr>	
