@@ -53,6 +53,7 @@
 		</div>
 	</div>
 
+    {% if user_is_member %}
 	<div class="span5 pull-left well voting">
 		<h2>{% trans "Votes" %}</h2>
 		<div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
@@ -61,6 +62,7 @@
 
 		</ol>
 	</div>
+    {% endif %}
 </div>
 {% endif %}
 

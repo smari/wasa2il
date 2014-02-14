@@ -1,5 +1,6 @@
 {% load wasa2il %}
 {% load i18n %}
+
 {% if not election.is_closed %}
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
@@ -11,9 +12,13 @@
 		<a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.get_name}}</a>
 		{% if election.is_voting %}
 		{% if candidate_selected %}
+        {% if user_is_member %}
 		<button class="btn vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
+        {% endif %}
 		{% else %}
+        {% if user_is_member %}
 		<button class="btn vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+        {% endif %}
 		{% endif %}
 		{% endif %}
 	</div>

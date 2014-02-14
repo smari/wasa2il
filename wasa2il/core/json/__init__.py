@@ -100,16 +100,17 @@ def polity_membershipvote(request):
 @jsonize
 def election_poll(request):
     election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
+    user_is_member = request.user in election.polity.members.all()
     ctx = {}
     ctx["election"] = {}
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
     ctx["election"]["is_voting"] = election.is_voting()
     ctx["election"]["votes"] = election.get_votes()
     ctx["election"]["candidates"] = election.get_candidates()
-    context = {"election": election, "candidates": election.get_unchosen_candidates(request.user), "candidate_selected": False}
+    context = {"user_is_member": user_is_member, "election": election, "candidates": election.get_unchosen_candidates(request.user), "candidate_selected": False}
     ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", context)
     ctx["election"]["vote"] = {}
-    context = {"election": election, "candidates": election.get_vote(request.user), "candidate_selected": True}
+    context = {"user_is_member": user_is_member, "election": election, "candidates": election.get_vote(request.user), "candidate_selected": True}
     ctx["election"]["vote"]["html"] = render_to_string("core/_election_candidate_list.html", context)
     ctx["ok"] = True
     return ctx
