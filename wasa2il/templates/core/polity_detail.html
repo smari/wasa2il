@@ -317,7 +317,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>{% trans "Subpolities" %}</h3>
   </div>
-  <div class="modal-body" id="modal_members_list">
+  <div class="modal-body" id="modal_subpolities_list">
 
 	{% for p in polity.polity_set.all %}
 		<a href="/polity/{{p.id}}/">{{p.name}}</a>
@@ -325,7 +325,7 @@
 
   </div>
   <div class="modal-footer">
-    <a onclick="$('#modal_members').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
+    <a onclick="$('#modal_subpolities').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
   </div>
 </div>
 
