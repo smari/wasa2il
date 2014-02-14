@@ -3,7 +3,7 @@
 {% block content %}
 
 <div style="float: right;">
-	<a class="btn" href="/polity/{{election.polity.id}}">{% trans "Back to polity" %}</a>
+    <a class="btn" href="/polity/{{election.polity.id}}">{% trans "Back to polity" %}</a>
 </div>
 <h1><small>{% trans "Election:" %}</small> {{election.name}}</h1>
 
@@ -16,55 +16,55 @@
 {% endif %}
 
 <div class="row">
-	<div class="span6 pull-left">
-		<p>{{election.description}}</p>
+    <div class="span6 pull-left">
+        <p>{{election.description}}</p>
 
-		<table class="table table-compact">
-			<tr><th>{% trans "Deadline for candidacy:" %}</th><td>{{election.deadline_candidacy|date:"d/m/Y h:i:s"}} ({{election.deadline_candidacy|timeuntil}})</td></tr>
-			<tr><th>{% trans "Deadline for votes:" %}</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
-			<tr><th>{% trans "Votes:" %}</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
-			<tr><th>{% trans "Candidates:" %}</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
-			<tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}} <small><a href="http://en.wikipedia.org/wiki/Instant-runoff_voting" target="_blank">[{% trans "What is this?" %}]</a></small></td></tr>
-		</table>
-	</div>
+        <table class="table table-compact">
+            <tr><th>{% trans "Deadline for candidacy:" %}</th><td>{{election.deadline_candidacy|date:"d/m/Y h:i:s"}} ({{election.deadline_candidacy|timeuntil}})</td></tr>
+            <tr><th>{% trans "Deadline for votes:" %}</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
+            <tr><th>{% trans "Votes:" %}</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
+            <tr><th>{% trans "Candidates:" %}</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
+            <tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}} <small><a href="http://en.wikipedia.org/wiki/Instant-runoff_voting" target="_blank">[{% trans "What is this?" %}]</a></small></td></tr>
+        </table>
+    </div>
 
-	<div class="span6 pull-right">
-		{% if election.is_voting %}
-			<div class="alert alert-success">
+    <div class="span6 pull-right">
+        {% if election.is_voting %}
+            <div class="alert alert-success">
                 <p>{% trans "You don't have to submit your vote; whatever is on your ballot when the vote deadline passes will be counted." %}</p>
                 <p class="temporary">Gild atkvæði eru atkvæði meðlima Pírata í Reykjavík sem höfðu verið skráðir 23. janúar 2014 eða fyrr, hvort heldur sem er í Pírata í Reykjavík eða móðurfélagið.</p>
             </div>
-		{% endif %}
-		{{election.description}}
-	</div>
+        {% endif %}
+        {{election.description}}
+    </div>
 
 </div>
 
 
 {% if not election.is_closed %}
 <div class="row">
-	<div class="span5 pull-right well"><a name="candidates"></a>
-	        <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
-		{% if not user.is_anonymous %}
-		<a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">Announce candidacy</a>
-		<a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">Withdraw candidacy</a>
-		{% endif %}
+    <div class="span5 pull-right well"><a name="candidates"></a>
+            <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
+        {% if not user.is_anonymous %}
+        <a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">Announce candidacy</a>
+        <a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">Withdraw candidacy</a>
+        {% endif %}
 
-		<div id="election_candidates" style="margin-top: 1em;">
-			<ul class="candidates" id="candidates">
-			</ul>
-		</div>
-	</div>
+        <div id="election_candidates" style="margin-top: 1em;">
+            <ul class="candidates" id="candidates">
+            </ul>
+        </div>
+    </div>
 
     {% if user_is_member %}
-	<div class="span5 pull-left well voting">
-		<h2>{% trans "Votes" %}</h2>
-		<div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
-		<div class="alert alert-info">{% trans "Drag candidates to change order" %}</div>
-		<ol id="vote" class="candidates">
+    <div class="span5 pull-left well voting">
+        <h2>{% trans "Votes" %}</h2>
+        <div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
+        <div class="alert alert-info">{% trans "Drag candidates to change order" %}</div>
+        <ol id="vote" class="candidates">
 
-		</ol>
-	</div>
+        </ol>
+    </div>
     {% endif %}
 </div>
 {% endif %}
@@ -74,44 +74,44 @@
 election_id = {{election.id}};
 
 function election_select_candidate(element) {
-	$(element).hide();
-	$(element).parent().parent().appendTo("#vote");
-	election_update();
+    $(element).hide();
+    $(element).parent().parent().appendTo("#vote");
+    election_update();
 }
 
 function election_deselect_candidate(element) {
-	$(element).hide();
-	$(element).parent().parent().appendTo("#candidates");
-	election_update();
+    $(element).hide();
+    $(element).parent().parent().appendTo("#candidates");
+    election_update();
 }
 
 function election_update() {
-	ord = [];
-	$("#vote li").each(function(item) {
-		ord.push($($("#vote li")[item]).data("seqid"));
-	});
-	$.getJSON("/api/election/vote/", {"election": election_id, "order": ord}, function(data) {
-		if (data.ok) {
-			election_object = data.election;
-			election_render();
-		}
-	});
+    ord = [];
+    $("#vote li").each(function(item) {
+        ord.push($($("#vote li")[item]).data("seqid"));
+    });
+    $.getJSON("/api/election/vote/", {"election": election_id, "order": ord}, function(data) {
+        if (data.ok) {
+            election_object = data.election;
+            election_render();
+        }
+    });
 }
 
 $(function() {
-	election_poll(election_id);
-	election_timer_start();
+    election_poll(election_id);
+    election_timer_start();
 
-	$(".candidates").sortable({
-	    	start: function() { election_timer_stop(); },
-	    	stop: function() { election_timer_start(); },
-	        distance: 5,
-	        delay: 300,
-	    	connectWith: ".candidates",
-	    	opacity: 0.6,
-	        cursor: 'move',
-	        update: election_update
-	});
+    $(".candidates").sortable({
+            start: function() { election_timer_stop(); },
+            stop: function() { election_timer_start(); },
+            distance: 5,
+            delay: 300,
+            connectWith: ".candidates",
+            opacity: 0.6,
+            cursor: 'move',
+            update: election_update
+    });
 
 });
 </script>
