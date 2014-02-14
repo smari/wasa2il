@@ -26,6 +26,7 @@ from django.contrib.auth.models import User
 from core.models import Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, Meeting, UserProfile
 from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm, MeetingForm
 from core.saml import authenticate, SamlException
+from gateway.icepirate import configure_polities_by_remote_groups
 from hashlib import sha1
 
 
@@ -163,7 +164,9 @@ def login(request, template_name='registration/login.html',
             if request.user.polity_set.all().count() == 0:
                 request.user.polity_set.add(settings.FRONT_POLITY)
 
-            if not request.user.get_profile().kennitala:
+            if request.user.get_profile().kennitala:
+                configure_polities_by_remote_groups(request.user)
+            else:
                 return HttpResponseRedirect(settings.AUTH_URL)
 
             return HttpResponseRedirect(redirect_to)
@@ -211,6 +214,8 @@ def verify(request):
     profile.verified_token = request.GET['token']
     profile.verified_timing = datetime.now()
     profile.save()
+
+    configure_polities_by_remote_groups(request.user)
 
     return HttpResponseRedirect('/')
 
