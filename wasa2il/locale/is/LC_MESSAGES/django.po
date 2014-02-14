@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-13 21:52+0000\n"
+"POT-Creation-Date: 2014-02-14 12:06+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -30,7 +30,7 @@ msgstr "Málefni"
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:358 templates/core/polity_list.html:14
+#: core/models.py:358 templates/core/polity_list.html:16
 msgid "Polity"
 msgstr "Þing"
 
@@ -75,7 +75,7 @@ msgstr "Innskrá"
 #: templates/base.html:97 templates/hom01.html:12
 #: templates/notLoginInHome.html:14 templates/registration/login.html:19
 #: templates/registration/registration_form.html:6
-#: templates/registration/registration_form.html:18
+#: templates/registration/registration_form.html:17
 msgid "Sign up"
 msgstr "Nýskrá"
 
@@ -343,8 +343,9 @@ msgid "Statements:"
 msgstr "Statements:"
 
 #: templates/core/_document_modal.html:49 templates/core/issue_detail.html:117
-#: templates/core/polity_detail.html:330 templates/core/polity_detail.html:366
-#: templates/core/topic_detail.html:89 templates/forum/forum_detail.html:48
+#: templates/core/polity_detail.html:328 templates/core/polity_detail.html:348
+#: templates/core/polity_detail.html:384 templates/core/topic_detail.html:89
+#: templates/forum/forum_detail.html:48
 msgid "Close"
 msgstr "Loka"
 
@@ -373,20 +374,20 @@ msgstr "Framlagðar tillögur"
 msgid "Adopted documents"
 msgstr "Samþykkt skjöl"
 
-#: templates/core/_election_candidate_list.html:14
+#: templates/core/_election_candidate_list.html:16
 msgid "Remove"
 msgstr ""
 
-#: templates/core/_election_candidate_list.html:16
+#: templates/core/_election_candidate_list.html:20
 #: templates/core/issue_detail.html:38
 msgid "Vote"
 msgstr "Kjósa"
 
-#: templates/core/_election_candidate_list.html:23
+#: templates/core/_election_candidate_list.html:28
 msgid "Drag candidates here."
 msgstr "Dragðu frambjóðendur hingað."
 
-#: templates/core/_election_candidate_list.html:25
+#: templates/core/_election_candidate_list.html:30
 #, fuzzy
 msgid "There are no candidates standing in this election yet!"
 msgstr "Það eru engir málaflokkar á þessu þingi!"
@@ -497,7 +498,7 @@ msgid "New document"
 msgstr "Nýtt skjal"
 
 #: templates/core/document_list.html:10 templates/core/polity_detail.html:136
-#: templates/core/polity_list.html:17 templates/core/topic_detail.html:32
+#: templates/core/polity_list.html:19 templates/core/topic_detail.html:32
 msgid "Documents"
 msgstr "Skjöl"
 
@@ -641,18 +642,18 @@ msgstr "Frambjóðendur"
 msgid "running in this election"
 msgstr "í þessari kosningu"
 
-#: templates/core/election_detail.html:57
+#: templates/core/election_detail.html:58
 #: templates/core/polity_detail.html:138 templates/core/polity_detail.html:183
 #: templates/core/topic_detail.html:34
 msgid "Votes"
 msgstr "Atkvæði"
 
-#: templates/core/election_detail.html:58 templates/core/issue_detail.html:39
+#: templates/core/election_detail.html:59 templates/core/issue_detail.html:39
 msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 "Það kom upp villa við úrvinnslu atkvæðisins þíns. Vinsamlegast reyndu aftur."
 
-#: templates/core/election_detail.html:59
+#: templates/core/election_detail.html:60
 msgid "Drag candidates to change order"
 msgstr "Dragðu frambjóðendur með músinni til að breyta röðun"
 
@@ -936,7 +937,7 @@ msgid "New topic"
 msgstr "Nýr málaflokkur"
 
 #: templates/core/polity_detail.html:84 templates/core/polity_detail.html:91
-#: templates/core/polity_list.html:16
+#: templates/core/polity_list.html:18
 msgid "Topics"
 msgstr "Málaflokkar"
 
@@ -1051,42 +1052,46 @@ msgid "Closed"
 msgstr "Lokað"
 
 #: templates/core/polity_detail.html:318
+msgid "Subpolities"
+msgstr "Undirþing"
+
+#: templates/core/polity_detail.html:336
 msgid "Members of this polity"
 msgstr "Meðlimir þessa þings"
 
-#: templates/core/polity_detail.html:338
+#: templates/core/polity_detail.html:356
 msgid "Users requesting membership"
 msgstr "Notendur sem óska aðildar"
 
-#: templates/core/polity_detail.html:374
+#: templates/core/polity_detail.html:392
 msgid "Leave this polity?"
 msgstr "Afskrá úr þingi?"
 
-#: templates/core/polity_detail.html:377
+#: templates/core/polity_detail.html:395
 msgid "Are you sure you want to stop being a member of this polity?"
 msgstr "Ertu viss um að þú viljir ganga úr þessu þingi?"
 
-#: templates/core/polity_detail.html:379
+#: templates/core/polity_detail.html:397
 msgid "Only members get to participate in the polity's activities."
 msgstr "Aðeins meðlimir geta tekið þátt í starfi þingsins."
 
-#: templates/core/polity_detail.html:383
+#: templates/core/polity_detail.html:401
 msgid "No, I hit that button by accident"
 msgstr "Nei, ég rakst óvart á takkann"
 
-#: templates/core/polity_detail.html:384
+#: templates/core/polity_detail.html:402
 msgid "Yes, I want to leave this polity."
 msgstr "Já, ég vil yfirgefa þingið."
 
-#: templates/core/polity_list.html:7
+#: templates/core/polity_list.html:8
 msgid "New polity"
 msgstr "Nýtt þing"
 
-#: templates/core/polity_list.html:10 templates/help/polity.html:6
+#: templates/core/polity_list.html:12 templates/help/polity.html:6
 msgid "Polities"
 msgstr "Þing"
 
-#: templates/core/polity_list.html:15
+#: templates/core/polity_list.html:17
 msgid "Members"
 msgstr "Meðlimir"
 
@@ -2058,6 +2063,55 @@ msgstr ""
 msgid "This link will be active for %(expiration_days)s days."
 msgstr ""
 
+#: templates/registration/data_disclaimer.html:3
+msgid ""
+"Please be advised that by registering and verifying your account, you become "
+"a member of the Pirate Party of Iceland."
+msgstr ""
+"Vinsamlegast athugið að með því að nýskrá og staðfesta aðgang gerist þú "
+"meðlimur að Pírötum."
+
+#: templates/registration/data_disclaimer.html:4
+msgid ""
+"Membership of political organizations is considered sensitive information by "
+"law."
+msgstr ""
+"Félagatöl stjórnmálaafla teljast til persónulegra gagna samkvæmt lögum."
+
+#: templates/registration/data_disclaimer.html:5
+msgid ""
+"Therefore, you should keep the following in mind when becoming a member and "
+"using our system:"
+msgstr "Því ættirðu að hafa eftirfarandi í huga þegar þú notar kerfin okkar:"
+
+#: templates/registration/data_disclaimer.html:7
+msgid ""
+"Your username is publicly visible. If you don't want to be recognized, use a "
+"different one than what you use elsewhere."
+msgstr "Notandanafnið þitt er sýnilegt öllum. Ef þú vilt fela auðkenni þitt, notaðu annað en þau sem þú notar annars staðar."
+
+#: templates/registration/data_disclaimer.html:8
+msgid ""
+"Your profile settings <strong>are mostly public</strong>, including your "
+"display name, image and description. We don't fill that out for you, though."
+msgstr ""
+"Prófíllinn þinn <strong>er að mestu sýnilegur opinberlega</strong>, þar á "
+"meðal sýndarnafn þitt, mynd og lýsing. Við fyllum það þó ekki út fyrir þig."
+
+#: templates/registration/data_disclaimer.html:9
+msgid "Don't put anything in there that you don't want visible to the public."
+msgstr "Ekki setja neitt í prófílinn þinn sem þú vilt ekki að sjáist út á við."
+
+#: templates/registration/data_disclaimer.html:10
+msgid "We do <strong>not</strong> display your email address in public."
+msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
+
+#: templates/registration/data_disclaimer.html:11
+msgid "If you have questions or concerns regarding privacy, please email us:"
+msgstr ""
+"Ef einhverjar spurningar vakna varðandi persónugögn, vinsamlegast sendið "
+"okkur tölvupóst:"
+
 #: templates/registration/login.html:6
 #: templates/registration/registration_form.html:6
 msgid "and partake in democracy..."
@@ -2121,31 +2175,21 @@ msgstr ""
 msgid "Send password"
 msgstr ""
 
-#: templates/registration/registration_form.html:8
-msgid ""
-"Please be advised that by registering and verifying your account, you become "
-"a member of the Pirate Party of Iceland."
-msgstr ""
-"Vinsamlegast athugið að með því að nýskrá og staðfesta aðgang gerist þú "
-"meðlimur að Pírötum."
-
-#: templates/registration/registration_form.html:9
-msgid "As required by law, we treat our member database with confidentiality."
-msgstr "Við förum með félagatal okkar sem trúnaðarmál samkvæmt lögum."
-
 #: templates/registration/saml_error.html:6
 msgid "Verification error"
-msgstr ""
+msgstr "Villa við staðfestingu"
 
 #: templates/registration/saml_error.html:8
 msgid ""
 "The following error occurred during the processing of your account's "
 "verification:"
-msgstr ""
+msgstr "Eftirfarandi villa kom upp við staðfestingu aðgangsins þíns:"
 
 #: templates/registration/saml_error.html:14
 msgid "Please try again and if the error persists, contact an administrator."
 msgstr ""
+"Vinsamlegast reynið aftur og ef villan kemur aftur, hafið samband við "
+"umsjónarmann."
 
 #: templates/registration/verification_duplicate.html:6
 msgid "Multiple accounts detected"
@@ -2187,6 +2231,10 @@ msgstr ""
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr ""
+
+#~ msgid ""
+#~ "As required by law, we treat our member database with confidentiality."
+#~ msgstr "Við förum með félagatal okkar sem trúnaðarmál samkvæmt lögum."
 
 #, fuzzy
 #~ msgid "Candidates voted"
@@ -2346,9 +2394,6 @@ msgstr ""
 #~ "Here you can see all of your active delegations and where they lead to."
 #~ msgstr ""
 #~ "Here you can see all of your active delegations and where they lead to."
-
-#~ msgid "Subpolities"
-#~ msgstr "Undirþing"
 
 #~ msgid ""
 #~ "A polity can have subordinate organizational units, such as how a "
