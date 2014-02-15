@@ -2096,7 +2096,7 @@ msgid ""
 "display name, image and description. We don't fill that out for you, though."
 msgstr ""
 "Prófíllinn þinn <strong>er að mestu sýnilegur opinberlega</strong>, þar á "
-"meðal sýndarnafn þitt, mynd og lýsing. Við fyllum það þó ekki út fyrir þig."
+"meðal nafn þitt, mynd og lýsing. Við fyllum prófílinn þó ekki út fyrir þig."
 
 #: templates/registration/data_disclaimer.html:9
 msgid "Don't put anything in there that you don't want visible to the public."
