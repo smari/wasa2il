@@ -28,9 +28,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # Verification
-    kennitala = models.CharField(max_length=10, null=True, unique=True)
-    verified_token = models.CharField(max_length=100, null=True)
-    verified_timing = models.DateTimeField(null=True)
+    kennitala = models.CharField(max_length=10, null=True, blank=True, unique=True)
+    verified_token = models.CharField(max_length=100, null=True, blank=True)
+    verified_timing = models.DateTimeField(null=True, blank=True)
 
     # User information
     displayname = models.CharField(max_length="255", verbose_name="Display name", help_text="The name to display on the site.", **nullblank)
