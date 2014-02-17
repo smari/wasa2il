@@ -629,9 +629,7 @@ msgstr "Hvað er þetta?"
 msgid ""
 "You don't have to submit your vote; whatever is on your ballot when the vote "
 "deadline passes will be counted."
-msgstr ""
-"Það þarf ekki að skila inn atkvæði sérstaklega, heldur verður það talið eins "
-"og það lítur út þegar kosningunni lýkur."
+msgstr "Það þarf ekki að skila inn atkvæði sérstaklega, heldur verður það talið eins og það lítur út þegar kosningunni lýkur. Þú getur því breytt röðun frambjóðenda eins oft og þú vilt fram að því að kosningafrestur rennur út."
 
 #: templates/core/election_detail.html:44
 #: templates/core/polity_detail.html:182
