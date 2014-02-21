@@ -5,22 +5,22 @@
 <h1>{% trans "New issue" %}</h1>
 
 <form action="/polity/{{polity.id}}/issue/new/" method="POST"/>
-	{% csrf_token %}
-	<table>
-		{{form.as_table}}
-	</table>
-	<button type="submit">{% trans "Save" %}</button>
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+    </table>
+    <button type="submit">{% trans "Save" %}</button>
 </form>
 
 <script>
-	$(function () {
-		$('#id_deadline_votes').datetimepicker({
-			showMinute: false,
-			minute: 0,
-			showButtonPanel: false,
-			minDate: Date()
-		});
-	});
+    $(function () {
+        $('#id_deadline_votes').datetimepicker({
+            showMinute: false,
+            minute: 0,
+            showButtonPanel: false,
+            minDate: Date()
+        });
+    });
 </script>
 
 {% endblock %}

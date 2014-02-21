@@ -9,9 +9,9 @@
 {% endif %}
 {% if not user_is_member and not user_requested_membership %}
 <a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
-	{% if polity.invite_threshold == 0 %}
-	<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
-	{% endif %}
+    {% if polity.invite_threshold == 0 %}
+    <a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
+    {% endif %}
 {% endif %}
 </div>
 {% if user_is_member %}
@@ -33,278 +33,278 @@
 {% endif %}
 
 {% if user_requested_membership %}
-	{% if user_requested_membership_now %}
-		<div class="alert alert-success">{% trans "Your request to join has been sent." %}</div>
-	{% else %}
-		<div class="alert alert-success">{% trans "Your request to join this polity is still pending." %}</div>
-	{% endif %}
+    {% if user_requested_membership_now %}
+        <div class="alert alert-success">{% trans "Your request to join has been sent." %}</div>
+    {% else %}
+        <div class="alert alert-success">{% trans "Your request to join this polity is still pending." %}</div>
+    {% endif %}
 {% endif %}
 
 {% if user_is_member or polity.is_nonmembers_readable %}
 <div id="polity_stats" class="subnav">
-	<ul class="nav nav-pills">
-		<li><a href="#" onclick="$('#modal_members').modal('show');">{{polity.members.count}} {% trans "members" %}</a></li>
-		<li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
-		<li><a href="#documents">{{polity.agreements.count}} {% trans "agreements" %}</a></li>
-		<li><a href="#subpolities" onclick="$('#modal_subpolities').modal('show');">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
-	
-	{% if user_is_member %}
-		{% if polity_show_membership_requests %}
-			{% if membership_requests.count == 0 %}
-			<li class="disabled"><a href="#">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
-			{% else %}
-			<li><a href="#" onclick="$('#modal_requests').modal('show');">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
-			{% endif %}
-		{% endif %}
+    <ul class="nav nav-pills">
+        <li><a href="#" onclick="$('#modal_members').modal('show');">{{polity.members.count}} {% trans "members" %}</a></li>
+        <li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
+        <li><a href="#documents">{{polity.agreements.count}} {% trans "agreements" %}</a></li>
+        <li><a href="#subpolities" onclick="$('#modal_subpolities').modal('show');">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
+    
+    {% if user_is_member %}
+        {% if polity_show_membership_requests %}
+            {% if membership_requests.count == 0 %}
+            <li class="disabled"><a href="#">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
+            {% else %}
+            <li><a href="#" onclick="$('#modal_requests').modal('show');">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
+            {% endif %}
+        {% endif %}
 
-		{% if delegations.count > 0 %}
-			<li><a href="#delegations">{% trans "You have" %} {{delegations.count}} {% trans "delegations" %}</a></li>
-		{% endif %}
-	{% endif %}	
-	</ul>
+        {% if delegations.count > 0 %}
+            <li><a href="#delegations">{% trans "You have" %} {{delegations.count}} {% trans "delegations" %}</a></li>
+        {% endif %}
+    {% endif %}    
+    </ul>
 </div>
 
 <div class="row">
 
 <div class="span6 pull-left"><a name="topics"></a>
-	{% if user_is_member %}
-	<div class="btn-group" style="float: right">
-		{% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-		<a class="btn btn-mini" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a>
-		{% endif %}
-		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-		<ul class="dropdown-menu" style="left: -150px;">
-			<li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{polity.id}});"><i class="icon-ok {% if user.get_profile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
-			{% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-			<li><a href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a></li>
-			{% endif %}
-		</ul>
-	</div>
-	{% endif %}
-	<h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
+    {% if user_is_member %}
+    <div class="btn-group" style="float: right">
+        {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
+        <a class="btn btn-mini" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a>
+        {% endif %}
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+        <ul class="dropdown-menu" style="left: -150px;">
+            <li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{polity.id}});"><i class="icon-ok {% if user.get_profile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
+            {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
+            <li><a href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+    <h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
 
-	<p class="muted">{% trans "Topics are thematic categories that contain specific issues." %}</p>
+    <p class="muted">{% trans "Topics are thematic categories that contain specific issues." %}</p>
 
-	<table class="table table-striped table-bordered table-condensed" id="topics_list">
-	<thead>
-	<tr>
-		<th>{% trans "Topics" %}</th>
-		<th>{% trans "Issues" %}</th>
-		<th>{% trans "Open Issues" %}</th>
-		<th>{% trans "Voting Issues" %}</th>
-		<th><i class="icon-star"></i></th>
-	</tr>
-	</thead>
-	<tbody>
-	{% with politytopics as topics %}
-	{% include "core/_topic_list_table.html" %}
-	{% endwith %}
-	</tbody>
-	</table>
+    <table class="table table-striped table-bordered table-condensed" id="topics_list">
+    <thead>
+    <tr>
+        <th>{% trans "Topics" %}</th>
+        <th>{% trans "Issues" %}</th>
+        <th>{% trans "Open Issues" %}</th>
+        <th>{% trans "Voting Issues" %}</th>
+        <th><i class="icon-star"></i></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% with politytopics as topics %}
+    {% include "core/_topic_list_table.html" %}
+    {% endwith %}
+    </tbody>
+    </table>
 </div>
 
 <div class="span6 pull-right"><a name="documents"></a>
-	{% if user_is_member %}
-	<div class="btn-group" style="float: right">
-		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-		<ul class="dropdown-menu" style="left: -150px;">
-			<li><a href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a></li>
+    {% if user_is_member %}
+    <div class="btn-group" style="float: right">
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+        <ul class="dropdown-menu" style="left: -150px;">
+            <li><a href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a></li>
 
-		</ul>
-	</div>
-	{% endif %}
-	<h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
-	
-	<p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
+        </ul>
+    </div>
+    {% endif %}
+    <h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
+    
+    <p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
 
-	{% with polity.agreements as documents %}
-	{% include "core/_document_agreement_list_table.html" %}
-	{% endwith %}
+    {% with polity.agreements as documents %}
+    {% include "core/_document_agreement_list_table.html" %}
+    {% endwith %}
 </div>
 
 
 <div class="span6 pull-right"><a name="newissues"></a>
-	<h2>{% trans "New issues" %} <small>{% trans "in discussion"%}</small></h2>
+    <h2>{% trans "New issues" %} <small>{% trans "in discussion"%}</small></h2>
 
-	<p class="muted">{% trans "These are the newest issues being discussed in this polity." %}</p>
+    <p class="muted">{% trans "These are the newest issues being discussed in this polity." %}</p>
 
-	<table class="table table-striped table-bordered table-condensed" id="newissues_list">
-	<thead>
-	<tr>
-		<th>{% trans "Issue" %}</th>
-		<th>{% trans "State" %}</th>
-		<th>{% trans "Documents" %}</th>
-		<th>{% trans "Comments" %}</th>
-		<th>{% trans "Votes" %}</th>
-	</tr>
-	</thead>
-	<tbody>
-	{% for issue in newissues %}
-	<tr>
-                <td>
-			<i id="issuestar_{{issue.id}}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
-				title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></i>
-			<a href="/issue/{{issue.id}}/">{{issue.name}}</a>
-		</td>
-                <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
-                <td>{{issue.document_set.count}}</td>
-                <td>{{issue.comment_set.count}}</td>
-                <td>{{issue.get_votes.count}}</td>
+    <table class="table table-striped table-bordered table-condensed" id="newissues_list">
+    <thead>
+    <tr>
+        <th>{% trans "Issue" %}</th>
+        <th>{% trans "State" %}</th>
+        <th>{% trans "Documents" %}</th>
+        <th>{% trans "Comments" %}</th>
+        <th>{% trans "Votes" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for issue in newissues %}
+        <tr>
+            <td>
+                <i id="issuestar_{{issue.id}}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
+                    title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></i>
+                <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
+            </td>
+            <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
+            <td>{{issue.document_set.count}}</td>
+            <td>{{issue.comment_set.count}}</td>
+            <td>{{issue.get_votes.count}}</td>
         </tr>
-	{% endfor %}
-	</tbody>
-	</table>
+    {% endfor %}
+    </tbody>
+    </table>
 </div>
 
 
 <div class="span6 pull-right"><a name="newissues"></a>
-	{% if user_is_member %}
-	<div class="btn-group" style="float: right">
-		{% if not polity.is_administered or polity.is_administered and user in polity.officers.all %}
-		<a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
-		{% endif %}
-		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
-			<li><a onclick="/polity/{{polity.id}}/election/list/"><i class="icon-ok"></i> {% trans "Closed elections" %}</a></li>
-		</ul>
-	</div>
-	{% endif %}
+    {% if user_is_member %}
+    <div class="btn-group" style="float: right">
+        {% if not polity.is_administered or polity.is_administered and user in polity.officers.all %}
+        <a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
+        {% endif %}
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+        <ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+            <li><a onclick="/polity/{{polity.id}}/election/list/"><i class="icon-ok"></i> {% trans "Closed elections" %}</a></li>
+        </ul>
+    </div>
+    {% endif %}
 
-	<h2>{% trans "Elections" %} <small>{% trans "putting people in power"%}</small></h2>
+    <h2>{% trans "Elections" %} <small>{% trans "putting people in power"%}</small></h2>
 
-	<p class="muted">{% trans "Sometimes you need to put people in their places. Elections do just that." %}</p>
+    <p class="muted">{% trans "Sometimes you need to put people in their places. Elections do just that." %}</p>
 
-	<table class="table table-striped table-bordered table-condensed" id="newissues_list">
-	<thead>
-	<tr>
-		<th>{% trans "Election" %}</th>
-		<th>{% trans "State" %}</th>
-		<th>{% trans "Candidates" %}</th>
-		<th>{% trans "Votes" %}</th>
-	</tr>
-	</thead>
-	<tbody>
-	{% for election in newelections %}
-	<tr>
-                <td>
-			<i id="electionstar_{{election.id}}" class="icon-pencil {% if election|electionvoted:user %}{% else %}icon-grey{% endif %}"
-				title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"></i>
-			<a href="/polity/{{polity.id}}/election/{{election.id}}/">{{election.name}}</a>
-		</td>
-                <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
-                <td>{{election.candidate_set.count}}</td>
-                <td>{{election.get_votes.count}}</td>
+    <table class="table table-striped table-bordered table-condensed" id="newissues_list">
+    <thead>
+    <tr>
+        <th>{% trans "Election" %}</th>
+        <th>{% trans "State" %}</th>
+        <th>{% trans "Candidates" %}</th>
+        <th>{% trans "Votes" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for election in newelections %}
+        <tr>
+            <td>
+                <i id="electionstar_{{election.id}}" class="icon-pencil {% if election|electionvoted:user %}{% else %}icon-grey{% endif %}"
+                    title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"></i>
+                <a href="/polity/{{polity.id}}/election/{{election.id}}/">{{election.name}}</a>
+            </td>
+            <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
+            <td>{{election.candidate_set.count}}</td>
+            <td>{{election.get_votes.count}}</td>
         </tr>
-	{% endfor %}
-	</tbody>
-	</table>
+    {% endfor %}
+    </tbody>
+    </table>
 </div>
 
 {% comment %}
 <div class="span6 pull-right"><a name="meetings"></a>
-	{% if user_is_member %}
-	<div class="btn-group" style="float: right">
-		<a class="btn btn-mini" href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a>
-		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
-			<li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
-			<li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
-			<li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
-		</ul>
-	</div>
-	{% endif %}
-	<h2>{% trans "Meetings" %} <small>{% trans "physical or virtual" %}</small></h2>
+    {% if user_is_member %}
+    <div class="btn-group" style="float: right">
+        <a class="btn btn-mini" href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a>
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+        <ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+            <li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
+            <li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
+            <li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
+        </ul>
+    </div>
+    {% endif %}
+    <h2>{% trans "Meetings" %} <small>{% trans "physical or virtual" %}</small></h2>
 
-	<p class="muted">{% trans "A meeting is an event where people come together to discuss a set of agenda items." %}</p>
+    <p class="muted">{% trans "A meeting is an event where people come together to discuss a set of agenda items." %}</p>
 
-	<table class="table table-striped table-bordered table-condensed">
-	<tr>
-		<th>{% trans "When" %}</th>
-		<th>{% trans "Where" %}</th>
-		<th>{% trans "Organized by" %}</th>
-		<th>{% trans "Status" %}</th>
-	</tr>
-	{% for meeting in polity.meetings_ongoing %}
-	<tr>
-		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</td>
-		<td>{{meeting.location}}</td>
-		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
-		<td>{{meeting.get_status}}</td>
-	</tr>	
-	{% endfor %}
-	{% for meeting in polity.meetings_upcoming %}
-	<tr>
-		<td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</a></td>
-		<td>{{meeting.location}}</td>
-		<td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% if not forloop.last%}, {% endif %}{% endfor %}</td>
-		<td>{{meeting.get_status}}</td>
-	</tr>	
-	{% endfor %}
-	</table>
+    <table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>{% trans "When" %}</th>
+        <th>{% trans "Where" %}</th>
+        <th>{% trans "Organized by" %}</th>
+        <th>{% trans "Status" %}</th>
+    </tr>
+    {% for meeting in polity.meetings_ongoing %}
+    <tr>
+        <td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</td>
+        <td>{{meeting.location}}</td>
+        <td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
+        <td>{{meeting.get_status}}</td>
+    </tr>    
+    {% endfor %}
+    {% for meeting in polity.meetings_upcoming %}
+    <tr>
+        <td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</a></td>
+        <td>{{meeting.location}}</td>
+        <td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% if not forloop.last%}, {% endif %}{% endfor %}</td>
+        <td>{{meeting.get_status}}</td>
+    </tr>    
+    {% endfor %}
+    </table>
 </div>
 
 {% if user_is_member %}
 <div class="span6 pull-left"><a name="delegations"></a>
-	<div class="btn-group" style="float: right">
-		<a class="btn btn-mini" href="#">{% trans "New delegation" %}</a>
-		<a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-		<ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
-			<li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
-			<li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
-			<li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
-		</ul>
-	</div>
+    <div class="btn-group" style="float: right">
+        <a class="btn btn-mini" href="#">{% trans "New delegation" %}</a>
+        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
+        <ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+            <li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
+            <li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
+            <li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
+        </ul>
+    </div>
 
-	<h2>{% trans "Delegations" %} <small>{% trans "votes entrusted to others" %}</small></h2>
-	<p class="muted">
-		{% trans "You can set up delgations for the polity, for topics, or for issues." %}
-		{% trans "Here you can see all of your active delegations and where they lead to." %}
-	</p>
-	{% with user.delegate_set.all as delegations %}
-	{% include "core/_delegations_table.html" %}
-	{% endwith %}
+    <h2>{% trans "Delegations" %} <small>{% trans "votes entrusted to others" %}</small></h2>
+    <p class="muted">
+        {% trans "You can set up delgations for the polity, for topics, or for issues." %}
+        {% trans "Here you can see all of your active delegations and where they lead to." %}
+    </p>
+    {% with user.delegate_set.all as delegations %}
+    {% include "core/_delegations_table.html" %}
+    {% endwith %}
 </div>
 {% endif %}
 
 {% if polity.polity_set.all %}
 <div class="span6 pull-left"><a name="subpolities"></a>
-	<h2>{% trans "Subpolities" %}</h2>
+    <h2>{% trans "Subpolities" %}</h2>
 
-	<p class="muted">{% trans "A polity can have subordinate organizational units, such as how a municipality relates to a country." %}</p>
+    <p class="muted">{% trans "A polity can have subordinate organizational units, such as how a municipality relates to a country." %}</p>
 
-	<ul>
-	{% for subpolity in polity.polity_set.all %}
-		<li><a href="/polity/{{subpolity.id}}/">{{subpolity.name}}</a></li>
-	{% endfor %}
-	</ul>
+    <ul>
+    {% for subpolity in polity.polity_set.all %}
+        <li><a href="/polity/{{subpolity.id}}/">{{subpolity.name}}</a></li>
+    {% endfor %}
+    </ul>
 </div>
 {% endif %}
 
 
 <div class="span6 pull-left"><a name="forums"></a>
-	{% if user_is_member %}
-	<div class="btn-group" style="float: right">
-		<a class="btn btn-mini" href="/polity/{{polity.id}}/forum/new/">{% trans "New forum" %}</a>
-	</div>
-	{% endif %}
-	<h2>{% trans "Discussion Forums" %}</h2>
+    {% if user_is_member %}
+    <div class="btn-group" style="float: right">
+        <a class="btn btn-mini" href="/polity/{{polity.id}}/forum/new/">{% trans "New forum" %}</a>
+    </div>
+    {% endif %}
+    <h2>{% trans "Discussion Forums" %}</h2>
 
-	<p class="muted">{% trans "Often it is important to have open-ended discussions on a range of topics outside of particular issues." %}</p>
+    <p class="muted">{% trans "Often it is important to have open-ended discussions on a range of topics outside of particular issues." %}</p>
 
-	<table class="table table-striped table-bordered table-condensed">
-	<tr>
-		<th>{% trans "Name" %}</th>
-		<th>{% trans "Discussions" %}</th>
-		<th>{% trans "Unseen posts" %}</th>
-	</tr>
-	{% for forum in polity.forum_set.all %}
-	<tr>
-		<td><a href="/forum/{{forum.id}}/">{{forum.name}}</a></td>
-		<td>{{forum.discussion_set.count}}</td>
-		<td></td>
-	</tr>	
-	{% endfor %}
-	</table>
+    <table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Discussions" %}</th>
+        <th>{% trans "Unseen posts" %}</th>
+    </tr>
+    {% for forum in polity.forum_set.all %}
+    <tr>
+        <td><a href="/forum/{{forum.id}}/">{{forum.name}}</a></td>
+        <td>{{forum.discussion_set.count}}</td>
+        <td></td>
+    </tr>    
+    {% endfor %}
+    </table>
 </div>
 
 {% endcomment %}
@@ -319,9 +319,9 @@
   </div>
   <div class="modal-body" id="modal_subpolities_list">
 
-	{% for p in polity.polity_set.all %}
-		<a href="/polity/{{p.id}}/">{{p.name}}</a>
-	{% endfor %}
+    {% for p in polity.polity_set.all %}
+        <a href="/polity/{{p.id}}/">{{p.name}}</a>
+    {% endfor %}
 
   </div>
   <div class="modal-footer">
@@ -337,11 +337,11 @@
   </div>
   <div class="modal-body" id="modal_members_list">
 
-	{% for m in polity.members.all %}
-		<a href="/accounts/profile/{{m.username}}/" class="thumbnail" style="background: url({{m.get_profile.picture|thumbnail:"100x100"}}) no-repeat">
-			{{m.get_name}}
-		</a>
-	{% endfor %}
+    {% for m in polity.members.all %}
+        <a href="/accounts/profile/{{m.username}}/" class="thumbnail" style="background: url({{m.get_profile.picture|thumbnail:"100x100"}}) no-repeat">
+            {{m.get_name}}
+        </a>
+    {% endfor %}
 
   </div>
   <div class="modal-footer">
@@ -357,27 +357,27 @@
   </div>
   <div class="modal-body">
 
-  	<ul class="nobullets">
-	{% for m in membership_requests %}
-		<li>
-			<a
-				class="thumbnail member membership_request"
-				href="#"
-				data-id="{{m.id}}"
-				data-csrftoken="{{csrf_token}}">
-	            <img src="{{m.requestor.get_profile.picture|thumbnail:"100x100"}}" />
-	            <div class="title">
-	                <div class="title">{{m.requestor.get_name}}</div>
-	                <div class="progress">
-						<div class="membershiprequest_percent bar bar-success" style="width: {{m.votespercent}}%;">
-							{{m.votes}}/{{m.votesneeded}}
-						</div>
-					</div>
-	            </div>
-	        </a>
-    	</li>
-	{% endfor %}
-	</ul>
+      <ul class="nobullets">
+    {% for m in membership_requests %}
+        <li>
+            <a
+                class="thumbnail member membership_request"
+                href="#"
+                data-id="{{m.id}}"
+                data-csrftoken="{{csrf_token}}">
+                <img src="{{m.requestor.get_profile.picture|thumbnail:"100x100"}}" />
+                <div class="title">
+                    <div class="title">{{m.requestor.get_name}}</div>
+                    <div class="progress">
+                        <div class="membershiprequest_percent bar bar-success" style="width: {{m.votespercent}}%;">
+                            {{m.votes}}/{{m.votesneeded}}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
 
   </div>
   <div class="modal-footer">
@@ -392,9 +392,9 @@
     <h3>{% trans "Leave this polity?" %}</h3>
   </div>
   <div class="modal-body">
-  	<p>{% trans "Are you sure you want to stop being a member of this polity?" %}.</p>
+      <p>{% trans "Are you sure you want to stop being a member of this polity?" %}.</p>
     <p>
-    	{% trans "Only members get to participate in the polity's activities." %}
+        {% trans "Only members get to participate in the polity's activities." %}
     </p>
   </div>
   <div class="modal-footer">

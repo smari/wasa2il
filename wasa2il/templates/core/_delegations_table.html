@@ -1,26 +1,26 @@
 {% load i18n %}
 <table class="table table-striped table-bordered table-condensed">
 <tr>
-	<th>{% trans "Type" %}</th>
-	<th>{% trans "Item" %}</th>
-	<th>{% trans "To" %}</th>
-	<th>{% trans "Result" %}</th>
-	<th>{% trans "Details" %}</th>
+    <th>{% trans "Type" %}</th>
+    <th>{% trans "Item" %}</th>
+    <th>{% trans "To" %}</th>
+    <th>{% trans "Result" %}</th>
+    <th>{% trans "Details" %}</th>
 </tr>
 {% for de in delegations %}
 <tr>
-	<td>{{de.type}}</td>
-	<td>{{de.base_issue.get_url}}</td>
-	<td><a href="/accounts/profile/{{de.delegate.username}}/">{{de.delegate}}</a></td>
-	<td><a href="/accounts/profile/{{de.result.username}}/">{{de.result}}</a></td>
-	<td><a href="/delegation/{{de.id}}/">{% trans "Details" %}</a></td>
+    <td>{{de.type}}</td>
+    <td>{{de.base_issue.get_url}}</td>
+    <td><a href="/accounts/profile/{{de.delegate.username}}/">{{de.delegate}}</a></td>
+    <td><a href="/accounts/profile/{{de.result.username}}/">{{de.result}}</a></td>
+    <td><a href="/delegation/{{de.id}}/">{% trans "Details" %}</a></td>
 </tr>
 {% empty %}
 <tr>
-	<td colspan="7" style="text-align: center; font-size: 110%;">
-		{% trans "There are no delegations" %}
-		<a href="/help/delegate/">{% trans "What is a delegation?" %}</a>
-	</td>
+    <td colspan="7" style="text-align: center; font-size: 110%;">
+        {% trans "There are no delegations" %}
+        <a href="/help/delegate/">{% trans "What is a delegation?" %}</a>
+    </td>
 </tr>
 
 {% endfor %}

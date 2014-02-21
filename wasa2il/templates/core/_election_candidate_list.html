@@ -4,30 +4,30 @@
 {% if not election.is_closed %}
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
-	<div style="position: relative;">
-		{% if candidate.user.get_profile.high_seat %}
-		<span style="color: #00DD00; position: absolute; right: 10px">•</span>
-		{% endif %}
-		<img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded vote-image" />
-		<a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.get_name}}</a>
-		{% if election.is_voting %}
-		{% if candidate_selected %}
-        {% if user_is_member %}
-		<button class="btn vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
+    <div style="position: relative;">
+        {% if candidate.user.get_profile.high_seat %}
+        <span style="color: #00DD00; position: absolute; right: 10px">•</span>
         {% endif %}
-		{% else %}
+        <img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded vote-image" />
+        <a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.get_name}}</a>
+        {% if election.is_voting %}
+        {% if candidate_selected %}
         {% if user_is_member %}
-		<button class="btn vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+        <button class="btn vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
         {% endif %}
-		{% endif %}
-		{% endif %}
-	</div>
+        {% else %}
+        {% if user_is_member %}
+        <button class="btn vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+        {% endif %}
+        {% endif %}
+        {% endif %}
+    </div>
 </li>
 {% empty %}
 <p>{% if election.is_voting %}
-		{% trans "Drag candidates here." %}
+        {% trans "Drag candidates here." %}
 {% else %}
-		{% trans "There are no candidates standing in this election yet!" %}
+        {% trans "There are no candidates standing in this election yet!" %}
 {% endif %}</p>
 {% endfor %}
 {% endif %}

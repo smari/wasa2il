@@ -2,43 +2,43 @@
 {% load i18n %}
 
 <div class="span4">
-      <h2>{% trans "Your Documents" %}</h2>
-	<div class="btn-group">
+    <h2>{% trans "Your Documents" %}</h2>
+    <div class="btn-group">
           
-          <ul class="dropdown-menu">
-		{% for document in yourdocuments %}
-			<li><a href="#">{{document.name}}</a></li>
-		{% empty %}
-			You have no documents!
-		{% endfor %}
-          </ul>
-	</div>
+        <ul class="dropdown-menu">
+        {% for document in yourdocuments %}
+            <li><a href="#">{{document.name}}</a></li>
+        {% empty %}
+            You have no documents!
+        {% endfor %}
+        </ul>
+    </div>
 </div>
 
 <div class="span4">
-      <h2>{% trans "Proposed Documents" %}</h2>
-	<div class="btn-group">
+    <h2>{% trans "Proposed Documents" %}</h2>
+    <div class="btn-group">
           
-          <ul class="dropdown-menu">
-		{% for document in proposeddocuments %}
-			<li><a href="#">{{document.name}}</a></li>
-		{% empty %}
-			There are no proposed documents!
-		{% endfor %}
-          </ul>
-	</div>
+        <ul class="dropdown-menu">
+        {% for document in proposeddocuments %}
+            <li><a href="#">{{document.name}}</a></li>
+        {% empty %}
+            There are no proposed documents!
+        {% endfor %}
+        </ul>
+    </div>
 </div>
 
 <div class="span4">
-      <h2>{% trans "Adopted documents" %}</h2>
-	<div class="btn-group">
+    <h2>{% trans "Adopted documents" %}</h2>
+    <div class="btn-group">
           
-          <ul class="dropdown-menu">
-		{% for document in adopteddocuments %}
-			<li><a href="#">{{document.name}}</a></li>
-		{% empty %}
-			There are no adopted documents!
-		{% endfor %}
-          </ul>
-	</div>
+        <ul class="dropdown-menu">
+        {% for document in adopteddocuments %}
+            <li><a href="#">{{document.name}}</a></li>
+        {% empty %}
+            There are no adopted documents!
+        {% endfor %}
+        </ul>
+    </div>
 </div>

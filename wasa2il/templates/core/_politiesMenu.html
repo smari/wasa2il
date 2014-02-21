@@ -1,29 +1,29 @@
 
 {% load i18n %}
 <div class="span3">
-      <h2>{% trans "Your Polities" %}</h2>
-	<div class="btn-group">
+    <h2>{% trans "Your Polities" %}</h2>
+    <div class="btn-group">
           
-          <ul class="dropdown-menu">
-		{% for polity in polities %}
-			<li><a href="#">{{polity.name}}</a></li>
-		{% empty %}
-			There are no polities!
-		{% endfor %}
-          </ul>
-	</div>
+        <ul class="dropdown-menu">
+        {% for polity in polities %}
+            <li><a href="#">{{polity.name}}</a></li>
+        {% empty %}
+            There are no polities!
+        {% endfor %}
+        </ul>
+    </div>
 </div>
 
 <div class="span3">
-      <h2>{% trans "Other Polities" %}</h2>
-	<div class="btn-group">
+    <h2>{% trans "Other Polities" %}</h2>
+    <div class="btn-group">
           
-          <ul class="dropdown-menu">
-		{% for polity in allpolities %}
-			<li><a href="#">{{polity.name}}</a></li>
-		{% empty %}
-			There are no polities!
-		{% endfor %}
-          </ul>
-	</div>
+        <ul class="dropdown-menu">
+        {% for polity in allpolities %}
+            <li><a href="#">{{polity.name}}</a></li>
+        {% empty %}
+            There are no polities!
+        {% endfor %}
+        </ul>
+    </div>
 </div>

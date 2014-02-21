@@ -10,12 +10,12 @@
     <script src="/static/js/jquery.autosize-min.js"></script>
     <script src="/static/js/epiceditor.min.js"></script>
     <script src="/static/js/diff_match_patch.js"></script>
-	<script>
-		var DOCUMENT_ID = {{document.id}};
-		var PROPOSING = {% if proposing %}true{% else %}false{% endif %};
-		var PROPOSED = {% if document.is_proposed %}true{% else %}false{% endif %};
-		var selected_item = undefined;
-	</script>
+    <script>
+        var DOCUMENT_ID = {{document.id}};
+        var PROPOSING = {% if proposing %}true{% else %}false{% endif %};
+        var PROPOSED = {% if document.is_proposed %}true{% else %}false{% endif %};
+        var selected_item = undefined;
+    </script>
 {% endblock %}
 
 
@@ -23,114 +23,114 @@
 {% block content %}
 
 <div class="btn-group pull-right">
-	{% if document.user == user %}
-		{% if document.is_proposed %}
-			<a class="btn" onclick="document_propose({{document.id}}, 0);">{% trans "Withdraw proposal" %}</a>
-		{% else %}
-			<a class="btn" onclick="document_propose({{document.id}}, 1);">{% trans "Propose this document" %}</a>
-		{% endif %}
-	{% endif %}
+    {% if document.user == user %}
+        {% if document.is_proposed %}
+            <a class="btn" onclick="document_propose({{document.id}}, 0);">{% trans "Withdraw proposal" %}</a>
+        {% else %}
+            <a class="btn" onclick="document_propose({{document.id}}, 1);">{% trans "Propose this document" %}</a>
+        {% endif %}
+    {% endif %}
 </div>
 
 <h1>
-	<small>
-		{% if document.is_adopted %}
-			{% trans "Agreement" %} {{document.decid}}
-		{% elif document.is_proposed %}
-			{% trans "Proposal" %} {{document.id}}
-		{% else %}
-			{% trans "Draft proposal"%}
-		{% endif %}:
-	</small>
-	{{document.name}}
+    <small>
+        {% if document.is_adopted %}
+            {% trans "Agreement" %} {{document.decid}}
+        {% elif document.is_proposed %}
+            {% trans "Proposal" %} {{document.id}}
+        {% else %}
+            {% trans "Draft proposal"%}
+        {% endif %}:
+    </small>
+    {{document.name}}
 </h1>
 
 <div class="row">
 
-	<div class="span6 pull-left document">
+    <div class="span6 pull-left document">
 
-		<ul class="nav nav-tabs">
-			<li data-tab="edit" class="active"><a href="#">{% trans "Edit" %}</a></li>
-			<li data-tab="diff" ><a href="#">{% trans "Diff" %}</a></li>
-		</ul>
-		<div id="content"></div>
-		<div id="content_diff"><pre>{{current_content.diff|safe}}</pre></div>
-		<div id="content_org">{{current_content.text}}</div>
-		{% if not user.is_anonymous %}
-		<h4>{% trans "Propose a change" %}</h4>
-		{% if proposing %}
-		<form id="propose_change" action="." method="post">
-			{% csrf_token %}
-			<label for="comments">{% trans "Comments" %}:</label>
-			<textarea id="comments"></textarea>
-			<input type="submit" value="{% trans "Propose change" %}"></input>
-		</form>
-		{% else %}
-			<p>{% trans "Want to propose a change?" %} <a href="?v=new">{% trans "Click here!" %}</a></p>
-		{% endif %}
-		{% endif %}
-	</div>
+        <ul class="nav nav-tabs">
+            <li data-tab="edit" class="active"><a href="#">{% trans "Edit" %}</a></li>
+            <li data-tab="diff" ><a href="#">{% trans "Diff" %}</a></li>
+        </ul>
+        <div id="content"></div>
+        <div id="content_diff"><pre>{{current_content.diff|safe}}</pre></div>
+        <div id="content_org">{{current_content.text}}</div>
+        {% if not user.is_anonymous %}
+        <h4>{% trans "Propose a change" %}</h4>
+        {% if proposing %}
+        <form id="propose_change" action="." method="post">
+            {% csrf_token %}
+            <label for="comments">{% trans "Comments" %}:</label>
+            <textarea id="comments"></textarea>
+            <input type="submit" value="{% trans "Propose change" %}"></input>
+        </form>
+        {% else %}
+            <p>{% trans "Want to propose a change?" %} <a href="?v=new">{% trans "Click here!" %}</a></p>
+        {% endif %}
+        {% endif %}
+    </div>
 
-	<div class="span4 pull-right">
+    <div class="span4 pull-right">
 
-		{% if document.issues.count %}
-		<h3>{% trans "Referenced by issues" %}</h3>
-		<ul>
-		{% for i in document.issues.all %}
-			<li><a href="/issue/{{i.id}}/">{{i.name}}</a></li>
-		{% endfor %}
-		</ul>
-		{% endif %}
+        {% if document.issues.count %}
+        <h3>{% trans "Referenced by issues" %}</h3>
+        <ul>
+        {% for i in document.issues.all %}
+            <li><a href="/issue/{{i.id}}/">{{i.name}}</a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 
-		<h3>{% trans "Contributors to this document" %}</h3>
-		<ul>
-		{% for i in document.get_contributors %}
-			<li><a href="/accounts/profile/{{i.username}}"> {{i.get_full_name|default:i.username}}</a></li>
-		{% endfor %}
-		</ul>
+        <h3>{% trans "Contributors to this document" %}</h3>
+        <ul>
+        {% for i in document.get_contributors %}
+            <li><a href="/accounts/profile/{{i.username}}"> {{i.get_full_name|default:i.username}}</a></li>
+        {% endfor %}
+        </ul>
 
-		{% if not document.is_proposed %}
-		<form class="form-inline" action="#">
-			<input type="text" class="input-small" id="meeting_manager_add" data-polity-id="{{polity.id}}"/>
-			<input type="submit" class="btn btn-small" id="meeting_manager_add_btn" value="{% trans "Add" %}"/>
-		</form>
-		{% endif %}
+        {% if not document.is_proposed %}
+        <form class="form-inline" action="#">
+            <input type="text" class="input-small" id="meeting_manager_add" data-polity-id="{{polity.id}}"/>
+            <input type="submit" class="btn btn-small" id="meeting_manager_add_btn" value="{% trans "Add" %}"/>
+        </form>
+        {% endif %}
 
-	</div>
+    </div>
 
 
 </div>
 
 <div class="row" id="versions">
-	<div class="span8">
-		<h3>{% trans "Versions" %}</h3>
-		<table class="table table-striped">
-			<tr>
-				<th>{% trans "Active" context "Version" %}</th>
-				<th>#</th>
-				<th>{% trans "Status" %}</th>
-				<th>{% trans "Author" %}</th>
-				<th>{% trans "Comments" %}</th>
-			</tr>
-			{% for content in document.get_versions %}
-			<tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{content.id}}" data-patch="{{content.patch}}">
-				<td><input id="change-{{content.id}}" type="checkbox" checked="checked"></input></td>
-				<td>{{content.order}}{% if content.order != current_content.order%} (<a href="?v={{content.order}}">{% trans "view" %}</a>){% endif %}</td>
-				<td>{{content.status|title}}</td>
-				<td><a href="/accounts/profile/{{content.user}}"> {{content.user.get_full_name|default:content.user.username}}</a></td>
-				<td>{{content.comments}}</td>
-			</tr>
-			{% endfor %}
-			{% if proposing %}
-			<tr class="current">
-				<td>-</td>
-				<td>New</td>
-				<td><a href="/accounts/profile/{{request.user}}"> {{user.get_full_name|default:user.username}}</a></td>
-				<td>-</td>
-			</tr>
-			{% endif %}
-		</table>
-	</div>
+    <div class="span8">
+        <h3>{% trans "Versions" %}</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>{% trans "Active" context "Version" %}</th>
+                <th>#</th>
+                <th>{% trans "Status" %}</th>
+                <th>{% trans "Author" %}</th>
+                <th>{% trans "Comments" %}</th>
+            </tr>
+            {% for content in document.get_versions %}
+            <tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{content.id}}" data-patch="{{content.patch}}">
+                <td><input id="change-{{content.id}}" type="checkbox" checked="checked"></input></td>
+                <td>{{content.order}}{% if content.order != current_content.order%} (<a href="?v={{content.order}}">{% trans "view" %}</a>){% endif %}</td>
+                <td>{{content.status|title}}</td>
+                <td><a href="/accounts/profile/{{content.user}}"> {{content.user.get_full_name|default:content.user.username}}</a></td>
+                <td>{{content.comments}}</td>
+            </tr>
+            {% endfor %}
+            {% if proposing %}
+            <tr class="current">
+                <td>-</td>
+                <td>New</td>
+                <td><a href="/accounts/profile/{{request.user}}"> {{user.get_full_name|default:user.username}}</a></td>
+                <td>-</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
 </div>
 
 {% endblock %}
