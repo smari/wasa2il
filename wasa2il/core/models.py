@@ -37,6 +37,7 @@ class UserProfile(models.Model):
     email_visible = models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
     bio = models.TextField(**nullblank)
     picture = models.ImageField(upload_to="users", **nullblank)
+    joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
     language = models.CharField(max_length="6", default="en", choices=settings.LANGUAGES)
@@ -780,6 +781,10 @@ class Election(NameSlugBase):
     votingsystem = models.ForeignKey(VotingSystem)
     deadline_candidacy = models.DateTimeField()
     deadline_votes = models.DateTimeField()
+
+    # Sometimes elections may depend on a user having been the organization's member for an X amount of time
+    # This optional field lets the vote counter disregard members who are too new.
+    deadline_joined_org = models.DateTimeField(null=True, blank=True)
 
     def export_openstv_ballot(self):
         return ""

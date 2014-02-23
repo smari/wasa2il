@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load wasa2il %}
 {% block content %}
 
 <div style="float: right;">
@@ -35,7 +36,24 @@
                 <p class="temporary">Gild atkvæði eru atkvæði meðlima Pírata í Reykjavík sem höfðu verið skráðir 23. janúar 2014 eða fyrr, hvort heldur sem er í Pírata í Reykjavík eða móðurfélagið.</p>
             </div>
         {% endif %}
+
         {{election.description}}
+
+        {% if election.is_closed %}
+        <h2>{% trans 'Election results' %}</h2>
+        <div id="election_candidates_winners" style="margin-top: 1em;">
+            <ol class="candidates" id="candidates_winners">
+            {% for candidate in election_results %}
+                <li data-seqid="{{ candidate.id }}">
+                    <div style="position: relative;">
+                        <img src="{{ candidate.user.get_profile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
+                        <a href="/accounts/profile/{{ candidate.user.username }}/">{{ candidate.user.get_name }}</a>
+                    </div>
+                </li>
+            {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
     </div>
 
 </div>

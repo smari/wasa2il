@@ -23,11 +23,13 @@ import urlparse
 # END
 
 from django.contrib.auth.models import User
-from core.models import Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, Meeting, UserProfile
+from core.models import Candidate, Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, ElectionVote, Meeting, UserProfile
 from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm, MeetingForm
 from core.saml import authenticate, SamlException
 from gateway.icepirate import configure_polities_by_remote_groups
 from hashlib import sha1
+
+import schulze
 
 
 def home(request):
@@ -618,11 +620,34 @@ class ElectionDetailView(DetailView):
         return super(ElectionDetailView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
+
+        if self.get_object().deadline_joined_org:
+            votes = ElectionVote.objects.select_related('candidate__user').filter(election=self.get_object(), user__userprofile__joined_org__lt = self.get_object().deadline_joined_org)
+        else:
+            votes = ElectionVote.objects.select_related('candidate__user').filter(election=self.get_object())
+        candidates = Candidate.objects.select_related('user').filter(election=self.get_object())
+        votemap = {}
+        for vote in votes:
+            if not votemap.has_key(vote.user_id):
+                votemap[vote.user_id] = []
+
+            votemap[vote.user_id].append(vote)
+
+        manger = []
+        for user_id in votemap:
+            manger.append([(v.value, v.candidate) for v in votemap[user_id]])
+
+        preference = schulze.rank_votes(manger, candidates)
+        strongest_paths = schulze.compute_strongest_paths(preference, candidates)
+
+        election_results = schulze.get_ordered_voting_results(strongest_paths)
+
         context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
         context_data.update(
             {
                 'polity': self.polity,
                 "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
+                'election_results': election_results,
             }
         )
         context_data['user_is_member'] = self.request.user in self.polity.members.all()
