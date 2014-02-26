@@ -8,7 +8,6 @@ from models import (
     Comment, Vote,
     Delegate, MembershipRequest,
     MembershipVote, UserProfile,
-    Meeting, MeetingIntervention,
     PolityRuleset,
     Document, Statement, ChangeProposal,
     DocumentContent,
@@ -114,13 +113,10 @@ register(Delegate, DelegateAdmin)
 register(Vote, VoteAdmin)
 register(MembershipRequest)
 register(MembershipVote)
-register(Meeting)
 
 # User profile mucking
 admin.site.unregister(auth.models.User)
 register(auth.models.User, UserAdmin)
-
-register(MeetingIntervention)
 
 register(UserProfile)
 register(PolityRuleset)

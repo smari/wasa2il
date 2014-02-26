@@ -1,9 +1,0 @@
-#!/bin/sh
-
-echo "Setting env..."
-
-# Set the python path
-ENV_DIR=$(cd `dirname $0` && pwd)
-export PYTHONPATH=`dirname $ENV_DIR`:`dirname $ENV_DIR/lib`
-
-export DJANGO_SETTINGS_MODULE='wasa2il.settings'

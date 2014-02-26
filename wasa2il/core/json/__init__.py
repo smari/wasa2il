@@ -20,61 +20,7 @@ from core.models import UserTopic
 from core.json.utils import jsonize, error
 
 
-@jsonize
-def user_exists(request):
-    from hashlib import sha1
-    ctx = {}
-    username = request.REQUEST.get("username")
-    signature = request.REQUEST.get("signature")
-    m = sha1()
-    m.update(":" + username + ":" + settings.SHARED_SECRET + ":")
-    if m.hexdigest() != signature:
-        ctx["ok"] = False
-        return ctx
-
-    try:
-        User.objects.get(username=username)
-        ctx["user_exists"] = True
-    except User.DoesNotExist:
-        ctx["user_exists"] = False
-
-    ctx["ok"] = True
-    return ctx
-
-
-@jsonize
-def user_create(request):
-    from hashlib import sha1
-
-    ctx = {}
-    username = request.REQUEST.get("username")
-    password = request.REQUEST.get("password")
-    signature = request.REQUEST.get("signature")
-    email = request.REQUEST.get("email", "")
-    m = sha1()
-    m.update(":" + username + ":" + password + ":" + settings.SHARED_SECRET + ":")
-    if m.hexdigest() != signature:
-        ctx["ok"] = False
-        return ctx
-
-    (user, created) = User.objects.get_or_create(username=username)
-    user.is_active = True
-    user.email = email
-    user.set_password(password)
-    user.save()
-    pro = UserProfile()
-    pro.user = user
-    pro.save()
-
-    p = Polity.objects.get(id=1)
-    p.members.add(user)
-
-    ctx["ok"] = True
-    ctx["username"] = user.username
-    ctx["id"] = user.id
-    return ctx
-
-
+#This looks like ancient garbage? Can we delete this?
 @login_required
 @jsonize
 def polity_membershipvote(request):
@@ -139,7 +85,7 @@ def election_vote(request):
     ctx = {}
     ctx["ok"] = True
 
-    if not election.polity.is_member(request.user):
+    if not election.polity.is_member(request.user) or election.is_closed():
         ctx["ok"] = False
         return ctx
 
@@ -219,56 +165,3 @@ def get_polity_members(request, polity_id):
     return ctx
 
 
-@login_required
-@jsonize
-def list_attendees(request, meeting_id):
-    '''
-    List attendees for a specific meeting.
-    Requesting user must be an admin in the meeting.
-    Supplying a 'filter' GET parameter to filter the results by name/username.
-    '''
-    ctx = {}
-
-    try:
-        meeting_id = int(meeting_id)
-    except ValueError:
-        return error('Invalid parameter (meeting_id). Should be a positive integer.')
-
-    try:
-        meeting = Meeting.objects.get(id=meeting_id)
-    except Meeting.DoesNotExist:
-        return error('Meeting object not found')
-
-    try:
-        meeting.managers.get(id=request.user.id)
-    except User.DoesNotExist:
-        return error('You must be a meeting manager to list the attendees.')
-
-    filter_term = request.GET.get('filter', None)
-
-    limit = 10
-    qs = (
-        Q(first_name__istartswith=filter_term) |
-        Q(last_name__istartswith=filter_term) |
-        Q(username__istartswith=filter_term)
-    )
-    attendees = meeting.attendees.filter(qs)[:limit]
-
-    # TODO: Why will the below not work? Later...
-    #qs = (
-    #>    Q(first_name__icontains=filter_term) |
-    #    Q(last_name__icontains=filter_term) |
-    #    Q(username__icontains=filter_term)
-    #)
-    #attendees = meeting.attendees.filter(qs, id__not=[a.id for a in attendees])[:limit - len(attendees)]
-
-    ctx['attendees'] = [
-        {
-            'id': m.id,
-            'username': m.username,
-            'str': m.get_full_name() or str(m),
-        } for m in attendees
-    ]
-    ctx['ok'] = True
-
-    return ctx

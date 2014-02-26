@@ -37,18 +37,10 @@ urlpatterns += patterns('',
     (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$',        DocumentDetailView.as_view()),
     (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$',    login_required(DocumentUpdateView.as_view())),
 
-    (r'^polity/(?P<polity>\d+)/meeting/$',                login_required(MeetingListView.as_view())),
-    (r'^polity/(?P<polity>\d+)/meeting/new/$',            login_required(MeetingCreateView.as_view())),
-    (r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/$',        login_required(MeetingDetailView.as_view())),
-    (r'^polity/(?P<polity>\d+)/meeting/(?P<pk>\d+)/edit/$',        login_required(MeetingUpdateView.as_view())),
-
     (r'^polity/(?P<polity>\d+)/election/$',                login_required(ElectionListView.as_view())),
     (r'^polity/(?P<polity>\d+)/election/new/$',            login_required(ElectionCreateView.as_view())),
     (r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/$',        ElectionDetailView.as_view()),
     (r'^polity/(\d+)/election/(?P<pk>\d+)/ballots/$', election_ballots),
-
-    #("^polity/(?P<polity>\d+)/forum/$", ForumView.as_view()),
-    #("^polity/(?P<polity>\d+)/forum/(?P<category>\d+)/$", ForumCategoryView.as_view()),
 
     (r'^polity/(?P<pk>\d+)/edit/$',                login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
     (r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$',        login_required(PolityDetailView.as_view())),
@@ -62,9 +54,6 @@ urlpatterns += patterns('',
 
     (r'^feeds/json/(?P<polity>\d+)/(?P<item>.*)/$', feed_json),
     (r'^feeds/rss/(?P<polity>\d+)/(?P<item>.*)/$', feed_rss),
-
-    (r'^api/user/create/$', user_create),
-    (r'^api/user/exists/$', user_exists),
 
     (r'^api/polity/membershipvote/$', polity_membershipvote),
     (r'^api/polity/(?P<polity_id>\d+)/members/$', get_polity_members),
@@ -86,21 +75,5 @@ urlpatterns += patterns('',
     (r'^api/document/propose/(?P<document>\d+)/(?P<state>\d+)/$', document_propose),
     (r'^api/document/propose-change/$', document_propose_change),
 
-    (r'^api/meeting/attend/(?P<meeting>\d+)/$', meeting_attend),
-    (r'^api/meeting/poll/$', meeting_poll),
-    (r'^api/meeting/start/$', meeting_start),
-    (r'^api/meeting/end/$', meeting_end),
-    (r'^api/meeting/manager/add/$', meeting_manager_add),
-    (r'^api/meeting/agenda/open/$', meeting_agenda_open),
-    (r'^api/meeting/agenda/close/$', meeting_agenda_close),
-    (r'^api/meeting/agenda/add/$', meeting_agenda_add),
-    (r'^api/meeting/agenda/remove/$', meeting_agenda_remove),
-    (r'^api/meeting/agenda/reorder/$', meeting_agenda_reorder),
-    (r'^api/meeting/agenda/next/$', meeting_agenda_next),
-    (r'^api/meeting/agenda/prev/$', meeting_agenda_prev),
-    (r'^api/meeting/intervention/next/$', meeting_intervention_next),
-    (r'^api/meeting/intervention/prev/$', meeting_intervention_prev),
-    (r'^api/meeting/intervention/add/$', meeting_intervention_add),
-    (r'^api/meeting/list_attendees/(?P<meeting_id>\d+)/$', list_attendees),
 )
 

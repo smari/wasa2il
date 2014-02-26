@@ -1,4 +1,4 @@
-
+#TODO Can we remove this file? Seems like ancient garbage
 from openstv.ballots import Ballots
 from openstv.plugins import getMethodPlugins
 

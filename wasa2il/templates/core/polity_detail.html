@@ -43,7 +43,6 @@
 {% if user_is_member or polity.is_nonmembers_readable %}
 <div id="polity_stats" class="subnav">
     <ul class="nav nav-pills">
-        <li><a href="#" onclick="$('#modal_members').modal('show');">{{polity.members.count}} {% trans "members" %}</a></li>
         <li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
         <li><a href="#documents">{{polity.agreements.count}} {% trans "agreements" %}</a></li>
         <li><a href="#subpolities" onclick="$('#modal_subpolities').modal('show');">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
@@ -326,26 +325,6 @@
   </div>
   <div class="modal-footer">
     <a onclick="$('#modal_subpolities').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
-  </div>
-</div>
-
-
-<div class="modal hide fade" id="modal_members">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "Members of this polity" %}</h3>
-  </div>
-  <div class="modal-body" id="modal_members_list">
-
-    {% for m in polity.members.all %}
-        <a href="/accounts/profile/{{m.username}}/" class="thumbnail" style="background: url({{m.get_profile.picture|thumbnail:"100x100"}}) no-repeat">
-            {{m.get_name}}
-        </a>
-    {% endfor %}
-
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_members').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
   </div>
 </div>
 
