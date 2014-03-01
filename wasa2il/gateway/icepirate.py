@@ -16,6 +16,12 @@ def configure_polities_by_remote_groups(user):
     print content
     remote_object = json.loads(content)
 
-    for polity in Polity.objects.filter(slug__in = remote_object['data']['groups']):
+    icepirate_groups = remote_object['data']['groups']
+
+    for polity in Polity.objects.filter(slug__in = icepirate_groups):
         polity.members.add(user)
+
+    for polity in Polity.objects:
+    	if polity.is_member(user) and polity.slug not in icepirate_groups:
+    		polity.members.remove(user)
 
