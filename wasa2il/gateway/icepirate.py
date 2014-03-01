@@ -21,7 +21,7 @@ def configure_polities_by_remote_groups(user):
     for polity in Polity.objects.filter(slug__in = icepirate_groups):
         polity.members.add(user)
 
-    for polity in Polity.objects:
+    for polity in Polity.objects.all():
     	if polity.is_member(user) and polity.slug not in icepirate_groups:
     		polity.members.remove(user)
 
