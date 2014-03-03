@@ -4,6 +4,9 @@ from django.shortcuts import render_to_response
 
 from core.models import UserProfile
 
+from django.contrib import auth
+
+from datetime import datetime, timedelta
 
 class UserSettingsMiddleware(object):
     def __init__(self):
@@ -32,4 +35,5 @@ class UserSettingsMiddleware(object):
             if not profile.kennitala and request.path_info != '/accounts/verify/' and request.path_info != '/accounts/logout/':
                 ctx = { 'auth_url': settings.AUTH_URL }
                 return render_to_response('registration/verification_needed.html', ctx)
+
 
