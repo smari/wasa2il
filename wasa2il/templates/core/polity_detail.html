@@ -318,9 +318,11 @@
   </div>
   <div class="modal-body" id="modal_subpolities_list">
 
+    <ul>
     {% for p in polity.polity_set.all %}
-        <a href="/polity/{{p.id}}/">{{p.name}}</a>
+        <li><a href="/polity/{{p.id}}/">{{p.name}}</li>
     {% endfor %}
+    </ul>
 
   </div>
   <div class="modal-footer">
