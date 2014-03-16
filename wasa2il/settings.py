@@ -107,7 +107,7 @@ MIDDLEWARE_CLASSES = (
     'core.middleware.UserSettingsMiddleware',
 )
 
-AUTO_LOGOUT_DELAY = 5 #equivalent to 5 minutes
+AUTO_LOGOUT_DELAY = 30 #equivalent to 5 minutes
 
 ROOT_URLCONF = 'urls'
 
