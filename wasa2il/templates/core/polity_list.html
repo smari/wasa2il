@@ -14,7 +14,6 @@
 <table class="table table-striped table-bordered">
 <tr>
     <th>{% trans "Polity" %}</th>
-    <th>{% trans "Members" %}</th>
     <th>{% trans "Topics" %}</th>
     <th>{% trans "Documents" %}</th>
 </tr>
@@ -22,7 +21,6 @@
 {% if polity.is_listed %}
 <tr>
     <td><a href="/polity/{{polity.id}}/">{{polity.name}}</a></td>
-    <td>{{polity.members.count}}</td>
     <td>{{polity.topic_set.count}}</td>
     <td>{{polity.document_set.count}}</td>
 </tr>
