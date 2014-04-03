@@ -6,3 +6,4 @@ simplejson
 MySQL-python
 lxml
 suds
+markdown2
