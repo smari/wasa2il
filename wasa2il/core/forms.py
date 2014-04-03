@@ -19,7 +19,7 @@ class IssueForm(ModelForm):
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        exclude = ('issue')
+        exclude = ('issue',)
 
 
 class DocumentForm(ModelForm):

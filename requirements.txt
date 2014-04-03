@@ -1,5 +1,5 @@
 pillow
-Django==1.4
+Django
 django-registration
 django-bootstrap-form
 simplejson

@@ -19,15 +19,15 @@ class UserSettingsMiddleware(object):
             #Can't log out if not logged in
             return
 
-        try:
-            if datetime.now() - request.session['last_touch'] > timedelta( 0, settings.AUTO_LOGOUT_DELAY * 60, 0):
-                auth.logout(request)
-                del request.session['last_touch']
-                return
-        except KeyError:
-            pass
+        now = datetime.now()
 
-        request.session['last_touch'] = datetime.now()
+        if 'last_visit' in request.session:
+            last_visit = datetime.strptime(request.session['last_visit'], '%Y-%m-%d %H:%M:%S')
+            if now - last_visit > timedelta(0, settings.AUTO_LOGOUT_DELAY * 60, 0):
+                auth.logout(request)
+                return
+
+        request.session['last_visit'] = now.strftime('%Y-%m-%d %H:%M:%S')
 
         if not request.user.is_anonymous():
             # Make sure that the user is not only logged in, but verified
