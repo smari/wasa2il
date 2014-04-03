@@ -300,6 +300,19 @@ ol.interventions li.active:before {
   background-image: url("../img/glyphicons-halflings-grey.png");
 }
 
+#legal-text { font-family: serif; font-size: 12px; border: 1px #e0e0e0 solid; padding: 12px 24px 12px 24px; text-align: justify; }
+#legal-text h1 { font-family: inherit; font-size: 28px; font-weight: bold; margin: 4px 0px 4px 4px; }
+#legal-text h2 { font-family: inherit; font-size: 18px; font-weight: bold; margin: 4px 0px 4px 4px; }
+#legal-text ol { margin: 12px 0px 0px 24px; }
+#legal-text li { padding: 0px 0px 0px 0px; margin: 0px 0px 18px 0px; }
+
+#legal-text-editor { width: 100%; height: 400px; font-family: Courier New; }
+#legal-text-editor-preview { width: 100%; }
+
+#legal-text-diff { display: none; }
+#legal-text-diff ins { background-color: #aaffaa !important; }
+#legal-text-diff del { background-color: #ffaaaa !important; }
+
 
 .comment {
 	background: #f7f7f7;
@@ -346,15 +359,6 @@ ul.errorlist {
 
 .document {
 	position: relative;
-}
-#content:after {
-	content: "Loading";
-	visibility: visible;
-	position: absolute;
-	top: 200px;
-	left: 50%;
-	font-size: 3em;
-	z-index: -100;
 }
 
 #content_org {

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% load wasa2il %}
 
 
 {% block javascript %}
@@ -8,7 +8,6 @@
     <script src="/static/js/jquery.cookie.js"></script>
     <script src="/static/js/document.js"></script>
     <script src="/static/js/jquery.autosize-min.js"></script>
-    <script src="/static/js/epiceditor.min.js"></script>
     <script src="/static/js/diff_match_patch.js"></script>
     <script>
         var DOCUMENT_ID = {{document.id}};
@@ -49,26 +48,58 @@
 
     <div class="span6 pull-left document">
 
-        <ul class="nav nav-tabs">
-            <li data-tab="edit" class="active"><a href="#">{% trans "Edit" %}</a></li>
-            <li data-tab="diff" ><a href="#">{% trans "Diff" %}</a></li>
-        </ul>
-        <div id="content"></div>
-        <div id="content_diff"><pre>{{current_content.diff|safe}}</pre></div>
-        <div id="content_org">{{current_content.text}}</div>
-        {% if not user.is_anonymous %}
-        <h4>{% trans "Propose a change" %}</h4>
-        {% if proposing %}
         <form id="propose_change" action="." method="post">
-            {% csrf_token %}
-            <label for="comments">{% trans "Comments" %}:</label>
-            <textarea id="comments"></textarea>
-            <input type="submit" value="{% trans "Propose change" %}"></input>
-        </form>
+        {% csrf_token %}
+
+        {% if proposing %}
+
+            <!-- Editing area -->
+            <textarea id="legal-text-editor">{{ current_content.text }}</textarea>
+
         {% else %}
-            <p>{% trans "Want to propose a change?" %} <a href="?v=new">{% trans "Click here!" %}</a></p>
+            {% if current_content.order > 1 %}
+            <ul class="nav nav-tabs" style="margin: 0px;">
+                <li tabname="view" class="active"><a href="#">{% trans "View" %}</a></li>
+                <li tabname="diff" ><a href="#">{% trans "Diff" %}</a></li>
+            </ul>
+            <div id="legal-text-diff">
+                <pre>{{ current_content.diff|safe }}</pre>
+            </div>
+            {% endif %}
+            <div id="legal-text">
+                {{ current_content.text|markdown }}
+            </div>
         {% endif %}
+
+        <div id="content_org">{{current_content.text}}</div>
+
+        {% if not user.is_anonymous %}
+
+            <h4>{% trans "Propose a change" %}</h4>
+
+            {% if proposing %}
+
+                <div>
+                    <input type="button" id="btn_preview" value="{% trans "Preview" %}" />
+
+                    <!-- Preview area -->
+                    <div id="legal-text" style="display: none;"></div>
+                </div>
+
+                <label for="comments">{% trans "Comments" %}:</label>
+                <textarea id="comments"></textarea>
+                <input type="submit" value="{% trans "Propose change" %}"></input>
+ 
+            {% else %}
+
+                <p>{% trans "Want to propose a change?" %} <a href="?v=new">{% trans "Click here!" %}</a></p>
+
+            {% endif %}
+
         {% endif %}
+
+        </form>
+
     </div>
 
     <div class="span4 pull-right">
@@ -106,7 +137,6 @@
         <h3>{% trans "Versions" %}</h3>
         <table class="table table-striped">
             <tr>
-                <th>{% trans "Active" context "Version" %}</th>
                 <th>#</th>
                 <th>{% trans "Status" %}</th>
                 <th>{% trans "Author" %}</th>
@@ -114,7 +144,6 @@
             </tr>
             {% for content in document.get_versions %}
             <tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{content.id}}" data-patch="{{content.patch}}">
-                <td><input id="change-{{content.id}}" type="checkbox" checked="checked"></input></td>
                 <td>{{content.order}}{% if content.order != current_content.order%} (<a href="?v={{content.order}}">{% trans "view" %}</a>){% endif %}</td>
                 <td>{{content.status|title}}</td>
                 <td><a href="/accounts/profile/{{content.user}}"> {{content.user.get_full_name|default:content.user.username}}</a></td>

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from core.json.issue import issue_comment_send, issue_poll, issue_vote
-from core.json.document import issue_document_import, document_statement_new, document_statements_import, document_propose, document_propose_change
+from core.json.document import issue_document_import, document_statement_new, document_statements_import, document_propose, document_propose_change, render_markdown
 from core.json.meeting import *
 from core.views import *
 from core.json import *
@@ -74,6 +74,7 @@ urlpatterns += patterns('',
     (r'^api/document/statement/import/$', document_statements_import),
     (r'^api/document/propose/(?P<document>\d+)/(?P<state>\d+)/$', document_propose),
     (r'^api/document/propose-change/$', document_propose_change),
+    (r'^api/document/render-markdown/$', render_markdown),
 
 )
 

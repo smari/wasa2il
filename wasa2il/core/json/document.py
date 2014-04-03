@@ -1,3 +1,4 @@
+import markdown2
 
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
@@ -5,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 from core.models import Document, Issue, ChangeProposal, Statement, DocumentContent
 from core.json.utils import jsonize
+
+from google_diff_match_patch.diff_match_patch import diff_match_patch
 
 
 @login_required
@@ -17,14 +20,24 @@ def document_propose_change(request):
         text = request.POST['text']
     except KeyError:
         raise Exception('Missing "text"')
+
     try:
-        diff = request.POST['diff']
-    except KeyError:
-        raise Exception('Missing "diff"')
-    try:
-        patch = request.POST['patch']
-    except KeyError:
-        raise Exception('Missing "patch"')
+        latest_content = DocumentContent.objects.filter(document=document).order_by('-order')[0]
+        original_text = latest_content.text
+    except IndexError:
+        original_text = ''
+
+    # Basic diff_match_patch thing
+    dmp = diff_match_patch()
+    d = dmp.diff_main(original_text, text)
+
+    # Calculate the diff
+    dmp.diff_cleanupSemantic(d)
+    diff = dmp.diff_prettyHtml(d).replace('&para;', '')
+
+    # Calculate the patch
+    patch_list = dmp.patch_make(original_text, text, d)
+    patch = dmp.patch_toText(patch_list)
 
     content = DocumentContent()
     content.document = document
@@ -37,6 +50,7 @@ def document_propose_change(request):
         content.order = DocumentContent.objects.filter(document=document).order_by('-order')[0].order + 1
     except IndexError:
         pass
+
     content.save()
 
     ctx['order'] = content.order
@@ -212,3 +226,14 @@ def document_propose(request, document, state):
 
     ctx["ok"] = True
     return ctx
+
+
+@login_required
+@jsonize
+def render_markdown(request):
+    text = request.GET.get('text', 'Missing text!')
+    ctx = {}
+    ctx['content'] = markdown2.markdown(text, safe_mode='escape')
+
+    return ctx
+

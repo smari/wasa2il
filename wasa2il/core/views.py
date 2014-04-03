@@ -26,6 +26,7 @@ from django.contrib.auth.models import User
 from core.models import Candidate, Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, ElectionVote, Meeting, UserProfile
 from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm, MeetingForm
 from core.saml import authenticate, SamlException
+from core.utils import strip_tags
 from gateway.icepirate import configure_polities_by_remote_groups
 from hashlib import sha1
 
@@ -460,6 +461,9 @@ class DocumentDetailView(DetailView):
                     raise Exception('Bad "v(ersion)" parameter')
         else:
             context_data['current_content'] = self.object.get_content()
+
+        context_data['current_content'].text = strip_tags(context_data['current_content'].text)
+
         context_data.update(csrf(self.request))
         return context_data
 

@@ -1,8 +1,12 @@
 
 import os
+import markdown2
+
 from PIL import Image
 
 from django import template
+from django.template.defaultfilters import stringfilter
+from django.utils.safestring import mark_safe
 
 from core.models import UserTopic, Vote, ElectionVote
 
@@ -75,3 +79,10 @@ def thumbnail(file, size='104x104'):
         print 'ERROR: %s' % e.message
         print e
         return ""
+
+ 
+@register.filter(is_safe=True)
+@stringfilter
+def markdown(value):
+    return mark_safe(markdown2.markdown(value, safe_mode='escape'))
+
