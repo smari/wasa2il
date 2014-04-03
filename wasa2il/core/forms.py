@@ -1,5 +1,6 @@
 from django.forms import ModelForm
 from django.forms import EmailField
+from django.utils.translation import ugettext as _
 
 from core.models import Topic, Issue, Comment, Document, Polity, Meeting, UserProfile, Election
 
@@ -47,8 +48,8 @@ class ElectionForm(ModelForm):
 
 
 class UserProfileForm(ModelForm):
-    email = EmailField(help_text="The email address you'd like to use for the site.")
+    email = EmailField(label=_("E-mail"), help_text=_("The email address you'd like to use for the site."))
 
     class Meta:
         model = UserProfile
-        fields = ('displayname', 'email', 'email_visible', 'picture', 'bio', 'language')
+        fields = ('displayname', 'email', 'picture', 'bio', 'language')
