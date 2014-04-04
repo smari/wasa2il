@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-04 15:38+0000\n"
+"POT-Creation-Date: 2014-04-04 15:45+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: crowdin.net\n"
 
-#: core/authentication.py:20
+#: core/authentication.py:20 core/forms.py:45
 msgid "E-mail"
 msgstr ""
 
@@ -21,6 +21,43 @@ msgstr ""
 #, fuzzy
 msgid "Password"
 msgstr "Change proposals"
+
+#: core/forms.py:45
+msgid "The email address you'd like to use for the site."
+msgstr ""
+
+#: core/models.py:36 templates/forum/forum_detail.html:18
+msgid "Name"
+msgstr ""
+
+#: core/models.py:36
+msgid "The name to display on the site."
+msgstr ""
+
+#: core/models.py:37
+msgid "E-mail visible"
+msgstr ""
+
+#: core/models.py:37
+#, fuzzy
+msgid "Whether to display your email address on your profile page."
+msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
+
+#: core/models.py:38
+msgid "Bio"
+msgstr ""
+
+#: core/models.py:39
+msgid "Picture"
+msgstr ""
+
+#: core/models.py:43
+msgid "Language"
+msgstr ""
+
+#: core/models.py:44
+msgid "Whether to show all topics in a polity, or only starred."
+msgstr ""
 
 #: core/models.py:328 templates/core/polity_detail.html:111
 msgid "Issue"
@@ -247,11 +284,13 @@ msgstr "Stillingar"
 msgid "You are signed in as"
 msgstr "Þú ert innskráð/ur sem"
 
-#: templates/settings.html:16
+#: templates/settings.html:16 templates/core/document_form.html:22
+#: templates/core/issue_form.html:12 templates/forum/discussion_form.html:16
+#: templates/forum/forum_form.html:17
 #: templates/registration/password_change_form.html:11
 #: templates/registration/password_reset_confirm.html:14
-msgid "Submit"
-msgstr "Submit"
+msgid "Save"
+msgstr "Vista"
 
 #: templates/core/_delegations_table.html:4
 msgid "Type"
@@ -484,11 +523,6 @@ msgstr "Tengt málum:"
 #: templates/core/document_form.html:9
 msgid "Related to issue:"
 msgstr "Tengt máli:"
-
-#: templates/core/document_form.html:22 templates/core/issue_form.html:12
-#: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
-msgid "Save"
-msgstr "Vista"
 
 #: templates/core/document_list.html:7 templates/core/issue_detail.html:53
 #: templates/core/polity_detail.html:88
@@ -990,10 +1024,6 @@ msgstr ""
 #, fuzzy
 msgid "Discussions"
 msgstr "Umræður"
-
-#: templates/forum/forum_detail.html:18
-msgid "Name"
-msgstr ""
 
 #: templates/forum/forum_detail.html:19
 msgid "Messages"
@@ -2077,6 +2107,9 @@ msgstr ""
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr ""
+
+#~ msgid "Submit"
+#~ msgstr "Submit"
 
 #~ msgid "Add"
 #~ msgstr "Bæta við"
