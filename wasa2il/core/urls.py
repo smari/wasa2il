@@ -5,7 +5,6 @@ from django.conf import settings
 
 from core.json.issue import issue_comment_send, issue_poll, issue_vote
 from core.json.document import issue_document_import, document_statement_new, document_statements_import, document_propose, document_propose_change, render_markdown
-from core.json.meeting import *
 from core.views import *
 from core.json import *
 from core.feeds import *
@@ -55,7 +54,6 @@ urlpatterns += patterns('',
     (r'^feeds/json/(?P<polity>\d+)/(?P<item>.*)/$', feed_json),
     (r'^feeds/rss/(?P<polity>\d+)/(?P<item>.*)/$', feed_rss),
 
-    (r'^api/polity/membershipvote/$', polity_membershipvote),
     (r'^api/polity/(?P<polity_id>\d+)/members/$', get_polity_members),
 
     (r'^api/topic/star/$', topic_star),

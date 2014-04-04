@@ -7,12 +7,6 @@
 {% if user_is_member and settings.ALLOW_LEAVE_POLITY %}
   <a class="btn" onclick="$('#leave_polity').modal('show');">{% trans "Leave polity" %}</a>
 {% endif %}
-{% if not user_is_member and not user_requested_membership %}
-<a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Join polity" %}</a>
-    {% if polity.invite_threshold == 0 %}
-    <a class="btn" href="/polity/{{polity.id}}/join/">{% trans "Request to join polity" %}</a>
-    {% endif %}
-{% endif %}
 </div>
 {% if user_is_member %}
 <div style="float:right;" class="memberstatusbox">
@@ -32,14 +26,6 @@
 {% endif %}
 {% endif %}
 
-{% if user_requested_membership %}
-    {% if user_requested_membership_now %}
-        <div class="alert alert-success">{% trans "Your request to join has been sent." %}</div>
-    {% else %}
-        <div class="alert alert-success">{% trans "Your request to join this polity is still pending." %}</div>
-    {% endif %}
-{% endif %}
-
 {% if user_is_member or polity.is_nonmembers_readable %}
 <div id="polity_stats" class="subnav">
     <ul class="nav nav-pills">
@@ -48,14 +34,6 @@
         <li><a href="#subpolities" onclick="$('#modal_subpolities').modal('show');">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
     
     {% if user_is_member %}
-        {% if polity_show_membership_requests %}
-            {% if membership_requests.count == 0 %}
-            <li class="disabled"><a href="#">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
-            {% else %}
-            <li><a href="#" onclick="$('#modal_requests').modal('show');">{{membership_requests.count}} {% trans "membership requests" %}</a></li>
-            {% endif %}
-        {% endif %}
-
         {% if delegations.count > 0 %}
             <li><a href="#delegations">{% trans "You have" %} {{delegations.count}} {% trans "delegations" %}</a></li>
         {% endif %}
@@ -163,7 +141,7 @@
         <a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
         {% endif %}
         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-        <ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
+        <ul class="dropdown-menu" style="left: -150px;">
             <li><a onclick="/polity/{{polity.id}}/election/list/"><i class="icon-ok"></i> {% trans "Closed elections" %}</a></li>
         </ul>
     </div>
@@ -200,59 +178,9 @@
 </div>
 
 {% comment %}
-<div class="span6 pull-right"><a name="meetings"></a>
-    {% if user_is_member %}
-    <div class="btn-group" style="float: right">
-        <a class="btn btn-mini" href="/polity/{{polity.id}}/meeting/new/">{% trans "New meeting" %}</a>
-        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-        <ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
-            <li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
-            <li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
-            <li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
-        </ul>
-    </div>
-    {% endif %}
-    <h2>{% trans "Meetings" %} <small>{% trans "physical or virtual" %}</small></h2>
-
-    <p class="muted">{% trans "A meeting is an event where people come together to discuss a set of agenda items." %}</p>
-
-    <table class="table table-striped table-bordered table-condensed">
-    <tr>
-        <th>{% trans "When" %}</th>
-        <th>{% trans "Where" %}</th>
-        <th>{% trans "Organized by" %}</th>
-        <th>{% trans "Status" %}</th>
-    </tr>
-    {% for meeting in polity.meetings_ongoing %}
-    <tr>
-        <td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</td>
-        <td>{{meeting.location}}</td>
-        <td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% endfor %}</td>
-        <td>{{meeting.get_status}}</td>
-    </tr>    
-    {% endfor %}
-    {% for meeting in polity.meetings_upcoming %}
-    <tr>
-        <td><a href="/polity/{{meeting.polity.id}}/meeting/{{meeting.id}}/">{{meeting.time_starts|date:"d/m/Y H:i"}}</a></td>
-        <td>{{meeting.location}}</td>
-        <td>{% for man in meeting.managers.all %}<a href="/accounts/profile/{{man.username}}">{{man.username}}</a>{% if not forloop.last%}, {% endif %}{% endfor %}</td>
-        <td>{{meeting.get_status}}</td>
-    </tr>    
-    {% endfor %}
-    </table>
-</div>
 
 {% if user_is_member %}
 <div class="span6 pull-left"><a name="delegations"></a>
-    <div class="btn-group" style="float: right">
-        <a class="btn btn-mini" href="#">{% trans "New delegation" %}</a>
-        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-        <ul class="dropdown-menu" style="left: -150px;" id="meetings-menu">
-            <li><a onclick="meetings_ongoing_toggle();"><i class="icon-ok"></i> {% trans "Show ongoing meetings" %}</a></li>
-            <li><a onclick="meetings_upcoming_toggle();"><i class="icon-ok"></i> {% trans "Show upcoming meetings" %}</a></li>
-            <li><a href="#"><i class="icon-ok icon-white"></i> {% trans "Show finished meetings" %}</a></li>
-        </ul>
-    </div>
 
     <h2>{% trans "Delegations" %} <small>{% trans "votes entrusted to others" %}</small></h2>
     <p class="muted">
@@ -331,42 +259,6 @@
 </div>
 
 
-<div class="modal hide fade" id="modal_requests">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "Users requesting membership" %}</h3>
-  </div>
-  <div class="modal-body">
-
-      <ul class="nobullets">
-    {% for m in membership_requests %}
-        <li>
-            <a
-                class="thumbnail member membership_request"
-                href="#"
-                data-id="{{m.id}}"
-                data-csrftoken="{{csrf_token}}">
-                <img src="{{m.requestor.get_profile.picture|thumbnail:"100x100"}}" />
-                <div class="title">
-                    <div class="title">{{m.requestor.get_name}}</div>
-                    <div class="progress">
-                        <div class="membershiprequest_percent bar bar-success" style="width: {{m.votespercent}}%;">
-                            {{m.votes}}/{{m.votesneeded}}
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_requests').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
-  </div>
-</div>
-
-
 <div id="leave_polity" class="modal hide fade">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -384,12 +276,6 @@
   </div>
 </div>
 
-
-<script>
-$('#meetings-menu').click(function (event) {
-     event.stopPropagation();
-});
-</script>
 
 {% endif %}
 

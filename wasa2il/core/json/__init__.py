@@ -9,38 +9,12 @@ from django.conf import settings
 from core.models import Election
 from core.models import ElectionVote
 from core.models import Candidate
-from core.models import Meeting
-from core.models import MembershipRequest
-from core.models import MembershipVote
 from core.models import Polity
 from core.models import Topic
 from core.models import UserProfile
 from core.models import UserTopic
 
 from core.json.utils import jsonize, error
-
-
-#This looks like ancient garbage? Can we delete this?
-@login_required
-@jsonize
-def polity_membershipvote(request):
-    ctx = {}
-    try:
-        id = int(request.POST.get('id'))
-    except ValueError:
-        id = None
-    validator = request.user
-    mrequest = MembershipRequest.objects.get(id=id, polity__members=validator)
-    vote, created = MembershipVote.objects.get_or_create(voter=request.user, user=mrequest.requestor, polity=mrequest.polity)
-
-    ctx["accepted"] = mrequest.fulfilled
-    ctx["percent"] = mrequest.votespercent()
-    ctx["votes"] = mrequest.votes()
-    ctx["votesneeded"] = mrequest.votesneeded()
-    ctx["username"] = mrequest.requestor.username
-    ctx["ok"] = True
-
-    return ctx
 
 
 @jsonize

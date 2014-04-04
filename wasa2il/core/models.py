@@ -144,18 +144,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
     document_midmatter = models.TextField(**nullblank)
     document_footer = models.TextField(**nullblank)
 
-    def is_show_membership_requests(self, user):
-
-        if self.is_administrated and user in self.officers.all():
-            print "User is officer in administered polity."
-            return True
-
-        if (not self.is_administrated) and self.invite_threshold > 0:
-            print "Polity is not administered, but positive invite threshold."
-            return True
-
-        return False
-
     def get_delegation(self, user):
         """Check if there is a delegation on this polity."""
         if not user.is_authenticated():
@@ -180,15 +168,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
             topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self)]
 
         return topics
-
-    def meetings_upcoming(self):
-        return self.meeting_set.filter(time_started=None)
-
-    def meetings_ongoing(self):
-        return self.meeting_set.filter(time_started__lte=datetime.now(), time_ended=None)
-
-    def meetings_ended(self):
-        return self.meeting_set.filter(time_ended__lt=datetime.now())
 
     def agreements(self):
         return self.document_set.filter(is_adopted=True)
@@ -433,63 +412,6 @@ class Vote(models.Model):
         return self.power() * self.value
 
 
-class MembershipVote(models.Model):
-    voter = models.ForeignKey(User, related_name="membership_granter")
-    user = models.ForeignKey(User, related_name="membership_seeker")
-    polity = models.ForeignKey(Polity)
-
-    def save(self, *args, **kwargs):
-        super(MembershipVote, self).save(*args, **kwargs)
-        try:
-            m = MembershipRequest.objects.get(requestor=self.user, polity=self.polity)
-            if m.get_fulfilled() and m.left is False:
-                logging.debug('fulfilled!')
-                self.polity.members.add(self.user)
-        except MembershipRequest.DoesNotExist:
-            logging.error('MembershipRequest object not found for requestor %s (id:%d) and polity %s (id:%d)' % (self.requestor, self.requestor.id, self.polity, self.polity.id))
-
-    def __repr__(self):
-        return 'Vote: %s for %s' % (repr(self.voter), repr(self.user))
-
-    class Meta:
-        unique_together = (("voter", "user", "polity"),)
-
-
-class MembershipRequest(models.Model):
-    requestor = models.ForeignKey(User)
-    polity = models.ForeignKey(Polity)
-    fulfilled = models.BooleanField(default=False)
-    fulfilled_timestamp = models.DateTimeField(null=True)
-    left = models.BooleanField(default=False)
-
-    class Meta:
-        unique_together = (("requestor", "polity"),)
-
-    def votes(self):
-        return MembershipVote.objects.filter(user=self.requestor, polity=self.polity).count()
-
-    def votesneeded(self):
-        return self.polity.get_invite_threshold()
-
-    def votespercent(self):
-        pc = int(100 * (float(self.votes()) / self.votesneeded()))
-        return min(max(pc, 0), 100)
-
-    def get_fulfilled(self):
-        # Recalculate at most once per hour.
-        if self.fulfilled_timestamp is None or self.fulfilled_timestamp < datetime.now() - timedelta(seconds=3600):
-            self.fulfilled = self.votes() >= self.votesneeded()
-            self.save()
-
-        return self.fulfilled
-
-    def __unicode__(self):
-        ret = u'Request: %s for %s' % (unicode(self.requestor), self.polity.name)
-        if self.fulfilled:
-            ret += ' (fulfilled)'
-        return ret
-
-
 STATEMENT_TYPE = AttrDict({
     'REFERENCE': 0,
     'ASSUMPTION': 1,
@@ -642,83 +564,6 @@ class ChangeProposal(getCreationBase('change_proposal')):
         return trim(self.content, 30)
 
 
-class Meeting(models.Model):
-
-    class Meta:
-        ordering = ["time_starts", "time_ends"]
-
-    user = models.ForeignKey(User, related_name="created_by")
-    polity = models.ForeignKey(Polity)
-    location = models.CharField(max_length=200, **nullblank)
-    time_starts = models.DateTimeField(blank=True, null=True)
-    time_started = models.DateTimeField(blank=True, null=True)
-    time_ends = models.DateTimeField(blank=True, null=True)
-    time_ended = models.DateTimeField(blank=True, null=True)
-    is_agenda_open = models.BooleanField(default=True)
-    managers = models.ManyToManyField(User, related_name="managers")
-    attendees = models.ManyToManyField(User, related_name="attendees", **nullblank)
-
-    def get_status(self):
-        if self.notstarted():
-            return "Not started"
-
-        if self.ongoing():
-            return "Ongoing"
-
-        if self.ended():
-            return "Ended"
-
-    def notstarted(self):
-        return not self.time_started
-
-    def ongoing(self):
-        if not self.time_started:
-            return False
-
-        if not self.time_ended:
-            return True
-
-        if datetime.now() > self.time_started and (not self.time_ended or datetime.now() < self.time_ended):
-            return True
-
-        return False
-
-    def ended(self):
-        if not self.time_ended:
-            return False
-
-        if datetime.now() > self.time_ended:
-            return True
-        return False
-
-    def __unicode__(self):
-        ret = 'Meeting %sat %s' % (('at %s' % self.location) if self.location else '', self.time_starts)
-        if self.ended():
-            ret += ' (finished)'
-        return ret
-
-
-class MeetingRules(models.Model):
-    length_intervention = models.IntegerField(default=300, help_text="The maximum length of an intervention.")
-    length_directresponse = models.IntegerField(default=60, help_text="The maximum length of a direct response.")
-    length_clarify = models.IntegerField(default=30, help_text="The maximum length of a clarification.")
-    length_pointoforder = models.IntegerField(default=60, help_text="The maximum length of a point of order.")
-    max_interventions = models.IntegerField(default=0, help_text="The maximum number of interventions a user can make in one topic. 0 = unlimited.")
-    max_directresponses = models.IntegerField(default=0, help_text="The maximum number of direct responses a user can make in one topic. 0 = unlimited.")
-    max_clarify = models.IntegerField(default=0, help_text="The maximum number of clarifications a user can make in one topic. 0 = unlimited.")
-    max_pointoforder = models.IntegerField(default=0, help_text="The maximum number of points of order a user can make in one topic. 0 = unlimited.")
-
-
-class MeetingAgenda(models.Model):
-    meeting = models.ForeignKey(Meeting)
-    item = models.CharField(max_length=200)
-    order = models.IntegerField()
-    done = models.IntegerField()     # 0 = Not done, 1 = Active, 2 = Done
-
-    def __unicode__(self):
-        return self.item
-
-
 MOTION = {
     'TALK': 1,
     'REPLY': 2,
@@ -729,18 +574,6 @@ MOTION = {
 
 def invert_map(d):
     return dict([v, k] for k, v in d.items())
-
-
-class MeetingIntervention(models.Model):
-    meeting = models.ForeignKey(Meeting)
-    user = models.ForeignKey(User)
-    agendaitem = models.ForeignKey(MeetingAgenda)
-    motion = models.IntegerField(choices=invert_map(MOTION).items())  # c.f. MOTION above
-    order = models.IntegerField()
-    done = models.IntegerField()     # 0 = Not done, 1 = Active, 2 = Done
-
-    def __unicode__(self):
-        return 'A %s from user %s of order %d' % (invert_map(MOTION)[self.motion], self.user.username, self.order)
 
 
 def get_power(user, issue):

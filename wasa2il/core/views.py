@@ -23,8 +23,8 @@ import urlparse
 # END
 
 from django.contrib.auth.models import User
-from core.models import Candidate, Polity, Document, DocumentContent, Topic, MembershipRequest, Issue, Election, ElectionVote, Meeting, UserProfile
-from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm, MeetingForm
+from core.models import Candidate, Polity, Document, DocumentContent, Topic, Issue, Election, ElectionVote, UserProfile
+from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm
 from core.saml import authenticate, SamlException
 from core.utils import strip_tags
 from gateway.icepirate import configure_polities_by_remote_groups
@@ -322,36 +322,8 @@ class PolityDetailView(DetailView):
     model = Polity
     context_object_name = "polity"
     template_name = "core/polity_detail.html"
-    requested_membership = False
-    membershiprequest = None
 
     def dispatch(self, *args, **kwargs):
-        res = super(PolityDetailView, self).dispatch(*args, **kwargs)
-
-        if kwargs.get("action") == "leave":
-            self.object.members.remove(self.request.user)
-
-        if kwargs.get("action") == "join":
-            invite_threshold = self.object.get_invite_threshold()
-            self.membershiprequest, self.requested_membership = MembershipRequest.objects.get_or_create(polity=self.object, requestor=self.request.user)
-
-            # See if we have already satisfied the limits
-            print self.membershiprequest.votes(), invite_threshold
-            if self.membershiprequest.votes() >= invite_threshold and self.membershiprequest.left is False:
-                self.object.members.add(self.request.user)
-                self.membershiprequest.fulfilled = True
-                self.membershiprequest.save()
-        else:
-            self.membershiprequest = None
-            if self.request.user.is_authenticated():
-                try:
-                    self.membershiprequest = MembershipRequest.objects.get(polity=self.object, requestor=self.request.user)
-                except MembershipRequest.DoesNotExist:
-                    pass
-
-        if self.request.user in self.object.members.all():
-            self.membershiprequest = None
-
         res = super(PolityDetailView, self).dispatch(*args, **kwargs)
 
         return res
@@ -361,10 +333,6 @@ class PolityDetailView(DetailView):
         context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
 
         ctx['user_is_member'] = self.request.user in self.object.members.all()
-        ctx["user_requested_membership"] = self.membershiprequest is not None
-        ctx["user_requested_membership_now"] = self.requested_membership
-        ctx["polity_show_membership_requests"] = self.object.is_show_membership_requests(self.request.user)
-        ctx["membership_requests"] = MembershipRequest.objects.filter(polity=self.object, fulfilled=False)
         ctx["politytopics"] = self.object.get_topic_list(self.request.user)
         ctx["delegation"] = self.object.get_delegation(self.request.user)
         ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now())[:15]
@@ -496,91 +464,6 @@ class DocumentUpdateView(UpdateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(DocumentUpdateView, self).get_context_data(*args, **kwargs)
         referabledocs = Document.objects.filter(is_adopted=True)
-        print "Referabledocs: ", referabledocs
-
-        context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
-        return context_data
-
-
-class MeetingCreateView(CreateView):
-    model = Meeting
-    context_object_name = "meeting"
-    template_name = "core/meeting_form.html"
-    form_class = MeetingForm
-    success_url = "/polity/%(polity)d/meeting/%(id)d/"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        self.success_url = "/polity/" + str(self.polity.id) + "/meeting/$(id)d/"
-        return super(MeetingCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(MeetingCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.user = self.request.user
-        self.object.save()
-        self.object.managers.add(self.request.user)
-        self.success_url = "/polity/" + str(self.polity.id) + "/meeting/" + str(self.object.id) + "/"
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class MeetingDetailView(DetailView):
-    model = Meeting
-    context_object_name = "meeting"
-    template_name = "core/meeting_detail.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(MeetingDetailView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(MeetingDetailView, self).get_context_data(*args, **kwargs)
-        context_data.update(
-            {
-                'polity': self.polity,
-                "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
-                'attending': self.request.user in self.object.attendees.all(),
-            }
-        )
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
-        return context_data
-
-
-class MeetingListView(ListView):
-    model = Meeting
-    context_object_name = "meetings"
-    template_name = "core/meeting_list.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(MeetingListView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(MeetingListView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
-        return context_data
-
-
-class MeetingUpdateView(UpdateView):
-    model = Meeting
-    context_object_name = "meeting"
-    template_name = "core/meeting_update.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(MeetingUpdateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(MeetingUpdateView, self).get_context_data(*args, **kwargs)
-        referabledocs = Meeting.objects.filter(is_adopted=True)
         print "Referabledocs: ", referabledocs
 
         context_data.update({'polity': self.polity, 'referabledocs': referabledocs})

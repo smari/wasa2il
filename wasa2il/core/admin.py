@@ -6,8 +6,8 @@ from django.contrib import auth
 from models import (
     Polity, Topic, Issue,
     Comment, Vote,
-    Delegate, MembershipRequest,
-    MembershipVote, UserProfile,
+    Delegate,
+    UserProfile,
     PolityRuleset,
     Document, Statement, ChangeProposal,
     DocumentContent,
@@ -111,8 +111,6 @@ register(Issue, IssueAdmin)
 register(Comment, CommentAdmin)
 register(Delegate, DelegateAdmin)
 register(Vote, VoteAdmin)
-register(MembershipRequest)
-register(MembershipVote)
 
 # User profile mucking
 admin.site.unregister(auth.models.User)
