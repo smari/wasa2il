@@ -33,15 +33,15 @@ class UserProfile(models.Model):
     verified_timing = models.DateTimeField(null=True, blank=True)
 
     # User information
-    displayname = models.CharField(max_length="255", verbose_name="Display name", help_text="The name to display on the site.", **nullblank)
-    email_visible = models.BooleanField(default=False, help_text="Whether to display your email address on your profile page.")
-    bio = models.TextField(**nullblank)
-    picture = models.ImageField(upload_to="users", **nullblank)
+    displayname = models.CharField(max_length="255", verbose_name=_("Name"), help_text=_("The name to display on the site."), **nullblank)
+    email_visible = models.BooleanField(default=False, verbose_name=_("E-mail visible"), help_text=_("Whether to display your email address on your profile page."))
+    bio = models.TextField(verbose_name=_("Bio"), **nullblank)
+    picture = models.ImageField(upload_to="users", verbose_name=_("Picture"), **nullblank)
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
-    language = models.CharField(max_length="6", default="en", choices=settings.LANGUAGES)
-    topics_showall = models.BooleanField(default=True, help_text="Whether to show all topics in a polity, or only starred.")
+    language = models.CharField(max_length="6", default="en", choices=settings.LANGUAGES, verbose_name=_("Language"))
+    topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 
     high_seat = models.BooleanField(default=False)
 
