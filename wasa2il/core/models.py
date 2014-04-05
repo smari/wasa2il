@@ -619,6 +619,8 @@ class Election(NameSlugBase):
     # This optional field lets the vote counter disregard members who are too new.
     deadline_joined_org = models.DateTimeField(null=True, blank=True)
 
+    instructions = models.TextField(null=True, blank=True)
+
     def export_openstv_ballot(self):
         return ""
 

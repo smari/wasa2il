@@ -33,7 +33,9 @@
         {% if election.is_voting %}
             <div class="alert alert-success">
                 <p>{% trans "You don't have to submit your vote; whatever is on your ballot when the vote deadline passes will be counted." %}</p>
-                <p class="temporary">Gild atkvæði eru atkvæði meðlima Pírata í Reykjavík sem höfðu verið skráðir 23. janúar 2014 eða fyrr, hvort heldur sem er í Pírata í Reykjavík eða móðurfélagið.</p>
+            </div>
+            <div class="alert alert-success">
+                <p>{{ election.instructions|linebreaks }}</p>
             </div>
         {% endif %}
 
