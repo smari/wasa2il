@@ -508,6 +508,9 @@ class ElectionDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
 
+        # Single variable for template to check which controls to enable
+        voting_interface_enabled = self.get_object().polity.is_member(self.request.user) and self.get_object().is_voting
+
         if self.get_object().deadline_joined_org:
             votes = ElectionVote.objects.select_related('candidate__user').filter(election=self.get_object(), user__userprofile__joined_org__lt = self.get_object().deadline_joined_org)
         else:
@@ -535,9 +538,9 @@ class ElectionDetailView(DetailView):
                 'polity': self.polity,
                 "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
                 'election_results': election_results,
+                'voting_interface_enabled': voting_interface_enabled,
             }
         )
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
         return context_data
 
 
