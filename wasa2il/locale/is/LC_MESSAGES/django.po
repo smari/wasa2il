@@ -15,7 +15,7 @@ msgstr ""
 
 #: core/authentication.py:20 core/forms.py:45
 msgid "E-mail"
-msgstr ""
+msgstr "Netfang"
 
 #: core/authentication.py:21
 #, fuzzy
@@ -24,19 +24,19 @@ msgstr "Change proposals"
 
 #: core/forms.py:45
 msgid "The email address you'd like to use for the site."
-msgstr ""
+msgstr "Netfangið sem þú vilt nota á vefnum."
 
 #: core/models.py:36 templates/forum/forum_detail.html:18
 msgid "Name"
-msgstr ""
+msgstr "Nafn"
 
 #: core/models.py:36
 msgid "The name to display on the site."
-msgstr ""
+msgstr "Nafnið sem birtist á vefnum."
 
 #: core/models.py:37
 msgid "E-mail visible"
-msgstr ""
+msgstr "Netfang sýnilegt"
 
 #: core/models.py:37
 #, fuzzy
@@ -45,15 +45,15 @@ msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
 #: core/models.py:38
 msgid "Bio"
-msgstr ""
+msgstr "Saga"
 
 #: core/models.py:39
 msgid "Picture"
-msgstr ""
+msgstr "Mynd"
 
 #: core/models.py:43
 msgid "Language"
-msgstr ""
+msgstr "Tungumál"
 
 #: core/models.py:44
 msgid "Whether to show all topics in a polity, or only starred."
@@ -251,7 +251,7 @@ msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
 #: templates/profile.html:37
 msgid "This user has created:"
-msgstr "This user has created:"
+msgstr "Þessi notandi hefur búið til:"
 
 #: templates/profile.html:40
 msgid "polities"
