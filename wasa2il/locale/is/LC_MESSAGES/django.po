@@ -560,7 +560,7 @@ msgstr "Stinga upp á breytingu"
 
 #: templates/core/document_update.html:83
 msgid "Preview"
-msgstr ""
+msgstr "Forskoða"
 
 #: templates/core/document_update.html:89
 #: templates/core/document_update.html:136
