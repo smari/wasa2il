@@ -115,6 +115,10 @@ TEMPLATE_DIRS = (
     here('templates'),
 )
 
+LOCALE_PATHS = (
+    here('locale'),
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
