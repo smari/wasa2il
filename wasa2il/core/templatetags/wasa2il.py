@@ -68,16 +68,12 @@ def thumbnail(file, size='104x104'):
             try:
                 image.save(miniature_filename, image.format, quality=90, optimize=1)
             except Exception as e:
-                print 'Unimaginable error occurred...'
-                print 'ERROR: %s' % e.message
-                print e
+                print 'Error: %s' % e
                 image.save(miniature_filename, image.format, quality=90)
 
         return miniature_url
     except Exception as e:
-        print 'Unimaginable error occurred...'
-        print 'ERROR: %s' % e.message
-        print e
+        print 'Error: %s' % e
         return ""
 
  
