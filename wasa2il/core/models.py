@@ -219,6 +219,7 @@ class UserTopic(models.Model):
 class Issue(BaseIssue, getCreationBase('issue')):
     polity = models.ForeignKey(Polity)
     topics = models.ManyToManyField(Topic)
+    deadline_discussions = models.DateTimeField(**nullblank)
     deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
     ruleset = models.ForeignKey(PolityRuleset, editable=True, **nullblank)
