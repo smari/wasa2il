@@ -26,7 +26,7 @@ from django.contrib.auth.models import User
 from core.models import Candidate, Polity, Document, DocumentContent, Topic, Issue, Election, ElectionVote, UserProfile
 from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm
 from core.saml import authenticate, SamlException
-from core.utils import strip_tags
+from core.utils import real_strip_tags
 from gateway.icepirate import configure_polities_by_remote_groups
 from hashlib import sha1
 
