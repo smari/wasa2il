@@ -433,7 +433,12 @@ class DocumentDetailView(DetailView):
         else:
             context_data['current_content'] = self.object.get_content()
 
-        context_data['current_content'].text = strip_tags(context_data['current_content'].text)
+        # HTML clean-up version 1, see core.utils
+        # context_data['current_content'].text = strip_tags(context_data['current_content'].text)
+
+        # HTML clean-up version 2, see core.utils
+        context_data['current_content'].text = real_strip_tags(context_data['current_content'].text)
+        context_data['current_content'].diff = real_strip_tags(context_data['current_content'].diff, '&lt;', 'gt;')
 
         context_data.update(csrf(self.request))
         return context_data
