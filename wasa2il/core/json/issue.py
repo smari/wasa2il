@@ -50,9 +50,10 @@ def issue_poll(request):
     ctx["issue"] = {"comments": comments, "documents": documents}
     ctx["ok"] = True
     ctx["issue"]["votes"] = issue.get_votes()
-    try:
-        v = Vote.objects.get(user=request.user, issue=issue)
-        ctx["issue"]["vote"] = v.get_value()
-    except Vote.DoesNotExist:
-        pass
+    if not request.user.is_anonymous():
+        try:
+            v = Vote.objects.get(user=request.user, issue=issue)
+            ctx["issue"]["vote"] = v.get_value()
+        except Vote.DoesNotExist:
+            pass
     return ctx
