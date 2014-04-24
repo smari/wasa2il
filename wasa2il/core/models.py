@@ -285,6 +285,16 @@ class Issue(BaseIssue, getCreationBase('issue')):
         votes["count"] = self.vote_set.exclude(value=0).count()
         return votes
 
+    def majority_reached(self):
+        votes = self.get_votes()
+        ruleset = self.ruleset
+
+        result = False
+        if votes['count'] > 0:
+            result = float(votes['yes']) / votes['count'] > float(ruleset.issue_majority) / 100
+
+        return result
+
 
 class Comment(getCreationBase('comment')):
     comment = models.TextField()
