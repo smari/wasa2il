@@ -1,7 +1,7 @@
 
 from datetime import datetime, timedelta
 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
@@ -433,12 +433,12 @@ class DocumentDetailView(DetailView):
         else:
             context_data['current_content'] = self.object.get_content()
 
-        # HTML clean-up version 1, see core.utils
-        # context_data['current_content'].text = strip_tags(context_data['current_content'].text)
-
-        # HTML clean-up version 2, see core.utils
-        context_data['current_content'].text = real_strip_tags(context_data['current_content'].text)
-        context_data['current_content'].diff = real_strip_tags(context_data['current_content'].diff, '&lt;', 'gt;')
+        if context_data['current_content'] is not None:
+            # HTML clean-up version 1, see core.utils
+            # context_data['current_content'].text = strip_tags(context_data['current_content'].text)
+            # HTML clean-up version 2, see core.utils
+            context_data['current_content'].text = real_strip_tags(context_data['current_content'].text)
+            context_data['current_content'].diff = real_strip_tags(context_data['current_content'].diff, '&lt;', 'gt;')
 
         context_data.update(csrf(self.request))
         return context_data
