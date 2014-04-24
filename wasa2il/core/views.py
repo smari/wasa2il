@@ -164,7 +164,7 @@ def login(request, template_name='registration/login.html',
                 profile.save()
 
             # Make sure that user is a part of front polity
-            if request.user.polity_set.all().count() == 0:
+            if settings.FRONT_POLITY != 0:
                 request.user.polity_set.add(settings.FRONT_POLITY)
 
             if request.user.get_profile().kennitala:
