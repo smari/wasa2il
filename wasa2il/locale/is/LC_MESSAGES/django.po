@@ -2044,7 +2044,7 @@ msgstr ""
 
 #: templates/registration/password_reset_done.html:6
 msgid "Email with password reset instructions has been sent."
-msgstr ""
+msgstr "Tölvupóstur með upplýsingum um endurstillingu lykilorðs hefur verið sendur."
 
 #: templates/registration/password_reset_email.html:2
 #, python-format
@@ -2053,7 +2053,7 @@ msgstr ""
 
 #: templates/registration/password_reset_form.html:10
 msgid "Send password"
-msgstr ""
+msgstr "Endurstilla lykilorð"
 
 #: templates/registration/saml_error.html:6
 msgid "Verification error"
@@ -2073,44 +2073,44 @@ msgstr ""
 
 #: templates/registration/verification_duplicate.html:6
 msgid "Multiple accounts detected"
-msgstr ""
+msgstr "Fleiri en einn reikningur til"
 
 #: templates/registration/verification_duplicate.html:8
 msgid ""
 "It appears that you already have a different account. Its username and email "
 "address are provided below. Please try logging in again using its "
 "credentials."
-msgstr ""
+msgstr "Það lítur út fyrir að þú eigir nú þegar reikning. Fyrir neðan sjást notandanafn og netfang. Vinsamlegast reynið innskráningu með þeim upplýsingum."
 
 #: templates/registration/verification_duplicate.html:9
 msgid "If you have any further problems, please contact an administrator."
-msgstr ""
+msgstr "Ef þú rekst á einhver frekari vandamál, vinsamlegast hafðu samband við umsjónarmann."
 
 #: templates/registration/verification_duplicate.html:11
 msgid "Username"
-msgstr ""
+msgstr "Notandanafn"
 
 #: templates/registration/verification_duplicate.html:12
 msgid "Email"
-msgstr ""
+msgstr "Netfang"
 
 #: templates/registration/verification_needed.html:6
 msgid "Verification needed"
-msgstr ""
+msgstr "Staðfestingar er þarfnast"
 
 #: templates/registration/verification_needed.html:8
 msgid ""
 "The account registration process cannot be completed until verification has "
 "been provided."
-msgstr ""
+msgstr "Staðfestingu á auðkenni þarf til þess að klára skráningarferli."
 
 #: templates/registration/verification_needed.html:9
 msgid "Please select one of the following options"
-msgstr ""
+msgstr "Vinsamlegast veljið einn eftirfarandi valmöguleika"
 
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
-msgstr ""
+msgstr "Staðfesta auðkenni"
 
 #~ msgid "Submit"
 #~ msgstr "Submit"
