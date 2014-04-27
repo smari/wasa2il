@@ -168,10 +168,7 @@ def login(request, template_name='registration/login.html',
                 request.user.polity_set.add(settings.FRONT_POLITY)
 
             if request.user.get_profile().kennitala:
-                try:
-                    configure_polities_by_remote_groups(request.user)
-                except:
-                    raise IOError('IcePirate could not be reached. Make sure IcePirate is running according to ICEPIRATE setting in local_settings.py')
+                configure_polities_by_remote_groups(request.user)
             else:
                 return HttpResponseRedirect(settings.AUTH_URL)
 
