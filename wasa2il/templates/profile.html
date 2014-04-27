@@ -31,17 +31,6 @@
             {% trans "This user hasn't provided a biography." %}
             {% endif %}
           </div>
-          <hr>
-          <div id="summary-stats">
-            <p>
-              {% trans "This user has created:" %}
-            </p>
-            <ul>
-              <li>{{ subject.polity_created_by.count }} {% trans "polities" %}</li>
-              <li>{{ subject.issue_created_by.count }} {% trans "issues" %}</li>
-              <li>{{ subject.created_by.count }} {% trans "documents" %}</li>
-            </ul>
-          </div>
         </div>
         <div class="span2">
           {% if profile.picture %}
