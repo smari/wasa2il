@@ -15,7 +15,7 @@
 <tr>
     <td colspan="5" style="text-align: center; font-size: 110%;">
         {% trans "There are no topics in this polity!" %}
-        {% if user_is_member %}<a href="/polity/{{polity.id}}/topic/new/">Start a new topic</a>{% endif %}
+        {% if user_is_member %}<a href="/polity/{{polity.id}}/topic/new/">{% trans 'Start a new topic' %}</a>{% endif %}
     </td>
 </tr>
 {% endfor %}

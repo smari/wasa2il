@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-27 14:30+0000\n"
+"POT-Creation-Date: 2014-04-27 16:50+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -461,6 +461,10 @@ msgstr "Önnur þing"
 #: templates/core/_topic_list_table.html:17
 msgid "There are no topics in this polity!"
 msgstr "Það eru engir málaflokkar á þessu þingi!"
+
+#: templates/core/_topic_list_table.html:18
+msgid "Start a new topic"
+msgstr "Stofna nýjan málaflokk"
 
 #: templates/core/delegate_detail.html:6
 #: templates/core/document_detail.html:14
