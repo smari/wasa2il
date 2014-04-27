@@ -2,10 +2,11 @@
 from django.db import models
 from fields import AutoUserField, CreatedField, ModifiedField, NameField, NameSlugField
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 
 
 class NameSlugBase(models.Model):
-    name = NameField()
+    name = NameField(verbose_name=_('Name'))
     slug = NameSlugField()
 
     class Meta:

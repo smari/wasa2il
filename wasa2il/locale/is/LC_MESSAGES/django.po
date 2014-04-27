@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-16 17:09+0000\n"
+"POT-Creation-Date: 2014-04-27 14:30+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -22,13 +22,14 @@ msgstr "Netfang"
 msgid "Password"
 msgstr "Change proposals"
 
+#: core/base_classes.py:9 core/models.py:36
+#: templates/forum/forum_detail.html:18
+msgid "Name"
+msgstr "Nafn"
+
 #: core/forms.py:45
 msgid "The email address you'd like to use for the site."
 msgstr "Netfangið sem þú vilt nota á vefnum."
-
-#: core/models.py:36 templates/forum/forum_detail.html:18
-msgid "Name"
-msgstr "Nafn"
 
 #: core/models.py:36
 msgid "The name to display on the site."
@@ -59,17 +60,37 @@ msgstr "Tungumál"
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr ""
 
-#: core/models.py:329 templates/core/polity_detail.html:111
+#: core/models.py:339 templates/core/polity_detail.html:111
 msgid "Issue"
 msgstr "Málefni"
 
-#: core/models.py:334
+#: core/models.py:344
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:339 templates/core/polity_list.html:16
+#: core/models.py:349 templates/core/polity_list.html:16
 msgid "Polity"
 msgstr "Þing"
+
+#: core/models.py:625 templates/core/election_detail.html:28
+msgid "Voting system"
+msgstr "Kosningakerfi"
+
+#: core/models.py:626 templates/core/election_detail.html:24
+msgid "Deadline for candidacy"
+msgstr "Tímamörk fyrir framboð"
+
+#: core/models.py:627 templates/core/election_detail.html:25
+msgid "Deadline for votes"
+msgstr "Tímamörk fyrir atkvæði"
+
+#: core/models.py:631
+msgid "Membership deadline"
+msgstr "Skráningarmörk meðlima"
+
+#: core/models.py:633
+msgid "Instructions"
+msgstr "Leiðbeiningar"
 
 #: templates/403.html:5
 msgid "403 Access Denied"
@@ -426,9 +447,8 @@ msgid "Drag candidates here."
 msgstr "Dragðu frambjóðendur hingað."
 
 #: templates/core/_election_candidate_list.html:30
-#, fuzzy
 msgid "There are no candidates standing in this election yet!"
-msgstr "Það eru engir málaflokkar á þessu þingi!"
+msgstr "Það eru engir frambjóðendur í þessari kosningu ennþá!"
 
 #: templates/core/_politiesMenu.html:4
 msgid "Your Polities"
@@ -611,9 +631,8 @@ msgid "Election:"
 msgstr "Kosning:"
 
 #: templates/core/election_detail.html:12
-#, fuzzy
 msgid "This election is closed."
-msgstr "Þetta mál er lokað."
+msgstr "Þessu máli er lokið."
 
 #: templates/core/election_detail.html:16
 #, fuzzy
@@ -625,25 +644,18 @@ msgstr "This topic is delegated."
 msgid "View details."
 msgstr "View details."
 
-#: templates/core/election_detail.html:24
-msgid "Deadline for candidacy:"
-msgstr "Tímamörk fyrir framboð:"
-
-#: templates/core/election_detail.html:25 templates/core/issue_detail.html:30
-msgid "Deadline for votes:"
-msgstr "Tímamörk fyrir atkvæði:"
-
-#: templates/core/election_detail.html:26 templates/core/issue_detail.html:33
-msgid "Votes:"
-msgstr "Atkvæði:"
+#: templates/core/election_detail.html:26
+#: templates/core/election_detail.html:81
+#: templates/core/polity_detail.html:115 templates/core/polity_detail.html:160
+#: templates/core/topic_detail.html:34
+msgid "Votes"
+msgstr "Atkvæði"
 
 #: templates/core/election_detail.html:27
-msgid "Candidates:"
-msgstr "Frambjóðendur:"
-
-#: templates/core/election_detail.html:28
-msgid "Voting system:"
-msgstr "Kosningakerfi:"
+#: templates/core/election_detail.html:67
+#: templates/core/polity_detail.html:159
+msgid "Candidates"
+msgstr "Frambjóðendur"
 
 #: templates/core/election_detail.html:35
 msgid ""
@@ -659,19 +671,16 @@ msgid "Election results"
 msgstr "Niðurstöður kosningar"
 
 #: templates/core/election_detail.html:67
-#: templates/core/polity_detail.html:159
-msgid "Candidates"
-msgstr "Frambjóðendur"
-
-#: templates/core/election_detail.html:67
 msgid "running in this election"
 msgstr "í þessari kosningu"
 
-#: templates/core/election_detail.html:81
-#: templates/core/polity_detail.html:115 templates/core/polity_detail.html:160
-#: templates/core/topic_detail.html:34
-msgid "Votes"
-msgstr "Atkvæði"
+#: templates/core/election_detail.html:69
+msgid "Announce candidacy"
+msgstr "Tilkynna framboð"
+
+#: templates/core/election_detail.html:70
+msgid "Withdraw candidacy"
+msgstr "Draga framboð til baka"
 
 #: templates/core/election_detail.html:82 templates/core/issue_detail.html:43
 msgid "There was an error while processing your vote. Please try again."
@@ -701,6 +710,14 @@ msgstr "Tímamörk fyrir umræður:"
 #: templates/core/issue_detail.html:29
 msgid "Deadline for proposals:"
 msgstr "Tímamörk fyrir tillögur:"
+
+#: templates/core/issue_detail.html:30
+msgid "Deadline for votes:"
+msgstr "Tímamörk fyrir atkvæði:"
+
+#: templates/core/issue_detail.html:33
+msgid "Votes:"
+msgstr "Atkvæði:"
 
 #: templates/core/issue_detail.html:34
 msgid "Yes:"
@@ -2044,7 +2061,8 @@ msgstr ""
 
 #: templates/registration/password_reset_done.html:6
 msgid "Email with password reset instructions has been sent."
-msgstr "Tölvupóstur með upplýsingum um endurstillingu lykilorðs hefur verið sendur."
+msgstr ""
+"Tölvupóstur með upplýsingum um endurstillingu lykilorðs hefur verið sendur."
 
 #: templates/registration/password_reset_email.html:2
 #, python-format
@@ -2080,11 +2098,16 @@ msgid ""
 "It appears that you already have a different account. Its username and email "
 "address are provided below. Please try logging in again using its "
 "credentials."
-msgstr "Það lítur út fyrir að þú eigir nú þegar reikning. Fyrir neðan sjást notandanafn og netfang. Vinsamlegast reynið innskráningu með þeim upplýsingum."
+msgstr ""
+"Það lítur út fyrir að þú eigir nú þegar reikning. Fyrir neðan sjást "
+"notandanafn og netfang. Vinsamlegast reynið innskráningu með þeim "
+"upplýsingum."
 
 #: templates/registration/verification_duplicate.html:9
 msgid "If you have any further problems, please contact an administrator."
-msgstr "Ef þú rekst á einhver frekari vandamál, vinsamlegast hafðu samband við umsjónarmann."
+msgstr ""
+"Ef þú rekst á einhver frekari vandamál, vinsamlegast hafðu samband við "
+"umsjónarmann."
 
 #: templates/registration/verification_duplicate.html:11
 msgid "Username"
@@ -2111,6 +2134,12 @@ msgstr "Vinsamlegast veljið einn eftirfarandi valmöguleika"
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
+
+#~ msgid "Candidates:"
+#~ msgstr "Frambjóðendur:"
+
+#~ msgid "Voting system:"
+#~ msgstr "Kosningakerfi:"
 
 #~ msgid "Submit"
 #~ msgstr "Submit"
@@ -2224,9 +2253,6 @@ msgstr "Staðfesta auðkenni"
 
 #~ msgid "members"
 #~ msgstr "meðlimir"
-
-#~ msgid "membership requests"
-#~ msgstr "inngöngubeiðnir"
 
 #~ msgid "Members of this polity"
 #~ msgstr "Meðlimir þessa þings"

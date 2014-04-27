@@ -21,11 +21,11 @@
         <p>{{election.description}}</p>
 
         <table class="table table-compact">
-            <tr><th>{% trans "Deadline for candidacy:" %}</th><td>{{election.deadline_candidacy|date:"d/m/Y h:i:s"}} ({{election.deadline_candidacy|timeuntil}})</td></tr>
-            <tr><th>{% trans "Deadline for votes:" %}</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
-            <tr><th>{% trans "Votes:" %}</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
-            <tr><th>{% trans "Candidates:" %}</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
-            <tr><th>{% trans "Voting system:" %}</th><td>{{election.votingsystem.name}}</td></tr>
+            <tr><th>{% trans "Deadline for candidacy" %}:</th><td>{{election.deadline_candidacy|date:"d/m/Y h:i:s"}} ({{election.deadline_candidacy|timeuntil}})</td></tr>
+            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
+            <tr><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
+            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
+            <tr><th>{% trans "Voting system" %}:</th><td>{{election.votingsystem.name}}</td></tr>
         </table>
     </div>
 
@@ -66,8 +66,8 @@
     <div class="span5 pull-right well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
         {% if not user.is_anonymous %}
-        <a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">Announce candidacy</a>
-        <a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">Withdraw candidacy</a>
+        <a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
+        <a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
         {% endif %}
 
         <div id="election_candidates" style="margin-top: 1em;">

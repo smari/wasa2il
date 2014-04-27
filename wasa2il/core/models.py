@@ -622,15 +622,15 @@ class Election(NameSlugBase):
     on people. Users, specifically.
     """
     polity = models.ForeignKey(Polity)
-    votingsystem = models.ForeignKey(VotingSystem)
-    deadline_candidacy = models.DateTimeField()
-    deadline_votes = models.DateTimeField()
+    votingsystem = models.ForeignKey(VotingSystem, verbose_name=_('Voting system'))
+    deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
+    deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
 
     # Sometimes elections may depend on a user having been the organization's member for an X amount of time
     # This optional field lets the vote counter disregard members who are too new.
-    deadline_joined_org = models.DateTimeField(null=True, blank=True)
+    deadline_joined_org = models.DateTimeField(null=True, blank=True, verbose_name=_('Membership deadline'))
 
-    instructions = models.TextField(null=True, blank=True)
+    instructions = models.TextField(null=True, blank=True, verbose_name=_('Instructions'))
 
     def export_openstv_ballot(self):
         return ""
