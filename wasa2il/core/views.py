@@ -56,7 +56,10 @@ def home(request):
 
 
 def help(request, page):
-    return render_to_response("help/%s.html" % page)
+    ctx = {
+        'language_code': settings.LANGUAGE_CODE
+    }
+    return render_to_response("help/%s/%s.html" % (settings.LANGUAGE_CODE, page), ctx)
 
 
 def profile(request, username=None):

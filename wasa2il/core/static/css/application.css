@@ -252,6 +252,11 @@ footer {
 #legal-text-diff ins { background-color: #aaffaa !important; }
 #legal-text-diff del { background-color: #ffaaaa !important; }
 
+.instructions img.screenshot { border: 1px solid #a0a0a0; display: block; max-width: 800px; margin-top: 48px; margin-bottom: 48px; }
+.instructions p, .instructions ul { margin-top: 16px; margin-bottom: 16px; max-width: 800px; }
+.instructions ul li { padding-bottom: 12px; }
+.instructions .instructions-nav p { margin: 0px; }
+.instructions .instructions-nav label { margin: 0px; padding: 0px; float: left; width: 100px; clear: both; }
 
 .comment {
 	background: #f7f7f7;
