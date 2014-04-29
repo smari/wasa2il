@@ -44,6 +44,16 @@
     {{document.name}}
 </h1>
 
+{% if not document.is_adopted %}
+    <div class="alert alert-success">
+        {% if document.is_proposed %}
+            {% trans 'Please note that this document is still a proposal and has not been adopted by vote.' %}
+        {% else %}
+            {% trans 'Please note that this document is still a draft proposal and has not been adopted by vote.' %}
+        {% endif %}
+    </div>
+{% endif %}
+
 <div class="row">
 
     <div class="span6 pull-left document">

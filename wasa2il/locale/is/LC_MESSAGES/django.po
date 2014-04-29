@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-27 16:50+0000\n"
+"POT-Creation-Date: 2014-04-29 14:57+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -88,7 +88,7 @@ msgstr "Tímamörk fyrir atkvæði"
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:633
+#: core/models.py:633 templates/base.html:115
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -105,10 +105,10 @@ msgid "wassa2il"
 msgstr "wasa2il"
 
 #: templates/base.html:86 templates/notLoginInHome.html:47
-#: templates/help/agreement.html:6 templates/help/authors.html:6
-#: templates/help/copyright.html:6 templates/help/index.html:6
-#: templates/help/polity.html:6 templates/help/proposal.html:6
-#: templates/help/wasa2il.html:6
+#: templates/help/is/agreement.html:6 templates/help/is/authors.html:6
+#: templates/help/is/copyright.html:6 templates/help/is/index.html:6
+#: templates/help/is/polity.html:6 templates/help/is/proposal.html:6
+#: templates/help/is/wasa2il.html:6
 msgid "Help"
 msgstr "Hjálp"
 
@@ -149,7 +149,7 @@ msgstr "Um wasa2il"
 msgid "License"
 msgstr "Notandaleyfi"
 
-#: templates/base.html:115 templates/help/authors.html:6
+#: templates/base.html:116 templates/help/is/authors.html:6
 msgid "Authors"
 msgstr "Höfundar"
 
@@ -173,7 +173,7 @@ msgstr "Þú getur skoðað þing, sem eru opin öllum án þess að skrá þig 
 msgid "FAQ"
 msgstr "Algengar spurningar"
 
-#: templates/hom01.html:37 templates/help/index.html:15
+#: templates/hom01.html:37 templates/help/is/index.html:15
 msgid "What is a polity?"
 msgstr "Hvað er þing?"
 
@@ -270,23 +270,7 @@ msgstr "Yfirlit"
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
-#: templates/profile.html:37
-msgid "This user has created:"
-msgstr "Þessi notandi hefur búið til:"
-
-#: templates/profile.html:40
-msgid "polities"
-msgstr "þing"
-
-#: templates/profile.html:41 templates/core/topic_detail.html:56
-msgid "issues"
-msgstr "málefni"
-
-#: templates/profile.html:42
-msgid "documents"
-msgstr "skjöl"
-
-#: templates/profile.html:63
+#: templates/profile.html:52
 msgid "is not viewable by non-members."
 msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
 
@@ -306,8 +290,8 @@ msgid "You are signed in as"
 msgstr "Þú ert innskráð/ur sem"
 
 #: templates/settings.html:16 templates/core/document_form.html:22
-#: templates/core/issue_form.html:12 templates/forum/discussion_form.html:16
-#: templates/forum/forum_form.html:17
+#: templates/core/election_form.html:14 templates/core/issue_form.html:12
+#: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
 #: templates/registration/password_change_form.html:11
 #: templates/registration/password_reset_confirm.html:14
 msgid "Save"
@@ -358,7 +342,7 @@ msgid "This polity has no agreements."
 msgstr "Þetta þing hefur engar samþykktir."
 
 #: templates/core/_document_agreement_list_table.html:16
-#: templates/help/polity.html:119 templates/help/proposal.html:64
+#: templates/help/is/polity.html:119 templates/help/is/proposal.html:64
 msgid "What is an agreement?"
 msgstr "Hvað er samþykkt?"
 
@@ -570,63 +554,75 @@ msgstr "Tillaga"
 msgid "Draft proposal"
 msgstr "Drög að tillögu"
 
-#: templates/core/document_update.html:62
+#: templates/core/document_update.html:50
+msgid ""
+"Please note that this document is still a proposal and has not been adopted "
+"by vote."
+msgstr "Vinsamlegast athugið að þetta skjal er tillaga og hefur ekki verið samþykkt með atkvæðagreiðslu."
+
+#: templates/core/document_update.html:52
+msgid ""
+"Please note that this document is still a draft proposal and has not been "
+"adopted by vote."
+msgstr "Vinsamlegast athugið að þetta skjal er drög að tillögu og hefur ekki verið samþykkt með atkvæðagreiðslu."
+
+#: templates/core/document_update.html:72
 msgid "View"
 msgstr ""
 
-#: templates/core/document_update.html:63
+#: templates/core/document_update.html:73
 msgid "Diff"
 msgstr "Samanburður"
 
-#: templates/core/document_update.html:78
+#: templates/core/document_update.html:88
 msgid "Propose a change"
 msgstr "Stinga upp á breytingu"
 
-#: templates/core/document_update.html:83
+#: templates/core/document_update.html:93
 msgid "Preview"
 msgstr "Forskoða"
 
-#: templates/core/document_update.html:89
-#: templates/core/document_update.html:136
+#: templates/core/document_update.html:99
+#: templates/core/document_update.html:146
 #: templates/core/polity_detail.html:114 templates/core/topic_detail.html:33
 msgid "Comments"
 msgstr "Ummæli"
 
-#: templates/core/document_update.html:91
+#: templates/core/document_update.html:101
 msgid "Propose change"
 msgstr "Stinga upp á breytingu"
 
-#: templates/core/document_update.html:95
+#: templates/core/document_update.html:105
 msgid "Want to propose a change?"
 msgstr "Viltu stinga upp á breytingu?"
 
-#: templates/core/document_update.html:95
+#: templates/core/document_update.html:105
 msgid "Click here!"
 msgstr "Smelltu hér!"
 
-#: templates/core/document_update.html:108
+#: templates/core/document_update.html:118
 msgid "Referenced by issues"
 msgstr "Vísað í úr málum"
 
-#: templates/core/document_update.html:116
+#: templates/core/document_update.html:126
 msgid "Contributors to this document"
 msgstr "Höfundar að þessu skjali"
 
-#: templates/core/document_update.html:130
+#: templates/core/document_update.html:140
 #, fuzzy
 msgid "Versions"
 msgstr "Ályktanir"
 
-#: templates/core/document_update.html:134
+#: templates/core/document_update.html:144
 msgid "Status"
 msgstr "Ástand"
 
-#: templates/core/document_update.html:135
+#: templates/core/document_update.html:145
 #, fuzzy
 msgid "Author"
 msgstr "Höfundar"
 
-#: templates/core/document_update.html:140
+#: templates/core/document_update.html:150
 msgid "view"
 msgstr ""
 
@@ -755,7 +751,7 @@ msgstr "Kosningu lýkur eftir"
 msgid "Import agreement"
 msgstr "Flytja inn samþykkt"
 
-#: templates/core/issue_detail.html:60 templates/help/proposal.html:6
+#: templates/core/issue_detail.html:60 templates/help/is/proposal.html:6
 msgid "Proposals"
 msgstr "Tillögur"
 
@@ -875,7 +871,7 @@ msgstr "Opin mál"
 msgid "Voting Issues"
 msgstr "Mál í kosningu"
 
-#: templates/core/polity_detail.html:93 templates/help/agreement.html:6
+#: templates/core/polity_detail.html:93 templates/help/is/agreement.html:6
 msgid "Agreements"
 msgstr "Samþykktir"
 
@@ -993,7 +989,7 @@ msgstr "Já, ég vil yfirgefa þingið."
 msgid "New polity"
 msgstr "Nýtt þing"
 
-#: templates/core/polity_list.html:12 templates/help/polity.html:6
+#: templates/core/polity_list.html:12 templates/help/is/polity.html:6
 msgid "Polities"
 msgstr "Þing"
 
@@ -1012,6 +1008,10 @@ msgstr "fylgjendur"
 #: templates/core/topic_detail.html:55
 msgid "taking action"
 msgstr "þátttakendur"
+
+#: templates/core/topic_detail.html:56
+msgid "issues"
+msgstr "málefni"
 
 #: templates/core/topic_detail.html:60
 msgid "New discussions"
@@ -1067,7 +1067,7 @@ msgstr "Followers of this topic"
 msgid "Name:"
 msgstr ""
 
-#: templates/help/agreement.html:8
+#: templates/help/is/agreement.html:8
 #, fuzzy
 msgid ""
 "\n"
@@ -1243,11 +1243,11 @@ msgstr ""
 "</div>\n"
 "</p>\n"
 
-#: templates/help/agreement.html:64
+#: templates/help/is/agreement.html:64
 msgid "The title"
 msgstr "Fyrirsögnin"
 
-#: templates/help/agreement.html:64
+#: templates/help/is/agreement.html:64
 msgid ""
 "Agreements may have various forms of reference. One is a reference number, "
 "which should be unique and cannonical. Another is a human readable title "
@@ -1259,11 +1259,11 @@ msgstr ""
 "that is descriptive. Some polities might choose not to use either one, but "
 "rules around this should generally be decided on."
 
-#: templates/help/agreement.html:65
+#: templates/help/is/agreement.html:65
 msgid "The polity"
 msgstr "Þingið"
 
-#: templates/help/agreement.html:65
+#: templates/help/is/agreement.html:65
 msgid ""
 "Many polities make sure that their agreements contain their name, so as not "
 "to be confusing."
@@ -1271,11 +1271,11 @@ msgstr ""
 "Many polities make sure that their agreements contain their name, so as not "
 "to be confusing."
 
-#: templates/help/agreement.html:66
+#: templates/help/is/agreement.html:66
 msgid "References section"
 msgstr "Tilvísanasvæðið"
 
-#: templates/help/agreement.html:66
+#: templates/help/is/agreement.html:66
 msgid ""
 "In the references section, a polity may choose to include references to "
 "previous agreements, or articles in those agreements."
@@ -1283,11 +1283,11 @@ msgstr ""
 "In the references section, a polity may choose to include references to "
 "previous agreements, or articles in those agreements."
 
-#: templates/help/agreement.html:67
+#: templates/help/is/agreement.html:67
 msgid "Assumptions section"
 msgstr "Forsendusvæðið"
 
-#: templates/help/agreement.html:67
+#: templates/help/is/agreement.html:67
 msgid ""
 "The assumptions section generally contains a list of assumptions that are "
 "being made. Often these are factual references, or slightly more oblique "
@@ -1299,11 +1299,11 @@ msgstr ""
 "references to previous decisions. Sometimes they're bizzarre statements of "
 "opinion, or even, if used incorrectly, declarations of their own right."
 
-#: templates/help/agreement.html:68
+#: templates/help/is/agreement.html:68
 msgid "Declarations section"
 msgstr "Fullyrðingasvæðið"
 
-#: templates/help/agreement.html:68
+#: templates/help/is/agreement.html:68
 msgid ""
 "This is the meat of the agreement. It contains one or more statements which "
 "are considered to be agreed upon by the polity when the document is adopted. "
@@ -1313,21 +1313,21 @@ msgstr ""
 "are considered to be agreed upon by the polity when the document is adopted. "
 "One might even call this the law."
 
-#: templates/help/agreement.html:71 templates/help/polity.html:117
-#: templates/help/proposal.html:62
+#: templates/help/is/agreement.html:71 templates/help/is/polity.html:117
+#: templates/help/is/proposal.html:62
 msgid "Related help pages"
 msgstr "Tengdar hjálparsíður"
 
-#: templates/help/agreement.html:73
+#: templates/help/is/agreement.html:73
 msgid "How does one make a proposal?"
 msgstr "Hvernig leggur maður fram tillögu?"
 
-#: templates/help/agreement.html:74 templates/help/index.html:13
-#: templates/help/polity.html:120 templates/help/proposal.html:65
+#: templates/help/is/agreement.html:74 templates/help/is/index.html:13
+#: templates/help/is/polity.html:120 templates/help/is/proposal.html:65
 msgid "How does electronic democracy work?"
 msgstr "Hvernig virkar rafrænt lýðræði?"
 
-#: templates/help/authors.html:8
+#: templates/help/is/authors.html:8
 msgid ""
 "\n"
 "<h2>Developers:</h2>\n"
@@ -1366,18 +1366,18 @@ msgid ""
 "</ul>\n"
 msgstr ""
 
-#: templates/help/copyright.html:6
+#: templates/help/is/copyright.html:6
 msgid "Copyright"
 msgstr ""
 
-#: templates/help/copyright.html:8
+#: templates/help/is/copyright.html:8
 msgid ""
 "\n"
 "This is free software, licensed under the GNU Affero General Public "
 "License.\n"
 msgstr ""
 
-#: templates/help/index.html:8
+#: templates/help/is/index.html:8
 msgid ""
 "Hello! Welcome to the Wasa2il help system. Here we will try to help you with "
 "all of the problems you might run into when using a direct democracy system."
@@ -1385,7 +1385,7 @@ msgstr ""
 "Hello! Welcome to the Wasa2il help system. Here we will try to help you with "
 "all of the problems you might run into when using a direct democracy system."
 
-#: templates/help/index.html:9
+#: templates/help/is/index.html:9
 msgid ""
 "If you ever feel like you aren't getting a good enough explanation, please "
 "<a href=\\"
@@ -1393,27 +1393,27 @@ msgstr ""
 "If you ever feel like you aren't getting a good enough explanation, please "
 "<a href=\""
 
-#: templates/help/index.html:12
+#: templates/help/is/index.html:12
 msgid "What is wasa2il?"
 msgstr "Hvað er wasa2il?"
 
-#: templates/help/index.html:14
+#: templates/help/is/index.html:14
 msgid "Who can use wasa2il?"
 msgstr "Hver getur notað wasa2il?"
 
-#: templates/help/index.html:16
+#: templates/help/is/index.html:16
 msgid "What is a topic?"
 msgstr "Hvað er málaflokkur?"
 
-#: templates/help/index.html:17
+#: templates/help/is/index.html:17
 msgid "What is an issue?"
 msgstr "Hvað er mál?"
 
-#: templates/help/index.html:18
+#: templates/help/is/index.html:18
 msgid "What's a sensible process for a polity?"
 msgstr "Hvað er skynsamt verkferli fyrir þing?"
 
-#: templates/help/polity.html:8
+#: templates/help/is/polity.html:8
 #, fuzzy
 msgid ""
 "\n"
@@ -1724,7 +1724,7 @@ msgstr ""
 "<i></i>\n"
 "</p>\n"
 
-#: templates/help/proposal.html:8
+#: templates/help/is/proposal.html:8
 #, fuzzy
 msgid ""
 "\n"
@@ -1875,7 +1875,7 @@ msgstr ""
 "individually first.\n"
 "</p>\n"
 
-#: templates/help/wasa2il.html:8
+#: templates/help/is/wasa2il.html:8
 msgid ""
 "\n"
 "<p>\n"
@@ -2138,6 +2138,15 @@ msgstr "Vinsamlegast veljið einn eftirfarandi valmöguleika"
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
+
+#~ msgid "This user has created:"
+#~ msgstr "Þessi notandi hefur búið til:"
+
+#~ msgid "polities"
+#~ msgstr "þing"
+
+#~ msgid "documents"
+#~ msgstr "skjöl"
 
 #~ msgid "Candidates:"
 #~ msgstr "Frambjóðendur:"
