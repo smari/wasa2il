@@ -137,7 +137,7 @@
 <div class="span6 pull-right"><a name="newissues"></a>
     {% if user_is_member %}
     <div class="btn-group" style="float: right">
-        {% if not polity.is_administered or polity.is_administered and user in polity.officers.all %}
+        {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
         <a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
         {% endif %}
         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
