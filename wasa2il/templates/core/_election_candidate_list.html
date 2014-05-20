@@ -9,7 +9,7 @@
         <span style="color: #00DD00; position: absolute; right: 10px">•</span>
         {% endif %}
         <img src="{{candidate.user.get_profile.picture|thumbnail:'50x50'}}" class="img-rounded vote-image" />
-        <a href="/accounts/profile/{{candidate.user.username}}/">{{candidate.user.get_name}}</a>
+        <a href="/accounts/profile/{{candidate.user.username}}/" style="font-size: 18px;">{{candidate.user.get_name}}</a>
         {% if election.is_voting %}
         {% if candidate_selected %}
         {% if user_is_member %}
