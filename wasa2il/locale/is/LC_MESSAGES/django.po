@@ -2066,7 +2066,7 @@ msgstr ""
 #: templates/registration/password_reset_done.html:6
 msgid "Email with password reset instructions has been sent."
 msgstr ""
-"Tölvupóstur með upplýsingum um endurstillingu lykilorðs hefur verið sendur."
+"Ef þetta var rétt netfang, þá hefur tölvupóstur með upplýsingum um endurstillingu lykilorðs verið sendur."
 
 #: templates/registration/password_reset_email.html:2
 #, python-format
