@@ -30,9 +30,11 @@
             <tr><th>{% trans "Deadline for votes:" %}</th><td>{{issue.deadline_votes|date:"d/m/Y h:i:s"}} ({{issue.deadline_votes|timeuntil}})</td></tr>
 
             {% if issue.is_voting or issue.is_closed %}
-            <tr><th>{% trans "Votes:" %}</th><td id="issue_votes_count">{{issue.get_votes.count}}</td></tr>
-            <tr><th>{% trans "Yes:" %}</th><td id="issue_votes_yes">{{issue.get_votes.yes}}</td></tr>
-            <tr><th>{% trans "No:" %}</th><td id="issue_votes_no">{{issue.get_votes.no}}</td></tr>
+                <tr><th>{% trans "Votes:" %}</th><td id="issue_votes_count">{{issue.get_votes.count}}</td></tr>
+                {% if issue.is_closed %}
+                    <tr><th>{% trans "Yes:" %}</th><td id="issue_votes_yes">{{issue.get_votes.yes}}</td></tr>
+                    <tr><th>{% trans "No:" %}</th><td id="issue_votes_no">{{issue.get_votes.no}}</td></tr>
+                {% endif %}
             {% endif %}
         </table>
     </div>

@@ -278,9 +278,14 @@ class Issue(BaseIssue, getCreationBase('issue')):
 
     def get_votes(self):
         votes = {}
-        votes["yes"] = sum([x.get_value() for x in self.vote_set.filter(value=1)])
-        votes["abstain"] = sum([x.get_value() for x in self.vote_set.filter(value=0)])
-        votes["no"] = -sum([x.get_value() for x in self.vote_set.filter(value=-1)])
+        if self.is_closed():
+            votes["yes"] = sum([x.get_value() for x in self.vote_set.filter(value=1)])
+            votes["abstain"] = sum([x.get_value() for x in self.vote_set.filter(value=0)])
+            votes["no"] = -sum([x.get_value() for x in self.vote_set.filter(value=-1)])
+        else:
+            votes["yes"] = -1
+            votes["abstain"] = -1
+            votes["no"] = -1
         votes["total"] = sum([x.get_value() for x in self.vote_set.all()])
         votes["count"] = self.vote_set.exclude(value=0).count()
         return votes

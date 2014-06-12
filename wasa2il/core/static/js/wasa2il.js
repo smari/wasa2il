@@ -131,9 +131,6 @@ function issue_render(issue) {
 		$("#vote_abstain").button('toggle');
 	}
 	$("#issue_votes_count").text(issue_object.votes.count);
-	$("#issue_votes_yes").text(issue_object.votes.yes);
-	$("#issue_votes_no").text(issue_object.votes.no);
-	// $("#issue_votes_abstain").text(issue_object.votes.abstain);
 	$("#issue_comments").empty();
 	for (i in issue_object.comments) {
 		comment = issue_object.comments[i];
