@@ -29,6 +29,7 @@ class UserProfile(models.Model):
 
     # Verification
     kennitala = models.CharField(max_length=10, null=True, blank=True, unique=True)
+    verified_name = models.CharField(max_length=100, null=True, blank=True)
     verified_token = models.CharField(max_length=100, null=True, blank=True)
     verified_timing = models.DateTimeField(null=True, blank=True)
 

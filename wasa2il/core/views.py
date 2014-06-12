@@ -27,7 +27,7 @@ from core.models import Candidate, Polity, Document, DocumentContent, Topic, Iss
 from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm
 from core.saml import authenticate, SamlException
 from core.utils import real_strip_tags
-from gateway.icepirate import configure_polities_by_remote_groups
+from gateway.icepirate import configure_external_member_db
 from hashlib import sha1
 
 import schulze
@@ -166,12 +166,8 @@ def login(request, template_name='registration/login.html',
                 profile.user = request.user
                 profile.save()
 
-            # Make sure that user is a part of front polity
-            if settings.FRONT_POLITY != 0:
-                request.user.polity_set.add(settings.FRONT_POLITY)
-
             if request.user.get_profile().kennitala:
-                configure_polities_by_remote_groups(request.user)
+                configure_external_member_db(request.user, create_if_missing=False)
             else:
                 return HttpResponseRedirect(settings.AUTH_URL)
 
@@ -217,11 +213,12 @@ def verify(request):
 
     profile = request.user.get_profile() # It shall exist at this point
     profile.kennitala = auth['kennitala']
+    profile.verified_name = auth['name']
     profile.verified_token = request.GET['token']
     profile.verified_timing = datetime.now()
     profile.save()
 
-    configure_polities_by_remote_groups(request.user)
+    configure_external_member_db(request.user, create_if_missing=True)
 
     return HttpResponseRedirect('/')
 
