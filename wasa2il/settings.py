@@ -131,7 +131,6 @@ INSTALLED_APPS = (
 
     'registration',
     'bootstrapform',
-    'fontawesome',
     'epiceditor',
     'google_diff_match_patch',
 
