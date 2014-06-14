@@ -223,7 +223,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
     deadline_discussions = models.DateTimeField(**nullblank)
     deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
-    ruleset = models.ForeignKey(PolityRuleset, editable=True, **nullblank)
+    ruleset = models.ForeignKey(PolityRuleset, editable=True)
 
     class Meta:
         ordering = ["-deadline_votes"]
