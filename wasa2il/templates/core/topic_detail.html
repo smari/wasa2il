@@ -62,7 +62,7 @@
         <div class="comment" id="comment_{{comment.id}}">
             <div class="comment_created_by">
                 <a href="/accounts/profile/{{comment.created_by}}/">{{comment.created_by}}</a>
-                {% trans "in" %} <a href="/polity/{{topic.polity.id}}/topic/{{topic.id}}/issue/{{comment.issue.id}}/">{{comment.issue.name}}</a>
+                {% trans "in" %} <a href="/issue/{{comment.issue.id}}/">{{comment.issue.name}}</a>
             </div>
             <div class="comment_content">{{comment.comment}}</div>
             <div class="comment_created">{{comment.created}}</div>
