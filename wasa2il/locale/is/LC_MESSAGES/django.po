@@ -902,11 +902,11 @@ msgstr "Ástand"
 
 #: templates/core/polity_detail.html:123 templates/core/topic_detail.html:40
 msgid "You have voted on this issue"
-msgstr "You have voted on this issue"
+msgstr "Þú hefur greitt atkvæði í þessu máli"
 
 #: templates/core/polity_detail.html:123 templates/core/topic_detail.html:40
 msgid "You have not voted on this issue"
-msgstr "You have not voted on this issue"
+msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
 
 #: templates/core/polity_detail.html:126 templates/core/polity_detail.html:171
 #: templates/core/topic_detail.html:44
