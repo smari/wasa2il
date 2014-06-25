@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load wasa2il %}
 
 {% block content %}
 <div class="page-header">
@@ -44,9 +45,25 @@
         {% for polity in polities %}
         <div class="tab-pane" id="polity{{ polity.id }}">
             {% if polity.readable %}
-            <p>
-                <a href="/polity/{{polity.id}}">{{polity}}</a>
-            </p>
+
+            <div class="profile-polities">
+                <p>{% trans 'Polity' %}: <a href="/polity/{{polity.id}}">{{polity}}</a></p>
+            </div>
+
+            <div class="profile-document-data">
+            {% for item in documentdata %}
+                {% if item|classname == 'Document' %}
+                    {% if item.polity_id == polity.id %}
+                        <p class="document"><a href="/polity/{{ polity.id }}/document/{{ item.id }}/">{{ item.name }}</a></p>
+                    {% endif %}
+                {% else %}
+                    {% if item.document.polity_id == polity.id %}
+                        <p class="documentcontent"><a href="/polity/{{ polity.id }}/document/{{ item.document_id }}/?v={{ item.order }}">{% trans 'Version' %} {{ item.order }}</a> <small>({{ item.status|title }})</small></p>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            </div>
+
             {% else %}
             <div class="alert"><p>
                 <strong>{{ polity }}</strong> {% trans "is not viewable by non-members." %}

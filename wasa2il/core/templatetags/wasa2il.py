@@ -82,3 +82,9 @@ def thumbnail(file, size='104x104'):
 def markdown(value):
     return mark_safe(markdown2.markdown(value, safe_mode='escape'))
 
+
+@register.filter
+def classname(obj):
+    classname = obj.__class__.__name__
+    return classname
+

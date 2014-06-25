@@ -83,6 +83,19 @@ def profile(request, username=None):
             else:
                 polity.readable = False
 
+    # Get documents and documentcontents which user has made
+    documentdata = []
+    contents = subject.documentcontent_set.select_related('document').order_by('document__name').order_by('order')
+    last_doc_id = 0
+    for c in contents:
+        if c.document_id != last_doc_id:
+            documentdata.append(c.document) # Template will detect the type as Document and show as heading
+            last_doc_id = c.document_id
+
+        documentdata.append(c)
+
+    ctx['documentdata'] = documentdata
+
     return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
 
 

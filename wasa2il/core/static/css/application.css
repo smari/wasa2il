@@ -258,6 +258,13 @@ footer {
 .instructions .instructions-nav p { margin: 0px; }
 .instructions .instructions-nav label { margin: 0px; padding: 0px; float: left; width: 100px; clear: both; }
 
+.profile-polities { border-bottom: 1px solid #e0e0e0; margin-bottom: 12px; }
+
+.profile-document-data { margin-top: 12px; }
+.profile-document-data p.document { font-weight: bold; font-size: 18px; }
+.profile-document-data p.documentcontent { padding-left: 18px; }
+.profile-document-data p.documentcontent small { padding-left: 8px; }
+
 .comment {
 	background: #f7f7f7;
 	margin:		2px;
