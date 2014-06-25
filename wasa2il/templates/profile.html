@@ -3,57 +3,57 @@
 
 {% block content %}
 <div class="page-header">
-  {% if profile.email_visible %}<div class="pull-right"><small>{{subject.email}}</small></div>{% endif %}
-  <h1>
-    {% if profile.displayname %}
-    {{ profile.displayname }} <small>({{subject.username}})</small>
-    {% else %}
-    {{subject.username}}
-    {% endif %}
-  </h1>
+    {% if profile.email_visible %}<div class="pull-right"><small>{{subject.email}}</small></div>{% endif %}
+    <h1>
+        {% if profile.displayname %}
+        {{ profile.displayname }} <small>({{subject.username}})</small>
+        {% else %}
+        {{subject.username}}
+        {% endif %}
+    </h1>
 </div>
 
 <div class="tabbable tabs-left">
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#summary" data-toggle="tab">{% trans "Summary" %}</a></li>
-    {% for polity in polities %}
-    <li {% if not polity.readable %}class="disabled"{% endif %}><a href="#polity{{ polity.id }}" data-toggle="tab">{{ polity }}</a></li>
-    {% endfor %}
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane active" id="summary">
-      <div class="row-fluid">
-        <div class="span9">
-          <div id="user-bio">
-            {% if profile.bio %}
-            {{profile.bio|linebreaksbr}}
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#summary" data-toggle="tab">{% trans "Summary" %}</a></li>
+        {% for polity in polities %}
+        <li {% if not polity.readable %}class="disabled"{% endif %}><a href="#polity{{ polity.id }}" data-toggle="tab">{{ polity }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="summary">
+            <div class="row-fluid">
+                <div class="span9">
+                    <div id="user-bio">
+                        {% if profile.bio %}
+                        {{profile.bio|linebreaksbr}}
+                        {% else %}
+                        {% trans "This user hasn't provided a biography." %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="span2">
+                    {% if profile.picture %}
+                    <img class="img-polaroid" src="{{ profile.picture.url }}" />
+                    {% else %}
+                    <img class="img-polaroid" src="http://placekitten.com/g/200/300" />
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% for polity in polities %}
+        <div class="tab-pane" id="polity{{ polity.id }}">
+            {% if polity.readable %}
+            <p>
+                <a href="/polity/{{polity.id}}">{{polity}}</a>
+            </p>
             {% else %}
-            {% trans "This user hasn't provided a biography." %}
+            <div class="alert"><p>
+                <strong>{{ polity }}</strong> {% trans "is not viewable by non-members." %}
+            </p></div>
             {% endif %}
-          </div>
         </div>
-        <div class="span2">
-          {% if profile.picture %}
-          <img class="img-polaroid" src="{{ profile.picture.url }}" />
-          {% else %}
-          <img class="img-polaroid" src="http://placekitten.com/g/200/300" />
-          {% endif %}
-        </div>
-      </div>
+        {% endfor %}
     </div>
-    {% for polity in polities %}
-    <div class="tab-pane" id="polity{{ polity.id }}">
-      {% if polity.readable %}
-      <p>
-        <a href="/polity/{{polity.id}}">{{polity}}</a>
-      </p>
-      {% else %}
-      <div class="alert"><p>
-        <strong>{{ polity }}</strong> {% trans "is not viewable by non-members." %}
-      </p></div>
-      {% endif %}
-    </div>
-    {% endfor %}
-  </div>
 </div>
 {% endblock %}
