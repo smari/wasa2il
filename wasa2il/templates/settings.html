@@ -3,19 +3,21 @@
 {% load bootstrap %}
 
 {% block content %}
+
 <div class="page-header">
- <div class="pull-right"><a class="btn" href="/accounts/password/change/">{% trans "Change password" %}</a></div>
-  <h1>{% trans "Settings" %}</h1>
- <p>{% trans "You are signed in as" %} {% if user.get_profile.displayname %}{{ user.get_profile.displayname }}{% else %}{{user}}{% endif %}.</p>
+    <div class="pull-right"><a class="btn" href="/accounts/password/change/">{% trans "Change password" %}</a></div>
+    <h1>{% trans "Settings" %}</h1>
+    <p>{% trans "You are signed in as" %} {% if user.get_profile.displayname %}{{ user.get_profile.displayname }}{% else %}{{ user }}{% endif %}.</p>
 </div>
-<form action="/accounts/settings/" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
-  <table class="table table-striped">
-  {{ form.as_table }}
-  </table>
+
+<form action="/accounts/settings/" method="post" enctype="multipart/form-data" class="form-horizontal">
+    {% csrf_token %}
+    <table class="table table-striped">
+        {{ form.as_table }}
+    </table>
     <div class="controls">
-      <button class="btn-primary btn-large" type="submit">{% trans "Save" %}</button>
+        <button class="btn-primary btn-large" type="submit">{% trans "Save" %}</button>
     </div>
-  </div>
 </form>
 
 {% endblock %}
