@@ -4,28 +4,28 @@
 {% block content %}
 
 <div style="float: right;">
-    <a class="btn" href="/polity/{{election.polity.id}}">{% trans "Back to polity" %}</a>
+    <a class="btn" href="/polity/{{ election.polity.id }}">{% trans "Back to polity" %}</a>
 </div>
-<h1><small>{% trans "Election:" %}</small> {{election.name}}</h1>
+<h1><small>{% trans "Election:" %}</small> { {election.name }}</h1>
 
 {% if election.is_closed %}
 <div class="alert alert-error">{% trans "This election is closed." %}</div>
 {% endif %}
 
 {% if delegation %}
-<div class="alert alert-notice">{% trans "This election is delegated." %} <a href="/delegation/{{delegation.0.id}}">{% trans "View details." %}</a></div>
+<div class="alert alert-notice">{% trans "This election is delegated." %} <a href="/delegation/{{ delegation.0.id }}">{% trans "View details." %}</a></div>
 {% endif %}
 
 <div class="row">
     <div class="span6 pull-left">
-        <p>{{election.description}}</p>
+        <p>{{ election.description }}</p>
 
         <table class="table table-compact">
-            <tr><th>{% trans "Deadline for candidacy" %}:</th><td>{{election.deadline_candidacy|date:"d/m/Y h:i:s"}} ({{election.deadline_candidacy|timeuntil}})</td></tr>
-            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{election.deadline_votes|date:"d/m/Y h:i:s"}} ({{election.deadline_votes|timeuntil}})</td></tr>
-            <tr><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{election.get_votes.count}}</td></tr>
-            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{election.candidate_set.count}}</td></tr>
-            <tr><th>{% trans "Voting system" %}:</th><td>{{election.votingsystem.name}}</td></tr>
+            <tr><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
+            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
+            <tr><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_votes.count }}</td></tr>
+            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}</td></tr>
+            <tr><th>{% trans "Voting system" %}:</th><td>{{ election.votingsystem.name }}</td></tr>
         </table>
     </div>
 
@@ -39,7 +39,7 @@
             </div>
         {% endif %}
 
-        {{election.description}}
+        {{ election.description }}
 
         {% if election.is_closed %}
             <h2>{% trans 'Election results' %}</h2>
@@ -91,7 +91,7 @@
 
 
 <script>
-election_id = {{election.id}};
+election_id = {{ election.id }};
 
 function election_select_candidate(element) {
     $(element).hide();
