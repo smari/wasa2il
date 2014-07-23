@@ -15,6 +15,9 @@ TIME_ZONE = 'Iceland'
 FRONT_POLITY = 1
 ALLOW_LEAVE_POLITY = False
 
+DATE_FORMAT = 'd/m/Y'
+DATETIME_FORMAT = 'd/m/Y H:i:s'
+
 AUTH_URL = 'https://innskraning.island.is/?id=audkenni.piratar.is&path=/accounts/verify/'
 AUTH_ISLAND = {
     'wsdl': 'https://egov.webservice.is/sst/runtime.asvc/com.actional.soapstation.eGOVDKM_AuthConsumer.AccessPoint?WSDL',

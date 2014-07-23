@@ -5,11 +5,13 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
+from django.db import DatabaseError
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
+from django.utils import simplejson
 
 # BEGIN - Imported from the original login functionality (could probably use cleaning up)
 from django.views.decorators.debug import sensitive_post_parameters
@@ -26,7 +28,6 @@ from django.contrib.auth.models import User
 from core.models import Candidate, Polity, Document, DocumentContent, Topic, Issue, Election, ElectionVote, UserProfile
 from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm
 from core.saml import authenticate, SamlException
-from core.utils import real_strip_tags
 from gateway.icepirate import configure_external_member_db
 from hashlib import sha1
 
@@ -85,7 +86,7 @@ def profile(request, username=None):
 
     # Get documents and documentcontents which user has made
     documentdata = []
-    contents = subject.documentcontent_set.select_related('document').order_by('document__name').order_by('order')
+    contents = subject.documentcontent_set.select_related('document').order_by('document__name', 'order')
     last_doc_id = 0
     for c in contents:
         if c.document_id != last_doc_id:
@@ -290,6 +291,10 @@ class IssueCreateView(CreateView):
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+
+        if self.polity.is_newissue_only_officers and self.request.user not in self.polity.officers.all():
+            raise PermissionDenied()
+
         return super(IssueCreateView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
@@ -297,6 +302,43 @@ class IssueCreateView(CreateView):
         context_data.update({'polity': self.polity})
         context_data['user_is_member'] = self.request.user in self.polity.members.all()
         context_data['form'].fields['topics'].queryset = Topic.objects.filter(polity=self.polity)
+        context_data['selected_topics'] = []
+
+        selected_topics = []
+        if self.kwargs['documentcontent']:
+            current_content = DocumentContent.objects.get(id=self.kwargs['documentcontent'])
+
+            # Attempt to inherit earlier issue's topic selection
+            if current_content.order > 1:
+                # NOTE: This should not be replaced by Document.preferred_version()
+                # because it mostly regards Issues, not DocumentContents.
+
+                # Find the last accepted documentcontent
+                prev_contents = current_content.document.documentcontent_set.exclude(id=current_content.id).order_by('-order')
+                selected_topics = []
+                for c in prev_contents: # NOTE: We're iterating from newest to oldest.
+                    if c.status == 'accepted':
+                        # A previously accepted DocumentContent MUST correspond to an issue so we brutally assume so.
+                        selected_topics = [t.id for t in c.issue.topics.all()]
+                        break
+
+                # If no topic list is determined from previously accepted issue, we inherit from the last Issue, if any.
+                if len(selected_topics) == 0:
+                    for c in prev_contents:
+                        try:
+                            c_issue = c.issue.get()
+                            selected_topics = [t.id for t in c_issue.topics.all()]
+                            break;
+                        except:
+                            pass
+
+                context_data['selected_topics'] = simplejson.dumps(selected_topics)
+                context_data['tab'] = 'diff'
+ 
+            context_data['documentcontent'] = current_content
+            context_data['documentcontent_comments'] = current_content.comments.replace("\n", "\\n")
+            context_data['selected_diff_documentcontent'] = current_content.document.preferred_version()
+
         return context_data
 
     def form_valid(self, form):
@@ -310,6 +352,10 @@ class IssueCreateView(CreateView):
         self.object.deadline_proposals = self.object.deadline_discussions + timedelta(seconds=self.object.ruleset.issue_proposal_time)
         self.object.deadline_votes = self.object.deadline_proposals + timedelta(seconds=self.object.ruleset.issue_vote_time)
 
+        context_data = self.get_context_data(form=form)
+        if 'documentcontent' in context_data:
+            self.object.documentcontent = context_data['documentcontent']
+
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -321,13 +367,22 @@ class IssueDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
-        context_data.update({'comment_form': CommentForm(), 'user_proposals': self.object.user_documents(self.request.user)})
-        context_data["delegation"] = self.object.get_delegation(self.request.user)
-        context_data["polities"] = list(set([t.polity for t in self.object.topics.all()]))
-        # HACK! As it happens, there is only one polity... for now
-        if not settings.FRONT_POLITY:
-            raise NotImplementedError('NEED TO IMPLEMENT!')
-        context_data["polity"] = context_data['polities'][0]
+
+        documentcontent = self.object.documentcontent
+        if documentcontent.order > 1:
+            context_data['tab'] = 'diff'
+        else:
+            context_data['tab'] = 'view'
+
+        context_data['documentcontent'] = documentcontent
+        if self.object.is_processed:
+            context_data['selected_diff_documentcontent'] = documentcontent.predecessor
+        else:
+            context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
+
+        # TODO: Unused, as of yet.
+        #context_data["delegation"] = self.object.get_delegation(self.request.user)
+
         return context_data
 
 
@@ -377,13 +432,6 @@ class DocumentCreateView(CreateView):
     form_class = DocumentForm
 
     def dispatch(self, *args, **kwargs):
-        self.issues = []
-        if kwargs.has_key('issue'):
-            try:
-                self.issues = [Issue.objects.get(id=kwargs["issue"])]
-            except Issue.DoesNotExist:
-                pass # self.issues defaulted to [] already.
-
         self.polity = None
         if kwargs.has_key('polity'):
             try:
@@ -391,15 +439,11 @@ class DocumentCreateView(CreateView):
             except Polity.DoesNotExist:
                 pass # self.polity defaulted to None already.
 
-        if len(self.issues) > 0 and not self.polity:
-            self.polity = self.issues[0].polity
-
         return super(DocumentCreateView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context_data = super(DocumentCreateView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
-        context_data.update({'issues': self.issues})
         context_data['user_is_member'] = self.request.user in self.polity.members.all()
         return context_data
 
@@ -408,8 +452,6 @@ class DocumentCreateView(CreateView):
         self.object.polity = self.polity
         self.object.user = self.request.user
         self.object.save()
-        for issue in form.cleaned_data.get('issues'):
-            self.object.issues.add(issue)
         self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/?v=new"
         return HttpResponseRedirect(self.get_success_url())
 
@@ -425,30 +467,56 @@ class DocumentDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         doc = self.object
+
         context_data = super(DocumentDetailView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
+
         if 'v' in self.request.GET:
-            try:
-                context_data['current_content'] = get_object_or_404(DocumentContent, document=doc, order=int(self.request.GET['v']))
-            except ValueError:
-                if self.request.GET['v'] == 'new':
-                    context_data['proposing'] = True
-                    try:
-                        context_data['current_content'] = DocumentContent.objects.filter(document=doc).order_by('-order')[0]
-                    except IndexError:
-                        context_data['current_content'] = DocumentContent()
-                else:
+            if self.request.GET['v'] == 'new':
+                context_data['editor_enabled'] = True
+
+                current_content = DocumentContent()
+                current_content.order = 0
+
+                inherited_content = self.object.preferred_version()
+
+                if inherited_content:
+                    current_content.text = inherited_content.text
+
+            else:
+                try:
+                    current_content = get_object_or_404(DocumentContent, document=doc, order=int(self.request.GET['v']))
+                except ValueError:
                     raise Exception('Bad "v(ersion)" parameter')
         else:
-            context_data['current_content'] = self.object.get_content()
+            current_content = self.object.preferred_version()
 
-        if context_data['current_content'] is not None:
-            # HTML clean-up version 1, see core.utils
-            # context_data['current_content'].text = strip_tags(context_data['current_content'].text)
-            # HTML clean-up version 2, see core.utils
-            context_data['current_content'].text = real_strip_tags(context_data['current_content'].text)
-            context_data['current_content'].diff = real_strip_tags(context_data['current_content'].diff, '&lt;', 'gt;')
+
+        try:
+            issue = current_content.issue
+        except Issue.DoesNotExist:
+            issue = None
+
+
+        user_is_member = self.request.user in self.polity.members.all()
+        user_is_officer = self.request.user in self.polity.officers.all()
+
+        buttons = {
+            'propose_change': False,
+            'put_to_vote': False,
+        }
+        if not issue or not issue.is_voting():
+            if current_content.status == 'accepted':
+                if user_is_member:
+                    buttons['propose_change'] = 'enabled'
+            elif current_content.status == 'proposed':
+                if user_is_officer and not issue:
+                    buttons['put_to_vote'] = 'disabled' if doc.has_open_issue() else 'enabled'
+
+        context_data['current_content'] = current_content
+        context_data['selected_diff_documentcontent'] = doc.preferred_version
+        context_data['issue'] = issue
+        context_data['buttons'] = buttons
 
         context_data.update(csrf(self.request))
         return context_data
@@ -466,25 +534,6 @@ class DocumentListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(DocumentListView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
-        return context_data
-
-
-class DocumentUpdateView(UpdateView):
-    model = Document
-    context_object_name = "document"
-    template_name = "core/document_update.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(DocumentUpdateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(DocumentUpdateView, self).get_context_data(*args, **kwargs)
-        referabledocs = Document.objects.filter(is_adopted=True)
-        print "Referabledocs: ", referabledocs
-
-        context_data.update({'polity': self.polity, 'referabledocs': referabledocs})
         context_data['user_is_member'] = self.request.user in self.polity.members.all()
         return context_data
 

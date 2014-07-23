@@ -29,7 +29,6 @@
         <tr>
             <th>{% trans "Issues" %}</th>
             <th>{% trans "State" %}</th>
-            <th>{% trans "Documents" %}</th>
             <th>{% trans "Comments" %}</th>
             <th>{% trans "Votes" %}</th>
         </tr>
@@ -42,7 +41,6 @@
                 <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
             </td>
             <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
-            <td>{{issue.document_set.count}}</td>
             <td>{{issue.comment_set.count}}</td>
             <td>{{issue.get_votes.count}}</td>
         </tr>

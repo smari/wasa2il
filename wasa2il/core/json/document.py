@@ -21,31 +21,18 @@ def document_propose_change(request):
     except KeyError:
         raise Exception('Missing "text"')
 
-    try:
-        latest_content = DocumentContent.objects.filter(document=document).order_by('-order')[0]
-        original_text = latest_content.text
-    except IndexError:
-        original_text = ''
-
-    # Basic diff_match_patch thing
-    dmp = diff_match_patch()
-    d = dmp.diff_main(original_text, text)
-
-    # Calculate the diff
-    dmp.diff_cleanupSemantic(d)
-    diff = dmp.diff_prettyHtml(d).replace('&para;', '')
-
-    # Calculate the patch
-    patch_list = dmp.patch_make(original_text, text, d)
-    patch = dmp.patch_toText(patch_list)
+    predecessor = document.preferred_version()
+    if predecessor.text.strip() == text.strip():
+        # This error message won't show anywhere. The same error is caught client-side to produce the error message.
+        raise Exception('Change proposal must differ from its predecessor')
 
     content = DocumentContent()
-    content.document = document
     content.user = request.user
-    content.comments = request.POST.get('comments', '')
+    content.document = document
     content.text = text
-    content.diff = diff
-    content.patch = patch
+    content.comments = request.POST.get('comments', '')
+    content.predecessor = predecessor
+    # TODO: Change this to a query that requests the maximum 'order' and adds to it.
     try:
         content.order = DocumentContent.objects.filter(document=document).order_by('-order')[0].order + 1
     except IndexError:
@@ -54,25 +41,6 @@ def document_propose_change(request):
     content.save()
 
     ctx['order'] = content.order
-
-    return ctx
-
-
-@login_required
-@jsonize
-def issue_document_import(request):
-    ctx = {"ok": True}
-
-    issue = get_object_or_404(Issue, id=request.REQUEST.get("issue"))
-    doc = get_object_or_404(Document, id=request.REQUEST.get("document"))
-
-    if not doc.polity == issue.polity:
-        return {"ok": False}
-
-    if not doc.is_adopted:
-        return {"ok": False}
-
-    doc.issues.add(issue)
 
     return ctx
 
@@ -234,6 +202,22 @@ def render_markdown(request):
     text = request.GET.get('text', 'Missing text!')
     ctx = {}
     ctx['content'] = markdown2.markdown(text, safe_mode='escape')
+
+    return ctx
+
+
+@jsonize
+def documentcontent_render_diff(request):
+    ctx = {}
+
+    source_id = request.GET.get('source_id')
+    target_id = request.GET.get('target_id')
+
+    target = DocumentContent.objects.get(id=target_id)
+
+    ctx['source_id'] = source_id
+    ctx['target_id'] = target_id
+    ctx['diff'] = target.diff(source_id)
 
     return ctx
 

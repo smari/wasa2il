@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% comment %}
+    Required variables:
+    1. documentcontent
+{% endcomment %}
+
+{% if documentcontent.status == 'accepted' %}
+    <div class="alert alert-success">{% trans 'This proposal has been accepted by vote.' %}</div>
+{% elif documentcontent.status == 'proposed' %}
+    <div class="alert">{% trans 'This content is still merely a proposal and has not yet been accepted by vote.' %}</div>
+{% elif documentcontent.status == 'rejected' %}
+    <div class="alert alert-error">{% trans 'This proposal has been rejected by vote.' %}</div>
+{% elif documentcontent.status == 'deprecated' %}
+    <div class="alert alert-error">{% trans 'This proposal is deprecated. A newer version has taken effect.' %}</div>
+{% endif %}
+

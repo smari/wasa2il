@@ -9,6 +9,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
+from google_diff_match_patch.diff_match_patch import diff_match_patch
 
 nullblank = {'null': True, 'blank': True}
 
@@ -171,7 +172,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
         return topics
 
     def agreements(self):
-        return self.document_set.filter(is_adopted=True)
+        return DocumentContent.objects.select_related('document').filter(status='accepted', document__polity_id=self.id).order_by('-issue__created')
 
 
 class Topic(BaseIssue, getCreationBase('topic')):
@@ -220,10 +221,12 @@ class UserTopic(models.Model):
 class Issue(BaseIssue, getCreationBase('issue')):
     polity = models.ForeignKey(Polity)
     topics = models.ManyToManyField(Topic)
+    documentcontent = models.OneToOneField('DocumentContent', related_name='issue', **nullblank)
     deadline_discussions = models.DateTimeField(**nullblank)
     deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
     ruleset = models.ForeignKey(PolityRuleset, editable=True)
+    is_processed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-deadline_votes"]
@@ -450,7 +453,7 @@ CP_TYPE_CHOICES = tuple((v, k.title()) for k, v in CP_TYPE.items())
 
 class Document(NameSlugBase):
     polity = models.ForeignKey(Polity)
-    issues = models.ManyToManyField(Issue)
+    issues = models.ManyToManyField(Issue) # Needed for core/management/commands/refactor.py, can be deleted afterward
     user = models.ForeignKey(User)
     is_adopted = models.BooleanField(default=False)
     is_proposed = models.BooleanField(default=False)
@@ -459,37 +462,7 @@ class Document(NameSlugBase):
         ordering = ["-id"]
 
     def save(self, *args, **kwargs):
-        # if DocumentContent.objects.filter(document=self).count() == 0:
-        #    self.convert()
         return super(Document, self).save(*args, **kwargs)
-
-    def convert(self):
-        content, created = DocumentContent.objects.get_or_create(document=self, order=1, user=self.user)
-        content.text = ''
-
-        def copy_statements(statements_queryset, name):
-            if statements_queryset.count():
-                content.text += '\n%s\n' % name
-                content.text += '=' * len(name) + '\n\n'
-                for i, a in enumerate(statements_queryset):
-                    content.text += '%s %s\n' % (i == 0 and '1.' or '- ', a.text.replace('\n', '\n    '))
-
-        copy_statements(self.get_assumptions(), 'Assumptions')
-        copy_statements(self.get_declarations(), 'Declarations')
-        content.text = content.text.strip()
-        content.diff = '<ins style="background:#e6ffe6;">%s</ins>' % content.text.replace('\n', '<br>')
-        content.patch = '@@ -0,0 +1,%d @@\n+%s' % (len(content.text), content.text.replace('\n', '%0A'))
-        content.comments = 'Initial version'
-        content.save()
-
-    def __unicode__(self):
-        return self.name
-
-    def get_content(self):
-        try:
-            return DocumentContent.objects.filter(document=self).order_by('order')[0]
-        except IndexError:
-            return None
 
     def get_versions(self):
         return DocumentContent.objects.filter(document=self).order_by('order')
@@ -515,7 +488,32 @@ class Document(NameSlugBase):
         return 100
 
     def get_contributors(self):
-        return set([x.user for x in self.statement_set.all()])
+        return set([dc.user for dc in self.documentcontent_set.order_by('user__username')])
+
+    # preferred_version() finds the most proper, previous documentcontent to build a new one on.
+    # It prefers the latest accepted one, but if it cannot find one, it will default to the first proposed one.
+    # It will return None if it finds nothing and it's the calling function's responsibility to react accordingly.
+    # TODO: Make this faster and cached per request. Preferably still Pythonic. -helgi@binary.is, 2014-07-02
+    def preferred_version(self):
+        documentcontent = None
+
+        # Latest accepted version...
+        accepted_versions = self.documentcontent_set.filter(status='accepted').order_by('-order')
+        if accepted_versions.count() > 0:
+            documentcontent = accepted_versions[0]
+        else:
+            # ...or the earliest proposed one.
+            proposed_versions = self.documentcontent_set.filter(status='proposed').order_by('order')
+            if proposed_versions.count() > 0:
+                documentcontent = proposed_versions[0]
+
+        return documentcontent
+
+    # Returns true if a documentcontent in this document already has an issue in progress.
+    def has_open_issue(self):
+        documentcontent_ids = [dc.id for dc in self.documentcontent_set.all()]
+        count = Issue.objects.filter(is_processed=False, documentcontent_id__in=documentcontent_ids).count()
+        return count > 0
 
 
 class DocumentContent(models.Model):
@@ -523,16 +521,35 @@ class DocumentContent(models.Model):
     document = models.ForeignKey(Document)
     created = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
-    diff = models.TextField()
-    patch = models.TextField()
     order = models.IntegerField(default=1)
     comments = models.TextField()
     STATUS_CHOICES = (
-        ('proposed', 'Proposed'),
-        ('accepted', 'Accepted'),
-        ('rejected', 'Rejected'),
+        ('proposed', _('Proposed')),
+        ('accepted', _('Accepted')),
+        ('rejected', _('Rejected')),
+        ('deprecated', _('Deprecated')),
     )
     status = models.CharField(max_length='32', choices=STATUS_CHOICES, default='proposed')
+    predecessor = models.ForeignKey('DocumentContent', null=True, blank=True)
+
+    # Gets all DocumentContents which belong to the Document to which this DocumentContent belongs to.
+    def siblings(self):
+        siblings = DocumentContent.objects.filter(document_id=self.document_id).order_by('order')
+        return siblings
+
+    # Generates a diff between this DocumentContent and the one provided to the function.
+    def diff(self, documentcontent_id):
+        earlier_content = DocumentContent.objects.get(id=documentcontent_id)
+
+        # Basic diff_match_patch thing
+        dmp = diff_match_patch()
+        d = dmp.diff_main(earlier_content.text, self.text)
+
+        # Calculate the diff
+        dmp.diff_cleanupSemantic(d)
+        result = dmp.diff_prettyHtml(d).replace('&para;', '')
+
+        return result
 
 
 class Statement(models.Model):
@@ -587,10 +604,6 @@ MOTION = {
     'CLARIFY': 3,
     'POINT': 4,
 }
-
-
-def invert_map(d):
-    return dict([v, k] for k, v in d.items())
 
 
 def get_power(user, issue):

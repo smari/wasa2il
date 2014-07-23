@@ -2,12 +2,12 @@
 <table class="table table-striped table-bordered table-condensed">
 <tr>
     <th>{% trans "Document" %}</th>
-    <th>{% trans "Adopted" %}</th>
+    <th class="right">{% trans "Adopted" %}</th>
 </tr>
-{% for document in documents %}
+{% for documentcontent in documentcontents %}
 <tr>
-    <td><a href="/polity/{{polity.id}}/document/{{document.id}}/">{{document.name}}</a></td>
-    <td>{{document.timestamp_adopted|date:"d/m/Y"}}</td>
+    <td><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></td>
+    <td class="date">{{ documentcontent.issue.created|date }}</td>
 </tr>
 {% empty %}
 <tr>

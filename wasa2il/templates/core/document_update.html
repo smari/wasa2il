@@ -5,138 +5,171 @@
 
 {% block javascript %}
 {{block.super}}
+    <script src="/static/js/csrf.js"></script>
     <script src="/static/js/jquery.cookie.js"></script>
-    <script src="/static/js/document.js"></script>
     <script src="/static/js/jquery.autosize-min.js"></script>
-    <script src="/static/js/diff_match_patch.js"></script>
     <script>
-        var DOCUMENT_ID = {{document.id}};
-        var PROPOSING = {% if proposing %}true{% else %}false{% endif %};
-        var PROPOSED = {% if document.is_proposed %}true{% else %}false{% endif %};
-        var selected_item = undefined;
+        var DOCUMENT_ID = {{ document.id }};
+        var DOCUMENTCONTENT_ID = {% if current_content.id %}{{ current_content.id }}{% else %}0{% endif %};
+        var EDITOR_ENABLED = {% if editor_enabled %}true{% else %}false{% endif %};
+        var ERROR_CHANGE_PROPOSAL_IDENTICAL = "{% trans 'Change proposal must differ from its predecessor.' %}";
     </script>
+
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function() {
+
+            if (EDITOR_ENABLED) {
+                $('#legal-text-editor').focus();
+            }
+
+            var original_text = $('#legal-text-editor').val();
+
+            $('.document #propose-change').submit(function (e) {
+                input_text = $('#legal-text-editor').val();
+
+                if (input_text.trim() == original_text.trim()) {
+                    alert(ERROR_CHANGE_PROPOSAL_IDENTICAL);
+                    e.preventDefault();
+                    return false;
+                }
+
+                var inputs = $(this).find('input,textarea');
+                inputs.attr('disabled', 'disabled');
+                $.post(
+                    '/api/document/propose-change/',
+                    {
+                        document_id: DOCUMENT_ID,
+                        text: $('#legal-text-editor').val(),
+                        comments: $(this).find('#comments').val(),
+                        patch: '',
+                        diff: ''
+                    },
+                    function (data) {
+                        window.location.replace(window.location.pathname + '?v=' + data.order);
+                    },
+                    'json'
+                ).fail(function(request, error_msg, error_thrown) {
+                    alert("Error: " + error_thrown);
+                    inputs.removeAttr('disabled');
+                });
+                e.preventDefault();
+                return false;
+            });
+
+            $('.document #propose-change #btn-preview').click(function(e) {
+                input_text = $('#legal-text-editor').val();
+                $.get(
+                    '/api/document/render-markdown/',
+                    {
+                        text: $('#legal-text-editor').val()
+                    },
+                    function(data) {
+                        $('#legal-text').html(data.content);
+                        $('#legal-text-container').show();
+                        $('#btn-save').removeAttr('disabled');
+                        $('#preview-note').hide();
+                        $('#comments').focus();
+                    },
+                    'json'
+                ).fail(function(data) {
+                    alert('Fail:' + data);
+                });
+            });
+
+        });
+    </script>
+
 {% endblock %}
 
 
 
 {% block content %}
 
-<div class="btn-group pull-right">
-    {% if document.user == user %}
-        {% if document.is_proposed %}
-            <a class="btn" onclick="document_propose({{document.id}}, 0);">{% trans "Withdraw proposal" %}</a>
-        {% else %}
-            <a class="btn" onclick="document_propose({{document.id}}, 1);">{% trans "Propose this document" %}</a>
-        {% endif %}
-    {% endif %}
-</div>
-
 <h1>
     <small>
-        {% if document.is_adopted %}
-            {% trans "Agreement" %} {{document.decid}}
-        {% elif document.is_proposed %}
-            {% trans "Proposal" %} {{document.id}}
-        {% else %}
-            {% trans "Draft proposal"%}
-        {% endif %}:
+        {% if current_content.status == 'accepted' %}
+            {% trans "Agreement" %}:
+        {% elif current_content.status == 'proposed' %}
+            {% trans "Proposal" %}:
+        {% endif %}
     </small>
     {{document.name}}
 </h1>
 
-{% if not document.is_adopted %}
-    <div class="alert alert-success">
-        {% if document.is_proposed %}
-            {% trans 'Please note that this document is still a proposal and has not been adopted by vote.' %}
-        {% else %}
-            {% trans 'Please note that this document is still a draft proposal and has not been adopted by vote.' %}
-        {% endif %}
-    </div>
-{% endif %}
-
 <div class="row">
-
     <div class="span6 pull-left document">
+        <form id="propose-change" action="." method="post">
+            {% csrf_token %}
 
-        <form id="propose_change" action="." method="post">
-        {% csrf_token %}
-
-        {% if proposing %}
-
-            <!-- Editing area -->
-            <textarea id="legal-text-editor">{{ current_content.text }}</textarea>
-
-        {% else %}
-            {% if current_content.order > 1 %}
-            <ul class="nav nav-tabs" style="margin: 0px;">
-                <li tabname="view" class="active"><a href="#">{% trans "View" %}</a></li>
-                <li tabname="diff" ><a href="#">{% trans "Diff" %}</a></li>
-            </ul>
-            <div id="legal-text-diff">
-                <pre>{{ current_content.diff|safe }}</pre>
-            </div>
-            {% endif %}
-            <div id="legal-text">
-                {{ current_content.text|markdown }}
-            </div>
-        {% endif %}
-
-        <div id="content_org">{{current_content.text}}</div>
-
-        {% if not user.is_anonymous %}
-
-            <h4>{% trans "Propose a change" %}</h4>
-
-            {% if proposing %}
-
-                <div>
-                    <input type="button" id="btn_preview" value="{% trans "Preview" %}" />
-
-                    <!-- Preview area -->
-                    <div id="legal-text" style="display: none;"></div>
-                </div>
-
-                <label for="comments">{% trans "Comments" %}:</label>
-                <textarea id="comments"></textarea>
-                <input type="submit" value="{% trans "Propose change" %}"></input>
- 
+            {% if editor_enabled %}
+                <textarea id="legal-text-editor">{{ current_content.text }}</textarea>
             {% else %}
-
-                <p>{% trans "Want to propose a change?" %} <a href="?v=new">{% trans "Click here!" %}</a></p>
-
+                {% include 'core/stub/document_view.html' with documentcontent=current_content %}
             {% endif %}
 
-        {% endif %}
+            {% if not user.is_anonymous %}
 
+                {% if editor_enabled %}
+
+                    <div class="comments">
+                        <label for="comments">{% trans 'Comments' %} <small>({% trans 'optional' %})</small>:</label>
+                        <textarea id="comments"></textarea>
+                    </div>
+
+                    <div class="btn-group">
+                        <input type="button" class="btn" id="btn-preview" value="{% trans "Preview" %}" />
+                        <input type="submit" class="btn" id="btn-save" disabled="disabled" value="{% trans "Save" %}" />
+                    </div>
+                    <small id="preview-note">({% trans 'Preview is required before saving' %})</small>
+
+                    <div class="btn-group pull-right">
+                        <a class="btn" href=".">{% trans 'Cancel' %}</a>
+                    </div>
+
+                {% else %}
+
+                    {% if buttons.propose_change %}
+                        <a class="btn" href="?v=new">{% trans "Propose change" %}</a>
+                    {% endif %}
+
+                    {% if buttons.put_to_vote %}
+                        {% if buttons.put_to_vote == 'disabled' %}
+                            <a class="btn disabled">{% trans "Put to vote" %}</a>
+                        {% else %}
+                            <a class="btn" href="/polity/{{ document.polity_id }}/issue/new/documentcontent/{{ current_content.id }}/">{% trans "Put to vote" %}</a>
+                        {% endif %}
+                    {% endif %}
+
+                {% endif %}
+
+            {% endif %}
         </form>
 
     </div>
 
-    <div class="span4 pull-right">
+    <div class="span6">
 
-        {% if document.issues.count %}
-        <h3>{% trans "Referenced by issues" %}</h3>
-        <ul>
-        {% for i in document.issues.all %}
-            <li><a href="/issue/{{i.id}}/">{{i.name}}</a></li>
-        {% endfor %}
-        </ul>
+        {% if not editor_enabled %}
+            {% include "core/stub/documentcontent_status.html" with documentcontent=current_content %}
         {% endif %}
 
-        <h3>{% trans "Contributors to this document" %}</h3>
-        <ul>
-        {% for i in document.get_contributors %}
-            <li><a href="/accounts/profile/{{i.username}}"> {{i.get_full_name|default:i.username}}</a></li>
-        {% endfor %}
-        </ul>
+        {% if issue %}
+            <table class="table table-compact">
+                <tr><th>{% trans "Referenced issue" %}:</th><td><a href="/issue/{{ issue.id }}/">{{ issue.name }}</a></td></tr>
+            </table>
+        {% endif %}
 
     </div>
 
+    <div class="span6 pull-right">
+        <!-- Preview area -->
+        <div id="legal-text-container" style="display: none;">
+            <div id="legal-text"></div>
+        </div>
+    </div>
 
-</div>
-
-<div class="row" id="versions">
-    <div class="span8">
+    {% if document.get_versions.count > 0 %}
+    <div class="span6 pull-right">
         <h3>{% trans "Versions" %}</h3>
         <table class="table table-striped">
             <tr>
@@ -146,23 +179,31 @@
                 <th>{% trans "Comments" %}</th>
             </tr>
             {% for content in document.get_versions %}
-            <tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{content.id}}" data-patch="{{content.patch}}">
-                <td>{{content.order}}{% if content.order != current_content.order%} (<a href="?v={{content.order}}">{% trans "view" %}</a>){% endif %}</td>
-                <td>{{content.status|title}}</td>
-                <td><a href="/accounts/profile/{{content.user}}"> {{content.user.get_full_name|default:content.user.username}}</a></td>
-                <td>{{content.comments}}</td>
+            <tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{ content.id }}" data-patch="{{ content.patch }}">
+                {% if content.order != current_content.order %}
+                    <td><a href="?v={{ content.order }}">{{ content.order }}</a></td>
+                    <td style="white-space: nowrap;"><a href="?v={{ content.order }}">{{ content.get_status_display }}</a></td>
+                {% else %}
+                    <td><strong>{{ content.order }}</strong></td>
+                    <td style="white-space: nowrap;"><strong>{{ content.get_status_display }}</strong></td>
+                {% endif %}
+                <td><a href="/accounts/profile/{{ content.user }}"> {{ content.user.get_full_name|default:content.user.username }}</a></td>
+                <td>{{ content.comments }}</td>
             </tr>
             {% endfor %}
-            {% if proposing %}
-            <tr class="current">
-                <td>-</td>
-                <td>New</td>
-                <td><a href="/accounts/profile/{{request.user}}"> {{user.get_full_name|default:user.username}}</a></td>
-                <td>-</td>
-            </tr>
+            {% if editor_enabled %}
+                <tr class="current">
+                    <td>-</td>
+                    <td><strong>New</strong></td>
+                    <td><a href="/accounts/profile/{{ request.user }}"> {{ user.get_full_name|default:user.username }}</a></td>
+                    <td>-</td>
+                </tr>
             {% endif %}
         </table>
     </div>
+    {% endif %}
+
+
 </div>
 
 {% endblock %}

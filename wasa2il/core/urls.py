@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 from core.json.issue import issue_comment_send, issue_poll, issue_vote
-from core.json.document import issue_document_import, document_statement_new, document_statements_import, document_propose, document_propose_change, render_markdown
+from core.json.document import document_statement_new, document_statements_import, document_propose, document_propose_change, render_markdown, documentcontent_render_diff
 from core.views import *
 from core.json import *
 from core.feeds import *
@@ -25,16 +25,15 @@ urlpatterns += patterns('',
     (r'^polities/$',                    ListView.as_view(model=Polity, context_object_name="polities")),
     (r'^polity/new/$',                    login_required(PolityCreateView.as_view())),
 
-    (r'^issue/(?P<issue>\d+)/document/new/',            login_required(DocumentCreateView.as_view())),
     (r'^issue/(?P<pk>\d+)/edit/$',                        login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
     (r'^issue/(?P<pk>\d+)/$',                            IssueDetailView.as_view()),
 
-    (r'^polity/(?P<polity>\d+)/issue/new/$',                login_required(IssueCreateView.as_view())),
+    (r'^polity/(?P<polity>\d+)/issue/new/(documentcontent/(?P<documentcontent>\d+)/)?$', login_required(IssueCreateView.as_view())),
 
     (r'^polity/(?P<polity>\d+)/document/$',                login_required(DocumentListView.as_view())),
     (r'^polity/(?P<polity>\d+)/document/new/$',            login_required(DocumentCreateView.as_view())),
     (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$',        DocumentDetailView.as_view()),
-    (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$',    login_required(DocumentUpdateView.as_view())),
+    # (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$',    login_required(DocumentUpdateView.as_view())),
 
     (r'^polity/(?P<polity>\d+)/election/$',                login_required(ElectionListView.as_view())),
     (r'^polity/(?P<polity>\d+)/election/new/$',            login_required(ElectionCreateView.as_view())),
@@ -60,7 +59,6 @@ urlpatterns += patterns('',
     (r'^api/topic/showstarred/$', topic_showstarred),
 
     (r'^api/issue/comment/send/$', issue_comment_send),
-    (r'^api/issue/import/$', issue_document_import),
     (r'^api/issue/poll/$', issue_poll),
     (r'^api/issue/vote/$', issue_vote),
 
@@ -73,6 +71,8 @@ urlpatterns += patterns('',
     (r'^api/document/propose/(?P<document>\d+)/(?P<state>\d+)/$', document_propose),
     (r'^api/document/propose-change/$', document_propose_change),
     (r'^api/document/render-markdown/$', render_markdown),
+
+    (r'^api/documentcontent/render-diff/$', documentcontent_render_diff),
 
 )
 

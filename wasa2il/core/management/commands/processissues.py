@@ -2,7 +2,6 @@ from sys import stdout, stderr
 from datetime import datetime
 
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 
 from core.models import *
 
@@ -12,29 +11,56 @@ class Command(BaseCommand):
 
         now = datetime.now()
 
-        closed_issues = Issue.objects.filter(deadline_votes__lt=now, document__is_proposed=True, document__is_adopted=False).distinct()
+        unprocessed_issues = Issue.objects.filter(is_processed=False).order_by('deadline_votes', 'id')
 
-        for issue in closed_issues:
+        for issue in unprocessed_issues:
 
-            stdout.write('Checking issue %s (%d):\n' % (issue.name, issue.id))
+            if issue.is_closed():
 
-            stdout.write('* majority reached: ')
-            stdout.flush()
-            if issue.majority_reached():
-                stdout.write('yes\n')
+                documentcontent = issue.documentcontent
+                document = documentcontent.document
 
-                stdout.write('* adopting documents... ')
-                try:
-                    documents = issue.document_set.filter(is_proposed=True, is_adopted=False)
-                    for document in documents:
-                        document.is_adopted = True
-                        document.save()
+                stdout.write("Processing closed issue '%s' (%d):\n" % (issue.name, issue.id))
 
-                    stdout.write('done\n')
-                except:
-                    stdout.write('failed\n')
-            else:
-                stdout.write('no\n')
+                documentcontent.predecessor = document.preferred_version()
 
+                stdout.write("* Majority reached: ")
+                stdout.flush()
+
+                status = ''
+
+                if issue.majority_reached():
+                    stdout.write("yes\n")
+                    status = 'accepted'
+
+                    stdout.write("* Deprecating previously accepted versions, if any... ")
+                    stdout.flush()
+
+                    prev_contents = document.documentcontent_set.exclude(id=documentcontent.id).filter(status='accepted')
+                    for c in prev_contents:
+                        c.status = 'deprecated'
+                        c.save()
+
+                    stdout.write("done\n")
+
+                else:
+                    stdout.write("no\n")
+                    status = 'rejected'
+
+                stdout.write("* Setting status of document version %d to '%s'... " % (documentcontent.order, status))
+                stdout.flush()
+
+                documentcontent.status = status
+                documentcontent.save()
+
+                stdout.write("done\n")
+
+                stdout.write("* Setting processed-status of issue to true... ")
+                stdout.flush()
+
+                issue.is_processed = True
+                issue.save()
+
+                stdout.write("done\n")
 
 

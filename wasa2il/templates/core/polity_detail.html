@@ -87,8 +87,8 @@
     
     <p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
 
-    {% with polity.agreements as documents %}
-    {% include "core/_document_agreement_list_table.html" %}
+    {% with polity.agreements as documentcontents %}
+        {% include "core/_document_agreement_list_table.html" %}
     {% endwith %}
 </div>
 
@@ -110,7 +110,6 @@
     <tr>
         <th>{% trans "Issue" %}</th>
         <th>{% trans "State" %}</th>
-        <th>{% trans "Documents" %}</th>
         <th>{% trans "Comments" %}</th>
         <th>{% trans "Votes" %}</th>
     </tr>
@@ -119,14 +118,13 @@
     {% for issue in newissues %}
         <tr>
             <td>
-                <i id="issuestar_{{issue.id}}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
+                <i id="issuestar_{{ issue.id }}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
                     title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></i>
                 <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
             </td>
             <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
-            <td>{{issue.document_set.count}}</td>
-            <td>{{issue.comment_set.count}}</td>
-            <td>{{issue.get_votes.count}}</td>
+            <td>{{ issue.comment_set.count }}</td>
+            <td>{{ issue.get_votes.count }}</td>
         </tr>
     {% endfor %}
     </tbody>

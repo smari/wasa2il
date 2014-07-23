@@ -1,0 +1,86 @@
+{% load i18n %}
+{% load wasa2il %}
+
+{% comment %}
+    Required variables:
+    1. documentcontent
+    2. selected_diff_documentcontent
+{% endcomment %}
+
+<script language="javascript" type="text/javascript">
+
+    var DOCUMENTCONTENT_ID = {{ documentcontent.id }}
+    var TRIGGER_DIFF = {% if tab == 'diff' %}true{% else %}false{% endif %};
+
+    function loadDiffContent() {
+        $.getJSON(
+            '/api/documentcontent/render-diff/',
+            data = {
+                target_id: DOCUMENTCONTENT_ID,
+                source_id: $('#siblings').val()
+            },
+            success = function(data) {
+                $('.legal-text-container #diff-content').html(data.diff);
+            }
+        );
+    }
+
+    $(document).ready(function() {
+        $('.legal-text-container [tabname="view"]').bind('click', function (e) {
+            $(this).parent().find('li').removeClass('active');
+            $(this).addClass('active');
+            $('#legal-text-diff').fadeOut(0, function () {
+                $('#legal-text').fadeIn(0);
+            });
+            return false
+        });
+        $('.legal-text-container [tabname="diff"]').bind('click', function (e) {
+
+            loadDiffContent();
+
+            $(this).parent().find('li').removeClass('active');
+            $(this).addClass('active');
+            $('#legal-text').fadeOut(0, function () {
+                $('#legal-text-diff').fadeIn(0);
+            });
+
+            return false
+            // e.preventDefault();
+        });
+
+        $('.legal-text-container #siblings').bind('change', loadDiffContent);
+
+        if (TRIGGER_DIFF) {
+            loadDiffContent();
+        }
+
+    });
+
+</script>
+
+<div class="legal-text-container">
+    {% if documentcontent.document.documentcontent_set.count != 1 %}
+        <ul class="nav nav-tabs" style="margin: 0px;">
+            <li tabname="view" {% if tab != 'diff' %}class="active" {% endif %}><a href="#">{% trans "Text" %}</a></li>
+            <li tabname="diff" {% if tab == 'diff' %}class="active" {% endif %}><a href="#">{% trans "Comparison" %}</a></li>
+        </ul>
+        <div id="legal-text-diff" {% if tab != 'diff' %}style="display: none;"{% endif %}>
+            <div id="siblings-container">
+                {% trans 'Compared to' %}:
+                <select id="siblings">
+                {% for sibling in documentcontent.siblings %}
+                    {% if sibling.id == selected_diff_documentcontent.id %}
+                        <option value="{{ sibling.id }}" selected="selected">{% trans "Version" %} {{ sibling.order }} - {{ sibling.get_status_display }} {% if sibling == documentcontent.predecessor %}({% trans "predecessor" %}){% endif %}</option>
+                    {% else %}
+                        <option value="{{ sibling.id }}">{% trans "Version" %} {{ sibling.order }} - {{ sibling.get_status_display }} {% if sibling == documentcontent.predecessor %}({% trans "predecessor" %}){% endif %}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+            </div>
+            <pre id="diff-content"></pre>
+        </div>
+    {% endif %}
+    <div id="legal-text" {% if tab == 'diff' %}style="display: none;"{% endif %}>
+    {{ documentcontent.text|markdown }}
+    </div>
+</div>

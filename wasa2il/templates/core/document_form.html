@@ -1,26 +1,32 @@
 {% extends "base.html" %}
 {% load i18n %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function() {
+            $('#id_name').focus();
+        });
+    </script>
+
+{% endblock %}
+
 {% block content %}
+
 <h1>{%trans "New Document"%}</h1>
+
 {% if polity %}
-    <p>{% trans "In polity:" %} <a href="/polity/{{polity.id}}/">{{polity.name}}</a></p>
+    <p>{% trans "In polity:" %} <a href="/polity/{{ polity.id }}/">{{ polity.name }}</a></p>
 {% endif %}
-{% if issues %}
-    <p>{% if issues.length > 1 %}{% trans "Related to issues:" %}{% else %}{% trans "Related to issue:"%}{% endif %}
-    {% for i in issues %}
-        <a href="/issue/{{i.id}}">{{i.name}}</a>{% if not forloop.last %}, {% endif %}
-    {% endfor %}
-    </p>
-{% endif %}
-<form action="/polity/{{polity.id}}/document/new/" method="POST"/>
-{% for i in issues %}
-    <input type="hidden" name="issues" value="{{i.id}}" id="id_issues">
-{% endfor %}
-{%csrf_token%}
-<table>
-<tr><th><label for="id_name">Name:</label></th><td><input id="id_name" type="text" name="name" maxlength="128" /></td></tr>
-<tr><td></td><td><button type="submit"/>{% trans "Save" %}</button></td></tr>
-</table>
+
+<form action="/polity/{{ polity.id }}/document/new/" method="POST" class="form-horizontal" />
+    {%csrf_token%}
+
+    <table class="table table-striped">
+        {{ form.as_table }}
+        <tr><td></td><td><button type="submit" />{% trans "Save" %}</button></td></tr>
+    </table>
 </form>
 </p>
 

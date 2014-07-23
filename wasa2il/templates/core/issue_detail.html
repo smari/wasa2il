@@ -3,40 +3,56 @@
 {% block content %}
 
 <div style="float: right;">
-    <a class="btn" href="/polity/{{issue.polity.id}}">{% trans "Back to polity" %}</a>
+    <a class="btn" href="/polity/{{ issue.polity.id }}">{% trans "Back to polity" %}</a>
 </div>
-<h1>{{issue.name}}</h1>
-
-{% if issue.is_closed %}
-<div class="alert alert-error">{% trans "This issue is closed." %}</div>
-{% endif %}
+<h1>{{ issue.name }}</h1>
 
 {% if delegation %}
-<div class="alert alert-notice">{% trans "This issue is delegated." %} <a href="/delegation/{{delegation.0.id}}">{% trans "View details." %}</a></div>
+<div class="alert alert-notice">{% trans "This issue is delegated." %} <a href="/delegation/{{ delegation.0.id }}">{% trans "View details." %}</a></div>
 {% endif %}
 
 <div class="row">
     <div class="span6 pull-left">
+        {% if issue.is_processed %}
+            {% if documentcontent %}
+                {% include "core/stub/documentcontent_status.html" %}
+            {% endif %}
+        {% endif %}
+
         {{ issue.description|linebreaks }}
 
         <table class="table table-compact">
-            <tr><th>{% trans "In topics:" %}</th><td>{% for i in issue.topics.all %}<a href="/polity/{{issue.polity.id}}/topic/{{i.id}}/">{{i.name}}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
+            {% if documentcontent %}
+                <tr><th>{% trans "Proposal" %}:</th><td><a href="/polity/{{ issue.polity.id }}/document/{{ documentcontent.document_id }}/?v={{ documentcontent.order }}">{{ documentcontent.document.name }}</a></td></tr>
+            {% endif %}
+            <tr><th>{% trans "In topics" %}:</th><td>{% for i in issue.topics.all %}<a href="/polity/{{ issue.polity.id }}/topic/{{ i.id }}/">{{ i.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
 
-            {% if issue.deadline_discussions != issue.deadline_proposals %}
-                <tr><th>{% trans "Deadline for discussion:" %}</th><td>{{issue.deadline_discussions|date:"d/m/Y h:i:s"}} ({{issue.deadline_discussions|timeuntil}})</td></tr>
+            <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
+
+            {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
+                <tr><th>{% trans "Deadline for discussion" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
+            {% endif %}
+            {% if issue.deadline_proposals != issue.created %}
+                <tr><th>{% trans "Deadline for proposals" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
             {% endif %}
 
-            <tr><th>{% trans "Deadline for proposals:" %}</th><td>{{issue.deadline_proposals|date:"d/m/Y h:i:s"}} ({{issue.deadline_proposals|timeuntil}})</td></tr>
-            <tr><th>{% trans "Deadline for votes:" %}</th><td>{{issue.deadline_votes|date:"d/m/Y h:i:s"}} ({{issue.deadline_votes|timeuntil}})</td></tr>
+            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
 
             {% if issue.is_voting or issue.is_closed %}
-                <tr><th>{% trans "Votes:" %}</th><td id="issue_votes_count">{{issue.get_votes.count}}</td></tr>
+                <tr><th>{% trans "Votes" %}:</th><td id="issue_votes_count">{{ issue.get_votes.count }}</td></tr>
                 {% if issue.is_closed %}
-                    <tr><th>{% trans "Yes:" %}</th><td id="issue_votes_yes">{{issue.get_votes.yes}}</td></tr>
-                    <tr><th>{% trans "No:" %}</th><td id="issue_votes_no">{{issue.get_votes.no}}</td></tr>
+                    <tr><th>{% trans "Yes" %}:</th><td id="issue_votes_yes">{{ issue.get_votes.yes }}</td></tr>
+                    <tr><th>{% trans "No" %}:</th><td id="issue_votes_no">{{ issue.get_votes.no }}</td></tr>
                 {% endif %}
             {% endif %}
+
+            {% if issue.is_processed %}
+                <tr><th>{% trans "Result" %}:</th><td>{% if issue.majority_reached %}{% trans "Accepted" %}{% else %}{% trans "Rejected" %}{% endif %}</td></th></tr>
+            {% endif %}
         </table>
+
+
+
     </div>
 
     {% if issue.is_voting and not user.is_anonymous %}
@@ -48,37 +64,17 @@
             <a onclick="issue_vote(0);" id="vote_abstain" class="btn btn-large">{% trans "Abstain" %}</a>
             <a onclick="issue_vote(-1);" id="vote_no" class="btn btn-large">{% trans "No" %}</a>
         </div>
-        <div style="margin-top: 0.5em; text-align: center;">{% trans "Voting closes in" %} {{issue.deadline_votes|timeuntil}}</div>
+        <div style="margin-top: 0.5em; text-align: center;">{% trans "Voting closes in" %} {{ issue.deadline_votes|timeuntil }}</div>
     </div>
     {% endif %}
 
     <div class="span6 pull-right"><a name="documents"></a>
-        <div class="btn-group" style="float: right">
-            {% if issue.is_open and not issue.is_voting %}
-            <a class="btn btn-mini" onclick="$('#document_import').modal('show');">{% trans "Import agreement" %}</a>
-            <a class="btn btn-mini" href="/issue/{{issue.id}}/document/new/">{% trans "New document" %}</a>
-            {% endif %}
-        </div>
-            <h2>{% trans "Proposals" %}</h2>
-        <p>{% trans "Documents are structured texts which contain the laws of the polity, or proposals for such laws." %}</p>
-        <h4>{% trans "Proposed documents" %}</h4>
-        <div id="document_all_proposals_table">
-        {% with issue.proposed_documents as documents %}
-        {% include "core/_document_list_table.html" %}
-        {% endwith %}
-        </div>
 
-        {% if user_proposals %}
-        <h4>{% trans "Your documents" %}</h4>
-        <p>{% trans "Documents you are working on that haven't been proposed:" %}</p>
-        <div id="document_user_proposals_table">
-        {% with user_proposals as documents %}
-        {% include "core/_document_proposals_list_table.html" %}
-        {% endwith %}
-        </div>
+        {% if documentcontent %}
+            {% include 'core/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
         {% endif %}
-    </div>
 
+    </div>
 
     <div class="span6 pull-left">
         <h2>{% trans "Discussion" %}</h2>
@@ -88,7 +84,7 @@
         {% if issue.is_open and not user.is_anonymous %}
         <div class="comment_form form-inline">
             <textarea id="id_comment" class="span4"></textarea>
-            <button class="btn primary" onclick="issue_comment_send({{issue.id}}, $('#id_comment'));">{% trans "Add comment" %}</button>
+            <button class="btn primary" onclick="issue_comment_send({{ issue.id }}, $('#id_comment'));">{% trans "Add comment" %}</button>
         </div>
         {% endif %}
     </div>
@@ -96,36 +92,12 @@
 
 
 <script>
-issue_id = {{issue.id}};
+issue_id = {{ issue.id }};
 $(function() {
     issue_poll(issue_id);
     issue_timer_start();
 });
 </script>
-
-<div class="modal hide fade" id="document_import">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "Import agreement" %}</h3>
-  </div>
-  <div class="modal-body">
-    <p>{% trans "Choose an agreement to import:" %}</p>
-        <form>
-            <select id="document_id">
-                {% for i in issue.polity.agreements %}
-                <option value="{{i.id}}">{{i.name}}</option>
-                {% endfor %}
-            </select>
-        </form>
-    <p>{% trans "The purpose of importing an agreement to an issue is to be able to propose changes to it." %}</p>
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#document_import').modal('hide');" class="btn">{% trans "Close" %}</a>
-    <a onclick="document_import($('#document_id').val());" class="btn btn-primary">{% trans "Import document to issue" %}</a>
-  </div>
-</div>
-
-
 
 
 {% endblock %}

@@ -36,6 +36,9 @@ a:hover {
 	color: #47385b;
 }
 
+.right { text-align: right !important; }
+.date { text-align: right !important; }
+
 
 #statements_declarations ol li:before {
 	content: value(statement-counter);
@@ -239,7 +242,7 @@ footer {
   background-image: url("../img/glyphicons-halflings-grey.png");
 }
 
-#legal-text { font-family: serif; font-size: 12px; border: 1px #e0e0e0 solid; padding: 12px 24px 12px 24px; text-align: justify; }
+#legal-text { font-family: serif; font-size: 12px; border: 1px #e0e0e0 solid; padding: 12px 24px 12px 24px; margin-bottom: 10px; text-align: justify; }
 #legal-text h1 { font-family: inherit; font-size: 28px; font-weight: bold; margin: 4px 0px 4px 4px; }
 #legal-text h2 { font-family: inherit; font-size: 18px; font-weight: bold; margin: 4px 0px 4px 4px; }
 #legal-text ol { margin: 12px 0px 0px 24px; }
@@ -248,9 +251,14 @@ footer {
 #legal-text-editor { width: 100%; height: 400px; font-family: Courier New; }
 #legal-text-editor-preview { width: 100%; }
 
-#legal-text-diff { display: none; }
 #legal-text-diff ins { background-color: #aaffaa !important; }
 #legal-text-diff del { background-color: #ffaaaa !important; }
+
+.legal-text-container #siblings-container { float: right; border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; background: #f8f8f8; padding: 0px 0px 0px 12px; }
+.legal-text-container #siblings { margin: 0px; }
+
+#propose-change .comments { width: 100%; }
+#propose-change .comments textarea { width: 100%; }
 
 .instructions img.screenshot { border: 1px solid #a0a0a0; display: block; max-width: 800px; margin-top: 48px; margin-bottom: 48px; }
 .instructions p, .instructions ul { margin-top: 16px; margin-bottom: 16px; max-width: 800px; }
