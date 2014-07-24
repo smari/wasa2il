@@ -551,6 +551,9 @@ class DocumentContent(models.Model):
 
         return result
 
+    def __unicode__(self):
+        return "DocumentContent (ID: %d)" % self.id
+
 
 class Statement(models.Model):
     user = models.ForeignKey(User)
