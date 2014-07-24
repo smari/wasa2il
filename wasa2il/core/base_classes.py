@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 class NameSlugBase(models.Model):
     name = NameField(verbose_name=_('Name'))
-    slug = NameSlugField()
+    slug = NameSlugField(blank=True)
 
     class Meta:
         abstract = True

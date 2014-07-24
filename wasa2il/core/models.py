@@ -522,7 +522,7 @@ class DocumentContent(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
     order = models.IntegerField(default=1)
-    comments = models.TextField()
+    comments = models.TextField(blank=True)
     STATUS_CHOICES = (
         ('proposed', _('Proposed')),
         ('accepted', _('Accepted')),
