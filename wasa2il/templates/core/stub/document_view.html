@@ -11,18 +11,28 @@
 
     var DOCUMENTCONTENT_ID = {{ documentcontent.id }}
     var TRIGGER_DIFF = {% if tab == 'diff' %}true{% else %}false{% endif %};
+    var CAPTION_TAB_COMPARISON = "{% trans 'Comparison' %}";
+    var CAPTION_TAB_COMPARISON_LOADING = "{% trans 'Comparison in progress...' %}";
 
     function loadDiffContent() {
+
+        $tab_comparison = $('.legal-text-container #tab-comparison');
+
+        $tab_comparison.html(CAPTION_TAB_COMPARISON_LOADING);
+
         $.getJSON(
             '/api/documentcontent/render-diff/',
             data = {
                 target_id: DOCUMENTCONTENT_ID,
                 source_id: $('#siblings').val()
-            },
-            success = function(data) {
-                $('.legal-text-container #diff-content').html(data.diff);
             }
-        );
+        )
+        .done(function(data) {
+            $('.legal-text-container #diff-content').html(data.diff);
+        })
+        .always(function(data) {
+            $tab_comparison.html(CAPTION_TAB_COMPARISON);
+        });
     }
 
     $(document).ready(function() {
@@ -62,7 +72,7 @@
     {% if documentcontent.document.documentcontent_set.count != 1 %}
         <ul class="nav nav-tabs" style="margin: 0px;">
             <li tabname="view" {% if tab != 'diff' %}class="active" {% endif %}><a href="#">{% trans "Text" %}</a></li>
-            <li tabname="diff" {% if tab == 'diff' %}class="active" {% endif %}><a href="#">{% trans "Comparison" %}</a></li>
+            <li tabname="diff" {% if tab == 'diff' %}class="active" {% endif %}><a href="#" id="tab-comparison">{% trans "Comparison" %}</a></li>
         </ul>
         <div id="legal-text-diff" {% if tab != 'diff' %}style="display: none;"{% endif %}>
             <div id="siblings-container">

@@ -543,6 +543,10 @@ class DocumentContent(models.Model):
 
         # Basic diff_match_patch thing
         dmp = diff_match_patch()
+
+        dmp.Diff_Timeout = 0
+        # dmp.Diff_EditCost = 10 # Higher value means more semantic cleanup. 4 is default which works for us right now.
+
         d = dmp.diff_main(earlier_content.text, self.text)
 
         # Calculate the diff
