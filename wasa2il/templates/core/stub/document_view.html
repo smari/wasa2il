@@ -16,23 +16,27 @@
 
     function loadDiffContent() {
 
+        $diff_content = $('.legal-text-container #diff-content');
         $tab_comparison = $('.legal-text-container #tab-comparison');
 
-        $tab_comparison.html(CAPTION_TAB_COMPARISON_LOADING);
+        if ($diff_content.html() == "") {
 
-        $.getJSON(
-            '/api/documentcontent/render-diff/',
-            data = {
-                target_id: DOCUMENTCONTENT_ID,
-                source_id: $('#siblings').val()
-            }
-        )
-        .done(function(data) {
-            $('.legal-text-container #diff-content').html(data.diff);
-        })
-        .always(function(data) {
-            $tab_comparison.html(CAPTION_TAB_COMPARISON);
-        });
+            $tab_comparison.html(CAPTION_TAB_COMPARISON_LOADING);
+
+            $.getJSON(
+                '/api/documentcontent/render-diff/',
+                data = {
+                    target_id: DOCUMENTCONTENT_ID,
+                    source_id: $('#siblings').val()
+                }
+            )
+            .done(function(data) {
+                $($diff_content).html(data.diff);
+            })
+            .always(function(data) {
+                $tab_comparison.html(CAPTION_TAB_COMPARISON);
+            });
+        }
     }
 
     $(document).ready(function() {
@@ -58,7 +62,13 @@
             // e.preventDefault();
         });
 
-        $('.legal-text-container #siblings').bind('change', loadDiffContent);
+        $('.legal-text-container #siblings').bind('change', function(e) {
+            // Clear the stage so that content surely gets reloaded despite "caching" in loadDiffContent().
+            $('.legal-text-container #diff-content').html("");
+
+            // Load the diff content.
+            loadDiffContent();
+        });
 
         if (TRIGGER_DIFF) {
             loadDiffContent();
