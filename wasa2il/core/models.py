@@ -1,6 +1,8 @@
 #coding:utf-8
 
 import logging
+import re
+
 from base_classes import NameSlugBase, getCreationBase
 from core.utils import AttrDict
 from datetime import datetime, timedelta
@@ -552,6 +554,8 @@ class DocumentContent(models.Model):
         # Calculate the diff
         dmp.diff_cleanupSemantic(d)
         result = dmp.diff_prettyHtml(d).replace('&para;', '')
+
+        result = re.sub(r'\r<br>', r'<br>', result) # Because we're using <pre></pre> in the template, so the HTML creates two newlines.
 
         return result
 
