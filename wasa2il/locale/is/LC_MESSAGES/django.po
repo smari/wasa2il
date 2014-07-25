@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-23 15:58+0000\n"
+"POT-Creation-Date: 2014-07-25 00:09+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -60,53 +60,53 @@ msgstr "Tungumál"
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr ""
 
-#: core/models.py:349 templates/core/polity_detail.html:111
+#: core/models.py:348 templates/core/polity_detail.html:111
 msgid "Issue"
 msgstr "Málefni"
 
-#: core/models.py:354
+#: core/models.py:353
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:359 templates/profile.html:50
+#: core/models.py:358 templates/profile.html:50
 #: templates/core/polity_list.html:16
 msgid "Polity"
 msgstr "Þing"
 
-#: core/models.py:529
+#: core/models.py:527
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:530 templates/core/issue_detail.html:50
+#: core/models.py:528 templates/core/issue_detail.html:50
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:531 templates/core/issue_detail.html:50
+#: core/models.py:529 templates/core/issue_detail.html:50
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: core/models.py:532
+#: core/models.py:530
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:644 templates/core/election_detail.html:28
+#: core/models.py:651 templates/core/election_detail.html:28
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:645 templates/core/election_detail.html:24
+#: core/models.py:652 templates/core/election_detail.html:24
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:646 templates/core/election_detail.html:25
+#: core/models.py:653 templates/core/election_detail.html:25
 #: templates/core/issue_detail.html:39
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:650
+#: core/models.py:657
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:652 templates/base.html:114
+#: core/models.py:659 templates/base.html:114
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -288,8 +288,8 @@ msgstr "Yfirlit"
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
-#: templates/profile.html:61 templates/core/stub/document_view.html:73
-#: templates/core/stub/document_view.html:75
+#: templates/profile.html:61 templates/core/stub/document_view.html:83
+#: templates/core/stub/document_view.html:85
 msgid "Version"
 msgstr "Útgáfa"
 
@@ -953,20 +953,25 @@ msgstr "Nýjar umræður"
 msgid "Followers of this topic"
 msgstr "Fylgjendur þessa málaflokks"
 
-#: templates/core/stub/document_view.html:64
-msgid "Text"
-msgstr ""
-
-#: templates/core/stub/document_view.html:65
+#: templates/core/stub/document_view.html:14
+#: templates/core/stub/document_view.html:75
 msgid "Comparison"
 msgstr "Samanburður"
 
-#: templates/core/stub/document_view.html:69
+#: templates/core/stub/document_view.html:15
+msgid "Comparison in progress..."
+msgstr "Samanburður í vinnslu..."
+
+#: templates/core/stub/document_view.html:74
+msgid "Text"
+msgstr ""
+
+#: templates/core/stub/document_view.html:79
 msgid "Compared to"
 msgstr "Samanborið við"
 
-#: templates/core/stub/document_view.html:73
-#: templates/core/stub/document_view.html:75
+#: templates/core/stub/document_view.html:83
+#: templates/core/stub/document_view.html:85
 msgid "predecessor"
 msgstr "fyrirrennari"
 
@@ -2443,9 +2448,6 @@ msgstr "Staðfesta auðkenni"
 
 #~ msgid "Delete"
 #~ msgstr "Eyða"
-
-#~ msgid "proposed or in progress"
-#~ msgstr "lagt til eða í úrvinnslu"
 
 #~ msgid "New meeting"
 #~ msgstr "Nýr fundur"
