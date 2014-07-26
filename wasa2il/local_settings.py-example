@@ -25,10 +25,11 @@ AUTH_ISLAND = {
     'password': 'some_password',
 }
 
-ICEPIRATE = {
-    'url': 'http://path-to-icepirate',
-    'key': 'some-random-string',
-}
+# Uncomment the following to enable IcePirate support
+#ICEPIRATE = {
+#    'url': 'http://path-to-icepirate',
+#    'key': 'some-random-string',
+#}
 
 DATABASE_ENGINE = 'django.db.backends.' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_HOST = ''

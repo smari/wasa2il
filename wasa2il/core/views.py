@@ -180,10 +180,11 @@ def login(request, template_name='registration/login.html',
                 profile.user = request.user
                 profile.save()
 
-            if request.user.get_profile().kennitala:
-                configure_external_member_db(request.user, create_if_missing=False)
-            else:
-                return HttpResponseRedirect(settings.AUTH_URL)
+            if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
+                if request.user.get_profile().kennitala:
+                    configure_external_member_db(request.user, create_if_missing=False)
+                else:
+                    return HttpResponseRedirect(settings.AUTH_URL)
 
             return HttpResponseRedirect(redirect_to)
     else:
