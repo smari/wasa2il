@@ -32,7 +32,7 @@ class UserSettingsMiddleware(object):
         if not request.user.is_anonymous():
             # Make sure that the user is not only logged in, but verified
             profile = request.user.get_profile() # This should never fail, see login
-            if not profile.kennitala and request.path_info != '/accounts/verify/' and request.path_info != '/accounts/logout/':
+            if not profile.verified_ssn and request.path_info != '/accounts/verify/' and request.path_info != '/accounts/logout/':
                 ctx = { 'auth_url': settings.AUTH_URL }
                 return render_to_response('registration/verification_needed.html', ctx)
 

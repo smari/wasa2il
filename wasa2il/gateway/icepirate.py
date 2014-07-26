@@ -14,7 +14,7 @@ def configure_external_member_db(user, create_if_missing=False):
     url = settings.ICEPIRATE['url']
     key = settings.ICEPIRATE['key']
 
-    request = urllib.urlopen('%s/member/api/get/ssn/%s?json_api_key=%s' % (url, user.userprofile.kennitala, key))
+    request = urllib.urlopen('%s/member/api/get/ssn/%s?json_api_key=%s' % (url, user.userprofile.verified_ssn, key))
     content = request.read()
     remote_object = json.loads(content)
 
@@ -47,7 +47,7 @@ def configure_external_member_db(user, create_if_missing=False):
             if create_if_missing:
 
                 post_data = urllib.urlencode({
-                    'ssn': user.userprofile.kennitala,
+                    'ssn': user.userprofile.verified_ssn,
                     'name': user.userprofile.verified_name,
                     'email': user.email,
                     'username': user.username,

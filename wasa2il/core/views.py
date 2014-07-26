@@ -181,7 +181,7 @@ def login(request, template_name='registration/login.html',
                 profile.save()
 
             if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
-                if request.user.get_profile().kennitala:
+                if request.user.get_profile().verified_ssn:
                     configure_external_member_db(request.user, create_if_missing=False)
                 else:
                     return HttpResponseRedirect(settings.AUTH_URL)
@@ -215,8 +215,8 @@ def verify(request):
         ctx = {'e': e}
         return render_to_response('registration/saml_error.html', ctx)
 
-    if UserProfile.objects.filter(kennitala=auth['kennitala']).count() > 0:
-        taken_user = UserProfile.objects.select_related('user').get(kennitala=auth['kennitala']).user
+    if UserProfile.objects.filter(verified_ssn=auth['ssn']).count() > 0:
+        taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user
         ctx = {
             'auth': auth,
             'taken_user': taken_user,
@@ -227,7 +227,7 @@ def verify(request):
         return render_to_response('registration/verification_duplicate.html', ctx)
 
     profile = request.user.get_profile() # It shall exist at this point
-    profile.kennitala = auth['kennitala']
+    profile.verified_ssn = auth['ssn']
     profile.verified_name = auth['name']
     profile.verified_token = request.GET['token']
     profile.verified_timing = datetime.now()

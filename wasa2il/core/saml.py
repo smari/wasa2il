@@ -34,8 +34,8 @@ def parse_saml(saml):
     tree = etree.parse(StringIO(saml))
     namespaces = {'saml': 'urn:oasis:names:tc:SAML:1.0:assertion'}
     name = tree.xpath('/saml:Assertion/saml:AttributeStatement/saml:Subject/saml:NameIdentifier[@NameQualifier="Full Name"]/text()', namespaces=namespaces)[0]
-    kennitala = tree.xpath('/saml:Assertion/saml:AttributeStatement/saml:Attribute[@AttributeName="SSN"]/saml:AttributeValue/text()', namespaces=namespaces)[0]
-    return name, kennitala
+    ssn = tree.xpath('/saml:Assertion/saml:AttributeStatement/saml:Attribute[@AttributeName="SSN"]/saml:AttributeValue/text()', namespaces=namespaces)[0]
+    return name, ssn
 
 
 def authenticate(request, redirect_url):
@@ -46,7 +46,7 @@ def authenticate(request, redirect_url):
         return HttpResponseRedirect(redirect_url)
 
     result = get_saml(request, token)
-    name, kennitala = parse_saml(result['saml'])
+    name, ssn = parse_saml(result['saml'])
 
-    return { 'kennitala': kennitala, 'name': name }
+    return { 'ssn': ssn, 'name': name }
 
