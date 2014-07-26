@@ -32,6 +32,7 @@ def configure_external_member_db(user, create_if_missing=False):
         for polity in Polity.objects.exclude(slug__isnull=True).exclude(slug__exact=''):
             if polity.is_member(user) and polity.slug not in icepirate_groups:
                 polity.members.remove(user)
+                polity.officers.remove(user)
 
         added = datetime.strptime(remote_object['data']['added'], '%Y-%m-%d %H:%M:%S')
         if not user.userprofile.joined_org or added < user.userprofile.joined_org:
@@ -65,6 +66,7 @@ def configure_external_member_db(user, create_if_missing=False):
 
             else:
                 user.polity_set.clear()
+                user.officers.clear()
 
 
 
