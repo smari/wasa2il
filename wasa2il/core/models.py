@@ -88,7 +88,7 @@ class PolityRuleset(models.Model):
 
     # Issue majority is how many percent of the polity are needed
     # for a decision to be made on the issue.
-    issue_majority = models.IntegerField()
+    issue_majority = models.DecimalField(max_digits=5, decimal_places=2)
 
     # Denotes how many seconds an issue is in various phases.
     issue_discussion_time = models.IntegerField()
@@ -227,6 +227,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
     deadline_discussions = models.DateTimeField(**nullblank)
     deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
+    majority_percentage = models.DecimalField(max_digits=5, decimal_places=2)
     ruleset = models.ForeignKey(PolityRuleset, editable=True)
     is_processed = models.BooleanField(default=False)
 
@@ -298,11 +299,10 @@ class Issue(BaseIssue, getCreationBase('issue')):
 
     def majority_reached(self):
         votes = self.get_votes()
-        ruleset = self.ruleset
 
         result = False
         if votes['count'] > 0:
-            result = float(votes['yes']) / votes['count'] > float(ruleset.issue_majority) / 100
+            result = float(votes['yes']) / votes['count'] > float(self.majority_percentage) / 100
 
         return result
 

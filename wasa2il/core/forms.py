@@ -14,7 +14,7 @@ class TopicForm(ModelForm):
 class IssueForm(ModelForm):
     class Meta:
         model = Issue
-        exclude = ('polity', 'slug', 'documentcontent', 'deadline_discussions', 'deadline_proposals', 'deadline_votes', 'is_processed')
+        exclude = ('polity', 'slug', 'documentcontent', 'deadline_discussions', 'deadline_proposals', 'deadline_votes', 'majority_percentage', 'is_processed')
 
 
 class CommentForm(ModelForm):

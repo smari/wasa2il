@@ -345,19 +345,20 @@ class IssueCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.polity = self.polity
-        self.object.save()
-        for topic in form.cleaned_data.get('topics'):
-            self.object.topics.add(topic)
-
         self.object.deadline_discussions = datetime.now() + timedelta(seconds=self.object.ruleset.issue_discussion_time)
         self.object.deadline_proposals = self.object.deadline_discussions + timedelta(seconds=self.object.ruleset.issue_proposal_time)
         self.object.deadline_votes = self.object.deadline_proposals + timedelta(seconds=self.object.ruleset.issue_vote_time)
+        self.object.majority_percentage = self.object.ruleset.issue_majority
 
         context_data = self.get_context_data(form=form)
         if 'documentcontent' in context_data:
             self.object.documentcontent = context_data['documentcontent']
 
         self.object.save()
+
+        for topic in form.cleaned_data.get('topics'):
+            self.object.topics.add(topic)
+
         return HttpResponseRedirect(self.get_success_url())
 
 
