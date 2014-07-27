@@ -20,14 +20,13 @@
     <p>{% trans "In polity:" %} <a href="/polity/{{ polity.id }}/">{{ polity.name }}</a></p>
 {% endif %}
 
-<form action="/polity/{{ polity.id }}/document/new/" method="POST" class="form-horizontal" />
+<form action="/polity/{{ polity.id }}/document/new/" method="POST" />
     {%csrf_token%}
 
     <table class="table table-striped">
         {{ form.as_table }}
-        <tr><td></td><td><button type="submit" />{% trans "Save" %}</button></td></tr>
     </table>
+    <button type="submit" class="btn" />{% trans "Save" %}</button>
 </form>
-</p>
 
 {% endblock %}
