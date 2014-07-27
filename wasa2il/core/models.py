@@ -221,6 +221,11 @@ class UserTopic(models.Model):
 
 
 class Issue(BaseIssue, getCreationBase('issue')):
+    SPECIAL_PROCESS_CHOICES = (
+        ('accepted_at_assembly', _('Accepted at assembly')),
+        ('rejected_at_assembly', _('Rejected at assembly')),
+    )
+
     polity = models.ForeignKey(Polity)
     topics = models.ManyToManyField(Topic)
     documentcontent = models.OneToOneField('DocumentContent', related_name='issue', **nullblank)
@@ -230,6 +235,7 @@ class Issue(BaseIssue, getCreationBase('issue')):
     majority_percentage = models.DecimalField(max_digits=5, decimal_places=2)
     ruleset = models.ForeignKey(PolityRuleset, editable=True)
     is_processed = models.BooleanField(default=False)
+    special_process = models.CharField(max_length='32', choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
 
     class Meta:
         ordering = ["-deadline_votes"]
@@ -298,11 +304,14 @@ class Issue(BaseIssue, getCreationBase('issue')):
         return votes
 
     def majority_reached(self):
-        votes = self.get_votes()
-
         result = False
-        if votes['count'] > 0:
-            result = float(votes['yes']) / votes['count'] > float(self.majority_percentage) / 100
+
+        if self.special_process == 'accepted_at_assembly':
+            result = True
+        else:
+            votes = self.get_votes()
+            if votes['count'] > 0:
+                result = float(votes['yes']) / votes['count'] > float(self.majority_percentage) / 100
 
         return result
 

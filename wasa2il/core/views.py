@@ -345,10 +345,19 @@ class IssueCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.polity = self.polity
-        self.object.deadline_discussions = datetime.now() + timedelta(seconds=self.object.ruleset.issue_discussion_time)
-        self.object.deadline_proposals = self.object.deadline_discussions + timedelta(seconds=self.object.ruleset.issue_proposal_time)
-        self.object.deadline_votes = self.object.deadline_proposals + timedelta(seconds=self.object.ruleset.issue_vote_time)
-        self.object.majority_percentage = self.object.ruleset.issue_majority
+
+        now = datetime.now()
+
+        if self.object.special_process:
+            self.object.deadline_discussions = now
+            self.object.deadline_proposals = now
+            self.object.deadline_votes = now
+        else:
+            self.object.deadline_discussions = now + timedelta(seconds=self.object.ruleset.issue_discussion_time)
+            self.object.deadline_proposals = self.object.deadline_discussions + timedelta(seconds=self.object.ruleset.issue_proposal_time)
+            self.object.deadline_votes = self.object.deadline_proposals + timedelta(seconds=self.object.ruleset.issue_vote_time)
+
+        self.object.majority_percentage = self.object.ruleset.issue_majority # Doesn't mechanically matter but should be official.
 
         context_data = self.get_context_data(form=form)
         if 'documentcontent' in context_data:

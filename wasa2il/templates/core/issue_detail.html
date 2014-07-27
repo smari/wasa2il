@@ -29,30 +29,34 @@
 
             <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
 
-            {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
-                <tr><th>{% trans "Deadline for discussion" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
-            {% endif %}
-            {% if issue.deadline_proposals != issue.created %}
-                <tr><th>{% trans "Deadline for proposals" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
+            {% if not issue.special_process %}
+                {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
+                    <tr><th>{% trans "Deadline for discussion" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
+                {% endif %}
+                {% if issue.deadline_proposals != issue.created %}
+                    <tr><th>{% trans "Deadline for proposals" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
+                {% endif %}
+
+                <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
             {% endif %}
 
-            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
-
-            {% if issue.is_voting or issue.is_closed %}
-                <tr><th>{% trans "Votes" %}:</th><td id="issue_votes_count">{{ issue.get_votes.count }}</td></tr>
-                {% if issue.is_closed %}
-                    <tr><th>{% trans "Yes" %}:</th><td id="issue_votes_yes">{{ issue.get_votes.yes }}</td></tr>
-                    <tr><th>{% trans "No" %}:</th><td id="issue_votes_no">{{ issue.get_votes.no }}</td></tr>
+            {% if issue.special_process %}
+                <tr><th>{% trans 'Special process' %}:</th><td>{{ issue.get_special_process_display }}</td></tr>
+            {% else %}
+                {% if issue.is_voting or issue.is_closed %}
+                    <tr><th>{% trans "Votes" %}:</th><td id="issue_votes_count">{{ issue.get_votes.count }}</td></tr>
+                    {% if issue.is_closed %}
+                        <tr><th>{% trans "Yes" %}:</th><td id="issue_votes_yes">{{ issue.get_votes.yes }}</td></tr>
+                        <tr><th>{% trans "No" %}:</th><td id="issue_votes_no">{{ issue.get_votes.no }}</td></tr>
+                    {% endif %}
+                {% endif %}
+                {% if issue.is_processed %}
+                    <tr><th>{% trans "Result" %}:</th><td>{% if issue.majority_reached %}{% trans "Accepted" %}{% else %}{% trans "Rejected" %}{% endif %}</td></th></tr>
                 {% endif %}
             {% endif %}
 
-            {% if issue.is_processed %}
-                <tr><th>{% trans "Result" %}:</th><td>{% if issue.majority_reached %}{% trans "Accepted" %}{% else %}{% trans "Rejected" %}{% endif %}</td></th></tr>
-            {% endif %}
+
         </table>
-
-
-
     </div>
 
     {% if issue.is_voting and not user.is_anonymous %}
