@@ -22,7 +22,7 @@ def document_propose_change(request):
         raise Exception('Missing "text"')
 
     predecessor = document.preferred_version()
-    if predecessor.text.strip() == text.strip():
+    if predecessor and predecessor.text.strip() == text.strip():
         # This error message won't show anywhere. The same error is caught client-side to produce the error message.
         raise Exception('Change proposal must differ from its predecessor')
 
