@@ -174,7 +174,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
 class Topic(BaseIssue, getCreationBase('topic')):
     """A collection of issues unified categorically."""
     polity = models.ForeignKey(Polity)
-    image = models.ImageField(upload_to="polities", **nullblank)
 
     class Meta:
         ordering = ["name"]
