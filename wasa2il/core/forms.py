@@ -32,7 +32,7 @@ class DocumentForm(ModelForm):
 class PolityForm(ModelForm):
     class Meta:
         model = Polity
-        exclude = ('slug', 'parent', 'members', 'image')
+        exclude = ('slug', 'parent', 'members')
 
 
 class ElectionForm(ModelForm):

@@ -142,12 +142,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
     is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
 
-    image = models.ImageField(upload_to="polities", **nullblank)
-
-    document_frontmatter = models.TextField(**nullblank)
-    document_midmatter = models.TextField(**nullblank)
-    document_footer = models.TextField(**nullblank)
-
     def get_delegation(self, user):
         """Check if there is a delegation on this polity."""
         if not user.is_authenticated():
