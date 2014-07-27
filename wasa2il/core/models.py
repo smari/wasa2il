@@ -23,7 +23,7 @@ def trim(text, length):
 
 
 class BaseIssue(NameSlugBase):
-    description = models.TextField(**nullblank)
+    description = models.TextField(verbose_name=_("Description"), **nullblank)
 
 
 class UserProfile(models.Model):
@@ -227,15 +227,15 @@ class Issue(BaseIssue, getCreationBase('issue')):
     )
 
     polity = models.ForeignKey(Polity)
-    topics = models.ManyToManyField(Topic)
+    topics = models.ManyToManyField(Topic, verbose_name=_("Topics"))
     documentcontent = models.OneToOneField('DocumentContent', related_name='issue', **nullblank)
     deadline_discussions = models.DateTimeField(**nullblank)
     deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
     majority_percentage = models.DecimalField(max_digits=5, decimal_places=2)
-    ruleset = models.ForeignKey(PolityRuleset, editable=True)
+    ruleset = models.ForeignKey(PolityRuleset, verbose_name=_("Ruleset"), editable=True)
     is_processed = models.BooleanField(default=False)
-    special_process = models.CharField(max_length='32', choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
+    special_process = models.CharField(max_length='32', verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
 
     class Meta:
         ordering = ["-deadline_votes"]
