@@ -236,6 +236,20 @@ class Issue(BaseIssue, getCreationBase('issue')):
     def __unicode__(self):
         return self.name
 
+    def apply_ruleset(self):
+        now = datetime.now()
+
+        if self.special_process:
+            self.deadline_discussions = now
+            self.deadline_proposals = now
+            self.deadline_votes = now
+        else:
+            self.deadline_discussions = now + timedelta(seconds=self.ruleset.issue_discussion_time)
+            self.deadline_proposals = self.deadline_discussions + timedelta(seconds=self.ruleset.issue_proposal_time)
+            self.deadline_votes = self.deadline_proposals + timedelta(seconds=self.ruleset.issue_vote_time)
+
+        self.majority_percentage = self.ruleset.issue_majority # Doesn't mechanically matter but should be official.
+
     def is_open(self):
         if not self.is_closed():
             return True
@@ -535,6 +549,35 @@ class DocumentContent(models.Model):
     )
     status = models.CharField(max_length='32', choices=STATUS_CHOICES, default='proposed')
     predecessor = models.ForeignKey('DocumentContent', null=True, blank=True)
+
+
+    # Attempt to inherit earlier issue's topic selection
+    def previous_topics(self):
+        selected_topics = []
+        if self.order > 1:
+            # NOTE: This is entirely distinct from Document.preferred_version() and should not be replaced by it.
+            # This function actually regards Issues, not DocumentContents, but is determined by DocumentContent as input.
+
+            # Find the last accepted documentcontent
+            prev_contents = self.document.documentcontent_set.exclude(id=self.id).order_by('-order')
+            selected_topics = []
+            for c in prev_contents: # NOTE: We're iterating from newest to oldest.
+                if c.status == 'accepted':
+                    # A previously accepted DocumentContent MUST correspond to an issue so we brutally assume so.
+                    selected_topics = [t.id for t in c.issue.topics.all()]
+                    break
+
+            # If no topic list is determined from previously accepted issue, we inherit from the last Issue, if any.
+            if len(selected_topics) == 0:
+                for c in prev_contents:
+                    try:
+                        c_issue = c.issue.get()
+                        selected_topics = [t.id for t in c_issue.topics.all()]
+                        break;
+                    except:
+                        pass
+
+        return selected_topics
 
     # Gets all DocumentContents which belong to the Document to which this DocumentContent belongs to.
     def siblings(self):

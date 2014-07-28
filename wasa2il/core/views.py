@@ -309,31 +309,9 @@ class IssueCreateView(CreateView):
         if self.kwargs['documentcontent']:
             current_content = DocumentContent.objects.get(id=self.kwargs['documentcontent'])
 
-            # Attempt to inherit earlier issue's topic selection
             if current_content.order > 1:
-                # NOTE: This should not be replaced by Document.preferred_version()
-                # because it mostly regards Issues, not DocumentContents.
-
-                # Find the last accepted documentcontent
-                prev_contents = current_content.document.documentcontent_set.exclude(id=current_content.id).order_by('-order')
-                selected_topics = []
-                for c in prev_contents: # NOTE: We're iterating from newest to oldest.
-                    if c.status == 'accepted':
-                        # A previously accepted DocumentContent MUST correspond to an issue so we brutally assume so.
-                        selected_topics = [t.id for t in c.issue.topics.all()]
-                        break
-
-                # If no topic list is determined from previously accepted issue, we inherit from the last Issue, if any.
-                if len(selected_topics) == 0:
-                    for c in prev_contents:
-                        try:
-                            c_issue = c.issue.get()
-                            selected_topics = [t.id for t in c_issue.topics.all()]
-                            break;
-                        except:
-                            pass
-
-                context_data['selected_topics'] = simplejson.dumps(selected_topics)
+                previous_topics = current_content.previous_topics()
+                context_data['selected_topics'] = simplejson.dumps(previous_topics)
                 context_data['tab'] = 'diff'
  
             context_data['documentcontent'] = current_content
@@ -346,18 +324,7 @@ class IssueCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.polity = self.polity
 
-        now = datetime.now()
-
-        if self.object.special_process:
-            self.object.deadline_discussions = now
-            self.object.deadline_proposals = now
-            self.object.deadline_votes = now
-        else:
-            self.object.deadline_discussions = now + timedelta(seconds=self.object.ruleset.issue_discussion_time)
-            self.object.deadline_proposals = self.object.deadline_discussions + timedelta(seconds=self.object.ruleset.issue_proposal_time)
-            self.object.deadline_votes = self.object.deadline_proposals + timedelta(seconds=self.object.ruleset.issue_vote_time)
-
-        self.object.majority_percentage = self.object.ruleset.issue_majority # Doesn't mechanically matter but should be official.
+        self.object.apply_ruleset()
 
         context_data = self.get_context_data(form=form)
         if 'documentcontent' in context_data:
