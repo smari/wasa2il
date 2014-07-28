@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-27 22:39+0000\n"
+"POT-Creation-Date: 2014-07-27 23:41+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -64,74 +64,125 @@ msgstr "Tungumál"
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr ""
 
-#: core/models.py:225
+#: core/models.py:137
+msgid "Officers"
+msgstr "Umsjónarmenn"
+
+#: core/models.py:138
+msgid "Invite threshold"
+msgstr "Boðsþröskuldur"
+
+#: core/models.py:138
+msgid "How many members need to vouch for a new user before he can join."
+msgstr ""
+"Hversu margir meðlimir þurfa að bjóða nýjum notanda áður en hann getur orðið "
+"meðlimur."
+
+#: core/models.py:140
+msgid "Are there officers?"
+msgstr "Eru umsjónarmenn?"
+
+#: core/models.py:140
+msgid "Is there a group of people who oversee the polity?"
+msgstr "Er hópur fólks sem hefur umsjón með þinginu?"
+
+#: core/models.py:141
+msgid "Publicly listed?"
+msgstr "Listað opinberlega?"
+
+#: core/models.py:141
+msgid "Whether the polity is publicly listed or not."
+msgstr "Hvort þingið sé listað opinberlega eður ei."
+
+#: core/models.py:142
+msgid "Publicly viewable?"
+msgstr "Sýnilegt opinberlega?"
+
+#: core/models.py:142
+msgid "Whether non-members can view the polity and its activities."
+msgstr ""
+"Hvort notendur sem ekki eru meðlimir þingsins geti séð það og innihald þess."
+
+#: core/models.py:143
+msgid "Can only officers make new issues?"
+msgstr "Geta einungis umsjónarmenn búið til ný mál?"
+
+#: core/models.py:143
+msgid ""
+"If this is checked, only officers can create new issues. If it's unchecked, "
+"any member can start a new issue."
+msgstr ""
+"Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
+"allir meðlimir búið til ný mál."
+
+#: core/models.py:226
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
 
-#: core/models.py:226
+#: core/models.py:227
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: core/models.py:230 templates/core/polity_detail.html:58
+#: core/models.py:231 templates/core/polity_detail.html:58
 #: templates/core/polity_detail.html:65 templates/core/polity_list.html:17
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: core/models.py:236
+#: core/models.py:237
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: core/models.py:238 templates/core/issue_detail.html:44
+#: core/models.py:239 templates/core/issue_detail.html:44
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: core/models.py:359 templates/core/polity_detail.html:111
+#: core/models.py:360 templates/core/polity_detail.html:111
 msgid "Issue"
 msgstr "Málefni"
 
-#: core/models.py:364
+#: core/models.py:365
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:369 templates/profile.html:50
+#: core/models.py:370 templates/profile.html:50
 #: templates/core/polity_list.html:16
 msgid "Polity"
 msgstr "Þing"
 
-#: core/models.py:538
+#: core/models.py:539
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:539 templates/core/issue_detail.html:54
+#: core/models.py:540 templates/core/issue_detail.html:54
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:540 templates/core/issue_detail.html:54
+#: core/models.py:541 templates/core/issue_detail.html:54
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: core/models.py:541
+#: core/models.py:542
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:664 templates/core/election_detail.html:28
+#: core/models.py:665 templates/core/election_detail.html:28
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:665 templates/core/election_detail.html:24
+#: core/models.py:666 templates/core/election_detail.html:24
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:666 templates/core/election_detail.html:25
+#: core/models.py:667 templates/core/election_detail.html:25
 #: templates/core/issue_detail.html:40
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:670
+#: core/models.py:671
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:672 templates/base.html:114
+#: core/models.py:673 templates/base.html:114
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -337,9 +388,10 @@ msgstr "Stillingar"
 msgid "You are signed in as"
 msgstr "Þú ert innskráð/ur sem"
 
-#: templates/settings.html:19 templates/core/document_form.html:28
+#: templates/settings.html:19 templates/core/document_form.html:29
 #: templates/core/document_update.html:121
-#: templates/core/election_form.html:14 templates/core/issue_form.html:32
+#: templates/core/election_form.html:37 templates/core/issue_form.html:32
+#: templates/core/polity_form.html:24 templates/core/topic_form.html:25
 #: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
 #: templates/registration/password_change_form.html:11
 #: templates/registration/password_reset_confirm.html:14
@@ -704,6 +756,10 @@ msgstr ""
 msgid "Drag candidates to change order"
 msgstr "Dragðu frambjóðendur með músinni til að breyta röðun"
 
+#: templates/core/election_form.html:30 templates/core/polity_detail.html:139
+msgid "New election"
+msgstr "Ný kosning"
+
 #: templates/core/issue_detail.html:11
 msgid "This issue is delegated."
 msgstr "Þetta mál er framvísað."
@@ -799,7 +855,7 @@ msgstr "You have"
 msgid "delegations"
 msgstr "delegations"
 
-#: templates/core/polity_detail.html:50
+#: templates/core/polity_detail.html:50 templates/core/topic_form.html:17
 msgid "New topic"
 msgstr "Nýr málaflokkur"
 
@@ -878,10 +934,6 @@ msgstr "Opið"
 msgid "New"
 msgstr ""
 
-#: templates/core/polity_detail.html:139
-msgid "New election"
-msgstr "Ný kosning"
-
 #: templates/core/polity_detail.html:151
 msgid "Elections"
 msgstr "Kosningar"
@@ -937,7 +989,7 @@ msgstr "Nei, ég rakst óvart á takkann"
 msgid "Yes, I want to leave this polity."
 msgstr "Já, ég vil yfirgefa þingið."
 
-#: templates/core/polity_list.html:8
+#: templates/core/polity_form.html:17 templates/core/polity_list.html:8
 msgid "New polity"
 msgstr "Nýtt þing"
 
