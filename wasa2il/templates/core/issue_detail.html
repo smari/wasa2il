@@ -27,9 +27,8 @@
             {% endif %}
             <tr><th>{% trans "In topics" %}:</th><td>{% for i in issue.topics.all %}<a href="/polity/{{ issue.polity.id }}/topic/{{ i.id }}/">{{ i.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
 
-            <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
-
             {% if not issue.special_process %}
+                <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
                 {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
                     <tr><th>{% trans "Deadline for discussion" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
                 {% endif %}
@@ -39,6 +38,8 @@
 
                 <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
             {% endif %}
+
+            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
 
             {% if issue.special_process %}
                 <tr><th>{% trans 'Special process' %}:</th><td>{{ issue.get_special_process_display }}</td></tr>
