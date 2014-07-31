@@ -7,7 +7,7 @@
 {% for documentcontent in documentcontents %}
 <tr>
     <td><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></td>
-    <td class="date">{{ documentcontent.issue.created|date }}</td>
+    <td class="date">{{ documentcontent.issue.deadline_votes|date }}</td>
 </tr>
 {% empty %}
 <tr>

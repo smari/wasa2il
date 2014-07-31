@@ -168,7 +168,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
         return topics
 
     def agreements(self):
-        return DocumentContent.objects.select_related('document').filter(status='accepted', document__polity_id=self.id).order_by('-issue__created')
+        return DocumentContent.objects.select_related('document').filter(status='accepted', document__polity_id=self.id).order_by('-issue__deadline_votes')
 
 
 class Topic(BaseIssue, getCreationBase('topic')):
