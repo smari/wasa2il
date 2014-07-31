@@ -35,8 +35,6 @@
                 {% if issue.deadline_proposals != issue.created %}
                     <tr><th>{% trans "Deadline for proposals" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
                 {% endif %}
-
-                <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
             {% endif %}
 
             <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
