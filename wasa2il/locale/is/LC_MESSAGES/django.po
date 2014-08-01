@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-27 23:41+0000\n"
+"POT-Creation-Date: 2014-08-01 16:38+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -115,74 +115,74 @@ msgstr ""
 "Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
 "allir meðlimir búið til ný mál."
 
-#: core/models.py:226
+#: core/models.py:218
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
 
-#: core/models.py:227
+#: core/models.py:219
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: core/models.py:231 templates/core/polity_detail.html:58
+#: core/models.py:223 templates/core/polity_detail.html:58
 #: templates/core/polity_detail.html:65 templates/core/polity_list.html:17
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: core/models.py:237
+#: core/models.py:229
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: core/models.py:239 templates/core/issue_detail.html:44
+#: core/models.py:231 templates/core/issue_detail.html:43
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: core/models.py:360 templates/core/polity_detail.html:111
+#: core/models.py:366 templates/core/polity_detail.html:111
 msgid "Issue"
 msgstr "Málefni"
 
-#: core/models.py:365
+#: core/models.py:371
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:370 templates/profile.html:50
+#: core/models.py:376 templates/profile.html:50
 #: templates/core/polity_list.html:16
 msgid "Polity"
 msgstr "Þing"
 
-#: core/models.py:539
+#: core/models.py:545
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:540 templates/core/issue_detail.html:54
+#: core/models.py:546 templates/core/issue_detail.html:53
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:541 templates/core/issue_detail.html:54
+#: core/models.py:547 templates/core/issue_detail.html:53
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: core/models.py:542
+#: core/models.py:548
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:665 templates/core/election_detail.html:28
+#: core/models.py:700 templates/core/election_detail.html:28
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:666 templates/core/election_detail.html:24
+#: core/models.py:701 templates/core/election_detail.html:24
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:667 templates/core/election_detail.html:25
+#: core/models.py:702 templates/core/election_detail.html:25
 #: templates/core/issue_detail.html:40
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:671
+#: core/models.py:706
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:673 templates/base.html:114
+#: core/models.py:708 templates/base.html:114
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -411,7 +411,7 @@ msgid "To"
 msgstr "To"
 
 #: templates/core/_delegations_table.html:7
-#: templates/core/issue_detail.html:54
+#: templates/core/issue_detail.html:53
 msgid "Result"
 msgstr "Niðurstaða"
 
@@ -710,7 +710,7 @@ msgid "View details."
 msgstr "View details."
 
 #: templates/core/election_detail.html:26
-#: templates/core/election_detail.html:81 templates/core/issue_detail.html:47
+#: templates/core/election_detail.html:81 templates/core/issue_detail.html:46
 #: templates/core/polity_detail.html:114 templates/core/polity_detail.html:161
 #: templates/core/topic_detail.html:33
 msgid "Votes"
@@ -768,25 +768,29 @@ msgstr "Þetta mál er framvísað."
 msgid "In topics"
 msgstr "Í málaflokkum"
 
-#: templates/core/issue_detail.html:30
+#: templates/core/issue_detail.html:31
 msgid "Start time"
 msgstr "Upphafstími"
 
-#: templates/core/issue_detail.html:34
+#: templates/core/issue_detail.html:33
 msgid "Deadline for discussion"
 msgstr "Tímamörk fyrir umræður"
 
-#: templates/core/issue_detail.html:37
+#: templates/core/issue_detail.html:36
 msgid "Deadline for proposals"
 msgstr "Tímamörk fyrir tillögur"
 
-#: templates/core/issue_detail.html:49 templates/core/issue_detail.html:67
+#: templates/core/issue_detail.html:48 templates/core/issue_detail.html:67
 msgid "Yes"
 msgstr "Já"
 
-#: templates/core/issue_detail.html:50 templates/core/issue_detail.html:69
+#: templates/core/issue_detail.html:49 templates/core/issue_detail.html:69
 msgid "No"
 msgstr "Nei"
+
+#: templates/core/issue_detail.html:57
+msgid "Majority threshold"
+msgstr "Meirihlutaþröskuldur"
 
 #: templates/core/issue_detail.html:64
 msgid "for or against the documents in this issue"
