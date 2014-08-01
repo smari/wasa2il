@@ -1,5 +1,6 @@
 
 from datetime import datetime, timedelta
+import decimal
 
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -360,6 +361,14 @@ class IssueDetailView(DetailView):
 
         # TODO: Unused, as of yet.
         #context_data["delegation"] = self.object.get_delegation(self.request.user)
+
+        votes = self.object.get_votes()
+        votes_percentage_reached = float(votes['yes']) / float(votes['count']) * 100
+
+        context_data['votes_yes'] = votes['yes']
+        context_data['votes_no'] = votes['no']
+        context_data['votes_count'] = votes['count']
+        context_data['votes_percentage_reached'] = votes_percentage_reached
 
         return context_data
 
