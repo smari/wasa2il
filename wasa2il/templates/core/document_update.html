@@ -123,7 +123,11 @@
                     <small id="preview-note">({% trans 'Preview is required before saving' %})</small>
 
                     <div class="btn-group pull-right">
-                        <a class="btn" href=".">{% trans 'Cancel' %}</a>
+                        {% if document.get_versions.count > 0 %}
+                            <a class="btn" href=".">{% trans 'Cancel' %}</a>
+                        {% else %}
+                            <a class="btn" href="/polity/{{ document.polity_id }}/">{% trans 'Cancel' %}</a>
+                        {% endif %}
                     </div>
 
                 {% else %}
