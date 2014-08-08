@@ -362,8 +362,10 @@ class IssueDetailView(DetailView):
         # TODO: Unused, as of yet.
         #context_data["delegation"] = self.object.get_delegation(self.request.user)
 
+        votes_percentage_reached = 0
         votes = self.object.get_votes()
-        votes_percentage_reached = float(votes['yes']) / float(votes['count']) * 100
+        if votes['count']:
+            votes_percentage_reached = float(votes['yes']) / float(votes['count']) * 100
 
         context_data['votes_yes'] = votes['yes']
         context_data['votes_no'] = votes['no']
