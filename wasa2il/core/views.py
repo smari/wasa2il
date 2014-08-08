@@ -625,3 +625,7 @@ def election_ballots(request, pk=None):
     else:
         raise PermissionDenied
 
+
+def error500(request):
+    return render_to_response('500.html')
+

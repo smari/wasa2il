@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.shortcuts import redirect
 from django.conf import settings
+from django.conf.urls import handler500
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 
@@ -56,6 +57,8 @@ urlpatterns = patterns('',
 
     (r'^static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': settings.STATIC_ROOT}),
 )
+
+handler500 = 'core.views.error500'
 
 if settings.DEBUG:
     urlpatterns += patterns('',
