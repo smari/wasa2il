@@ -229,7 +229,7 @@ def verify(request):
 
     profile = request.user.get_profile() # It shall exist at this point
     profile.verified_ssn = auth['ssn']
-    profile.verified_name = auth['name']
+    profile.verified_name = auth['name'].encode('utf8')
     profile.verified_token = request.GET['token']
     profile.verified_timing = datetime.now()
     profile.save()
