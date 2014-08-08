@@ -192,7 +192,7 @@
                     <td style="white-space: nowrap;"><strong>{{ content.get_status_display }}</strong></td>
                 {% endif %}
                 <td><a href="/accounts/profile/{{ content.user }}"> {{ content.user.get_full_name|default:content.user.username }}</a></td>
-                <td>{{ content.comments }}</td>
+                <td>{{ content.comments|linebreaks }}</td>
             </tr>
             {% endfor %}
             {% if editor_enabled %}
