@@ -1,9 +1,11 @@
 
 from datetime import datetime, timedelta
+import os.path
 import decimal
 
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.http import Http404
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
 from django.db import DatabaseError
@@ -61,7 +63,11 @@ def help(request, page):
     ctx = {
         'language_code': settings.LANGUAGE_CODE
     }
-    return render_to_response("help/%s/%s.html" % (settings.LANGUAGE_CODE, page), ctx)
+    filename = "help/%s/%s.html" % (settings.LANGUAGE_CODE, page)
+    if not os.path.isfile("templates/%s" % filename):
+        raise Http404
+
+    return render_to_response(filename, ctx)
 
 
 def profile(request, username=None):
