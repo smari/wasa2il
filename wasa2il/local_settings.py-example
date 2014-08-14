@@ -33,6 +33,8 @@ AUTH_ISLAND = {
 #    'key': 'some-random-string',
 #}
 
+AUTO_LOGOUT_DELAY = 30 # User is logged out after this many minutes. Comment to disable auto-logout.
+
 DATABASE_ENGINE = 'django.db.backends.' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_HOST = ''
 DATABASE_PORT = ''
