@@ -36,8 +36,6 @@ LANGUAGES = (
   ('es', 'Spanish'),
 )
 
-LANGUAGE_CODE = 'is'  # "en-us"
-
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
