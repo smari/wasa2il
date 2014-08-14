@@ -34,9 +34,11 @@
             <div class="alert alert-success">
                 <p>{% trans "You don't have to submit your vote; whatever is on your ballot when the vote deadline passes will be counted." %}</p>
             </div>
-            <div class="alert alert-success">
-                <p>{{ election.instructions|linebreaks }}</p>
-            </div>
+            {% if election.instructions %}
+                <div class="alert alert-success">
+                    <p>{{ election.instructions|linebreaks }}</p>
+                </div>
+            {% endif %}
         {% endif %}
 
         {{ election.description }}
