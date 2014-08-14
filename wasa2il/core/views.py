@@ -603,6 +603,7 @@ class ElectionDetailView(DetailView):
                 "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
                 'election_results': election_results,
                 'voting_interface_enabled': voting_interface_enabled,
+                'user_is_member': self.request.user in self.polity.members.all()
             }
         )
         return context_data

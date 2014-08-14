@@ -67,7 +67,7 @@
 <div class="row">
     <div class="span5 pull-right well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
-        {% if not user.is_anonymous %}
+        {% if user_is_member %}
         <a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
         <a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
         {% endif %}
