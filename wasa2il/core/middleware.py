@@ -29,11 +29,12 @@ class UserSettingsMiddleware(object):
 
             request.session['last_visit'] = now.strftime('%Y-%m-%d %H:%M:%S')
 
-        if not request.user.is_anonymous():
-            # Make sure that the user is not only logged in, but verified
-            profile = request.user.get_profile() # This should never fail, see login
-            if not profile.verified_ssn and request.path_info != '/accounts/verify/' and request.path_info != '/accounts/logout/':
-                ctx = { 'auth_url': settings.SAML_1['URL'] }
-                return render_to_response('registration/verification_needed.html', ctx)
+        if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
+            if not request.user.is_anonymous():
+                # Make sure that the user is not only logged in, but verified
+                profile = request.user.get_profile() # This should never fail, see login
+                if not profile.verified_ssn and request.path_info != '/accounts/verify/' and request.path_info != '/accounts/logout/':
+                    ctx = { 'auth_url': settings.SAML_1['URL'] }
+                    return render_to_response('registration/verification_needed.html', ctx)
 
 

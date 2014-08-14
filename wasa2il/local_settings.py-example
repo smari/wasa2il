@@ -20,14 +20,15 @@ DATETIME_FORMAT = 'd/m/Y H:i:s'
 
 LANGUAGE_CODE = 'en-US' # For example 'en', 'is' etc...
 
-SAML_1 = {
-    'URL': 'https://innskraning.island.is/?id=audkenni.piratar.is&path=/accounts/verify/',
-    'AUTH': {
-        'wsdl': 'https://egov.webservice.is/sst/runtime.asvc/com.actional.soapstation.eGOVDKM_AuthConsumer.AccessPoint?WSDL',
-        'login': 'some_login',
-        'password': 'some_password',
-    }
-}
+# Uncomment the following to enable SAML 1.2 support (originally implemented for the "Icekey" in Iceland)
+#SAML_1 = {
+#    'URL': 'https://innskraning.island.is/?id=audkenni.piratar.is&path=/accounts/verify/',
+#    'AUTH': {
+#        'wsdl': 'https://egov.webservice.is/sst/runtime.asvc/com.actional.soapstation.eGOVDKM_AuthConsumer.AccessPoint?WSDL',
+#        'login': 'some_login',
+#        'password': 'some_password',
+#    }
+#}
 
 # Uncomment the following to enable IcePirate support
 #ICEPIRATE = {
