@@ -95,11 +95,13 @@
 
 <div class="span6 pull-right"><a name="newissues"></a>
 
+    {% if user_is_member %}
     <div class="btn-group" style="float: right">
         {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
         <a class="btn btn-mini" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a>
         {% endif %}
     </div>
+    {% endif %}
 
     <h2>{% trans "New issues" %} <small>{% trans "in discussion"%}</small></h2>
 
