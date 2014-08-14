@@ -18,7 +18,7 @@ class SamlException(Exception):
 
 def get_saml(request, token):
     # Fetch SAML info
-    AI = settings.AUTH_ISLAND
+    AI = settings.SAML_1['AUTH']
     client = Client(AI['wsdl'], username=AI['login'], password=AI['password'])
     ipaddr = request.META.get('REMOTE_ADDR')
     result = client.service.generateSAMLFromToken(token, ipaddr)

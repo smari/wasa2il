@@ -33,7 +33,7 @@ class UserSettingsMiddleware(object):
             # Make sure that the user is not only logged in, but verified
             profile = request.user.get_profile() # This should never fail, see login
             if not profile.verified_ssn and request.path_info != '/accounts/verify/' and request.path_info != '/accounts/logout/':
-                ctx = { 'auth_url': settings.AUTH_URL }
+                ctx = { 'auth_url': settings.SAML_1['URL'] }
                 return render_to_response('registration/verification_needed.html', ctx)
 
 

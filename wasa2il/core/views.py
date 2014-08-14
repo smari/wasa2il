@@ -191,7 +191,7 @@ def login(request, template_name='registration/login.html',
                 if request.user.get_profile().verified_ssn:
                     configure_external_member_db(request.user, create_if_missing=False)
                 else:
-                    return HttpResponseRedirect(settings.AUTH_URL)
+                    return HttpResponseRedirect(settings.SAML_1['URL'])
 
             return HttpResponseRedirect(redirect_to)
     else:
@@ -217,7 +217,7 @@ def login(request, template_name='registration/login.html',
 def verify(request):
 
     try:
-        auth = authenticate(request, settings.AUTH_URL)
+        auth = authenticate(request, settings.SAML_1['URL'])
     except SamlException as e:
         ctx = {'e': e}
         return render_to_response('registration/saml_error.html', ctx)
