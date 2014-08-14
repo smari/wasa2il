@@ -187,11 +187,11 @@ def login(request, template_name='registration/login.html',
                 profile.user = request.user
                 profile.save()
 
+            if not request.user.get_profile().verified_ssn:
+                return HttpResponseRedirect(settings.SAML_1['URL'])
+
             if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
-                if request.user.get_profile().verified_ssn:
-                    configure_external_member_db(request.user, create_if_missing=False)
-                else:
-                    return HttpResponseRedirect(settings.SAML_1['URL'])
+                configure_external_member_db(request.user, create_if_missing=False)
 
             return HttpResponseRedirect(redirect_to)
     else:
@@ -240,7 +240,8 @@ def verify(request):
     profile.verified_timing = datetime.now()
     profile.save()
 
-    configure_external_member_db(request.user, create_if_missing=True)
+    if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
+        configure_external_member_db(request.user, create_if_missing=True)
 
     return HttpResponseRedirect('/')
 
