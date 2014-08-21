@@ -74,8 +74,10 @@ def profile(request, username=None):
     ctx = {}
     if username:
         subject = get_object_or_404(User, username=username)
-    else:
+    elif request.user.is_authenticated():
         subject = request.user
+    else:
+        return HttpResponseRedirect(settings.LOGIN_URL)
 
     ctx["subject"] = subject
     ctx["profile"] = subject.get_profile()
