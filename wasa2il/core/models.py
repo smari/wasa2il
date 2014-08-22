@@ -510,6 +510,7 @@ class Document(NameSlugBase):
 
     # preferred_version() finds the most proper, previous documentcontent to build a new one on.
     # It prefers the latest accepted one, but if it cannot find one, it will default to the first proposed one.
+    # If it finds neither a proposed nor accepted one, it will try to find the first rejected one.
     # It will return None if it finds nothing and it's the calling function's responsibility to react accordingly.
     # TODO: Make this faster and cached per request. Preferably still Pythonic. -helgi@binary.is, 2014-07-02
     def preferred_version(self):
@@ -520,10 +521,15 @@ class Document(NameSlugBase):
         if accepted_versions.count() > 0:
             documentcontent = accepted_versions[0]
         else:
-            # ...or the earliest proposed one.
+            # ...and if none are found, find the earliest proposed one...
             proposed_versions = self.documentcontent_set.filter(status='proposed').order_by('order')
             if proposed_versions.count() > 0:
                 documentcontent = proposed_versions[0]
+            else:
+                # ...finally and desperately going for the first rejected one.
+                rejected_versions = self.documentcontent_set.filter(status='rejected').order_by('order')
+                if rejected_versions.count() > 0:
+                    documentcontent = rejected_versions[0]
 
         return documentcontent
 
