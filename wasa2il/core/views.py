@@ -113,7 +113,7 @@ def profile(request, username=None):
 def view_settings(request):
     ctx = {}
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, instance=request.user.get_profile())
+        form = UserProfileForm(request.POST, request=request, instance=request.user.get_profile())
         if form.is_valid():
             request.user.email = form.cleaned_data['email']
             request.user.save()
@@ -124,7 +124,7 @@ def view_settings(request):
                 m = sha1()
                 m.update(request.user.username)
                 hash = m.hexdigest()
-                ext = f.name.split(".")[1]
+                ext = f.name.split(".")[1] # UserProfileForm.clean_picture() makes sure this is safe.
                 filename = "userimg_%s.%s" % (hash, ext)
                 path = settings.MEDIA_ROOT + "/" + filename
                 #url = settings.MEDIA_URL + filename
