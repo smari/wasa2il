@@ -357,17 +357,18 @@ class IssueDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
 
-        documentcontent = self.object.documentcontent
-        if documentcontent.order > 1:
-            context_data['tab'] = 'diff'
-        else:
-            context_data['tab'] = 'view'
+        if self.object.documentcontent:
+            documentcontent = self.object.documentcontent
+            if documentcontent.order > 1:
+                context_data['tab'] = 'diff'
+            else:
+                context_data['tab'] = 'view'
 
-        context_data['documentcontent'] = documentcontent
-        if self.object.is_processed:
-            context_data['selected_diff_documentcontent'] = documentcontent.predecessor
-        else:
-            context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
+            context_data['documentcontent'] = documentcontent
+            if self.object.is_processed:
+                context_data['selected_diff_documentcontent'] = documentcontent.predecessor
+            else:
+                context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
 
         # TODO: Unused, as of yet.
         #context_data["delegation"] = self.object.get_delegation(self.request.user)
