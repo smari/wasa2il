@@ -35,7 +35,7 @@ urlpatterns += patterns('',
     (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$',        DocumentDetailView.as_view()),
     # (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$',    login_required(DocumentUpdateView.as_view())),
 
-    (r'^polity/(?P<polity>\d+)/election/$',                login_required(ElectionListView.as_view())),
+    (r'^polity/(?P<polity>\d+)/election/$',                ElectionListView.as_view()),
     (r'^polity/(?P<polity>\d+)/election/new/$',            login_required(ElectionCreateView.as_view())),
     (r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/$',        ElectionDetailView.as_view()),
     (r'^polity/(\d+)/election/(?P<pk>\d+)/ballots/$', election_ballots),

@@ -40,7 +40,7 @@ def election_poll(request):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
-    if not request.user in election.polity.members.all():
+    if election.is_closed() or not request.user in election.polity.members.all():
         return election_poll(request)
 
     val = int(request.REQUEST.get("val", 0))

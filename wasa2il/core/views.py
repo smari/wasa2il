@@ -10,6 +10,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
 from django.db import DatabaseError
 from django.db.models import Q
+from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
@@ -622,9 +623,15 @@ class ElectionListView(ListView):
         return super(ElectionListView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
+
+        elections = Election.objects.filter(polity=self.polity).annotate(candidate_count=Count('candidate')).order_by('-deadline_votes')
+
         context_data = super(ElectionListView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
+        context_data.update({
+            'polity': self.polity,
+            'elections': elections,
+        })
+
         return context_data
 
 

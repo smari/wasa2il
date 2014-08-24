@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="page-header">
+        <div style="float: right;">
+            <a class="btn" href="/polity/{{ polity.id }}">{% trans "Back to polity" %}</a>
+        </div>
+        <h1>{% trans "Elections in polity" %}: {{ polity.name }}</h1>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>{% trans "Election" %}</th>
+            <th>{% trans "State" %}</th>
+            <th>{% trans "Candidates" %}</th>
+            <th>{% trans "Votes" %}</th>
+            <th class="date">{% trans "Deadline for candidacy" %}</th>
+            <th class="date">{% trans "Deadline for votes" %}</th>
+        </tr>
+        {% for election in elections %}
+            <tr>
+                <td><a href="/polity/{{ polity.id }}/election/{{ election.id }}/">{{ election.name }}</a></td>
+                <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
+                <td>{{ election.candidate_count }}</td>
+                <td>{{ election.get_votes.count }}</td>
+                <td class="date">{{ election.deadline_candidacy }}</td>
+                <td class="date">{{ election.deadline_votes }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
