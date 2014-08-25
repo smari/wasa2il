@@ -9,6 +9,7 @@ var discussion_timer;
 var discussion_object;
 var discussion_id;
 var statement_active;
+var show_closed_elections;
 
 function document_propose(doc, val) {
     data = {};
@@ -65,6 +66,21 @@ function topics_showstarred_toggle(polity) {
                 $("#topics_showstarred_toggle i").removeClass("icon-grey");
             } else {
                 $("#topics_showstarred_toggle i").addClass("icon-grey");
+            }
+        }
+    });
+}
+
+
+function elections_showclosed_toggle(polity_id) {
+    show_closed_elections = (show_closed_elections ? 0 : 1);
+    $.getJSON("/api/election/showclosed/", {"polity_id": polity_id, "showclosed": show_closed_elections}, function(data) {
+        if (data.ok) {
+            $("#elections_list tbody").html(data.html);
+            if (data.showclosed) {
+                $("#elections_showclosed_toggle i").removeClass("icon-grey");
+            } else {
+                $("#elections_showclosed_toggle i").addClass("icon-grey");
             }
         }
     });

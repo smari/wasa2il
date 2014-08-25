@@ -1,0 +1,15 @@
+{% load wasa2il %}
+{% load i18n %}
+
+{% for election in elections %}
+    <tr>
+        <td>
+            <i id="electionstar_{{ election.id }}" class="icon-pencil {% if election|electionvoted:user %}{% else %}icon-grey{% endif %}"
+                title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"></i>
+            <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
+        </td>
+        <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
+        <td>{{ election.candidate_set.count }}</td>
+        <td>{{ election.get_votes.count }}</td>
+    </tr>
+{% endfor %}

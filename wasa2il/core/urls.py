@@ -65,6 +65,7 @@ urlpatterns += patterns('',
     (r'^api/election/poll/$', election_poll),
     (r'^api/election/vote/$', election_vote),
     (r'^api/election/candidacy/$', election_candidacy),
+    (r'^api/election/showclosed/$', election_showclosed),
 
     (r'^api/document/statement/new/(?P<document>\d+)/(?P<type>\d+)/$', document_statement_new),
     (r'^api/document/statement/import/$', document_statements_import),

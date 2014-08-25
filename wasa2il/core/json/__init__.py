@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
@@ -124,6 +125,28 @@ def topic_showstarred(request):
             ctx["error"] = e
 
     ctx["ok"] = True
+    return ctx
+
+
+@jsonize
+def election_showclosed(request):
+    ctx = {}
+
+    polity_id = int(request.REQUEST.get("polity_id")) # This should work.
+    showclosed = int(request.REQUEST.get('showclosed', 0)) # 0 = False, 1 = True
+
+    try:
+        if showclosed == 1:
+            elections = Election.objects.filter(polity_id=polity_id).order_by('-deadline_votes')
+        else:
+            elections = Election.objects.filter(polity_id=polity_id, deadline_votes__gt=datetime.now()).order_by('-deadline_votes')
+
+        ctx['showclosed'] = showclosed
+        ctx['html'] = render_to_string('core/_election_list_table.html', {'elections': elections })
+        ctx['ok'] = True
+    except Exception as e:
+        ctx['error'] = e
+
     return ctx
 
 
