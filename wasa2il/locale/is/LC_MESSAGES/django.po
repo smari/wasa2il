@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-25 11:31+0000\n"
+"POT-Creation-Date: 2014-08-27 15:02+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -119,75 +119,87 @@ msgstr ""
 "Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
 "allir meðlimir búið til ný mál."
 
-#: core/models.py:218
+#: core/models.py:144
+msgid "Front polity?"
+msgstr "Aðalþing?"
+
+#: core/models.py:144
+msgid ""
+"If checked, this polity will be displayed on the front page. The first "
+"created polity automatically becomes the front polity."
+msgstr ""
+"Ef hakað er við þetta verður þetta þing sýnt á forsíðunni. Fyrsta þingið sem "
+"búið er til verður sjálfkrafa að aðalþingi."
+
+#: core/models.py:231
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
 
-#: core/models.py:219
+#: core/models.py:232
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: core/models.py:223 templates/core/polity_detail.html:58
+#: core/models.py:236 templates/core/polity_detail.html:58
 #: templates/core/polity_detail.html:65 templates/core/polity_list.html:17
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: core/models.py:229
+#: core/models.py:242
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: core/models.py:231 templates/core/issue_detail.html:43
+#: core/models.py:244 templates/core/issue_detail.html:43
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: core/models.py:366 templates/core/polity_detail.html:113
+#: core/models.py:379 templates/core/polity_detail.html:113
 msgid "Issue"
 msgstr "Málefni"
 
-#: core/models.py:371
+#: core/models.py:384
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:376 templates/profile.html:50
+#: core/models.py:389 templates/profile.html:50
 #: templates/core/polity_list.html:16
 msgid "Polity"
 msgstr "Þing"
 
-#: core/models.py:551
+#: core/models.py:564
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:552 templates/core/issue_detail.html:53
+#: core/models.py:565 templates/core/issue_detail.html:53
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:553 templates/core/issue_detail.html:53
+#: core/models.py:566 templates/core/issue_detail.html:53
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: core/models.py:554
+#: core/models.py:567
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:706 templates/core/election_detail.html:28
+#: core/models.py:719 templates/core/election_detail.html:28
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:707 templates/core/election_detail.html:24
+#: core/models.py:720 templates/core/election_detail.html:24
 #: templates/core/election_list.html:19
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:708 templates/core/election_detail.html:25
+#: core/models.py:721 templates/core/election_detail.html:25
 #: templates/core/election_list.html:20 templates/core/issue_detail.html:40
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:712
+#: core/models.py:725
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:714 templates/base.html:114
+#: core/models.py:727 templates/base.html:114
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -247,13 +259,13 @@ msgstr "Stillingar"
 msgid "Logout"
 msgstr "Útskrá"
 
-#: templates/base.html:95 templates/hom01.html:18
+#: templates/base.html:95 templates/entry.html:17
 #: templates/registration/login.html:6
 #: templates/registration/password_reset_complete.html:9
 msgid "Log in"
 msgstr "Innskrá"
 
-#: templates/base.html:96 templates/hom01.html:12
+#: templates/base.html:96 templates/entry.html:11
 #: templates/notLoginInHome.html:14 templates/registration/login.html:19
 #: templates/registration/registration_form.html:6
 #: templates/registration/registration_form.html:17
@@ -276,102 +288,21 @@ msgstr "Notandaleyfi"
 msgid "Authors"
 msgstr "Höfundar"
 
-#: templates/hom01.html:13
+#: templates/entry.html:12
 msgid "In order to use Wasa2il you need to register an account."
 msgstr "Til að nota Wasa2il þarftu að skrá notandaaðgang."
 
-#: templates/hom01.html:19
+#: templates/entry.html:18
 msgid "If you log in, you can participate in your polities."
 msgstr "Ef þú skráir þig inn þá getur þú tekið þátt í þínum þingum."
 
-#: templates/hom01.html:24 templates/notLoginInHome.html:33
+#: templates/entry.html:23 templates/notLoginInHome.html:33
 msgid "Browse Polities"
 msgstr "Skoða þing"
 
-#: templates/hom01.html:25
+#: templates/entry.html:24
 msgid "You can browse publicly visible polities without registering."
 msgstr "Þú getur skoðað þing, sem eru opin öllum án þess að skrá þig inn."
-
-#: templates/hom01.html:35
-msgid "FAQ"
-msgstr "Algengar spurningar"
-
-#: templates/hom01.html:37 templates/help/is/index.html:15
-msgid "What is a polity?"
-msgstr "Hvað er þing?"
-
-#: templates/hom01.html:38
-msgid "How electronic democracy work?"
-msgstr "Hvernig virkar rafrænt lýðræði?"
-
-#: templates/hom01.html:39
-msgid "Who can use Wasa2il?"
-msgstr "Hver getur notað Wasa2il?"
-
-#: templates/hom01.html:40
-msgid "What does Wasa2il mean?"
-msgstr "Hvað þýðir Wasa2il?"
-
-#: templates/hom01.html:44
-msgid "New polities"
-msgstr "Ný þing"
-
-#: templates/hom01.html:52
-msgid "Recent decisions"
-msgstr "Nýlegar ákvarðanir"
-
-#: templates/home.html:9
-#, fuzzy
-msgid "Your polities"
-msgstr "Þingin þín"
-
-#: templates/home.html:16
-#, fuzzy
-msgid "Browse other polities"
-msgstr "Skoða þing"
-
-#: templates/home.html:22
-#, fuzzy
-msgid "Take Action!"
-msgstr "Actions"
-
-#: templates/home.html:24
-#, fuzzy
-msgid "Browse polities"
-msgstr "Skoða þing"
-
-#: templates/home.html:25
-#, fuzzy
-msgid "Edit your profile"
-msgstr "Mín síða"
-
-#: templates/home.html:26
-#, fuzzy
-msgid "Create a polity"
-msgstr "Yfirgefa þing"
-
-#: templates/home.html:33
-msgid "Your documents"
-msgstr "Þín skjöl"
-
-#: templates/home.html:36 templates/home.html.py:45 templates/home.html:54
-#: templates/core/topic_detail.html:63
-msgid "in"
-msgstr "í"
-
-#: templates/home.html:42
-msgid "Recently adopted law"
-msgstr ""
-
-#: templates/home.html:42 templates/home.html.py:51
-#, fuzzy
-msgid "in your polities"
-msgstr "Þingin þín"
-
-#: templates/home.html:51
-#, fuzzy
-msgid "New proposals"
-msgstr "Change proposals"
 
 #: templates/notLoginInHome.html:23
 msgid "Start a Policy"
@@ -1071,6 +1002,10 @@ msgstr "málefni"
 msgid "New discussions"
 msgstr "Nýjar umræður"
 
+#: templates/core/topic_detail.html:63
+msgid "in"
+msgstr "í"
+
 #: templates/core/topic_detail.html:75
 msgid "Followers of this topic"
 msgstr "Fylgjendur þessa málaflokks"
@@ -1496,6 +1431,10 @@ msgstr "Hvað er wasa2il?"
 #: templates/help/is/index.html:14
 msgid "Who can use wasa2il?"
 msgstr "Hver getur notað wasa2il?"
+
+#: templates/help/is/index.html:15
+msgid "What is a polity?"
+msgstr "Hvað er þing?"
 
 #: templates/help/is/index.html:16
 msgid "What is a topic?"
@@ -2041,17 +1980,22 @@ msgid "You are now successfully signed up. Sign in to start having fun!"
 msgstr ""
 "Þú hefur nú verið nýskráður. Skráðu þig inn til þess að hefja skemmtunina!"
 
-#: templates/registration/activation_complete.html:6
-msgid "Verified!"
-msgstr ""
-
 #: templates/registration/activation_complete.html:7
-msgid "Congratulations, you're fully registered."
-msgstr ""
+msgid "Email verified!"
+msgstr "Netfang staðfest!"
 
-#: templates/registration/activation_complete.html:7
-msgid "Now log in!"
-msgstr ""
+#: templates/registration/activation_complete.html:11
+msgid "Congratulations, your email has been verified!"
+msgstr "Til hamingju, netfangið þitt hefur verið staðfest!"
+
+#: templates/registration/activation_complete.html:12
+msgid "You may now try to log in!"
+msgstr "Þú getur núna reynt að innskrá þig!"
+
+#: templates/registration/activation_complete.html:13
+#: templates/registration/login.html:18
+msgid "Login"
+msgstr "Innskrá"
 
 #: templates/registration/activation_email.txt:4
 msgid "You need to activate your account at"
@@ -2131,10 +2075,6 @@ msgid "If problems arise, please send an email to the following email address:"
 msgstr ""
 "Ef vandamál koma upp, vinsamlegast sendið netpóst á eftirfarandi netfang:"
 
-#: templates/registration/login.html:18
-msgid "Login"
-msgstr "Innskrá"
-
 #: templates/registration/login.html:20
 #: templates/registration/password_reset_complete.html:5
 #: templates/registration/password_reset_confirm.html:6
@@ -2177,6 +2117,19 @@ msgstr ""
 #: templates/registration/password_reset_form.html:10
 msgid "Send password"
 msgstr "Endurstilla lykilorð"
+
+#: templates/registration/registration_complete.html:7
+msgid "Email verification"
+msgstr "Staðfesting netfangs"
+
+#: templates/registration/registration_complete.html:11
+msgid ""
+"Please check your email to find the verification message we have just sent, "
+"and click the appropriate link."
+msgstr ""
+"Í tölvupósti þínum ættirðu að finna skilaboð frá okkur til staðfestingar á "
+"netfanginu þínu. Vinsamlegast finndu þann póst og smelltu á viðeigandi "
+"tengil."
 
 #: templates/registration/saml_error.html:6
 msgid "Verification error"
@@ -2239,6 +2192,62 @@ msgstr "Vinsamlegast veljið einn eftirfarandi valmöguleika"
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
+
+#~ msgid "Account created"
+#~ msgstr "Aðgangur skráður"
+
+#~ msgid "FAQ"
+#~ msgstr "Algengar spurningar"
+
+#~ msgid "How electronic democracy work?"
+#~ msgstr "Hvernig virkar rafrænt lýðræði?"
+
+#~ msgid "Who can use Wasa2il?"
+#~ msgstr "Hver getur notað Wasa2il?"
+
+#~ msgid "What does Wasa2il mean?"
+#~ msgstr "Hvað þýðir Wasa2il?"
+
+#~ msgid "New polities"
+#~ msgstr "Ný þing"
+
+#~ msgid "Recent decisions"
+#~ msgstr "Nýlegar ákvarðanir"
+
+#, fuzzy
+#~ msgid "Your polities"
+#~ msgstr "Þingin þín"
+
+#, fuzzy
+#~ msgid "Browse other polities"
+#~ msgstr "Skoða þing"
+
+#, fuzzy
+#~ msgid "Take Action!"
+#~ msgstr "Actions"
+
+#, fuzzy
+#~ msgid "Browse polities"
+#~ msgstr "Skoða þing"
+
+#, fuzzy
+#~ msgid "Edit your profile"
+#~ msgstr "Mín síða"
+
+#, fuzzy
+#~ msgid "Create a polity"
+#~ msgstr "Yfirgefa þing"
+
+#~ msgid "Your documents"
+#~ msgstr "Þín skjöl"
+
+#, fuzzy
+#~ msgid "in your polities"
+#~ msgstr "Þingin þín"
+
+#, fuzzy
+#~ msgid "New proposals"
+#~ msgstr "Change proposals"
 
 #~ msgid "Comparison with effective version"
 #~ msgstr "Samanburður við gildandi útgáfu"
