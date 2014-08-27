@@ -48,6 +48,9 @@ def home(request):
         pass
 
     if request.user.is_authenticated():
+        if request.user.is_staff and Polity.objects.count() == 0:
+            return HttpResponseRedirect("/polity/new")
+
         return HttpResponseRedirect("/accounts/profile/")
     else:
         return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
