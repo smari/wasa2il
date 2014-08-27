@@ -48,19 +48,8 @@ def home(request):
         pass
 
     if request.user.is_authenticated():
-        # Get some context vars (tempoarily just fetch the first one)
-        ctx['allpolities'] = Polity.objects.filter(Q(is_listed=True) | Q(members=request.user))
-        ctx['polities'] = Polity.objects.filter(members=request.user)
-        # ctx['topics' ] = ctx['mainPolity'].topic_set.all()
-
-        ctx["yourdocuments"] = Document.objects.filter(user=request.user)[:9]
-        ctx["adopteddocuments"] = Document.objects.filter(is_adopted=True, polity__in=request.user.polity_set.all())[:9]
-        ctx["proposeddocuments"] = Document.objects.filter(is_proposed=True, polity__in=request.user.polity_set.all())[:9]
-
-        return render_to_response("home.html", ctx, context_instance=RequestContext(request))
+        return HttpResponseRedirect("/accounts/profile/")
     else:
-        ctx['somepolities'] = Polity.objects.filter(is_listed=True).order_by("-id")[:4]
-
         return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
 
 
