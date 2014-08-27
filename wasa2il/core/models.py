@@ -141,7 +141,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
     is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
-    is_front_polity = models.BooleanField(verbose_name=_("Front polity?"), default=False, help_text=("If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity."))
+    is_front_polity = models.BooleanField(verbose_name=_("Front polity?"), default=False, help_text=_("If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity."))
 
     def get_delegation(self, user):
         """Check if there is a delegation on this polity."""
