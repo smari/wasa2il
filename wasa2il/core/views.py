@@ -61,7 +61,7 @@ def home(request):
     else:
         ctx['somepolities'] = Polity.objects.filter(is_listed=True).order_by("-id")[:4]
 
-        return render_to_response("hom01.html", ctx, context_instance=RequestContext(request))
+        return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
 
 
 def help(request, page):
