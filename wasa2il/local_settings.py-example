@@ -12,7 +12,6 @@ INSTANCE_LOGO = ''
 
 TIME_ZONE = 'Iceland'
 
-FRONT_POLITY = 1
 ALLOW_LEAVE_POLITY = False
 
 DATE_FORMAT = 'd/m/Y'
