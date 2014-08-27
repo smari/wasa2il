@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
+# See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ['example.com']
 
-DEBUG = False
+DEBUG = True
 
 INSTANCE_NAME = ''
 INSTANCE_SLUG = ''
@@ -12,12 +12,13 @@ INSTANCE_LOGO = ''
 
 TIME_ZONE = 'Iceland'
 
+FRONT_POLITY = 1
 ALLOW_LEAVE_POLITY = False
 
 DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'd/m/Y H:i:s'
 
-LANGUAGE_CODE = 'en-US' # For example 'en', 'is' etc...
+LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
 
 # Uncomment the following to enable SAML 1.2 support (originally implemented for the "Icekey" in Iceland)
 #SAML_1 = {
@@ -44,6 +45,7 @@ DATABASE_NAME = ''
 DATABASE_USER = ''
 DATABASE_PASSWORD = ''
 
+# Put in a random sequence of characters, like '2gj129ka0a3j4f4k1jdrg3igah73hgFQOWUBVwq68fFFQg2' - but make your own
 SECRET_KEY = ''
 
 #EMAIL_HOST = ''
@@ -52,6 +54,10 @@ SECRET_KEY = ''
 #EMAIL_HOST_PASSWORD = ''
 #EMAIL_USE_TLS = True
 
+# This must be defined for error messages to get sent when DEBUG = False
+SERVER_EMAIL = 'wasa2il@example.com'
+
+# The individuals listed here will receive error messages when DEBUG = False
 ADMINS = (
     ('username', 'user@example.com'),
 )
