@@ -40,10 +40,14 @@ import schulze
 
 def home(request):
     ctx = {}
-    if request.user.is_authenticated():
-        if settings.FRONT_POLITY:
-            return HttpResponseRedirect("/")
 
+    try:
+        polity = Polity.objects.get(is_front_polity=True)
+        return HttpResponseRedirect("/polity/%d/" % polity.id)
+    except Polity.DoesNotExist:
+        pass
+
+    if request.user.is_authenticated():
         # Get some context vars (tempoarily just fetch the first one)
         ctx['allpolities'] = Polity.objects.filter(Q(is_listed=True) | Q(members=request.user))
         ctx['polities'] = Polity.objects.filter(members=request.user)

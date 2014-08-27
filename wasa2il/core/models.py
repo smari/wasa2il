@@ -141,6 +141,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
     is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
+    is_front_polity = models.BooleanField(verbose_name=_("Front polity?"), default=False, help_text=("If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity."))
 
     def get_delegation(self, user):
         """Check if there is a delegation on this polity."""
@@ -169,6 +170,18 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
     def agreements(self):
         return DocumentContent.objects.select_related('document').filter(status='accepted', document__polity_id=self.id).order_by('-issue__deadline_votes')
+
+    def save(self, *args, **kwargs):
+
+        polities = Polity.objects.all()
+        if polities.count() == 0:
+            self.is_front_polity = True
+        elif self.is_front_polity:
+            for frontpolity in polities.filter(is_front_polity=True).exclude(id=self.id): # Should never return more than 1
+                frontpolity.is_front_polity = False
+                frontpolity.save()
+
+        return super(Polity, self).save(*args, **kwargs)
 
 
 class Topic(BaseIssue, getCreationBase('topic')):

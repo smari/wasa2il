@@ -10,18 +10,8 @@ from core.json import *
 from core.feeds import *
 from core.models import Polity, Topic, Issue, Delegate
 
-urlpatterns = patterns('', )
-
-if settings.FRONT_POLITY:
-    urlpatterns = patterns('',
-        (r'^$', PolityDetailView.as_view(), {'pk': settings.FRONT_POLITY}),
-    )
-else:
-    urlpatterns = patterns('',
-        (r'^$', 'core.views.home'),
-    )
-
-urlpatterns += patterns('',
+urlpatterns = patterns('',
+    (r'^$', 'core.views.home'),
     (r'^polities/$',                    ListView.as_view(model=Polity, context_object_name="polities")),
     (r'^polity/new/$',                    login_required(PolityCreateView.as_view())),
 

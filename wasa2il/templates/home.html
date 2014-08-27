@@ -12,9 +12,6 @@
 		{% for p in polities %}
 			<a class="thumbnail" href="/polity/{{p.id}}">{{p.name}}</a>
 		{% endfor %}
-		{% if not settings.FRONT_POLITY %}
-			<a style="background: #eee" class="thumbnail" href="/polities/">{% trans "Browse other polities" %}</a>
-		{% endif %}
 		</div>
 		{% endspaceless %}
 	</span>

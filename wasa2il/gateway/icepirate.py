@@ -11,6 +11,13 @@ class IcePirateException(Exception):
 
 def configure_external_member_db(user, create_if_missing=False):
 
+    def add_user_to_front_polity():
+        try:
+            frontpolity = Polity.objects.get(is_front_polity=True)
+            frontpolity.members.add(user)
+        except Polity.DoesNotExist:
+            pass
+
     url = settings.ICEPIRATE['url']
     key = settings.ICEPIRATE['key']
 
@@ -19,9 +26,7 @@ def configure_external_member_db(user, create_if_missing=False):
     remote_object = json.loads(content)
 
     if remote_object['success']:
-        # Make sure that user is a part of front polity
-        if settings.FRONT_POLITY != 0:
-            user.polity_set.add(settings.FRONT_POLITY)
+        add_user_to_front_polity()
 
         # Configure additional polities
         icepirate_groups = remote_object['data']['groups']
@@ -60,9 +65,7 @@ def configure_external_member_db(user, create_if_missing=False):
                 if not remote_object['success']:
                     raise IcePirateException(remote_object['error'])
 
-                # Make sure that user is a part of front polity
-                if settings.FRONT_POLITY != 0:
-                    user.polity_set.add(settings.FRONT_POLITY)
+                add_user_to_front_polity()
 
             else:
                 user.polity_set.clear()
