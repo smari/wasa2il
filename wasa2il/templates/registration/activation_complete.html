@@ -3,7 +3,14 @@
 
 {% block content %}
 
-<h1>{% trans "Verified!" %}</h1>
-<div><p>{% trans "Congratulations, you're fully registered."%}. <a href="/accounts/login/">{% trans "Now log in!" %}</a></p></div>
+<div class="page-header">
+    <h1>{% trans "Email verified!" %}</h1>
+</div>
+
+<div>
+    <p>{% trans "Congratulations, your email has been verified!" %}</p>
+    <p>{% trans "You may now try to log in!" %}</p>
+    <a class="btn" href="/accounts/login/">{% trans "Login" %}</a>
+</div>
 
 {% endblock %}

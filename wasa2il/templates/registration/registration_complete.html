@@ -1,8 +1,14 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 
-<h1>Signed up!</h1>
-<div><p>Almost there... we just sent you an e-mail so that we can verify that you're not a measly old bot.</p></div>
+<div class="page-header">
+    <h1>{% trans "Email verification" %}</h1>
+</div>
+
+<div>
+    <p>{% trans "Please check your email to find the verification message we have just sent, and click the appropriate link." %}</p>
+</div>
 
 {% endblock %}
