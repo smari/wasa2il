@@ -213,7 +213,7 @@ def documentcontent_render_diff(request):
     source_id = request.GET.get('source_id')
     target_id = request.GET.get('target_id')
 
-    target = DocumentContent.objects.get(id=target_id)
+    target = get_object_or_404(DocumentContent, id=target_id)
 
     ctx['source_id'] = source_id
     ctx['target_id'] = target_id
