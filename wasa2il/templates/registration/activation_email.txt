@@ -1,8 +1,7 @@
 {% load i18n %}
-{% trans "Welcome to Wasa2il!" %}
-
-{% trans "You need to activate your account at" %}
+{% trans "Please click the link below to verify your email address." %}
 
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
 {% blocktrans %}This link will be active for {{ expiration_days }} days.{% endblocktrans %}
+

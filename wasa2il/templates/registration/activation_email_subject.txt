@@ -1,1 +1,2 @@
-Welcome to Wasa2il!
+{% load i18n %}
+[{{ site.name }}] {% trans "Email verification" %}
