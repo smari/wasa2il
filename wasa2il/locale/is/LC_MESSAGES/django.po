@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-27 15:02+0000\n"
+"POT-Creation-Date: 2014-09-23 11:34+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -1971,7 +1971,6 @@ msgstr ""
 "<p>\n"
 
 #: templates/registration/activate.html:5
-#: templates/registration/activation_email.txt:2
 msgid "Welcome to Wasa2il!"
 msgstr "Velkominn í Wasa2il!"
 
@@ -1997,14 +1996,21 @@ msgstr "Þú getur núna reynt að innskrá þig!"
 msgid "Login"
 msgstr "Innskrá"
 
-#: templates/registration/activation_email.txt:4
-msgid "You need to activate your account at"
+#: templates/registration/activation_email.txt:2
+msgid "Please click the link below to verify your email address."
 msgstr ""
+"Vinsamlegast smelltu á tengilinn hér fyrir neðan til að staðfesta netfangið "
+"þitt."
 
-#: templates/registration/activation_email.txt:8
+#: templates/registration/activation_email.txt:6
 #, python-format
 msgid "This link will be active for %(expiration_days)s days."
-msgstr ""
+msgstr "Þessi tengill verður virkur í %(expiration_days)s daga."
+
+#: templates/registration/activation_email_subject.txt:2
+#: templates/registration/registration_complete.html:7
+msgid "Email verification"
+msgstr "Staðfesting netfangs"
 
 #: templates/registration/data_disclaimer.html:3
 msgid ""
@@ -2111,16 +2117,25 @@ msgstr ""
 
 #: templates/registration/password_reset_email.html:2
 #, python-format
-msgid "Reset password at %(site_name)s"
-msgstr ""
+msgid "Someone (probably you) requested a password reset at %(site_name)s."
+msgstr "Einhver (sennilega þú) bað um endurstillingu lykilorðs á vefsetrinu %(site_name)s."
+
+#: templates/registration/password_reset_email.html:4
+msgid ""
+"If you are unfamiliar with this request, you should ignore this message."
+msgstr "Ef þú kannast ekki við slíka beiðnu skaltu hunsa þessi skilaboð."
+
+#: templates/registration/password_reset_email.html:6
+msgid "To reset your password, please click the following link:"
+msgstr "Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil:"
 
 #: templates/registration/password_reset_form.html:10
 msgid "Send password"
 msgstr "Endurstilla lykilorð"
 
-#: templates/registration/registration_complete.html:7
-msgid "Email verification"
-msgstr "Staðfesting netfangs"
+#: templates/registration/password_reset_subject.txt:2
+msgid "Password reset requested"
+msgstr "Beiðni um endurstillingu lykilorðs"
 
 #: templates/registration/registration_complete.html:11
 msgid ""
