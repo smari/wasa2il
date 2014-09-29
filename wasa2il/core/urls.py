@@ -3,10 +3,10 @@ from django.views.generic import ListView, UpdateView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
-from core.json.issue import issue_comment_send, issue_poll, issue_vote
-from core.json.document import document_statement_new, document_statements_import, document_propose, document_propose_change, render_markdown, documentcontent_render_diff
+from core.ajax.issue import issue_comment_send, issue_poll, issue_vote
+from core.ajax.document import document_statement_new, document_statements_import, document_propose, document_propose_change, render_markdown, documentcontent_render_diff
 from core.views import *
-from core.json import *
+from core.ajax import *
 from core.feeds import *
 from core.models import Polity, Topic, Issue, Delegate
 

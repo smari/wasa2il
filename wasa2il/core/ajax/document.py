@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
 from core.models import Document, Issue, ChangeProposal, Statement, DocumentContent
-from core.json.utils import jsonize
+from core.ajax.utils import jsonize
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
 

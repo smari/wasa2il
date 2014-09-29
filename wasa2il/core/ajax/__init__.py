@@ -15,7 +15,7 @@ from core.models import Topic
 from core.models import UserProfile
 from core.models import UserTopic
 
-from core.json.utils import jsonize, error
+from core.ajax.utils import jsonize, error
 
 
 @jsonize
@@ -109,7 +109,7 @@ def topic_star(request):
 @jsonize
 def topic_showstarred(request):
     ctx = {}
-    profile = request.user.get_profile()
+    profile = UserProfile.objects.get(user=request.user)
     profile.topics_showall = not profile.topics_showall
     profile.save()
 

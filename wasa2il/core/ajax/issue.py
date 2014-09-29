@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.timesince import timesince
 
 from core.models import Issue, Vote, Comment
-from core.json.utils import jsonize
+from core.ajax.utils import jsonize
 
 
 @login_required

@@ -1,13 +1,13 @@
 
 from django.db import models
-from fields import AutoUserField, CreatedField, ModifiedField, NameField, NameSlugField
+from fields import AutoUserField
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class NameSlugBase(models.Model):
-    name = NameField(verbose_name=_('Name'))
-    slug = NameSlugField(blank=True)
+    name = models.CharField(max_length=128, verbose_name=_('Name'))
+    slug = models.SlugField(max_length=128, blank=True)
 
     class Meta:
         abstract = True
@@ -29,8 +29,8 @@ def getCreationBase(prefix):
     class CreationBase(models.Model):
         created_by = AutoUserField(related_name='%s_created_by' % prefix)
         modified_by = AutoUserField(related_name='%s_modified_by' % prefix)
-        created = CreatedField()
-        modified = ModifiedField()
+        created = models.DateTimeField(auto_now_add=True)
+        modified = models.DateTimeField(auto_now=True)
 
         class Meta:
             abstract = True

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.timesince import timesince
-import simplejson as json
+import json
 
 from forum.models import Discussion, DiscussionPost
 

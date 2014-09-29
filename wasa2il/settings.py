@@ -171,3 +171,5 @@ LOGGING = {
 AUTH_PROFILE_MODULE = "core.UserProfile"
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = "/"
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'

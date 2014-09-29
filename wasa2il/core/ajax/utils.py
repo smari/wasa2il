@@ -1,6 +1,6 @@
 
 from django.http import HttpResponse
-import simplejson as json
+import json
 
 
 def jsonize(f):

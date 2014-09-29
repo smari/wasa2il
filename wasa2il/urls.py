@@ -8,7 +8,6 @@ from django.contrib.auth import views as auth_views
 from core.authentication import PiratePartyMemberAuthenticationForm
 
 from django.contrib import admin
-admin.autodiscover()
 
 RSK_URL = 'https://www.island.is/audkenning?id=piratar.is'
 

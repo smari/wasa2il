@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
 
@@ -83,7 +83,7 @@ class PolityRuleset(models.Model):
     # Issue quora is how many members need to support a discussion
     # before it goes into proposal mode. If 0, use timer.
     # If issue_quora_percent, user percentage of polity members.
-    issue_quora_percent = models.BooleanField()
+    issue_quora_percent = models.BooleanField(default=False)
     issue_quora = models.IntegerField()
 
     # Issue majority is how many percent of the polity are needed
@@ -104,7 +104,7 @@ class PolityRuleset(models.Model):
     # For multi-round discussions, we may want corresponding documents not to
     # be adopted when the vote is complete, but only for the successful vote
     # to allow progression into the next round.
-    adopted_if_accepted = models.BooleanField()
+    adopted_if_accepted = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name
@@ -161,7 +161,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
         return min(self.members.count(), self.invite_threshold)
 
     def get_topic_list(self, user):
-        if user.is_anonymous() or user.get_profile().topics_showall:
+        if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
             topics = Topic.objects.filter(polity=self)
         else:
             topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self)]
@@ -220,7 +220,7 @@ class Topic(BaseIssue, getCreationBase('topic')):
 class UserTopic(models.Model):
     """Whether a user likes a topic."""
     topic = models.ForeignKey(Topic)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
         unique_together = (("topic", "user"),)
@@ -343,8 +343,8 @@ class Comment(getCreationBase('comment')):
 
 class Delegate(models.Model):
     polity = models.ForeignKey(Polity)
-    user = models.ForeignKey(User)
-    delegate = models.ForeignKey(User, related_name='delegate_user')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    delegate = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='delegate_user')
     base_issue = models.ForeignKey(BaseIssue)
 
     class Meta:
@@ -434,7 +434,7 @@ class Delegate(models.Model):
 
 
 class Vote(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     issue = models.ForeignKey(Issue)
     # option = models.ForeignKey(VoteOption)
     value = models.IntegerField()
@@ -485,7 +485,7 @@ CP_TYPE_CHOICES = tuple((v, k.title()) for k, v in CP_TYPE.items())
 class Document(NameSlugBase):
     polity = models.ForeignKey(Polity)
     issues = models.ManyToManyField(Issue) # Needed for core/management/commands/refactor.py, can be deleted afterward
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     is_adopted = models.BooleanField(default=False)
     is_proposed = models.BooleanField(default=False)
 
@@ -554,7 +554,7 @@ class Document(NameSlugBase):
 
 
 class DocumentContent(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     document = models.ForeignKey(Document)
     created = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
@@ -628,7 +628,7 @@ class DocumentContent(models.Model):
 
 
 class Statement(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     document = models.ForeignKey(Document)
     type = models.IntegerField(choices=STATEMENT_TYPE_CHOICES)
     number = models.IntegerField()
@@ -648,7 +648,7 @@ class Statement(models.Model):
 # when stringified in the future
 class StatementOption(models.Model):
     statement = models.ForeignKey(Statement)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     text = models.TextField()
 
 
@@ -795,13 +795,13 @@ class Election(NameSlugBase):
 
 
 class Candidate(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     election = models.ForeignKey(Election)
 
 
 class ElectionVote(models.Model):
     election = models.ForeignKey(Election)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     candidate = models.ForeignKey(Candidate)
     value = models.IntegerField()
 

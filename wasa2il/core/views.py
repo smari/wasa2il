@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta
 import os.path
 import decimal
+import json
 
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -15,7 +16,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
-from django.utils import simplejson
 
 # BEGIN - Imported from the original login functionality (could probably use cleaning up)
 from django.views.decorators.debug import sensitive_post_parameters
@@ -77,7 +77,7 @@ def profile(request, username=None):
         return HttpResponseRedirect(settings.LOGIN_URL)
 
     ctx["subject"] = subject
-    ctx["profile"] = subject.get_profile()
+    ctx["profile"] = UserProfile.objects.get(user=subject)
     if subject == request.user:
         ctx["polities"] = subject.polity_set.all()
         for polity in ctx["polities"]:
@@ -110,7 +110,7 @@ def profile(request, username=None):
 def view_settings(request):
     ctx = {}
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request=request, instance=request.user.get_profile())
+        form = UserProfileForm(request.POST, request=request, instance=UserProfile.objects.get(user=request.user))
         if form.is_valid():
             request.user.email = form.cleaned_data['email']
             request.user.save()
@@ -140,7 +140,7 @@ def view_settings(request):
             return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
 
     else:
-        form = UserProfileForm(initial={'email': request.user.email}, instance=request.user.get_profile())
+        form = UserProfileForm(initial={'email': request.user.email}, instance=UserProfile.objects.get(user=request.user))
 
     ctx["form"] = form
     return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
@@ -180,8 +180,8 @@ def login(request, template_name='registration/login.html',
 
             # Make sure that profile exists
             try:
-                request.user.get_profile()
-            except:
+                UserProfile.objects.get(user=request.user)
+            except UserProfile.DoesNotExist:
                 profile = UserProfile()
                 profile.user = request.user
                 profile.save()
@@ -319,7 +319,7 @@ class IssueCreateView(CreateView):
 
             if current_content.order > 1:
                 previous_topics = current_content.previous_topics()
-                context_data['selected_topics'] = simplejson.dumps(previous_topics)
+                context_data['selected_topics'] = json.dumps(previous_topics)
                 context_data['tab'] = 'diff'
  
             context_data['documentcontent'] = current_content

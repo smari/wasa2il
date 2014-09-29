@@ -1,5 +1,6 @@
 
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 
 from core.models import Polity
@@ -17,11 +18,11 @@ class Forum(models.Model):
 class Discussion(models.Model):
     forum = models.ForeignKey(Forum)
     name = models.CharField(max_length=200)
-    started_by = models.ForeignKey(User)
+    started_by = models.ForeignKey(settings.AUTH_USER_MODEL)
 
 
 class DiscussionPost(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     discussion = models.ForeignKey(Discussion)
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
