@@ -1,3 +1,0 @@
-[submodule "lib/submodules/openSTV"]
-	path = lib/submodules/openSTV
-	url = git://github.com/guillaumegildas/openSTV.git
