@@ -162,9 +162,9 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
     def get_topic_list(self, user):
         if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
-            topics = Topic.objects.filter(polity=self)
+            topics = Topic.objects.filter(polity=self).order_by('name')
         else:
-            topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self)]
+            topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self).order_by('topic__name')]
 
         return topics
 
