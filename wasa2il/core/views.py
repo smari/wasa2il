@@ -17,15 +17,17 @@ from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 
-# BEGIN - Imported from the original login functionality (could probably use cleaning up)
-from django.views.decorators.debug import sensitive_post_parameters
+# BEGIN - Copied from django.contrib.auth.views to accommodate the login() function
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.sites.shortcuts import get_current_site
+from django.shortcuts import resolve_url
+from django.template.response import TemplateResponse
+from django.utils.http import is_safe_url
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
-from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm, SetPasswordForm, PasswordChangeForm
-from django.contrib.sites.models import get_current_site
-from django.template.response import TemplateResponse
-import urlparse
+from django.views.decorators.debug import sensitive_post_parameters
 # END
 
 from django.contrib.auth.models import User
@@ -156,27 +158,19 @@ def login(request, template_name='registration/login.html',
     """
     Displays the login form and handles the login action.
     """
-    redirect_to = request.REQUEST.get(redirect_field_name, '')
+    redirect_to = request.POST.get(redirect_field_name,
+                                   request.GET.get(redirect_field_name, ''))
 
     if request.method == "POST":
-        form = authentication_form(data=request.POST)
+        form = authentication_form(request, data=request.POST)
         if form.is_valid():
-            netloc = urlparse.urlparse(redirect_to)[1]
 
-            # Use default setting if redirect_to is empty
-            if not redirect_to:
-                redirect_to = settings.LOGIN_REDIRECT_URL
+            # Ensure the user-originating redirection url is safe.
+            if not is_safe_url(url=redirect_to, host=request.get_host()):
+                redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
-            # Heavier security check -- don't allow redirection to a different
-            # host.
-            elif netloc and netloc != request.get_host():
-                redirect_to = settings.LOGIN_REDIRECT_URL
-
-            # Okay, security checks complete. Log the user in.
+            # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
-
-            if request.session.test_cookie_worked():
-                request.session.delete_test_cookie()
 
             # Make sure that profile exists
             try:
@@ -196,8 +190,6 @@ def login(request, template_name='registration/login.html',
             return HttpResponseRedirect(redirect_to)
     else:
         form = authentication_form(request)
-
-    request.session.set_test_cookie()
 
     current_site = get_current_site(request)
 
