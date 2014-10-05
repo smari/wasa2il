@@ -50,7 +50,7 @@
                 {% for candidate in election_results %}
                     <li data-seqid="{{ candidate.id }}">
                         <div style="position: relative;">
-                            <img src="{{ candidate.user.get_profile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
+                            <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
                             <a href="/accounts/profile/{{ candidate.user.username }}/">{{ candidate.user.get_name }}</a>
                         </div>
                     </li>

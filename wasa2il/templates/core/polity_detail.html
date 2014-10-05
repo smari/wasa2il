@@ -51,7 +51,7 @@
         {% endif %}
         <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
         <ul class="dropdown-menu" style="left: -150px;">
-            <li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{polity.id}});"><i class="icon-ok {% if user.get_profile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
+            <li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});"><i class="icon-ok {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
         </ul>
     </div>
     {% endif %}

@@ -60,7 +60,7 @@ def get_name(user):
     name = ""
     if user:
         try:
-            name = user.get_profile().displayname
+            name = user.userprofile.displayname
         except AttributeError:
             print 'User with id %d missing profile?' % user.id
             pass

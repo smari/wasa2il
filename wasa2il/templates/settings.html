@@ -7,7 +7,7 @@
 <div class="page-header">
     <div class="pull-right"><a class="btn" href="/accounts/password/change/">{% trans "Change password" %}</a></div>
     <h1>{% trans "Settings" %}</h1>
-    <p>{% trans "You are signed in as" %} {% if user.get_profile.displayname %}{{ user.get_profile.displayname }}{% else %}{{ user }}{% endif %}.</p>
+    <p>{% trans "You are signed in as" %} {{ user.get_name }}.</p>
 </div>
 
 <form action="/accounts/settings/" method="post" enctype="multipart/form-data" class="form-horizontal">

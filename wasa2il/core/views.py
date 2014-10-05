@@ -131,7 +131,7 @@ def view_settings(request):
                 for chunk in f.chunks():
                     pic.write(chunk)
                 pic.close()
-                p = request.user.get_profile()
+                p = request.user.userprofile
                 p.picture.name = filename
                 p.save()
 
@@ -181,7 +181,7 @@ def login(request, template_name='registration/login.html',
                 profile.save()
 
             if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
-                if not request.user.get_profile().verified_ssn:
+                if not request.user.userprofile.verified_ssn:
                     return HttpResponseRedirect(settings.SAML_1['URL'])
 
             if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
@@ -225,7 +225,7 @@ def verify(request):
 
         return render_to_response('registration/verification_duplicate.html', ctx)
 
-    profile = request.user.get_profile() # It shall exist at this point
+    profile = request.user.userprofile # It shall exist at this point
     profile.verified_ssn = auth['ssn']
     profile.verified_name = auth['name'].encode('utf8')
     profile.verified_token = request.GET['token']

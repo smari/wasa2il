@@ -83,7 +83,7 @@
 	{% if user.is_authenticated %}
             <li><a href="/help/instructions/">{% trans "Help" %}</a></li>
 	    <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{user.get_profile.picture|thumbnail:'30x30'}}" class="img-rounded img-negpad"/> {{user.get_name}}<b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }}<b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="/accounts/profile/"><i class="icon-user"></i> {% trans "My profile" %}</a></li>
             <li><a href="/accounts/settings/"><i class="icon-wrench"></i> {% trans "My settings" %}</a></li>
