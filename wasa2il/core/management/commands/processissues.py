@@ -18,6 +18,11 @@ class Command(BaseCommand):
             if issue.is_closed():
 
                 documentcontent = issue.documentcontent
+
+                if documentcontent is None:
+                    stdout.write("Skipping issue '%s' (%d) since it has no DocumentContent\n" % (issue.name, issue.id))
+                    continue
+
                 document = documentcontent.document
 
                 stdout.write("Processing closed issue '%s' (%d):\n" % (issue.name, issue.id))
