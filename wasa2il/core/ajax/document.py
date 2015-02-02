@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
-from core.models import Document, Issue, ChangeProposal, Statement, DocumentContent
+from core.models import Document, Issue, ChangeProposal, DocumentContent
 from core.ajax.utils import jsonize
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
@@ -67,109 +67,6 @@ def document_changeproposal_new(request, document, type):
     s.save()
 
     return ctx
-
-
-@login_required
-@jsonize
-def document_statements_import(request):
-    ctx = {}
-    ctx["list"] = []
-
-    doc = get_object_or_404(Document, id=request.GET.get("document"))
-    text = request.GET.get("text", "")
-    lines = text.split("\n")
-
-    if request.user != doc.user:
-        return {"error": 403}
-
-    for line in lines:
-        s = Statement()
-        s.user = request.user
-        s.document = doc
-        s.text = line[1:].strip()
-
-        if len(line) == 0:
-            continue
-
-        if line[0] == "\#":
-            # Subheading
-            s.type = 3
-        elif line[0] == "-":
-            # Reference
-            s.type = 0
-        elif line[0] == ":":
-            # Assumption
-            s.type = 1
-        elif line[0] == "*":
-            # Statement
-            s.type = 2
-        else:
-            continue
-
-        try:
-            s.number = Statement.objects.get(document=s.document, type=s.type).order_by('-number')[0].number + 1
-        except Statement.DoesNotExist:
-            s.number = 1
-        except IndexError:
-            s.number = 1
-
-        s.save()
-
-        boom = {}
-        boom["id"] = s.id
-        boom["seq"] = s.number
-        boom["html"] = str(s)
-        ctx["list"].append(boom)
-
-    return ctx
-
-
-@login_required
-@jsonize
-def document_statement_new(request, document, type):
-    ctx = {}
-
-    doc = get_object_or_404(Document, id=document)
-
-    if doc.is_proposed:
-        return document_changeproposal_new(request, document, type)
-
-    s = Statement()
-    s.user = request.user
-    s.document = doc
-    s.type = type
-    s.text = request.GET.get('text', '')
-
-    if s.user != s.document.user:
-        return {"error": 403}
-
-    try:
-        s.number = Statement.objects.get(document=s.document, type=s.type).order_by('-number')[0].number + 1
-    except Statement.DoesNotExist:
-        s.number = 1
-    except IndexError:
-        s.number = 1
-
-    s.save()
-
-    ctx["ok"] = True
-    ctx["id"] = s.id
-    ctx["seq"] = s.number
-    ctx["html"] = str(s)
-
-    return ctx
-
-
-@login_required
-@jsonize
-def document_statement_move(request, statement, order):
-    return {}
-
-
-@login_required
-@jsonize
-def document_statement_delete(request, statement):
-    return {}
 
 
 @login_required

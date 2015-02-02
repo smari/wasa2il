@@ -8,7 +8,6 @@ var election_id;
 var discussion_timer;
 var discussion_object;
 var discussion_id;
-var statement_active;
 var show_closed_elections;
 
 function document_propose(doc, val) {

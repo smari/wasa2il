@@ -9,7 +9,7 @@ from models import (
     Delegate,
     UserProfile,
     PolityRuleset,
-    Document, Statement, ChangeProposal,
+    Document, ChangeProposal,
     DocumentContent,
     Election, Candidate, ElectionVote, VotingSystem,
     )
@@ -81,10 +81,6 @@ class DocumentContentAdmin(admin.ModelAdmin):
     list_display = ['document', 'order', 'comments', 'user', 'created']
 
 
-class StatementAdmin(admin.ModelAdmin):
-    list_display = ['text_short', 'type', 'user', 'document', 'number']
-
-
 class ChangeProposalAdmin(admin.ModelAdmin):
     list_display = ['content_short', 'action', 'created', 'document', 'issue']
 
@@ -121,7 +117,6 @@ register(PolityRuleset)
 
 register(Document, NameSlugAdmin)
 register(DocumentContent, DocumentContentAdmin)
-register(Statement, StatementAdmin)
 register(ChangeProposal, ChangeProposalAdmin)
 
 register(Election)

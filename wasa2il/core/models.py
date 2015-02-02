@@ -461,25 +461,6 @@ class Vote(models.Model):
         return self.power() * self.value
 
 
-STATEMENT_TYPE = AttrDict({
-    'REFERENCE': 0,
-    'ASSUMPTION': 1,
-    'STATEMENT': 2,
-    'HEADER': 3,
-})
-
-STATEMENT_TYPE_CHOICES = tuple((v, k.title()) for k, v in STATEMENT_TYPE.items())
-
-CP_TYPE = AttrDict({
-    'DELETED': 1,
-    'MOVED': 2,
-    'CHANGED': 3,
-    'ADDED': 4,
-})
-
-CP_TYPE_CHOICES = tuple((v, k.title()) for k, v in CP_TYPE.items())
-
-
 class Document(NameSlugBase):
     polity = models.ForeignKey(Polity)
     issues = models.ManyToManyField(Issue) # Needed for core/management/commands/refactor.py, can be deleted afterward
@@ -495,26 +476,6 @@ class Document(NameSlugBase):
 
     def get_versions(self):
         return DocumentContent.objects.filter(document=self).order_by('order')
-
-    def get_references(self):
-        return self.statement_set.filter(type=STATEMENT_TYPE.REFERENCE)
-
-    def get_assumptions(self):
-        return self.statement_set.filter(type=STATEMENT_TYPE.ASSUMPTION)
-
-    def get_declarations(self):
-        return self.statement_set.filter(type__in=[STATEMENT_TYPE.STATEMENT, STATEMENT_TYPE.HEADER])
-        decs = list(self.statement_set.filter(type__in=[STATEMENT_TYPE.STATEMENT, STATEMENT_TYPE.HEADER]))
-        # Run over change proposals, if any
-        print list(ChangeProposal.objects.filter(document=self))
-        for cp in list(ChangeProposal.objects.filter(document=self)):
-            if cp.actiontype == 4:
-                decs.insert(cp.destination, Statement(text=cp.content))
-        return decs
-
-    def support(self):
-        # % of support for the document in its polity.
-        return 100
 
     def get_contributors(self):
         return set([dc.user for dc in self.documentcontent_set.order_by('user__username')])
@@ -623,31 +584,6 @@ class DocumentContent(models.Model):
 
     def __unicode__(self):
         return "DocumentContent (ID: %d)" % self.id
-
-
-class Statement(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    document = models.ForeignKey(Document)
-    type = models.IntegerField(choices=STATEMENT_TYPE_CHOICES)
-    number = models.IntegerField()
-    text = models.TextField(blank=True)  # TODO: Blank for now, make mandatory when StatementOption removed
-
-    def __unicode__(self):
-        if self.text is None:
-            self.text = '. '.join(s.text for s in StatementOption.objects.filter(statement=self))
-            self.save()
-        return self.text
-
-    def text_short(self):
-        return trim(self.text, 30)
-
-
-# NOTA BENE: Will be deprecated soon. Text is automagically compied to the statement
-# when stringified in the future
-class StatementOption(models.Model):
-    statement = models.ForeignKey(Statement)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    text = models.TextField()
 
 
 class ChangeProposal(getCreationBase('change_proposal')):
