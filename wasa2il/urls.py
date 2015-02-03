@@ -9,8 +9,6 @@ from core.authentication import PiratePartyMemberAuthenticationForm
 
 from django.contrib import admin
 
-RSK_URL = 'https://www.island.is/audkenning?id=piratar.is'
-
 login_url_params = {}
 if 'core.authentication.PiratePartyMemberAuthenticationBackend' in settings.AUTHENTICATION_BACKENDS:
     login_url_params = { 'authentication_form': PiratePartyMemberAuthenticationForm }
@@ -32,7 +30,6 @@ urlpatterns = patterns('',
 
     (r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
     (r'^accounts/settings/', 'core.views.view_settings'),
-    # (r'^accounts/register/', lambda r: redirect(RSK_URL)),
     # (r'^accounts/login/', 'django.contrib.auth.views.login', login_url_params),
     (r'^accounts/login/', 'core.views.login', login_url_params),
     (r'^accounts/verify/', 'core.views.verify'),
