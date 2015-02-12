@@ -10,6 +10,6 @@
         </td>
         <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
         <td>{{ election.candidate_set.count }}</td>
-        <td>{{ election.get_votes.count }}</td>
+        <td>{{ election.get_vote_count }}</td>
     </tr>
 {% endfor %}

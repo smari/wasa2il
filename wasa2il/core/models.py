@@ -13,6 +13,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
 
+import schulze
+
 nullblank = {'null': True, 'blank': True}
 
 
@@ -657,8 +659,64 @@ class Election(NameSlugBase):
     # Sometimes elections may depend on a user having been the organization's member for an X amount of time
     # This optional field lets the vote counter disregard members who are too new.
     deadline_joined_org = models.DateTimeField(null=True, blank=True, verbose_name=_('Membership deadline'))
+    is_processed = models.BooleanField(default=False)
 
     instructions = models.TextField(null=True, blank=True, verbose_name=_('Instructions'))
+
+    # An election can only be processed once, since votes are deleted during the process
+    class AlreadyProcessedException(Exception):
+        def __init__(self, message):
+            super(Election.AlreadyProcessedException, self).__init__(message)
+
+    def process(self):
+        if self.electionvote_set.count() == 0:
+            raise Election.AlreadyProcessedException('Cannot process election %s (no ElectionVote found)' % self)
+
+        ordered_candidates = self.get_ordered_candidates_from_votes()
+        vote_count = self.electionvote_set.values('user').distinct().count()
+
+        try:
+            election_result = ElectionResult.objects.get(election=self)
+        except ElectionResult.DoesNotExist:
+            election_result = ElectionResult.objects.create(election=self, vote_count=vote_count)
+
+        election_result.rows.all().delete()
+        order = 0
+        for candidate in ordered_candidates:
+            order = order + 1
+            election_result_row = ElectionResultRow()
+            election_result_row.election_result = election_result
+            election_result_row.candidate = candidate
+            election_result_row.order = order
+            election_result_row.save()
+
+        self.electionvote_set.all().delete()
+
+        self.is_processed = True
+        self.save()
+
+    def get_ordered_candidates_from_votes(self):
+        if self.deadline_joined_org:
+            votes = ElectionVote.objects.select_related('candidate__user').filter(election=self, user__userprofile__joined_org__lt = self.deadline_joined_org)
+        else:
+            votes = ElectionVote.objects.select_related('candidate__user').filter(election=self)
+        candidates = Candidate.objects.select_related('user').filter(election=self)
+        votemap = {}
+        for vote in votes:
+            if not votemap.has_key(vote.user_id):
+                votemap[vote.user_id] = []
+
+            votemap[vote.user_id].append(vote)
+
+        manger = []
+        for user_id in votemap:
+            manger.append([(v.value, v.candidate) for v in votemap[user_id]])
+
+        preference = schulze.rank_votes(manger, candidates)
+        strongest_paths = schulze.compute_strongest_paths(preference, candidates)
+
+        ordered_candidates = schulze.get_ordered_voting_results(strongest_paths)
+        return ordered_candidates
 
     def export_openstv_ballot(self):
         return ""
@@ -706,10 +764,11 @@ class Election(NameSlugBase):
 
         return candidates
 
-    def get_votes(self):
-        ctx = {}
-        ctx["count"] = self.electionvote_set.values("user").distinct().count()
-        return ctx
+    def get_vote_count(self):
+        if self.is_processed:
+            return self.result.vote_count
+        else:
+            return self.electionvote_set.values("user").distinct().count()
 
     def get_vote(self, user):
         votes = []
@@ -745,3 +804,17 @@ class ElectionVote(models.Model):
 
     def __unicode__(self):
         return u'In %s, user %s voted for %s for seat %d' % (self.election, self.user, self.candidate, self.value)
+
+
+class ElectionResult(models.Model):
+    election = models.OneToOneField('Election', related_name='result')
+    vote_count = models.IntegerField()
+
+
+class ElectionResultRow(models.Model):
+    election_result = models.ForeignKey('ElectionResult', related_name='rows')
+    candidate = models.ForeignKey('Candidate')
+    order = models.IntegerField()
+
+    class Meta:
+        ordering = ['order']

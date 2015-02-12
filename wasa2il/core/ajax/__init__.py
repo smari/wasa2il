@@ -26,7 +26,7 @@ def election_poll(request):
     ctx["election"] = {}
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
     ctx["election"]["is_voting"] = election.is_voting()
-    ctx["election"]["votes"] = election.get_votes()
+    ctx["election"]["votes"] = election.get_vote_count()
     ctx["election"]["candidates"] = election.get_candidates()
     context = {"user_is_member": user_is_member, "election": election, "candidates": election.get_unchosen_candidates(request.user), "candidate_selected": False}
     ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", context)

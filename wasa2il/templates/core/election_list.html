@@ -24,7 +24,7 @@
                 <td><a href="/polity/{{ polity.id }}/election/{{ election.id }}/">{{ election.name }}</a></td>
                 <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
                 <td>{{ election.candidate_count }}</td>
-                <td>{{ election.get_votes.count }}</td>
+                <td>{{ election.get_vote_count }}</td>
                 <td class="date">{{ election.deadline_candidacy }}</td>
                 <td class="date">{{ election.deadline_votes }}</td>
             </tr>

@@ -567,33 +567,21 @@ class ElectionDetailView(DetailView):
         # Single variable for template to check which controls to enable
         voting_interface_enabled = self.get_object().polity.is_member(self.request.user) and self.get_object().is_voting
 
-        if self.get_object().deadline_joined_org:
-            votes = ElectionVote.objects.select_related('candidate__user').filter(election=self.get_object(), user__userprofile__joined_org__lt = self.get_object().deadline_joined_org)
+        if self.get_object().is_processed:
+            election_result = self.get_object().result
+            ordered_candidates = [r.candidate for r in election_result.rows.order_by('order')]
+            vote_count = election_result.vote_count
         else:
-            votes = ElectionVote.objects.select_related('candidate__user').filter(election=self.get_object())
-        candidates = Candidate.objects.select_related('user').filter(election=self.get_object())
-        votemap = {}
-        for vote in votes:
-            if not votemap.has_key(vote.user_id):
-                votemap[vote.user_id] = []
-
-            votemap[vote.user_id].append(vote)
-
-        manger = []
-        for user_id in votemap:
-            manger.append([(v.value, v.candidate) for v in votemap[user_id]])
-
-        preference = schulze.rank_votes(manger, candidates)
-        strongest_paths = schulze.compute_strongest_paths(preference, candidates)
-
-        election_results = schulze.get_ordered_voting_results(strongest_paths)
+            ordered_candidates = self.get_object().get_ordered_candidates_from_votes()
+            vote_count = self.get_object().get_vote_count
 
         context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
         context_data.update(
             {
                 'polity': self.polity,
                 "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
-                'election_results': election_results,
+                'ordered_candidates': ordered_candidates,
+                'vote_count': vote_count,
                 'voting_interface_enabled': voting_interface_enabled,
                 'user_is_member': self.request.user in self.polity.members.all()
             }

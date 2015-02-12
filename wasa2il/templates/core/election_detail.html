@@ -23,7 +23,7 @@
         <table class="table table-compact">
             <tr><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
             <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
-            <tr><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_votes.count }}</td></tr>
+            <tr><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}</td></tr>
             <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}</td></tr>
             <tr><th>{% trans "Voting system" %}:</th><td>{{ election.votingsystem.name }}</td></tr>
         </table>
@@ -47,7 +47,7 @@
             <h2>{% trans 'Election results' %}</h2>
             <div id="election_candidates_winners" style="margin-top: 1em;">
                 <ol class="candidates" id="candidates_winners">
-                {% for candidate in election_results %}
+                {% for candidate in ordered_candidates %}
                     <li data-seqid="{{ candidate.id }}">
                         <div style="position: relative;">
                             <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
