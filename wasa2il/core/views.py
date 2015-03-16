@@ -20,6 +20,7 @@ from django.conf import settings
 # BEGIN - Copied from django.contrib.auth.views to accommodate the login() function
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import resolve_url
