@@ -39,7 +39,7 @@ class PolityForm(ModelForm):
 class ElectionForm(ModelForm):
     class Meta:
         model = Election
-        exclude = ('polity', 'slug')
+        exclude = ('polity', 'slug', 'is_processed')
 
 
 class UserProfileForm(ModelForm):
