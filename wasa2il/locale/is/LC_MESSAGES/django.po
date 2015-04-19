@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-23 11:34+0000\n"
+"POT-Creation-Date: 2015-04-19 19:13+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -22,7 +22,7 @@ msgstr "Netfang"
 msgid "Password"
 msgstr "Change proposals"
 
-#: core/base_classes.py:9 core/models.py:40
+#: core/base_classes.py:9 core/models.py:42
 #: templates/forum/forum_detail.html:18
 msgid "Name"
 msgstr "Nafn"
@@ -35,36 +35,36 @@ msgstr "Netfangið sem þú vilt nota á vefnum."
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/models.py:26
+#: core/models.py:28
 msgid "Description"
 msgstr "Lýsing"
 
-#: core/models.py:40
+#: core/models.py:42
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:41
+#: core/models.py:43
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:41
+#: core/models.py:43
 #, fuzzy
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:42
+#: core/models.py:44
 msgid "Bio"
 msgstr "Saga"
 
-#: core/models.py:43
+#: core/models.py:45
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:47
+#: core/models.py:49
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:48
+#: core/models.py:50
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr ""
 
@@ -160,46 +160,46 @@ msgstr "Málefni"
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:389 templates/profile.html:50
-#: templates/core/polity_list.html:16
+#: core/models.py:389 templates/core/polity_list.html:16
+#: templates/profile.html:50
 msgid "Polity"
 msgstr "Þing"
 
-#: core/models.py:564
+#: core/models.py:526
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:565 templates/core/issue_detail.html:53
+#: core/models.py:527 templates/core/issue_detail.html:53
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:566 templates/core/issue_detail.html:53
+#: core/models.py:528 templates/core/issue_detail.html:53
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: core/models.py:567
+#: core/models.py:529
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:719 templates/core/election_detail.html:28
+#: core/models.py:656 templates/core/election_detail.html:28
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:720 templates/core/election_detail.html:24
+#: core/models.py:657 templates/core/election_detail.html:24
 #: templates/core/election_list.html:19
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:721 templates/core/election_detail.html:25
+#: core/models.py:658 templates/core/election_detail.html:25
 #: templates/core/election_list.html:20 templates/core/issue_detail.html:40
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:725
+#: core/models.py:662
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:727 templates/base.html:114
+#: core/models.py:665 templates/base.html:114
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -239,11 +239,11 @@ msgstr "Ef ekki, vinsamlegast sendið okkur póst á netfangið"
 msgid "wassa2il"
 msgstr "wasa2il"
 
-#: templates/base.html:85 templates/notLoginInHome.html:47
-#: templates/help/is/agreement.html:6 templates/help/is/authors.html:6
-#: templates/help/is/copyright.html:6 templates/help/is/index.html:6
-#: templates/help/is/polity.html:6 templates/help/is/proposal.html:6
-#: templates/help/is/wasa2il.html:6
+#: templates/base.html:85 templates/help/is/agreement.html:6
+#: templates/help/is/authors.html:6 templates/help/is/copyright.html:6
+#: templates/help/is/index.html:6 templates/help/is/polity.html:6
+#: templates/help/is/proposal.html:6 templates/help/is/wasa2il.html:6
+#: templates/notLoginInHome.html:47
 msgid "Help"
 msgstr "Hjálp"
 
@@ -287,76 +287,6 @@ msgstr "Notandaleyfi"
 #: templates/base.html:115 templates/help/is/authors.html:6
 msgid "Authors"
 msgstr "Höfundar"
-
-#: templates/entry.html:12
-msgid "In order to use Wasa2il you need to register an account."
-msgstr "Til að nota Wasa2il þarftu að skrá notandaaðgang."
-
-#: templates/entry.html:18
-msgid "If you log in, you can participate in your polities."
-msgstr "Ef þú skráir þig inn þá getur þú tekið þátt í þínum þingum."
-
-#: templates/entry.html:23 templates/notLoginInHome.html:33
-msgid "Browse Polities"
-msgstr "Skoða þing"
-
-#: templates/entry.html:24
-msgid "You can browse publicly visible polities without registering."
-msgstr "Þú getur skoðað þing, sem eru opin öllum án þess að skrá þig inn."
-
-#: templates/notLoginInHome.html:23
-msgid "Start a Policy"
-msgstr "Ný stefna"
-
-#: templates/notLoginInHome.html:49
-msgid "Join Code"
-msgstr "Kóða"
-
-#: templates/notLoginInHome.html:51
-msgid "Free Software"
-msgstr "Frír hugbúnaður"
-
-#: templates/profile.html:19
-msgid "Summary"
-msgstr "Yfirlit"
-
-#: templates/profile.html:32
-msgid "This user hasn't provided a biography."
-msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
-
-#: templates/profile.html:61 templates/core/stub/document_view.html:93
-#: templates/core/stub/document_view.html:95
-msgid "Version"
-msgstr "Útgáfa"
-
-#: templates/profile.html:69
-msgid "is not viewable by non-members."
-msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
-
-#: templates/settings.html:8
-#: templates/registration/password_change_done.html:5
-#: templates/registration/password_change_form.html:5
-#, fuzzy
-msgid "Change password"
-msgstr "Change proposals"
-
-#: templates/settings.html:9
-msgid "Settings"
-msgstr "Stillingar"
-
-#: templates/settings.html:10
-msgid "You are signed in as"
-msgstr "Þú ert innskráð/ur sem"
-
-#: templates/settings.html:19 templates/core/document_form.html:29
-#: templates/core/document_update.html:121
-#: templates/core/election_form.html:37 templates/core/issue_form.html:32
-#: templates/core/polity_form.html:24 templates/core/topic_form.html:25
-#: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
-#: templates/registration/password_change_form.html:11
-#: templates/registration/password_reset_confirm.html:14
-msgid "Save"
-msgstr "Vista"
 
 #: templates/core/_delegations_table.html:4
 msgid "Type"
@@ -479,20 +409,20 @@ msgstr "Framlagðar tillögur"
 msgid "Adopted documents"
 msgstr "Samþykkt skjöl"
 
-#: templates/core/_election_candidate_list.html:16
+#: templates/core/_election_candidate_list.html:13
 msgid "Remove"
 msgstr ""
 
-#: templates/core/_election_candidate_list.html:20
+#: templates/core/_election_candidate_list.html:17
 #: templates/core/issue_detail.html:64
 msgid "Vote"
 msgstr "Kjósa"
 
-#: templates/core/_election_candidate_list.html:28
+#: templates/core/_election_candidate_list.html:25
 msgid "Drag candidates here."
 msgstr "Dragðu frambjóðendur hingað."
 
-#: templates/core/_election_candidate_list.html:30
+#: templates/core/_election_candidate_list.html:27
 msgid "There are no candidates standing in this election yet!"
 msgstr "Það eru engir frambjóðendur í þessari kosningu ennþá!"
 
@@ -612,6 +542,17 @@ msgstr "Nýtt skjal"
 msgid "In polity:"
 msgstr "Í þingi:"
 
+#: templates/core/document_form.html:29
+#: templates/core/document_update.html:121
+#: templates/core/election_form.html:37 templates/core/issue_form.html:32
+#: templates/core/polity_form.html:24 templates/core/topic_form.html:25
+#: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
+#: templates/registration/password_change_form.html:11
+#: templates/registration/password_reset_confirm.html:14
+#: templates/settings.html:19
+msgid "Save"
+msgstr "Vista"
+
 #: templates/core/document_list.html:7 templates/core/polity_detail.html:83
 msgid "New document"
 msgstr "Nýtt skjal"
@@ -679,6 +620,10 @@ msgstr "Ástand"
 #: templates/core/document_update.html:182
 msgid "Author"
 msgstr "Höfundur"
+
+#: templates/core/document_update.html:201
+msgid "New draft"
+msgstr "Ný drög"
 
 #: templates/core/election_detail.html:9
 msgid "Election:"
@@ -978,6 +923,53 @@ msgstr "Nýtt þing"
 msgid "Polities"
 msgstr "Þing"
 
+#: templates/core/stub/document_view.html:14
+#: templates/core/stub/document_view.html:85
+msgid "Comparison"
+msgstr "Samanburður"
+
+#: templates/core/stub/document_view.html:15
+msgid "Comparison in progress..."
+msgstr "Samanburður í vinnslu..."
+
+#: templates/core/stub/document_view.html:84
+msgid "Text"
+msgstr ""
+
+#: templates/core/stub/document_view.html:89
+msgid "Compared to"
+msgstr "Samanborið við"
+
+#: templates/core/stub/document_view.html:93
+#: templates/core/stub/document_view.html:95 templates/profile.html:61
+msgid "Version"
+msgstr "Útgáfa"
+
+#: templates/core/stub/document_view.html:93
+#: templates/core/stub/document_view.html:95
+msgid "predecessor"
+msgstr "fyrirrennari"
+
+#: templates/core/stub/documentcontent_status.html:9
+msgid "This proposal has been accepted by vote."
+msgstr "Tillaga þessi hefur verið samþykkt með atkvæðagreiðslu."
+
+#: templates/core/stub/documentcontent_status.html:11
+msgid ""
+"This content is still merely a proposal and has not yet been accepted by "
+"vote."
+msgstr ""
+"Enn er þetta einungis tillaga sem hefur ekki verið samþykkt með "
+"atkvæðagreiðslu."
+
+#: templates/core/stub/documentcontent_status.html:13
+msgid "This proposal has been rejected by vote."
+msgstr "Tillögu þessari hefur verið hafnað með atkvæðagreiðslu."
+
+#: templates/core/stub/documentcontent_status.html:15
+msgid "This proposal is deprecated. A newer version has taken effect."
+msgstr "Þessi tillaga er úreld. Nýrri útgáfa hefur tekið gildi."
+
 #: templates/core/topic_detail.html:17
 msgid "This topic is delegated."
 msgstr "This topic is delegated."
@@ -1010,47 +1002,21 @@ msgstr "í"
 msgid "Followers of this topic"
 msgstr "Fylgjendur þessa málaflokks"
 
-#: templates/core/stub/document_view.html:14
-#: templates/core/stub/document_view.html:85
-msgid "Comparison"
-msgstr "Samanburður"
+#: templates/entry.html:12
+msgid "In order to use Wasa2il you need to register an account."
+msgstr "Til að nota Wasa2il þarftu að skrá notandaaðgang."
 
-#: templates/core/stub/document_view.html:15
-msgid "Comparison in progress..."
-msgstr "Samanburður í vinnslu..."
+#: templates/entry.html:18
+msgid "If you log in, you can participate in your polities."
+msgstr "Ef þú skráir þig inn þá getur þú tekið þátt í þínum þingum."
 
-#: templates/core/stub/document_view.html:84
-msgid "Text"
-msgstr ""
+#: templates/entry.html:23 templates/notLoginInHome.html:33
+msgid "Browse Polities"
+msgstr "Skoða þing"
 
-#: templates/core/stub/document_view.html:89
-msgid "Compared to"
-msgstr "Samanborið við"
-
-#: templates/core/stub/document_view.html:93
-#: templates/core/stub/document_view.html:95
-msgid "predecessor"
-msgstr "fyrirrennari"
-
-#: templates/core/stub/documentcontent_status.html:9
-msgid "This proposal has been accepted by vote."
-msgstr "Tillaga þessi hefur verið samþykkt með atkvæðagreiðslu."
-
-#: templates/core/stub/documentcontent_status.html:11
-msgid ""
-"This content is still merely a proposal and has not yet been accepted by "
-"vote."
-msgstr ""
-"Enn er þetta einungis tillaga sem hefur ekki verið samþykkt með "
-"atkvæðagreiðslu."
-
-#: templates/core/stub/documentcontent_status.html:13
-msgid "This proposal has been rejected by vote."
-msgstr "Tillögu þessari hefur verið hafnað með atkvæðagreiðslu."
-
-#: templates/core/stub/documentcontent_status.html:15
-msgid "This proposal is deprecated. A newer version has taken effect."
-msgstr "Þessi tillaga er úreld. Nýrri útgáfa hefur tekið gildi."
+#: templates/entry.html:24
+msgid "You can browse publicly visible polities without registering."
+msgstr "Þú getur skoðað þing, sem eru opin öllum án þess að skrá þig inn."
 
 #: templates/forum/discussion_detail.html:7
 #, fuzzy
@@ -1970,6 +1936,30 @@ msgstr ""
 "for all we care.\n"
 "<p>\n"
 
+#: templates/notLoginInHome.html:23
+msgid "Start a Policy"
+msgstr "Ný stefna"
+
+#: templates/notLoginInHome.html:49
+msgid "Join Code"
+msgstr "Kóða"
+
+#: templates/notLoginInHome.html:51
+msgid "Free Software"
+msgstr "Frír hugbúnaður"
+
+#: templates/profile.html:19
+msgid "Summary"
+msgstr "Yfirlit"
+
+#: templates/profile.html:32
+msgid "This user hasn't provided a biography."
+msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
+
+#: templates/profile.html:69
+msgid "is not viewable by non-members."
+msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
+
 #: templates/registration/activate.html:5
 msgid "Welcome to Wasa2il!"
 msgstr "Velkominn í Wasa2il!"
@@ -2097,6 +2087,13 @@ msgstr ""
 msgid "We hope you'll be back soon. It'd be fun!"
 msgstr "Við vonum að þú komir fljótt aftur! Það væri gaman!"
 
+#: templates/registration/password_change_done.html:5
+#: templates/registration/password_change_form.html:5
+#: templates/settings.html:8
+#, fuzzy
+msgid "Change password"
+msgstr "Change proposals"
+
 #: templates/registration/password_change_done.html:7
 msgid "Password changed"
 msgstr "Lykilorði breytt"
@@ -2118,7 +2115,9 @@ msgstr ""
 #: templates/registration/password_reset_email.html:2
 #, python-format
 msgid "Someone (probably you) requested a password reset at %(site_name)s."
-msgstr "Einhver (sennilega þú) bað um endurstillingu lykilorðs á vefsetrinu %(site_name)s."
+msgstr ""
+"Einhver (sennilega þú) bað um endurstillingu lykilorðs á vefsetrinu "
+"%(site_name)s."
 
 #: templates/registration/password_reset_email.html:4
 msgid ""
@@ -2127,7 +2126,8 @@ msgstr "Ef þú kannast ekki við slíka beiðnu skaltu hunsa þessi skilaboð."
 
 #: templates/registration/password_reset_email.html:6
 msgid "To reset your password, please click the following link:"
-msgstr "Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil:"
+msgstr ""
+"Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil:"
 
 #: templates/registration/password_reset_form.html:10
 msgid "Send password"
@@ -2207,6 +2207,14 @@ msgstr "Vinsamlegast veljið einn eftirfarandi valmöguleika"
 #: templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
+
+#: templates/settings.html:9
+msgid "Settings"
+msgstr "Stillingar"
+
+#: templates/settings.html:10
+msgid "You are signed in as"
+msgstr "Þú ert innskráð/ur sem"
 
 #~ msgid "Account created"
 #~ msgstr "Aðgangur skráður"
@@ -2625,9 +2633,6 @@ msgstr "Staðfesta auðkenni"
 
 #~ msgid "Organized by"
 #~ msgstr "Skipulagt af"
-
-#~ msgid "New delegation"
-#~ msgstr "Ný framvísun"
 
 #~ msgid "Delegations"
 #~ msgstr "Framvísanir"
