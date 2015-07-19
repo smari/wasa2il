@@ -69,23 +69,8 @@ issue indefinitely opponents could gang up to game the system and eliminate the
 possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
 should support the creation of that.]
 
-# Roadmap
-
- * 
-
 # Installation
 
-1. Create a virtualenv (we use the virtualenvwrapper in our demo below).
-2. Install the python requirements.
-3. Initialize submodules.
-4. Copy the `local_settings.py` example and edit it accordingly with your
-   favorite code editor.
-5. Run the server!
+For Debian, see instructions: INSTALL.Debian.txt
 
-```
-mkvirtualenvwrapper wasa2il
-pip install -r requirements.txt
-git submodule update --init
-cp local_settings.py-example local_settings.py
-python manage.py runserver
 ```
