@@ -198,7 +198,7 @@
             {% if editor_enabled %}
                 <tr class="current">
                     <td>-</td>
-                    <td><strong>New</strong></td>
+                    <td><strong>{% trans 'New draft' %}</strong></td>
                     <td><a href="/accounts/profile/{{ request.user }}"> {{ user.get_full_name|default:user.username }}</a></td>
                     <td>-</td>
                 </tr>
