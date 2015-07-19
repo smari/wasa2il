@@ -73,4 +73,6 @@ should support the creation of that.]
 
 For Debian, see instructions: INSTALL.Debian.txt
 
+But in general, just run python initial_setup.py and you will be all set.
+
 ```
