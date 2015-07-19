@@ -51,7 +51,7 @@ for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
     if line.startswith(secretKeyLine):
         print 'SECRET_KEY = \'', get_secret_key(), '\''
     else:
-        print line
+        print line.strip()
 
 print "Creating the database for use"
 print "-" * 40
