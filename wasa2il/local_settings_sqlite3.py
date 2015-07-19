@@ -45,7 +45,7 @@ DATABASE_USER = ''
 DATABASE_PASSWORD = ''
 
 # Put in a random sequence of characters, like '2gj129ka0a3j4f4k1jdrg3igah73hgFQOWUBVwq68fFFQg2' - but make your own
-SECRET_KEY = '43oihgreinvnfdav98da9h'
+SECRET_KEY = ''
 
 #EMAIL_HOST = ''
 #EMAIL_PORT = ''
@@ -54,9 +54,9 @@ SECRET_KEY = '43oihgreinvnfdav98da9h'
 #EMAIL_USE_TLS = True
 
 # This must be defined for error messages to get sent when DEBUG = False
-SERVER_EMAIL = 'kjwise@gmail.com'
+SERVER_EMAIL = 'wasa2il@example.com'
 
 # The individuals listed here will receive error messages when DEBUG = False
 ADMINS = (
-    ('kjwise', 'kjwise@gmail.com'),
+    ('username', 'user@example.com'),
 )
