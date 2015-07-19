@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 __author__ = 'johann'
 
+import os
 import subprocess
 import fileinput
 import shutil
@@ -38,7 +40,7 @@ print "*" * 40
 
 print "Ensure everything is installed and updated"
 print "-" * 40
-subprocess.call("pip install --upgrade -r requirements.txt")
+subprocess.call(["pip", "install", "--upgrade", "-r", "requirements.txt"])
 
 print "Create local settings"
 print "-" * 40
@@ -55,7 +57,7 @@ for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
 
 print "Creating the database for use"
 print "-" * 40
-subprocess.call('python wasa2il\manage.py migrate')
+subprocess.call(['python', os.path.join(os.getcwd(), 'wasa2il', 'manage.py'), 'migrate'])
 
 print "Move the test file to it's proper location"
 print "-" * 40
