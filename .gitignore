@@ -8,3 +8,5 @@ include
 lib/python2.7
 local
 share
+.idea
+wasa2il/test
