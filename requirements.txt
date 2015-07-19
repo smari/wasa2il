@@ -2,7 +2,7 @@ pillow
 Django
 django-registration-redux
 django-bootstrap-form
-MySQL-python
+pymysql
 lxml
 suds
 markdown2
