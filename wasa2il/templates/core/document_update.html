@@ -58,7 +58,7 @@
 
             $('.document #propose-change #btn-preview').click(function(e) {
                 input_text = $('#legal-text-editor').val();
-                $.get(
+                $.post(
                     '/api/document/render-markdown/',
                     {
                         text: $('#legal-text-editor').val()
