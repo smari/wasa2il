@@ -617,7 +617,7 @@ def election_ballots(request, pk=None):
     election = get_object_or_404(Election, pk=pk)
     if election.is_closed():
         ctx["ballotbox"] = election.get_ballots()
-        return render_to_response("core/election_ballots.txt", ctx, mimetype="text/plain", context_instance=RequestContext(request))
+        return render_to_response("core/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
     else:
         raise PermissionDenied
 
