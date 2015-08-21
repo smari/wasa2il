@@ -10,6 +10,10 @@
 .ui-timepicker-rtl dl { text-align: right; }
 .ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
 
+.search-form {
+	margin-top: 5px;
+}
+
 .img-negpad {
 	margin-top:	-5px;
 	margin-bottom:	-5px;
