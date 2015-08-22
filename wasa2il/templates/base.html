@@ -9,109 +9,98 @@
     <meta name="description" content="wassa2il">
     <meta name="author" content="wassa2il">
 
-    <link href="/static/css/bootstrap.css" rel="stylesheet"/>
-    <style type="text/css">
-    	body {
-    		padding-top: 100px;
-    		padding-bottom: 40px;
-    	}
-    	.navbar-inner {
-    		background-color: #FAFAFA;
-    		background-image: url("/static/img/header-bg.png");
-    		background-repeat: repeat-x;
-    		vertical-align: center;
-    	}
-    	.navbar .brand {
-    		margin: 0px;
-    		padding: 0px;
-    		color: #fff;
-    	}
-    	.navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a {
-    		color: #fff;
-    	}
-    	.navbar .nav > li > a:hover {
-    		color: #eee;
-    	}
-  	</style>
-    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet"/>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
     <link href="/static/jquery-ui-1.9.2.custom/css/ui-lightness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet"/>
     <link href="/static/css/application.css" rel="stylesheet" />
+    <style type="text/css">
+      body {
+        padding-top: 80px;
+        padding-bottom: 40px;
+      }
+      .navbar {
+        background-color: #FAFAFA;
+        background-image: url("/static/img/header-bg.png");
+        background-repeat: repeat-x;
+        vertical-align: center;
+        height: 75px;
+      }
+      .navbar .navbar-brand {
+        margin: 0px;
+        padding: 0px;
+        color: #fff;
+      }
+      .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a {
+        color: #fff;
+      }
+      .navbar .nav > li > a:hover {
+        color: #eee;
+      }
+    </style>
 
     <link rel="shortcut icon" href="/static/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
   </head>
-
   <body>
-
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a class="brand" href="/polities/"><img src="/static/img/pplogo.png"/><strong style="color: #f00;">BETA</strong></a>
-	{% comment %}
-    {% if polity %}<a class="brand" href="/polity/{{polity.id}}/">{{polity}}</a>
-    	{% if topic %}<a class="brand" href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic}}</a>
-        {% if issue %}<a class="brand" href="/polity/{{polity.id}}/">{{issue}}</a>{% endif %}
-      {% endif %}
-     {% endif %}
-	{% endcomment %}
-        <div class="nav-collapse">
-          <ul class="nav">
-	{% if polity %}
-	{% endif %}
-          </ul>
-          <ul class="nav pull-right">
-	{% if user.is_authenticated %}
-            <li>
-              <form class="search-form" role="search">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="{% trans 'Search agreements' %}" name="search-box" id="search-box">
-                  <div class="input-group-btn">
-                      <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                  </div>
-                </div>
-              </form>
-            </li>
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/polities/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
             <li><a href="/help/instructions/">{% trans "Help" %}</a></li>
-	    <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }}<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="/accounts/profile/"><i class="icon-user"></i> {% trans "My profile" %}</a></li>
-            <li><a href="/accounts/settings/"><i class="icon-wrench"></i> {% trans "My settings" %}</a></li>
-            <li><a href="/accounts/logout/"><i class="icon-off"></i> {% trans "Logout" %}</a></li>
-          </ul>
-        </li>
-	{% else %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }}<span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/accounts/profile/"><span class="glyphicon glyphicon-user"></span> {% trans "My profile" %}</a></li>
+                <li><a href="/accounts/settings/"><span class="glyphicon glyphicon-wrench"></span> {% trans "My settings" %}</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/accounts/logout/"><span class="glyphicon glyphicon-off"></span> {% trans "Logout" %}</a></li>
+              </ul>
+            </li>
+            {% else %}
             <li><a href="/accounts/login/">{% trans "Log in" %}</a></li>
             <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
-	{% endif %}
+            {% endif %}
           </ul>
-        </div>
-      </div>
-    </div>
-    </div>
-
+           <form class="navbar-form navbar-right">
+            <div class="form-group" style="display:inline;">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+              </div>
+            </div>
+          </form>
+          
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    
     <div class="container">
-{% block content %}
-
-{% endblock %}
-
+    {% block content %}{% endblock %}
       <footer class="footer">
-	<hr/>
+        <hr/>
         <p class="pull-right"><a href="#">{% trans "Back to top" %}</a></p>
         <a href="/help/wasa2il/">{% trans "About wasa2il" %}</a> ·
         <a href="/help/copyright/">{% trans "License" %}</a> ·
         <a href="/help/instructions/">{% trans "Instructions" %}</a> ·
         <a href="/help/authors/">{% trans "Authors" %}</a>
       </footer>
-
     </div>
 
     {% block javascript %}
@@ -122,7 +111,7 @@
     <script src="/static/js/jquery-1.9.1.min.js"></script>
     <script src="/static/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
     <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
-    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.js"></script>
     <script src="/static/js/wasa2il.js"></script>
     {% endblock %}
   </body>

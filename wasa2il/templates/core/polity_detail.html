@@ -43,16 +43,16 @@
 
 <div class="row">
 
-    <div class="span6 pull-left"><a name="newissues"></a>
-        <div class="btn-group" style="float: right">
+    <div class="col-md-6 col-xs-12"><a name="newissues"></a>
+        <div class="btn-group" role="group" style="float: right">
             {% if user_is_member %}
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
             <a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
             {% endif %}
             {% endif %}
-            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a id="elections_showclosed_toggle" onclick="elections_showclosed_toggle({{ polity.id }});"><i class="icon-ok icon-grey"></i> {% trans "Show closed elections" %}</a></li>
+            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu" style="left: -50px;">
+                <li><a id="elections_showclosed_toggle" onclick="elections_showclosed_toggle({{ polity.id }});"><span class="glyphicon glyphicon-ok"></span> {% trans "Show closed elections" %}</a></li>
                 <li><a href="/polity/{{polity.id}}/election/">{% trans "Show all elections" %}</a></li>
             </ul>
         </div>
@@ -76,7 +76,7 @@
         </table>
     </div>
 
-    <div class="span6 pull-right"><a name="newissues"></a>
+    <div class="col-md-6 col-xs-12"><a name="newissues"></a>
 
         {% if user_is_member %}
         <div class="btn-group" style="float: right">
@@ -103,8 +103,8 @@
         {% for issue in newissues %}
             <tr>
                 <td>
-                    <i id="issuestar_{{ issue.id }}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
-                        title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></i>
+                    <span id="issuestar_{{ issue.id }}" class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
+                        title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></span>
                     <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
                 </td>
                 <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
@@ -118,15 +118,15 @@
 </div>
 <div class="row">
 
-    <div class="span6 pull-left"><a name="topics"></a>
+    <div class="col-md-6 col-xs-12"><a name="topics"></a>
         {% if user_is_member %}
         <div class="btn-group" style="float: right">
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
             <a class="btn btn-mini" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
             {% endif %}
-            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list"></i><span class="caret"></span></a>
-            <ul class="dropdown-menu" style="left: -150px;">
-                <li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});"><i class="icon-ok {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></i> {% trans "Show only starred topics" %}</a></li>
+            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu" style="left: -90px;">
+                <li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});"><span class="glyphicon glyphicon-ok {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></span> {% trans "Show only starred topics" %}</a></li>
             </ul>
         </div>
         {% endif %}
@@ -141,7 +141,7 @@
             <th>{% trans "Issues" %}</th>
             <th>{% trans "Open Issues" %}</th>
             <th>{% trans "Voting Issues" %}</th>
-            <th><i class="icon-star"></i></th>
+            <th><span class="glyphicon glyphicon-star"></span></th>
         </tr>
         </thead>
         <tbody>
@@ -152,7 +152,7 @@
         </table>
     </div>
 
-    <div class="span6 pull-right"><a name="documents"></a>
+    <div class="col-md-6 col-xs-12"><a name="documents"></a>
         {% if user_is_member %}
         <div class="btn-group" style="float: right">
             <a class="btn btn-mini" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
