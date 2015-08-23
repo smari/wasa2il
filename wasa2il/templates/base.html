@@ -11,7 +11,7 @@
 
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link href="/static/jquery-ui-1.9.2.custom/css/ui-lightness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet"/>
+    <link href="/static/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet"/>
     <link href="/static/css/application.css" rel="stylesheet" />
     <style type="text/css">
       body {
@@ -37,6 +37,19 @@
         color: #eee;
       }
     </style>
+
+    {% block javascript %}
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="/static/js/trans.js"></script>
+    <script src="/static/js/jquery-1.11.3.min.js"></script>
+    <script src="/static/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+    <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.js"></script>
+    <script src="/static/js/wasa2il.js"></script>
+    {% endblock %}
+
 
     <link rel="shortcut icon" href="/static/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
@@ -81,7 +94,7 @@
            <form class="navbar-form navbar-right">
             <div class="form-group" style="display:inline;">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="{% trans 'Search agreements' %}">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
               </div>
             </div>
@@ -90,7 +103,7 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
-    
+
     <div class="container">
     {% block content %}{% endblock %}
       <footer class="footer">
@@ -103,17 +116,6 @@
       </footer>
     </div>
 
-    {% block javascript %}
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <script src="/static/js/trans.js"></script>
-    <script src="/static/js/jquery-1.9.1.min.js"></script>
-    <script src="/static/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.js"></script>
-    <script src="/static/js/wasa2il.js"></script>
-    {% endblock %}
   </body>
 </html>
 

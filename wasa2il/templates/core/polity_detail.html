@@ -5,7 +5,7 @@
 
 <div style="float:right;" class="btn-group">
 {% if user_is_member and settings.ALLOW_LEAVE_POLITY %}
-  <a class="btn" onclick="$('#leave_polity').modal('show');">{% trans "Leave polity" %}</a>
+  <a class="btn btn-default" role="button" onclick="$('#leave_polity').modal('show');">{% trans "Leave polity" %}</a>
 {% endif %}
 </div>
 {% if user_is_member %}
@@ -47,10 +47,10 @@
         <div class="btn-group" role="group" style="float: right">
             {% if user_is_member %}
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-mini" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
+            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
             {% endif %}
             {% endif %}
-            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
             <ul class="dropdown-menu" style="left: -50px;">
                 <li><a id="elections_showclosed_toggle" onclick="elections_showclosed_toggle({{ polity.id }});"><span class="glyphicon glyphicon-ok"></span> {% trans "Show closed elections" %}</a></li>
                 <li><a href="/polity/{{polity.id}}/election/">{% trans "Show all elections" %}</a></li>
@@ -78,13 +78,13 @@
 
     <div class="col-md-6 col-xs-12"><a name="newissues"></a>
 
-        {% if user_is_member %}
+        <!-- {% if user_is_member %}
         <div class="btn-group" style="float: right">
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-mini" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a>
+             <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a> 
             {% endif %}
         </div>
-        {% endif %}
+        {% endif %}-->
 
         <h2>{% trans "New issues" %} <small>{% trans "in discussion"%}</small></h2>
 
@@ -122,9 +122,9 @@
         {% if user_is_member %}
         <div class="btn-group" style="float: right">
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-mini" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
+            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
             {% endif %}
-            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
             <ul class="dropdown-menu" style="left: -90px;">
                 <li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});"><span class="glyphicon glyphicon-ok {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></span> {% trans "Show only starred topics" %}</a></li>
             </ul>
@@ -155,7 +155,7 @@
     <div class="col-md-6 col-xs-12"><a name="documents"></a>
         {% if user_is_member %}
         <div class="btn-group" style="float: right">
-            <a class="btn btn-mini" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
+            <a class="btn btn-default btn-sm" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
         </div>
         {% endif %}
         <h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
@@ -201,7 +201,7 @@
 <div class="span6 pull-left"><a name="forums"></a>
     {% if user_is_member %}
     <div class="btn-group" style="float: right">
-        <a class="btn btn-mini" href="/polity/{{polity.id}}/forum/new/">{% trans "New forum" %}</a>
+        <a class="btn btn-sm btn-default" role="button" href="/polity/{{polity.id}}/forum/new/">{% trans "New forum" %}</a>
     </div>
     {% endif %}
     <h2>{% trans "Discussion Forums" %}</h2>
@@ -244,7 +244,7 @@
 
   </div>
   <div class="modal-footer">
-    <a onclick="$('#modal_subpolities').modal('hide');" class="btn btn-primary">{% trans "Close" %}</a>
+    <a onclick="$('#modal_subpolities').modal('hide');" role="button" class="btn btn-primary">{% trans "Close" %}</a>
   </div>
 </div>
 
@@ -261,8 +261,8 @@
     </p>
   </div>
   <div class="modal-footer">
-    <a href="#" onclick="$('#leave_polity').modal('hide');" class="btn">{% trans "No, I hit that button by accident" %}</a>
-    <a href="/polity/{{polity.id}}/leave/" class="btn btn-primary">{% trans "Yes, I want to leave this polity." %}</a>
+    <a href="#" onclick="$('#leave_polity').modal('hide');" role="button" class="btn btn-default">{% trans "No, I hit that button by accident" %}</a>
+    <a href="/polity/{{polity.id}}/leave/" role="button" class="btn btn-primary">{% trans "Yes, I want to leave this polity." %}</a>
   </div>
 </div>
 
