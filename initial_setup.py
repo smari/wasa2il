@@ -64,18 +64,39 @@ else:
         quit(1)
 
 
-print "Create local settings"
-print "-" * 40
-shutil.copy("wasa2il/local_settings.py-example", "wasa2il/local_settings.py")
+# Check if local_settings.py setup is needed
+setup_local_settings = False
+if os.path.exists('wasa2il/local_settings.py'):
+    if get_answer('Local settings (local_settings.py) already exist. Do you want to replace them? (yes/no): ') == 'yes':
+        setup_local_settings = True
+else:
+    setup_local_settings = True
 
-print "Generate random key and inject to local_settings.py"
-print "-" * 40
-secretKeyLine = "SECRET_KEY = ''"
-for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
-    if line.startswith(secretKeyLine):
-        print 'SECRET_KEY = \'', get_secret_key(), '\''
-    else:
-        print line.strip()
+# Setup local_settings.py if so requested
+if setup_local_settings:
+
+    # Create the file from local_settings.py-example
+    stdout.write('Creating local settings file (local_settings.py)...')
+    stdout.flush()
+    try:
+        shutil.copy('wasa2il/local_settings.py-example', 'wasa2il/local_settings.py')
+        stdout.write(' done\n')
+    except IOError as e:
+        stdout.write(' failed\n')
+        stderr.write('%s\n' % e.__str__())
+        quit(1)
+
+    # Generate and insert a random string for SECRET_KEY
+    stdout.write('- Setting SECRET_KEY to random string...')
+    stdout.flush()
+    secretKeyLine = "SECRET_KEY = ''"
+    for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
+        if line.startswith(secretKeyLine):
+            print 'SECRET_KEY = \'', get_secret_key(), '\''
+        else:
+            print line.strip()
+    stdout.write(' done\n')
+
 
 print "Creating the database for use"
 print "-" * 40
