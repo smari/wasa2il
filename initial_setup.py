@@ -64,17 +64,9 @@ else:
         quit(1)
 
 
-# Check if local_settings.py setup is needed
+# Check if local_settings.py exists and create it if it doesn't
 setup_local_settings = False
-if os.path.exists('wasa2il/local_settings.py'):
-    if get_answer('Local settings (local_settings.py) already exist. Do you want to replace them? (yes/no): ') == 'yes':
-        setup_local_settings = True
-else:
-    setup_local_settings = True
-
-# Setup local_settings.py if so requested
-if setup_local_settings:
-
+if not os.path.exists('wasa2il/local_settings.py'):
     # Create the file from local_settings.py-example
     stdout.write('Creating local settings file (local_settings.py)...')
     stdout.flush()
@@ -86,16 +78,34 @@ if setup_local_settings:
         stderr.write('%s\n' % e.__str__())
         quit(1)
 
-    # Generate and insert a random string for SECRET_KEY
-    stdout.write('- Setting SECRET_KEY to random string...')
-    stdout.flush()
-    secretKeyLine = "SECRET_KEY = ''"
-    for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
-        if line.startswith(secretKeyLine):
-            print 'SECRET_KEY = \'', get_secret_key(), '\''
-        else:
-            print line.strip()
-    stdout.write(' done\n')
+
+# Go through local_settings.py and fix settings if needed
+stdout.write('Checking local settings configuration:\n')
+local_settings_changed = False
+for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
+    if line.startswith("SECRET_KEY = ''"):
+        stdout.write('- Setting secret key to random string...')
+        stdout.flush()
+        print "SECRET_KEY = '%s'" % get_secret_key()
+        stdout.write(' done\n')
+        local_settings_changed = True
+    elif line.startswith("DATABASE_ENGINE = 'django.db.backends.'"):
+        stdout.write('- Configuring database engine (SQLite)...')
+        stdout.flush()
+        print "DATABASE_ENGINE = 'django.db.backends.sqlite3'"
+        stdout.write(' done\n')
+        local_settings_changed = True
+    elif line.startswith("DATABASE_NAME = ''"):
+        stdout.write('- Setting database name (wasa2il.sqlite)...')
+        stdout.flush()
+        print "DATABASE_NAME = 'wasa2il.sqlite'"
+        stdout.write(' done\n')
+        local_settings_changed = True
+    else:
+        print line.strip()
+
+if not local_settings_changed:
+    stdout.write('- No changes needed.\n')
 
 
 print "Creating the database for use"

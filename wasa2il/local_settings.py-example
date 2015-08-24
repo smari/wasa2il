@@ -37,10 +37,10 @@ LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
 
 AUTO_LOGOUT_DELAY = 30 # User is logged out after this many minutes. Comment to disable auto-logout.
 
-DATABASE_ENGINE = 'django.db.backends.sqlite3' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_ENGINE = 'django.db.backends.' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_HOST = ''
 DATABASE_PORT = ''
-DATABASE_NAME = 'wasa2il.sqlite'
+DATABASE_NAME = ''
 DATABASE_USER = ''
 DATABASE_PASSWORD = ''
 
