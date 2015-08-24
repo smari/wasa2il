@@ -125,13 +125,26 @@ if not local_settings_changed:
     stdout.write('- No changes needed.\n')
 
 
-print "Creating the database for use"
-print "-" * 40
-subprocess.call(['python', os.path.join(os.getcwd(), 'wasa2il', 'manage.py'), 'migrate'])
+# Change to Wasa2il's directory
+os.chdir('wasa2il')
 
-print "Move the test file to it's proper location"
-print "-" * 40
-shutil.move("wasa2il.sqlite", "wasa2il/wasa2il.sqlite")
+
+# Setup database if needed
+create_database = False
+if os.path.exists('wasa2il.sqlite'):
+    if get_answer('SQLite database already exists. Kill it and start over? (yes/no): ') == 'yes':
+        stdout.write('Deleting wasa2il.sqlite...')
+        stdout.flush()
+        os.remove('wasa2il.sqlite')
+        stdout.write(' done\n')
+        create_database = True
+else:
+    create_database = True
+
+if create_database:
+    stdout.write('Setting up database (via "migrate"):\n')
+    subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'migrate'])
+
 
 print "*" * 40
 print "Done, to run wasa2il, go to the wasa2il subfolder and type 'python manage.py runserver'"
