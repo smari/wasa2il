@@ -29,6 +29,8 @@ urlpatterns = patterns('',
 
     (r'^polity/(?P<polity>\d+)/issue/new/(documentcontent/(?P<documentcontent>\d+)/)?$', login_required(IssueCreateView.as_view())),
 
+    (r'^polity/(?P<polity>\d+)/search/$', SearchListView.as_view()),
+
     (r'^polity/(?P<polity>\d+)/document/$', login_required(DocumentListView.as_view())),
     (r'^polity/(?P<polity>\d+)/document/new/$', login_required(DocumentCreateView.as_view())),
     (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$', DocumentDetailView.as_view()),

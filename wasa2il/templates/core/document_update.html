@@ -97,7 +97,7 @@
 </h1>
 
 <div class="row">
-    <div class="span6 pull-left document">
+    <div class="col-md-6 col-xs-12 document">
         <form id="propose-change" action="." method="post">
             {% csrf_token %}
 
@@ -151,7 +151,7 @@
 
     </div>
 
-    <div class="span6">
+    <div class="col-md-6 col-xs-12">
 
         {% if not editor_enabled %}
             {% include "core/stub/documentcontent_status.html" with documentcontent=current_content %}
@@ -164,8 +164,9 @@
         {% endif %}
 
     </div>
-
-    <div class="span6 pull-right">
+</div>
+<div class="row">
+    <div class="col-md-6 col-xs-12">
         <!-- Preview area -->
         <div id="legal-text-container" style="display: none;">
             <div id="legal-text"></div>
@@ -173,7 +174,7 @@
     </div>
 
     {% if document.get_versions.count > 0 %}
-    <div class="span6 pull-right">
+    <div class="col-md-6 col-xs-12">
         <h3>{% trans "Versions" %}</h3>
         <table class="table table-striped">
             <tr>
