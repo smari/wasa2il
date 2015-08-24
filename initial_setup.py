@@ -44,7 +44,7 @@ subprocess.call(["pip", "install", "--upgrade", "-r", "requirements.txt"])
 
 print "Create local settings"
 print "-" * 40
-shutil.copy("wasa2il/local_settings_sqlite3.py", "wasa2il/local_settings.py")
+shutil.copy("wasa2il/local_settings.py-example", "wasa2il/local_settings.py")
 
 print "Generate random key and inject to local_settings.py"
 print "-" * 40
@@ -61,7 +61,7 @@ subprocess.call(['python', os.path.join(os.getcwd(), 'wasa2il', 'manage.py'), 'm
 
 print "Move the test file to it's proper location"
 print "-" * 40
-shutil.move("test", "wasa2il/test")
+shutil.move("wasa2il.sqlite", "wasa2il/wasa2il.sqlite")
 
 print "*" * 40
 print "Done, to run wasa2il, go to the wasa2il subfolder and type 'python manage.py runserver'"
