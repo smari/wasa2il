@@ -64,6 +64,18 @@ else:
         quit(1)
 
 
+# Check if Django is installed
+try:
+    stdout.write('Checking if Django is installed...')
+    stdout.flush()
+    import django
+    stdout.write(' yes (%d.%d.%d)\n' % (django.VERSION[0], django.VERSION[1], django.VERSION[2]))
+except ImportError:
+    stdout.write(' no\n')
+    stderr.write('Error: Cannot continue without Django which should be installed but is not. Quitting.\n')
+    quit(2)
+
+
 # Check if local_settings.py exists and create it if it doesn't
 setup_local_settings = False
 if not os.path.exists('wasa2il/local_settings.py'):
