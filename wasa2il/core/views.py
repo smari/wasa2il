@@ -533,7 +533,6 @@ class SearchListView(ListView):
     template_name = "search.html"
 
     def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
         return super(SearchListView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
