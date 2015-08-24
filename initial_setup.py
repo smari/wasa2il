@@ -6,6 +6,10 @@ import subprocess
 import fileinput
 import shutil
 
+from sys import stderr
+from sys import stdin
+from sys import stdout
+
 import random
 random = random.SystemRandom()
 
@@ -33,14 +37,32 @@ def get_secret_key():
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     return get_random_string(50, chars)
 
+
+def get_answer(question, proper_answers=('yes','no')):
+    answer = ''
+    while answer not in proper_answers:
+        stdout.write(question)
+        stdout.flush()
+        answer = stdin.readline().strip().lower()
+    return answer
+
+
 print "*" * 40
 print "Initializing and settings up Wasa2il to use sqlite3 with a filebased db called test"
 print "This script assumes that pip, git & python are installed"
 print "*" * 40
 
-print "Ensure everything is installed and updated"
-print "-" * 40
-subprocess.call(["pip", "install", "--upgrade", "-r", "requirements.txt"])
+
+# Install (or upgrade) Python package dependencies
+stdout.write('Installing dependencies:\n')
+result = subprocess.call(["pip", "install", "--upgrade", "-r", "requirements.txt"])
+if result == 0:
+    stdout.write('Dependency installation complete.\n')
+else:
+    if get_answer('Dependency installation seems to have failed. Continue anyway? (yes/no): ') != 'yes':
+        stdout.write('Okay, quitting.\n')
+        quit(1)
+
 
 print "Create local settings"
 print "-" * 40
