@@ -39,6 +39,11 @@ def get_secret_key():
 
 
 def get_answer(question, proper_answers=('yes','no')):
+    """
+    Ask a question and keep asking until a proper answer is received.
+
+    Default proper answers are 'yes' and 'no'.
+    """
     answer = ''
     while answer not in proper_answers:
         stdout.write(question)
