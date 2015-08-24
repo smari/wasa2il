@@ -13,6 +13,8 @@ from sys import stdout
 import random
 random = random.SystemRandom()
 
+TERMINAL_WIDTH = 80
+
 
 def get_random_string(length=12,
                       allowed_chars='abcdefghijklmnopqrstuvwxyz'
@@ -52,10 +54,10 @@ def get_answer(question, proper_answers=('yes','no')):
     return answer
 
 
-print "*" * 40
-print "Initializing and settings up Wasa2il to use sqlite3 with a filebased db called test"
-print "This script assumes that pip, git & python are installed"
-print "*" * 40
+print "*" * TERMINAL_WIDTH
+print "Setting up Wasa2il from scratch with an SQLite database called 'wasa2il.sqlite'."
+print "This script assumes that both Python and Pip are installed."
+print "*" * TERMINAL_WIDTH
 
 
 # Install (or upgrade) Python package dependencies
@@ -146,8 +148,9 @@ if create_database:
     subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'migrate'])
 
 
-print "*" * 40
-print "Done, to run wasa2il, go to the wasa2il subfolder and type 'python manage.py runserver'"
-print "*" * 40
+print "*" * TERMINAL_WIDTH
+print "All done!"
+print "To run Wasa2il, enter subfolder 'wasa2il' and type 'python manage.py runserver'"
+print "*" * TERMINAL_WIDTH
 
 
