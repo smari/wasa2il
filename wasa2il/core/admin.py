@@ -121,5 +121,5 @@ register(ChangeProposal, ChangeProposalAdmin)
 
 register(Election)
 register(Candidate)
-register(ElectionVote)
+#register(ElectionVote)
 register(VotingSystem)
