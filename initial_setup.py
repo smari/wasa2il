@@ -147,6 +147,9 @@ if create_database:
     stdout.write('Setting up database (via "migrate"):\n')
     subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'migrate'])
 
+    stdout.write('We will now create a superuser to configure polities within Wasa2il once it has been set up.\n')
+    subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'createsuperuser'])
+
 
 print "*" * TERMINAL_WIDTH
 print "All done!"
