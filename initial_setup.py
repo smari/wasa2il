@@ -153,7 +153,13 @@ if create_database:
 
 print "*" * TERMINAL_WIDTH
 print "All done!"
-print "To run Wasa2il, enter subfolder 'wasa2il' and type 'python manage.py runserver'"
+print "To run Wasa2il and start configuring polities, follow these steps:"
+print "- Go to the 'wasa2il' directory and run 'python manage.py runserver'"
+print "- Open your favorite browser and type in: http://localhost:8000"
+print "- Log in with the superuser account created previously"
+print
+print "(If you don't have a superuser account yet, then go to the 'wasa2il' directory"
+print "and run 'python manage.py createsuperuser')"
 print "*" * TERMINAL_WIDTH
 
 
