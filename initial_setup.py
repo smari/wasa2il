@@ -63,8 +63,10 @@ print "Move the test file to it's proper location"
 print "-" * 40
 shutil.move("test", "wasa2il/test")
 
+print "Update database"
+print "-" * 40
+subprocess.call(['python', os.path.join(os.getcwd(), 'wasa2il', 'manage.py'), 'migrate'])
+
 print "*" * 40
 print "Done, to run wasa2il, go to the wasa2il subfolder and type 'python manage.py runserver'"
 print "*" * 40
-
-
