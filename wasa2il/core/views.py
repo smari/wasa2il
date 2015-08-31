@@ -63,12 +63,11 @@ def help(request, page):
     ctx = {
         'language_code': settings.LANGUAGE_CODE
     }
-    for locale in [settings.LANGUAGE_CODE, "is"]: # Icelandic fallback
-      filename = "help/%s/%s.html" % (locale, page)
-      if os.path.isfile(os.path.join(os.path.dirname(__file__), '..', 'templates', filename)):
-          return render_to_response(filename, ctx)
+    filename = "help/%s/%s.html" % (settings.LANGUAGE_CODE, page)
+    if not os.path.isfile("templates/%s" % filename):
+        raise Http404
 
-    raise Http404
+    return render_to_response(filename, ctx)
 
 
 def profile(request, username=None):
