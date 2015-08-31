@@ -634,21 +634,18 @@ Issue.get_power = get_issue_power
 User.get_power = get_power
 
 
-class VotingSystem(models.Model):
-    name = models.CharField(max_length=100)
-    systemname = models.CharField(max_length=50)
-
-    def __unicode__(self):
-        return self.name
-
-
 class Election(NameSlugBase):
     """
     An election is different from an issue vote; it's a vote
     on people. Users, specifically.
     """
+
+    VOTING_SYSTEMS = (
+        ('schulze', 'Schulze'),
+    )
+
     polity = models.ForeignKey(Polity)
-    votingsystem = models.ForeignKey(VotingSystem, verbose_name=_('Voting system'))
+    voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
     deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
 

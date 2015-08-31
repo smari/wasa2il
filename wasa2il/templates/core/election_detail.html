@@ -25,7 +25,7 @@
             <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
             <tr><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}</td></tr>
             <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}</td></tr>
-            <tr><th>{% trans "Voting system" %}:</th><td>{{ election.votingsystem.name }}</td></tr>
+            <tr><th>{% trans "Voting system" %}:</th><td>{{ election.get_voting_system_display }}</td></tr>
         </table>
     </div>
 
