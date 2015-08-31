@@ -9,5 +9,5 @@ lib/python2.7
 local
 share
 .idea
-wasa2il/test
+wasa2il/wasa2il.sqlite
 *~
