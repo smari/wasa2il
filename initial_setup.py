@@ -5,23 +5,7 @@ import os
 import subprocess
 import fileinput
 import shutil
-
-import random
-random = random.SystemRandom()
-
-
-def get_random_string(length=12,
-                      allowed_chars='abcdefghijklmnopqrstuvwxyz'
-                                    'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'):
-    """
-    Returns a securely generated random string.
-
-    The default length of 12 with the a-z, A-Z, 0-9 character set returns
-    a 71-bit value. log_2((26+26+10)^12) =~ 71 bits.
-
-    Taken from the django.utils.crypto module.
-    """
-    return ''.join(random.choice(allowed_chars) for i in range(length))
+from django.utils.crypto import get_random_string
 
 
 def get_secret_key():
@@ -44,14 +28,17 @@ subprocess.call(["pip", "install", "--upgrade", "-r", "requirements.txt"])
 
 print "Create local settings"
 print "-" * 40
-shutil.copy("wasa2il/local_settings_sqlite3.py", "wasa2il/local_settings.py")
+shutil.copy("wasa2il/local_settings.py-example", "wasa2il/local_settings.py")
 
-print "Generate random key and inject to local_settings.py"
+print "Inject random key and database settings into local_settings.py"
 print "-" * 40
-secretKeyLine = "SECRET_KEY = ''"
 for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
-    if line.startswith(secretKeyLine):
+    if line.startswith("SECRET_KEY"):
         print 'SECRET_KEY = \'', get_secret_key(), '\''
+    elif line.startswith("DATABASE_ENGINE"):
+        print "DATABASE_ENGINE = 'django.db.backends.sqlite3'"
+    elif line.startswith("DATABASE_NAME"):
+        print "DATABASE_NAME = 'test'"
     else:
         print line.strip()
 
