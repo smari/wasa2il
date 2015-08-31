@@ -136,9 +136,7 @@ class Polity(BaseIssue, getCreationBase('polity')):
     parent = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
     members = models.ManyToManyField(User)
     officers = models.ManyToManyField(User, verbose_name=_("Officers"), related_name="officers")
-    invite_threshold = models.IntegerField(default=3, verbose_name=_("Invite threshold"), help_text=_("How many members need to vouch for a new user before he can join."))
 
-    is_administrated = models.BooleanField(verbose_name=_("Are there officers?"), default=False, help_text=_("Is there a group of people who oversee the polity?"))
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
     is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
@@ -157,9 +155,6 @@ class Polity(BaseIssue, getCreationBase('polity')):
 
     def is_member(self, user):
         return user in self.members.all()
-
-    def get_invite_threshold(self):
-        return min(self.members.count(), self.invite_threshold)
 
     def get_topic_list(self, user):
         if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
