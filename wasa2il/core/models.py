@@ -2,6 +2,7 @@
 
 import logging
 import re
+import random
 
 from base_classes import NameSlugBase, getCreationBase
 from core.utils import AttrDict
@@ -705,7 +706,6 @@ class Election(NameSlugBase):
         for vote in votes:
             if not votemap.has_key(vote.user_id):
                 votemap[vote.user_id] = []
-
             votemap[vote.user_id].append(vote)
 
         manger = []
@@ -778,12 +778,13 @@ class Election(NameSlugBase):
 
     def get_ballots(self):
         ballot_box = []
-        for voter in self.electionvote_set.values("user").distinct().order_by('?'):
+        for voter in self.electionvote_set.values("user").distinct():
             user = User.objects.get(pk=voter["user"])
             ballot = []
             for vote in user.electionvote_set.filter(election=self).order_by('value'):
                 ballot.append(vote.candidate.user.username)
             ballot_box.append(ballot)
+        random.shuffle(ballot_box)
         return ballot_box
 
 
@@ -791,6 +792,8 @@ class Candidate(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     election = models.ForeignKey(Election)
 
+    def __unicode__(self):
+        return str(self.user.username)
 
 class ElectionVote(models.Model):
     election = models.ForeignKey(Election)

@@ -96,7 +96,7 @@ def document_propose(request, document, state):
 @login_required
 @jsonize
 def render_markdown(request):
-    text = request.GET.get('text', 'Missing text!')
+    text = request.POST.get('text', 'Missing text!')
     ctx = {}
     ctx['content'] = markdown2.markdown(text, safe_mode='escape')
 

@@ -20,7 +20,7 @@ from core.ajax.utils import jsonize, error
 
 @jsonize
 def election_poll(request):
-    election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
+    election = get_object_or_404(Election, id=request.GET.get("election", 0))
     user_is_member = request.user in election.polity.members.all()
     ctx = {}
     ctx["election"] = {}
@@ -40,11 +40,11 @@ def election_poll(request):
 @login_required
 @jsonize
 def election_candidacy(request):
-    election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
+    election = get_object_or_404(Election, id=request.GET.get("election", 0))
     if election.is_closed() or not request.user in election.polity.members.all():
         return election_poll(request)
 
-    val = int(request.REQUEST.get("val", 0))
+    val = int(request.GET.get("val", 0))
     if val == 0:
         Candidate.objects.filter(user=request.user, election=election).delete()
     else:
@@ -56,7 +56,7 @@ def election_candidacy(request):
 @login_required
 @jsonize
 def election_vote(request):
-    election = get_object_or_404(Election, id=request.REQUEST.get("election", 0))
+    election = get_object_or_404(Election, id=request.GET.get("election", 0))
     ctx = {}
     ctx["ok"] = True
 
@@ -64,7 +64,7 @@ def election_vote(request):
         ctx["ok"] = False
         return ctx
 
-    order = request.REQUEST.getlist("order[]")
+    order = request.GET.getlist("order[]")
 
     ElectionVote.objects.filter(election=election, user=request.user).delete()
 
@@ -80,7 +80,7 @@ def election_vote(request):
 @jsonize
 def topic_star(request):
     ctx = {}
-    topicid = int(request.REQUEST.get('topic', 0))
+    topicid = int(request.GET.get('topic', 0))
     if not topicid:
         ctx["ok"] = False
         return ctx
@@ -115,7 +115,7 @@ def topic_showstarred(request):
 
     ctx["showstarred"] = not profile.topics_showall
 
-    polity = int(request.REQUEST.get("polity", 0))
+    polity = int(request.GET.get("polity", 0))
     if polity:
         try:
             polity = Polity.objects.get(id=polity)
@@ -132,8 +132,8 @@ def topic_showstarred(request):
 def election_showclosed(request):
     ctx = {}
 
-    polity_id = int(request.REQUEST.get("polity_id")) # This should work.
-    showclosed = int(request.REQUEST.get('showclosed', 0)) # 0 = False, 1 = True
+    polity_id = int(request.GET.get("polity_id")) # This should work.
+    showclosed = int(request.GET.get('showclosed', 0)) # 0 = False, 1 = True
 
     try:
         if showclosed == 1:
