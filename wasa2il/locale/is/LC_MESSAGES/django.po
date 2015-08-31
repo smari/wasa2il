@@ -2214,7 +2214,7 @@ msgstr "Stillingar"
 
 #: templates/settings.html:10
 msgid "You are signed in as"
-msgstr "Þú ert innskráð/ur sem"
+msgstr "Þú ert innskráð(ur) sem"
 
 #~ msgid "Account created"
 #~ msgstr "Aðgangur skráður"
