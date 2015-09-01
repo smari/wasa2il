@@ -20,10 +20,9 @@
 # Debian packages required: git pip python-dev libxslt1-dev libjpeg8-dev
 # Optional for MySQL: libmysqlclient-dev mysql-server
 # Optional for virtualenv: python-virtualenv
-# Optional for internationalization (i18n): gettext
 # If you don't have 'sudo' installed, comment the line that begins with 'sudo' and uncomment the line below which beings with 'su -c'
-sudo apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server gettext libjpeg8-dev
-#su -c "apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server gettext"
+sudo apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server libjpeg8-dev
+#su -c "apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server"
 
 # Prepare MySQL database.
 # NOTE: This assumes that you have a MySQL server running locally and that you have the root password.
@@ -82,7 +81,7 @@ wasa2il/wasa2il/manage.py createsuperuser
 
 # Compile the translation files. This is optional.
 # NOTE: If you're using Virtualenv, it is assumed that you've run "source wasa2il/bin/activate" as above.
-wasa2il/wasa2il/manage.py compilemessages
+ls wasa2il/wasa2il/locale | xargs -n 1 pybabel compile -d wasa2il/wasa2il/locale/ -D django -l
 
 # Run the server.
 # The default port is 8000 and doesn't need to be specified.
