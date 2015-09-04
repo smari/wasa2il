@@ -63,8 +63,9 @@ nano wasa2il/wasa2il/local_settings.py
 #   SECRET_KEY = '34gjap48jg34hgoahra3g4oagq0220fj20fj1fj1jag344h009gr'
 
 # If you intend to use email, uncomment and configure mail settings.
-# Python comes with a basic debugging server, useful for development.
+# Otherwise, the default email backend prints to console, useful for development.
 # Assuming a command line, run: python -m smtpd -n -c DebuggingServer localhost:25000
+#   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #   EMAIL_HOST = 'localhost'
 #   EMAIL_PORT = '25000'
 #   EMAIL_HOST_USER = ''
