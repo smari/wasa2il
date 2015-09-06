@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
+from django.utils.translation import ugettext as _
 
 # BEGIN - Copied from django.contrib.auth.views to accommodate the login() function
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -373,6 +374,7 @@ class IssueDetailView(DetailView):
         context_data['votes_no'] = votes['no']
         context_data['votes_count'] = votes['count']
         context_data['votes_percentage_reached'] = votes_percentage_reached
+        context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
 
         return context_data
 
@@ -507,6 +509,7 @@ class DocumentDetailView(DetailView):
         context_data['selected_diff_documentcontent'] = doc.preferred_version
         context_data['issue'] = issue
         context_data['buttons'] = buttons
+        context_data['facebook_title'] = '%s (%s)' % (self.object.name, self.object.polity.name)
 
         context_data.update(csrf(self.request))
         return context_data
@@ -597,7 +600,8 @@ class ElectionDetailView(DetailView):
                 'ordered_candidates': ordered_candidates,
                 'vote_count': vote_count,
                 'voting_interface_enabled': voting_interface_enabled,
-                'user_is_member': self.request.user in self.polity.members.all()
+                'user_is_member': self.request.user in self.polity.members.all(),
+                'facebook_title': '%s (%s)' % (self.get_object().name, self.polity.name),
             }
         )
         return context_data

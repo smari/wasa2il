@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load wasa2il %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,6 +13,18 @@
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
     <link href="/static/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet"/>
+
+    <meta property="og:type" content="website" />
+    {% if facebook_title %}
+    <meta property="og:title" content="{{ facebook_title }}" />
+    {% else %}
+    <meta property="og:title" content="{{ INSTANCE_NAME }}" />
+    {% endif %}
+    <meta property="og:description" content="{{ facebook_description }}" />
+    <meta property="og:url" content="{{ INSTANCE_URL }}{{ request.path }}" />
+    <meta property="og:site_name" content="{{ INSTANCE_NAME }}" />
+    <meta property="og:image" content="{{ INSTANCE_FACEBOOK_IMAGE }}" />
+
     <link href="/static/css/application.css" rel="stylesheet" />
     <style type="text/css">
       body {
