@@ -6,3 +6,4 @@ pymysql
 lxml
 suds
 markdown2
+babel

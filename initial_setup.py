@@ -131,6 +131,11 @@ if not local_settings_changed:
 os.chdir('wasa2il')
 
 
+# Compile the translation files
+for lang in next(os.walk(os.path.join(os.getcwd(), 'locale')))[1]:
+    subprocess.call(['pybabel', 'compile', '-d', os.path.join(os.getcwd(), 'locale'), '-D', 'django', '-l', lang])
+
+
 # Setup database if needed
 create_database = False
 if os.path.exists('wasa2il.sqlite'):

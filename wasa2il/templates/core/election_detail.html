@@ -4,7 +4,7 @@
 {% block content %}
 
 <div style="float: right;">
-    <a class="btn" href="/polity/{{ election.polity.id }}">{% trans "Back to polity" %}</a>
+    <a class="btn btn-default" role="button" href="/polity/{{ election.polity.id }}">{% trans "Back to polity" %}</a>
 </div>
 <h1><small>{% trans "Election:" %}</small> {{ election.name }}</h1>
 
@@ -17,7 +17,7 @@
 {% endif %}
 
 <div class="row">
-    <div class="span6 pull-left">
+    <div class="col-md-6 col-xs-12">
         <p>{{ election.description }}</p>
 
         <table class="table table-compact">
@@ -29,7 +29,7 @@
         </table>
     </div>
 
-    <div class="span6 pull-right">
+    <div class="col-md-6 col-xs-12">
         {% if voting_interface_enabled %}
             <div class="alert alert-success">
                 <p>{% trans "You don't have to submit your vote; whatever is on your ballot when the vote deadline passes will be counted." %}</p>
@@ -65,21 +65,8 @@
 
 {% if not election.is_closed %}
 <div class="row">
-    <div class="span5 pull-right well"><a name="candidates"></a>
-        <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
-        {% if user_is_member %}
-        <a class="btn btn-large" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
-        <a class="btn btn-large" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
-        {% endif %}
-
-        <div id="election_candidates" style="margin-top: 1em;">
-            <ul class="candidates" id="candidates">
-            </ul>
-        </div>
-    </div>
-
     {% if voting_interface_enabled %}
-    <div class="span5 pull-left well voting">
+    <div class="col-md-5 col-xs-12 well voting">
         <h2>{% trans "Votes" %}</h2>
         <div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
         <div class="alert alert-info">{% trans "Drag candidates to change order" %}</div>
@@ -87,7 +74,20 @@
 
         </ol>
     </div>
+    <div class="col-md-2"></div>
     {% endif %}
+    <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
+        <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
+        {% if user_is_member %}
+        <a class="btn btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
+        <a class="btn btn-large" role="button" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
+        {% endif %}
+
+        <div id="election_candidates" style="margin-top: 1em;">
+            <ul class="candidates" id="candidates">
+            </ul>
+        </div>
+    </div>
 </div>
 {% endif %}
 
