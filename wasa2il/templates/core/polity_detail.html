@@ -46,9 +46,9 @@
     <div class="col-md-6 col-xs-12"><a name="newissues"></a>
         <div class="btn-group" role="group" style="float: right">
             {% if user_is_member %}
-            {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
-            {% endif %}
+                {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
+                <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
+                {% endif %}
             {% endif %}
             <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
             <ul class="dropdown-menu" style="left: -50px;">
@@ -78,13 +78,13 @@
 
     <div class="col-md-6 col-xs-12"><a name="newissues"></a>
 
-        <!-- {% if user_is_member %}
+        {% if user_is_member %}
         <div class="btn-group" style="float: right">
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-             <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a> 
+            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a> 
             {% endif %}
         </div>
-        {% endif %}-->
+        {% endif %}
 
         <h2>{% trans "New issues" %} <small>{% trans "in discussion"%}</small></h2>
 
