@@ -239,7 +239,7 @@ msgstr "Ef ekki, vinsamlegast sendið okkur póst á netfangið"
 msgid "wassa2il"
 msgstr "wasa2il"
 
-#: templates/base.html:85 templates/help/is/agreement.html:6
+#: templates/base.html:77 templates/help/is/agreement.html:6
 #: templates/help/is/authors.html:6 templates/help/is/copyright.html:6
 #: templates/help/is/index.html:6 templates/help/is/polity.html:6
 #: templates/help/is/proposal.html:6 templates/help/is/wasa2il.html:6
@@ -254,6 +254,10 @@ msgstr "Mín síða"
 #: templates/base.html:90
 msgid "My settings"
 msgstr "Stillingar"
+
+#: templates/base.html:90
+msgid "Search agreements"
+msgstr "Leita í samþykktum"
 
 #: templates/base.html:91 templates/registration/verification_needed.html:12
 msgid "Logout"

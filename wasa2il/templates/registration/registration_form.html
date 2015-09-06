@@ -3,25 +3,36 @@
 {% load bootstrap %}
 {% block content %}
 
+<script language="javascript" type="text/javascript">
+    $(document).ready(function() {
+        $('#id_username').focus();
+    });
+</script>
+
 <div class="page-header"><h1>{% trans "Sign up" %} <small>{% trans "and partake in democracy..." %}</small></h1></div>
 
 {% include "registration/data_disclaimer.html" %}
 
 <div class="row">
-    <div class="span8">
+    <div class="col-md-6 col-xs-12">
         <form action="/accounts/register/" method="POST">
             {%csrf_token%}
             <fieldset>
-            {{ form.as_table }}
+            {{ form|bootstrap }}
                 <label></label>
                 <input class="btn btn-primary" type="submit" value="{% trans "Sign up" %}"/>
             </fieldset>
         </form>
     </div>
 
-    <div class="span4">
+    <div class="col-md-6 col-xs-12">
     </div>
 
+</div>
+
+<hr/>
+<div>
+{% include "registration/data_disclaimer.html" %}
 </div>
 
 {% endblock %}

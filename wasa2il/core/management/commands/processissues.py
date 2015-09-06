@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from sys import stdout, stderr
 from datetime import datetime
 
@@ -18,14 +19,15 @@ class Command(BaseCommand):
             if issue.is_closed():
 
                 documentcontent = issue.documentcontent
+                issue_name = issue.name.encode('utf-8')
 
                 if documentcontent is None:
-                    stdout.write("Skipping issue '%s' (%d) since it has no DocumentContent\n" % (issue.name, issue.id))
+                    stdout.write("Skipping issue '%s' (%d) since it has no DocumentContent\n" % (issue_name, issue.id))
                     continue
 
                 document = documentcontent.document
 
-                stdout.write("Processing closed issue '%s' (%d):\n" % (issue.name, issue.id))
+                stdout.write("Processing closed issue '%s' (%d):\n" % (issue_name, issue.id))
 
                 documentcontent.predecessor = document.preferred_version()
 

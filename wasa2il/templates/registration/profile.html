@@ -3,14 +3,14 @@
 {% block content %}
 
 <h1>{{user.name}}</h1>
-<div class="span12">
-<form action="/accounts/profile/" method="POST">
-{%csrf_token%}
-<fieldset> 
-{{form|bootstrap}}
-<label></label><input class="btn primary" type="submit" value="Save"/>
-</fieldset>
-</form>
+<div class="col-md-12">
+	<form action="/accounts/profile/" method="POST">
+		{%csrf_token%}
+		<fieldset> 
+			{{form|bootstrap}}
+			<label></label><input class="btn btn-primary" type="submit" value="Save"/>
+		</fieldset>
+	</form>
 </div>
 
 {% endblock %}

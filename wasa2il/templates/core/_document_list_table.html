@@ -7,13 +7,13 @@
     <th>{% trans "Contributors" %}</th>
     <th>{% trans "Last edit" %}</th>
 </tr>
-{% for document in documents %}
+{% for agreement in agreements %}
 <tr>
-    <td><a href="/polity/{{document.polity.id}}/document/{{document.id}}/">{{document.name}}</a></td>
-    <td>{{document.is_adopted}}</td>
-    <td><a href="/accounts/profile/{{document.user.username}}/">{{document.user}}</a></td>
-    <td>{% for u in document.get_contributors %}<a href="/accounts/{{u.username}}/">{{u}}</a>{% if not forloop.last %},{% endif %}{% endfor %}</td>
-    <td>{{document.get_last_edit}}</td>
+    <td><a href="/polity/{{agreement.document.polity.id}}/document/{{agreement.document.id}}/">{{agreement.document.name}}</a></td>
+    <td>{{agreement.status}}</td>
+    <td><a href="/accounts/profile/{{agreement.document.user.username}}/">{{agreement.document.user}}</a></td>
+    <td>{% for u in agreement.document.get_contributors %}<a href="/accounts/{{u.username}}/">{{u}}</a>{% if not forloop.last %},{% endif %}{% endfor %}</td>
+    <td>{{agreement.document.get_last_edit}}</td>
 </tr>
 {% empty %}
 <tr>

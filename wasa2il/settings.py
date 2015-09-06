@@ -32,8 +32,9 @@ DATABASES = {
 LANGUAGES = (
   ('is', 'Íslenska'),
   ('en', 'English'),
-  ('nl', 'Dutch'),
-  ('es', 'Spanish'),
+  ('es', 'Español'),
+  ('fr', 'Française'),
+  ('nl', 'Nederlands'),
 )
 
 SITE_ID = 1

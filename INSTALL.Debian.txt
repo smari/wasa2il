@@ -20,10 +20,9 @@
 # Debian packages required: git pip python-dev libxslt1-dev libjpeg8-dev
 # Optional for MySQL: libmysqlclient-dev mysql-server
 # Optional for virtualenv: python-virtualenv
-# Optional for internationalization (i18n): gettext
 # If you don't have 'sudo' installed, comment the line that begins with 'sudo' and uncomment the line below which beings with 'su -c'
-sudo apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server gettext libjpeg8-dev
-#su -c "apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server gettext"
+sudo apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server libjpeg8-dev
+#su -c "apt-get -y install git python-pip python-dev libxslt1-dev python-virtualenv libmysqlclient-dev mysql-server"
 
 # Prepare MySQL database.
 # NOTE: This assumes that you have a MySQL server running locally and that you have the root password.
@@ -63,8 +62,9 @@ nano wasa2il/wasa2il/local_settings.py
 #   SECRET_KEY = '34gjap48jg34hgoahra3g4oagq0220fj20fj1fj1jag344h009gr'
 
 # If you intend to use email, uncomment and configure mail settings.
-# Python comes with a basic debugging server, useful for development.
+# Otherwise, the default email backend prints to console, useful for development.
 # Assuming a command line, run: python -m smtpd -n -c DebuggingServer localhost:25000
+#   EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #   EMAIL_HOST = 'localhost'
 #   EMAIL_PORT = '25000'
 #   EMAIL_HOST_USER = ''
@@ -82,7 +82,7 @@ wasa2il/wasa2il/manage.py createsuperuser
 
 # Compile the translation files. This is optional.
 # NOTE: If you're using Virtualenv, it is assumed that you've run "source wasa2il/bin/activate" as above.
-wasa2il/wasa2il/manage.py compilemessages
+ls wasa2il/wasa2il/locale | xargs -n 1 pybabel compile -d wasa2il/wasa2il/locale/ -D django -l
 
 # Run the server.
 # The default port is 8000 and doesn't need to be specified.

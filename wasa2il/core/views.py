@@ -383,7 +383,6 @@ class PolityDetailView(DetailView):
 
     def dispatch(self, *args, **kwargs):
         res = super(PolityDetailView, self).dispatch(*args, **kwargs)
-
         return res
 
     def get_context_data(self, *args, **kwargs):
@@ -524,7 +523,20 @@ class DocumentListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(DocumentListView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
+        context_data.update({'agreements': [x.preferred_version() for x in context_data["documents"]]})
         context_data['user_is_member'] = self.request.user in self.polity.members.all()
+        return context_data
+
+class SearchListView(ListView):
+    model = Document
+    context_object_name = "documents"
+    template_name = "search.html"
+
+    def dispatch(self, *args, **kwargs):
+        return super(SearchListView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super(SearchListView, self).get_context_data(*args, **kwargs)
         return context_data
 
 

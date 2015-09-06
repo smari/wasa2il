@@ -47,6 +47,8 @@ DATABASE_PASSWORD = ''
 # Put in a random sequence of characters, like '2gj129ka0a3j4f4k1jdrg3igah73hgFQOWUBVwq68fFFQg2' - but make your own
 SECRET_KEY = ''
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 #EMAIL_HOST = ''
 #EMAIL_PORT = ''
 #EMAIL_HOST_USER = ''
