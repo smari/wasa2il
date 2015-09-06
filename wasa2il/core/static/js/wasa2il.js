@@ -137,12 +137,19 @@ function issue_poll(issue) {
 
 
 function issue_render(issue) {
+    //remove selection and deactivate all active buttons
+    $("#vote_yes").parent().children().removeClass('btn-success');
+    $("#vote_yes").parent().children().removeClass('active');
+
     if (issue_object.vote == 1) {
-        $("#vote_yes").button('toggle');
+        $("#vote_yes").addClass('btn-success');
+        $("#vote_yes").addClass('active');
     } else if (issue_object.vote == -1) {
-        $("#vote_no").button('toggle');
+        $("#vote_no").addClass('btn-success');
+        $("#vote_no").addClass('active');
     } else {
-        $("#vote_abstain").button('toggle');
+        $("#vote_abstain").addClass('btn-success');
+        $("#vote_abstain").addClass('active');
     }
     $("#issue_votes_count").text(issue_object.votes.count);
     $("#issue_comments").empty();
