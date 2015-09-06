@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-19 19:13+0000\n"
+"POT-Creation-Date: 2015-09-06 15:17+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -22,7 +22,7 @@ msgstr "Netfang"
 msgid "Password"
 msgstr "Change proposals"
 
-#: core/base_classes.py:9 core/models.py:42
+#: core/base_classes.py:9 core/models.py:43
 #: templates/forum/forum_detail.html:18
 msgid "Name"
 msgstr "Nafn"
@@ -35,83 +35,65 @@ msgstr "Netfangið sem þú vilt nota á vefnum."
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/models.py:28
+#: core/models.py:29
 msgid "Description"
 msgstr "Lýsing"
 
-#: core/models.py:42
+#: core/models.py:43
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:43
+#: core/models.py:44
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:43
+#: core/models.py:44
 #, fuzzy
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:44
+#: core/models.py:45
 msgid "Bio"
 msgstr "Saga"
 
-#: core/models.py:45
+#: core/models.py:46
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:49
+#: core/models.py:50
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:50
+#: core/models.py:51
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr ""
 
-#: core/models.py:137
+#: core/models.py:138
 msgid "Officers"
 msgstr "Umsjónarmenn"
 
-#: core/models.py:138
-msgid "Invite threshold"
-msgstr "Boðsþröskuldur"
-
-#: core/models.py:138
-msgid "How many members need to vouch for a new user before he can join."
-msgstr ""
-"Hversu margir meðlimir þurfa að bjóða nýjum notanda áður en hann getur orðið "
-"meðlimur."
-
 #: core/models.py:140
-msgid "Are there officers?"
-msgstr "Eru umsjónarmenn?"
-
-#: core/models.py:140
-msgid "Is there a group of people who oversee the polity?"
-msgstr "Er hópur fólks sem hefur umsjón með þinginu?"
-
-#: core/models.py:141
 msgid "Publicly listed?"
 msgstr "Listað opinberlega?"
 
-#: core/models.py:141
+#: core/models.py:140
 msgid "Whether the polity is publicly listed or not."
 msgstr "Hvort þingið sé listað opinberlega eður ei."
 
-#: core/models.py:142
+#: core/models.py:141
 msgid "Publicly viewable?"
 msgstr "Sýnilegt opinberlega?"
 
-#: core/models.py:142
+#: core/models.py:141
 msgid "Whether non-members can view the polity and its activities."
 msgstr ""
 "Hvort notendur sem ekki eru meðlimir þingsins geti séð það og innihald þess."
 
-#: core/models.py:143
+#: core/models.py:142
 msgid "Can only officers make new issues?"
 msgstr "Geta einungis umsjónarmenn búið til ný mál?"
 
-#: core/models.py:143
+#: core/models.py:142
 msgid ""
 "If this is checked, only officers can create new issues. If it's unchecked, "
 "any member can start a new issue."
@@ -119,11 +101,11 @@ msgstr ""
 "Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
 "allir meðlimir búið til ný mál."
 
-#: core/models.py:144
+#: core/models.py:143
 msgid "Front polity?"
 msgstr "Aðalþing?"
 
-#: core/models.py:144
+#: core/models.py:143
 msgid ""
 "If checked, this polity will be displayed on the front page. The first "
 "created polity automatically becomes the front polity."
@@ -131,77 +113,81 @@ msgstr ""
 "Ef hakað er við þetta verður þetta þing sýnt á forsíðunni. Fyrsta þingið sem "
 "búið er til verður sjálfkrafa að aðalþingi."
 
-#: core/models.py:231
+#: core/models.py:227
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
 
-#: core/models.py:232
+#: core/models.py:228
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: core/models.py:236 templates/core/polity_detail.html:58
+#: core/models.py:232 templates/core/polity_detail.html:58
 #: templates/core/polity_detail.html:65 templates/core/polity_list.html:17
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: core/models.py:242
+#: core/models.py:238
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: core/models.py:244 templates/core/issue_detail.html:43
+#: core/models.py:240 templates/core/issue_detail.html:43
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: core/models.py:379 templates/core/polity_detail.html:113
+#: core/models.py:375 templates/core/polity_detail.html:113
 msgid "Issue"
 msgstr "Málefni"
 
-#: core/models.py:384
+#: core/models.py:380
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:389 templates/core/polity_list.html:16
+#: core/models.py:385 templates/core/polity_list.html:16
 #: templates/profile.html:50
 msgid "Polity"
 msgstr "Þing"
 
-#: core/models.py:526
+#: core/models.py:521
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:527 templates/core/issue_detail.html:53
+#: core/models.py:522 templates/core/issue_detail.html:53
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:528 templates/core/issue_detail.html:53
+#: core/models.py:523 templates/core/issue_detail.html:53
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: core/models.py:529
+#: core/models.py:524
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:656 templates/core/election_detail.html:28
+#: core/models.py:648 templates/core/election_detail.html:28
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:657 templates/core/election_detail.html:24
+#: core/models.py:649 templates/core/election_detail.html:24
 #: templates/core/election_list.html:19
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:658 templates/core/election_detail.html:25
+#: core/models.py:650 templates/core/election_detail.html:25
 #: templates/core/election_list.html:20 templates/core/issue_detail.html:40
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:662
+#: core/models.py:654
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:665 templates/base.html:114
+#: core/models.py:657 templates/base.html:126
 msgid "Instructions"
 msgstr "Leiðbeiningar"
+
+#: core/views.py:376
+msgid "voting"
+msgstr "atkvæðagreiðsla"
 
 #: templates/403.html:5
 msgid "403 Access Denied"
@@ -235,11 +221,15 @@ msgstr ""
 msgid "Otherwise, please email us at"
 msgstr "Ef ekki, vinsamlegast sendið okkur póst á netfangið"
 
-#: templates/base.html:7
+#: templates/base.html:8
 msgid "wassa2il"
 msgstr "wasa2il"
 
+<<<<<<< Updated upstream
 #: templates/base.html:77 templates/help/is/agreement.html:6
+=======
+#: templates/base.html:97 templates/help/is/agreement.html:6
+>>>>>>> Stashed changes
 #: templates/help/is/authors.html:6 templates/help/is/copyright.html:6
 #: templates/help/is/index.html:6 templates/help/is/polity.html:6
 #: templates/help/is/proposal.html:6 templates/help/is/wasa2il.html:6
@@ -247,48 +237,52 @@ msgstr "wasa2il"
 msgid "Help"
 msgstr "Hjálp"
 
-#: templates/base.html:89
+#: templates/base.html:101
 msgid "My profile"
 msgstr "Mín síða"
 
-#: templates/base.html:90
+#: templates/base.html:102
 msgid "My settings"
 msgstr "Stillingar"
 
+<<<<<<< Updated upstream
 #: templates/base.html:90
 msgid "Search agreements"
 msgstr "Leita í samþykktum"
 
 #: templates/base.html:91 templates/registration/verification_needed.html:12
+=======
+#: templates/base.html:103 templates/registration/verification_needed.html:12
+>>>>>>> Stashed changes
 msgid "Logout"
 msgstr "Útskrá"
 
-#: templates/base.html:95 templates/entry.html:17
+#: templates/base.html:107 templates/entry.html:17
 #: templates/registration/login.html:6
 #: templates/registration/password_reset_complete.html:9
 msgid "Log in"
 msgstr "Innskrá"
 
-#: templates/base.html:96 templates/entry.html:11
+#: templates/base.html:108 templates/entry.html:11
 #: templates/notLoginInHome.html:14 templates/registration/login.html:19
 #: templates/registration/registration_form.html:6
 #: templates/registration/registration_form.html:17
 msgid "Sign up"
 msgstr "Nýskrá"
 
-#: templates/base.html:111
+#: templates/base.html:123
 msgid "Back to top"
 msgstr "Fara efst"
 
-#: templates/base.html:112
+#: templates/base.html:124
 msgid "About wasa2il"
 msgstr "Um wasa2il"
 
-#: templates/base.html:113
+#: templates/base.html:125
 msgid "License"
 msgstr "Notandaleyfi"
 
-#: templates/base.html:115 templates/help/is/authors.html:6
+#: templates/base.html:127 templates/help/is/authors.html:6
 msgid "Authors"
 msgstr "Höfundar"
 
@@ -2219,6 +2213,20 @@ msgstr "Stillingar"
 #: templates/settings.html:10
 msgid "You are signed in as"
 msgstr "Þú ert innskráð(ur) sem"
+
+#~ msgid "Invite threshold"
+#~ msgstr "Boðsþröskuldur"
+
+#~ msgid "How many members need to vouch for a new user before he can join."
+#~ msgstr ""
+#~ "Hversu margir meðlimir þurfa að bjóða nýjum notanda áður en hann getur "
+#~ "orðið meðlimur."
+
+#~ msgid "Are there officers?"
+#~ msgstr "Eru umsjónarmenn?"
+
+#~ msgid "Is there a group of people who oversee the polity?"
+#~ msgstr "Er hópur fólks sem hefur umsjón með þinginu?"
 
 #~ msgid "Account created"
 #~ msgstr "Aðgangur skráður"
