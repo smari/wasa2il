@@ -1,9 +1,0 @@
-[
-  {
-    "model": "core.votingsystem",
-    "pk": 1,
-    "fields": {
-      "name": "Schulze"
-    }
-  }
-]
