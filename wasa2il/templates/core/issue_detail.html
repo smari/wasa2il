@@ -3,7 +3,7 @@
 {% block content %}
 
 <div style="float: right;">
-    <a class="btn" href="/polity/{{ issue.polity.id }}">{% trans "Back to polity" %}</a>
+    <a class="btn btn-default" role="button" href="/polity/{{ issue.polity.id }}">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{ issue.name }}</h1>
 
@@ -12,7 +12,7 @@
 {% endif %}
 
 <div class="row">
-    <div class="span6 pull-left">
+    <div class="col-md-6 col-xs-12">
         {% if issue.is_processed %}
             {% if documentcontent %}
                 {% include "core/stub/documentcontent_status.html" %}
@@ -60,19 +60,39 @@
     </div>
 
     {% if issue.is_voting and not user.is_anonymous %}
-    <div class="span5 pull-left well">
+    <div class="col-md-6 col-xs-12 well">
         <h2>{% trans "Vote" %} <small>{% trans "for or against the documents in this issue" %}</small></h2>
         <div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
         <div data-toggle="buttons-radio" style="text-align: center;">
-            <a onclick="issue_vote(1);" id="vote_yes" class="btn btn-large">{% trans "Yes" %}</a>
-            <a onclick="issue_vote(0);" id="vote_abstain" class="btn btn-large">{% trans "Abstain" %}</a>
-            <a onclick="issue_vote(-1);" id="vote_no" class="btn btn-large">{% trans "No" %}</a>
+            <button onclick="issue_vote(1);" id="vote_yes" type="button" class="btn btn-lg">{% trans "Yes" %}</button>
+            <button onclick="issue_vote(0);" id="vote_abstain" type="button" class="btn btn-lg">{% trans "Abstain" %}</button>
+            <button onclick="issue_vote(-1);" id="vote_no" type="button" class="btn btn-lg">{% trans "No" %}</button>
         </div>
         <div style="margin-top: 0.5em; text-align: center;">{% trans "Voting closes in" %} {{ issue.deadline_votes|timeuntil }}</div>
     </div>
     {% endif %}
 
-    <div class="span6 pull-right"><a name="documents"></a>
+</div>
+<div class="row">
+
+    <div class="col-md-6 col-xs-12">
+        <h2>{% trans "Discussion" %}</h2>
+        <div id="issue_comments">
+        </div>
+
+        {% if issue.is_open and not user.is_anonymous %}
+        <form class="form-inline comment_form" role="form">
+            <div class="form-group" style="width: 100%;">
+                <textarea id="id_comment"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" onclick="issue_comment_send({{ issue.id }}, $('#id_comment'));">{% trans "Add comment" %}</button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+
+    <div class="col-md-6 col-xs-12"><a name="documents"></a>
 
         {% if documentcontent %}
             {% include 'core/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
@@ -80,18 +100,6 @@
 
     </div>
 
-    <div class="span6 pull-left">
-        <h2>{% trans "Discussion" %}</h2>
-        <div id="issue_comments">
-        </div>
-
-        {% if issue.is_open and not user.is_anonymous %}
-        <div class="comment_form form-inline">
-            <textarea id="id_comment" class="span4"></textarea>
-            <button class="btn primary" onclick="issue_comment_send({{ issue.id }}, $('#id_comment'));">{% trans "Add comment" %}</button>
-        </div>
-        {% endif %}
-    </div>
 </div>
 
 

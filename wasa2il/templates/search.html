@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Documents" %}</h1>
+
+<div class="search_results">
+    <script>
+      (function() {
+        var cx = '014337942839901686953:mudvv3rx96s';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+            '//cse.google.com/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+      })();
+    </script>
+    <gcse:searchresults-only></gcse:searchresults-only>
+</div>
+
+{% endblock %}
+
