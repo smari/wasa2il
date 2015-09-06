@@ -141,7 +141,6 @@ function issue_render(issue) {
     $("#vote_yes").parent().children().removeClass('btn-success');
     $("#vote_yes").parent().children().removeClass('active');
 
-    //mark the vote and activate button
     if (issue_object.vote == 1) {
         $("#vote_yes").addClass('btn-success');
         $("#vote_yes").addClass('active');
@@ -265,7 +264,6 @@ function election_candidacy(val) {
 function election_poll(election) {
     $.getJSON("/api/election/poll/", {"election": election}, function(data) {
         if (data.ok) {
-            console.log(data.election);
             election_object = data.election;
             election_render();
         } else {
@@ -292,7 +290,13 @@ function election_render(election) {
     }
     $("#election_votes_count").text(election_object.votes.count);
     $("#election_candidates_count").text(election_object.candidates.count);
-    $("#candidates").html(election_object.candidates.html);
+    if($("#candidates").attr('data-loaded')){
+        //data has been loaded, do not update
+    }
+    else{
+        $("#candidates").html(election_object.candidates.html);
+        $("#candidates").attr('data-loaded', "true");
+    }
     $("#vote").html(election_object.vote.html);
 }
 

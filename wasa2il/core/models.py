@@ -740,7 +740,7 @@ class Election(NameSlugBase):
     def get_candidates(self):
         ctx = {}
         ctx["count"] = self.candidate_set.count()
-        ctx["users"] = [{"username": x.user.username} for x in self.candidate_set.all().order_by("?")]
+        ctx["users"] = [{"username": x.user.username} for x in self.candidate_set.all()]
         return ctx
 
     def get_unchosen_candidates(self, user):
@@ -750,9 +750,9 @@ class Election(NameSlugBase):
         votes = ElectionVote.objects.filter(election=self, user=user)
         votedcands = [x.candidate.id for x in votes]
         if len(votedcands) != 0:
-            candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands)
+            candidates = Candidate.objects.filter(election=self).exclude(id__in=votedcands).order_by('?')
         else:
-            candidates = Candidate.objects.filter(election=self)
+            candidates = Candidate.objects.filter(election=self).order_by('?')
 
         return candidates
 
