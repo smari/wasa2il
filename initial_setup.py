@@ -150,7 +150,11 @@ else:
 
 if create_database:
     stdout.write('Setting up database (via "migrate"):\n')
-    subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'migrate'])
+    migrate_result = subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'migrate'])
+
+    if migrate_result != 0:
+        stderr.write('Error: Django migration gave errors. Quitting.\n')
+        quit(1)
 
     stdout.write('We will now create a superuser to configure polities within Wasa2il once it has been set up.\n')
     subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'createsuperuser'])
