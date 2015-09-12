@@ -230,22 +230,24 @@
 
 
 <div class="modal fade" id="modal_subpolities">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>{% trans "Subpolities" %}</h3>
-  </div>
-  <div class="modal-body" id="modal_subpolities_list">
-
-    <ul>
-    {% for p in polity.polity_set.all %}
-        <li><a href="/polity/{{p.id}}/">{{p.name}}</li>
-    {% endfor %}
-    </ul>
-
-  </div>
-  <div class="modal-footer">
-    <a onclick="$('#modal_subpolities').modal('hide');" role="button" class="btn btn-primary">{% trans "Close" %}</a>
-  </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>{% trans "Subpolities" %}</h3>
+            </div>
+            <div class="modal-body" id="modal_subpolities_list">
+                <ul>
+                    {% for p in polity.polity_set.all %}
+                        <li><a href="/polity/{{p.id}}/">{{p.name}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <a onclick="$('#modal_subpolities').modal('hide');" role="button" class="btn btn-primary">{% trans "Close" %}</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 
