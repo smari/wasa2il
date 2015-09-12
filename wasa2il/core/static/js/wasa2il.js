@@ -62,9 +62,9 @@ function topics_showstarred_toggle(polity) {
         if (data.ok) {
             $("#topics_list tbody").html(data.html);
             if (data.showstarred) {
-                $("#topics_showstarred_toggle i").removeClass("icon-grey");
+                $("#topics_showstarred_toggle span").removeClass("icon-grey");
             } else {
-                $("#topics_showstarred_toggle i").addClass("icon-grey");
+                $("#topics_showstarred_toggle span").addClass("icon-grey");
             }
         }
     });
@@ -77,9 +77,9 @@ function elections_showclosed_toggle(polity_id) {
         if (data.ok) {
             $("#elections_list tbody").html(data.html);
             if (data.showclosed) {
-                $("#elections_showclosed_toggle i").removeClass("icon-grey");
+                $("#elections_showclosed_toggle span").removeClass("icon-grey");
             } else {
-                $("#elections_showclosed_toggle i").addClass("icon-grey");
+                $("#elections_showclosed_toggle span").addClass("icon-grey");
             }
         }
     });

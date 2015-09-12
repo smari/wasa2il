@@ -249,9 +249,7 @@ footer {
 }
 
 
-.icon-grey {
-  background-image: url("../img/glyphicons-halflings-grey.png");
-}
+.icon-grey { color: #c0d0c0 }
 
 #legal-text { font-family: serif; font-size: 12px; border: 1px #e0e0e0 solid; padding: 12px 24px 12px 24px; margin-bottom: 10px; text-align: justify; }
 #legal-text h1 { font-family: inherit; font-size: 28px; font-weight: bold; margin: 4px 0px 4px 4px; }
