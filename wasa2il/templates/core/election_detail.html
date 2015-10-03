@@ -9,7 +9,7 @@
 <h1><small>{% trans "Election:" %}</small> {{ election.name }}</h1>
 
 {% if election.is_closed %}
-<div class="alert alert-error">{% trans "This election is closed." %}</div>
+<div class="alert alert-danger">{% trans "This election is closed." %}</div>
 {% endif %}
 
 {% if delegation %}
@@ -68,7 +68,7 @@
     {% if voting_interface_enabled %}
     <div class="col-md-5 col-xs-12 well voting">
         <h2>{% trans "Votes" %}</h2>
-        <div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
+        <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
         <div class="alert alert-info">{% trans "Drag candidates to change order" %}</div>
         <ol id="vote" class="candidates">
 
@@ -79,8 +79,8 @@
     <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
         {% if user_is_member %}
-        <a class="btn btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
-        <a class="btn btn-large" role="button" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
         {% endif %}
 
         <div id="election_candidates" style="margin-top: 1em;">

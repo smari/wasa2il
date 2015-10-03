@@ -20,11 +20,7 @@
 <div class="row">
 
     <div class="col-md-6 col-xs-12">
-        <p>{{topic.description}}</p>
-    </div>
-
-    <div class="col-md-6 col-xs-12">
-        <h2>{% trans "Open issues" %}</h2>
+        <h2>{% trans "List of issues" %}</h2>
         <table class="table table-striped table-bordered table-condensed">
         <tr>
             <th>{% trans "Issues" %}</th>
@@ -47,8 +43,7 @@
         {% endfor %}
         </table>
     </div>
-</div>
-<div class="row">
+
     <div class="col-md-6 col-xs-12">
         <h2>{% trans "New discussions" %}</h2>
         {% for comment in topic.new_comments %}
@@ -61,11 +56,6 @@
             <div class="comment_created">{{comment.created}}</div>
         </div>        
         {% endfor %}
-    </div>
-    <div class="col-md-6 col-xs-12">
-        <p><a href="#" onclick="$('#modal_followers').modal('show');">{{topic.usertopic_set.count}} {% trans "followers" %}</a></p>
-        <p>{{topic.usertopic_set.count}} {% trans "taking action" %}</p>
-        <p>{{topic.issue_set.count}} {% trans "issues" %}</p>
     </div>
 </div>
 

@@ -7,10 +7,6 @@
 </div>
 <h1>{{ issue.name }}</h1>
 
-{% if delegation %}
-<div class="alert alert-notice">{% trans "This issue is delegated." %} <a href="/delegation/{{ delegation.0.id }}">{% trans "View details." %}</a></div>
-{% endif %}
-
 <div class="row">
     <div class="col-md-6 col-xs-12">
         {% if issue.is_processed %}
@@ -57,26 +53,8 @@
             <tr><th>{% trans 'Majority threshold' %}:</th><td>{{ issue.majority_percentage|floatformat:2 }}%</td></tr>
 
         </table>
-    </div>
 
-    {% if issue.is_voting and not user.is_anonymous %}
-    <div class="col-md-6 col-xs-12 well">
-        <h2>{% trans "Vote" %} <small>{% trans "for or against the documents in this issue" %}</small></h2>
-        <div class="alert alert-error hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
-        <div data-toggle="buttons-radio" style="text-align: center;">
-            <button onclick="issue_vote(1);" id="vote_yes" type="button" class="btn btn-lg">{% trans "Yes" %}</button>
-            <button onclick="issue_vote(0);" id="vote_abstain" type="button" class="btn btn-lg">{% trans "Abstain" %}</button>
-            <button onclick="issue_vote(-1);" id="vote_no" type="button" class="btn btn-lg">{% trans "No" %}</button>
-        </div>
-        <div style="margin-top: 0.5em; text-align: center;">{% trans "Voting closes in" %} {{ issue.deadline_votes|timeuntil }}</div>
-    </div>
-    {% endif %}
-
-</div>
-<div class="row">
-
-    <div class="col-md-6 col-xs-12">
-        <h2>{% trans "Discussion" %}</h2>
+        <h2 id="issue-comments-header">{% trans "Discussion" %}</h2>
         <div id="issue_comments">
         </div>
 
@@ -90,14 +68,25 @@
             </div>
         </form>
         {% endif %}
+
     </div>
 
-    <div class="col-md-6 col-xs-12"><a name="documents"></a>
+    {% if issue.is_voting and not user.is_anonymous %}
+        <div class="col-md-6 col-xs-12 well">
+            <h2>{% trans "Vote" %} <small>{% trans "for or against this issue" %}</small></h2>
+            <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
+            <div data-toggle="buttons-radio" style="text-align: center;">
+                <button onclick="issue_vote(1);" id="vote_yes" type="button" class="btn btn-default btn-lg">{% trans "Yes" %}</button>
+                <button onclick="issue_vote(0);" id="vote_abstain" type="button" class="btn btn-default btn-lg">{% trans "Abstain" %}</button>
+                <button onclick="issue_vote(-1);" id="vote_no" type="button" class="btn btn-default btn-lg">{% trans "No" %}</button>
+            </div>
+        </div>
+    {% endif %}
 
+    <div class="col-md-6 col-xs-12"><a name="documents"></a>
         {% if documentcontent %}
             {% include 'core/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
         {% endif %}
-
     </div>
 
 </div>

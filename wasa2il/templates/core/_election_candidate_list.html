@@ -10,11 +10,11 @@
         {% if election.is_voting %}
         {% if candidate_selected %}
         {% if user_is_member %}
-        <button class="btn vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
+        <button class="btn btn-default vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
         {% endif %}
         {% else %}
         {% if user_is_member %}
-        <button class="btn vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+        <button class="btn btn-default vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
         {% endif %}
         {% endif %}
         {% endif %}

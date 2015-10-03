@@ -8,10 +8,10 @@
 {% if documentcontent.status == 'accepted' %}
     <div class="alert alert-success">{% trans 'This proposal has been accepted by vote.' %}</div>
 {% elif documentcontent.status == 'proposed' %}
-    <div class="alert">{% trans 'This content is still merely a proposal and has not yet been accepted by vote.' %}</div>
+    <div class="alert alert-warning">{% trans 'This content is still merely a proposal and has not yet been accepted by vote.' %}</div>
 {% elif documentcontent.status == 'rejected' %}
-    <div class="alert alert-error">{% trans 'This proposal has been rejected by vote.' %}</div>
+    <div class="alert alert-danger">{% trans 'This proposal has been rejected by vote.' %}</div>
 {% elif documentcontent.status == 'deprecated' %}
-    <div class="alert alert-error">{% trans 'This proposal is deprecated. A newer version has taken effect.' %}</div>
+    <div class="alert alert-danger">{% trans 'This proposal is deprecated. A newer version has taken effect.' %}</div>
 {% endif %}
 

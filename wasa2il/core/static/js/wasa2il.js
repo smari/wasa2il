@@ -153,6 +153,12 @@ function issue_render(issue) {
     }
     $("#issue_votes_count").text(issue_object.votes.count);
     $("#issue_comments").empty();
+    if (issue_object.comments.length > 0) {
+        $("#issue-comments-header").show();
+    }
+    else {
+        $("#issue-comments-header").hide();
+    }
     for (i in issue_object.comments) {
         comment = issue_object.comments[i];
         div = "<div class=\"comment\" id=\"comment_" + comment.id + "\">";
