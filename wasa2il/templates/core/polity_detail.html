@@ -167,65 +167,6 @@
         {% endwith %}
     </div>
 
-{% comment %}
-
-{% if user_is_member %}
-<div class="span6 pull-left"><a name="delegations"></a>
-
-    <h2>{% trans "Delegations" %} <small>{% trans "votes entrusted to others" %}</small></h2>
-    <p class="muted">
-        {% trans "You can set up delgations for the polity, for topics, or for issues." %}
-        {% trans "Here you can see all of your active delegations and where they lead to." %}
-    </p>
-    {% with user.delegate_set.all as delegations %}
-    {% include "core/_delegations_table.html" %}
-    {% endwith %}
-</div>
-{% endif %}
-
-{% if polity.polity_set.all %}
-<div class="span6 pull-left"><a name="subpolities"></a>
-    <h2>{% trans "Subpolities" %}</h2>
-
-    <p class="muted">{% trans "A polity can have subordinate organizational units, such as how a municipality relates to a country." %}</p>
-
-    <ul>
-    {% for subpolity in polity.polity_set.all %}
-        <li><a href="/polity/{{subpolity.id}}/">{{subpolity.name}}</a></li>
-    {% endfor %}
-    </ul>
-</div>
-{% endif %}
-
-
-<div class="span6 pull-left"><a name="forums"></a>
-    {% if user_is_member %}
-    <div class="btn-group" style="float: right">
-        <a class="btn btn-sm btn-default" role="button" href="/polity/{{polity.id}}/forum/new/">{% trans "New forum" %}</a>
-    </div>
-    {% endif %}
-    <h2>{% trans "Discussion Forums" %}</h2>
-
-    <p class="muted">{% trans "Often it is important to have open-ended discussions on a range of topics outside of particular issues." %}</p>
-
-    <table class="table table-striped table-bordered table-condensed">
-    <tr>
-        <th>{% trans "Name" %}</th>
-        <th>{% trans "Discussions" %}</th>
-        <th>{% trans "Unseen posts" %}</th>
-    </tr>
-    {% for forum in polity.forum_set.all %}
-    <tr>
-        <td><a href="/forum/{{forum.id}}/">{{forum.name}}</a></td>
-        <td>{{forum.discussion_set.count}}</td>
-        <td></td>
-    </tr>    
-    {% endfor %}
-    </table>
-</div>
-
-{% endcomment %}
-
 </div>
 
 
