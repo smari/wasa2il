@@ -5,11 +5,6 @@
 
 <div style="float:right">
     <a class="btn btn-default" role="button" href="/polity/{{topic.polity.id}}/">{% trans "Back to polity" %}</a>
-    {% if user_is_member %}
-    {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-    <a class="btn btn-default" role="button" href="/polity/{{topic.polity.id}}/issue/new/?topics={{topic.id}}">{% trans "New issue" %}</a>
-    {% endif %}
-    {% endif %}
 </div>
 <h1>{{topic.name}}</h1>
 

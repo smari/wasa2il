@@ -79,14 +79,6 @@
 
     <div class="col-md-6 col-xs-12"><a name="newissues"></a>
 
-        {% if user_is_member %}
-        <div class="btn-group" style="float: right">
-            {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/issue/new/">{% trans "New issue" %}</a> 
-            {% endif %}
-        </div>
-        {% endif %}
-
         <h2>{% trans "New issues" %} <small>{% trans "in discussion"%}</small></h2>
 
         <p class="muted">{% trans "These are the newest issues being discussed in this polity." %}</p>
