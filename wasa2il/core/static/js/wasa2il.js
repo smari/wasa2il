@@ -307,7 +307,14 @@ function election_render(election) {
 }
 
 
-
+$(document).ready(function() {
+    // NOTE: The first text input field is the search field at the top of the page.
+    // I was here. This gets the order incorrectly or something.
+    var $inputs = $('input[type="text"],input[type="password"],textarea');
+    if ($inputs.length > 1) {
+        $inputs[1].focus();
+    }
+});
 
 
 $(function() {

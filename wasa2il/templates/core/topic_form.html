@@ -1,17 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block javascript %}
-    {{ block.super }}
-
-    <script language="javascript" type="text/javascript">
-        $(document).ready(function() {
-            $('#id_name').focus();
-        });
-    </script>
-
-{% endblock %}
-
 {% block content %}
 
 <h1>{% trans "New topic" %}</h1>
