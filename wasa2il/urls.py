@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     (r'^', include('forum.urls')),
 
     (r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
-    (r'^accounts/settings/', 'core.views.view_settings'),
+    url(r'^accounts/settings/', 'core.views.view_settings', name='account_settings'),
     # (r'^accounts/login/', 'django.contrib.auth.views.login', login_url_params),
     (r'^accounts/login/', 'core.views.login', login_url_params),
     (r'^accounts/verify/', 'core.views.verify'),
