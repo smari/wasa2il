@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-03 15:20+0000\n"
+"POT-Creation-Date: 2015-10-04 20:31+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -181,7 +181,7 @@ msgstr "Tímamörk fyrir atkvæði"
 msgid "Membership deadline"
 msgstr "Skráningarmörk meðlima"
 
-#: core/models.py:657 templates/base.html:128
+#: core/models.py:657 templates/base.html:127
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -222,58 +222,58 @@ msgid "Otherwise, please email us at"
 msgstr "Ef ekki, vinsamlegast sendið okkur póst á netfangið"
 
 #: templates/base.html:8
-msgid "wassa2il"
-msgstr "wasa2il"
+msgid "Voting System - Pirate Party Iceland"
+msgstr "Kosningakerfi Pírata"
 
-#: templates/base.html:91 templates/help/is/agreement.html:6
+#: templates/base.html:90 templates/help/is/agreement.html:6
 #: templates/help/is/authors.html:6 templates/help/is/copyright.html:6
 #: templates/help/is/index.html:6 templates/help/is/polity.html:6
 #: templates/help/is/proposal.html:6 templates/help/is/wasa2il.html:6
 msgid "Help"
 msgstr "Hjálp"
 
-#: templates/base.html:97
+#: templates/base.html:96
 msgid "My profile"
 msgstr "Mín síða"
 
-#: templates/base.html:98
+#: templates/base.html:97
 msgid "My settings"
 msgstr "Stillingar"
 
-#: templates/base.html:100 templates/registration/verification_needed.html:12
+#: templates/base.html:99 templates/registration/verification_needed.html:12
 msgid "Logout"
 msgstr "Útskrá"
 
-#: templates/base.html:104 templates/entry.html:17
+#: templates/base.html:103 templates/entry.html:17
 #: templates/registration/login.html:12
 #: templates/registration/password_reset_complete.html:9
 msgid "Log in"
 msgstr "Innskrá"
 
-#: templates/base.html:105 templates/entry.html:11
+#: templates/base.html:104 templates/entry.html:11
 #: templates/registration/login.html:25
 #: templates/registration/registration_form.html:12
 #: templates/registration/registration_form.html:23
 msgid "Sign up"
 msgstr "Nýskrá"
 
-#: templates/base.html:111
+#: templates/base.html:110
 msgid "Search agreements"
 msgstr "Leita í samþykktum"
 
-#: templates/base.html:125
+#: templates/base.html:124
 msgid "Back to top"
 msgstr "Fara efst"
 
-#: templates/base.html:126
+#: templates/base.html:125
 msgid "About wasa2il"
 msgstr "Um wasa2il"
 
-#: templates/base.html:127
+#: templates/base.html:126
 msgid "License"
 msgstr "Notandaleyfi"
 
-#: templates/base.html:129 templates/help/is/authors.html:6
+#: templates/base.html:128 templates/help/is/authors.html:6
 msgid "Authors"
 msgstr "Höfundar"
 
@@ -733,10 +733,6 @@ msgstr "með eða á móti þessu máli"
 #: templates/core/issue_detail.html:80
 msgid "Abstain"
 msgstr "Sitja hjá"
-
-#: templates/core/issue_detail.html:83
-msgid "Voting closes in"
-msgstr "Kosningu lýkur eftir"
 
 #: templates/core/issue_form.html:8
 msgid "version"
@@ -2134,6 +2130,9 @@ msgstr "Stillingar"
 #: templates/settings.html:10
 msgid "You are signed in as"
 msgstr "Þú ert innskráð(ur) sem"
+
+#~ msgid "Voting closes in"
+#~ msgstr "Kosningu lýkur eftir"
 
 #~ msgid "This issue is delegated."
 #~ msgstr "Þetta mál er framvísað."
