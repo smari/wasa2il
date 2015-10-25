@@ -3,7 +3,9 @@
 {% for topic in topics %}
 <tr>
     <td>
-        <a onclick="topic_star({{topic.id}});"><i id="topicstar_{{topic.id}}" class="glyphicon glyphicon-star {% if topic|topicfavorited:user.id %}{% else %}icon-grey{% endif %}"></i></a>
+        {% if user.is_authenticated %}
+            <a onclick="topic_star({{topic.id}});"><i id="topicstar_{{topic.id}}" class="glyphicon glyphicon-star {% if topic|topicfavorited:user.id %}{% else %}icon-grey{% endif %}"></i></a>
+        {% endif %}
         <a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a>
     </td>
     <td>{{topic.issue_set.count}}</td>

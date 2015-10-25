@@ -351,3 +351,6 @@ ul.errorlist {
 	font-weight: bold;
 }
 
+.glyphicon { cursor: pointer; }
+.dropdown-menu { cursor: pointer; }
+
