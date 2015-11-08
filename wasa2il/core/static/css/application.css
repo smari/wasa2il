@@ -277,12 +277,12 @@ footer {
 .instructions .instructions-nav p { margin: 0px; }
 .instructions .instructions-nav label { margin: 0px; padding: 0px; float: left; width: 100px; clear: both; }
 
-.profile-polities { border-bottom: 1px solid #e0e0e0; margin-bottom: 12px; }
-
 .profile-document-data { margin-top: 12px; }
 .profile-document-data p.document { font-weight: bold; font-size: 18px; }
 .profile-document-data p.documentcontent { padding-left: 18px; }
 .profile-document-data p.documentcontent small { padding-left: 8px; }
+.profile .img-polaroid { float: right; border: 1px solid #606060; margin-left: 16px; margin-bottom: 16px; }
+.profile .tab-content { padding-top: 16px; text-align: justify; }
 
 #newissues_list .issue-status { white-space: nowrap; }
 

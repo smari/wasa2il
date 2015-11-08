@@ -3,74 +3,62 @@
 {% load wasa2il %}
 
 {% block content %}
-<div class="page-header">
-    {% if profile.email_visible %}<div class="pull-right"><small>{{subject.email}}</small></div>{% endif %}
-    <h1>
-        {% if profile.displayname %}
-        {{ profile.displayname }} <small>({{subject.username}})</small>
-        {% else %}
-        {{subject.username}}
-        {% endif %}
-    </h1>
-</div>
 
-<div class="tabbable tabs-left">
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#summary" data-toggle="tab">{% trans "Summary" %}</a></li>
-        {% for polity in polities %}
-        <li {% if not polity.readable %}class="disabled"{% endif %}><a href="#polity{{ polity.id }}" data-toggle="tab">{{ polity }}</a></li>
-        {% endfor %}
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="summary">
-            <div class="row-fluid">
-                <div class="span9">
-                    <div id="user-bio">
-                        {% if profile.bio %}
-                        {{profile.bio|linebreaksbr}}
+{% if profile.email_visible %}<div class="pull-right"><small>{{ subject.email }}</small></div>{% endif %}
+<h1>
+    {% if profile.displayname %}
+        {{ profile.displayname }} <small>({{ subject.username }})</small>
+    {% else %}
+        {{ subject.username }}
+    {% endif %}
+</h1>
+
+<div class="profile">
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#summary" data-toggle="tab">{% trans "Summary" %}</a></li>
+            {% for polity in polities %}
+            <li><a href="#polity{{ polity.id }}" data-toggle="tab">{{ polity }}</a></li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="summary">
+                <div class="row-fluid">
+                    <div class="span9">
+                        {% if profile.picture %}
+                            <img class="img-polaroid" src="{{ profile.picture.url }}" />
                         {% else %}
-                        {% trans "This user hasn't provided a biography." %}
+                            <img class="img-polaroid" src="http://placekitten.com/g/200/300" />
                         {% endif %}
+                        <div id="user-bio">
+                            {% if profile.bio %}
+                                {{profile.bio|linebreaksbr}}
+                            {% else %}
+                                {% trans "This user hasn't provided a biography." %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-                <div class="span2">
-                    {% if profile.picture %}
-                    <img class="img-polaroid" src="{{ profile.picture.url }}" />
-                    {% else %}
-                    <img class="img-polaroid" src="http://placekitten.com/g/200/300" />
-                    {% endif %}
+            </div>
+            {% for polity in polities %}
+                <div class="tab-pane" id="polity{{ polity.id }}">
+                    <div class="profile-document-data">
+                        {% for item in documentdata %}
+                            {% if item|classname == 'Document' %}
+                                {% if item.polity_id == polity.id %}
+                                    <p class="document"><a href="/polity/{{ polity.id }}/document/{{ item.id }}/">{{ item.name }}</a></p>
+                                {% endif %}
+                            {% else %}
+                                {% if item.document.polity_id == polity.id %}
+                                    <p class="documentcontent"><a href="/polity/{{ polity.id }}/document/{{ item.document_id }}/?v={{ item.order }}">{% trans 'Version' %} {{ item.order }}</a> <small>({{ item.get_status_display }})</small></p>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-        </div>
-        {% for polity in polities %}
-        <div class="tab-pane" id="polity{{ polity.id }}">
-            {% if polity.readable %}
-
-            <div class="profile-polities">
-                <p>{% trans 'Polity' %}: <a href="/polity/{{polity.id}}">{{polity}}</a></p>
-            </div>
-
-            <div class="profile-document-data">
-            {% for item in documentdata %}
-                {% if item|classname == 'Document' %}
-                    {% if item.polity_id == polity.id %}
-                        <p class="document"><a href="/polity/{{ polity.id }}/document/{{ item.id }}/">{{ item.name }}</a></p>
-                    {% endif %}
-                {% else %}
-                    {% if item.document.polity_id == polity.id %}
-                        <p class="documentcontent"><a href="/polity/{{ polity.id }}/document/{{ item.document_id }}/?v={{ item.order }}">{% trans 'Version' %} {{ item.order }}</a> <small>({{ item.status|title }})</small></p>
-                    {% endif %}
-                {% endif %}
             {% endfor %}
-            </div>
-
-            {% else %}
-            <div class="alert"><p>
-                <strong>{{ polity }}</strong> {% trans "is not viewable by non-members." %}
-            </p></div>
-            {% endif %}
         </div>
-        {% endfor %}
     </div>
 </div>
+
 {% endblock %}

@@ -85,15 +85,8 @@ def profile(request, username=None):
     ctx["profile"] = UserProfile.objects.get(user=subject)
     if subject == request.user:
         ctx["polities"] = subject.polity_set.all()
-        for polity in ctx["polities"]:
-            polity.readable = True
     else:
         ctx["polities"] = [p for p in subject.polity_set.all() if p.is_member(request.user) or p.is_listed]
-        for polity in ctx["polities"]:
-            if polity.is_nonmembers_readable or polity.is_member(request.user):
-                polity.readable = True
-            else:
-                polity.readable = False
 
     # Get documents and documentcontents which user has made
     documentdata = []
