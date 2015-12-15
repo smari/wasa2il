@@ -86,3 +86,40 @@ issue indefinitely opponents could gang up to game the system and eliminate the
 possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
 should support the creation of that.]
 
+
+# Installation using Makefile
+
+## Locally
+
+    make init
+    make run
+
+`make init` will setup a local virtualenv for the python dependencies, and then
+run the `initial_setup.py` script which prompts for a username, e-mail and
+password of the first (admin) user, which get added to the sqlite database.
+`make run` runs the server using the python executable from the previously
+installed virtualenv.
+
+
+## Docker
+
+    docker build -t piratar/wasa2il .
+    docker run --name wasa2il-dev-container -p 8000:8000 -it piratar/wasa2il
+
+The first command builds a new docker image and gives it the name `piratar/wasa2il`
+The second command starts a new docker container based of the latest version
+of the `piaratar/wasa2il` image, forwards port 8000 of the docker host to the
+same port on the docker container, and names it `wasa2il-dev-container`.  The
+Docker CMD command runs `initial_setup.py` so when running the container for
+the first time you will be prompted for username, e-mail and password.
+
+Since the sqlite database is created inside the container on the first run,
+and not for example mounted through a volume, if you want your test data to
+persist you must re-use the container after building it.  You can stop and
+start the named container like so:
+
+    docker stop wasa2il-dev-container
+
+and
+
+    docker start wasa2il-dev-container
