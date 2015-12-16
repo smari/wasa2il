@@ -1,10 +1,10 @@
 # Wasa2il - ‫وسائل
 
 Wasa2il is a participatory democracy software project. It is based around the core
-idea of polities - political entities - which users of the system can join or leave, 
+idea of polities - political entities - which users of the system can join or leave,
 make proposals in, alter existing proposals, and adopt laws to self-govern.
 
-The goal of this is to make it easy for groups on any scale - from the local 
+The goal of this is to make it easy for groups on any scale - from the local
 whiskey club to the largest nation - to self-organize and manage their intents,
 goals and mutual understandings.
 
@@ -30,20 +30,20 @@ That should be it!
 
 A polity is a political entity which consists of a group of people and a set of laws
 the group has decided to adhere to. In an abstract sense, membership in a polity
-grants a person certain rights and priviledges. For instance, membership in a 
+grants a person certain rights and priviledges. For instance, membership in a
 school's student body may grant you the right to attend their annual prom,
-and membership in a country (i.e. residency or citizenship) grants you a right 
-to live there and do certain things there, such as start companies. stand in 
+and membership in a country (i.e. residency or citizenship) grants you a right
+to live there and do certain things there, such as start companies. stand in
 elections, and so on.
 
-Each polity has different rules - these are also called statutes, bylaws or laws - 
+Each polity has different rules - these are also called statutes, bylaws or laws -
 which affect the polity on two different levels.
 
 Firstly, there are meta-rules, which describe how rules are formed, how
-decisions are made, how meetings happen, and how governance in general 
-happens. Wasa2il has to be flexible enough to accomodate the varying 
-meta-rules of a given polity, otherwise the polity may decide that Wasa2il isn't 
-useful to them. Sometimes these rules are referred to as "rules of procedure" 
+decisions are made, how meetings happen, and how governance in general
+happens. Wasa2il has to be flexible enough to accomodate the varying
+meta-rules of a given polity, otherwise the polity may decide that Wasa2il isn't
+useful to them. Sometimes these rules are referred to as "rules of procedure"
 or "constitution", depending on the type of polity which is using them.
 
 Secondly there are external rules, which are the decisions the polity makes which
@@ -87,19 +87,20 @@ possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
 should support the creation of that.]
 
 
-# Installation using Makefile
+# Installation
+
+If you don't know what a virtualenv or a docker is, you can safely ignore those
+parts of the instructions.  They are included for those who wish to develop and
+support the project using those technologies.
 
 ## Locally
 
-    make init
-    make run
+    python initial_setup.py
 
-`make init` will setup a local virtualenv for the python dependencies, and then
-run the `initial_setup.py` script which prompts for a username, e-mail and
-password of the first (admin) user, which get added to the sqlite database.
-`make run` runs the server using the python executable from the previously
-installed virtualenv.
+## Locally (with a virtualenv)
 
+    virtualenv venv
+    venv/bin/python initial_setup.py --venv
 
 ## Docker
 
@@ -123,3 +124,19 @@ start the named container like so:
 and
 
     docker start wasa2il-dev-container
+
+
+# Running locally
+
+In order to run wasa2il locally for development purposes you need run
+`manage.py runserver`.  If you installed the wasa2il dependencies globally
+(not in a virtualenv), you should be able to run:
+
+    cd wasa2il && python ./manage.py runserver
+
+from the repository root.
+
+If you installed the dependencies in a virtualenv, you need to run the app
+via the python there, or source the activate script:
+
+    cd wasa2il && ../venv/bin/python ./manage.py runserver
