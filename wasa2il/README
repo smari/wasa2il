@@ -1,6 +1,0 @@
-This is the Django project folder for the Wasa2il project.
-
-To run a developer server you might want to initialize some environment variables first and then run the normal Django developer server:
-
-	$ source ENV
-	$ python manage.py runserver

@@ -1,4 +1,4 @@
-# wasa2il - ‫وسائل
+# Wasa2il - ‫وسائل
 
 Wasa2il is a participatory democracy software project. It is based around the core
 idea of polities - political entities - which users of the system can join or leave, 
@@ -8,6 +8,23 @@ The goal of this is to make it easy for groups on any scale - from the local
 whiskey club to the largest nation - to self-organize and manage their intents,
 goals and mutual understandings.
 
+# Setup
+
+_Note: Setup instructions are OS-agnostic unless otherwise specified. We test on Linux, Mac OS X and Windows._
+
+For production use, Wasa2il must be set up on a web server capable of running Django. Instructions on setting up a Django production environment are however beyond the scope of this project, as well as Git cloning, Python installation and how to use a command line. Plenty of tutorials on these topics exist in various places online and we suggest you take a look at them if any of this seems confusing.
+
+Long story short, to set up Wasa2il for development and/or testing:
+
+1. Install Python. You will need **pip** installed which is included by default in Python versions 2.7.9 and newer but can be downloaded separately for older versions. (URL: https://www.python.org/)
+
+2. Clone the Wasa2il Git project (URL: https://github.com/piratar/wasa2il.git)
+
+3. In a command line, run the script **initial_setup.py**, which should guide you through the rest of the process.
+
+That should be it!
+
+# Project concepts
 
 ## Polities
 
@@ -69,10 +86,3 @@ issue indefinitely opponents could gang up to game the system and eliminate the
 possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
 should support the creation of that.]
 
-# Installation
-
-For Debian, see instructions: INSTALL.Debian.txt
-
-But in general, just run python initial_setup.py and you will be all set.
-
-```
