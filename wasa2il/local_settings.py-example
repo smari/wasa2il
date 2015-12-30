@@ -37,6 +37,12 @@ LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
 #    'key': 'some-random-string',
 #}
 
+# Uncomment to enable Discourse SSO point
+#DISCOURSE = {
+#    'url': 'http://path-to-discourse',
+#    'secret': 'something-random',
+#}
+
 AUTO_LOGOUT_DELAY = 30 # User is logged out after this many minutes. Comment to disable auto-logout.
 
 DATABASE_ENGINE = 'django.db.backends.' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.

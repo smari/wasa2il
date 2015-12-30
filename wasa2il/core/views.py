@@ -4,8 +4,17 @@ import os.path
 import decimal
 import json
 
+# for Discourse SSO support
+import base64
+import hmac
+import hashlib
+import urllib
+from urlparse import parse_qs
+# SSO done
+
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseBadRequest
 from django.http import Http404
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
@@ -233,6 +242,46 @@ def verify(request):
 
     return HttpResponseRedirect('/')
 
+@login_required
+def sso(request):
+    if not hasattr(settings, 'DISCOURSE'):
+        raise Http404
+
+    key = str(settings.DISCOURSE['secret'])
+    return_url = '%s/session/sso_login' % settings.DISCOURSE['url']
+
+    payload = request.GET.get('sso')
+    their_signature = request.GET.get('sig')
+
+    if None in [payload, their_signature]:
+        return HttpResponseBadRequest('Required parameters missing.')
+
+    try:
+        payload = urllib.unquote(payload)
+        decoded = base64.decodestring(payload)
+        assert 'nonce' in decoded
+        assert len(payload) > 0
+    except:
+        return HttpResponseBadRequest('Malformed payload.')
+
+    our_signature = hmac.new(key, payload, digestmod=hashlib.sha256).hexdigest()
+
+    if our_signature != their_signature:
+        return HttpResponseBadRequest('Malformed payload.')
+
+    nonce = parse_qs(decoded)['nonce'][0]
+    outbound = {
+        'nonce': nonce,
+        'email': request.user.email,
+        'external_id': request.user.id,
+        'username': request.user.username,
+    }
+
+    out_payload = base64.encodestring(urllib.urlencode(outbound))
+    out_signature = hmac.new(key, out_payload, digestmod=hashlib.sha256).hexdigest()
+    out_query = urllib.urlencode({'sso': out_payload, 'sig' : out_signature})
+
+    return HttpResponseRedirect('%s?%s' % (return_url, out_query))
 
 class TopicListView(ListView):
     context_object_name = "topics"

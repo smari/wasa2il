@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     # (r'^accounts/login/', 'django.contrib.auth.views.login', login_url_params),
     (r'^accounts/login/', 'core.views.login', login_url_params),
     (r'^accounts/verify/', 'core.views.verify'),
+    (r'^accounts/sso/', 'core.views.sso'),
 
     # - START OF TEMPORARY COMPATIBILITY HACK -
     # IMPORTANT! The entire ^accounts/password/ section is here as a temporary hack until the official django-registration gets fixed!
