@@ -31,8 +31,8 @@ def issue_vote(request):
 @login_required
 @jsonize
 def issue_comment_send(request):
-    issue = get_object_or_404(Issue, id=request.REQUEST.get("issue", 0))
-    text = request.REQUEST.get("comment")
+    issue = get_object_or_404(Issue, id=request.POST.get("issue", 0))
+    text = request.POST.get("comment")
     comment = Comment()
     comment.created_by = request.user
     comment.comment = text

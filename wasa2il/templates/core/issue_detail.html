@@ -60,11 +60,12 @@
 
         {% if issue.is_open and not user.is_anonymous %}
         <form class="form-inline comment_form" role="form">
+            {% csrf_token %}
             <div class="form-group" style="width: 100%;">
                 <textarea id="id_comment"></textarea>
             </div>
             <div class="form-group">
-                <button class="btn btn-default" onclick="issue_comment_send({{ issue.id }}, $('#id_comment'));">{% trans "Add comment" %}</button>
+                <button type="button" class="btn btn-default" onclick="issue_comment_send({{ issue.id }}, $('#id_comment'));">{% trans "Add comment" %}</button>
             </div>
         </form>
         {% endif %}
