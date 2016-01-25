@@ -486,7 +486,7 @@ class DocumentCreateView(CreateView):
         self.object.polity = self.polity
         self.object.user = self.request.user
         self.object.save()
-        self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/?v=new"
+        self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/?action=new"
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -505,31 +505,38 @@ class DocumentDetailView(DetailView):
         context_data = super(DocumentDetailView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
 
-        if 'v' in self.request.GET:
-            if self.request.GET['v'] == 'new':
-                context_data['editor_enabled'] = True
-
-                current_content = DocumentContent()
-                current_content.order = 0
-
-                inherited_content = self.object.preferred_version()
-
-                if inherited_content:
-                    current_content.text = inherited_content.text
-
-            else:
-                try:
-                    current_content = get_object_or_404(DocumentContent, document=doc, order=int(self.request.GET['v']))
-                except ValueError:
-                    raise Exception('Bad "v(ersion)" parameter')
-        else:
-            current_content = self.object.preferred_version()
-
-
+        # Request variables taken together
+        action = self.request.GET.get('action', '')
         try:
+            version_num = int(self.request.GET.get('v', 0))
+        except ValueError:
+            raise Exception('Bad "v(ersion)" parameter')
+
+        # If version_num is not specified, we want the "preferred" version
+        if version_num > 0:
+            current_content = get_object_or_404(DocumentContent, document=doc, order=version_num)
+        else:
+            current_content = doc.preferred_version()
+
+
+        issue = None
+        if current_content is not None and hasattr(current_content, 'issue'):
             issue = current_content.issue
-        except Issue.DoesNotExist:
-            issue = None
+
+
+        if action == 'new':
+            context_data['editor_enabled'] = True
+
+            current_content = DocumentContent()
+            current_content.order = 0
+            current_content.predecessor = doc.preferred_version()
+
+            if current_content.predecessor:
+                current_content.text = current_content.predecessor.text
+
+        elif action == 'edit':
+            if current_content.user.id == self.request.user.id and current_content.status == 'proposed' and issue is None:
+                context_data['editor_enabled'] = True
 
 
         user_is_member = self.request.user in self.polity.members.all()
@@ -538,6 +545,7 @@ class DocumentDetailView(DetailView):
         buttons = {
             'propose_change': False,
             'put_to_vote': False,
+            'edit_proposal': False,
         }
         if not issue or not issue.is_voting():
             if current_content.status == 'accepted':
@@ -546,7 +554,10 @@ class DocumentDetailView(DetailView):
             elif current_content.status == 'proposed':
                 if user_is_officer and not issue:
                     buttons['put_to_vote'] = 'disabled' if doc.has_open_issue() else 'enabled'
+                if current_content.user_id == self.request.user.id:
+                    buttons['edit_proposal'] = 'disabled' if issue is not None else 'enabled'
 
+        context_data['action'] = action
         context_data['current_content'] = current_content
         context_data['selected_diff_documentcontent'] = doc.preferred_version
         context_data['issue'] = issue
