@@ -421,6 +421,24 @@ class IssueDetailView(DetailView):
         return context_data
 
 
+class IssueOpenListView(ListView):
+    model = Issue
+    context_object_name = 'newissues'
+    template_name = "core/issues_new.html"
+
+    def dispatch(self, *args, **kwargs):
+        self.polity = get_object_or_404(Polity, id=kwargs['polity'])
+        return super(IssueOpenListView, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        return self.polity.issue_set.order_by('deadline_votes').filter(deadline_votes__gt=datetime.now())
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super(IssueOpenListView, self).get_context_data(*args, **kwargs)
+        context_data.update({'polity': self.polity})
+        return context_data
+
+
 class PolityDetailView(DetailView):
     model = Polity
     context_object_name = "polity"

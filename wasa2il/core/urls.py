@@ -1,4 +1,5 @@
 from django.conf.urls import patterns
+from django.conf.urls import url
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import DetailView
@@ -27,6 +28,7 @@ urlpatterns = patterns('',
     (r'^issue/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
     (r'^issue/(?P<pk>\d+)/$', IssueDetailView.as_view()),
 
+    url(r'^polity/(?P<polity>\d+)/issues/open/$', IssueOpenListView.as_view(), name='polity_issues_new'),
     (r'^polity/(?P<polity>\d+)/issue/new/(documentcontent/(?P<documentcontent>\d+)/)?$', login_required(IssueCreateView.as_view())),
 
     (r'^search/$', SearchListView.as_view()),
