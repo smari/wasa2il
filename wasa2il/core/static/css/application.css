@@ -354,3 +354,15 @@ ul.errorlist {
 .glyphicon { cursor: pointer; }
 .dropdown-menu { cursor: pointer; }
 
+@media (max-width:767px){
+  .piratepurple {
+    background-color:#62388d;
+  }
+  .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a {
+    font-size:20px;
+    margin:7px 0px;
+  }
+  .navbar-header{
+    height:74px;
+  }
+}
