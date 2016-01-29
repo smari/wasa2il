@@ -1,11 +1,8 @@
 # Usage:
-# docker-compose build
 # docker-compose up
 wasaweb:
   build: .
-  working_dir: /usr/src/app/wasa2il/wasa2il/
-  command: python manage.py runserver 0.0.0.0:8000
   volumes:
-    - .:/usr/src/app/wasa2il
+    - .:/usr/src/app
   ports:
     - "8000:8000"
