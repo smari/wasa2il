@@ -5,6 +5,5 @@
 FROM python:2-onbuild
 
 WORKDIR /usr/src/app/wasa2il
-RUN cp local_settings.py-mysql-docker local_settings.py
 
 CMD python manage.py runserver 0.0.0.0:8000

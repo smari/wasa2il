@@ -1,4 +1,5 @@
 # Usage:
+# inside wasa2il/ copy local_settings.py-mysql-docker to local_settings.py
 # docker-compose up
 wasaweb:
   build: .
@@ -6,7 +7,7 @@ wasaweb:
     - .:/usr/src/app
   ports:
     - "8000:8000"
- links:
+  links:
     - "db"
 db:
   image: mysql
