@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-04 21:00+0000\n"
+"POT-Creation-Date: 2016-01-27 19:51+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -134,7 +134,8 @@ msgstr "Reglur"
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: core/models.py:375 templates/core/polity_detail.html:89
+#: core/models.py:375 templates/core/issues_new.html:18
+#: templates/core/polity_detail.html:96
 msgid "Issue"
 msgstr "Málefni"
 
@@ -143,7 +144,6 @@ msgid "Topic"
 msgstr "Málaflokkur"
 
 #: core/models.py:385 templates/core/polity_list.html:16
-#: templates/profile.html:50
 msgid "Polity"
 msgstr "Þing"
 
@@ -185,7 +185,7 @@ msgstr "Skráningarmörk meðlima"
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
-#: core/views.py:377
+#: core/views.py:419
 msgid "voting"
 msgstr "atkvæðagreiðsla"
 
@@ -245,15 +245,15 @@ msgid "Logout"
 msgstr "Útskrá"
 
 #: templates/base.html:103 templates/entry.html:17
-#: templates/registration/login.html:12
+#: templates/registration/login.html:6
 #: templates/registration/password_reset_complete.html:9
 msgid "Log in"
 msgstr "Innskrá"
 
 #: templates/base.html:104 templates/entry.html:11
-#: templates/registration/login.html:25
-#: templates/registration/registration_form.html:12
-#: templates/registration/registration_form.html:23
+#: templates/registration/login.html:19
+#: templates/registration/registration_form.html:6
+#: templates/registration/registration_form.html:17
 msgid "Sign up"
 msgstr "Nýskrá"
 
@@ -368,7 +368,7 @@ msgid "Statements:"
 msgstr "Statements:"
 
 #: templates/core/_document_modal.html:49
-#: templates/core/polity_detail.html:165 templates/core/topic_detail.html:72
+#: templates/core/polity_detail.html:172 templates/core/topic_detail.html:72
 #: templates/forum/forum_detail.html:48
 msgid "Close"
 msgstr "Loka"
@@ -403,7 +403,7 @@ msgid "Remove"
 msgstr ""
 
 #: templates/core/_election_candidate_list.html:17
-#: templates/core/issue_detail.html:76
+#: templates/core/issue_detail.html:77
 msgid "Vote"
 msgstr "Kjósa"
 
@@ -426,14 +426,14 @@ msgid "You have not voted in this election"
 msgstr "You have not voted on this issue"
 
 #: templates/core/_election_list_table.html:11
-#: templates/core/election_list.html:25 templates/core/polity_detail.html:103
-#: templates/core/topic_detail.html:34
+#: templates/core/election_list.html:25 templates/core/issues_new.html:32
+#: templates/core/polity_detail.html:110 templates/core/topic_detail.html:34
 msgid "Voting"
 msgstr "Í kosningu"
 
 #: templates/core/_election_list_table.html:11
-#: templates/core/election_list.html:25 templates/core/polity_detail.html:103
-#: templates/core/topic_detail.html:34
+#: templates/core/election_list.html:25 templates/core/issues_new.html:32
+#: templates/core/polity_detail.html:110 templates/core/topic_detail.html:34
 msgid "Open"
 msgstr "Opið"
 
@@ -442,19 +442,19 @@ msgstr "Opið"
 msgid "Closed"
 msgstr "Lokað"
 
-#: templates/core/_topic_list_table.html:17
+#: templates/core/_topic_list_table.html:19
 msgid "There are no topics in this polity!"
 msgstr "Það eru engir málaflokkar á þessu þingi!"
 
-#: templates/core/_topic_list_table.html:18
+#: templates/core/_topic_list_table.html:20
 msgid "Start a new topic"
 msgstr "Stofna nýjan málaflokk"
 
 #: templates/core/delegate_detail.html:6
 #: templates/core/document_detail.html:14
 #: templates/core/election_detail.html:7 templates/core/election_list.html:8
-#: templates/core/issue_detail.html:6 templates/core/topic_detail.html:7
-#: templates/forum/discussion_detail.html:6
+#: templates/core/issue_detail.html:6 templates/core/issues_new.html:8
+#: templates/core/topic_detail.html:7 templates/forum/discussion_detail.html:6
 #: templates/forum/forum_detail.html:7
 msgid "Back to polity"
 msgstr "Fara aftur í þing"
@@ -515,18 +515,18 @@ msgstr "Forsendur"
 msgid "Declarations"
 msgstr "Ályktanir"
 
-#: templates/core/document_form.html:17
+#: templates/core/document_form.html:6
 msgid "New Document"
 msgstr "Nýtt skjal"
 
-#: templates/core/document_form.html:20
+#: templates/core/document_form.html:9
 msgid "In polity:"
 msgstr "Í þingi:"
 
-#: templates/core/document_form.html:29
+#: templates/core/document_form.html:18
 #: templates/core/document_update.html:121
-#: templates/core/election_form.html:37 templates/core/issue_form.html:32
-#: templates/core/polity_form.html:24 templates/core/topic_form.html:25
+#: templates/core/election_form.html:35 templates/core/issue_form.html:30
+#: templates/core/polity_form.html:13 templates/core/topic_form.html:14
 #: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
 #: templates/registration/password_change_form.html:21
 #: templates/registration/password_reset_confirm.html:14
@@ -547,17 +547,17 @@ msgstr "Skjöl"
 msgid "Change proposal must differ from its predecessor."
 msgstr "Breytingatillaga verður að vera öðruvísi en upprunatexti."
 
-#: templates/core/document_update.html:91
+#: templates/core/document_update.html:88
 msgid "Agreement"
 msgstr "Samþykkt"
 
-#: templates/core/document_update.html:93 templates/core/issue_detail.html:22
+#: templates/core/document_update.html:90 templates/core/issue_detail.html:22
 msgid "Proposal"
 msgstr "Tillaga"
 
 #: templates/core/document_update.html:115
-#: templates/core/document_update.html:184
-#: templates/core/polity_detail.html:91 templates/core/topic_detail.html:23
+#: templates/core/document_update.html:192 templates/core/issues_new.html:20
+#: templates/core/polity_detail.html:98 templates/core/topic_detail.html:23
 msgid "Comments"
 msgstr "Ummæli"
 
@@ -585,26 +585,31 @@ msgstr "Stinga upp á breytingu"
 
 #: templates/core/document_update.html:141
 #: templates/core/document_update.html:143
+msgid "Edit proposal"
+msgstr "Breyta tillögu"
+
+#: templates/core/document_update.html:149
+#: templates/core/document_update.html:151
 msgid "Put to vote"
 msgstr "Setja í kosningu"
 
-#: templates/core/document_update.html:162
+#: templates/core/document_update.html:170
 msgid "Referenced issue"
 msgstr "Tilheyrandi mál"
 
-#: templates/core/document_update.html:178
+#: templates/core/document_update.html:186
 msgid "Versions"
 msgstr "Útgáfur"
 
-#: templates/core/document_update.html:182
+#: templates/core/document_update.html:190
 msgid "Status"
 msgstr "Ástand"
 
-#: templates/core/document_update.html:183
+#: templates/core/document_update.html:191
 msgid "Author"
 msgstr "Höfundur"
 
-#: templates/core/document_update.html:202
+#: templates/core/document_update.html:210
 msgid "New draft"
 msgstr "Ný drög"
 
@@ -627,14 +632,15 @@ msgstr "View details."
 
 #: templates/core/election_detail.html:26
 #: templates/core/election_detail.html:70 templates/core/election_list.html:18
-#: templates/core/issue_detail.html:42 templates/core/polity_detail.html:92
-#: templates/core/polity_detail.html:136 templates/core/topic_detail.html:24
+#: templates/core/issue_detail.html:42 templates/core/issues_new.html:21
+#: templates/core/polity_detail.html:99 templates/core/polity_detail.html:143
+#: templates/core/topic_detail.html:24
 msgid "Votes"
 msgstr "Atkvæði"
 
 #: templates/core/election_detail.html:27
 #: templates/core/election_detail.html:80 templates/core/election_list.html:17
-#: templates/core/polity_detail.html:135
+#: templates/core/polity_detail.html:142
 msgid "Candidates"
 msgstr "Frambjóðendur"
 
@@ -651,7 +657,7 @@ msgstr ""
 msgid "Election results"
 msgstr "Niðurstöður kosningar"
 
-#: templates/core/election_detail.html:71 templates/core/issue_detail.html:77
+#: templates/core/election_detail.html:71 templates/core/issue_detail.html:78
 msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 "Það kom upp villa við úrvinnslu atkvæðisins þíns. Vinsamlegast reyndu aftur."
@@ -672,7 +678,7 @@ msgstr "Tilkynna framboð"
 msgid "Withdraw candidacy"
 msgstr "Draga framboð til baka"
 
-#: templates/core/election_form.html:30 templates/core/polity_detail.html:116
+#: templates/core/election_form.html:28 templates/core/polity_detail.html:123
 msgid "New election"
 msgstr "Ný kosning"
 
@@ -680,12 +686,13 @@ msgstr "Ný kosning"
 msgid "Elections in polity"
 msgstr "Kosningar í þingi"
 
-#: templates/core/election_list.html:15 templates/core/polity_detail.html:133
+#: templates/core/election_list.html:15 templates/core/polity_detail.html:140
 msgid "Election"
 msgstr "Kosning"
 
-#: templates/core/election_list.html:16 templates/core/polity_detail.html:90
-#: templates/core/polity_detail.html:134 templates/core/topic_detail.html:22
+#: templates/core/election_list.html:16 templates/core/issues_new.html:19
+#: templates/core/polity_detail.html:97 templates/core/polity_detail.html:141
+#: templates/core/topic_detail.html:22
 msgid "State"
 msgstr "Ástand"
 
@@ -705,11 +712,11 @@ msgstr "Tímamörk fyrir umræður"
 msgid "Deadline for proposals"
 msgstr "Tímamörk fyrir tillögur"
 
-#: templates/core/issue_detail.html:44 templates/core/issue_detail.html:79
+#: templates/core/issue_detail.html:44 templates/core/issue_detail.html:80
 msgid "Yes"
 msgstr "Já"
 
-#: templates/core/issue_detail.html:45 templates/core/issue_detail.html:81
+#: templates/core/issue_detail.html:45 templates/core/issue_detail.html:82
 msgid "No"
 msgstr "Nei"
 
@@ -722,16 +729,16 @@ msgstr "Meirihlutaþröskuldur"
 msgid "Discussion"
 msgstr "Umræða"
 
-#: templates/core/issue_detail.html:67
+#: templates/core/issue_detail.html:68
 #: templates/forum/discussion_detail.html:23
 msgid "Add comment"
 msgstr "Bæta við ummælum"
 
-#: templates/core/issue_detail.html:76
+#: templates/core/issue_detail.html:77
 msgid "for or against this issue"
 msgstr "með eða á móti þessu máli"
 
-#: templates/core/issue_detail.html:80
+#: templates/core/issue_detail.html:81
 msgid "Abstain"
 msgstr "Sitja hjá"
 
@@ -739,9 +746,35 @@ msgstr "Sitja hjá"
 msgid "version"
 msgstr "útgáfa"
 
-#: templates/core/issue_form.html:24
+#: templates/core/issue_form.html:22
 msgid "New issue"
 msgstr "Nýtt mál"
+
+#: templates/core/issues_new.html:10 templates/core/polity_detail.html:89
+msgid "New issues"
+msgstr "Ný mál"
+
+#: templates/core/issues_new.html:10 templates/core/polity_detail.html:89
+msgid "in discussion"
+msgstr "til umræðu"
+
+#: templates/core/issues_new.html:11 templates/core/polity_detail.html:91
+msgid "These are the newest issues being discussed in this polity."
+msgstr "Þetta eru nýjustu málin til umræðu í þessu þingi."
+
+#: templates/core/issues_new.html:29 templates/core/polity_detail.html:107
+#: templates/core/topic_detail.html:30
+msgid "You have voted on this issue"
+msgstr "Þú hefur greitt atkvæði í þessu máli"
+
+#: templates/core/issues_new.html:29 templates/core/polity_detail.html:107
+#: templates/core/topic_detail.html:30
+msgid "You have not voted on this issue"
+msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
+
+#: templates/core/issues_new.html:32 templates/core/polity_detail.html:110
+msgid "New"
+msgstr ""
 
 #: templates/core/polity_detail.html:9
 msgid "You are an officer in this polity."
@@ -763,7 +796,7 @@ msgstr "samþykktir"
 msgid "subpolities"
 msgstr "undirþing"
 
-#: templates/core/polity_detail.html:35 templates/core/topic_form.html:17
+#: templates/core/polity_detail.html:35 templates/core/topic_form.html:6
 msgid "New topic"
 msgstr "Nýr málaflokkur"
 
@@ -803,56 +836,36 @@ msgstr "þessa þings"
 msgid "Here are all of the agreements this polity has arrived at."
 msgstr "Hér eru allar samþykktir þessa þings."
 
-#: templates/core/polity_detail.html:82
-msgid "New issues"
-msgstr "Ný mál"
+#: templates/core/polity_detail.html:85
+msgid "Show all new issues"
+msgstr "Sýna öll ný mál"
 
-#: templates/core/polity_detail.html:82
-msgid "in discussion"
-msgstr "til umræðu"
-
-#: templates/core/polity_detail.html:84
-msgid "These are the newest issues being discussed in this polity."
-msgstr "Þetta eru nýjustu málin til umræðu í þessu þingi."
-
-#: templates/core/polity_detail.html:100 templates/core/topic_detail.html:30
-msgid "You have voted on this issue"
-msgstr "Þú hefur greitt atkvæði í þessu máli"
-
-#: templates/core/polity_detail.html:100 templates/core/topic_detail.html:30
-msgid "You have not voted on this issue"
-msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
-
-#: templates/core/polity_detail.html:103
-msgid "New"
-msgstr ""
-
-#: templates/core/polity_detail.html:121
+#: templates/core/polity_detail.html:128
 msgid "Show closed elections"
 msgstr "Sýna liðnar kosningar"
 
-#: templates/core/polity_detail.html:122
+#: templates/core/polity_detail.html:129
 msgid "Show all elections"
 msgstr "Sýna allar kosningar"
 
-#: templates/core/polity_detail.html:126
+#: templates/core/polity_detail.html:133
 msgid "Elections"
 msgstr "Kosningar"
 
-#: templates/core/polity_detail.html:126
+#: templates/core/polity_detail.html:133
 msgid "putting people in power"
 msgstr "gefa fólki völd"
 
-#: templates/core/polity_detail.html:128
+#: templates/core/polity_detail.html:135
 msgid ""
 "Sometimes you need to put people in their places. Elections do just that."
 msgstr "Stundum þarf að setja fólk á sinn stað. Kosningar gera einmitt það."
 
-#: templates/core/polity_detail.html:155
+#: templates/core/polity_detail.html:162
 msgid "Subpolities"
 msgstr "Undirþing"
 
-#: templates/core/polity_form.html:17 templates/core/polity_list.html:8
+#: templates/core/polity_form.html:6 templates/core/polity_list.html:8
 msgid "New polity"
 msgstr "Nýtt þing"
 
@@ -878,7 +891,7 @@ msgid "Compared to"
 msgstr "Samanborið við"
 
 #: templates/core/stub/document_view.html:93
-#: templates/core/stub/document_view.html:95 templates/profile.html:61
+#: templates/core/stub/document_view.html:95 templates/profile.html:53
 msgid "Version"
 msgstr "Útgáfa"
 
@@ -1867,13 +1880,9 @@ msgstr ""
 msgid "Summary"
 msgstr "Yfirlit"
 
-#: templates/profile.html:32
+#: templates/profile.html:37
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
-
-#: templates/profile.html:69
-msgid "is not viewable by non-members."
-msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
 
 #: templates/registration/activate.html:5
 msgid "Welcome to Wasa2il!"
@@ -1897,7 +1906,7 @@ msgid "You may now try to log in!"
 msgstr "Þú getur núna reynt að innskrá þig!"
 
 #: templates/registration/activation_complete.html:13
-#: templates/registration/login.html:24
+#: templates/registration/login.html:18
 msgid "Login"
 msgstr "Innskrá"
 
@@ -1968,12 +1977,12 @@ msgstr ""
 "Ef einhverjar spurningar vakna varðandi persónugögn, vinsamlegast sendið "
 "okkur tölvupóst:"
 
-#: templates/registration/login.html:12
-#: templates/registration/registration_form.html:12
+#: templates/registration/login.html:6
+#: templates/registration/registration_form.html:6
 msgid "and partake in democracy..."
 msgstr "og taktu þátt í lýðræðinu..."
 
-#: templates/registration/login.html:14
+#: templates/registration/login.html:8
 msgid ""
 "Please note that as of February 12th 2014, we require the verification of "
 "all user accounts via the so-called Icekey."
@@ -1981,12 +1990,12 @@ msgstr ""
 "Vinsamlegast athugið að frá og með 12. febrúar 2014 krefjumst við "
 "staðfestingar allra innskráðra notenda með hinum svokallaða Íslykli."
 
-#: templates/registration/login.html:15
+#: templates/registration/login.html:9
 msgid "If problems arise, please send an email to the following email address:"
 msgstr ""
 "Ef vandamál koma upp, vinsamlegast sendið netpóst á eftirfarandi netfang:"
 
-#: templates/registration/login.html:26
+#: templates/registration/login.html:20
 #: templates/registration/password_reset_complete.html:5
 #: templates/registration/password_reset_confirm.html:6
 #: templates/registration/password_reset_done.html:5
@@ -2135,6 +2144,9 @@ msgstr "Stillingar"
 msgid "You are signed in as"
 msgstr "Þú ert innskráð(ur) sem"
 
+#~ msgid "is not viewable by non-members."
+#~ msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
+
 #~ msgid "Password changed"
 #~ msgstr "Lykilorði breytt"
 
@@ -2170,9 +2182,6 @@ msgstr "Þú ert innskráð(ur) sem"
 
 #~ msgid "Yes, I want to leave this polity."
 #~ msgstr "Já, ég vil yfirgefa þingið."
-
-#~ msgid "Open issues"
-#~ msgstr "Opin mál"
 
 #~ msgid "followers"
 #~ msgstr "fylgjendur"
@@ -2322,9 +2331,6 @@ msgstr "Þú ert innskráð(ur) sem"
 #, fuzzy
 #~ msgid "Version status"
 #~ msgstr "Ályktanir"
-
-#~ msgid "Draft proposal"
-#~ msgstr "Drög að tillögu"
 
 #~ msgid "Closed elections"
 #~ msgstr "Lokaðar kosningar"

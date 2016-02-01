@@ -79,6 +79,13 @@
 
     <div class="col-md-6 col-xs-12"><a name="newissues"></a>
 
+        <div class="btn-group" role="group" style="float: right">
+            <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu" style="left: -50px;">
+                <li><a href="{% url 'polity_issues_new' polity.id %}">{% trans "Show all new issues" %}</a></li>
+            </ul>
+        </div>
+
         <h2>{% trans "New issues" %} <small>{% trans "in discussion"%}</small></h2>
 
         <p class="muted">{% trans "These are the newest issues being discussed in this polity." %}</p>
