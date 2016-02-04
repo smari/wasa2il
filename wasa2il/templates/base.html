@@ -70,8 +70,9 @@
     <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
   </head>
   <body>
+  <div class="container">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
+
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -114,10 +115,8 @@
           </form>
           
         </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
     </nav>
-
-    <div class="container">
+    <div class="">
     {% block content %}{% endblock %}
       <footer class="footer">
         <hr/>
@@ -129,6 +128,7 @@
       </footer>
     </div>
 
+  </div><!-- /.container -->
   </body>
 </html>
 

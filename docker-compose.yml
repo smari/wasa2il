@@ -1,11 +1,22 @@
 # Usage:
-# docker-compose build
+# For the first time you need to create local_settings.py:
+# cp wasa2il/local_settings.py-mysql-docker wasa2il/local_settings.py
 # docker-compose up
+# Then migrate the database: (you might need to run it twice)
+# docker-compose run wasaweb python manage.py migrate
+
 wasaweb:
   build: .
-  working_dir: /usr/src/app/wasa2il/wasa2il/
-  command: python manage.py runserver 0.0.0.0:8000
   volumes:
-    - .:/usr/src/app/wasa2il
+    - .:/usr/src/app
   ports:
     - "8000:8000"
+  links:
+    - "db"
+db:
+  image: mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=docker
+    - MYSQL_DATABASE=docker
+    - MYSQL_USER=docker
+    - MYSQL_PASSWORD=docker
