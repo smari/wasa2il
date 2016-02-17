@@ -294,6 +294,9 @@ footer {
 	padding-right: 5px;
 	border-radius:	3px;
 }
+.comment:nth-child(even){
+  background: #eee;
+}
 
 .comment_created_by {
 	font-size:	9pt;
