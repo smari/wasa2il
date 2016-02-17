@@ -293,6 +293,7 @@ footer {
 	padding-left: 5px;
 	padding-right: 5px;
 	border-radius:	3px;
+	overflow: overlay;
 }
 
 .comment_created_by {
