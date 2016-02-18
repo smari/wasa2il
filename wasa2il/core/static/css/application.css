@@ -251,7 +251,7 @@ footer {
 
 .icon-grey { color: #c0d0c0 }
 
-#legal-text { font-family: serif; font-size: 12px; border: 1px #e0e0e0 solid; padding: 12px 24px 12px 24px; margin-bottom: 10px; text-align: justify; }
+#legal-text {overflow: overlay; font-family: serif; font-size: 12px; border: 1px #e0e0e0 solid; padding: 12px 24px 12px 24px; margin-bottom: 10px; text-align: justify; }
 #legal-text h1 { font-family: inherit; font-size: 28px; font-weight: bold; margin: 4px 0px 4px 4px; }
 #legal-text h2 { font-family: inherit; font-size: 18px; font-weight: bold; margin: 4px 0px 4px 4px; }
 #legal-text ol { margin: 12px 0px 0px 24px; }
@@ -293,6 +293,7 @@ footer {
 	padding-left: 5px;
 	padding-right: 5px;
 	border-radius:	3px;
+	overflow: overlay;
 }
 .comment:nth-child(even){
   background: #eee;
