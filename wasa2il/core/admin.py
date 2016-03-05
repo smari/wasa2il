@@ -106,7 +106,7 @@ register(Issue, IssueAdmin)
 # register(VoteOption, VoteOptionAdmin)
 register(Comment, CommentAdmin)
 register(Delegate, DelegateAdmin)
-register(Vote, VoteAdmin)
+#register(Vote, VoteAdmin)
 
 # User profile mucking
 admin.site.unregister(auth.models.User)
