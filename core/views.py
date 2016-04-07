@@ -75,7 +75,7 @@ def help(request, page):
     }
     for locale in [settings.LANGUAGE_CODE, "is"]: # Icelandic fallback
       filename = "help/%s/%s.html" % (locale, page)
-      if os.path.isfile(os.path.join(os.path.dirname(__file__), '..', 'templates', filename)):
+      if os.path.isfile(os.path.join(os.path.dirname(__file__), '..', 'wasa2il/templates', filename)):
           return render_to_response(filename, ctx, context_instance=RequestContext(request))
 
     raise Http404

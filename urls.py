@@ -49,7 +49,7 @@ urlpatterns = patterns('',
 
     (r'^accounts/', include('registration.urls')),
 
-    (r'^help/$', TemplateView.as_view(template_name='help/index.html')),
+    (r'^help/$', TemplateView.as_view(template_name='help/is/index.html')),
     (r'^help/(?P<page>.*)/$', "core.views.help"),
 
     (r'^static/(?P<path>.*)$', 'django.views.static.serve',  {'document_root': settings.STATIC_ROOT}),
