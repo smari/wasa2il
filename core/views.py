@@ -451,7 +451,7 @@ class PolityDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         ctx = {}
         context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
-
+        self.object.update_agreements()
         ctx['user_is_member'] = self.request.user in self.object.members.all()
         ctx["politytopics"] = self.object.get_topic_list(self.request.user)
         ctx["delegation"] = self.object.get_delegation(self.request.user)

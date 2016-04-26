@@ -11,6 +11,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
 
@@ -167,6 +168,12 @@ class Polity(BaseIssue, getCreationBase('polity')):
     def agreements(self):
         return DocumentContent.objects.select_related('document').filter(status='accepted', document__polity_id=self.id).order_by('-issue__deadline_votes')
 
+    def update_agreements(self):
+        issues_to_process = Issue.objects.filter(is_processed=False).filter(deadline_votes__lt=timezone.now())
+        for issue in issues_to_process:
+            issue.process()
+        return None
+
     def save(self, *args, **kwargs):
 
         polities = Polity.objects.all()
@@ -281,6 +288,27 @@ class Issue(BaseIssue, getCreationBase('issue')):
             return True
 
         return False
+
+    def process(self):
+        """
+            Process issue
+            - check if majority was reached
+            - set document content to appropriate status
+            - set issue status to processed
+        """
+        try:
+            if self.majority_reached():
+                #issue deadline has passed and majority achieved according to selected ruleset
+                self.documentcontent.status = 'accepted'
+            else:
+                self.documentcontent.status = 'rejected'
+            self.documentcontent.save()
+            self.is_processed = True
+            self.save()
+            return True
+        except Exception as e:
+            return False
+
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
