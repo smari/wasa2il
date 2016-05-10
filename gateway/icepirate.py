@@ -31,7 +31,6 @@ def configure_external_member_db(user, create_if_missing=False):
 
         # Configure additional polities
         icepirate_groups = remote_object['data']['groups']
-        user_legal_zip_code = remote_object['data']['legal_zip_code']
 
         for polity in Polity.objects.filter(slug__in = icepirate_groups):
             polity.members.add(user)
@@ -41,15 +40,19 @@ def configure_external_member_db(user, create_if_missing=False):
                 polity.members.remove(user)
                 polity.officers.remove(user)
 
-        #add user to zip code Polities
-        for polity in Polity.objects.filter(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
-            polity.members.add(user)
+        try:
+            user_legal_zip_code = remote_object['data']['legal_zip_code']
+            #add user to zip code Polities
+            for polity in Polity.objects.filter(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
+                polity.members.add(user)
 
-        #remove user from other zip code polities
-        for polity in Polity.objects.exclude(zip_codes__isnull=True).exclude(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
-            if polity.is_member(user):
-                polity.members.remove(user)
-                polity.officers.remove(user)
+            #remove user from other zip code polities
+            for polity in Polity.objects.exclude(zip_codes__isnull=True).exclude(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
+                if polity.is_member(user):
+                    polity.members.remove(user)
+                    polity.officers.remove(user)
+        except:
+            pass
 
         added = datetime.strptime(remote_object['data']['added'], '%Y-%m-%d %H:%M:%S')
         if not user.userprofile.joined_org or added < user.userprofile.joined_org:
