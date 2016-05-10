@@ -4,7 +4,7 @@ import logging
 import re
 import random
 
-from base_classes import NameSlugBase, getCreationBase
+from base_classes import NameSlugBase
 from core.utils import AttrDict
 from datetime import datetime, timedelta
 from django.conf import settings
@@ -130,18 +130,34 @@ class PolityRuleset(models.Model):
         # actions aren't actually determined until post-vote.
         pass
 
+class ZipCode(models.Model):
+    zip_code = models.CharField(max_length=3, unique=True)
 
-class Polity(BaseIssue, getCreationBase('polity')):
+    def __unicode__(self):
+        return self.zip_code
+
+class Polity(BaseIssue):
     """A political entity. See the manual."""
 
     parent = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
     members = models.ManyToManyField(User)
     officers = models.ManyToManyField(User, verbose_name=_("Officers"), related_name="officers")
+    zip_codes = models.ManyToManyField(ZipCode, blank=True) #If polity contains zip codes it will automatically add members containing that zip code to the policy on sync with icepirate
 
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
     is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
     is_front_polity = models.BooleanField(verbose_name=_("Front polity?"), default=False, help_text=_("If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity."))
+
+    d = dict(
+        editable=False,
+        null=True,
+        blank=True,
+        )
+    created_by = models.ForeignKey(User, related_name='polity_created_by', **d)
+    modified_by = models.ForeignKey(User, related_name='polity_modified_by', **d)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     def get_delegation(self, user):
         """Check if there is a delegation on this polity."""
@@ -187,9 +203,18 @@ class Polity(BaseIssue, getCreationBase('polity')):
         return super(Polity, self).save(*args, **kwargs)
 
 
-class Topic(BaseIssue, getCreationBase('topic')):
+class Topic(BaseIssue):
     """A collection of issues unified categorically."""
     polity = models.ForeignKey(Polity)
+    d = dict(
+        editable=False,
+        null=True,
+        blank=True,
+        )
+    created_by = models.ForeignKey(User, related_name='topic_created_by', **d)
+    modified_by = models.ForeignKey(User, related_name='topic_modified_by', **d)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["name"]
@@ -229,7 +254,7 @@ class UserTopic(models.Model):
         unique_together = (("topic", "user"),)
 
 
-class Issue(BaseIssue, getCreationBase('issue')):
+class Issue(BaseIssue):
     SPECIAL_PROCESS_CHOICES = (
         ('accepted_at_assembly', _('Accepted at assembly')),
         ('rejected_at_assembly', _('Rejected at assembly')),
@@ -245,6 +270,17 @@ class Issue(BaseIssue, getCreationBase('issue')):
     ruleset = models.ForeignKey(PolityRuleset, verbose_name=_("Ruleset"), editable=True)
     is_processed = models.BooleanField(default=False)
     special_process = models.CharField(max_length='32', verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
+
+    d = dict(
+        editable=False,
+        null=True,
+        blank=True,
+        )
+
+    created_by = models.ForeignKey(User, related_name='issue_created_by', **d)
+    modified_by = models.ForeignKey(User, related_name='issue_modified_by', **d)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-deadline_votes"]
@@ -360,10 +396,19 @@ class Issue(BaseIssue, getCreationBase('issue')):
         return result
 
 
-class Comment(getCreationBase('comment')):
+class Comment(models.Model):
     comment = models.TextField()
     issue = models.ForeignKey(Issue)
 
+    d = dict(
+        editable=False,
+        null=True,
+        blank=True,
+        )
+    created_by = models.ForeignKey(User, related_name='comment_created_by', **d)
+    modified_by = models.ForeignKey(User, related_name='comment_modified_by', **d)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
 class Delegate(models.Model):
     polity = models.ForeignKey(Polity)
@@ -612,9 +657,20 @@ class DocumentContent(models.Model):
         return "DocumentContent (ID: %d)" % self.id
 
 
-class ChangeProposal(getCreationBase('change_proposal')):
+class ChangeProposal(models.Model):
     document = models.ForeignKey(Document)    # Document to reference
     issue = models.ForeignKey(Issue)
+
+    d = dict(
+        editable=False,
+        null=True,
+        blank=True,
+        )
+
+    created_by = models.ForeignKey(User, related_name='change_proposal_created_by', **d)
+    modified_by = models.ForeignKey(User, related_name='change_proposal_modified_by', **d)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     CHANGE_PROPOSAL_ACTION_CHOICES = (
         ('NEW', 'New Agreement'),

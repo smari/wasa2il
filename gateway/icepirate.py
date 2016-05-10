@@ -4,7 +4,7 @@ import urllib
 
 from django.conf import settings
 
-from core.models import Polity
+from core.models import Polity, ZipCode
 
 class IcePirateException(Exception):
     pass
@@ -24,18 +24,30 @@ def configure_external_member_db(user, create_if_missing=False):
     request = urllib.urlopen('%s/member/api/get/ssn/%s?json_api_key=%s' % (url, user.userprofile.verified_ssn, key))
     content = request.read()
     remote_object = json.loads(content)
+    print(remote_object)
 
     if remote_object['success']:
         add_user_to_front_polity()
 
         # Configure additional polities
         icepirate_groups = remote_object['data']['groups']
+        user_legal_zip_code = remote_object['data']['legal_zip_code']
 
         for polity in Polity.objects.filter(slug__in = icepirate_groups):
             polity.members.add(user)
 
         for polity in Polity.objects.exclude(slug__isnull=True).exclude(slug__exact=''):
             if polity.is_member(user) and polity.slug not in icepirate_groups:
+                polity.members.remove(user)
+                polity.officers.remove(user)
+
+        #add user to zip code Polities
+        for polity in Polity.objects.filter(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
+            polity.members.add(user)
+
+        #remove user from other zip code polities
+        for polity in Polity.objects.exclude(zip_codes__isnull=True).exclude(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
+            if polity.is_member(user):
                 polity.members.remove(user)
                 polity.officers.remove(user)
 

@@ -14,7 +14,7 @@ from sys import argv
 import random
 random = random.SystemRandom()
 
-TERMINAL_WIDTH = 80 
+TERMINAL_WIDTH = 80
 
 venv_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'venv/bin')
 
@@ -135,11 +135,6 @@ for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
 
 if not local_settings_changed:
     stdout.write('- No changes needed.\n')
-
-
-# Change to Wasa2il's directory
-os.chdir('wasa2il')
-
 
 # Compile the translation files
 for lang in next(os.walk(os.path.join(os.getcwd(), 'locale')))[1]:
