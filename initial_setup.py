@@ -5,6 +5,7 @@ import os
 import subprocess
 import fileinput
 import shutil
+import sys
 
 from sys import stderr
 from sys import stdin
@@ -15,9 +16,7 @@ import random
 random = random.SystemRandom()
 
 TERMINAL_WIDTH = 80
-
-venv_path = os.path.normpath('venv/bin')
-
+venv_path = os.path.relpath(os.path.dirname(sys.executable), sys.path[0])
 
 def get_executable_path(executable):
     if len(argv) > 1 and argv[1] == '--venv':
