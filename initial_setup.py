@@ -5,6 +5,7 @@ import os
 import subprocess
 import fileinput
 import shutil
+import sys
 
 from sys import stderr
 from sys import stdin
@@ -15,13 +16,10 @@ import random
 random = random.SystemRandom()
 
 TERMINAL_WIDTH = 80
-
-venv_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'venv/bin')
-
+venv_path = os.path.relpath(os.path.dirname(sys.executable), sys.path[0])
 
 def get_executable_path(executable):
     if len(argv) > 1 and argv[1] == '--venv':
-        print os.path.join(venv_path, executable)
         return os.path.join(venv_path, executable)
     return executable
 
@@ -137,9 +135,9 @@ if not local_settings_changed:
     stdout.write('- No changes needed.\n')
 
 # Compile the translation files
-for lang in next(os.walk(os.path.join(os.getcwd(), 'locale')))[1]:
-    print [get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'locale'), '-D', 'django', '-l', lang]
-    subprocess.call([get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'locale'), '-D', 'django', '-l', lang])
+for lang in next(os.walk(os.path.join(os.getcwd(), 'wasa2il/locale')))[1]:
+    print [get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'wasa2il/locale'), '-D', 'django', '-l', lang]
+    subprocess.call([get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'wasa2il/locale'), '-D', 'django', '-l', lang])
 
 
 # Setup database if needed
@@ -169,12 +167,12 @@ if create_database:
 print "*" * TERMINAL_WIDTH
 print "All done!"
 print "To run Wasa2il and start configuring polities, follow these steps:"
-print "- Go to the 'wasa2il' directory and run 'python manage.py runserver'"
+print "- Run '"+get_executable_path('python')+" manage.py runserver'"
 print "- Open your favorite browser and type in: http://localhost:8000"
 print "- Log in with the superuser account created previously"
 print
-print "(If you don't have a superuser account yet, then go to the 'wasa2il' directory"
-print "and run 'python manage.py createsuperuser')"
+print "Additional superuser accounts can be created with"
+print "- "+get_executable_path('python')+" manage.py createsuperuser"
 print "*" * TERMINAL_WIDTH
 
 
