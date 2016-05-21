@@ -87,20 +87,19 @@ possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
 should support the creation of that.]
 
 
-# Installation
+# Alternative installation instructions
 
-If you don't know what a virtualenv or a docker is, you can safely ignore those
-parts of the instructions.  They are included for those who wish to develop and
-support the project using those technologies.
+If you don't know what a virtualenv or a docker is, you can safely ignore the
+following and just use the [setup instruction above](#setup). Alternatives
+are included for those who wish to develop and support the project using those
+technologies.
 
-## Locally
-
-    python initial_setup.py
-
-## Locally (with a virtualenv)
+## Virtualenv
 
     virtualenv venv
     venv/bin/python initial_setup.py --venv
+
+The initial setup script guides you through the rest of the process.
 
 ## Docker
 
@@ -124,19 +123,3 @@ start the named container like so:
 and
 
     docker start wasa2il-dev-container
-
-
-# Running locally
-
-In order to run wasa2il locally for development purposes you need run
-`manage.py runserver`.  If you installed the wasa2il dependencies globally
-(not in a virtualenv), you should be able to run:
-
-    cd wasa2il && python ./manage.py runserver
-
-from the repository root.
-
-If you installed the dependencies in a virtualenv, you need to run the app
-via the python there, or source the activate script:
-
-    cd wasa2il && ../venv/bin/python ./manage.py runserver
