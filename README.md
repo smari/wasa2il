@@ -123,3 +123,9 @@ start the named container like so:
 and
 
     docker start wasa2il-dev-container
+
+## Docker-compose
+
+Detailed instructions in our wiki: 
+
+https://github.com/piratar/wasa2il/wiki/Installation
