@@ -66,6 +66,21 @@
         </table>
     </div>
 
+    <div class="col-md-6 col-xs-12" style="float: right;"><a name="documents"></a>
+        {% if user_is_member %}
+        <div class="btn-group" style="float: right">
+            <a class="btn btn-default btn-sm" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
+        </div>
+        {% endif %}
+        <h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
+
+        <p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
+
+        {% with polity.agreements as documentcontents %}
+            {% include "core/_document_agreement_list_table.html" %}
+        {% endwith %}
+    </div>
+
     <div class="col-md-6 col-xs-12"><a name="topics"></a>
         {% if user_is_member %}
         <div class="btn-group" style="float: right">
@@ -98,21 +113,6 @@
         {% endwith %}
         </tbody>
         </table>
-    </div>
-
-    <div class="col-md-6 col-xs-12" style="float: right;"><a name="documents"></a>
-        {% if user_is_member %}
-        <div class="btn-group" style="float: right">
-            <a class="btn btn-default btn-sm" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
-        </div>
-        {% endif %}
-        <h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
-
-        <p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
-
-        {% with polity.agreements as documentcontents %}
-            {% include "core/_document_agreement_list_table.html" %}
-        {% endwith %}
     </div>
 
     <div class="col-md-6 col-xs-12">
