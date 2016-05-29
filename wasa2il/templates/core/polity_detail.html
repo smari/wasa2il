@@ -4,7 +4,7 @@
 {% block content %}
 
 {% if user_is_member %}
-    <div style="float:right;" class="memberstatusbox">
+    <div class="memberstatusbox">
         {% if user in polity.officers.all %}
             {% trans "You are an officer in this polity." %}
         {% else %}
@@ -17,15 +17,14 @@
 
 {% if user_is_member or polity.is_nonmembers_readable %}
 
-<div id="polity_stats" class="subnav">
-    <ul class="nav nav-pills">
-        <li><a href="#topics">{{polity.topic_set.count}} {% trans "topics" %}</a></li>
-        <li><a href="#documents">{{polity.agreements.count}} {% trans "agreements" %}</a></li>
-        <li><a href="#subpolities" onclick="$('#modal_subpolities').modal('show');">{{polity.polity_set.count}} {% trans "subpolities" %}</a></li>
-    </ul>
+<div id="polity_stats">
+    <div class="btn-group" role="group">
+        <a href="#newissues" type="button" class="btn btn-default">{{newissues.count}} {% trans "New issues" %}</a>
+        <a href="#documents" type="button" class="btn btn-default">{{polity.agreements.count}} {% trans "Agreements" %}<a>
+        <a href="#topics" type="button" class="btn btn-default">{{polity.topic_set.count}} {% trans "Topics" %}</a>
+    </div>
 </div>
-
-
+<hr>
 <div class="row">
     <div class="col-md-6 col-xs-12"><a name="newissues"></a>
 
