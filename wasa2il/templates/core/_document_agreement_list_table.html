@@ -2,11 +2,23 @@
 <table class="table table-striped table-bordered table-condensed">
 <tr>
     <th>{% trans "Document" %}</th>
+    <th>{% trans "Yes" %} </th>
+    <th>{% trans "No" %} </th>
+    <th>{% trans "Abstain" %} </th>
     <th class="right">{% trans "Adopted" %}</th>
 </tr>
 {% for documentcontent in documentcontents %}
 <tr>
     <td><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></td>
+    <td class="col-md-1 green">
+      {{ documentcontent.issue.get_votes.yes }}
+    </td>
+    <td class="col-md-1 red">
+      {{ documentcontent.issue.get_votes.no }}
+    </td>
+    <td class="col-md-1 grey">
+      {{ documentcontent.issue.get_votes.abstain }}
+    </td>
     <td class="date">{{ documentcontent.issue.deadline_votes|date }}</td>
 </tr>
 {% empty %}
