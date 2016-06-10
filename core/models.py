@@ -57,7 +57,7 @@ class UserProfile(models.Model):
         super(UserProfile, self).save(*largs, **kwargs)
 
     def __unicode__(self):
-        return 'Profile for %s (%d)' % (unicode(self.user), self.user.id)
+        return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 
 
 def get_name(user):
@@ -109,7 +109,7 @@ class PolityRuleset(models.Model):
     adopted_if_accepted = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return self.name
+        return u'%s' % self.name
 
     def has_quora(self, issue):
         # TODO: Return whether this has acheived quora on this ruleset
@@ -134,7 +134,7 @@ class ZipCode(models.Model):
     zip_code = models.CharField(max_length=3, unique=True)
 
     def __unicode__(self):
-        return self.zip_code
+        return u'%s' % self.zip_code
 
 class Polity(BaseIssue):
     """A political entity. See the manual."""
@@ -286,7 +286,7 @@ class Issue(BaseIssue):
         ordering = ["-deadline_votes"]
 
     def __unicode__(self):
-        return self.name
+        return u'%s' % self.name
 
     def apply_ruleset(self):
         now = datetime.now()
@@ -420,7 +420,7 @@ class Delegate(models.Model):
         unique_together = (('user', 'base_issue'))
 
     def __unicode__(self):
-        return "[%s:%s] %s -> %s" % (self.type(), self.base_issue, self.user, self.delegate)
+        return u"[%s:%s] %s -> %s" % (self.type(), self.base_issue, self.user, self.delegate)
 
     def polity(self):
         """Gets the polity that the delegation exists within."""
@@ -654,7 +654,7 @@ class DocumentContent(models.Model):
         return result
 
     def __unicode__(self):
-        return "DocumentContent (ID: %d)" % self.id
+        return u"DocumentContent (ID: %d)" % self.id
 
 
 class ChangeProposal(models.Model):
@@ -683,7 +683,7 @@ class ChangeProposal(models.Model):
     content = models.TextField(help_text='Content of document, or new title', **nullblank)
 
     def __unicode__(self):
-        return 'Change Proposal: %s (content: "%s")' % (self.action, self.content_short())
+        return u'Change Proposal: %s (content: "%s")' % (self.action, self.content_short())
 
     def content_short(self):
         return trim(self.content, 30)
@@ -798,7 +798,7 @@ class Election(NameSlugBase):
         return ""
 
     def __unicode__(self):
-        return self.name
+        return u'%s' % self.name
 
     def is_open(self):
         return not self.is_closed()
@@ -869,7 +869,7 @@ class Candidate(models.Model):
     election = models.ForeignKey(Election)
 
     def __unicode__(self):
-        return str(self.user.username)
+        return u'%s' % self.user.username
 
 class ElectionVote(models.Model):
     election = models.ForeignKey(Election)
