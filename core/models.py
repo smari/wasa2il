@@ -15,7 +15,7 @@ from django.utils import timezone
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
 
-import schulze
+from elections import BallotCounter
 
 nullblank = {'null': True, 'blank': True}
 
@@ -724,9 +724,7 @@ class Election(NameSlugBase):
     on people. Users, specifically.
     """
 
-    VOTING_SYSTEMS = (
-        ('schulze', 'Schulze'),
-    )
+    VOTING_SYSTEMS = BallotCounter.VOTING_SYSTEMS
 
     polity = models.ForeignKey(Polity)
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
@@ -767,7 +765,9 @@ class Election(NameSlugBase):
             election_result_row.order = order
             election_result_row.save()
 
-        self.electionvote_set.all().delete()
+        # FIXME: This seems wrong: we don't want to delete the votes, we just
+        #        want to anonymize them.
+        #self.electionvote_set.all().delete()
 
         self.is_processed = True
         self.save()
@@ -777,22 +777,20 @@ class Election(NameSlugBase):
             votes = ElectionVote.objects.select_related('candidate__user').filter(election=self, user__userprofile__joined_org__lt = self.deadline_joined_org)
         else:
             votes = ElectionVote.objects.select_related('candidate__user').filter(election=self)
-        candidates = Candidate.objects.select_related('user').filter(election=self)
+
         votemap = {}
         for vote in votes:
             if not votemap.has_key(vote.user_id):
                 votemap[vote.user_id] = []
             votemap[vote.user_id].append(vote)
 
-        manger = []
+        ballots = []
         for user_id in votemap:
-            manger.append([(v.value, v.candidate) for v in votemap[user_id]])
+            ballot = [(int(v.value), unicode(v.candidate))
+                      for v in votemap[user_id]]
+            ballots.append(ballot)
 
-        preference = schulze.rank_votes(manger, candidates)
-        strongest_paths = schulze.compute_strongest_paths(preference, candidates)
-
-        ordered_candidates = schulze.get_ordered_voting_results(strongest_paths)
-        return ordered_candidates
+        return BallotCounter(ballots).results(self.voting_system)
 
     def export_openstv_ballot(self):
         return ""
