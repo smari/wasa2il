@@ -1,6 +1,7 @@
 from sys import stdout, stderr
 from datetime import datetime
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 
 from core.models import *
@@ -10,20 +11,20 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         try:
-
-            print
-            print 'WARNING! This command will permanently delete EVERY ballot of EVERY election!'
-            print 'Only do this if you know what you\'re doing. You have been warned.'
-            print
-            response = ''
-            while response != 'yes' and response != 'no':
-                response = raw_input('Are you REALLY certain that you wish to proceed? (yes/no) ').lower()
-
-            if response == 'no':
+            if not settings.BALLOT_SAVEFILE_FORMAT:
                 print
-                print 'Chicken.'
+                print 'WARNING! This command will permanently delete EVERY ballot of EVERY election!'
+                print 'Only do this if you know what you\'re doing. You have been warned.'
                 print
-                return
+                response = ''
+                while response != 'yes' and response != 'no':
+                    response = raw_input('Are you REALLY certain that you wish to proceed? (yes/no) ').lower()
+
+                if response == 'no':
+                    print
+                    print 'Chicken.'
+                    print
+                    return
 
             elections = Election.objects.all()
 
@@ -35,7 +36,11 @@ class Command(BaseCommand):
                     stdout.write(' done\n')
                 except Election.AlreadyProcessedException:
                     stdout.write(' already processed\n')
+                except Election.ElectionInProgressException:
+                    stdout.write(' still in progress\n')
                 except:
+                    import traceback
+                    traceback.print_exc()
                     stdout.write(' failed\n')
 
         except KeyboardInterrupt:

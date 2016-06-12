@@ -45,6 +45,7 @@
 
         {% if election.is_closed %}
             <h2>{% trans 'Election results' %}</h2>
+            {% if ordered_candidates %}
             <div id="election_candidates_winners" style="margin-top: 1em;">
                 <ol class="candidates" id="candidates_winners">
                 {% for candidate in ordered_candidates %}
@@ -57,6 +58,15 @@
                 {% endfor %}
                 </ol>
             </div>
+            {% elif vote_count == 0 %}
+            <div class="alert alert-success">
+                <p>{% trans "No votes were cast." %}</p>
+            </div>
+            {% else %}
+            <div class="alert alert-success">
+                <p>{% trans "Votes are still being counted." %}</p>
+            </div>
+            {% endif %}
         {% endif %}
     </div>
 

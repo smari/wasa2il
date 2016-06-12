@@ -658,10 +658,9 @@ class ElectionDetailView(DetailView):
             ordered_candidates = [r.candidate for r in election_result.rows.order_by('order')]
             vote_count = election_result.vote_count
         else:
-            # FIXME: This will be horribly, horribly slow for some voting systems. Also,
-            #        revealing the current status of an ongoing election is probably very
-            #        much the wrong thing to do!
-            ordered_candidates = self.get_object().get_ordered_candidates_from_votes()
+            # Returning nothing! Some voting systems are too slow for us to
+            # calculate results on the fly.
+            ordered_candidates = []
             vote_count = self.get_object().get_vote_count
 
         context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
