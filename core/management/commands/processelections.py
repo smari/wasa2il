@@ -8,6 +8,9 @@ from core.models import *
 
 class Command(BaseCommand):
 
+    def add_arguments(self, parser):
+        parser.add_argument('election_id', nargs='*', type=int)
+
     def handle(self, *args, **options):
 
         try:
@@ -29,6 +32,11 @@ class Command(BaseCommand):
             elections = Election.objects.all()
 
             for election in elections:
+                if (options.get('election_id') and
+                        str(election.id) not in options['election_id']):
+                    stdout.write('Skipping election %s\n' % election)
+                    continue
+
                 stdout.write('Processing election %s...' % election)
 
                 try:
