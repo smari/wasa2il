@@ -48,8 +48,6 @@ from core.saml import authenticate, SamlException
 from gateway.icepirate import configure_external_member_db
 from hashlib import sha1
 
-import schulze
-
 
 def home(request):
     ctx = {}
@@ -660,6 +658,9 @@ class ElectionDetailView(DetailView):
             ordered_candidates = [r.candidate for r in election_result.rows.order_by('order')]
             vote_count = election_result.vote_count
         else:
+            # FIXME: This will be horribly, horribly slow for some voting systems. Also,
+            #        revealing the current status of an ongoing election is probably very
+            #        much the wrong thing to do!
             ordered_candidates = self.get_object().get_ordered_candidates_from_votes()
             vote_count = self.get_object().get_vote_count
 

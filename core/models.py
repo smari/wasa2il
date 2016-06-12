@@ -1,6 +1,7 @@
 #coding:utf-8
 
 import logging
+import os
 import re
 import random
 
@@ -743,12 +744,38 @@ class Election(NameSlugBase):
         def __init__(self, message):
             super(Election.AlreadyProcessedException, self).__init__(message)
 
-    def process(self):
-        if self.electionvote_set.count() == 0:
-            raise Election.AlreadyProcessedException('Cannot process election %s (no ElectionVote found)' % self)
+    class ElectionInProgressException(Exception):
+        def __init__(self, message):
+            super(Election.ElectionInProgressException, self).__init__(message)
 
-        ordered_candidates = self.get_ordered_candidates_from_votes()
+    def save_ballots(self, ballot_counter):
+        if settings.BALLOT_SAVEFILE_FORMAT is not None:
+            try:
+                filename = settings.BALLOT_SAVEFILE_FORMAT % {
+                    'election_id': self.id,
+                    'voting_system': self.voting_system}
+                directory = os.path.dirname(filename)
+                if not os.path.exists(directory):
+                    os.mkdir(directory)
+                ballot_counter.save_ballots(filename)
+            except:
+                import traceback
+                traceback.print_exc()
+                return False
+        return True
+
+    def process(self):
+        if not self.is_closed():
+            raise Election.ElectionInProgressException('Election %s is still in progress!' % self)
+
+        if self.is_processed:
+            raise Election.AlreadyProcessedException('Election %s has already been processed!' % self)
+
+        ordered_candidates, ballot_counter = self.process_votes()
         vote_count = self.electionvote_set.values('user').distinct().count()
+
+        # Save anonymized ballots to a file, so we can recount later
+        save_failed = not self.save_ballots(ballot_counter)
 
         try:
             election_result = ElectionResult.objects.get(election=self)
@@ -765,14 +792,14 @@ class Election(NameSlugBase):
             election_result_row.order = order
             election_result_row.save()
 
-        # FIXME: This seems wrong: we don't want to delete the votes, we just
-        #        want to anonymize them.
-        #self.electionvote_set.all().delete()
+        # Delete the original votes (for anonymity), we have the ballots elsewhere
+        if not save_failed:
+            self.electionvote_set.all().delete()
 
         self.is_processed = True
         self.save()
 
-    def get_ordered_candidates_from_votes(self):
+    def process_votes(self):
         if self.deadline_joined_org:
             votes = ElectionVote.objects.select_related('candidate__user').filter(election=self, user__userprofile__joined_org__lt = self.deadline_joined_org)
         else:
@@ -786,11 +813,14 @@ class Election(NameSlugBase):
 
         ballots = []
         for user_id in votemap:
-            ballot = [(int(v.value), unicode(v.candidate))
-                      for v in votemap[user_id]]
+            ballot = [(int(v.value), v.candidate) for v in votemap[user_id]]
             ballots.append(ballot)
 
-        return BallotCounter(ballots).results(self.voting_system)
+        ballot_counter = BallotCounter(ballots)
+        return ballot_counter.results(self.voting_system), ballot_counter
+
+    def get_ordered_candidates_from_votes(self):
+        return self.process_votes()[0]
 
     def export_openstv_ballot(self):
         return ""
