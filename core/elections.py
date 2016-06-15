@@ -4,7 +4,8 @@ import random
 
 from pyvotecore.schulze_method import SchulzeMethod as Condorcet
 from pyvotecore.schulze_npr import SchulzeNPR as Schulze
-from pyvotecore.schulze_stv import SchulzeSTV as STV
+from pyvotecore.schulze_stv import SchulzeSTV
+from pyvotecore.stv import STV
 
 # This is the old custom Schulze code. For now we continue to use it by
 # default, silently comparing with results from pyvotecore (canarying).
@@ -111,14 +112,22 @@ class BallotCounter(object):
             logger.info('Schulze old and new match, hooray.')
         return old_style
 
-    def stv_results(self, winners=None):
+    def schulze_stv_results(self, winners=None):
         if winners is None:
             winners = 1
-        return sorted(list(STV(
+        return sorted(list(SchulzeSTV(
                 list(self.hashes_with_counts(self.ballots_as_rankings())),
                 required_winners=min(winners, len(self.candidates)),
                 ballot_notation=Schulze.BALLOT_NOTATION_RANKING,
             ).as_dict()['winners']))
+
+    def stv_results(self, winners=None):
+        if winners is None:
+            winners = 1
+        return list(STV(
+                list(self.hashes_with_counts(self.ballots_as_lists())),
+                required_winners=winners
+            ).as_dict()['winners'])
 
     def condorcet_results(self):
         result = Condorcet(
@@ -138,8 +147,9 @@ class BallotCounter(object):
         is the condorcet winner, if there is one. Note that the 11th result
         will be a duplicate.
         """
-        stcom = self.stv_results(winners=5)
-        deputies = list(set(self.stv_results(winners=10)) - set(stcom))
+        result = self.schulze_results(winners=10)
+        stcom = result[:5]
+        deputies = result[5:]
         condorcet = self.condorcet_results()
         return sorted(stcom) + sorted(deputies) + condorcet
 
