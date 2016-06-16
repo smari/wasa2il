@@ -1,6 +1,5 @@
 
 from django.db import models
-from fields import AutoUserField
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 

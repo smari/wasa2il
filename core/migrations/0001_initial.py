@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('modified', models.DateTimeField(auto_now=True)),
                 ('action', models.CharField(max_length=20, choices=[(b'NEW', b'New Agreement'), (b'CHANGE', b'Change Agreement Text'), (b'CHANGE_TITLE', b'Change Agreement Title'), (b'RETIRE', b'Retire Agreement')])),
                 ('content', models.TextField(help_text=b'Content of document, or new title', null=True, blank=True)),
-                ('created_by', models.ForeignKey(related_name='change_proposal_created_by', to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(related_name='change_proposal_created_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -48,8 +48,8 @@ class Migration(migrations.Migration):
                 ('comment', models.TextField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('created_by', models.ForeignKey(related_name='comment_created_by', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(related_name='comment_modified_by', to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(related_name='comment_created_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
+                ('modified_by', models.ForeignKey(related_name='comment_modified_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -202,9 +202,9 @@ class Migration(migrations.Migration):
                 ('special_process', models.CharField(default=b'', choices=[(b'accepted_at_assembly', 'Accepted at assembly'), (b'rejected_at_assembly', 'Rejected at assembly')], max_length=b'32', blank=True, null=True, verbose_name='Special process')),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('created_by', models.ForeignKey(related_name='issue_created_by', to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(related_name='issue_created_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
                 ('documentcontent', models.OneToOneField(related_name='issue', null=True, blank=True, to='core.DocumentContent')),
-                ('modified_by', models.ForeignKey(related_name='issue_modified_by', to=settings.AUTH_USER_MODEL)),
+                ('modified_by', models.ForeignKey(related_name='issue_modified_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
                 'ordering': ['-deadline_votes'],
@@ -221,12 +221,12 @@ class Migration(migrations.Migration):
                 ('is_front_polity', models.BooleanField(default=False, help_text='If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity.', verbose_name='Front polity?')),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('created_by', models.ForeignKey(related_name='polity_created_by', to=settings.AUTH_USER_MODEL)),
+                ('zip_codes', models.ManyToManyField(to='core.ZipCode', blank=True)),
+                ('created_by', models.ForeignKey(related_name='polity_created_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
                 ('members', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(related_name='polity_modified_by', to=settings.AUTH_USER_MODEL)),
+                ('modified_by', models.ForeignKey(related_name='polity_modified_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
                 ('officers', models.ManyToManyField(related_name='officers', verbose_name='Officers', to=settings.AUTH_USER_MODEL)),
                 ('parent', models.ForeignKey(blank=True, to='core.Polity', help_text=b'Parent polity', null=True)),
-                ('zip_codes', models.ManyToManyField(to='core.ZipCode', blank=True)),
             ],
             options={
                 'abstract': False,
@@ -239,8 +239,8 @@ class Migration(migrations.Migration):
                 ('baseissue_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.BaseIssue')),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('created_by', models.ForeignKey(related_name='topic_created_by', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(related_name='topic_modified_by', to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(related_name='topic_created_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
+                ('modified_by', models.ForeignKey(related_name='topic_modified_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
                 ('polity', models.ForeignKey(to='core.Polity')),
             ],
             options={
@@ -271,7 +271,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='changeproposal',
             name='modified_by',
-            field=models.ForeignKey(related_name='change_proposal_modified_by', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(related_name='change_proposal_modified_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True),
         ),
         migrations.AddField(
             model_name='candidate',

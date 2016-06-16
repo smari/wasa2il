@@ -138,6 +138,10 @@ class ZipCode(models.Model):
 
 class Polity(BaseIssue):
     """A political entity. See the manual."""
+    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='polity_created_by')
+    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='polity_modified_by')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     parent = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
     members = models.ManyToManyField(User)
@@ -205,6 +209,11 @@ class Polity(BaseIssue):
 
 class Topic(BaseIssue):
     """A collection of issues unified categorically."""
+    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_created_by')
+    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_modified_by')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
     polity = models.ForeignKey(Polity)
     d = dict(
         editable=False,
@@ -259,6 +268,11 @@ class Issue(BaseIssue):
         ('accepted_at_assembly', _('Accepted at assembly')),
         ('rejected_at_assembly', _('Rejected at assembly')),
     )
+
+    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='issue_created_by')
+    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='issue_modified_by')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     polity = models.ForeignKey(Polity)
     topics = models.ManyToManyField(Topic, verbose_name=_("Topics"))
@@ -397,6 +411,11 @@ class Issue(BaseIssue):
 
 
 class Comment(models.Model):
+    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='comment_created_by')
+    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='comment_modified_by')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
     comment = models.TextField()
     issue = models.ForeignKey(Issue)
 
@@ -658,6 +677,11 @@ class DocumentContent(models.Model):
 
 
 class ChangeProposal(models.Model):
+    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='change_proposal_created_by')
+    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='change_proposal_modified_by')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
     document = models.ForeignKey(Document)    # Document to reference
     issue = models.ForeignKey(Issue)
 
