@@ -72,6 +72,7 @@ textarea {
 .candidates li {
 	border-bottom:		1px solid #ddd;
 	padding-bottom:		3px;
+	padding-top:      3px;
 	font-size:			15pt;
 }
 
@@ -87,6 +88,10 @@ textarea {
 	display:			block;
 }
 
+#candidates {
+  padding-left: 0px;
+}
+
 .vote-button {
     float: right;
     margin-top: 12px;
@@ -100,6 +105,10 @@ textarea {
 #votes {
 	background: 		#fff;
 	list-style-type:			decimal;
+}
+
+#vote {
+  padding-left: 20px;
 }
 
 #votes li {

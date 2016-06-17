@@ -96,13 +96,16 @@
 election_id = {{ election.id }};
 
 function election_select_candidate(element) {
-    $(element).hide();
+    $(element).hide();  // TODO: This is not doing anything
     $(element).parent().parent().appendTo("#vote");
     election_update();
 }
 
 function election_deselect_candidate(element) {
     $(element).hide();
+    $(element).parent().find(".vote-up").hide();
+    $(element).parent().find(".vote-down").hide();
+    $(element).parent().find(".vote-yes").show();  // TODO: is this needed?
     $(element).parent().parent().appendTo("#candidates");
     election_update();
 }

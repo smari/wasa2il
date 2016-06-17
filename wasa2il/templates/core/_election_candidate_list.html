@@ -8,13 +8,19 @@
         {% if election.is_voting %}
             {% if candidate_selected %}
                 {% if user_is_member %}
-                    <button class="btn btn-default vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
-                    <button class="btn btn-default vote-button" onclick="election_down_candidate(this);">{% trans "Down" %}</button>
-                    <button class="btn btn-default vote-button" onclick="election_up_candidate(this);">{% trans "Up" %}</button>
+                    <button class="btn btn-default vote-button vote-remove" style="color:#C00" onclick="election_deselect_candidate(this);">
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
+                      <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
+                      <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                    </button>
                 {% endif %}
             {% else %}
                 {% if user_is_member %}
-                    <button class="btn btn-default vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+                    <button class="btn btn-default vote-button vote-yes" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
                 {% endif %}
             {% endif %}
         {% endif %}
