@@ -77,7 +77,6 @@ textarea {
 
 .candidates li div {
 	display:			block;
-    height: 50px;
 }
 
 .candidates li div:hover {

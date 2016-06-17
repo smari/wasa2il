@@ -5,19 +5,21 @@
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
     <div style="position: relative;">
-        <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
-        <a href="/accounts/profile/{{ candidate.user.username }}/" style="font-size: 18px;">{{ candidate.user.get_name }}</a>
         {% if election.is_voting %}
-        {% if candidate_selected %}
-        {% if user_is_member %}
-        <button class="btn btn-default vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
+            {% if candidate_selected %}
+                {% if user_is_member %}
+                    <button class="btn btn-default vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
+                    <button class="btn btn-default vote-button" onclick="election_down_candidate(this);">{% trans "Down" %}</button>
+                    <button class="btn btn-default vote-button" onclick="election_up_candidate(this);">{% trans "Up" %}</button>
+                {% endif %}
+            {% else %}
+                {% if user_is_member %}
+                    <button class="btn btn-default vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+                {% endif %}
+            {% endif %}
         {% endif %}
-        {% else %}
-        {% if user_is_member %}
-        <button class="btn btn-default vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
-        {% endif %}
-        {% endif %}
-        {% endif %}
+        <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
+        <a href="/accounts/profile/{{ candidate.user.username }}/" style="font-size: 15px;">{{ candidate.user.get_name | truncatechars:80 }}</a>
     </div>
 </li>
 {% empty %}

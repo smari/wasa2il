@@ -80,7 +80,7 @@
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
         {% if user_is_member %}
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw"  onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
         {% endif %}
 
         <div id="election_candidates" style="margin-top: 1em;">
@@ -104,6 +104,16 @@ function election_select_candidate(element) {
 function election_deselect_candidate(element) {
     $(element).hide();
     $(element).parent().parent().appendTo("#candidates");
+    election_update();
+}
+
+function election_up_candidate(element) {
+    $(element).parent().parent().insertBefore($(element).parent().parent().prev());
+    election_update();
+}
+
+function election_down_candidate(element) {
+    $(element).parent().parent().insertAfter($(element).parent().parent().next());
     election_update();
 }
 
