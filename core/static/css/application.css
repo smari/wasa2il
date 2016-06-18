@@ -72,12 +72,12 @@ textarea {
 .candidates li {
 	border-bottom:		1px solid #ddd;
 	padding-bottom:		3px;
+	padding-top:      3px;
 	font-size:			15pt;
 }
 
 .candidates li div {
 	display:			block;
-    height: 50px;
 }
 
 .candidates li div:hover {
@@ -86,6 +86,10 @@ textarea {
 
 #candidates li {
 	display:			block;
+}
+
+#candidates {
+  padding-left: 0px;
 }
 
 .vote-button {
@@ -101,6 +105,10 @@ textarea {
 #votes {
 	background: 		#fff;
 	list-style-type:			decimal;
+}
+
+#vote {
+  padding-left: 20px;
 }
 
 #votes li {
