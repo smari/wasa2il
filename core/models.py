@@ -130,11 +130,14 @@ class PolityRuleset(models.Model):
         # actions aren't actually determined until post-vote.
         pass
 
-class ZipCode(models.Model):
-    zip_code = models.CharField(max_length=3, unique=True)
+class LocationCode(models.Model):
+    location_code = models.CharField(max_length=20, unique=True)
+    location_name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return u'%s' % self.zip_code
+        if self.location_name:
+            return u'%s (%s)' % (self.location_code, self.location_name)
+        return u'%s' % self.location_code
 
 class Polity(BaseIssue):
     """A political entity. See the manual."""
@@ -146,7 +149,7 @@ class Polity(BaseIssue):
     parent = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
     members = models.ManyToManyField(User)
     officers = models.ManyToManyField(User, verbose_name=_("Officers"), related_name="officers")
-    zip_codes = models.ManyToManyField(ZipCode, blank=True) #If polity contains zip codes it will automatically add members containing that zip code to the policy on sync with icepirate
+    location_codes = models.ManyToManyField(LocationCode, blank=True) # If polity contains zip/location codes it will automatically add members containing that code to the policy on sync with icepirate
 
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
     is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))

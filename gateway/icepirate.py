@@ -4,7 +4,7 @@ import urllib
 
 from django.conf import settings
 
-from core.models import Polity, ZipCode
+from core.models import Polity, LocationCode
 
 class IcePirateException(Exception):
     pass
@@ -41,16 +41,21 @@ def configure_external_member_db(user, create_if_missing=False):
                 polity.officers.remove(user)
 
         try:
-            user_legal_zip_code = remote_object['data']['legal_zip_code']
-            #add user to zip code Polities
-            for polity in Polity.objects.filter(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
-                polity.members.add(user)
+            for prefix, location in (('pnr', 'legal_zip_code'),
+                                     ('svfnr', 'legal_county_code')):
+                user_legal_loc = remote_object['data'].get(location)
+                if user_legal_loc:
+                    loc_code = '%s:%s' % (prefix, location)
+                    # Add user to location (zip code, county code) Polities
+                    for polity in Polity.objects.filter(location_codes__in = LocationCode.objects.filter(location_code=loc_code)):
+                        polity.members.add(user)
 
-            #remove user from other zip code polities
-            for polity in Polity.objects.exclude(zip_codes__isnull=True).exclude(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
-                if polity.is_member(user):
-                    polity.members.remove(user)
-                    polity.officers.remove(user)
+            # bre: DISABLED FOR NOW
+            # remove user from other zip code polities
+            #for polity in Polity.objects.exclude(zip_codes__isnull=True).exclude(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
+            #    if polity.is_member(user):
+            #        polity.members.remove(user)
+            #        polity.officers.remove(user)
         except:
             pass
 
