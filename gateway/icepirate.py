@@ -42,7 +42,7 @@ def configure_external_member_db(user, create_if_missing=False):
 
         try:
             for prefix, location in (('pnr', 'legal_zip_code'),
-                                     ('svfnr', 'legal_county_code')):
+                                     ('svfnr', 'legal_muncipality_code')):
                 user_legal_loc = remote_object['data'].get(location)
                 if user_legal_loc:
                     loc_code = '%s:%s' % (prefix, location)
