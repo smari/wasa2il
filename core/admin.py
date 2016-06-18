@@ -12,7 +12,7 @@ from models import (
     Document, ChangeProposal,
     DocumentContent,
     Election, Candidate, ElectionVote,
-    ZipCode,
+    LocationCode,
     )
 
 
@@ -124,4 +124,4 @@ register(Election)
 register(Candidate)
 #register(ElectionVote)
 
-register(ZipCode)
+register(LocationCode)
