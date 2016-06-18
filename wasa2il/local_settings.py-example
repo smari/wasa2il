@@ -52,6 +52,10 @@ DATABASE_NAME = ''
 DATABASE_USER = ''
 DATABASE_PASSWORD = ''
 
+# Where we save anonymized ballots to, in case we need a recount.
+# Set to None to not save ballots at all.
+BALLOT_SAVEFILE_FORMAT = 'elections/ballots-%(voting_system)s-%(election_id)s.json'
+
 # Put in a random sequence of characters, like '2gj129ka0a3j4f4k1jdrg3igah73hgFQOWUBVwq68fFFQg2' - but make your own
 SECRET_KEY = ''
 
