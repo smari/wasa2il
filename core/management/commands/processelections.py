@@ -33,8 +33,8 @@ class Command(BaseCommand):
 
             for election in elections:
                 if (options.get('election_id') and
-                        str(election.id) not in options['election_id']):
-                    stdout.write('Skipping election %s\n' % election)
+                        election.id not in options['election_id']):
+                    stdout.write('Skipping election %s (%s)\n' % (election, election.id))
                     continue
 
                 stdout.write('Processing election %s...' % election)
