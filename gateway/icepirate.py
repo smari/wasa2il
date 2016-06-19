@@ -45,7 +45,7 @@ def configure_external_member_db(user, create_if_missing=False):
                                      ('svfnr', 'legal_municipality_code')):
                 user_legal_loc = remote_object['data'].get(location)
                 if user_legal_loc:
-                    loc_code = '%s:%s' % (prefix, location)
+                    loc_code = '%s:%s' % (prefix, user_legal_loc)
                     # Add user to location (zip code, county code) Polities
                     for polity in Polity.objects.filter(location_codes__in = LocationCode.objects.filter(location_code=loc_code)):
                         polity.members.add(user)
