@@ -131,6 +131,7 @@ class PolityRuleset(models.Model):
         # actions aren't actually determined until post-vote.
         pass
 
+
 class LocationCode(models.Model):
     location_code = models.CharField(max_length=20, unique=True)
     location_name = models.CharField(max_length=200)
@@ -139,6 +140,7 @@ class LocationCode(models.Model):
         if self.location_name:
             return u'%s (%s)' % (self.location_code, self.location_name)
         return u'%s' % self.location_code
+
 
 class Polity(BaseIssue):
     """A political entity. See the manual."""

@@ -184,13 +184,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='ZipCode',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('zip_code', models.CharField(unique=True, max_length=3)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Issue',
             fields=[
                 ('baseissue_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.BaseIssue')),
@@ -221,7 +214,6 @@ class Migration(migrations.Migration):
                 ('is_front_polity', models.BooleanField(default=False, help_text='If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity.', verbose_name='Front polity?')),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('modified', models.DateTimeField(auto_now=True)),
-                ('zip_codes', models.ManyToManyField(to='core.ZipCode', blank=True)),
                 ('created_by', models.ForeignKey(related_name='polity_created_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
                 ('members', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
                 ('modified_by', models.ForeignKey(related_name='polity_modified_by', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
