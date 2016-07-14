@@ -21,7 +21,8 @@
     <div class="btn-group" role="group">
         <a href="#newissues" type="button" class="btn btn-default">{{newissues.count}} {% trans "New issues" %}</a>
         <a href="#documents" type="button" class="btn btn-default">{{polity.agreements.count}} {% trans "Agreements" %}<a>
-        <a href="#topics" type="button" class="btn btn-default">{{polity.topic_set.count}} {% trans "Topics" %}</a>
+        <a href="#topics"    type="button" class="btn btn-default">{{polity.topic_set.count}} {% trans "Topics" %}</a>
+        <a href="#elections" type="button" class="btn btn-default">{{newelections.count}} {% trans "Elections" %}</a>
     </div>
 </div>
 <hr>
@@ -114,7 +115,7 @@
         </table>
     </div>
 
-    <div class="col-md-6 col-xs-12">
+    <div class="col-md-6 col-xs-12"><a name="elections">
         <div class="btn-group" role="group" style="float: right">
             {% if user_is_member %}
                 {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
