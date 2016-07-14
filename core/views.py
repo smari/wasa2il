@@ -304,7 +304,7 @@ class TopicCreateView(CreateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(TopicCreateView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
+        context_data['user_is_member'] = self.polity.is_member(self.request.user)
         return context_data
 
     def form_valid(self, form):
@@ -323,7 +323,7 @@ class TopicDetailView(DetailView):
         context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
         context_data["delegation"] = self.object.get_delegation(self.request.user)
         context_data["polity"] = self.object.polity
-        context_data['user_is_member'] = self.request.user in self.object.polity.members.all()
+        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         return context_data
 
 
@@ -344,7 +344,7 @@ class IssueCreateView(CreateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(IssueCreateView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
+        context_data['user_is_member'] = self.polity.is_member(self.request.user)
         context_data['form'].fields['topics'].queryset = Topic.objects.filter(polity=self.polity)
         context_data['selected_topics'] = []
 
@@ -415,6 +415,8 @@ class IssueDetailView(DetailView):
         context_data['votes_count'] = votes['count']
         context_data['votes_percentage_reached'] = votes_percentage_reached
         context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
+        context_data['can_vote'] = (self.request.user is not None and
+                                    self.object.can_vote(self.request.user))
 
         return context_data
 
@@ -450,7 +452,7 @@ class PolityDetailView(DetailView):
         ctx = {}
         context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
         self.object.update_agreements()
-        ctx['user_is_member'] = self.request.user in self.object.members.all()
+        ctx['user_is_member'] = self.object.is_member(self.request.user)
         ctx["politytopics"] = self.object.get_topic_list(self.request.user)
         ctx["delegation"] = self.object.get_delegation(self.request.user)
         ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now())[:20]
@@ -494,7 +496,7 @@ class DocumentCreateView(CreateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(DocumentCreateView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
+        context_data['user_is_member'] = self.polity.is_member(self.request.user)
         return context_data
 
     def form_valid(self, form):
@@ -555,8 +557,8 @@ class DocumentDetailView(DetailView):
                 context_data['editor_enabled'] = True
 
 
-        user_is_member = self.request.user in self.polity.members.all()
-        user_is_officer = self.request.user in self.polity.officers.all()
+        user_is_member = self.polity.is_member(self.request.user)
+        user_is_officer = self.polity.is_officer(self.request.user)
 
         buttons = {
             'propose_change': False,
@@ -597,7 +599,7 @@ class DocumentListView(ListView):
         context_data = super(DocumentListView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
         context_data.update({'agreements': [x.preferred_version() for x in context_data["documents"]]})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
+        context_data['user_is_member'] = self.polity.is_member(self.request.user)
         return context_data
 
 class SearchListView(ListView):
@@ -628,7 +630,7 @@ class ElectionCreateView(CreateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super(ElectionCreateView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.request.user in self.polity.members.all()
+        context_data['user_is_member'] = self.polity.is_member(self.request.user)
         return context_data
 
     def form_valid(self, form):
@@ -671,8 +673,10 @@ class ElectionDetailView(DetailView):
                 'ordered_candidates': ordered_candidates,
                 'vote_count': vote_count,
                 'voting_interface_enabled': voting_interface_enabled,
-                'user_is_member': self.request.user in self.polity.members.all(),
+                'user_is_member': self.polity.is_member(self.request.user),
                 'facebook_title': '%s (%s)' % (self.get_object().name, self.polity.name),
+                'can_vote': (self.request.user is not None and
+                             self.object.can_vote(self.request.user))
             }
         )
         return context_data

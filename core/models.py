@@ -181,7 +181,18 @@ class Polity(BaseIssue):
         return []
 
     def is_member(self, user):
-        return user in self.members.all()
+        return (self.members.filter(id=user.id).count() > 0)
+
+    def is_officer(self, user):
+        return (self.officers.filter(id=user.id).count() > 0)
+
+    # FIXME: If we want to have different folks participating in internal
+    #        affairs vs. elections, this would be one place to implement that.
+    def issue_voters(self):
+        return self.members
+
+    def election_voters(self):
+        return self.members
 
     def get_topic_list(self, user):
         if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
@@ -365,6 +376,14 @@ class Issue(BaseIssue):
         except Exception as e:
             return False
 
+    def get_voters(self):
+        # FIXME: This is one place to check if we've invited other groups to
+        #        participate in an election, if we implement that feature...
+        return self.polity.issue_voters()
+
+    def can_vote(self, user=None, user_id=None):
+        return (0 < self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).count())
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
@@ -827,6 +846,20 @@ class Election(NameSlugBase):
 
         self.is_processed = True
         self.save()
+
+    def get_voters(self):
+        # FIXME: This is one place to check if we've invited other groups to
+        #        participate in an election, if we implement that feature...
+        # FIXME: This is the place to check if we've invited other groups
+        #        to participate in an election.
+        if self.deadline_joined_org:
+            return self.polity.election_voters().filter(userprofile__joined_org__lt = self.deadline_joined_org)
+        else:
+            return self.polity.election_voters()
+
+    def can_vote(self, user=None, user_id=None):
+        return (0 < self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).count())
 
     def process_votes(self):
         if self.deadline_joined_org:

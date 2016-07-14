@@ -16,7 +16,7 @@ def issue_vote(request):
     if not issue.is_voting():
         return issue_poll(request)
 
-    if not request.user in issue.polity.members.all():
+    if not issue.can_vote(user=request.user):
         return issue_poll(request)
 
     val = int(request.REQUEST.get("vote", 0))

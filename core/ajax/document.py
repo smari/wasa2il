@@ -74,7 +74,7 @@ def document_changeproposal_new(request, document, type):
 
     doc = get_object_or_404(Document, id=document)
 
-    if request.user not in doc.polity.members.all():
+    if not doc.polity.is_member(request.user):
         ctx['error'] = 403
         return ctx
 

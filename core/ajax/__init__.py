@@ -21,7 +21,7 @@ from core.ajax.utils import jsonize, error
 @jsonize
 def election_poll(request):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
-    user_is_member = request.user in election.polity.members.all()
+    user_is_member = election.polity.is_member(request.user)
     ctx = {}
     ctx["election"] = {}
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
@@ -41,7 +41,7 @@ def election_poll(request):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
-    if election.is_closed() or not request.user in election.polity.members.all():
+    if election.is_closed() or not election.polity.is_member(request.user):
         return election_poll(request)
 
     val = int(request.GET.get("val", 0))
