@@ -536,11 +536,13 @@ class DocumentDetailView(DetailView):
         else:
             current_content = doc.preferred_version()
 
-
         issue = None
         if current_content is not None and hasattr(current_content, 'issue'):
             issue = current_content.issue
 
+        # If current_content is None here, that means the document has no
+        # content at all, which is a bit weird unless we're creating a new
+        # one...
 
         if action == 'new':
             context_data['editor_enabled'] = True
@@ -565,7 +567,8 @@ class DocumentDetailView(DetailView):
             'put_to_vote': False,
             'edit_proposal': False,
         }
-        if not issue or not issue.is_voting():
+        if ((not issue or not issue.is_voting())
+                and current_content is not None):
             if current_content.status == 'accepted':
                 if user_is_member:
                     buttons['propose_change'] = 'enabled'
