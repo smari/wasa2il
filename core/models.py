@@ -308,8 +308,8 @@ class Issue(BaseIssue):
     def __unicode__(self):
         return u'%s' % self.name
 
-    def apply_ruleset(self):
-        now = datetime.now()
+    def apply_ruleset(self, now=None):
+        now = now or datetime.now()
 
         if self.special_process:
             self.deadline_discussions = now
