@@ -10,7 +10,21 @@
 
 {% if election.is_closed %}
 <div class="alert alert-danger">{% trans "This election is closed." %}</div>
+{% elif not can_vote %}
+<div class="alert alert-danger">
+  {% trans "You cannot vote in this election:" %}
+  <b>{% if not user.is_authenticated %}
+  {% trans "Please log in." %}
+  {% elif not user_is_member %}
+  {% trans "You are not a member of this polity." %}
+  {% elif user.userprofile.joined_org > election.deadline_joined_org %}
+  {% trans "You joined the organization too late." %}
+  {% else %}
+  {% trans "You do not meet the requirements." %}
+  {% endif %}</b>
+</div>
 {% endif %}
+
 
 {% if delegation %}
 <div class="alert alert-notice">{% trans "This election is delegated." %} <a href="/delegation/{{ delegation.0.id }}">{% trans "View details." %}</a></div>

@@ -656,7 +656,9 @@ class ElectionDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
 
         # Single variable for template to check which controls to enable
-        voting_interface_enabled = self.get_object().polity.is_member(self.request.user) and self.get_object().is_voting
+        voting_interface_enabled = (
+            self.get_object().is_voting and
+            self.get_object().can_vote(self.request.user))
 
         if self.get_object().is_processed:
             election_result = self.get_object().result
