@@ -95,7 +95,7 @@ class Command(BaseCommand):
 
         print 'Generating/updating 4 polities of varying sizes ...'
         pollist = [
-            ('d', 'The Big Polity',    'abcd', 1000),
+            ('d', 'The Big Polity',    'abc',  1000),
             ('c', 'The Medium Polity', 'abc',  100),
             ('b', 'The Small Polity',  'ab',   10),
             ('a', 'The Dinky Polity',  'a',    1)]
@@ -145,11 +145,13 @@ class Command(BaseCommand):
                           created_by=usr).save()
 
             if new or options.get('users') or create_all:
-                print '       - Adding users'
+                print '       - Adding ~%d users' % size
                 for m in set([m for m in members] +
                              random.sample(users.keys(), size)):
                     try:
-                        p.members.add(users[m])
+                        # User d is a member of no polities
+                        if m != 'd':
+                            p.members.add(users[m])
                     except:
                         pass
 
