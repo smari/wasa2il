@@ -28,11 +28,19 @@ def election_poll(request):
     ctx["election"]["is_voting"] = election.is_voting()
     ctx["election"]["votes"] = election.get_vote_count()
     ctx["election"]["candidates"] = election.get_candidates()
-    context = {"user_is_member": user_is_member, "election": election, "candidates": election.get_unchosen_candidates(request.user), "candidate_selected": False}
-    ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", context)
+    ctx["election"]["candidates"]["html"] = render_to_string(
+        "core/_election_candidate_list.html", {
+            "user_is_member": user_is_member,
+            "election": election,
+            "candidates": election.get_unchosen_candidates(request.user),
+            "candidate_selected": False})
     ctx["election"]["vote"] = {}
-    context = {"user_is_member": user_is_member, "election": election, "candidates": election.get_vote(request.user), "candidate_selected": True}
-    ctx["election"]["vote"]["html"] = render_to_string("core/_election_candidate_list.html", context)
+    ctx["election"]["vote"]["html"] = render_to_string(
+        "core/_election_candidate_list.html", {
+            "user_is_member": user_is_member,
+            "election": election,
+            "candidates": election.get_vote(request.user),
+            "candidate_selected": True})
     ctx["ok"] = True
     return ctx
 
