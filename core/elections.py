@@ -1,6 +1,7 @@
 import json
 import logging
 import random
+import sys
 
 from pyvotecore.schulze_method import SchulzeMethod as Condorcet
 from pyvotecore.schulze_npr import SchulzeNPR as Schulze
@@ -61,8 +62,11 @@ class BallotCounter(object):
             unicode_ballots.append(
                [(rank, unicode(cand)) for rank, cand in ballot])
         random.shuffle(unicode_ballots)
-        with open(filename, 'w') as fd:
-            json.dump(unicode_ballots, fd, encoding='utf-8', indent=1)
+        if filename == '-':
+            json.dump(unicode_ballots, sys.stdout, encoding='utf-8', indent=1)
+        else:
+            with open(filename, 'w') as fd:
+                json.dump(unicode_ballots, fd, encoding='utf-8', indent=1)
 
     def get_candidates(self):
         candidates = {}
@@ -177,6 +181,64 @@ class BallotCounter(object):
         else:
             raise Exception('Invalid voting method: %s' % method)
 
+    def truncate_ballots(self, max_length):
+        truncated_ballots = []
+        max_seen_length = 0
+        for ballot in self.ballots:
+            tb = sorted(ballot)[:max_length]
+            max_seen_length = max(len(tb), max_seen_length)
+            truncated_ballots.append(tb)
+        self.ballots = truncated_ballots
+        return max_seen_length
+
+    def ballot_length(self):
+        maxl = 0
+        for ballot in self.ballots:
+            maxl = max(maxl, len(ballot))
+        return max(1, maxl)
+
+    def minimize_ballots(self, methods, winners=None):
+        """
+        This will iteratively attempt to shorten the ballots as
+        much as possible, without altering the results of the
+        election given the named criteria.
+        """
+        minl = maxl = 1
+        maxl = self.ballot_length()
+
+        # Shirt circuit if the ballots are already too short
+        if not minl < maxl + 2:
+            return maxl
+
+        # Gather the basic results
+        results = {}
+        for m in methods:
+            results[m] = self.results(m, winners=winners)
+
+        if winners is None:
+            winners = maxl
+
+        # Binary search for shortest viable ballot length
+        # FIXME: This is somewhat inefficient, it would be faster to
+        #        check one method at a time.
+        while minl < (maxl - 2):
+            midp = (minl + maxl) // 2
+            tbc = BallotCounter(self.ballots)
+            tbc.truncate_ballots(minl + maxl // 2)
+            same = True
+            for m in methods:
+                if (results[m][:winners] !=
+                        tbc.results(m, winners=winners)[:winners]):
+                    same = False
+                    break
+            if same:
+                maxl = midp
+            else:
+                minl = midp
+
+        self.ballots = tbc.ballots
+        return maxl
+
 
 if __name__ == "__main__":
     import sys
@@ -186,23 +248,42 @@ if __name__ == "__main__":
     logger.setLevel(logging.DEBUG)
 
     try:
-        system = sys.argv[1]
-        filenames = sys.argv[2:]
+        operation = sys.argv[1]
+        system = sys.argv[2]
+        filenames = sys.argv[3:]
     except IndexError:
-        print('Usage: %s <system> <ballot files ...>' % sys.argv[0])
+        print('Usage: %s count <system> <ballot files ...>' % sys.argv[0])
+        print('       %s trunc <systems> <ballot files ...>' % sys.argv[0])
         sys.exit(1)
+
+    if ':' in system:
+        system, winners = system.split(':')
+        winners = int(winners)
+    else:
+        winners = None
 
     bc = BallotCounter()
     for fn in filenames:
         bc.load_ballots(fn)
 
-    print('Voting system:\n\t%s (%s)' % (bc.system_name(system), system))
-    print('')
-    print('Loaded %d ballots from:\n\t%s' % (len(bc.ballots),
-                                             '\n\t'.join(filenames)))
-    print('')
-    print('Results:\n\t%s' % ', '.join(bc.results(system)))
-    print('')
+    if operation == 'count':
+        print('Voting system:\n\t%s (%s)' % (bc.system_name(system), system))
+        print('')
+        print('Loaded %d ballots from:\n\t%s' % (len(bc.ballots),
+                                                 '\n\t'.join(filenames)))
+        print('')
+        print('Results:\n\t%s' % ', '.join(bc.results(system,
+                                                      winners=winners)))
+        print('')
+
+    elif operation.startswith('trunc'):
+        systems = [s.strip() for s in system.split(',')]
+        org_len = bc.ballot_length()
+        max_len = bc.minimize_ballots(systems, winners=winners)
+        bc.save_ballots('-')
+        sys.stderr.write('Reduced ballots to max length of %s from %s\n'
+                         % (max_len, org_len))
+
 
 else:
     # Suppress errors in case logging isn't configured elsewhere

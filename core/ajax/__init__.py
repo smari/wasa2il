@@ -21,18 +21,26 @@ from core.ajax.utils import jsonize, error
 @jsonize
 def election_poll(request):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
-    user_is_member = request.user in election.polity.members.all()
+    user_is_member = election.polity.is_member(request.user)
     ctx = {}
     ctx["election"] = {}
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
     ctx["election"]["is_voting"] = election.is_voting()
     ctx["election"]["votes"] = election.get_vote_count()
     ctx["election"]["candidates"] = election.get_candidates()
-    context = {"user_is_member": user_is_member, "election": election, "candidates": election.get_unchosen_candidates(request.user), "candidate_selected": False}
-    ctx["election"]["candidates"]["html"] = render_to_string("core/_election_candidate_list.html", context)
+    ctx["election"]["candidates"]["html"] = render_to_string(
+        "core/_election_candidate_list.html", {
+            "user_is_member": user_is_member,
+            "election": election,
+            "candidates": election.get_unchosen_candidates(request.user),
+            "candidate_selected": False})
     ctx["election"]["vote"] = {}
-    context = {"user_is_member": user_is_member, "election": election, "candidates": election.get_vote(request.user), "candidate_selected": True}
-    ctx["election"]["vote"]["html"] = render_to_string("core/_election_candidate_list.html", context)
+    ctx["election"]["vote"]["html"] = render_to_string(
+        "core/_election_candidate_list.html", {
+            "user_is_member": user_is_member,
+            "election": election,
+            "candidates": election.get_vote(request.user),
+            "candidate_selected": True})
     ctx["ok"] = True
     return ctx
 
@@ -41,7 +49,7 @@ def election_poll(request):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
-    if election.is_closed() or not request.user in election.polity.members.all():
+    if election.is_closed() or not election.polity.is_member(request.user):
         return election_poll(request)
 
     val = int(request.GET.get("val", 0))

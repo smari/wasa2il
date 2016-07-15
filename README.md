@@ -22,6 +22,10 @@ Long story short, to set up Wasa2il for development and/or testing:
 
 3. In a command line, run the script **initial_setup.py**, which should guide you through the rest of the process.
 
+4. Optional: Run **manage.py load_fake_data --full --reset**, which will reset the database and populate with a large volume of test data.
+
+The 3rd step will populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password). The fourth (optional) step will do the same thing, only with much more data.
+
 That should be it!
 
 # Project concepts

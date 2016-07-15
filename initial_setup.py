@@ -163,6 +163,9 @@ if create_database:
     stdout.write('We will now create a superuser to configure polities within Wasa2il once it has been set up.\n')
     subprocess.call([get_executable_path('python'), os.path.join(os.getcwd(), 'manage.py'), 'createsuperuser'])
 
+    stdout.write('Populate wasa2il with some fake data...\n')
+    subprocess.call([get_executable_path('python'), os.path.join(os.getcwd(), 'manage.py'), 'load_fake_data'])
+
 
 print "*" * TERMINAL_WIDTH
 print "All done!"

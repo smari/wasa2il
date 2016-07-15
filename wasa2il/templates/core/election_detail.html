@@ -10,7 +10,21 @@
 
 {% if election.is_closed %}
 <div class="alert alert-danger">{% trans "This election is closed." %}</div>
+{% elif not can_vote %}
+<div class="alert alert-danger">
+  {% trans "You cannot vote in this election:" %}
+  <b>{% if not user.is_authenticated %}
+  {% trans "Please log in." %}
+  {% elif not user_is_member %}
+  {% trans "You are not a member of this polity." %}
+  {% elif user.userprofile.joined_org > election.deadline_joined_org %}
+  {% trans "You joined the organization too late." %}
+  {% else %}
+  {% trans "You do not meet the requirements." %}
+  {% endif %}</b>
+</div>
 {% endif %}
+
 
 {% if delegation %}
 <div class="alert alert-notice">{% trans "This election is delegated." %} <a href="/delegation/{{ delegation.0.id }}">{% trans "View details." %}</a></div>
@@ -89,8 +103,8 @@
     <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
         {% if user_is_member %}
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="with_update(election_candidacy_announce);">{% trans 'Announce candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="with_update(election_candidacy_withdraw);">{% trans 'Withdraw candidacy' %}</a>
         {% endif %}
 
         <div id="election_candidates" style="margin-top: 1em;">
@@ -104,6 +118,12 @@
 
 <script>
 election_id = {{ election.id }};
+
+function with_update(func) {
+    func();
+    $("#candidates").attr('data-loaded', '');
+    setTimeout("election_poll(election_id);", 250);
+}
 
 function election_select_candidate(element) {
     $(element).hide();  // TODO: This is not doing anything

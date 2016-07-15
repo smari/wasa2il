@@ -181,7 +181,18 @@ class Polity(BaseIssue):
         return []
 
     def is_member(self, user):
-        return user in self.members.all()
+        return (self.members.filter(id=user.id).count() > 0)
+
+    def is_officer(self, user):
+        return (self.officers.filter(id=user.id).count() > 0)
+
+    # FIXME: If we want to have different folks participating in internal
+    #        affairs vs. elections, this would be one place to implement that.
+    def issue_voters(self):
+        return self.members
+
+    def election_voters(self):
+        return self.members
 
     def get_topic_list(self, user):
         if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
@@ -308,8 +319,8 @@ class Issue(BaseIssue):
     def __unicode__(self):
         return u'%s' % self.name
 
-    def apply_ruleset(self):
-        now = datetime.now()
+    def apply_ruleset(self, now=None):
+        now = now or datetime.now()
 
         if self.special_process:
             self.deadline_discussions = now
@@ -365,6 +376,14 @@ class Issue(BaseIssue):
         except Exception as e:
             return False
 
+    def get_voters(self):
+        # FIXME: This is one place to check if we've invited other groups to
+        #        participate in an election, if we implement that feature...
+        return self.polity.issue_voters()
+
+    def can_vote(self, user=None, user_id=None):
+        return (0 < self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).count())
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
@@ -582,24 +601,27 @@ class Document(NameSlugBase):
     # It will return None if it finds nothing and it's the calling function's responsibility to react accordingly.
     # TODO: Make this faster and cached per request. Preferably still Pythonic. -helgi@binary.is, 2014-07-02
     def preferred_version(self):
-        documentcontent = None
-
         # Latest accepted version...
         accepted_versions = self.documentcontent_set.filter(status='accepted').order_by('-order')
         if accepted_versions.count() > 0:
-            documentcontent = accepted_versions[0]
-        else:
-            # ...and if none are found, find the earliest proposed one...
-            proposed_versions = self.documentcontent_set.filter(status='proposed').order_by('order')
-            if proposed_versions.count() > 0:
-                documentcontent = proposed_versions[0]
-            else:
-                # ...finally and desperately going for the first rejected one.
-                rejected_versions = self.documentcontent_set.filter(status='rejected').order_by('order')
-                if rejected_versions.count() > 0:
-                    documentcontent = rejected_versions[0]
+            return accepted_versions[0]
 
-        return documentcontent
+        # ...and if none are found, find the earliest proposed one...
+        proposed_versions = self.documentcontent_set.filter(status='proposed').order_by('order')
+        if proposed_versions.count() > 0:
+            return proposed_versions[0]
+
+        # ...boo, go for the first rejected one?
+        rejected_versions = self.documentcontent_set.filter(status='rejected').order_by('order')
+        if rejected_versions.count() > 0:
+            return rejected_versions[0]
+
+        # ...finally and desperately search for things with unknown status
+        all_versions = self.documentcontent_set.order_by('order')
+        if all_versions.count() > 0:
+            return all_versions[0]
+        else:
+            return None
 
     # Returns true if a documentcontent in this document already has an issue in progress.
     def has_open_issue(self):
@@ -828,6 +850,20 @@ class Election(NameSlugBase):
         self.is_processed = True
         self.save()
 
+    def get_voters(self):
+        # FIXME: This is one place to check if we've invited other groups to
+        #        participate in an election, if we implement that feature...
+        # FIXME: This is the place to check if we've invited other groups
+        #        to participate in an election.
+        if self.deadline_joined_org:
+            return self.polity.election_voters().filter(userprofile__joined_org__lt = self.deadline_joined_org)
+        else:
+            return self.polity.election_voters()
+
+    def can_vote(self, user=None, user_id=None):
+        return (0 < self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).count())
+
     def process_votes(self):
         if self.deadline_joined_org:
             votes = ElectionVote.objects.select_related('candidate__user').filter(election=self, user__userprofile__joined_org__lt = self.deadline_joined_org)
@@ -885,7 +921,7 @@ class Election(NameSlugBase):
         return ctx
 
     def get_unchosen_candidates(self, user):
-        if not user.is_authenticated():
+        if not user.is_authenticated() or not self.is_voting():
             return Candidate.objects.filter(election=self)
         # votes = []
         votes = ElectionVote.objects.filter(election=self, user=user)
