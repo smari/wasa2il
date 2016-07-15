@@ -59,6 +59,7 @@ class Command(BaseCommand):
 
         create_all = not (options.get('users', False) or
                           options.get('topics', False) or
+                          options.get('elections', False) or
                           options.get('documents', False))
 
         userlist = [
@@ -92,7 +93,7 @@ class Command(BaseCommand):
                     # User already exists
                     users[u] = User.objects.get(email=email)
 
-        print 'Generating 4 polities of varying sizes ...'
+        print 'Generating/updating 4 polities of varying sizes ...'
         pollist = [
             ('d', 'The Big Polity',    'abcd', 1000),
             ('c', 'The Medium Polity', 'abc',  100),
@@ -156,6 +157,8 @@ class Command(BaseCommand):
                 # Create 3 elections per polity:
                 #    one soliciting candidates, one voting, one finished
                 print '       - Creating 3 elections'
+                if reset:
+                    Election.objects.filter(polity=p).delete()
                 for dc, dv in ((1, 2), (-1, 1), (-2, -1)):
                     e = Election(
                         name="%s Manager" % random.choice(THINGS),
@@ -165,28 +168,34 @@ class Command(BaseCommand):
                         deadline_votes=now + timedelta(days=dv),
                         deadline_joined_org=now + timedelta(days=dv))
                     e.save()
+
                     if (dc < 0) or (dv < 0):
-                        voterc = min(p.members.count(), 50)
                         candidatec = min(p.members.count(), 15)
-                        candidates = []
-                        for cand in random.sample(p.members.all(), candidatec):
-                            c = Candidate(election=e, user=cand)
-                            c.save()
-                            candidates.append(c)
-                        for voter in random.sample(p.members.all(), voterc):
-                            random.shuffle(candidates)
-                            for rank, cand in enumerate(candidates):
-                                 ElectionVote(
-                                     election=e,
-                                     user=voter,
-                                     candidate=cand,
-                                     value=rank).save()
-                        if (dv < 0) and voterc and candidatec:
-                            try:
-                                e.process()
-                            except:
-                                traceback.print_exc()
-                                print 'Votes cast on %s: %s' % (e, ElectionVote.objects.filter(election=e).count())
+                        voterc = 0
+                    else:
+                        candidatec = min(p.members.count(), 5)
+                        voterc = min(p.members.count(), 5)
+
+                    candidates = []
+                    for cand in random.sample(p.members.all(), candidatec):
+                        c = Candidate(election=e, user=cand)
+                        c.save()
+                        candidates.append(c)
+                    for voter in random.sample(p.members.all(), voterc):
+                        random.shuffle(candidates)
+                        for rank, cand in enumerate(candidates):
+                             ElectionVote(
+                                 election=e,
+                                 user=voter,
+                                 candidate=cand,
+                                 value=rank).save()
+
+                    if (dv < 0) and voterc and candidatec:
+                        try:
+                            e.process()
+                        except:
+                            traceback.print_exc()
+                            print 'Votes cast on %s: %s' % (e, ElectionVote.objects.filter(election=e).count())
 
             if new or options.get('documents') or create_all:
                 # We create a list of authors biased towards the first
