@@ -81,6 +81,7 @@ class Command(BaseCommand):
                 try:
                     if len(u) == 1:
                         users[u] = User.objects.create_user(u, password=u)
+                        print '   * Creating user "%s" with password "%s"' % (u, u)
                     else:
                         users[u] = User.objects.create_user(u)
                     users[u].email = email
