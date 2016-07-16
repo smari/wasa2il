@@ -10,5 +10,6 @@ lib/
 local
 share
 .idea
-wasa2il/wasa2il.sqlite
+wasa2il.sqlite
 *~
+venv/
