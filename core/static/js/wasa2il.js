@@ -45,7 +45,7 @@ function document_import(doc) {
                 $("#document_all_proposals_table").html(data.html_all_documents);
             }
         }
-    });    
+    });
 }
 
 function topic_star(topic) {
@@ -130,7 +130,7 @@ function issue_vote(val) {
     $.getJSON("/api/issue/vote/", {"issue": issue_id, "vote": val}, function(data) {
         if (data.ok) {
             issue_object = data.issue;
-            issue_render();            
+            issue_render();
         } else {
             $("#vote_error").show();
         }
@@ -238,7 +238,12 @@ function discussion_timer_stop() {
 
 
 function election_timer_start() {
-    election_timer = window.setInterval(function() { election_poll(election_id); }, 5000);
+    // This is basically just checking for new candidates or keeping
+    // different tabs/windows in sync and as such, doesn't really need to
+    // happen too frequently.  Doing this too fast just increases load.
+    election_timer = window.setInterval(function() {
+        election_poll(election_id);
+    }, 20000);
 }
 
 function election_timer_stop() {
@@ -251,10 +256,10 @@ function election_vote(val) {
     $.getJSON("/api/election/vote/", {"election": election_id, "vote": val}, function(data) {
         if (data.ok) {
             election_object = data.election;
-            election_render();            
         } else {
             $("#vote_error").show();
         }
+        election_render();
         election_timer_start();
     });
 }
@@ -274,9 +279,10 @@ function election_candidacy(val) {
     $.getJSON("/api/election/candidacy/", {"election": election_id, "val": val}, function(data) {
         if (data.ok) {
             election_object = data.election;
-            election_render();            
         } else {
+            // FIXME: Error handling?
         }
+        election_render();
         election_timer_start();
     });
 }
@@ -286,10 +292,10 @@ function election_poll(election) {
     $.getJSON("/api/election/poll/", {"election": election}, function(data) {
         if (data.ok) {
             election_object = data.election;
-            election_render();
         } else {
-            // Silent error reporting?
+            // FIXME: Error handling?
         }
+        election_render();
     });
 }
 
@@ -311,13 +317,7 @@ function election_render(election) {
     }
     $("#election_votes_count").text(election_object.votes.count);
     $("#election_candidates_count").text(election_object.candidates.count);
-    if($("#candidates").attr('data-loaded')){
-        //data has been loaded, do not update
-    }
-    else{
-        $("#candidates").html(election_object.candidates.html);
-        $("#candidates").attr('data-loaded', "true");
-    }
+    $("#candidates").html(election_object.candidates.html);
     $("#vote").html(election_object.vote.html);
 }
 

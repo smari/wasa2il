@@ -1,4 +1,5 @@
 from datetime import datetime
+from hashlib import md5
 
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
@@ -28,11 +29,18 @@ def election_poll(request):
     ctx["election"]["is_voting"] = election.is_voting()
     ctx["election"]["votes"] = election.get_vote_count()
     ctx["election"]["candidates"] = election.get_candidates()
+
+    # This will sort the unchosen candidates in a stable order which is
+    # different ("random") for each individual user.
+    unchosen = list(election.get_unchosen_candidates(request.user))
+    unchosen.sort(
+        key=lambda k: md5(request.user.username + repr(k)).hexdigest())
+
     ctx["election"]["candidates"]["html"] = render_to_string(
         "core/_election_candidate_list.html", {
             "user_is_member": user_is_member,
             "election": election,
-            "candidates": election.get_unchosen_candidates(request.user),
+            "candidates": unchosen,
             "candidate_selected": False})
     ctx["election"]["vote"] = {}
     ctx["election"]["vote"]["html"] = render_to_string(

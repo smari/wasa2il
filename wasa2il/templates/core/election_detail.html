@@ -17,7 +17,7 @@
   {% trans "Please log in." %}
   {% elif not user_is_member %}
   {% trans "You are not a member of this polity." %}
-  {% elif user.userprofile.joined_org > election.deadline_joined_org %}
+  {% elif user.userprofile.joined_org >= election.deadline_joined_org %}
   {% trans "You joined the organization too late." %}
   {% else %}
   {% trans "You do not meet the requirements." %}
@@ -103,8 +103,8 @@
     <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
         {% if user_is_member %}
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="with_update(election_candidacy_announce);">{% trans 'Announce candidacy' %}</a>
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="with_update(election_candidacy_withdraw);">{% trans 'Withdraw candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
         {% endif %}
 
         <div id="election_candidates" style="margin-top: 1em;">
@@ -118,12 +118,6 @@
 
 <script>
 election_id = {{ election.id }};
-
-function with_update(func) {
-    func();
-    $("#candidates").attr('data-loaded', '');
-    setTimeout("election_poll(election_id);", 250);
-}
 
 function election_select_candidate(element) {
     $(element).hide();  // TODO: This is not doing anything
@@ -155,11 +149,15 @@ function election_update() {
     $("#vote li").each(function(item) {
         ord.push($($("#vote li")[item]).data("seqid"));
     });
-    $.getJSON("/api/election/vote/", {"election": election_id, "order": ord}, function(data) {
+    $.getJSON("/api/election/vote/", {
+        "election": election_id, "order": ord
+    }, function(data) {
         if (data.ok) {
             election_object = data.election;
-            election_render();
+        } else {
+            // Silent error reporting?
         }
+        election_render();
     });
 }
 
