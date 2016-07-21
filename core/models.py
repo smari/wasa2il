@@ -9,7 +9,7 @@ from base_classes import NameSlugBase
 from core.utils import AttrDict
 from datetime import datetime, timedelta
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -815,6 +815,7 @@ class Election(NameSlugBase):
                 return False
         return True
 
+    @transaction.atomic
     def process(self):
         if not self.is_closed():
             raise Election.ElectionInProgressException('Election %s is still in progress!' % self)
