@@ -117,7 +117,9 @@
 
 
 <script>
-election_id = {{ election.id }};
+var election_id = {{ election.id }};
+var election_update_timer = null;
+var election_update_wanted = false;
 
 function election_select_candidate(element) {
     $(element).hide();  // TODO: This is not doing anything
@@ -145,6 +147,35 @@ function election_down_candidate(element) {
 }
 
 function election_update() {
+    // We use a short timer here to consolidate multiple quick changes into
+    // a single request. If there is no request pending, we start one.
+    if (election_update_timer == null) {
+        election_timer_stop();
+        election_update_timer = setTimeout(do_election_update, 100);
+    }
+    else {
+        // Otherwise, we make a note that an update was requested.
+        election_update_wanted = true;
+    }
+}
+
+function election_update_done() {
+    // We just finished updating the backend, starting another request
+    // is now safe.
+    election_update_timer = null;
+
+    // If an updated was requested but not handled: handle it!
+    if (election_update_wanted) {
+        election_update();
+    } else {
+        election_timer_start();
+    }
+}
+
+function do_election_update() {
+    // We're about to handle all the requests that have been made up to now.
+    election_update_wanted = false;
+
     ord = [];
     $("#vote li").each(function(item) {
         ord.push($($("#vote li")[item]).data("seqid"));
@@ -157,8 +188,14 @@ function election_update() {
         } else {
             // Silent error reporting?
         }
-        election_render();
-    });
+        if (!election_update_wanted) {
+             // We can safely update the UI if there aren't more changes
+             // pending. Not rendering when more updates are pending prevents
+             // "jumping" in the UI and should preserve changes made by the
+             // user while the last update was in flight.
+             election_render();
+        }
+    }).always(election_update_done);
 }
 
 $(function() {
