@@ -247,7 +247,8 @@ $(function() {
     {% if voting_interface_enabled %}
     election_timer_start();
 
-    $(".candidates").sortable({
+    // bre: Disabled the drag-drop feature, buttons are enough.
+    $(".candidates-DISABLED").sortable({
         start: function() { election_timer_stop(); },
         stop: function() { election_timer_start(); },
         distance: 5,
