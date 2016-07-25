@@ -181,10 +181,10 @@ class Polity(BaseIssue):
         return []
 
     def is_member(self, user):
-        return (self.members.filter(id=user.id).count() > 0)
+        return self.members.filter(id=user.id).exists()
 
     def is_officer(self, user):
-        return (self.officers.filter(id=user.id).count() > 0)
+        return self.officers.filter(id=user.id).exists()
 
     # FIXME: If we want to have different folks participating in internal
     #        affairs vs. elections, this would be one place to implement that.
@@ -382,8 +382,8 @@ class Issue(BaseIssue):
         return self.polity.issue_voters()
 
     def can_vote(self, user=None, user_id=None):
-        return (0 < self.get_voters().filter(
-            id=(user_id if (user_id is not None) else user.id)).count())
+        return self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).exists()
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
