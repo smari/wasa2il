@@ -940,6 +940,12 @@ class Election(NameSlugBase):
         else:
             return self.electionvote_set.values("user").distinct().count()
 
+    def has_voted(self, user, **constraints):
+        if user.is_anonymous():
+            return False
+        return ElectionVote.objects.filter(
+            election=self, user=user, **constraints).exists()
+
     def get_vote(self, user):
         votes = []
         if not user.is_anonymous():

@@ -654,36 +654,44 @@ class ElectionDetailView(DetailView):
         return super(ElectionDetailView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
+        election = self.get_object()
 
         # Single variable for template to check which controls to enable
         voting_interface_enabled = (
             self.get_object().is_voting and
             self.get_object().can_vote(self.request.user))
 
-        if self.get_object().is_processed:
-            election_result = self.get_object().result
+        if election.is_processed:
+            election_result = election.result
             ordered_candidates = [r.candidate for r in election_result.rows.order_by('order')]
             vote_count = election_result.vote_count
         else:
             # Returning nothing! Some voting systems are too slow for us to
             # calculate results on the fly.
             ordered_candidates = []
-            vote_count = self.get_object().get_vote_count
+            vote_count = election.get_vote_count
 
         context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
         context_data.update(
             {
                 'polity': self.polity,
+                'step': self.request.GET.get('step', None),
                 "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
                 'ordered_candidates': ordered_candidates,
                 'vote_count': vote_count,
                 'voting_interface_enabled': voting_interface_enabled,
                 'user_is_member': self.polity.is_member(self.request.user),
-                'facebook_title': '%s (%s)' % (self.get_object().name, self.polity.name),
+                'facebook_title': '%s (%s)' % (election.name, self.polity.name),
                 'can_vote': (self.request.user is not None and
                              self.object.can_vote(self.request.user))
             }
         )
+        if voting_interface_enabled:
+            context_data.update({
+                'started_voting': election.has_voted(self.request.user),
+                'finished_voting': False
+            })
+
         return context_data
 
 

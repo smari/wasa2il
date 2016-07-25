@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load wasa2il %}
+{% block head_extra %}
+    <style type="text/css">
+        .hidebuttons button {display: none}
+        #submit-is-magic {transition: all 200ms; display: hidden;}
+        #submit-working, .start-voting {text-align: center;}
+        .start-voting {font-size: 1.5em; margin-top: 1em;}
+    </style>
+{% endblock %}
 {% block content %}
 
 <div style="float: right;">
@@ -44,13 +52,11 @@
     </div>
 
     <div class="col-md-6 col-xs-12">
-        {% if voting_interface_enabled %}
-            <div class="alert alert-success">
-                <p>{% trans "You don't have to submit your vote; whatever is on your ballot when the vote deadline passes will be counted." %}</p>
-            </div>
-            {% if election.instructions %}
+        {% if voting_interface_enabled and election.instructions %}
+            {% if started_voting or step == "vote" %}
                 <div class="alert alert-success">
-                    <p>{{ election.instructions|linebreaks }}</p>
+                    <h3>{% trans "About This Election" %}</h3>
+                    <p>{{ election.instructions|safe|linebreaks }}</p>
                 </div>
             {% endif %}
         {% endif %}
@@ -91,14 +97,39 @@
 <div class="row">
     {% if voting_interface_enabled %}
     <div class="col-md-5 col-xs-12 well voting">
-        <h2>{% trans "Votes" %}</h2>
-        <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
-        <div class="alert alert-info">{% trans "Drag candidates to change order" %}</div>
+        {% if started_voting or step == "vote" %}
+        <h2>{% trans "Votes" %} <small>{% trans "your favorites first!" %}</small></h2>
         <ol id="vote" class="candidates">
 
         </ol>
+        <div id="submit-error" class="alert alert-danger" style="display: none;">
+            <p>{% trans "There was an error while processing your vote. Please try again." %}</p>
+        </div>
+        <div id="submit-is-magic" class="alert alert-success" style="display: none;">
+            <p><b>{% trans "Your votes have been submitted!" %}</b><br>
+               {% trans "You can continue adding, removing or reordering candidates until the deadline." %}</p>
+        </div>
+        <div id="submit-working" class="alert" style="display: none;">
+            <p><i>{% trans "Working..." %}</i><br>
+        </div>
+        {% else %}
+            {% if election.instructions %}
+            <h2>{% trans "About This Election" %}</h2>
+            <p>{{ election.instructions|safe|linebreaks }}</p>
+            {% endif %}
+        <h2>{% trans "How To Vote" %}</h2>
+        <ul>
+            <li>{% trans "Click the Start Voting button to begin" %}</li>
+            <li>{% trans "Click a Vote button to vote for a candidate" %}</li>
+            <li>{% trans "Click the arrows to move your favorite candidates to the top" %}</li>
+            <li>{% trans "Your vote will be counted when the deadline has passed" %}</li>
+        </ul>
+        <div class="alert alert-success start-voting">
+            <a href="?step=vote"><button><b>{% trans "Start Voting" %}</b></button></a>
+        </div>
+        {% endif %}
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-1"></div>
     {% endif %}
     <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
@@ -108,7 +139,7 @@
         {% endif %}
 
         <div id="election_candidates" style="margin-top: 1em;">
-            <ul class="candidates" id="candidates">
+            <ul class="candidates{% if started_voting or step == "vote" %}{% else %} hidebuttons{% endif %}" id="candidates">
             </ul>
         </div>
     </div>
@@ -120,6 +151,7 @@
 var election_id = {{ election.id }};
 var election_update_timer = null;
 var election_update_wanted = false;
+var election_update_error = false;
 
 function election_select_candidate(element) {
     $(element).hide();  // TODO: This is not doing anything
@@ -150,6 +182,8 @@ function election_update() {
     // We use a short timer here to consolidate multiple quick changes into
     // a single request. If there is no request pending, we start one.
     if (election_update_timer == null) {
+        $('#submit-working').show();
+        $('#submit-is-magic, #submit-error').hide();
         election_timer_stop();
         election_update_timer = setTimeout(do_election_update, 100);
     }
@@ -169,12 +203,20 @@ function election_update_done() {
         election_update();
     } else {
         election_timer_start();
+        $('#submit-working, #submit-is-magic, #submit-error').hide();
+        if (election_update_error) {
+            $('#submit-error').show(200);
+        }
+        else {
+            $('#submit-is-magic').show(200);
+        }
     }
 }
 
 function do_election_update() {
     // We're about to handle all the requests that have been made up to now.
     election_update_wanted = false;
+    election_update_error = true; // Assume failure!
 
     ord = [];
     $("#vote li").each(function(item) {
@@ -183,10 +225,11 @@ function do_election_update() {
     $.getJSON("/api/election/vote/", {
         "election": election_id, "order": ord
     }, function(data) {
-        if (data.ok) {
+        if (data.ok && data.election) {
+            election_update_error = false;
             election_object = data.election;
         } else {
-            // Silent error reporting?
+            // Note: Error is assumed unless the ok block above runs.
         }
         if (!election_update_wanted) {
              // We can safely update the UI if there aren't more changes
