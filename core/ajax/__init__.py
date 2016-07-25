@@ -20,28 +20,47 @@ from core.models import UserTopic
 from core.ajax.utils import jsonize, error
 
 
+def _ordered_candidates(user, all_candidates, candidates):
+    # This will sort the unchosen candidates in a stable order which is
+    # different for each individual user. Rather than make it completely
+    # random, the list is alphabetical, but may or may not be reversed
+    # and the starting point varies.
+
+    randish = int(md5(repr(user) + str(user.id)).hexdigest()[:8], 16)
+
+    ordered = list(all_candidates)
+    ordered.sort(key=lambda k: unicode(k).lower())
+
+    pivot = (randish // 2) % len(ordered)
+    part1 = ordered[pivot:]
+    part2 = ordered[:pivot]
+    if randish % 4 in (0, 2):
+        part1.reverse()
+    if randish % 4 in (1, 2):
+        part2.reverse()
+
+    return [c for c in (part1 + part2) if c in candidates]
+
+
 @jsonize
 def election_poll(request, **kwargs):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
     user_is_member = election.polity.is_member(request.user)
+    all_candidates = election.get_candidates()
     ctx = {}
     ctx["election"] = {}
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
     ctx["election"]["is_voting"] = election.is_voting()
     ctx["election"]["votes"] = election.get_vote_count()
-    ctx["election"]["candidates"] = election.get_candidates()
-
-    # This will sort the unchosen candidates in a stable order which is
-    # different ("random") for each individual user.
-    unchosen = list(election.get_unchosen_candidates(request.user))
-    unchosen.sort(
-        key=lambda k: md5(request.user.username + repr(k)).hexdigest())
-
+    ctx["election"]["candidates"] = all_candidates
     ctx["election"]["candidates"]["html"] = render_to_string(
         "core/_election_candidate_list.html", {
             "user_is_member": user_is_member,
             "election": election,
-            "candidates": unchosen,
+            "candidates": _ordered_candidates(
+                request.user,
+                Candidate.objects.filter(election=election),
+                election.get_unchosen_candidates(request.user)),
             "candidate_selected": False})
     ctx["election"]["vote"] = {}
     ctx["election"]["vote"]["html"] = render_to_string(
