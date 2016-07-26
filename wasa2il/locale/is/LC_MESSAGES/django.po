@@ -1513,7 +1513,7 @@ msgstr "Kjörseðillinn er tómur."
 
 #: wasa2il/templates/core/_election_candidate_list.html:35
 msgid "There are no candidates standing in this election yet!"
-msgstr "Það eru engir frambjóðendur í þessari kosningu ennþá!"
+msgstr "Þessar kosningar hafa enga frambjóðendur enn sem komið er."
 
 #: wasa2il/templates/core/_election_list_table.html:8
 msgid "You have voted in this election"

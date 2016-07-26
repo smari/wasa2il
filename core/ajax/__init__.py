@@ -25,6 +25,8 @@ def _ordered_candidates(user, all_candidates, candidates):
     # different for each individual user. Rather than make it completely
     # random, the list is alphabetical, but may or may not be reversed
     # and the starting point varies.
+    if len(all_candidates) < 1:
+        return []
 
     randish = int(md5(repr(user) + str(user.id)).hexdigest()[:8], 16)
 
