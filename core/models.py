@@ -9,7 +9,7 @@ from base_classes import NameSlugBase
 from core.utils import AttrDict
 from datetime import datetime, timedelta
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -181,10 +181,10 @@ class Polity(BaseIssue):
         return []
 
     def is_member(self, user):
-        return (self.members.filter(id=user.id).count() > 0)
+        return self.members.filter(id=user.id).exists()
 
     def is_officer(self, user):
-        return (self.officers.filter(id=user.id).count() > 0)
+        return self.officers.filter(id=user.id).exists()
 
     # FIXME: If we want to have different folks participating in internal
     #        affairs vs. elections, this would be one place to implement that.
@@ -382,8 +382,8 @@ class Issue(BaseIssue):
         return self.polity.issue_voters()
 
     def can_vote(self, user=None, user_id=None):
-        return (0 < self.get_voters().filter(
-            id=(user_id if (user_id is not None) else user.id)).count())
+        return self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).exists()
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
@@ -815,6 +815,7 @@ class Election(NameSlugBase):
                 return False
         return True
 
+    @transaction.atomic
     def process(self):
         if not self.is_closed():
             raise Election.ElectionInProgressException('Election %s is still in progress!' % self)
@@ -938,6 +939,12 @@ class Election(NameSlugBase):
             return self.result.vote_count
         else:
             return self.electionvote_set.values("user").distinct().count()
+
+    def has_voted(self, user, **constraints):
+        if user.is_anonymous():
+            return False
+        return ElectionVote.objects.filter(
+            election=self, user=user, **constraints).exists()
 
     def get_vote(self, user):
         votes = []

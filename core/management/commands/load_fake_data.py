@@ -111,6 +111,7 @@ class Command(BaseCommand):
         documents = {}
         for u, name, members, size in pollist:
             print '   + %s (size=%d)' % (name, size)
+            usr = User.objects.get(username=u)
             try:
                 p = Polity.objects.get(name=name)
                 new = False
@@ -118,7 +119,6 @@ class Command(BaseCommand):
                 p = Polity(name=name,
                            slug=name.lower().replace(' ', '-'),
                            description='A polity with about %d things' % size)
-                usr = User.objects.get(username=u)
                 p.created = now - timedelta(hours=random.randint(0, 24 * 5))
                 p.created_by = usr
                 p.modified_by = usr

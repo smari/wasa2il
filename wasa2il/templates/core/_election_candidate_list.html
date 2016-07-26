@@ -30,9 +30,9 @@
 </li>
 {% empty %}
 <p>{% if election.is_voting %}
-        {% trans "Drag candidates here." %}
+    {% trans "Your ballot is empty." %}
 {% else %}
-        {% trans "There are no candidates standing in this election yet!" %}
+    {% trans "There are no candidates standing in this election yet!" %}
 {% endif %}</p>
 {% endfor %}
 {% endif %}

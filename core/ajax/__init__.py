@@ -1,8 +1,10 @@
 from datetime import datetime
+from hashlib import md5
 
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.db.models import Q
+from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -18,21 +20,47 @@ from core.models import UserTopic
 from core.ajax.utils import jsonize, error
 
 
+def _ordered_candidates(user, all_candidates, candidates):
+    # This will sort the unchosen candidates in a stable order which is
+    # different for each individual user. Rather than make it completely
+    # random, the list is alphabetical, but may or may not be reversed
+    # and the starting point varies.
+
+    randish = int(md5(repr(user) + str(user.id)).hexdigest()[:8], 16)
+
+    ordered = list(all_candidates)
+    ordered.sort(key=lambda k: unicode(k).lower())
+
+    pivot = (randish // 2) % len(ordered)
+    part1 = ordered[pivot:]
+    part2 = ordered[:pivot]
+    if randish % 4 in (0, 2):
+        part1.reverse()
+    if randish % 4 in (1, 2):
+        part2.reverse()
+
+    return [c for c in (part1 + part2) if c in candidates]
+
+
 @jsonize
-def election_poll(request):
+def election_poll(request, **kwargs):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
     user_is_member = election.polity.is_member(request.user)
+    all_candidates = election.get_candidates()
     ctx = {}
     ctx["election"] = {}
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
     ctx["election"]["is_voting"] = election.is_voting()
     ctx["election"]["votes"] = election.get_vote_count()
-    ctx["election"]["candidates"] = election.get_candidates()
+    ctx["election"]["candidates"] = all_candidates
     ctx["election"]["candidates"]["html"] = render_to_string(
         "core/_election_candidate_list.html", {
             "user_is_member": user_is_member,
             "election": election,
-            "candidates": election.get_unchosen_candidates(request.user),
+            "candidates": _ordered_candidates(
+                request.user,
+                Candidate.objects.filter(election=election),
+                election.get_unchosen_candidates(request.user)),
             "candidate_selected": False})
     ctx["election"]["vote"] = {}
     ctx["election"]["vote"]["html"] = render_to_string(
@@ -41,7 +69,12 @@ def election_poll(request):
             "election": election,
             "candidates": election.get_vote(request.user),
             "candidate_selected": True})
-    ctx["ok"] = True
+
+    for k, v in kwargs:
+        ctx["election"][k] = v
+
+    ctx["ok"] = kwargs.get("ok", True)
+
     return ctx
 
 
@@ -61,6 +94,17 @@ def election_candidacy(request):
     return election_poll(request)
 
 
+@transaction.atomic
+def _record_votes(election, user, order):
+    ElectionVote.objects.filter(election=election, user=user).delete()
+
+    for i in range(len(order)):
+        candidate = Candidate.objects.get(id=order[i])
+        ElectionVote(
+            election=election, user=user, candidate=candidate, value=i
+            ).save()
+
+
 @login_required
 @jsonize
 def election_vote(request):
@@ -72,16 +116,14 @@ def election_vote(request):
         ctx["ok"] = False
         return ctx
 
-    order = request.GET.getlist("order[]")
+    ok = True
+    try:
+        _record_votes(election, request.user, request.GET.getlist("order[]"))
+    except:
+        # FIXME: Report with more granularity what went wrong.
+        ok = False
 
-    ElectionVote.objects.filter(election=election, user=request.user).delete()
-
-    for i in range(len(order)):
-        candidate = Candidate.objects.get(id=order[i])
-        vote = ElectionVote(election=election, user=request.user, candidate=candidate, value=i)
-        vote.save()
-
-    return election_poll(request)
+    return election_poll(request, ok=ok)
 
 
 @login_required
