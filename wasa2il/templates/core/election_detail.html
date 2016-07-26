@@ -7,6 +7,17 @@
         #submit-is-magic {transition: all 200ms; display: hidden;}
         #submit-working, .start-voting {text-align: center;}
         .start-voting {font-size: 1.5em; margin-top: 1em;}
+        {% if not election.is_closed %}
+        table#election_details tr {display: none;}
+        {% if election.is_voting %}
+        table#election_details tr#vote_deadline,
+        {% elif not election.is_closed %}
+        table#election_details tr#cand_deadline,
+        {% endif %}
+        table#election_details tr#show_details {display: table-row;}
+    {% else %}
+        table#election_details tr#show_details {display: none;}
+    {% endif %}
     </style>
 {% endblock %}
 {% block content %}
@@ -42,12 +53,15 @@
     <div class="col-md-6 col-xs-12">
         <p>{{ election.description }}</p>
 
-        <table class="table table-compact">
-            <tr><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
-            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
-            <tr><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}</td></tr>
+        <table id="election_details" class="table table-compact">
+            <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
+            <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
+            <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}</td></tr>
             <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}</td></tr>
             <tr><th>{% trans "Voting system" %}:</th><td>{{ election.get_voting_system_display }}</td></tr>
+            <tr id="show_details"><td colspan=2>
+                <a onclick="show_details();" href="#">{% trans "Details ..." %}</a>
+            </td></tr>
         </table>
     </div>
 
@@ -95,7 +109,7 @@
 
 {% if not election.is_closed %}
 <div class="row">
-    {% if voting_interface_enabled %}
+    {% if voting_interface_enabled and election.is_voting %}
     <div class="col-md-5 col-xs-12 well voting">
         {% if started_voting or step == "vote" %}
         <h2>{% trans "Votes" %} <small>{% trans "your favorites first!" %}</small></h2>
@@ -152,6 +166,11 @@ var election_id = {{ election.id }};
 var election_update_timer = null;
 var election_update_wanted = false;
 var election_update_error = false;
+
+function show_details() {
+    $('table#election_details tr').css('display', 'table-row');
+    $('table#election_details tr#show_details').hide();
+}
 
 function election_select_candidate(element) {
     $(element).hide();  // TODO: This is not doing anything
