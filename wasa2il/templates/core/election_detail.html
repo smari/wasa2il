@@ -5,7 +5,8 @@
     <style type="text/css">
         .hidebuttons button {display: none}
         #submit-is-magic {transition: all 200ms; display: hidden;}
-        #submit-working, .start-voting {text-align: center;}
+        #submit-working, .start-voting, #election_announce_working {text-align: center;}
+        #election_button_withdraw {float: right;}
         .start-voting {font-size: 1.5em; margin-top: 1em;}
         {% if not election.is_closed %}
         table#election_details tr {display: none;}
@@ -169,8 +170,16 @@
     <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
         {% if can_run %}
+        <div id="election_announce_working" class="alert" style="display: none;">
+            <p><i>{% trans "Working..." %}</i><br>
+        </div>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();"
+             {% if started_voting %}
+             data-confirm="{% trans "Are you sure you want to withdraw? This can not be undone." %}"
+             {% endif %}
+             >{% trans 'Withdraw candidacy' %}</a>
+        <br clear="both">
         {% endif %}
 
         <div id="election_candidates" style="margin-top: 1em;">

@@ -1,4 +1,3 @@
-
 var issue_timer;
 var issue_object;
 var issue_id;
@@ -266,11 +265,18 @@ function election_vote(val) {
 
 
 function election_candidacy_announce() {
+    $('#election_button_announce').hide();
+    $('#election_announce_working').show();
     return election_candidacy(1);
 }
 
 function election_candidacy_withdraw() {
-    return election_candidacy(0);
+    var confirm_msg = $('#election_button_withdraw').data("confirm");
+    if (!confirm_msg || confirm(confirm_msg)) {
+        $('#election_button_withdraw').hide();
+        $('#election_announce_working').show();
+        return election_candidacy(0);
+    }
 }
 
 
@@ -284,6 +290,8 @@ function election_candidacy(val) {
         }
         election_render();
         election_timer_start();
+    }).always(function() {
+        $('#election_announce_working').hide();
     });
 }
 
@@ -302,24 +310,28 @@ function election_poll(election) {
 
 function election_render(election) {
     if (election_object.is_voting) {
-        $("#election_button_announce").hide();
-        $("#election_button_withdraw").hide();
         $(".voting").show();
-    } else if (election_object.is_waiting) {
+    }
+
+    if (election_object.is_closed) {
+        $("#election_button_withdraw").hide();
         $("#election_button_announce").hide();
-        if (!election_object.user_is_candidate) {
-            $("#election_button_withdraw").hide();
-        }
-    } else {
-        $(".voting").hide();
-        if (election_object.user_is_candidate) {
+    }
+    else if (election_object.user_is_candidate) {
+        $("#election_button_withdraw").show();
+        $("#election_button_announce").hide();
+    }
+    else {
+        $("#election_button_withdraw").hide();
+        if (election_object.is_voting) {
             $("#election_button_announce").hide();
-            $("#election_button_withdraw").show();
+        } else if (election_object.is_waiting) {
+            $("#election_button_announce").hide();
         } else {
-            $("#election_button_withdraw").hide();
             $("#election_button_announce").show();
         }
     }
+
     $("#election_votes_count").text(election_object.votes.count);
     $("#election_candidates_count").text(election_object.candidates.count);
     $("#candidates").html(election_object.candidates.html);

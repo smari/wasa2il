@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-27 03:40+0000\n"
+"POT-Creation-Date: 2016-07-27 12:20+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -1883,7 +1883,11 @@ msgstr "í þessari kosningu"
 msgid "Announce candidacy"
 msgstr "Tilkynna framboð"
 
-#: wasa2il/templates/core/election_detail.html:173
+#: wasa2il/templates/core/election_detail.html:179
+msgid "Are you sure you want to withdraw? This can not be undone."
+msgstr "Ertu viss um að draga framboð þitt til baka? Það er óafturkræft."
+
+#: wasa2il/templates/core/election_detail.html:181
 msgid "Withdraw candidacy"
 msgstr "Draga framboð til baka"
 
