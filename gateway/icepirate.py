@@ -88,7 +88,7 @@ def configure_external_member_db(user, create_if_missing=False):
                 add_user_to_front_polity()
 
             else:
-                user.polity_set.clear()
+                user.polities.clear()
                 user.officers.clear()
 
 

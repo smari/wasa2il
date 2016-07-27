@@ -91,9 +91,9 @@ def profile(request, username=None):
     ctx["subject"] = subject
     ctx["profile"] = UserProfile.objects.get(user=subject)
     if subject == request.user:
-        ctx["polities"] = subject.polity_set.all()
+        ctx["polities"] = subject.polities.all()
     else:
-        ctx["polities"] = [p for p in subject.polity_set.all() if p.is_member(request.user) or p.is_listed]
+        ctx["polities"] = [p for p in subject.polities.all() if p.is_member(request.user) or p.is_listed]
 
     # Get documents and documentcontents which user has made
     documentdata = []
