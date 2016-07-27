@@ -3,6 +3,7 @@
 *.mo
 *.swp
 *.swo
+pip-selfcheck.json
 bin
 include
 lib/python2.7
