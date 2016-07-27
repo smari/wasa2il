@@ -89,13 +89,13 @@ def election_poll(request, **kwargs):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
-    if election.is_closed() or not election.can_be_candidate(request.user):
+    if election.is_closed():
         return election_poll(request)
 
     val = int(request.GET.get("val", 0))
     if val == 0:
         Candidate.objects.filter(user=request.user, election=election).delete()
-    else:
+    elif election.can_be_candidate(request.user):
         cand, created = Candidate.objects.get_or_create(user=request.user, election=election)
 
     return election_poll(request)
