@@ -84,7 +84,7 @@ def election_poll(request, **kwargs):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
-    if election.is_closed() or not election.polity.is_member(request.user):
+    if election.is_closed() or not election.can_be_candidate(request.user):
         return election_poll(request)
 
     val = int(request.GET.get("val", 0))
@@ -114,7 +114,7 @@ def election_vote(request):
     ctx = {}
     ctx["ok"] = True
 
-    if not election.polity.is_member(request.user) or election.is_closed():
+    if not election.can_vote(request.user) or election.is_closed():
         ctx["ok"] = False
         return ctx
 

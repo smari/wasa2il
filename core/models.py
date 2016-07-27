@@ -150,7 +150,7 @@ class Polity(BaseIssue):
     modified = models.DateTimeField(auto_now=True)
 
     parent = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
-    members = models.ManyToManyField(User)
+    members = models.ManyToManyField(User, related_name='polities')
     officers = models.ManyToManyField(User, verbose_name=_("Officers"), related_name="officers")
     location_codes = models.ManyToManyField(LocationCode, blank=True) # If polity contains zip/location codes it will automatically add members containing that code to the policy on sync with icepirate
 
@@ -192,6 +192,9 @@ class Polity(BaseIssue):
         return self.members
 
     def election_voters(self):
+        return self.members
+
+    def election_potential_candidates(self):
         return self.members
 
     def get_topic_list(self, user):
@@ -783,6 +786,13 @@ class Election(NameSlugBase):
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
     deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
 
+    # This allows one polity to host elections for one or more others, in
+    # particular allowing access to elections based on geographical polities
+    # without residency granting access to participate in all other polity
+    # activities.
+    voting_polities = models.ManyToManyField(Polity, related_name='remote_election_votes')
+    candidate_polities = models.ManyToManyField(Polity, related_name='remote_election_candidates')
+
     # Sometimes elections may depend on a user having been the organization's member for an X amount of time
     # This optional field lets the vote counter disregard members who are too new.
     deadline_joined_org = models.DateTimeField(null=True, blank=True, verbose_name=_('Membership deadline'))
@@ -852,17 +862,34 @@ class Election(NameSlugBase):
         self.save()
 
     def get_voters(self):
-        # FIXME: This is one place to check if we've invited other groups to
-        #        participate in an election, if we implement that feature...
-        # FIXME: This is the place to check if we've invited other groups
-        #        to participate in an election.
-        if self.deadline_joined_org:
-            return self.polity.election_voters().filter(userprofile__joined_org__lt = self.deadline_joined_org)
+        if self.voting_polities.count() > 0:
+            voters = User.objects.filter(polities__in=self.voting_polities.all())
         else:
-            return self.polity.election_voters()
+            voters = self.polity.election_voters()
+
+        if self.deadline_joined_org:
+            return voters.filter(userprofile__joined_org__lt = self.deadline_joined_org)
+        else:
+            return voters
 
     def can_vote(self, user=None, user_id=None):
         return (0 < self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).count())
+
+    def get_potential_candidates(self):
+        if self.candidate_polities.count() > 0:
+            pcands = User.objects.filter(polities__in=self.candidate_polities.all())
+        else:
+            pcands = self.polity.election_potential_candidates()
+
+        # NOTE: We ignore the deadline here, it's only meant to prevent
+        #       manipulation of votes not prevent people from running for
+        #       office or otherwise participating in things.
+
+        return pcands
+
+    def can_be_candidate(self, user=None, user_id=None):
+        return (0 < self.get_potential_candidates().filter(
             id=(user_id if (user_id is not None) else user.id)).count())
 
     def process_votes(self):

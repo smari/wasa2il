@@ -683,7 +683,9 @@ class ElectionDetailView(DetailView):
                 'user_is_member': self.polity.is_member(self.request.user),
                 'facebook_title': '%s (%s)' % (election.name, self.polity.name),
                 'can_vote': (self.request.user is not None and
-                             self.object.can_vote(self.request.user))
+                             self.object.can_vote(self.request.user)),
+                'can_run': (self.request.user is not None and
+                            self.object.can_be_candidate(self.request.user))
             }
         )
         if voting_interface_enabled:
