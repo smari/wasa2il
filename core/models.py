@@ -784,6 +784,7 @@ class Election(NameSlugBase):
     polity = models.ForeignKey(Polity)
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
+    starttime_votes = models.DateTimeField(verbose_name=_('Start time for votes'), null=True)
     deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
 
     # This allows one polity to host elections for one or more others, in
@@ -924,14 +925,24 @@ class Election(NameSlugBase):
     def is_open(self):
         return not self.is_closed()
 
+    def voting_start_time(self):
+        if self.starttime_votes is not None:
+            return max(self.starttime_votes, self.deadline_candidacy)
+        return self.deadline_candidacy
+
+    def is_waiting(self):
+        if not self.deadline_candidacy or not self.deadline_votes:
+            return False
+
+        now = datetime.now()
+        return (now <= self.voting_start_time() and now > self.deadline_candidacy)
+
     def is_voting(self):
         if not self.deadline_candidacy or not self.deadline_votes:
             return False
 
-        if datetime.now() > self.deadline_candidacy and datetime.now() < self.deadline_votes:
-            return True
-
-        return False
+        now = datetime.now()
+        return (now > self.voting_start_time() and now < self.deadline_votes)
 
     def is_closed(self):
         if not self.deadline_votes:
