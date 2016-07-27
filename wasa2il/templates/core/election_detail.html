@@ -29,15 +29,26 @@
 
 {% if election.is_closed %}
 <div class="alert alert-danger">{% trans "This election is closed." %}</div>
-{% elif not can_vote %}
+{% elif election.is_voting and not can_vote %}
 <div class="alert alert-danger">
   {% trans "You cannot vote in this election:" %}
   <b>{% if not user.is_authenticated %}
   {% trans "Please log in." %}
-  {% elif not user_is_member %}
-  {% trans "You are not a member of this polity." %}
   {% elif user.userprofile.joined_org >= election.deadline_joined_org %}
   {% trans "You joined the organization too late." %}
+  {% elif not user_is_member %}
+  {% trans "You are not a member of this polity." %}
+  {% else %}
+  {% trans "You do not meet the requirements." %}
+  {% endif %}</b>
+</div>
+{% elif not election.is_voting and not can_run %}
+<div class="alert alert-danger">
+  {% trans "You cannot run in this election:" %}
+  <b>{% if not user.is_authenticated %}
+  {% trans "Please log in." %}
+  {% elif not user_is_member %}
+  {% trans "You are not a member of this polity." %}
   {% else %}
   {% trans "You do not meet the requirements." %}
   {% endif %}</b>
@@ -147,7 +158,7 @@
     {% endif %}
     <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
-        {% if user_is_member %}
+        {% if can_run %}
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();">{% trans 'Withdraw candidacy' %}</a>
         {% endif %}
