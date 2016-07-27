@@ -7,7 +7,7 @@
     <div style="position: relative;">
         {% if election.is_voting %}
             {% if candidate_selected %}
-                {% if user_is_member %}
+                {% if user_can_vote %}
                     <button class="btn btn-default vote-button vote-remove" style="color:#C00" onclick="election_deselect_candidate(this);">
                       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
@@ -19,7 +19,7 @@
                     </button>
                 {% endif %}
             {% else %}
-                {% if user_is_member %}
+                {% if user_can_vote %}
                     <button class="btn btn-default vote-button vote-yes" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
                 {% endif %}
             {% endif %}

@@ -48,6 +48,7 @@ def _ordered_candidates(user, all_candidates, candidates):
 def election_poll(request, **kwargs):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
     user_is_member = election.polity.is_member(request.user)
+    user_can_vote = election.can_vote(request.user)
     all_candidates = election.get_candidates()
     ctx = {}
     ctx["election"] = {}
@@ -58,6 +59,7 @@ def election_poll(request, **kwargs):
     ctx["election"]["candidates"]["html"] = render_to_string(
         "core/_election_candidate_list.html", {
             "user_is_member": user_is_member,
+            "user_can_vote": user_can_vote,
             "election": election,
             "candidates": _ordered_candidates(
                 request.user,
@@ -68,6 +70,7 @@ def election_poll(request, **kwargs):
     ctx["election"]["vote"]["html"] = render_to_string(
         "core/_election_candidate_list.html", {
             "user_is_member": user_is_member,
+            "user_can_vote": user_can_vote,
             "election": election,
             "candidates": election.get_vote(request.user),
             "candidate_selected": True})
