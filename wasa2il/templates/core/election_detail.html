@@ -67,6 +67,12 @@
         <table id="election_details" class="table table-compact">
             <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
             <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
+{% if election.candidate_polities.count > 0 %}
+            <tr id="cand_polities"><th>{% trans "Candidacy polities" %}:</th><td>{% for polity in election.candidate_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}</td></tr>
+{% endif %}
+{% if election.voting_polities.count > 0 %}
+            <tr id="vote_polities"><th>{% trans "Voting polities" %}:</th><td>{% for polity in election.voting_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}</td></tr>
+{% endif %}
             <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}</td></tr>
             <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}</td></tr>
             <tr><th>{% trans "Voting system" %}:</th><td>{{ election.get_voting_system_display }}</td></tr>
