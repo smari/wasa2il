@@ -54,6 +54,7 @@ def election_poll(request, **kwargs):
     ctx["election"] = {}
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
     ctx["election"]["is_voting"] = election.is_voting()
+    ctx["election"]["is_waiting"] = election.is_waiting()
     ctx["election"]["votes"] = election.get_vote_count()
     ctx["election"]["candidates"] = all_candidates
     ctx["election"]["candidates"]["html"] = render_to_string(

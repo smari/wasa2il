@@ -305,6 +305,11 @@ function election_render(election) {
         $("#election_button_announce").hide();
         $("#election_button_withdraw").hide();
         $(".voting").show();
+    } else if (election_object.is_waiting) {
+        $("#election_button_announce").hide();
+        if (!election_object.user_is_candidate) {
+            $("#election_button_withdraw").hide();
+        }
     } else {
         $(".voting").hide();
         if (election_object.user_is_candidate) {
