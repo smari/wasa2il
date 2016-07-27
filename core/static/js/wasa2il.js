@@ -313,7 +313,16 @@ function election_render(election) {
         $(".voting").show();
     }
 
-    if (election_object.is_closed) {
+    // FIXME: The second term here makes much of the code below obsolete.
+    //        This is deliberate; we would like to allow users to withdraw
+    // their candidacy at any time, but we need a few more things before
+    // that is safe and reasonable:
+    //     1. E-mail notifications to people who have voted for the candidate
+    //     2. A grace period so people can update their votes
+    //     3. Double-checking the ballot counting logic to ensure this does
+    //        not break anything at that end, as it will create a gap in
+    //        the user's ballot sequence.
+    if (election_object.is_closed || election_object.is_voting) {
         $("#election_button_withdraw").hide();
         $("#election_button_announce").hide();
     }

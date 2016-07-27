@@ -175,7 +175,7 @@
         </div>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();"
-             {% if started_voting %}
+             {% if started_voting or election.is_waiting %}
              data-confirm="{% trans "Are you sure you want to withdraw? This can not be undone." %}"
              {% endif %}
              >{% trans 'Withdraw candidacy' %}</a>
