@@ -55,6 +55,7 @@ def election_poll(request, **kwargs):
     ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
     ctx["election"]["is_voting"] = election.is_voting()
     ctx["election"]["is_waiting"] = election.is_waiting()
+    ctx["election"]["is_closed"] = election.is_closed()
     ctx["election"]["votes"] = election.get_vote_count()
     ctx["election"]["candidates"] = all_candidates
     ctx["election"]["candidates"]["html"] = render_to_string(
@@ -88,13 +89,13 @@ def election_poll(request, **kwargs):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.GET.get("election", 0))
-    if election.is_closed() or not election.can_be_candidate(request.user):
+    if election.is_closed():
         return election_poll(request)
 
     val = int(request.GET.get("val", 0))
     if val == 0:
         Candidate.objects.filter(user=request.user, election=election).delete()
-    else:
+    elif election.can_be_candidate(request.user):
         cand, created = Candidate.objects.get_or_create(user=request.user, election=election)
 
     return election_poll(request)
