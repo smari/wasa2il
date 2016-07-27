@@ -874,8 +874,8 @@ class Election(NameSlugBase):
             return voters
 
     def can_vote(self, user=None, user_id=None):
-        return (0 < self.get_voters().filter(
-            id=(user_id if (user_id is not None) else user.id)).count())
+        return self.get_voters().filter(
+            id=(user_id if (user_id is not None) else user.id)).exists()
 
     def get_potential_candidates(self):
         if self.candidate_polities.count() > 0:
@@ -890,8 +890,8 @@ class Election(NameSlugBase):
         return pcands
 
     def can_be_candidate(self, user=None, user_id=None):
-        return (0 < self.get_potential_candidates().filter(
-            id=(user_id if (user_id is not None) else user.id)).count())
+        return self.get_potential_candidates().filter(
+            id=(user_id if (user_id is not None) else user.id)).exists()
 
     def process_votes(self):
         if self.deadline_joined_org:

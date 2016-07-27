@@ -8,6 +8,7 @@
         #submit-working, .start-voting, #election_announce_working {text-align: center;}
         #election_button_withdraw {float: right;}
         .start-voting {font-size: 1.5em; margin-top: 1em;}
+        .user_can_vote, .user_can_run {display: inline-block; float: right;}
         {% if not election.is_closed %}
         table#election_details tr {display: none;}
         {% if election.is_voting %}
@@ -73,13 +74,19 @@
             <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
             <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
 {% if election.candidate_polities.count > 0 %}
-            <tr id="cand_polities"><th>{% trans "Candidacy polities" %}:</th><td>{% for polity in election.candidate_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}</td></tr>
+            <tr id="cand_polities"><th>{% trans "Candidacy polities" %}:</th><td>{% for polity in election.candidate_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
+               {% if can_run %}<i class="user_can_run">{% trans "You can run" %}</i>{% endif %}
+            </td></tr>
 {% endif %}
 {% if election.voting_polities.count > 0 %}
-            <tr id="vote_polities"><th>{% trans "Voting polities" %}:</th><td>{% for polity in election.voting_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}</td></tr>
+            <tr id="vote_polities"><th>{% trans "Voting polities" %}:</th><td>{% for polity in election.voting_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
+               {% if can_vote %}<i class="user_can_vote">{% trans "You can vote" %}</i>{% endif %}
+            </td></tr>
 {% endif %}
-            <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}</td></tr>
-            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}</td></tr>
+            <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}
+            </td></tr>
+            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}
+            </td></tr>
             <tr><th>{% trans "Voting system" %}:</th><td>{{ election.get_voting_system_display }}</td></tr>
             <tr id="show_details"><td colspan=2>
                 <a onclick="show_details();" href="#">{% trans "Details ..." %}</a>
@@ -87,9 +94,10 @@
         </table>
     </div>
 
+
     <div class="col-md-6 col-xs-12">
-        {% if voting_interface_enabled and election.instructions %}
-            {% if started_voting or step == "vote" %}
+        {% if election.instructions %}
+            {% if not voting_interface_enabled or not election.is_voting or started_voting or step == "vote" %}
                 <div class="alert alert-success">
                     <h3>{% trans "About This Election" %}</h3>
                     <p>{{ election.instructions|safe|linebreaks }}</p>
