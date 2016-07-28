@@ -185,7 +185,7 @@ msgstr "Tímamörk fyrir atkvæði"
 
 #: core/models.py:799
 msgid "Membership deadline"
-msgstr "Skráningarmörk meðlima"
+msgstr "Skráningarmörk kjósenda"
 
 #: core/models.py:802 wasa2il/templates/base.html:128
 msgid "Instructions"

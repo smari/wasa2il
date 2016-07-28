@@ -73,6 +73,9 @@
             <tr id="vote_starttime"><th>{% trans "Voting begins" %}:</th><td>{{ election.voting_start_time }} ({{ election.voting_start_time|timeuntil }})</td></tr>
             <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
             <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
+        {% if election.deadline_joined_org %}
+            <tr id="join_deadline"><th>{% trans "Membership deadline" %}:</th><td>{{ election.deadline_joined_org }}</td></tr>
+        {% endif %}
 {% if election.candidate_polities.count > 0 %}
             <tr id="cand_polities"><th>{% trans "Candidacy polities" %}:</th><td>{% for polity in election.candidate_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
                {% if can_run %}<i class="user_can_run">{% trans "You can run" %}</i>{% endif %}
