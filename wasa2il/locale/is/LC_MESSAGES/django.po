@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-27 12:20+0000\n"
+"POT-Creation-Date: 2016-07-28 07:34+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -1515,7 +1515,11 @@ msgstr "Kjósa"
 msgid "Your ballot is empty."
 msgstr "Kjörseðillinn er tómur."
 
-#: wasa2il/templates/core/_election_candidate_list.html:35
+#: wasa2il/templates/core/_election_candidate_list.html:34
+msgid "Drag candidates here or click the vote buttons."
+msgstr "Dragðu frambjóðendur hingað eða smelltu á takka til að kjósa."
+
+#: wasa2il/templates/core/_election_candidate_list.html:36
 msgid "There are no candidates standing in this election yet!"
 msgstr "Þessar kosningar hafa enga frambjóðendur enn sem komið er."
 
