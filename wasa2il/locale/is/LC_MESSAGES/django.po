@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-28 07:34+0000\n"
+"POT-Creation-Date: 2016-07-28 11:28+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -1787,11 +1787,19 @@ msgid "Candidacy polities"
 msgstr "Þing frambjóðenda"
 
 #: wasa2il/templates/core/election_detail.html:78
+msgid "You can run"
+msgstr "Mátt bjóða fram"
+
+#: wasa2il/templates/core/election_detail.html:82
 msgid "Voting polities"
 msgstr "Þing kjósenda"
 
-#: wasa2il/templates/core/election_detail.html:80
-#: wasa2il/templates/core/election_detail.html:136
+#: wasa2il/templates/core/election_detail.html:83
+msgid "You can vote"
+msgstr "Mátt kjósa"
+
+#: wasa2il/templates/core/election_detail.html:86
+#: wasa2il/templates/core/election_detail.html:145
 #: wasa2il/templates/core/election_list.html:18
 #: wasa2il/templates/core/issue_detail.html:42
 #: wasa2il/templates/core/issues_new.html:21
