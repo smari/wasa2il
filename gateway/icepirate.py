@@ -6,8 +6,10 @@ from django.conf import settings
 
 from core.models import Polity
 
+
 class IcePirateException(Exception):
     pass
+
 
 def configure_external_member_db(user, create_if_missing=False):
 
@@ -18,13 +20,22 @@ def configure_external_member_db(user, create_if_missing=False):
         except Polity.DoesNotExist:
             pass
 
+    user_post_data = urllib.urlencode({
+        'ssn': user.userprofile.verified_ssn,
+        'name': user.userprofile.verified_name,
+        'email': user.email,
+        'username': user.username,
+        'added': user.date_joined})
+
     url = settings.ICEPIRATE['url']
     key = settings.ICEPIRATE['key']
 
-    request = urllib.urlopen('%s/member/api/get/ssn/%s?json_api_key=%s' % (url, user.userprofile.verified_ssn, key))
-    content = request.read()
-    remote_object = json.loads(content)
-    print(remote_object)
+    remote_object = json.loads(urllib.urlopen(
+        '%s/member/api/get/ssn/%s?json_api_key=%s&%s' % (
+            url, user.userprofile.verified_ssn, key, user_post_data)).read())
+
+    if settings.DEBUG:
+        print('Icepirate GET: %s' % remote_object)
 
     if remote_object['success']:
         add_user_to_front_polity()
@@ -40,8 +51,10 @@ def configure_external_member_db(user, create_if_missing=False):
                 polity.members.remove(user)
                 polity.officers.remove(user)
 
-        added = datetime.strptime(remote_object['data']['added'], '%Y-%m-%d %H:%M:%S')
-        if not user.userprofile.joined_org or added < user.userprofile.joined_org:
+        added = datetime.strptime(
+            remote_object['data']['added'], '%Y-%m-%d %H:%M:%S')
+        if (not user.userprofile.joined_org
+                or added < user.userprofile.joined_org):
             user.userprofile.joined_org = added
             user.userprofile.save()
 
@@ -49,19 +62,13 @@ def configure_external_member_db(user, create_if_missing=False):
         error = remote_object['error']
 
         if error == 'No such member':
-
             if create_if_missing:
+                remote_object = json.loads(urllib.urlopen(
+                    '%s/member/api/add/?json_api_key=%s&%s' % (
+                        url, key, user_post_data)).read())
 
-                post_data = urllib.urlencode({
-                    'ssn': user.userprofile.verified_ssn,
-                    'name': user.userprofile.verified_name,
-                    'email': user.email,
-                    'username': user.username,
-                    'added': user.date_joined,
-                })
-                add_request = urllib.urlopen('%s/member/api/add/?json_api_key=%s&%s' % (url, key, post_data))
-                content = add_request.read()
-                remote_object = json.loads(content)
+                if settings.DEBUG:
+                    print('Icepirate ADD: %s' % remote_object)
 
                 if not remote_object['success']:
                     raise IcePirateException(remote_object['error'])
@@ -71,8 +78,3 @@ def configure_external_member_db(user, create_if_missing=False):
             else:
                 user.polities.clear()
                 user.officers.clear()
-
-
-
-
-
