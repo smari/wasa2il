@@ -145,10 +145,19 @@ INSTALLED_APPS = (
     'gateway',
 )
 
-# Comment this section to restore Django's native login mechanism
-#AUTHENTICATION_BACKENDS = (
-#    'core.authentication.PiratePartyMemberAuthenticationBackend',
-#)
+# Allow users to attempt log-ins using any of the following:
+# e-mail address, SSN or username.
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'core.authentication.SSNAuthenticationBackend',
+#
+# Note: It may make sense to disable the following, so merely compromising
+# an e-mail account isn't sufficient to take over a wasa2il account. However,
+# Icelandic SSNs are such poorly kept secrets (they're effectively public)
+# that this wouldn't improve security for us, it'd just hurt usability.
+#
+    'core.authentication.EmailAuthenticationBackend',
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
