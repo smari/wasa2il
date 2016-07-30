@@ -4,7 +4,7 @@ import urllib
 
 from django.conf import settings
 
-from core.models import Polity, LocationCode
+from core.models import Polity
 
 class IcePirateException(Exception):
     pass
@@ -39,25 +39,6 @@ def configure_external_member_db(user, create_if_missing=False):
             if polity.is_member(user) and polity.slug not in icepirate_groups:
                 polity.members.remove(user)
                 polity.officers.remove(user)
-
-        try:
-            for prefix, location in (('pnr', 'legal_zip_code'),
-                                     ('svfnr', 'legal_municipality_code')):
-                user_legal_loc = remote_object['data'].get(location)
-                if user_legal_loc:
-                    loc_code = '%s:%s' % (prefix, user_legal_loc)
-                    # Add user to location (zip code, county code) Polities
-                    for polity in Polity.objects.filter(location_codes__in = LocationCode.objects.filter(location_code=loc_code)):
-                        polity.members.add(user)
-
-            # bre: DISABLED FOR NOW
-            # remove user from other zip code polities
-            #for polity in Polity.objects.exclude(zip_codes__isnull=True).exclude(zip_codes__in = ZipCode.objects.filter(zip_code=user_legal_zip_code)):
-            #    if polity.is_member(user):
-            #        polity.members.remove(user)
-            #        polity.officers.remove(user)
-        except:
-            pass
 
         added = datetime.strptime(remote_object['data']['added'], '%Y-%m-%d %H:%M:%S')
         if not user.userprofile.joined_org or added < user.userprofile.joined_org:

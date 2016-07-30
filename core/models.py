@@ -78,6 +78,19 @@ def get_name(user):
 User.get_name = get_name
 
 
+# NOTE: This is currently unused.
+#       We just leave it here to prevent the migrations from breaking.
+#
+class LocationCode(models.Model):
+    location_code = models.CharField(max_length=20, unique=True)
+    location_name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        if self.location_name:
+            return u'%s (%s)' % (self.location_code, self.location_name)
+        return u'%s' % self.location_code
+
+
 class PolityRuleset(models.Model):
     """A polity's ruleset."""
     polity = models.ForeignKey('Polity')
@@ -132,16 +145,6 @@ class PolityRuleset(models.Model):
         pass
 
 
-class LocationCode(models.Model):
-    location_code = models.CharField(max_length=20, unique=True)
-    location_name = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        if self.location_name:
-            return u'%s (%s)' % (self.location_code, self.location_name)
-        return u'%s' % self.location_code
-
-
 class Polity(BaseIssue):
     """A political entity. See the manual."""
     created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='polity_created_by')
@@ -152,7 +155,6 @@ class Polity(BaseIssue):
     parent = models.ForeignKey('Polity', help_text="Parent polity", **nullblank)
     members = models.ManyToManyField(User, related_name='polities')
     officers = models.ManyToManyField(User, verbose_name=_("Officers"), related_name="officers")
-    location_codes = models.ManyToManyField(LocationCode, blank=True) # If polity contains zip/location codes it will automatically add members containing that code to the policy on sync with icepirate
 
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
     is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))
