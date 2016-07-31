@@ -45,12 +45,10 @@ def _ordered_candidates(user, all_candidates, candidates):
     ordered.sort(key=lambda c: _sname(c.user))
 
     pivot = (randish // 4) % len(ordered)
+    if randish % 2 == 0:
+        ordered.reverse()
     part1 = ordered[pivot:]
     part2 = ordered[:pivot]
-    if randish % 4 in (0, 2):
-        part1.reverse()
-    if randish % 4 in (1, 2):
-        part2.reverse()
 
     return [c for c in (part1 + part2) if c in candidates]
 
