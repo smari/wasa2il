@@ -57,6 +57,10 @@ class UserProfile(models.Model):
             self.picture.name = "default.jpg"
         super(UserProfile, self).save(*largs, **kwargs)
 
+    def user_is_verified(self):
+        # We require both of these be set to consider the user verified
+        return (self.verified_ssn and self.verified_name)
+
     def __unicode__(self):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 

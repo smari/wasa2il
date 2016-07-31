@@ -1,17 +1,124 @@
 import json
-from datetime import datetime
+import random
 import urllib
+from datetime import datetime
 
 from django.conf import settings
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.core.urlresolvers import reverse as django_url
+from django.db import transaction
+from django.http import HttpResponse
+from django.utils import timezone
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.utils.text import slugify
 
-from core.models import Polity
+
+from core.models import Polity, UserProfile
 
 
 class IcePirateException(Exception):
     pass
 
 
+def _password_reset_url(user):
+    # This acts as if the users had submitted the password reset form,
+    # giving us the URL+token needed to change the password.
+    iu = settings.INSTANCE_URL
+    if iu.endswith('/'):
+        iu = iu[:-1]
+    return iu + django_url(
+        'auth_password_reset_confirm', None, None, {
+            'uidb64': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': default_token_generator.make_token(user)})
+
+
+def _icepirate_user_data(user):
+    return {
+        'ssn': user.userprofile.verified_ssn,
+        'name': user.userprofile.verified_name,
+        'email': user.email,
+        'username': user.username,
+        'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S')}
+
+
+def _make_username(name, email):
+    # This will create a username that isn't completely useless, but is
+    # still somewhat anonymousish.
+    for tries in range(1, 100):
+        try:
+            fn = name.split()[0].lower()
+        except:
+            try:
+                fn = email.split('@')[0].lower()
+            except:
+                fn = 'anon'
+        username = '%s_%s' % (slugify(fn), random.randint(13, tries*100))
+        if not User.objects.filter(username=username).exists():
+            return username
+    raise ValueError('Could not create username from %s/%s' % (name, email))
+
+
+@transaction.atomic
+def adduser(request, ssn=None, name=None, email=None, added=None, username=None):
+    if ssn is None:
+        assert(request.GET.get('key') == settings.ICEPIRATE['key'])
+
+    # Parse args...
+    ssn = ssn or request.GET.get('ssn')
+    name = name or request.GET.get('name')
+    email = email or request.GET.get('email')
+    added = added or request.GET.get('added')
+    username = username or request.GET.get('username')
+    if added:
+        added = datetime.strptime(added, '%Y-%m-%d %H:%M:%S')
+    else:
+        added = timezone.now()
+
+    # Look up all the users that match
+    users = []
+    if ssn:
+        users.extend(User.objects.filter(userprofile__verified_ssn=ssn))
+    if username:
+        users.extend(User.objects.filter(username=username))
+    if email:
+        users.extend(User.objects.filter(email=email))
+
+    # Update or create user
+    try:
+        user = users[0]
+        # Sanity checks...
+        assert(len([u for u in users if u != user]) == 0)
+        if user.userprofile.verified_ssn:
+            assert(user.userprofile.verified_ssn == ssn)
+        else:
+            # User exist, is not verified! Just update SSN.
+            user.userprofile.verified_ssn = ssn
+            user.userprofile.save()
+    except IndexError:
+        # User does not exist. Create user, yay!
+        if not username:
+            username = _make_username(name, email)
+        user = User(username=username, email=email)
+        user.save()
+        prof = UserProfile(user=user, verified_ssn=ssn, joined_org=added)
+        prof.save()
+
+    response_data = _icepirate_user_data(user)
+    response_data.update({
+        'reset_url': _password_reset_url(user),
+        'success': True})
+
+    return HttpResponse(
+        json.dumps(response_data), content_type='application/json')
+
+
 def configure_external_member_db(user, create_if_missing=False):
+    # No point hitting the API if we don't have an SSN to update
+    if not user.userprofile.verified_ssn:
+        return
 
     def add_user_to_front_polity():
         try:
@@ -20,15 +127,10 @@ def configure_external_member_db(user, create_if_missing=False):
         except Polity.DoesNotExist:
             pass
 
-    user_post_data = urllib.urlencode({
-        'ssn': user.userprofile.verified_ssn,
-        'name': user.userprofile.verified_name,
-        'email': user.email,
-        'username': user.username,
-        'added': user.date_joined})
-
     url = settings.ICEPIRATE['url']
     key = settings.ICEPIRATE['key']
+
+    user_post_data = urllib.urlencode(_icepirate_user_data(user))
 
     remote_object = json.loads(urllib.urlopen(
         '%s/member/api/get/ssn/%s?json_api_key=%s&%s' % (
@@ -51,6 +153,7 @@ def configure_external_member_db(user, create_if_missing=False):
                 polity.members.remove(user)
                 polity.officers.remove(user)
 
+        # FIXME: Figure out why we don't just trust Icepirate here...?
         added = datetime.strptime(
             remote_object['data']['added'], '%Y-%m-%d %H:%M:%S')
         if (not user.userprofile.joined_org
