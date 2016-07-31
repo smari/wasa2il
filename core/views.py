@@ -184,7 +184,7 @@ def login(request, template_name='registration/login.html',
                 profile.save()
 
             if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
-                if not request.user.userprofile.verified_ssn:
+                if not request.user.userprofile.user_is_verified():
                     return HttpResponseRedirect(settings.SAML_1['URL'])
 
             if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
@@ -217,7 +217,7 @@ def verify(request):
         ctx = {'e': e}
         return render_to_response('registration/saml_error.html', ctx)
 
-    if UserProfile.objects.filter(verified_ssn=auth['ssn']).count() > 0:
+    if UserProfile.objects.filter(verified_ssn=auth['ssn']).exists():
         taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user
         ctx = {
             'auth': auth,
@@ -228,7 +228,7 @@ def verify(request):
 
         return render_to_response('registration/verification_duplicate.html', ctx)
 
-    profile = request.user.userprofile # It shall exist at this point
+    profile = request.user.userprofile  # It shall exist at this point
     profile.verified_ssn = auth['ssn']
     profile.verified_name = auth['name'].encode('utf8')
     profile.verified_token = request.GET['token']

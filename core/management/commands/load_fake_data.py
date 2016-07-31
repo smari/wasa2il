@@ -70,6 +70,7 @@ class Command(BaseCommand):
         userlist += [
             ('user%s' % i, 'user%s@example.com' % i, 'User %s' % i)
                 for i in range(0, 1110)]
+        serial_ssn = 0
         if options.get('users') or create_all:
             if not options.get('full'):
                 userlist = userlist[:20]
@@ -90,8 +91,10 @@ class Command(BaseCommand):
                     users[u].save()
                     UserProfile(
                         user=users[u],
+                        verified_ssn='%10.10d' % serial_ssn,
                         joined_org=now - timedelta(hours=random.randint(0, 24 * 5))
                         ).save()
+                    serial_ssn += 1
                 except IntegrityError:
                     # User already exists
                     users[u] = User.objects.get(email=email)

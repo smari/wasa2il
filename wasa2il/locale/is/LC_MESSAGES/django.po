@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-27 12:20+0000\n"
+"POT-Creation-Date: 2016-07-30 16:24+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -1515,7 +1515,11 @@ msgstr "Kjósa"
 msgid "Your ballot is empty."
 msgstr "Kjörseðillinn er tómur."
 
-#: wasa2il/templates/core/_election_candidate_list.html:35
+#: wasa2il/templates/core/_election_candidate_list.html:34
+msgid "Drag candidates here or click the vote buttons."
+msgstr "Dragðu frambjóðendur hingað eða smelltu á takka til að kjósa."
+
+#: wasa2il/templates/core/_election_candidate_list.html:36
 msgid "There are no candidates standing in this election yet!"
 msgstr "Þessar kosningar hafa enga frambjóðendur enn sem komið er."
 
@@ -1783,11 +1787,19 @@ msgid "Candidacy polities"
 msgstr "Þing frambjóðenda"
 
 #: wasa2il/templates/core/election_detail.html:78
+msgid "You can run"
+msgstr "Mátt bjóða fram"
+
+#: wasa2il/templates/core/election_detail.html:82
 msgid "Voting polities"
 msgstr "Þing kjósenda"
 
-#: wasa2il/templates/core/election_detail.html:80
-#: wasa2il/templates/core/election_detail.html:136
+#: wasa2il/templates/core/election_detail.html:83
+msgid "You can vote"
+msgstr "Mátt kjósa"
+
+#: wasa2il/templates/core/election_detail.html:86
+#: wasa2il/templates/core/election_detail.html:145
 #: wasa2il/templates/core/election_list.html:18
 #: wasa2il/templates/core/issue_detail.html:42
 #: wasa2il/templates/core/issues_new.html:21
@@ -2770,6 +2782,14 @@ msgstr "Staðfesting netfangs"
 
 #: wasa2il/templates/registration/data_disclaimer.html:3
 msgid ""
+"As of February 12th 2014, we require the verification of all user accounts "
+"via the so-called Icekey."
+msgstr ""
+"Frá og með 12. febrúar 2014 krefjumst við staðfestingar allra innskráðra "
+"notenda með hinum svokallaða Íslykli."
+
+#: wasa2il/templates/registration/data_disclaimer.html:4
+msgid ""
 "Please be advised that by registering and verifying your account, you become "
 "a member of the Pirate Party of Iceland."
 msgstr ""
@@ -2826,11 +2846,11 @@ msgstr "og taktu þátt í lýðræðinu..."
 
 #: wasa2il/templates/registration/login.html:8
 msgid ""
-"Please note that as of February 12th 2014, we require the verification of "
-"all user accounts via the so-called Icekey."
+"If you forgot your username, you can log in or reset your password with your "
+"email address or SSN instead."
 msgstr ""
-"Vinsamlegast athugið að frá og með 12. febrúar 2014 krefjumst við "
-"staðfestingar allra innskráðra notenda með hinum svokallaða Íslykli."
+"Ef þú hefur gleymt notendanafni þínu, þá má einnig nota netfang eða kennitölu "
+"til að skrá sig inn eða panta nýtt lykilorð."
 
 #: wasa2il/templates/registration/login.html:9
 msgid "If problems arise, please send an email to the following email address:"
@@ -2843,11 +2863,11 @@ msgstr ""
 #: wasa2il/templates/registration/password_reset_done.html:5
 #: wasa2il/templates/registration/password_reset_form.html:5
 msgid "Password reset"
-msgstr ""
+msgstr "Lykilorð endurstillt"
 
 #: wasa2il/templates/registration/logout.html:7
 msgid "Logged out"
-msgstr ""
+msgstr "Skráð út"
 
 #: wasa2il/templates/registration/logout.html:10
 msgid "We hope you'll be back soon. It'd be fun!"
@@ -2869,17 +2889,50 @@ msgstr "Aftur í stillingar"
 
 #: wasa2il/templates/registration/password_reset_complete.html:7
 msgid "Password reset successfully"
-msgstr ""
+msgstr "Lykilorðinu hefur verið breytt"
 
 #: wasa2il/templates/registration/password_reset_confirm.html:19
 msgid "Password reset failed"
+msgstr "Mistókst að breyta lykilorðinu! Kannski var vefslóðin úrelt?"
+
+#: wasa2il/templates/registration/password_reset_done.html:5
+msgid "Check your email!"
 msgstr ""
 
-#: wasa2il/templates/registration/password_reset_done.html:6
-msgid "Email with password reset instructions has been sent."
+#: wasa2il/templates/registration/password_reset_done.html:7
+msgid "Email with password reset instructions may have been sent."
 msgstr ""
 "Ef þetta var rétt netfang, þá hefur tölvupóstur með upplýsingum um "
 "endurstillingu lykilorðs verið sendur."
+
+#: wasa2il/templates/registration/password_reset_done.html:9
+#: wasa2il/templates/registration/password_reset_form.html:15
+msgid "Hints:"
+msgstr "Athugið:"
+
+#: wasa2il/templates/registration/password_reset_done.html:11
+msgid "Check your spam folder!"
+msgstr "Mundu að kíkja í ruslpóstinn!"
+
+#: wasa2il/templates/registration/password_reset_done.html:12
+msgid ""
+"If you do not receive an email, try resetting your password with other email "
+"addresses you may have used."
+msgstr ""
+"Ef þú fékkst engan póst, reyndu þá að endurstilla lykilorðið með öðrum "
+"netföngum sem þú gætir hafa notað."
+
+#: wasa2il/templates/registration/password_reset_done.html:13
+msgid ""
+"For security and privacy reasons, we cannot tell you whether you used the "
+"correct email address. Sorry!"
+msgstr ""
+"Af öryggis- og persónuverndarástæðum, getum við því miður ekki gefið það "
+"upp á vefnum hvort þú notaðir rétt netfang."
+
+#: wasa2il/templates/registration/password_reset_done.html:14
+msgid "Still nothing? Try creating a new account."
+msgstr "Enn ekkert? Kannski þarftu að nýskrá þig."
 
 #: wasa2il/templates/registration/password_reset_email.html:2
 #, python-format
@@ -2898,9 +2951,17 @@ msgid "To reset your password, please click the following link:"
 msgstr ""
 "Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil:"
 
-#: wasa2il/templates/registration/password_reset_form.html:10
+#: wasa2il/templates/registration/password_reset_form.html:5
+msgid "The tricky email question"
+msgstr "Lúmska netfangaspurningin"
+
+#: wasa2il/templates/registration/password_reset_form.html:11
 msgid "Send password"
 msgstr "Endurstilla lykilorð"
+
+#: wasa2il/templates/registration/password_reset_form.html:17
+msgid "Not sure which email you used? Try them all!"
+msgstr "Ekki viss hvaða netfang þú notaðir? Prófaðu þau öll!"
 
 #: wasa2il/templates/registration/password_reset_subject.txt:2
 msgid "Password reset requested"

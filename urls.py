@@ -20,13 +20,15 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     # Enabling i18n language changes per
-        # https://docs.djangoproject.com/en/1.4/topics/i18n/translation/#the-set-language-redirect-view
-        (r'^i18n/', include('django.conf.urls.i18n')),
+    # https://docs.djangoproject.com/en/1.4/topics/i18n/translation/#the-set-language-redirect-view
+    (r'^i18n/', include('django.conf.urls.i18n')),
 
     # Core app
     (r'^', include('core.urls')),
     # Forums app
     (r'^', include('forum.urls')),
+    # Gateway
+    (r'^gateway/', include('gateway.urls')),
 
     (r'^accounts/profile/(?:(?P<username>.+)/)?$', 'core.views.profile'),
     url(r'^accounts/settings/', 'core.views.view_settings', name='account_settings'),
