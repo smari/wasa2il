@@ -12,4 +12,10 @@
         <td>{{ election.candidate_set.count }}</td>
         <td>{{ election.get_vote_count }}</td>
     </tr>
+{% empty %}
+    <tr>
+        <td colspan=4 style="text-align: center; font-size: 110%;">
+             {% trans "No elections are scheduled at the moment." %}
+        </td>
+    </tr>
 {% endfor %}

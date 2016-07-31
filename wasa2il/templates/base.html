@@ -103,7 +103,7 @@
               </ul>
             </li>
             {% else %}
-            <li><a href="/accounts/login/">{% trans "Log in" %}</a></li>
+            <li><a href="/accounts/login/{% if '/accounts/' not in request.get_full_path %}?next={{ request.get_full_path }}{% endif %}">{% trans "Log in" %}</a></li>
             <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
             {% endif %}
           </ul>
