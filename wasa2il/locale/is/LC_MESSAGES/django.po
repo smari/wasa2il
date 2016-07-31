@@ -2863,7 +2863,7 @@ msgstr ""
 #: wasa2il/templates/registration/password_reset_done.html:5
 #: wasa2il/templates/registration/password_reset_form.html:5
 msgid "Password reset"
-msgstr "Lykilorð endurstillt"
+msgstr "Stilla Lykilorð"
 
 #: wasa2il/templates/registration/logout.html:7
 msgid "Logged out"
@@ -2890,6 +2890,10 @@ msgstr "Aftur í stillingar"
 #: wasa2il/templates/registration/password_reset_complete.html:7
 msgid "Password reset successfully"
 msgstr "Lykilorðinu hefur verið breytt"
+
+#: wasa2il/templates/registration/password_reset_confirm.html:19
+msgid "Error"
+msgstr "Villa"
 
 #: wasa2il/templates/registration/password_reset_confirm.html:19
 msgid "Password reset failed"
