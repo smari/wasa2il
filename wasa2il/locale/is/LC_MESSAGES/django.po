@@ -1426,6 +1426,14 @@ msgid "Adopted"
 msgstr "Samþykkt"
 
 #: wasa2il/templates/core/_document_agreement_list_table.html:27
+msgid "No elections are scheduled at the moment."
+msgstr "Engar kosningar eru á dagskrá í augnablikinu."
+
+#: wasa2il/templates/core/_document_agreement_list_table.html:27
+msgid "There are no new issues at the moment."
+msgstr "Engin nýleg mál eru til umræðu í augnabliknu."
+
+#: wasa2il/templates/core/_document_agreement_list_table.html:27
 msgid "This polity has no agreements."
 msgstr "Þetta þing hefur engar samþykktir."
 
