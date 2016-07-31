@@ -1,3 +1,4 @@
+import random
 from datetime import datetime
 from hashlib import md5
 
@@ -8,6 +9,7 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils.text import slugify
 
 from core.models import Election
 from core.models import ElectionVote
@@ -28,12 +30,21 @@ def _ordered_candidates(user, all_candidates, candidates):
     if len(all_candidates) < 1:
         return []
 
-    randish = int(md5(repr(user) + str(user.id)).hexdigest()[:8], 16)
+    if user.is_authenticated():
+        randish = int(md5(repr(user) + str(user.id)).hexdigest()[:8], 16)
+    else:
+        randish = random.randint(0, 0xffffff)
+
+    def _sname(u):
+        try:
+            return slugify(u.userprofile.displayname or u.username)
+        except:
+            return slugify(u.username)
 
     ordered = list(all_candidates)
-    ordered.sort(key=lambda k: unicode(k).lower())
+    ordered.sort(key=lambda c: _sname(c.user))
 
-    pivot = (randish // 2) % len(ordered)
+    pivot = (randish // 4) % len(ordered)
     part1 = ordered[pivot:]
     part2 = ordered[:pivot]
     if randish % 4 in (0, 2):
