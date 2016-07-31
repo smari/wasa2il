@@ -26,6 +26,7 @@ from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from django.utils.encoding import force_bytes
 
 # BEGIN - Copied from django.contrib.auth.views to accommodate the login() function
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -124,7 +125,7 @@ def view_settings(request):
             if 'picture' in request.FILES:
                 f = request.FILES.get("picture")
                 m = sha1()
-                m.update(request.user.username)
+                m.update(force_bytes(request.user.username))
                 hash = m.hexdigest()
                 ext = f.name.split(".")[1] # UserProfileForm.clean_picture() makes sure this is safe.
                 filename = "userimg_%s.%s" % (hash, ext)
