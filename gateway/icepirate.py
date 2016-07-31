@@ -36,12 +36,16 @@ def _password_reset_url(user):
 
 
 def _icepirate_user_data(user):
-    return {
+    info = {
         'ssn': user.userprofile.verified_ssn,
         'name': user.userprofile.verified_name,
         'email': user.email,
         'username': user.username,
         'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S')}
+    for f in ('name', 'username'):
+        if info.get(f):
+            info[f] = info[f].encode('utf-8')
+    return info
 
 
 def _make_username(name, email):
