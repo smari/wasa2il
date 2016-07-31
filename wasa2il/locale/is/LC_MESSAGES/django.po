@@ -2889,11 +2889,11 @@ msgstr "Aftur í stillingar"
 
 #: wasa2il/templates/registration/password_reset_complete.html:7
 msgid "Password reset successfully"
-msgstr ""
+msgstr "Lykilorðinu hefur verið breytt"
 
 #: wasa2il/templates/registration/password_reset_confirm.html:19
 msgid "Password reset failed"
-msgstr ""
+msgstr "Mistókst að breyta lykilorðinu! Kannski var vefslóðin úrelt?"
 
 #: wasa2il/templates/registration/password_reset_done.html:5
 msgid "Check your email!"
