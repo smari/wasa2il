@@ -35,7 +35,7 @@ def _password_reset_url(user):
             'token': default_token_generator.make_token(user)})
 
 
-def _icepirate_user_data(user):
+def _icepirate_user_data(user, to_8bit=False):
     info = {
         'ssn': user.userprofile.verified_ssn,
         'name': user.userprofile.verified_name,
@@ -43,10 +43,11 @@ def _icepirate_user_data(user):
         'username': user.username,
         'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S')}
     for f in ('name', 'username'):
-        if info.get(f):
+        if info.get(f) and not isinstance(info[f], unicode):
+            info[f] = info[f].decode('utf-8')
+        if to_8bit:
             info[f] = info[f].encode('utf-8')
     return info
-
 
 def _make_username(name, email):
     # This will create a username that isn't completely useless, but is
@@ -134,7 +135,7 @@ def configure_external_member_db(user, create_if_missing=False):
     url = settings.ICEPIRATE['url']
     key = settings.ICEPIRATE['key']
 
-    user_post_data = urllib.urlencode(_icepirate_user_data(user))
+    user_post_data = urllib.urlencode(_icepirate_user_data(user, to_8bit=True))
 
     remote_object = json.loads(urllib.urlopen(
         '%s/member/api/get/ssn/%s?json_api_key=%s&%s' % (
