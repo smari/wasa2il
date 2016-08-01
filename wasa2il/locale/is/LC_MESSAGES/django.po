@@ -2909,7 +2909,7 @@ msgstr "Mistókst að breyta lykilorðinu! Kannski var vefslóðin úrelt?"
 
 #: wasa2il/templates/registration/password_reset_done.html:5
 msgid "Check your email!"
-msgstr ""
+msgstr "Kannaðu tölvupóstinn þinn!"
 
 #: wasa2il/templates/registration/password_reset_done.html:7
 msgid "Email with password reset instructions may have been sent."
