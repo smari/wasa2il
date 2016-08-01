@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from django.db.utils import IntegrityError
 from django.http import HttpRequest
 
@@ -41,6 +42,7 @@ class Command(BaseCommand):
                      'reset', 'full'):
             parser.add_argument('--%s' % flag, action='store_true', dest=flag)
 
+    @transaction.atomic
     def handle(self, *args, **options):
         now = datetime.now()
 
