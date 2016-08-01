@@ -1,9 +1,12 @@
 from django.conf.urls import patterns
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import DetailView
-from django.contrib.auth.decorators import login_required
+
 from django.conf import settings
 
 from core.ajax.issue import issue_comment_send
@@ -38,15 +41,18 @@ urlpatterns = patterns('',
     (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$', DocumentDetailView.as_view()),
     # (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$', login_required(DocumentUpdateView.as_view())),
 
-    (r'^polity/(?P<polity>\d+)/election/$', ElectionListView.as_view()),
+    (r'^polity/(?P<polity>\d+)/election/$',
+        cache_page(60*1)(vary_on_headers('Cookie')(
+            ElectionListView.as_view()))),
     (r'^polity/(?P<polity>\d+)/election/new/$', login_required(ElectionCreateView.as_view())),
     (r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/$', ElectionDetailView.as_view()),
     (r'^polity/(\d+)/election/(?P<pk>\d+)/ballots/$', election_ballots),
 
     (r'^polity/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
     (r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$', login_required(PolityDetailView.as_view())),
-    (r'^polity/(?P<pk>\d+)/$', PolityDetailView.as_view()),
-
+    (r'^polity/(?P<pk>\d+)/$',
+        cache_page(60*5)(vary_on_headers('Cookie')(
+            PolityDetailView.as_view()))),
     (r'^polity/(?P<polity>\d+)/topic/new/$', login_required(TopicCreateView.as_view())),
     (r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
     (r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$', TopicDetailView.as_view()),

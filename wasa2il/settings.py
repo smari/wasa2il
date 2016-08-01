@@ -114,7 +114,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'core.middleware.UserSettingsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
+
+# No caching by default, override in local_settings
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        'KEY_PREFIX': 'w2i.'
+    }
+}
 
 ROOT_URLCONF = 'urls'
 
