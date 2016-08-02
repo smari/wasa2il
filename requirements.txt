@@ -16,6 +16,7 @@ ipython==2.3.0
 lxml==3.6.0
 markdown2==2.3.0
 MySQL-python==1.2.5
+pilkit==1.1.13
 Pillow==3.0.0
 pyasn1==0.1.9
 pycparser==2.14
