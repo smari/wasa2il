@@ -62,14 +62,19 @@ def election_poll(request, **kwargs):
     user_is_member = election.polity.is_member(request.user)
     user_can_vote = election.can_vote(request.user)
     all_candidates = election.get_candidates()
-    ctx = {}
-    ctx["election"] = {}
-    ctx["election"]["user_is_candidate"] = (request.user in [x.user for x in election.candidate_set.all()])
-    ctx["election"]["is_voting"] = election.is_voting()
-    ctx["election"]["is_waiting"] = election.is_waiting()
-    ctx["election"]["is_closed"] = election.is_closed()
-    ctx["election"]["votes"] = election.get_vote_count()
-    ctx["election"]["candidates"] = all_candidates
+
+    ctx = {
+        "logged_out": not request.user.is_authenticated(),
+        "election": {
+            "user_is_candidate":
+                (request.user in [x.user for x in election.candidate_set.all()]),
+            "is_voting": election.is_voting(),
+            "is_waiting": election.is_waiting(),
+            "is_closed": election.is_closed(),
+            "votes": election.get_vote_count(),
+            "candidates": all_candidates,
+            "vote": {}}}
+
     ctx["election"]["candidates"]["html"] = render_to_string(
         "core/_election_candidate_list.html", {
             "user_is_member": user_is_member,
@@ -80,7 +85,7 @@ def election_poll(request, **kwargs):
                 Candidate.objects.filter(election=election),
                 election.get_unchosen_candidates(request.user)),
             "candidate_selected": False})
-    ctx["election"]["vote"] = {}
+
     ctx["election"]["vote"]["html"] = render_to_string(
         "core/_election_candidate_list.html", {
             "user_is_member": user_is_member,

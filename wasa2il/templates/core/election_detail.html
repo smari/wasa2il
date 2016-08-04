@@ -201,7 +201,10 @@
 </div>
 {% endif %}
 
-{% csrf_token %}
+<!-- This is used by the Javascript for CSRF and to detect when users get
+     logged out due to inactivity. -->
+<input type="hidden" name="user_id" value="{{ user.id }}">{% csrf_token %}
+
 <script>
 var election_id = {{ election.id }};
 var election_update_timer = null;
@@ -287,6 +290,7 @@ function do_election_update() {
         "election": election_id,
         "order": ord
     }, function(data) {
+        if (data.logged_out) user_logged_out();
         if (data.ok && data.election) {
             election_update_error = false;
             election_object = data.election;
