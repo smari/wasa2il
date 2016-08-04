@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.text import slugify
+from django.views.decorators.http import require_http_methods
 
 from core.models import Election
 from core.models import ElectionVote
@@ -55,7 +56,9 @@ def _ordered_candidates(user, all_candidates, candidates):
 
 @jsonize
 def election_poll(request, **kwargs):
-    election = get_object_or_404(Election, id=request.GET.get("election", 0))
+    election = get_object_or_404(Election,
+        id=request.POST.get("election", request.GET.get("election", -1)))
+
     user_is_member = election.polity.is_member(request.user)
     user_can_vote = election.can_vote(request.user)
     all_candidates = election.get_candidates()
@@ -86,7 +89,7 @@ def election_poll(request, **kwargs):
             "candidates": election.get_vote(request.user),
             "candidate_selected": True})
 
-    for k, v in kwargs:
+    for k, v in kwargs.iteritems():
         ctx["election"][k] = v
 
     ctx["ok"] = kwargs.get("ok", True)
@@ -94,14 +97,15 @@ def election_poll(request, **kwargs):
     return ctx
 
 
+@require_http_methods(["POST"])
 @login_required
 @jsonize
 def election_candidacy(request):
-    election = get_object_or_404(Election, id=request.GET.get("election", 0))
+    election = get_object_or_404(Election, id=request.POST.get("election", 0))
     if election.is_closed():
         return election_poll(request)
 
-    val = int(request.GET.get("val", 0))
+    val = int(request.POST.get("val", 0))
     if val == 0:
         Candidate.objects.filter(user=request.user, election=election).delete()
     elif election.can_be_candidate(request.user):
@@ -121,20 +125,28 @@ def _record_votes(election, user, order):
             ).save()
 
 
+@require_http_methods(["POST"])
 @login_required
 @jsonize
 def election_vote(request):
-    election = get_object_or_404(Election, id=request.GET.get("election", 0))
+    election = get_object_or_404(Election, id=request.POST.get("election", -1))
     ctx = {}
     ctx["ok"] = True
 
-    if not election.can_vote(request.user) or election.is_closed():
+    logged_in = request.user.is_authenticated()
+    can_vote = logged_in and election.can_vote(request.user)
+    is_open = not election.is_closed()
+    if not (logged_in and can_vote and is_open):
+        ctx["please_login"] = not logged_in
+        ctx["is_closed"] = not is_open
+        ctx["can_vote"] = can_vote
         ctx["ok"] = False
         return ctx
 
     ok = True
     try:
-        _record_votes(election, request.user, request.GET.getlist("order[]"))
+        votes = request.POST.getlist("order[]")
+        _record_votes(election, request.user, votes)
     except:
         # FIXME: Report with more granularity what went wrong.
         ok = False
