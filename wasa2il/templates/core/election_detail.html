@@ -186,7 +186,7 @@
         </div>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();"
-             {% if started_voting or election.is_waiting %}
+             {% if election.is_voting or election.is_waiting %}
              data-confirm="{% trans "Are you sure you want to withdraw? This can not be undone." %}"
              {% endif %}
              >{% trans 'Withdraw candidacy' %}</a>
@@ -201,6 +201,9 @@
 </div>
 {% endif %}
 
+<!-- This is used by the Javascript for CSRF and to detect when users get
+     logged out due to inactivity. -->
+<input type="hidden" name="user_id" value="{{ user.id }}">{% csrf_token %}
 
 <script>
 var election_id = {{ election.id }};
@@ -282,9 +285,12 @@ function do_election_update() {
     $("#vote li").each(function(item) {
         ord.push($($("#vote li")[item]).data("seqid"));
     });
-    $.getJSON("/api/election/vote/", {
-        "election": election_id, "order": ord
+    $.post("/api/election/vote/", {
+        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
+        "election": election_id,
+        "order": ord
     }, function(data) {
+        if (data.logged_out) user_logged_out();
         if (data.ok && data.election) {
             election_update_error = false;
             election_object = data.election;
@@ -298,7 +304,7 @@ function do_election_update() {
              // user while the last update was in flight.
              election_render();
         }
-    }).always(election_update_done);
+    }, "json").always(election_update_done);
 }
 
 $(function() {

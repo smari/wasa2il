@@ -24,7 +24,7 @@ class EmailAuthenticationBackend(CustomAuthenticationBackend):
     def custom_get_user(self, email):
         try:
             return User.objects.get(email=email)
-        except User.DoesNotExist:
+        except (User.DoesNotExist, User.MultipleObjectsReturned):
             return None
 
 
@@ -36,7 +36,7 @@ class SSNAuthenticationBackend(CustomAuthenticationBackend):
 
         try:
             return User.objects.get(userprofile__verified_ssn=ssn)
-        except User.DoesNotExist:
+        except (User.DoesNotExist, User.MultipleObjectsReturned):
             return None
 
 

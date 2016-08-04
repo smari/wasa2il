@@ -9,6 +9,13 @@ var discussion_object;
 var discussion_id;
 var show_closed_elections;
 
+
+function user_logged_out() {
+    var user_id = $('input[name=user_id]').val();
+    if (user_id && user_id != 'None') location.reload(true);
+}
+
+
 function document_propose(doc, val) {
     data = {};
     if (issue_id != undefined) {
@@ -253,6 +260,7 @@ function election_timer_stop() {
 function election_vote(val) {
     election_timer_stop();
     $.getJSON("/api/election/vote/", {"election": election_id, "vote": val}, function(data) {
+        if (data.logged_out) user_logged_out();
         if (data.ok) {
             election_object = data.election;
         } else {
@@ -282,7 +290,11 @@ function election_candidacy_withdraw() {
 
 function election_candidacy(val) {
     election_timer_stop();
-    $.getJSON("/api/election/candidacy/", {"election": election_id, "val": val}, function(data) {
+    $.post("/api/election/candidacy/", {
+        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
+        "election": election_id,
+        "val": val
+    }, function(data) {
         if (data.ok) {
             election_object = data.election;
         } else {
@@ -290,7 +302,7 @@ function election_candidacy(val) {
         }
         election_render();
         election_timer_start();
-    }).always(function() {
+    }, "json").always(function() {
         $('#election_announce_working').hide();
     });
 }
@@ -298,6 +310,7 @@ function election_candidacy(val) {
 
 function election_poll(election) {
     $.getJSON("/api/election/poll/", {"election": election}, function(data) {
+        if (data.logged_out) user_logged_out();
         if (data.ok) {
             election_object = data.election;
         } else {

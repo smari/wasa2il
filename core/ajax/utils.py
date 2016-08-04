@@ -8,7 +8,7 @@ def jsonize(f):
         m = f(*args, **kwargs)
         if isinstance(m, HttpResponse):
             return m
-        return HttpResponse(json.dumps(m))
+        return HttpResponse(json.dumps(m), content_type='application/json')
 
     return wrapped
 
