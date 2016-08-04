@@ -313,6 +313,7 @@ function election_poll(election) {
         if (data.logged_out) user_logged_out();
         if (data.ok) {
             election_object = data.election;
+            $('#submit-working, #submit-is-magic, #submit-error').hide();
         } else {
             // FIXME: Error handling?
         }

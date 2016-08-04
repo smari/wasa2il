@@ -80,6 +80,7 @@ def election_poll(request, **kwargs):
             "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
+            "candidate_total": len(all_candidates),
             "candidates": _ordered_candidates(
                 request.user,
                 Candidate.objects.filter(election=election),
@@ -91,6 +92,7 @@ def election_poll(request, **kwargs):
             "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
+            "candidate_total": len(all_candidates),
             "candidates": election.get_vote(request.user),
             "candidate_selected": True})
 

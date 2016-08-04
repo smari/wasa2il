@@ -1528,6 +1528,10 @@ msgid "Drag candidates here or click the vote buttons."
 msgstr "Dragðu frambjóðendur hingað eða smelltu á takka til að kjósa."
 
 #: wasa2il/templates/core/_election_candidate_list.html:36
+msgid "You have selected all the candidates, good work!"
+msgstr "Þú hefur raðað öllum á seðilinn, vel gert!"
+
+#: wasa2il/templates/core/_election_candidate_list.html:36
 msgid "There are no candidates standing in this election yet!"
 msgstr "Þessar kosningar hafa enga frambjóðendur enn sem komið er."
 
