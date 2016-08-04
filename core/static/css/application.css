@@ -242,6 +242,19 @@ footer {
 	margin-top:	30px;
 }
 
+#ajax-status-messages {
+	position: absolute;
+	width: 100%;
+	top: 55px;
+}
+#ajax-status-messages div {
+	max-width: 400px;
+	margin: 0 auto 0 auto;
+}
+div#submit-working {
+	background: #bbb;
+}
+
 
 .subnav {
 	background:	#ccf;
