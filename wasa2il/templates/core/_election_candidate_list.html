@@ -4,29 +4,56 @@
 {% if not election.is_closed %}
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
-    <div style="position: relative;">
+    <div class="row">
+        <div class="col-xs-2">
+          <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
+        </div>
+        <div class="col-xs-4">
+          <a href="/accounts/profile/{{ candidate.user.username }}/" style="font-size: 15px;">{{ candidate.user.get_name | truncatechars:80 }}</a>
+        </div>
         {% if election.is_voting %}
             {% if candidate_selected %}
                 {% if user_can_vote %}
-                    <button class="btn btn-default vote-button vote-remove" style="color:#C00" onclick="election_deselect_candidate(this);">
-                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
-                      <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
-                      <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-                    </button>
+                <div class="col-xs-6">
+                  <div class="row">
+
+                    <div class="col-xs-12" >
+                      <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
+                        <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                      </button>
+                      <button class="btn btn-default vote-button vote-top"    style="color:#000" onclick="election_top_candidate(this);">
+                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                      </button>
+                      <button class="btn btn-default vote-button vote-remove" style="color:#C00" onclick="election_deselect_candidate(this);">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </button>
+                    </div>
+
+                    <div class="col-xs-12">
+                      <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
+                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                      </button>
+                      <button class="btn btn-default vote-button vote-bottom" style="color:#000" onclick="election_bottom_candidate(this);">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                      </button>
+                      <button class="btn btn-default vote-button vote-freeze"     style="color:#000" onclick="election_freeze_candidate(this);">
+                        <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                      </button>
+                    </div>
+
+                  </div> <!-- end row -->
+                </div>
+                 
                 {% endif %}
             {% else %}
                 {% if user_can_vote %}
+                <div class="col-xs-6" style="outline: 1px dottet red">
                     <button class="btn btn-default vote-button vote-yes" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+                </div>
                 {% endif %}
             {% endif %}
         {% endif %}
-        <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
-        <a href="/accounts/profile/{{ candidate.user.username }}/" style="font-size: 15px;">{{ candidate.user.get_name | truncatechars:80 }}</a>
-    </div>
+    </div> <!-- end row -->
 </li>
 {% empty %}
 {% if candidate_selected %}
