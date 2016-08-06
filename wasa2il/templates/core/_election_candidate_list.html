@@ -28,20 +28,20 @@
                     <div class="dropdown-menu dropdown-menu-right">
                       <div class="vote-tip" onclick="election_top_candidate(this);">
                         <span class="glyphicon glyphicon-step-forward" style="transform: rotate(-90deg);" aria-hidden="true"></span>
-                        Vote to top
+                        {% trans "Move to top" %}
                       </div>
                       <div class="vote-tip" onclick="election_bottom_candidate(this);">
                         <span class="glyphicon glyphicon-step-forward" style="transform: rotate(90deg);"  aria-hidden="true"></span>
-                        Vote to bottom
+                        {% trans "Move to bottom" %}
                       </div>
                       <div class="vote-tip" onclick="election_deselect_candidate(this);">
                         <span class="glyphicon glyphicon-remove" style="color: #C00" aria-hidden="true"></span>
-                        Remove
+                        {% trans "Remove" %}
                       </div>
                     </div> <!-- End dropdown-menu -->
                   </div> <!-- End dropdown -->
                 </div>
-                 
+
                 {% endif %}
             {% else %}
                 {% if user_can_vote %}
