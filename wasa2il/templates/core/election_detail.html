@@ -238,8 +238,15 @@ function election_bottom_candidate(element) {
 }
 
 function election_freeze_candidate(element) {
-    console.log('freeze');
-    election_update();
+    //$(element).closest('li').toggleClass("frozen"); // opacity
+    $(element).find('span').toggleClass("glyphicon-check").toggleClass("glyphicon-edit");
+    votebuttons = $(element).closest('li').find('.vote-button');
+    if(votebuttons.prop('disabled')){
+      votebuttons.prop('disabled', false);
+    } else {
+      votebuttons.prop('disabled', true);
+    }
+
 }
 
 function election_update() {

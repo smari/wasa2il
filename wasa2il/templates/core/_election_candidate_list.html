@@ -22,7 +22,7 @@
                         <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                       </button>
                       <button class="btn btn-default vote-button vote-top"    style="color:#000" onclick="election_top_candidate(this);">
-                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-forward" style="transform: rotate(-90deg);" aria-hidden="true"></span>
                       </button>
                       <button class="btn btn-default vote-button vote-remove" style="color:#C00" onclick="election_deselect_candidate(this);">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -34,10 +34,10 @@
                         <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                       </button>
                       <button class="btn btn-default vote-button vote-bottom" style="color:#000" onclick="election_bottom_candidate(this);">
-                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-forward" style="transform: rotate(90deg);"  aria-hidden="true"></span>
                       </button>
-                      <button class="btn btn-default vote-button vote-freeze"     style="color:#000" onclick="election_freeze_candidate(this);">
-                        <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+                      <button class="btn btn-default vote-freeze"     style="color:#000" onclick="election_freeze_candidate(this);">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                       </button>
                     </div>
 
@@ -47,7 +47,7 @@
                 {% endif %}
             {% else %}
                 {% if user_can_vote %}
-                <div class="col-xs-6" style="outline: 1px dottet red">
+                <div class="col-xs-6">
                     <button class="btn btn-default vote-button vote-yes" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
                 </div>
                 {% endif %}
