@@ -4,6 +4,7 @@ var issue_id;
 var election_timer;
 var election_object;
 var election_id;
+var election_ui_update_is_safe = function() { return true; }
 var discussion_timer;
 var discussion_object;
 var discussion_id;
@@ -256,19 +257,9 @@ function election_timer_stop() {
     window.clearInterval(election_timer);
 }
 
-
-function election_vote(val) {
+function election_timer_restart() {
     election_timer_stop();
-    $.getJSON("/api/election/vote/", {"election": election_id, "vote": val}, function(data) {
-        if (data.logged_out) user_logged_out();
-        if (data.ok) {
-            election_object = data.election;
-        } else {
-            $("#vote_error").show();
-        }
-        election_render();
-        election_timer_start();
-    });
+    election_timer_start();
 }
 
 
@@ -336,29 +327,31 @@ function election_render(election) {
     //     3. Double-checking the ballot counting logic to ensure this does
     //        not break anything at that end, as it will create a gap in
     //        the user's ballot sequence.
-    if (election_object.is_closed || election_object.is_voting) {
-        $("#election_button_withdraw").hide();
-        $("#election_button_announce").hide();
-    }
-    else if (election_object.user_is_candidate) {
-        $("#election_button_withdraw").show();
-        $("#election_button_announce").hide();
-    }
-    else {
-        $("#election_button_withdraw").hide();
-        if (election_object.is_voting) {
+    if (election_ui_update_is_safe()) {
+        if (election_object.is_closed || election_object.is_voting) {
+            $("#election_button_withdraw").hide();
             $("#election_button_announce").hide();
-        } else if (election_object.is_waiting) {
-            $("#election_button_announce").hide();
-        } else {
-            $("#election_button_announce").show();
         }
-    }
+        else if (election_object.user_is_candidate) {
+            $("#election_button_withdraw").show();
+            $("#election_button_announce").hide();
+        }
+        else {
+            $("#election_button_withdraw").hide();
+            if (election_object.is_voting) {
+                $("#election_button_announce").hide();
+            } else if (election_object.is_waiting) {
+                $("#election_button_announce").hide();
+            } else {
+                $("#election_button_announce").show();
+            }
+        }
 
-    $("#election_votes_count").text(election_object.votes.count);
-    $("#election_candidates_count").text(election_object.candidates.count);
-    $("#candidates").html(election_object.candidates.html);
-    $("#vote").html(election_object.vote.html);
+        $("#election_votes_count").text(election_object.votes.count);
+        $("#election_candidates_count").text(election_object.candidates.count);
+        $("#candidates").html(election_object.candidates.html);
+        $("#vote").html(election_object.vote.html);
+    }
 }
 
 

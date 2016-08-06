@@ -197,6 +197,7 @@
 
 <script>
 var election_id = {{ election.id }};
+var election_dragging = false;
 var election_update_timer = null;
 var election_update_wanted = false;
 var election_update_error = false;
@@ -237,7 +238,6 @@ function election_update() {
     if (election_update_timer == null) {
         $('#submit-working').show();
         $('#submit-is-magic, #submit-error').hide();
-        election_timer_stop();
         election_update_timer = setTimeout(do_election_update, 100);
     }
     else {
@@ -255,7 +255,6 @@ function election_update_done() {
     if (election_update_wanted) {
         election_update();
     } else {
-        election_timer_start();
         $('#submit-working, #submit-is-magic, #submit-error').hide();
         if (election_update_error) {
             $('#submit-error').show(200);
@@ -263,6 +262,9 @@ function election_update_done() {
         else {
             $('#submit-is-magic').show(200);
         }
+        // Restart timer from zero, as it will wipe our popups and we
+        // don't want that happening too soon.
+        election_timer_restart();
     }
 }
 
@@ -287,31 +289,35 @@ function do_election_update() {
         } else {
             // Note: Error is assumed unless the ok block above runs.
         }
-        if (!election_update_wanted) {
-             // We can safely update the UI if there aren't more changes
-             // pending. Not rendering when more updates are pending prevents
-             // "jumping" in the UI and should preserve changes made by the
-             // user while the last update was in flight.
-             election_render();
-        }
+        election_render();
     }, "json").always(election_update_done);
 }
 
 $(function() {
+    election_ui_update_is_safe = function() {
+        // We can safely update the UI if there aren't more changes
+        // pending, and drags are not in progress. Not rendering when
+        // more updates are pending prevents "jumping" in the UI and
+        // should preserve changes made by the user while the last
+        // update was in flight.
+        return (!(election_update_wanted || election_dragging));
+    }
     election_poll(election_id);
 
     {% if voting_interface_enabled %}
     election_timer_start();
 
     $(".candidates").sortable({
-        start: function() { election_timer_stop(); },
-        stop: function() { election_timer_start(); },
+        start: function() { election_dragging = true; },
+        stop: function() {
+            election_dragging = false;
+            election_update();
+        },
         distance: 5,
         delay: 300,
         connectWith: ".candidates",
         opacity: 0.6,
-        cursor: 'move',
-        update: election_update
+        cursor: 'move'
     });
     {% endif %}
 
