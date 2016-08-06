@@ -60,20 +60,15 @@ textarea {
 	counter-reset: 			statement-counter -1;
 }
 
-.candidates {
-	min-height:			50px;
-}
-
 .candidates p {
 	padding:			10px;
 	border:				1px solid #ddd;
 }
 
 .candidates li {
-	border-bottom:		1px solid #ddd;
-	padding-bottom:		3px;
-	padding-top:      3px;
-	font-size:			15pt;
+	border-top:		1px solid #ddd;
+	padding:      5px;
+	font-size:    15px;
 }
 
 .candidates li div:hover {
@@ -110,6 +105,14 @@ textarea {
 	display:			list-item;
 }
 
+.vote-tip{
+  font-size: 15px;
+  padding: 15px 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.frozen {
+}
 
 .memberstatusbox {
 	padding:			5px;

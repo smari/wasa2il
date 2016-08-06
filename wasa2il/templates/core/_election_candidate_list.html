@@ -15,33 +15,31 @@
             {% if candidate_selected %}
                 {% if user_can_vote %}
                 <div class="col-xs-6">
-                  <div class="row">
-
-                    <div class="col-xs-12" >
-                      <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
-                        <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-                      </button>
-                      <button class="btn btn-default vote-button vote-top"    style="color:#000" onclick="election_top_candidate(this);">
-                        <span class="glyphicon glyphicon-forward" style="transform: rotate(-90deg);" aria-hidden="true"></span>
-                      </button>
-                      <button class="btn btn-default vote-button vote-remove" style="color:#C00" onclick="election_deselect_candidate(this);">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                      </button>
-                    </div>
-
-                    <div class="col-xs-12">
-                      <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
-                        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                      </button>
-                      <button class="btn btn-default vote-button vote-bottom" style="color:#000" onclick="election_bottom_candidate(this);">
-                        <span class="glyphicon glyphicon-forward" style="transform: rotate(90deg);"  aria-hidden="true"></span>
-                      </button>
-                      <button class="btn btn-default vote-freeze"     style="color:#000" onclick="election_freeze_candidate(this);">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                      </button>
-                    </div>
-
-                  </div> <!-- end row -->
+                  <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                  </button>
+                  <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                  </button>
+                  <div class="dropdown" style="display: inline";>
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="glyphicon glyphicon-option-horizontal" span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <div class="vote-tip" onclick="election_top_candidate(this);">
+                        <span class="glyphicon glyphicon-step-forward" style="transform: rotate(-90deg);" aria-hidden="true"></span>
+                        Vote to top
+                      </div>
+                      <div class="vote-tip" onclick="election_bottom_candidate(this);">
+                        <span class="glyphicon glyphicon-step-forward" style="transform: rotate(90deg);"  aria-hidden="true"></span>
+                        Vote to bottom
+                      </div>
+                      <div class="vote-tip" onclick="election_deselect_candidate(this);">
+                        <span class="glyphicon glyphicon-remove" style="color: #C00" aria-hidden="true"></span>
+                        Remove
+                      </div>
+                    </div> <!-- End dropdown-menu -->
+                  </div> <!-- End dropdown -->
                 </div>
                  
                 {% endif %}
