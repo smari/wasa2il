@@ -62,10 +62,17 @@ def home(request):
     if request.user.is_authenticated():
         if request.user.is_staff and Polity.objects.count() == 0:
             return HttpResponseRedirect("/polity/new")
-
-        return HttpResponseRedirect("/accounts/profile/")
+        else:
+            polities = request.user.polities.all()
     else:
-        return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
+        polities = Polity.objects.filter(is_nonmembers_readable=True)
+
+    ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+    ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+    ctx["votingelections"] = Election.objects.order_by("deadline_votes").filter(deadline_candidacy__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+    ctx["openelections"] = Election.objects.order_by("deadline_votes").filter(deadline_candidacy__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+
+    return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
 
 
 def help(request, page):
@@ -357,7 +364,7 @@ class IssueCreateView(CreateView):
                 previous_topics = current_content.previous_topics()
                 context_data['selected_topics'] = json.dumps(previous_topics)
                 context_data['tab'] = 'diff'
- 
+
             context_data['documentcontent'] = current_content
             context_data['documentcontent_comments'] = current_content.comments.replace("\n", "\\n")
             context_data['selected_diff_documentcontent'] = current_content.document.preferred_version()
@@ -732,4 +739,3 @@ def election_ballots(request, pk=None):
 
 def error500(request):
     return render_to_response('500.html')
-
