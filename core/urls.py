@@ -23,6 +23,7 @@ from core.models import Topic
 from core.models import Issue
 from core.models import Delegate
 
+
 urlpatterns = patterns('',
     (r'^$', 'core.views.home'),
     (r'^polities/$', ListView.as_view(model=Polity, context_object_name="polities")),
