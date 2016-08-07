@@ -49,7 +49,7 @@ class UserProfile(models.Model):
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
-    language = models.CharField(max_length="6", default="en", choices=settings.LANGUAGES, verbose_name=_("Language"))
+    language = models.CharField(max_length="6", default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, verbose_name=_("Language"))
     topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 
     def save(self, *largs, **kwargs):

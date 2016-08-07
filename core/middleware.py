@@ -8,6 +8,13 @@ from django.contrib import auth
 
 from datetime import datetime, timedelta
 
+# Put this middleware before LocaleMiddleware to ignore HTTP_ACCEPT_LANGUAGE
+# set by the browser and fall back to settings.LANGUAGE_CODE instead.
+class IgnoreHTTPAcceptLanguageMiddleware(object):
+    def process_request(self, request):
+        if request.META.has_key('HTTP_ACCEPT_LANGUAGE'):
+            del request.META['HTTP_ACCEPT_LANGUAGE']
+
 class UserSettingsMiddleware(object):
     def __init__(self):
         pass
@@ -38,5 +45,3 @@ class UserSettingsMiddleware(object):
                         and request.path_info != '/accounts/logout/'):
                     ctx = { 'auth_url': settings.SAML_1['URL'] }
                     return render_to_response('registration/verification_needed.html', ctx)
-
-
