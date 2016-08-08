@@ -4,8 +4,7 @@
 
 {% load i18n %}
 {% load wasa2il %}
-<div class="row">
-    <div class="col-md-12 col-xs-12">
+    <div>
         <h2>{% trans "Issues" %} <small>{% trans "up for vote"%}</small></h2>
         <p class="muted">{% trans "These are the issues up for vote." %}</p>
         <table class="table table-striped table-bordered table-condensed" id="votingIssues">
@@ -67,7 +66,7 @@
         </tbody>
         </table>
     </div>
-    <div class="col-md-12 col-xs-12">
+    <div>
         <h2>{% trans "Elections" %} <small>{% trans "up for vote"%}</small></h2>
 
         <p class="muted">{% trans "Sometimes you need to put people in their places. Elections do just that." %}</p>
@@ -77,59 +76,37 @@
                 <tr>
                     <th>{% trans "Election" %}</th>
                     <th>{% trans "Polity" %}</th>
+                    <th>{% trans "State" %}</th>
                     <th>{% trans "Candidates" %}</th>
                     <th>{% trans "Votes" %}</th>
                 </tr>
             </thead>
             <tbody>
-                {% for election in votingelections|slice:"10" %}
+                {% for election in elections %}
                     <tr>
                         <td>
+                            <span id="electionstar_{{ election.id }}" class="glyphicon glyphicon-pencil {% if election|electionvoted:user %}{% else %}icon-grey{% endif %}"
+                                title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"></span>
                             <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
                         </td>
                         <td>
                             <a href="/polity/{{election.polity_id}}">{{ election.polity.name }}</a>
                         </td>
+                        <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
                         <td>{{ election.candidate_set.count }}</td>
                         <td>{{ election.get_vote_count }}</td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan=4 style="text-align: center; font-size: 110%;">
+                        <td colspan="5" style="text-align: center; font-size: 110%;">
                              {% trans "No elections are scheduled at the moment." %}
                         </td>
                     </tr>
                 {% endfor %}
-                {% if votingelections|length > 10 %}
-                    <tr class="showMore">
-                        <td colspan=4 style="text-align: center; font-size: 110%;">
-                            <a href="#">{% trans "Show all" %}</a>
-                        </td>
-                    </tr>
-                    {% for election in votingelections|slice:"10:" %}
-                        <tr style="display:none;" class="more">
-                            <td>
-                                <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
-                            </td>
-                            <td>
-                                <a href="/polity/{{election.polity_id}}">{{ election.polity.name }}</a>
-                            </td>
-                            <td>{{ election.candidate_set.count }}</td>
-                            <td>{{ election.get_vote_count }}</td>
-                        </tr>
-                    {% endfor %}
-                        <tr class="more showLess" style="display:none;">
-                            <td colspan=4 style="text-align: center; font-size: 110%;">
-                                <a href="#">{% trans "Show less" %}</a>
-                            </td>
-                        </tr>
-                {% endif %}
             </tbody>
         </table>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6 col-xs-12">
+    <div>
         <h2>{% trans "Issues" %} <small>{% trans "in discussion"%}</small></h2>
 
         <p class="muted">{% trans "These are the issues being discussed." %}</p>
@@ -194,67 +171,6 @@
         </tbody>
         </table>
     </div>
-    <div class="col-md-6 col-xs-12">
-        <h2>{% trans "Elections" %} <small>{% trans "open for candidacy" %}</small></h2>
-
-        <p class="muted">{% trans "Sometimes you need to put people in their places. Elections do just that." %}</p>
-
-        <table class="table table-striped table-bordered table-condensed">
-            <thead>
-                <tr>
-                    <th>{% trans "Election" %}</th>
-                    <th>{% trans "Polity" %}</th>
-                    <th>{% trans "Candidates" %}</th>
-                    <th>{% trans "Votes" %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for election in openelections|slice:"10" %}
-                    <tr>
-                        <td>
-                            <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
-                        </td>
-                        <td>
-                            <a href="/polity/{{election.polity_id}}">{{ election.polity.name }}</a>
-                        </td>
-                        <td>{{ election.candidate_set.count }}</td>
-                        <td>{{ election.get_vote_count }}</td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan=4 style="text-align: center; font-size: 110%;">
-                             {% trans "No elections are scheduled at the moment." %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                {% if openelections|length > 10 %}
-                    <tr class="showMore">
-                        <td colspan=4 style="text-align: center; font-size: 110%;">
-                            <a href="#">{% trans "Show all" %}</a>
-                        </td>
-                    </tr>
-                    {% for election in openelections|slice:"10:" %}
-                        <tr style="display:none;" class="more">
-                            <td>
-                                <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
-                            </td>
-                            <td>
-                                <a href="/polity/{{election.polity_id}}">{{ election.polity.name }}</a>
-                            </td>
-                            <td>{{ election.candidate_set.count }}</td>
-                            <td>{{ election.get_vote_count }}</td>
-                        </tr>
-                    {% endfor %}
-                        <tr class="more showLess" style="display:none;">
-                            <td colspan=4 style="text-align: center; font-size: 110%;">
-                                <a href="#">{% trans "Show less" %}</a>
-                            </td>
-                        </tr>
-                {% endif %}
-            </tbody>
-        </table>
-    </div>
-</div>
 
 {% endblock %}
 {% block head_extra %}

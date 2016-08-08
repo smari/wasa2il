@@ -69,8 +69,7 @@ def home(request):
 
     ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
     ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-    ctx["votingelections"] = Election.objects.order_by("deadline_votes").filter(deadline_candidacy__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-    ctx["openelections"] = Election.objects.order_by("deadline_votes").filter(deadline_candidacy__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+    ctx["elections"] = Election.objects.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now(),polity__in=polities)
 
     return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
 
