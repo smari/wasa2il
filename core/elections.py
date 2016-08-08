@@ -39,7 +39,9 @@ class BallotCounter(object):
         Ballots should be a list of lists of (rank, candidate) tuples.
         """
         self.ballots = ballots or []
+        self.excluded = []
         self.candidates = self.get_candidates()
+        self.collapse_gaps = True
 
     def system_name(self, system):
         return [n for m, n in self.VOTING_SYSTEMS if m == system][0]
@@ -72,18 +74,27 @@ class BallotCounter(object):
         candidates = {}
         for ballot in self.ballots:
             for rank, candidate in ballot:
-                candidates[candidate] = 1
+                if candidate not in self.excluded:
+                    candidates[candidate] = 1
         return candidates.keys()
+
+    def exclude_candidates(self, excluded):
+        self.excluded = excluded
+        self.candidates = self.get_candidates()
 
     def ballots_as_lists(self):
         for ballot in self.ballots:
-            yield([candidate for rank, candidate in sorted(ballot)])
+            yield([candidate for rank, candidate in sorted(ballot)
+                   if candidate not in self.excluded])
 
     def ballots_as_rankings(self):
-        for ballot in self.ballots:
+        b = self.ballots_as_lists() if (self.collapse_gaps) else self.ballots
+        for ballot in b:
             rankings = {}
-            for rank, candidate in ballot:
-                rankings[candidate] = rank
+            ranked = enumerate(ballot) if (self.collapse_gaps) else ballot
+            for rank, candidate in ranked:
+                if candidate not in self.excluded:
+                    rankings[candidate] = rank
             yield(rankings)
 
     def hashes_with_counts(self, ballots):
@@ -187,19 +198,26 @@ class BallotCounter(object):
 
 if __name__ == "__main__":
     import sys
+    import argparse
 
     # Configure logging
     logger.addHandler(logging.StreamHandler())
     logger.setLevel(logging.DEBUG)
 
-    try:
-        operation = sys.argv[1]
-        system = sys.argv[2]
-        filenames = sys.argv[3:]
-    except IndexError:
-        print('Usage: %s count <system> <ballot files ...>' % sys.argv[0])
-        sys.exit(1)
+    ap = argparse.ArgumentParser()
+    ap.add_argument('-e', '--exclude', action='append',
+        help="Candidate(s) to exclude when counting")
+    ap.add_argument('--keep-gaps', action='store_true',
+        help="Preserve gaps if ballots are not sequential")
+    ap.add_argument('operation',
+        help="Operation to perform (count)")
+    ap.add_argument('system',
+        help="Counting system to use (schulze, stv5, ...)")
+    ap.add_argument('filenames', nargs='+',
+        help="Ballot files to read")
+    args = ap.parse_args()
 
+    system = args.system
     if ':' in system:
         system, winners = system.split(':')
         winners = int(winners)
@@ -207,14 +225,19 @@ if __name__ == "__main__":
         winners = None
 
     bc = BallotCounter()
-    for fn in filenames:
+    for fn in args.filenames:
         bc.load_ballots(fn)
 
-    if operation == 'count':
+    if args.exclude:
+        bc.exclude_candidates(args.exclude)
+
+    bc.collapse_gaps = False if (args.keep_gaps) else True
+
+    if args.operation == 'count':
         print('Voting system:\n\t%s (%s)' % (bc.system_name(system), system))
         print('')
         print('Loaded %d ballots from:\n\t%s' % (len(bc.ballots),
-                                                 '\n\t'.join(filenames)))
+                                                 '\n\t'.join(args.filenames)))
         print('')
         print('Results:\n\t%s' % ', '.join(bc.results(system,
                                                       winners=winners)))

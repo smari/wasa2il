@@ -13,6 +13,7 @@ from django.db import models, transaction
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from registration.signals import user_registered
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
 
@@ -65,6 +66,14 @@ class UserProfile(models.Model):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 
 
+# Make sure registration creates profiles
+def _create_user_profile(**kwargs):
+    UserProfile.objects.get_or_create(user=kwargs['user'])
+
+user_registered.connect(_create_user_profile)
+
+
+# Monkey-patch the User.get_name() method
 def get_name(user):
     name = ""
     if user:

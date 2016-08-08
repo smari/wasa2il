@@ -23,6 +23,14 @@
 				<a href="/accounts/register/" role="button" class="btn btn-default">{% trans "Sign up" %}</a>
 				<a href="/accounts/password/reset/" role="button" class="btn btn-default">{% trans "Password reset" %}</a>
 			</fieldset>
+{% if request.GET.username %}
+                        <script>
+                            $('label[for=id_username]').closest('.form-group').find('input')
+                                .val("{{ request.GET.username|escapejs }}")
+                                .prop('disabled', true);
+                        </script>
+                        <input type='hidden' name='username' value='{{ request.GET.username }}'>
+{% endif %}
 		</form>
 	</div>
 </div>
