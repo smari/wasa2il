@@ -1765,7 +1765,7 @@ msgstr "Vinsamlegast skráðu þig inn."
 
 #: wasa2il/templates/core/election_detail.html:41
 msgid "You joined the organization too late."
-msgstr ""
+msgstr "Það er of stutt síðan þú gekkst í félagið."
 
 #: wasa2il/templates/core/election_detail.html:43
 #: wasa2il/templates/core/election_detail.html:54
