@@ -28,6 +28,12 @@ The 3rd step will populate the database with a small amount of random data, incl
 
 That should be it!
 
+## Contributing
+
+Pull requests are welcome. Update translations by running **manage.py
+makemessages** and edit the appropriate translation file, such as
+`wasa2il/locale/is/LC_MESSAGES/django.po`.
+
 # Project concepts
 
 ## Polities
