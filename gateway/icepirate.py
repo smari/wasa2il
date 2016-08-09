@@ -43,10 +43,11 @@ def _icepirate_user_data(user, to_8bit=False):
         'username': user.username,
         'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S')}
     for f in ('name', 'username'):
-        if info.get(f) and not isinstance(info[f], unicode):
-            info[f] = info[f].decode('utf-8')
-        if to_8bit:
-            info[f] = info[f].encode('utf-8')
+        if info.get(f):
+            if not isinstance(info[f], unicode):
+                info[f] = info[f].decode('utf-8')
+            if to_8bit:
+                info[f] = info[f].encode('utf-8')
     return info
 
 def _make_username(name, email):

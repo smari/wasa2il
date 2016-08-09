@@ -26,6 +26,7 @@ from django.core.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.encoding import force_bytes
 
 # BEGIN - Copied from django.contrib.auth.views to accommodate the login() function
@@ -128,6 +129,8 @@ def view_settings(request):
             request.user.save()
             form.save()
 
+            request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
+
             if 'picture' in request.FILES:
                 f = request.FILES.get("picture")
                 m = sha1()
@@ -189,6 +192,8 @@ def login(request, template_name='registration/login.html',
                 profile = UserProfile()
                 profile.user = request.user
                 profile.save()
+
+            request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
 
             if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
                 if not request.user.userprofile.user_is_verified():

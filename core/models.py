@@ -13,6 +13,7 @@ from django.db import models, transaction
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from registration.signals import user_registered
 
 from google_diff_match_patch.diff_match_patch import diff_match_patch
 
@@ -49,7 +50,7 @@ class UserProfile(models.Model):
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
-    language = models.CharField(max_length="6", default="en", choices=settings.LANGUAGES, verbose_name=_("Language"))
+    language = models.CharField(max_length="6", default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, verbose_name=_("Language"))
     topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 
     def save(self, *largs, **kwargs):
@@ -65,6 +66,14 @@ class UserProfile(models.Model):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 
 
+# Make sure registration creates profiles
+def _create_user_profile(**kwargs):
+    UserProfile.objects.get_or_create(user=kwargs['user'])
+
+user_registered.connect(_create_user_profile)
+
+
+# Monkey-patch the User.get_name() method
 def get_name(user):
     name = ""
     if user:
