@@ -195,6 +195,21 @@ class BallotCounter(object):
         else:
             raise Exception('Invalid voting method: %s' % method)
 
+    def constrained_results(self, method, winners=None, below=None):
+        results = self.results(method, winners=winners)
+        if not below:
+            return results
+
+        constrained = ['' for i in range(0, len(results) * 2)]
+        for candidate in results:
+            position = max(0, below.get(candidate, 1) - 1)
+            for p in range(position, len(constrained)):
+                if not constrained[p]:
+                   constrained[p] = candidate
+                   break
+
+        return [c for c in constrained if c]
+
 
 if __name__ == "__main__":
     import sys
@@ -207,6 +222,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument('-e', '--exclude', action='append',
         help="Candidate(s) to exclude when counting")
+    ap.add_argument('-b', '--below', action='append',
+        help="seat,candidate pairs, to constrain final ordering")
     ap.add_argument('--keep-gaps', action='store_true',
         help="Preserve gaps if ballots are not sequential")
     ap.add_argument('operation',
@@ -233,14 +250,24 @@ if __name__ == "__main__":
 
     bc.collapse_gaps = False if (args.keep_gaps) else True
 
+    below = {}
+    for sc in args.below or []:
+        seat, candidate = sc.split(',')
+        seat = int(seat)
+        below[candidate] = seat
+
     if args.operation == 'count':
         print('Voting system:\n\t%s (%s)' % (bc.system_name(system), system))
         print('')
-        print('Loaded %d ballots from:\n\t%s' % (len(bc.ballots),
-                                                 '\n\t'.join(args.filenames)))
+        print('Loaded %d ballots from:\n\t%s' % (
+            len(bc.ballots), '\n\t'.join(args.filenames)))
         print('')
-        print('Results:\n\t%s' % ', '.join(bc.results(system,
-                                                      winners=winners)))
+        if below:
+            print('Results(C):\n\t%s' % ', '.join(bc.constrained_results(
+                system, winners=winners, below=below)))
+        else:
+            print('Results:\n\t%s' % ', '.join(bc.results(
+                system, winners=winners)))
         print('')
 
 else:
