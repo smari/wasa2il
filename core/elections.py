@@ -39,7 +39,7 @@ class BallotCounter(object):
         Ballots should be a list of lists of (rank, candidate) tuples.
         """
         self.ballots = ballots or []
-        self.excluded = []
+        self.excluded = set([])
         self.candidates = self.get_candidates()
         self.collapse_gaps = True
 
@@ -79,8 +79,9 @@ class BallotCounter(object):
         return candidates.keys()
 
     def exclude_candidates(self, excluded):
-        self.excluded = excluded
+        self.excluded |= set(excluded)
         self.candidates = self.get_candidates()
+        return self
 
     def ballots_as_lists(self):
         for ballot in self.ballots:
@@ -122,6 +123,10 @@ class BallotCounter(object):
 
     def schulze_results(self, winners=None):
         """Wrapper to canary new schulze code, comparing with old"""
+        if self.excluded:
+            logger.warning('Schulze old cannot exclude, using new only.')
+            return self.schulze_results_new(winners=winners)
+
         old_style = self.schulze_results_old()
         new_style = self.schulze_results_new(winners=winners)
         if old_style != new_style:
@@ -157,7 +162,7 @@ class BallotCounter(object):
         else:
             return []
 
-    def stcom_results(self):
+    def stcom_results(self, winners=None):
         """Icelandic Pirate party steering committee elections.
 
         Returns 10 or 11 members; the first five are the steering committee,
