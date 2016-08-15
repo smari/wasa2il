@@ -112,8 +112,10 @@ class BallotCounter(object):
 
     def ballots_as_lists(self):
         for ballot in self.ballots:
-            yield([candidate for rank, candidate in sorted(ballot)
-                   if candidate not in self.excluded])
+            as_list = [candidate for rank, candidate in sorted(ballot)
+                       if candidate not in self.excluded]
+            if as_list:
+                yield(as_list)
 
     def ballots_as_rankings(self):
         b = self.ballots_as_lists() if (self.collapse_gaps) else self.ballots
