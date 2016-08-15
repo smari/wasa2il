@@ -26,6 +26,7 @@ class BallotCounter(object):
         ('schulze', 'Schulze, Ordered list'),
         ('schulze_old', 'Schulze, Ordered list (old)'),
         ('schulze_new', 'Schulze, Ordered list (new)'),
+        ('schulze_both', 'Schulze, Ordered list (both)'),
         ('stcom', 'Steering Committee Election'),
         ('stv1', 'STV, Single winner'),
         ('stv2', 'STV, Two winners'),
@@ -146,7 +147,7 @@ class BallotCounter(object):
                 ballot_notation=Schulze.BALLOT_NOTATION_RANKING,
             ).as_dict()['order']
 
-    def schulze_results(self, winners=None):
+    def schulze_results_both(self, winners=None):
         """Wrapper to canary new schulze code, comparing with old"""
         if self.excluded:
             logger.warning('Schulze old cannot exclude, using new only.')
@@ -195,7 +196,7 @@ class BallotCounter(object):
         is the condorcet winner, if there is one. Note that the 11th result
         will be a duplicate.
         """
-        result = self.schulze_results(winners=10)
+        result = self.schulze_results_new(winners=10)
         stcom = result[:5]
         deputies = result[5:]
         condorcet = self.condorcet_results()
@@ -205,13 +206,13 @@ class BallotCounter(object):
         assert(method in [system for system, name in self.VOTING_SYSTEMS])
 
         if method == 'schulze':
-            return self.schulze_results(winners=winners)
+            return self.schulze_results_new(winners=(winners or sysarg))
 
         elif method == 'schulze_old':
             return self.schulze_results_old()
 
-        elif method == 'schulze_new':
-            return self.schulze_results_new(winners=winners)
+        elif method == 'schulze_both':
+            return self.schulze_results_both(winners=(winners or sysarg))
 
         elif method == 'condorcet':
             return self.condorcet_results()
