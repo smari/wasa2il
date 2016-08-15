@@ -1,3 +1,4 @@
+import copy
 import json
 import logging
 import random
@@ -42,6 +43,30 @@ class BallotCounter(object):
         self.excluded = set([])
         self.candidates = self.get_candidates()
         self.collapse_gaps = True
+        self.states = []
+
+    def copy_state(self):
+        """Return a copy of the internal state, so we can restore later."""
+        return (copy.deepcopy(self.ballots), copy.deepcopy(self.excluded))
+
+    def restore_state(self, state):
+        self.ballots = copy.deepcopy(state[0])
+        self.excluded = copy.deepcopy(state[1])
+        self.candidates = self.get_candidates()
+
+    def push_state(self):
+        self.states.append(self.copy_state())
+        return self
+
+    def pop_state(self):
+        self.restore_state(self.states.pop(-1))
+        return self
+
+    def __enter__(self):
+        return self.push_state()
+
+    def __exit__(self, *args, **kwargs):
+        return self.pop_state()
 
     def system_name(self, system):
         return [n for m, n in self.VOTING_SYSTEMS if m == system][0]
