@@ -33,7 +33,8 @@ class BallotCounter(object):
         ('stv3', 'STV, Three winners'),
         ('stv4', 'STV, Four winners'),
         ('stv5', 'STV, Five winners'),
-        ('stv10', 'STV, Ten winners')
+        ('stv10', 'STV, Ten winners'),
+        ('stonethor', 'STV partition with Schulze ranking')
     )
 
     def __init__(self, ballots=None):
@@ -202,7 +203,26 @@ class BallotCounter(object):
         condorcet = self.condorcet_results()
         return sorted(stcom) + sorted(deputies) + condorcet
 
-    def results(self, method, winners=None):
+    def stonethor_results(self, partition=None, winners=None):
+        """Experimental combined STV and Schulze method.
+
+        Partition the candidate group using STV and then rank each
+        partition separately using Schulze. The default partition is
+        one quarter of the candidate count.
+        """
+        top = self.stv_results(winners=min(
+            partition or (len(self.candidates) / 4),
+            len(self.candidates)))
+        bottom = list(set(self.get_candidates()) - set(top))
+        if top:
+            with self:
+                top = self.exclude_candidates(bottom).schulze_results_new()
+        if bottom and len(top) < winners:
+            with self:
+                bottom = self.exclude_candidates(top).schulze_results_new()
+        return (top + bottom)[:winners]
+
+    def results(self, method, winners=None, sysarg=None):
         assert(method in [system for system, name in self.VOTING_SYSTEMS])
 
         if method == 'schulze':
@@ -222,6 +242,9 @@ class BallotCounter(object):
 
         elif method.startswith('stv'):
             return self.stv_results(winners=int(method[3:] or 1))
+
+        elif method == 'stonethor':
+            return self.stonethor_results(winners=winners, partition=sysarg)
 
         else:
             raise Exception('Invalid voting method: %s' % method)
@@ -267,10 +290,10 @@ if __name__ == "__main__":
 
     system = args.system
     if ':' in system:
-        system, winners = system.split(':')
-        winners = int(winners)
+        system, sysarg = system.split(':')
+        sysarg = int(sysarg)
     else:
-        winners = None
+        sysarg = None
 
     bc = BallotCounter()
     for fn in args.filenames:
@@ -295,10 +318,10 @@ if __name__ == "__main__":
         print('')
         if below:
             print('Results(C):\n\t%s' % ', '.join(bc.constrained_results(
-                system, winners=winners, below=below)))
+                system, sysarg=sysarg, below=below)))
         else:
             print('Results:\n\t%s' % ', '.join(bc.results(
-                system, winners=winners)))
+                system, sysarg=sysarg)))
         print('')
 
 else:
