@@ -490,7 +490,7 @@ if __name__ == "__main__":
                 raise ValueError('Unknown analysis: %s' % method)
 
         if args.operation == 'analyze':
-            print(bc.stats_as_text(stats).encode('utf-8')
+            print(bc.stats_as_text(stats).encode('utf-8'))
 
 else:
     # Suppress errors in case logging isn't configured elsewhere
