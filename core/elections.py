@@ -122,7 +122,52 @@ class BallotContainer(object):
         return hashes.values()
 
 
-class BallotCounter(BallotContainer):
+class BallotAnalyzer(BallotContainer):
+    """
+    This class will analyze and return statistics about a set of ballots.
+    """
+    def _cands_and_stats(self):
+        cands = sorted(self.get_candidates())
+        return (cands, {
+            'candidates': cands,
+            'ballots': len(self.ballots),
+        })
+
+    def get_candidate_rank_stats(self):
+        cands, stats = self._cands_and_stats()
+        ranks = [[0 for r in cands] for c in cands]
+        stats['ranking_matrix'] = ranks
+        for ballot in self.ballots:
+            for rank, candidate in ballot:
+                if candidate in cands:
+                    ranks[cands.index(candidate)][int(rank)] += 1
+        for ranking in ranks:
+            r = sum(ranking)
+            ranking.append(r)
+        return stats
+
+    def get_candidate_pairwise_stats(self):
+        cands, stats = self._cands_and_stats()
+        cmatrix = [[0 for c2 in cands] for c1 in cands]
+        stats['pairwise_matrix'] = cmatrix
+        for ranking in self.ballots_as_rankings():
+            print '%s' % ranking
+            for i, c1 in enumerate(cands):
+                for j, c2 in enumerate(cands):
+                    if ranking.get(c1, 9999999) < ranking.get(c2, 9999999):
+                        cmatrix[i][j] += 1
+        return stats
+
+    def get_duplicate_ballots(self):
+        cands, stats = self._cands_and_stats()
+        stats['duplicates'] = []
+        for cbhash in self.hashes_with_counts(self.ballots):
+            if cbhash.get("count", 1) > 1:
+                stats['duplicates'].append(cbhash)
+        return stats
+
+
+class BallotCounter(BallotAnalyzer):
     """
     This class contains the results of an election, making it easy to
     tally up the results using a few different methods.
@@ -340,6 +385,23 @@ if __name__ == "__main__":
             print('Results:\n\t%s' % ', '.join(bc.results(
                 system, sysarg=sysarg)))
         print('')
+
+    if args.operation == 'analyze':
+        stats = {}
+        for method in (m.strip() for m in system.split(',')):
+            if method == 'rankings':
+                stats.update(bc.get_candidate_rank_stats())
+
+            elif method == 'pairs':
+                stats.update(bc.get_candidate_pairwise_stats())
+
+            elif method == 'duplicates':
+                stats.update(bc.get_duplicate_ballots())
+
+            else:
+                raise ValueError('Unknown analysis: %s' % method)
+
+        print('%s' % stats)
 
 else:
     # Suppress errors in case logging isn't configured elsewhere
