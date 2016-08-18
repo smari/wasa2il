@@ -16,27 +16,14 @@ import schulze
 logger = logging.getLogger(__name__)
 
 
-class BallotCounter(object):
+class BallotContainer(object):
     """
-    This class contains the results of an election, making it easy to
-    tally up the results using a few different methods.
-    """
-    VOTING_SYSTEMS = (
-        ('condorcet', 'Condorcet'),
-        ('schulze', 'Schulze, Ordered list'),
-        ('schulze_old', 'Schulze, Ordered list (old)'),
-        ('schulze_new', 'Schulze, Ordered list (new)'),
-        ('schulze_both', 'Schulze, Ordered list (both)'),
-        ('stcom', 'Steering Committee Election'),
-        ('stv1', 'STV, Single winner'),
-        ('stv2', 'STV, Two winners'),
-        ('stv3', 'STV, Three winners'),
-        ('stv4', 'STV, Four winners'),
-        ('stv5', 'STV, Five winners'),
-        ('stv10', 'STV, Ten winners'),
-        ('stonethor', 'STV partition with Schulze ranking')
-    )
+    A container for ballots.
 
+    Includes convenience methods for loading/saving ballots, saving
+    or restoring internal state during analysis, and returning the list
+    of ballots in a few different formats.
+    """
     def __init__(self, ballots=None):
         """
         Ballots should be a list of lists of (rank, candidate) tuples.
@@ -69,9 +56,6 @@ class BallotCounter(object):
 
     def __exit__(self, *args, **kwargs):
         return self.pop_state()
-
-    def system_name(self, system):
-        return [n for m, n in self.VOTING_SYSTEMS if m == system][0]
 
     def load_ballots(self, filename):
         """Load ballots from disk"""
@@ -128,8 +112,39 @@ class BallotCounter(object):
             yield(rankings)
 
     def hashes_with_counts(self, ballots):
+        hashes = {}
         for ballot in ballots:
-            yield {"count": 1, "ballot": ballot}
+            bkey = repr(ballot)
+            if bkey in hashes:
+                hashes[bkey]["count"] += 1
+            else:
+                hashes[bkey] = {"count": 1, "ballot": ballot}
+        return hashes.values()
+
+
+class BallotCounter(BallotContainer):
+    """
+    This class contains the results of an election, making it easy to
+    tally up the results using a few different methods.
+    """
+    VOTING_SYSTEMS = (
+        ('condorcet', 'Condorcet'),
+        ('schulze', 'Schulze, Ordered list'),
+        ('schulze_old', 'Schulze, Ordered list (old)'),
+        ('schulze_new', 'Schulze, Ordered list (new)'),
+        ('schulze_both', 'Schulze, Ordered list (both)'),
+        ('stcom', 'Steering Committee Election'),
+        ('stv1', 'STV, Single winner'),
+        ('stv2', 'STV, Two winners'),
+        ('stv3', 'STV, Three winners'),
+        ('stv4', 'STV, Four winners'),
+        ('stv5', 'STV, Five winners'),
+        ('stv10', 'STV, Ten winners'),
+        ('stonethor', 'STV partition with Schulze ranking')
+    )
+
+    def system_name(self, system):
+        return [n for m, n in self.VOTING_SYSTEMS if m == system][0]
 
     def schulze_results_old(self):
         candidates = self.candidates
