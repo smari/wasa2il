@@ -188,7 +188,7 @@ class BallotAnalyzer(BallotContainer):
 
     def stats_as_text(self, stats):
         lines = [
-            '<!-- Generated %-42.42s --><html><body><pre>' % (
+            '<!-- Generated %ss --><html><head><meta charset="UTF-8"></head><body><pre>' % (
                 datetime.datetime.now()),
             '',
             'Analyzed %d ballots with %d candidates.' % (
@@ -464,11 +464,11 @@ if __name__ == "__main__":
             len(bc.ballots), '\n\t'.join(args.filenames)))
         print('')
         if below:
-            print('Results(C):\n\t%s' % ', '.join(bc.constrained_results(
-                system, sysarg=sysarg, below=below)))
+            print(('Results(C):\n\t%s' % ', '.join(bc.constrained_results(
+                system, sysarg=sysarg, below=below))).encode('utf-8'))
         else:
-            print('Results:\n\t%s' % ', '.join(bc.results(
-                system, sysarg=sysarg)))
+            print(('Results:\n\t%s' % ', '.join(bc.results(
+                system, sysarg=sysarg))).encode('utf-8'))
         print('')
 
     if args.operation in ('analyze', ):
@@ -490,7 +490,7 @@ if __name__ == "__main__":
                 raise ValueError('Unknown analysis: %s' % method)
 
         if args.operation == 'analyze':
-            print(bc.stats_as_text(stats))
+            print(bc.stats_as_text(stats).encode('utf-8')
 
 else:
     # Suppress errors in case logging isn't configured elsewhere
