@@ -1,3 +1,4 @@
+import datetime
 import copy
 import json
 import logging
@@ -133,6 +134,19 @@ class BallotAnalyzer(BallotContainer):
             'ballots': len(self.ballots),
         })
 
+    def get_ballot_stats(self):
+        cands, stats = self._cands_and_stats()
+        lengths = {}
+        for ballot in self.ballots:
+            l = len(ballot)
+            lengths[l] = lengths.get(l, 0) + 1
+        stats['ballot_lengths'] = lengths
+        stats['ballot_length_average'] = float(sum(
+            (k * v) for k, v in lengths.iteritems())) / len(self.ballots)
+        stats['ballot_length_most_common'] = max(
+            (v, k) for k, v in lengths.iteritems())[1]
+        return stats
+
     def get_candidate_rank_stats(self):
         cands, stats = self._cands_and_stats()
         ranks = [[0 for r in cands] for c in cands]
@@ -151,20 +165,91 @@ class BallotAnalyzer(BallotContainer):
         cmatrix = [[0 for c2 in cands] for c1 in cands]
         stats['pairwise_matrix'] = cmatrix
         for ranking in self.ballots_as_rankings():
-            print '%s' % ranking
             for i, c1 in enumerate(cands):
                 for j, c2 in enumerate(cands):
                     if ranking.get(c1, 9999999) < ranking.get(c2, 9999999):
                         cmatrix[i][j] += 1
         return stats
 
-    def get_duplicate_ballots(self):
+    def get_duplicate_ballots(self, threshold=None, threshold_pct=None):
+        if threshold_pct:
+            threshold = float(threshold_pct) * len(self.ballots) / 100
+        elif not threshold:
+            threshold = 2
+
         cands, stats = self._cands_and_stats()
+        stats['duplicate_threshold'] = threshold
         stats['duplicates'] = []
-        for cbhash in self.hashes_with_counts(self.ballots):
-            if cbhash.get("count", 1) > 1:
+        for cbhash in self.hashes_with_counts(self.ballots_as_lists()):
+            if cbhash.get("count", 1) >= threshold:
                 stats['duplicates'].append(cbhash)
+        stats['duplicates'].sort(key=lambda cbh: -cbh["count"])
         return stats
+
+    def stats_as_text(self, stats):
+        lines = [
+            '<!-- Generated %-42.42s --><html><body><pre>' % (
+                datetime.datetime.now()),
+            '',
+            'Analyzed %d ballots with %d candidates.' % (
+                stats['ballots'], len(stats['candidates']))]
+
+        if 'ballot_lengths' in stats:
+            bls = min(stats['ballot_lengths'].keys())
+            bll = max(stats['ballot_lengths'].keys())
+            blmc = stats['ballot_length_most_common']
+            lines += ['', 'Ballots:',
+                '   - Shortest ballot length: %d (%d ballots=%d%%)' % (
+                    bls,
+                    stats['ballot_lengths'][bls],
+                    stats['ballot_lengths'][bls] * 100 / stats['ballots']),
+                '   - Average ballot length: %.2f' % (
+                    stats['ballot_length_average'],),
+                '   - Longest ballot length: %d (%d ballots=%d%%)' % (
+                    bll,
+                    stats['ballot_lengths'][bll],
+                    stats['ballot_lengths'][bll] * 100 / stats['ballots']),
+                '   - Most common ballot length: %d (%d ballots=%d%%)' % (
+                    blmc,
+                    stats['ballot_lengths'][blmc],
+                    stats['ballot_lengths'][blmc] * 100 / stats['ballots']),
+                '   - L/B: [%s]' % (' '.join(
+                    '%d/%d' % (k, stats['ballot_lengths'][k])
+                        for k in sorted(stats['ballot_lengths'].keys())))]
+
+        if stats.get('duplicates'):
+            lines += ['',
+                'Frequent ballots: (>= %d occurrances, %d%%)' % (
+                    stats['duplicate_threshold'],
+                    (100 * stats['duplicate_threshold']) / stats['ballots'])]
+            for dup in stats['duplicates']:
+                lines += ['   - %(count)d times: %(ballot)s' % dup]
+
+        if stats.get('ranking_matrix'):
+            rm = stats['ranking_matrix']
+            lines += ['',
+                'Rankings:',
+                ' %16.16s  %s ANY' % ('CANDIDATE', ' '.join(
+                    '%3.3s' % (i+1) for i in range(0, len(rm[0])-1)))]
+            rls = []
+            for i, candidate in enumerate(stats['candidates']):
+                rls += [' %16.16s  %s' % (candidate, ' '.join(
+                    '%3.3s' % v for v in rm[i]))]
+            rls.sort(key=lambda l: -int(l.strip().split()[-1]))
+            lines.extend(rls)
+
+        if stats.get('pairwise_matrix'):
+            pm = stats['pairwise_matrix']
+            lines += ['',
+                'Pairwise victories:',
+                ' %16.16s  %s' % ('WINNER', ' '.join(
+                    '%3.3s' % c for c in stats['candidates']))]
+            for i, candidate in enumerate(stats['candidates']):
+                lines += [' %16.16s  %s' % (candidate, ' '.join(
+                    '%3.3s' % v for v in pm[i]))]
+
+        lines += ['', '%s</pre></body></html>' % (' ' * 60,)]
+        return '\n'.join(lines)
 
 
 class BallotCounter(BallotAnalyzer):
@@ -386,7 +471,7 @@ if __name__ == "__main__":
                 system, sysarg=sysarg)))
         print('')
 
-    if args.operation == 'analyze':
+    if args.operation in ('analyze', ):
         stats = {}
         for method in (m.strip() for m in system.split(',')):
             if method == 'rankings':
@@ -396,12 +481,16 @@ if __name__ == "__main__":
                 stats.update(bc.get_candidate_pairwise_stats())
 
             elif method == 'duplicates':
-                stats.update(bc.get_duplicate_ballots())
+                stats.update(bc.get_duplicate_ballots(threshold_pct=5))
+
+            elif method == 'ballots':
+                stats.update(bc.get_ballot_stats())
 
             else:
                 raise ValueError('Unknown analysis: %s' % method)
 
-        print('%s' % stats)
+        if args.operation == 'analyze':
+            print(bc.stats_as_text(stats))
 
 else:
     # Suppress errors in case logging isn't configured elsewhere
