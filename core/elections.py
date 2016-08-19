@@ -4,6 +4,7 @@ import json
 import logging
 import random
 import sys
+from collections import OrderedDict
 
 from pyvotecore.schulze_method import SchulzeMethod as Condorcet
 from pyvotecore.schulze_npr import SchulzeNPR as Schulze
@@ -129,10 +130,10 @@ class BallotAnalyzer(BallotContainer):
     """
     def _cands_and_stats(self):
         cands = sorted(self.get_candidates())
-        return (cands, {
-            'candidates': cands,
-            'ballots': len(self.ballots),
-        })
+        return (cands, OrderedDict([
+            ('ballots', len(self.ballots)),
+            ('candidates', cands)
+        ]))
 
     def get_ballot_stats(self):
         cands, stats = self._cands_and_stats()
@@ -239,17 +240,73 @@ class BallotAnalyzer(BallotContainer):
             lines.extend(rls)
 
         if stats.get('pairwise_matrix'):
-            pm = stats['pairwise_matrix']
             lines += ['',
                 'Pairwise victories:',
                 ' %16.16s  %s' % ('WINNER', ' '.join(
                     '%3.3s' % c for c in stats['candidates']))]
             for i, candidate in enumerate(stats['candidates']):
                 lines += [' %16.16s  %s' % (candidate, ' '.join(
-                    '%3.3s' % v for v in pm[i]))]
+                    '%3.3s' % v for v in stats['pairwise_matrix'][i]))]
 
         lines += ['', '%s</pre></body></html>' % (' ' * 60,)]
         return '\n'.join(lines)
+
+    def stats_as_spreadsheet(self, fmt, stats):
+        pages = OrderedDict()
+        count = stats['ballots']
+
+        if 'ballot_lengths' in stats:
+            bl = stats['ballot_lengths']
+            bls = min(bl.keys())
+            bll = max(bl.keys())
+            blmc = stats['ballot_length_most_common']
+            pages['Ballots'] = [
+                    ['Ballots', count],
+                    [''],
+                    ['', 'Length', 'Ballots', '%'],
+                    ['Shortest', bls, bl[bls], 100.0 * bl[bls] / count],
+                    ['Longest', bll, bl[bll], 100.0 * bl[bll] / count],
+                    ['Average', stats['ballot_length_average'], '', ''],
+                    ['Most common', blmc, bl[blmc], 100.0 * bl[blmc] / count],
+                    [''],
+                    ['Ballot length', 'Ballots']
+                ] + sorted([
+                    [l, stats['ballot_lengths'][l]]
+                    for l in stats['ballot_lengths']])
+
+        if stats.get('duplicates'):
+            pages['Duplicates'] = page = [
+                ['Frequent ballots: (>= %d occurrances, %d%%)' % (
+                    stats['duplicate_threshold'],
+                    (100 * stats['duplicate_threshold']) / stats['ballots'])],
+                [''],
+                ['Count', 'Ballot ...']]
+            for dup in stats['duplicates']:
+                page += [[dup["count"]] + dup['ballot']]
+
+        if stats.get('ranking_matrix'):
+            rm = stats['ranking_matrix']
+            pages['Rankings'] = page = [
+                ['CANDIDATE']
+                + [(i+1) for i in range(0, len(rm[0])-1)]
+                + ['ANY']]
+            rls = []
+            for i, candidate in enumerate(stats['candidates']):
+                rls.append([candidate] + rm[i])
+            rls.sort(key=lambda l: -l[-1])
+            page.extend(rls)
+
+        if stats.get('pairwise_matrix'):
+            pages['Pairwise Victories'] = page = [
+                ['WINNER'] + stats['candidates']]
+            for i, candidate in enumerate(stats['candidates']):
+                page.append([candidate] + stats['pairwise_matrix'][i])
+
+        import pyexcel
+        import StringIO
+        buf = StringIO.StringIO()
+        pyexcel.Book(sheets=pages).save_to_memory(fmt, stream=buf)
+        return buf.getvalue()
 
 
 class BallotCounter(BallotAnalyzer):
@@ -471,9 +528,13 @@ if __name__ == "__main__":
                 system, sysarg=sysarg))).encode('utf-8'))
         print('')
 
-    if args.operation in ('analyze', ):
-        stats = {}
-        for method in (m.strip() for m in system.split(',')):
+    elif args.operation in (
+            'analyze', 'analyze:json', 'analyze:ods', 'analyze:xlsx'):
+
+        stats = OrderedDict()
+        if system == 'all':
+            system = 'ballots,duplicates,rankings,pairs'
+        for method in (m.strip() for m in system.lower().split(',')):
             if method == 'rankings':
                 stats.update(bc.get_candidate_rank_stats())
 
@@ -492,6 +553,15 @@ if __name__ == "__main__":
         if args.operation == 'analyze':
             print(bc.stats_as_text(stats).encode('utf-8'))
 
+        elif args.operation == 'analyze:json':
+            json.dump(stats, sys.stdout, indent=1)
+
+        elif args.operation in ('analyze:ods', 'analyze:xlsx'):
+            sys.stdout.write(bc.stats_as_spreadsheet(
+                args.operation.split(':')[1], stats))
+
+    else:
+        raise ValueError('Unknown operation: %s' % args.operation)
 else:
     # Suppress errors in case logging isn't configured elsewhere
     logger.addHandler(logging.NullHandler())
