@@ -187,6 +187,25 @@ class BallotAnalyzer(BallotContainer):
         stats['duplicates'].sort(key=lambda cbh: -cbh["count"])
         return stats
 
+    def exclude_candidate_stats(self, stats, excluded):
+        ltd = copy.deepcopy(stats)
+
+        if ltd.get('ranking_matrix'):
+            rm = ltd['ranking_matrix']
+            for i, c in enumerate(ltd['candidates']):
+                if c in excluded:
+                    rm[i] = ['' for c in rm[i]]
+
+        if ltd.get('pairwise_matrix'):
+            rm = ltd['pairwise_matrix']
+            for i, c in enumerate(ltd['candidates']):
+                if c in excluded:
+                    rm[i] = ['' for c in rm[i]]
+                    for l in rm:
+                        l[i] = ''
+
+        return ltd
+
     def stats_as_text(self, stats):
         lines = [
             '<!-- Generated %ss --><html><head><meta charset="UTF-8"></head><body><pre>' % (
@@ -236,7 +255,13 @@ class BallotAnalyzer(BallotContainer):
             for i, candidate in enumerate(stats['candidates']):
                 rls += [' %16.16s  %s' % (candidate, ' '.join(
                     '%3.3s' % v for v in rm[i]))]
-            rls.sort(key=lambda l: -int(l.strip().split()[-1]))
+
+            def safe_int(i):
+                try:
+                    return int(i)
+                except ValueError:
+                    return 0
+            rls.sort(key=lambda l: -safe_int(l.strip().split()[-1]))
             lines.extend(rls)
 
         if stats.get('pairwise_matrix'):
@@ -293,7 +318,7 @@ class BallotAnalyzer(BallotContainer):
             rls = []
             for i, candidate in enumerate(stats['candidates']):
                 rls.append([candidate] + rm[i])
-            rls.sort(key=lambda l: -l[-1])
+            rls.sort(key=lambda l: -(l[-1] or 0))
             page.extend(rls)
 
         if stats.get('pairwise_matrix'):
@@ -503,9 +528,6 @@ if __name__ == "__main__":
     for fn in args.filenames:
         bc.load_ballots(fn)
 
-    if args.exclude:
-        bc.exclude_candidates(args.exclude)
-
     bc.collapse_gaps = False if (args.keep_gaps) else True
 
     below = {}
@@ -515,6 +537,9 @@ if __name__ == "__main__":
         below[candidate] = seat
 
     if args.operation == 'count':
+        if args.exclude:
+            bc.exclude_candidates(args.exclude)
+
         print('Voting system:\n\t%s (%s)' % (bc.system_name(system), system))
         print('')
         print('Loaded %d ballots from:\n\t%s' % (
@@ -549,6 +574,9 @@ if __name__ == "__main__":
 
             else:
                 raise ValueError('Unknown analysis: %s' % method)
+
+        if args.exclude:
+            stats = bc.exclude_candidate_stats(stats, args.exclude)
 
         if args.operation == 'analyze':
             print(bc.stats_as_text(stats).encode('utf-8'))
