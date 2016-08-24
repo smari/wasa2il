@@ -16,9 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         count = 1
         for usernames in options.get('username', [[]])[0]:
-            for u in (un.strip() for un in usernames.split(',')):
-                if u.endswith(','):
-                    u = u[:-1]
+            for u in (un.strip() for un in usernames.split(',') if un):
                 try:
                     name = User.objects.get(username=u).get_name()
                 except:

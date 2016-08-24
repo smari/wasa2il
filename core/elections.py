@@ -144,8 +144,17 @@ class BallotAnalyzer(BallotContainer):
         stats['ballot_lengths'] = lengths
         stats['ballot_length_average'] = float(sum(
             (k * v) for k, v in lengths.iteritems())) / len(self.ballots)
-        stats['ballot_length_most_common'] = max(
-            (v, k) for k, v in lengths.iteritems())[1]
+
+        def ls(l):
+            return {
+                "length": l,
+                "count": lengths[l],
+                "pct": float(100 * lengths[l]) / len(self.ballots)}
+        stats['ballot_length_most_common'] = ls(max(
+            (v, k) for k, v in lengths.iteritems())[1])
+        stats['ballot_length_longest'] = ls(max(lengths.keys()))
+        stats['ballot_length_shortest'] = ls(min(lengths.keys()))
+
         return stats
 
     def get_candidate_rank_stats(self):
@@ -187,6 +196,7 @@ class BallotAnalyzer(BallotContainer):
         stats['duplicates'].sort(key=lambda cbh: -cbh["count"])
         return stats
 
+    @classmethod
     def exclude_candidate_stats(self, stats, excluded):
         ltd = copy.deepcopy(stats)
 
@@ -206,33 +216,25 @@ class BallotAnalyzer(BallotContainer):
 
         return ltd
 
+    @classmethod
     def stats_as_text(self, stats):
         lines = [
-            '<!-- Generated %ss --><html><head><meta charset="UTF-8"></head><body><pre>' % (
+            '<!-- %s --><html><head><meta charset="UTF-8"></head><body><pre>' % (
                 datetime.datetime.now()),
             '',
             'Analyzed %d ballots with %d candidates.' % (
                 stats['ballots'], len(stats['candidates']))]
 
         if 'ballot_lengths' in stats:
-            bls = min(stats['ballot_lengths'].keys())
-            bll = max(stats['ballot_lengths'].keys())
-            blmc = stats['ballot_length_most_common']
             lines += ['', 'Ballots:',
-                '   - Shortest ballot length: %d (%d ballots=%d%%)' % (
-                    bls,
-                    stats['ballot_lengths'][bls],
-                    stats['ballot_lengths'][bls] * 100 / stats['ballots']),
-                '   - Average ballot length: %.2f' % (
-                    stats['ballot_length_average'],),
-                '   - Longest ballot length: %d (%d ballots=%d%%)' % (
-                    bll,
-                    stats['ballot_lengths'][bll],
-                    stats['ballot_lengths'][bll] * 100 / stats['ballots']),
-                '   - Most common ballot length: %d (%d ballots=%d%%)' % (
-                    blmc,
-                    stats['ballot_lengths'][blmc],
-                    stats['ballot_lengths'][blmc] * 100 / stats['ballots']),
+                ('   - Average ballot length: %.2f'
+                     ) % stats['ballot_length_average'],
+                ('   - Shortest ballot length: %(length)d (%(count)d '
+                        'ballots=%(pct)d%%)') % stats['ballot_length_shortest'],
+                ('   - Most common ballot length: %(length)d (%(count)d '
+                        'ballots=%(pct)d%%)') % stats['ballot_length_most_common'],
+                ('   - Longest ballot length: %(length)d (%(count)d '
+                        'ballots=%(pct)d%%)') % stats['ballot_length_longest'],
                 '   - L/B: [%s]' % (' '.join(
                     '%d/%d' % (k, stats['ballot_lengths'][k])
                         for k in sorted(stats['ballot_lengths'].keys())))]
@@ -276,23 +278,24 @@ class BallotAnalyzer(BallotContainer):
         lines += ['', '%s</pre></body></html>' % (' ' * 60,)]
         return '\n'.join(lines)
 
+    @classmethod
     def stats_as_spreadsheet(self, fmt, stats):
         pages = OrderedDict()
         count = stats['ballots']
 
         if 'ballot_lengths' in stats:
             bl = stats['ballot_lengths']
-            bls = min(bl.keys())
-            bll = max(bl.keys())
+            bls = stats['ballot_length_shortest']
+            bll = stats['ballot_length_longest']
             blmc = stats['ballot_length_most_common']
             pages['Ballots'] = [
                     ['Ballots', count],
                     [''],
                     ['', 'Length', 'Ballots', '%'],
-                    ['Shortest', bls, bl[bls], 100.0 * bl[bls] / count],
-                    ['Longest', bll, bl[bll], 100.0 * bl[bll] / count],
+                    ['Shortest', bls['length'], bls['count'], bls['pct']],
+                    ['Longest', bll['length'], bll['count'], bll['pct']],
                     ['Average', stats['ballot_length_average'], '', ''],
-                    ['Most common', blmc, bl[blmc], 100.0 * bl[blmc] / count],
+                    ['Most common', blmc['length'], blmc['count'], blmc['pct']],
                     [''],
                     ['Ballot length', 'Ballots']
                 ] + sorted([
