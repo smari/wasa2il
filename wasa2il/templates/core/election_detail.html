@@ -80,9 +80,24 @@
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <table id="election_details" class="table table-compact">
-            <tr id="vote_starttime"><th>{% trans "Voting begins" %}:</th><td>{{ election.voting_start_time }} ({{ election.voting_start_time|timeuntil }})</td></tr>
-            <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>{{ election.deadline_candidacy }} ({{ election.deadline_candidacy|timeuntil }})</td></tr>
-            <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>{{ election.deadline_votes }} ({{ election.deadline_votes|timeuntil }})</td></tr>
+            <tr id="vote_starttime"><th>{% trans "Voting begins" %}:</th><td>
+                {{ election.voting_start_time }}
+                <small style="float: right">
+                    ({{ election.voting_start_time|timeuntil }})
+                </small>
+            </td></tr>
+            <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>
+                {{ election.deadline_candidacy }}
+                <small style="float: right">
+                    ({{ election.deadline_candidacy|timeuntil }})
+                </small>
+            </td></tr>
+            <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>
+                {{ election.deadline_votes }}
+                <small style="float: right">
+                    ({{ election.deadline_votes|timeuntil }})
+                </small>
+            </td></tr>
         {% if election.deadline_joined_org %}
             <tr id="join_deadline"><th>{% trans "Membership deadline" %}:</th><td>{{ election.deadline_joined_org }}</td></tr>
         {% endif %}
@@ -94,6 +109,12 @@
 {% if election.voting_polities.count > 0 %}
             <tr id="vote_polities"><th>{% trans "Voting polities" %}:</th><td>{% for polity in election.voting_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
                {% if can_vote %}<i class="user_can_vote">{% trans "You can vote" %}</i>{% endif %}
+            </td></tr>
+{% endif %}
+{% if not statistics %}
+            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}
+            </td></tr>
+            <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}
             </td></tr>
 {% endif %}
             <tr><th>{% trans "Voting system" %}:</th><td>{{ election.get_voting_system_display }}</td></tr>
@@ -112,21 +133,27 @@
             </td></tr>
             <tr><th>{% trans "Shortest ballot length" %}:</th><td id="election_ballot_length_shortest">
                 {{ statistics.ballot_length_shortest.length }}
-                ({{ statistics.ballot_length_shortest.count }} {% trans "ballots" %},
-                 {{ statistics.ballot_length_shortest.pct|floatformat }}%)
+                <small style="float: right">
+                    ({{ statistics.ballot_length_shortest.count }} {% trans "ballots" %},
+                     {{ statistics.ballot_length_shortest.pct|floatformat }}%)
+                </small>
             </td></tr>
             <tr><th>{% trans "Average ballot length" %}:</th><td id="election_ballot_length_average">
                 {{ statistics.ballot_length_average|floatformat }}
             </td></tr>
             <tr><th>{% trans "Longest ballot length" %}:</th><td id="election_ballot_length_longest">
                 {{ statistics.ballot_length_longest.length }}
-                ({{ statistics.ballot_length_longest.count }} {% trans "ballots" %},
-                 {{ statistics.ballot_length_longest.pct|floatformat }}%)
+                <small style="float: right">
+                    ({{ statistics.ballot_length_longest.count }} {% trans "ballots" %},
+                     {{ statistics.ballot_length_longest.pct|floatformat }}%)
+                </small>
             </td></tr>
             <tr><th>{% trans "Most common ballot length" %}:</th><td id="election_ballot_length_most_common">
                 {{ statistics.ballot_length_most_common.length }}
-                ({{ statistics.ballot_length_most_common.count }} {% trans "ballots" %},
-                 {{ statistics.ballot_length_most_common.pct|floatformat }}%)
+                <small style="float: right">
+                    ({{ statistics.ballot_length_most_common.count }} {% trans "ballots" %},
+                     {{ statistics.ballot_length_most_common.pct|floatformat }}%)
+                </small>
             </td></tr>
             <tr><th>{% trans "Ballot lengths" %}:</th><td id="election_ballot_lengths">
                 {% with statistics.ballot_lengths as lengths %}
@@ -170,7 +197,7 @@
                             <div style="float: right; font-size: 0.8em;" title="{% trans "Vote statistics" %}">
                             {% with statistics.rankings|get_item:candidate.user as ranking %}
                                 {% for r in ranking %}{% if forloop.last %}
-                                    {{r}} votes:
+                                    {{r}} {% trans "votes" %}:
                                 {% endif %}{% endfor %}
                                 <span class="ranking_sparkline" values="{{ ranking|sparkline:True }}"></span>
                             {% endwith %}
@@ -204,7 +231,7 @@
 <div class="row">
     <p class="stats_downloads" style="text-align: right;">
         {% trans "Download detailed statistics as:" %}
-        <a href="stats-dl/election-{{ election.id }}-stats.html">Text</a>,
+        <a href="stats-dl/election-{{ election.id }}-stats.html">{% trans "Text" %}</a>,
         <a href="stats-dl/election-{{ election.id }}-stats.json">JSON</a>,
         <a href="stats-dl/election-{{ election.id }}-stats.ods">ODS</a>,
         <a href="stats-dl/election-{{ election.id }}-stats.xlsx">XLS</a><br>
