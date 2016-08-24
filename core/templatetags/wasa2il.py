@@ -14,6 +14,27 @@ from core.models import UserTopic, Vote, ElectionVote
 register = template.Library()
 
 
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+
+@register.filter
+def sparkline(variable, skip_last=False):
+    if isinstance(variable, dict):
+        pairs = sorted([(k, v) for k, v in variable.iteritems()])
+        sparkline = [0] * (pairs[-1][0] + 1)
+        for i, v in pairs:
+            sparkline[i] = v
+        if 0 not in variable and '0' not in variable:
+            variable = sparkline[1:]
+        else:
+            variable = sparkline
+    if skip_last:
+        variable = variable[:-1]
+    return ','.join(str(v) for v in variable)
+
+
 @register.filter(name='topicfavorited')
 def topicfavorited(topic, user):
     try:

@@ -13,6 +13,7 @@ from urlparse import parse_qs
 # SSO done
 
 from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
 from django.http import Http404
@@ -668,14 +669,21 @@ class ElectionDetailView(DetailView):
             self.get_object().can_vote(self.request.user))
 
         if election.is_processed:
-            election_result = election.result
-            ordered_candidates = [r.candidate for r in election_result.rows.order_by('order')]
-            vote_count = election_result.vote_count
+            ordered_candidates = election.get_winners()
+            vote_count = election.result.vote_count
+            statistics = election.get_stats(user=self.request.user)
+            users = [c.user for c in ordered_candidates]
+            if self.request.user in users:
+                user_result = users.index(self.request.user) + 1
+            else:
+                user_result = None
         else:
             # Returning nothing! Some voting systems are too slow for us to
             # calculate results on the fly.
             ordered_candidates = []
             vote_count = election.get_vote_count
+            statistics = None
+            user_result = None
 
         context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
         context_data.update(
@@ -684,9 +692,11 @@ class ElectionDetailView(DetailView):
                 'step': self.request.GET.get('step', None),
                 "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
                 'ordered_candidates': ordered_candidates,
+                'statistics': statistics,
                 'vote_count': vote_count,
                 'voting_interface_enabled': voting_interface_enabled,
                 'user_is_member': self.polity.is_member(self.request.user),
+                'user_result': user_result,
                 'facebook_title': '%s (%s)' % (election.name, self.polity.name),
                 'can_vote': (self.request.user is not None and
                              self.object.can_vote(self.request.user)),
@@ -734,6 +744,23 @@ def election_ballots(request, pk=None):
     else:
         raise PermissionDenied
 
+
+def election_stats_download(request, polity=None, pk=None, filename=None):
+    election = Election.objects.get(pk=pk)
+    filetype = filename.split('.')[-1].lower()
+    assert(filetype in ('json', 'xlsx', 'ods', 'html'))
+
+    response = HttpResponse(
+        election.get_formatted_stats(filetype, user=request.user),
+        content_type={
+            'json': 'application/json; charset=utf-8',
+            'ods': 'application/vnd.oasis.opendocument.spreadsheet',
+            'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'html': 'text/html; charset=utf-8'
+        }.get(filetype, 'application/octet-stream'))
+
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+    return response
 
 def error500(request):
     return render_to_response('500.html')
