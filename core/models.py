@@ -799,15 +799,15 @@ class Election(NameSlugBase):
     polity = models.ForeignKey(Polity)
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
-    starttime_votes = models.DateTimeField(verbose_name=_('Start time for votes'), null=True)
+    starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Start time for votes'))
     deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
 
     # This allows one polity to host elections for one or more others, in
     # particular allowing access to elections based on geographical polities
     # without residency granting access to participate in all other polity
     # activities.
-    voting_polities = models.ManyToManyField(Polity, related_name='remote_election_votes')
-    candidate_polities = models.ManyToManyField(Polity, related_name='remote_election_candidates')
+    voting_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_votes')
+    candidate_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_candidates')
 
     # Sometimes elections may depend on a user having been the organization's member for an X amount of time
     # This optional field lets the vote counter disregard members who are too new.
