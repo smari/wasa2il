@@ -26,7 +26,7 @@ from core.models import Delegate
 
 urlpatterns = patterns('',
     (r'^$', 'core.views.home'),
-    (r'^polities/$', ListView.as_view(model=Polity, context_object_name="polities")),
+    (r'^polities/$', PolityListView.as_view()),
     (r'^polity/new/$', login_required(PolityCreateView.as_view())),
 
     (r'^issue/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
@@ -82,4 +82,3 @@ urlpatterns = patterns('',
 
     (r'^api/documentcontent/render-diff/$', documentcontent_render_diff),
 )
-

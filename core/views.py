@@ -64,10 +64,16 @@ def home(request):
     if request.user.is_authenticated():
         if request.user.is_staff and Polity.objects.count() == 0:
             return HttpResponseRedirect("/polity/new")
-
-        return HttpResponseRedirect("/accounts/profile/")
+        else:
+            polities = request.user.polities.all()
     else:
-        return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
+        polities = Polity.objects.filter(is_nonmembers_readable=True)
+
+    ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+    ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+    ctx["elections"] = Election.objects.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now(),polity__in=polities)
+
+    return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
 
 
 def help(request, page):
@@ -363,7 +369,7 @@ class IssueCreateView(CreateView):
                 previous_topics = current_content.previous_topics()
                 context_data['selected_topics'] = json.dumps(previous_topics)
                 context_data['tab'] = 'diff'
- 
+
             context_data['documentcontent'] = current_content
             context_data['documentcontent_comments'] = current_content.comments.replace("\n", "\\n")
             context_data['selected_diff_documentcontent'] = current_content.document.preferred_version()
@@ -445,6 +451,27 @@ class IssueOpenListView(ListView):
         context_data.update({'polity': self.polity})
         return context_data
 
+
+class PolityListView(ListView):
+    model = Polity
+    context_object_name = 'polities'
+    template_name = 'core/polity_list'
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = {}
+        context_data = super(PolityListView, self).get_context_data(*args, **kwargs)
+
+        if self.request.user.is_authenticated():
+            polities = self.request.user.polities.all()
+        else:
+            polities = Polity.objects.filter(is_nonmembers_readable=True)
+
+        ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+        ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
+        ctx["elections"] = Election.objects.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now(),polity__in=polities)
+
+        context_data.update(ctx)
+        return context_data
 
 class PolityDetailView(DetailView):
     model = Polity
@@ -764,4 +791,3 @@ def election_stats_download(request, polity=None, pk=None, filename=None):
 
 def error500(request):
     return render_to_response('500.html')
-
