@@ -1,5 +1,6 @@
 #coding:utf-8
 
+import json
 import logging
 import os
 import re
@@ -799,15 +800,15 @@ class Election(NameSlugBase):
     polity = models.ForeignKey(Polity)
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
-    starttime_votes = models.DateTimeField(verbose_name=_('Start time for votes'), null=True)
+    starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Start time for votes'))
     deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
 
     # This allows one polity to host elections for one or more others, in
     # particular allowing access to elections based on geographical polities
     # without residency granting access to participate in all other polity
     # activities.
-    voting_polities = models.ManyToManyField(Polity, related_name='remote_election_votes')
-    candidate_polities = models.ManyToManyField(Polity, related_name='remote_election_candidates')
+    voting_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_votes')
+    candidate_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_candidates')
 
     # Sometimes elections may depend on a user having been the organization's member for an X amount of time
     # This optional field lets the vote counter disregard members who are too new.
@@ -815,6 +816,10 @@ class Election(NameSlugBase):
     is_processed = models.BooleanField(default=False)
 
     instructions = models.TextField(null=True, blank=True, verbose_name=_('Instructions'))
+
+    # These are election statistics;
+    stats = models.TextField(null=True, blank=True, verbose_name=_('Statistics as JSON'))
+    stats_limit = models.IntegerField(null=True, blank=True, verbose_name=_('Limit how many candidates we publish stats for'))
 
     # An election can only be processed once, since votes are deleted during the process
     class AlreadyProcessedException(Exception):
@@ -841,41 +846,78 @@ class Election(NameSlugBase):
                 return False
         return True
 
+    def load_archived_ballots(self):
+        bc = BallotCounter()
+        if settings.BALLOT_SAVEFILE_FORMAT is not None:
+            try:
+                filename = settings.BALLOT_SAVEFILE_FORMAT % {
+                    'election_id': self.id,
+                    'voting_system': self.voting_system}
+                bc.load_ballots(filename)
+            except:
+                import traceback
+                traceback.print_exc()
+        return bc
+
     @transaction.atomic
     def process(self):
         if not self.is_closed():
             raise Election.ElectionInProgressException('Election %s is still in progress!' % self)
 
-        if self.is_processed:
-            raise Election.AlreadyProcessedException('Election %s has already been processed!' % self)
+        if not self.is_processed:
+            ordered_candidates, ballot_counter = self.process_votes()
+            vote_count = self.electionvote_set.values('user').distinct().count()
 
-        ordered_candidates, ballot_counter = self.process_votes()
-        vote_count = self.electionvote_set.values('user').distinct().count()
+            # Save anonymized ballots to a file, so we can recount later
+            save_failed = not self.save_ballots(ballot_counter)
 
-        # Save anonymized ballots to a file, so we can recount later
-        save_failed = not self.save_ballots(ballot_counter)
+            # Generate stats before deleting everything. This allows us to
+            # analyze the voters as well as the ballots.
+            self.generate_stats()
 
-        try:
-            election_result = ElectionResult.objects.get(election=self)
-        except ElectionResult.DoesNotExist:
-            election_result = ElectionResult.objects.create(election=self, vote_count=vote_count)
+            try:
+                election_result = ElectionResult.objects.get(election=self)
+            except ElectionResult.DoesNotExist:
+                election_result = ElectionResult.objects.create(election=self, vote_count=vote_count)
 
-        election_result.rows.all().delete()
-        order = 0
-        for candidate in ordered_candidates:
-            order = order + 1
-            election_result_row = ElectionResultRow()
-            election_result_row.election_result = election_result
-            election_result_row.candidate = candidate
-            election_result_row.order = order
-            election_result_row.save()
+            election_result.rows.all().delete()
+            order = 0
+            for candidate in ordered_candidates:
+                order = order + 1
+                election_result_row = ElectionResultRow()
+                election_result_row.election_result = election_result
+                election_result_row.candidate = candidate
+                election_result_row.order = order
+                election_result_row.save()
 
-        # Delete the original votes (for anonymity), we have the ballots elsewhere
-        if not save_failed:
-            self.electionvote_set.all().delete()
+            # Delete the original votes (for anonymity), we have the ballots elsewhere
+            if not save_failed:
+                self.electionvote_set.all().delete()
 
-        self.is_processed = True
-        self.save()
+            self.is_processed = True
+            self.save()
+            return
+
+        if not self.stats:
+            # If there are no stats, we may be updating old code; see if
+            # we can load JSON from disk and calculate things anyway.
+            if self.generate_stats():
+                self.save()
+                return
+
+        raise Election.AlreadyProcessedException('Election %s has already been processed!' % self)
+
+    def generate_stats(self):
+        ballot_counter = self.load_archived_ballots()
+        if ballot_counter.ballots:
+            stats = {}
+            stats.update(ballot_counter.get_candidate_rank_stats())
+            stats.update(ballot_counter.get_candidate_pairwise_stats())
+            stats.update(ballot_counter.get_ballot_stats())
+            self.stats = json.dumps(stats)
+            return True
+        else:
+            return False
 
     def get_voters(self):
         if self.voting_polities.count() > 0:
@@ -941,7 +983,7 @@ class Election(NameSlugBase):
         return not self.is_closed()
 
     def voting_start_time(self):
-        if self.starttime_votes is not None:
+        if self.starttime_votes not in (None, ""):
             return max(self.starttime_votes, self.deadline_candidacy)
         return self.deadline_candidacy
 
@@ -967,6 +1009,84 @@ class Election(NameSlugBase):
             return True
 
         return False
+
+    def get_stats(self, user=None, load_users=True, rename_users=False):
+        """Load stats from the DB and convert to pythonic format.
+
+        We expect stats to change over time, so the function provides
+        reasonable defaults for everything we care about even if the
+        JSON turns out to be incomplete. Changes to our stats logic will
+        not require a schema change, but stats cannot readily be queried.
+        Pros and cons...
+        """
+        stats = {
+            'ranking_matrix': [],
+            'pairwise_matrix': [],
+            'candidates': [],
+            'ballot_lengths': {},
+            'ballots': 0,
+            'ballot_length_average': 0,
+            'ballot_length_most_common': 0}
+
+        # Parse the stats JSON, if it exists.
+        try:
+            stats.update(json.loads(self.stats))
+        except:
+            pass
+
+        # Convert ballot_lengths keys (back) to ints
+        for k in stats['ballot_lengths'].keys():
+            stats['ballot_lengths'][int(k)] = stats['ballot_lengths'][k]
+            del stats['ballot_lengths'][k]
+
+        # Censor the statistics, if we only want to publish details about
+        # the top N candidates.
+        if self.stats_limit:
+            excluded = set([])
+            if not user or not user.is_staff:
+                excluded |= set(cand.user.username for cand in
+                                self.get_winners()[self.stats_limit:])
+            if user and user.username in excluded:
+                excluded.remove(user.username)
+            stats = BallotCounter.exclude_candidate_stats(stats, excluded)
+
+        # Convert usernames to users. Let's hope usernames never change!
+        for i, c in enumerate(stats['candidates']):
+            try:
+                if not c:
+                    pass
+                elif load_users:
+                    stats['candidates'][i] = User.objects.get(username=c)
+                elif rename_users:
+                    u = User.objects.get(username=c)
+                    stats['candidates'][i] = '%s (%s)' % (u.get_name(), c)
+            except:
+                pass
+
+        # Create more accessible representations of the tables
+        stats['rankings'] = {}
+        stats['victories'] = {}
+        for i, c in enumerate(stats['candidates']):
+            if stats.get('ranking_matrix'):
+                stats['rankings'][c] = stats['ranking_matrix'][i]
+            if stats.get('pairwise_matrix'):
+                stats['victories'][c] = stats['pairwise_matrix'][i]
+
+        return stats
+
+    def get_formatted_stats(self, fmt, user=None):
+        stats = self.get_stats(user=user, rename_users=True, load_users=False)
+        if fmt == 'json':
+            return json.dumps(stats, indent=1)
+        elif fmt in ('text', 'html'):
+            return BallotCounter.stats_as_text(stats)
+        elif fmt in ('xlsx', 'ods'):
+            return BallotCounter.stats_as_spreadsheet(fmt, stats)
+        else:
+            return None
+
+    def get_winners(self):
+        return [r.candidate for r in self.result.rows.order_by('order')]
 
     def get_candidates(self):
         ctx = {}
@@ -1023,6 +1143,7 @@ class Candidate(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.user.username
+
 
 class ElectionVote(models.Model):
     election = models.ForeignKey(Election)

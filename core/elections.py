@@ -1,8 +1,10 @@
+import datetime
 import copy
 import json
 import logging
 import random
 import sys
+from collections import OrderedDict
 
 from pyvotecore.schulze_method import SchulzeMethod as Condorcet
 from pyvotecore.schulze_npr import SchulzeNPR as Schulze
@@ -16,27 +18,14 @@ import schulze
 logger = logging.getLogger(__name__)
 
 
-class BallotCounter(object):
+class BallotContainer(object):
     """
-    This class contains the results of an election, making it easy to
-    tally up the results using a few different methods.
-    """
-    VOTING_SYSTEMS = (
-        ('condorcet', 'Condorcet'),
-        ('schulze', 'Schulze, Ordered list'),
-        ('schulze_old', 'Schulze, Ordered list (old)'),
-        ('schulze_new', 'Schulze, Ordered list (new)'),
-        ('schulze_both', 'Schulze, Ordered list (both)'),
-        ('stcom', 'Steering Committee Election'),
-        ('stv1', 'STV, Single winner'),
-        ('stv2', 'STV, Two winners'),
-        ('stv3', 'STV, Three winners'),
-        ('stv4', 'STV, Four winners'),
-        ('stv5', 'STV, Five winners'),
-        ('stv10', 'STV, Ten winners'),
-        ('stonethor', 'STV partition with Schulze ranking')
-    )
+    A container for ballots.
 
+    Includes convenience methods for loading/saving ballots, saving
+    or restoring internal state during analysis, and returning the list
+    of ballots in a few different formats.
+    """
     def __init__(self, ballots=None):
         """
         Ballots should be a list of lists of (rank, candidate) tuples.
@@ -69,9 +58,6 @@ class BallotCounter(object):
 
     def __exit__(self, *args, **kwargs):
         return self.pop_state()
-
-    def system_name(self, system):
-        return [n for m, n in self.VOTING_SYSTEMS if m == system][0]
 
     def load_ballots(self, filename):
         """Load ballots from disk"""
@@ -128,8 +114,252 @@ class BallotCounter(object):
             yield(rankings)
 
     def hashes_with_counts(self, ballots):
+        hashes = {}
         for ballot in ballots:
-            yield {"count": 1, "ballot": ballot}
+            bkey = repr(ballot)
+            if bkey in hashes:
+                hashes[bkey]["count"] += 1
+            else:
+                hashes[bkey] = {"count": 1, "ballot": ballot}
+        return hashes.values()
+
+
+class BallotAnalyzer(BallotContainer):
+    """
+    This class will analyze and return statistics about a set of ballots.
+    """
+    def _cands_and_stats(self):
+        cands = sorted(self.get_candidates())
+        return (cands, OrderedDict([
+            ('ballots', len(self.ballots)),
+            ('candidates', cands)
+        ]))
+
+    def get_ballot_stats(self):
+        cands, stats = self._cands_and_stats()
+        lengths = {}
+        for ballot in self.ballots:
+            l = len(ballot)
+            lengths[l] = lengths.get(l, 0) + 1
+        stats['ballot_lengths'] = lengths
+        stats['ballot_length_average'] = float(sum(
+            (k * v) for k, v in lengths.iteritems())) / len(self.ballots)
+
+        def ls(l):
+            return {
+                "length": l,
+                "count": lengths[l],
+                "pct": float(100 * lengths[l]) / len(self.ballots)}
+        stats['ballot_length_most_common'] = ls(max(
+            (v, k) for k, v in lengths.iteritems())[1])
+        stats['ballot_length_longest'] = ls(max(lengths.keys()))
+        stats['ballot_length_shortest'] = ls(min(lengths.keys()))
+
+        return stats
+
+    def get_candidate_rank_stats(self):
+        cands, stats = self._cands_and_stats()
+        ranks = [[0 for r in cands] for c in cands]
+        stats['ranking_matrix'] = ranks
+        for ballot in self.ballots:
+            for rank, candidate in ballot:
+                if candidate in cands:
+                    ranks[cands.index(candidate)][int(rank)] += 1
+        for ranking in ranks:
+            r = sum(ranking)
+            ranking.append(r)
+        return stats
+
+    def get_candidate_pairwise_stats(self):
+        cands, stats = self._cands_and_stats()
+        cmatrix = [[0 for c2 in cands] for c1 in cands]
+        stats['pairwise_matrix'] = cmatrix
+        for ranking in self.ballots_as_rankings():
+            for i, c1 in enumerate(cands):
+                for j, c2 in enumerate(cands):
+                    if ranking.get(c1, 9999999) < ranking.get(c2, 9999999):
+                        cmatrix[i][j] += 1
+        return stats
+
+    def get_duplicate_ballots(self, threshold=None, threshold_pct=None):
+        if threshold_pct:
+            threshold = float(threshold_pct) * len(self.ballots) / 100
+        elif not threshold:
+            threshold = 2
+
+        cands, stats = self._cands_and_stats()
+        stats['duplicate_threshold'] = threshold
+        stats['duplicates'] = []
+        for cbhash in self.hashes_with_counts(self.ballots_as_lists()):
+            if cbhash.get("count", 1) >= threshold:
+                stats['duplicates'].append(cbhash)
+        stats['duplicates'].sort(key=lambda cbh: -cbh["count"])
+        return stats
+
+    @classmethod
+    def exclude_candidate_stats(self, stats, excluded):
+        ltd = copy.deepcopy(stats)
+
+        if ltd.get('ranking_matrix'):
+            rm = ltd['ranking_matrix']
+            for i, c in enumerate(ltd['candidates']):
+                if c in excluded:
+                    rm[i] = ['' for c in rm[i]]
+
+        if ltd.get('pairwise_matrix'):
+            rm = ltd['pairwise_matrix']
+            for i, c in enumerate(ltd['candidates']):
+                if c in excluded:
+                    rm[i] = ['' for c in rm[i]]
+                    for l in rm:
+                        l[i] = ''
+
+        return ltd
+
+    @classmethod
+    def stats_as_text(self, stats):
+        lines = [
+            '<!-- %s --><html><head><meta charset="UTF-8"></head><body><pre>' % (
+                datetime.datetime.now()),
+            '',
+            'Analyzed %d ballots with %d candidates.' % (
+                stats['ballots'], len(stats['candidates']))]
+
+        if 'ballot_lengths' in stats:
+            lines += ['', 'Ballots:',
+                ('   - Average ballot length: %.2f'
+                     ) % stats['ballot_length_average'],
+                ('   - Shortest ballot length: %(length)d (%(count)d '
+                        'ballots=%(pct)d%%)') % stats['ballot_length_shortest'],
+                ('   - Most common ballot length: %(length)d (%(count)d '
+                        'ballots=%(pct)d%%)') % stats['ballot_length_most_common'],
+                ('   - Longest ballot length: %(length)d (%(count)d '
+                        'ballots=%(pct)d%%)') % stats['ballot_length_longest'],
+                '   - L/B: [%s]' % (' '.join(
+                    '%d/%d' % (k, stats['ballot_lengths'][k])
+                        for k in sorted(stats['ballot_lengths'].keys())))]
+
+        if stats.get('duplicates'):
+            lines += ['',
+                'Frequent ballots: (>= %d occurrances, %d%%)' % (
+                    stats['duplicate_threshold'],
+                    (100 * stats['duplicate_threshold']) / stats['ballots'])]
+            for dup in stats['duplicates']:
+                lines += ['   - %(count)d times: %(ballot)s' % dup]
+
+        if stats.get('ranking_matrix'):
+            rm = stats['ranking_matrix']
+            lines += ['',
+                'Rankings:',
+                ' %16.16s  %s ANY' % ('CANDIDATE', ' '.join(
+                    '%3.3s' % (i+1) for i in range(0, len(rm[0])-1)))]
+            rls = []
+            for i, candidate in enumerate(stats['candidates']):
+                rls += [' %16.16s  %s' % (candidate, ' '.join(
+                    '%3.3s' % v for v in rm[i]))]
+
+            def safe_int(i):
+                try:
+                    return int(i)
+                except ValueError:
+                    return 0
+            rls.sort(key=lambda l: -safe_int(l.strip().split()[-1]))
+            lines.extend(rls)
+
+        if stats.get('pairwise_matrix'):
+            lines += ['',
+                'Pairwise victories:',
+                ' %16.16s  %s' % ('WINNER', ' '.join(
+                    '%3.3s' % c for c in stats['candidates']))]
+            for i, candidate in enumerate(stats['candidates']):
+                lines += [' %16.16s  %s' % (candidate, ' '.join(
+                    '%3.3s' % v for v in stats['pairwise_matrix'][i]))]
+
+        lines += ['', '%s</pre></body></html>' % (' ' * 60,)]
+        return '\n'.join(lines)
+
+    @classmethod
+    def stats_as_spreadsheet(self, fmt, stats):
+        pages = OrderedDict()
+        count = stats['ballots']
+
+        if 'ballot_lengths' in stats:
+            bl = stats['ballot_lengths']
+            bls = stats['ballot_length_shortest']
+            bll = stats['ballot_length_longest']
+            blmc = stats['ballot_length_most_common']
+            pages['Ballots'] = [
+                    ['Ballots', count],
+                    [''],
+                    ['', 'Length', 'Ballots', '%'],
+                    ['Shortest', bls['length'], bls['count'], bls['pct']],
+                    ['Longest', bll['length'], bll['count'], bll['pct']],
+                    ['Average', stats['ballot_length_average'], '', ''],
+                    ['Most common', blmc['length'], blmc['count'], blmc['pct']],
+                    [''],
+                    ['Ballot length', 'Ballots']
+                ] + sorted([
+                    [l, stats['ballot_lengths'][l]]
+                    for l in stats['ballot_lengths']])
+
+        if stats.get('duplicates'):
+            pages['Duplicates'] = page = [
+                ['Frequent ballots: (>= %d occurrances, %d%%)' % (
+                    stats['duplicate_threshold'],
+                    (100 * stats['duplicate_threshold']) / stats['ballots'])],
+                [''],
+                ['Count', 'Ballot ...']]
+            for dup in stats['duplicates']:
+                page += [[dup["count"]] + dup['ballot']]
+
+        if stats.get('ranking_matrix'):
+            rm = stats['ranking_matrix']
+            pages['Rankings'] = page = [
+                ['CANDIDATE']
+                + [(i+1) for i in range(0, len(rm[0])-1)]
+                + ['ANY']]
+            rls = []
+            for i, candidate in enumerate(stats['candidates']):
+                rls.append([candidate] + rm[i])
+            rls.sort(key=lambda l: -(l[-1] or 0))
+            page.extend(rls)
+
+        if stats.get('pairwise_matrix'):
+            pages['Pairwise Victories'] = page = [
+                ['WINNER'] + stats['candidates']]
+            for i, candidate in enumerate(stats['candidates']):
+                page.append([candidate] + stats['pairwise_matrix'][i])
+
+        import pyexcel
+        import StringIO
+        buf = StringIO.StringIO()
+        pyexcel.Book(sheets=pages).save_to_memory(fmt, stream=buf)
+        return buf.getvalue()
+
+
+class BallotCounter(BallotAnalyzer):
+    """
+    This class contains the results of an election, making it easy to
+    tally up the results using a few different methods.
+    """
+    VOTING_SYSTEMS = (
+        ('condorcet', 'Condorcet'),
+        ('schulze', 'Schulze, Ordered list'),
+        ('schulze_old', 'Schulze, Ordered list (old)'),
+        ('schulze_new', 'Schulze, Ordered list (new)'),
+        ('schulze_both', 'Schulze, Ordered list (both)'),
+        ('stcom', 'Steering Committee Election'),
+        ('stv1', 'STV, Single winner'),
+        ('stv2', 'STV, Two winners'),
+        ('stv3', 'STV, Three winners'),
+        ('stv4', 'STV, Four winners'),
+        ('stv5', 'STV, Five winners'),
+        ('stv10', 'STV, Ten winners'),
+        ('stonethor', 'STV partition with Schulze ranking')
+    )
+
+    def system_name(self, system):
+        return [n for m, n in self.VOTING_SYSTEMS if m == system][0]
 
     def schulze_results_old(self):
         candidates = self.candidates
@@ -301,9 +531,6 @@ if __name__ == "__main__":
     for fn in args.filenames:
         bc.load_ballots(fn)
 
-    if args.exclude:
-        bc.exclude_candidates(args.exclude)
-
     bc.collapse_gaps = False if (args.keep_gaps) else True
 
     below = {}
@@ -313,19 +540,59 @@ if __name__ == "__main__":
         below[candidate] = seat
 
     if args.operation == 'count':
+        if args.exclude:
+            bc.exclude_candidates(args.exclude)
+
         print('Voting system:\n\t%s (%s)' % (bc.system_name(system), system))
         print('')
         print('Loaded %d ballots from:\n\t%s' % (
             len(bc.ballots), '\n\t'.join(args.filenames)))
         print('')
         if below:
-            print('Results(C):\n\t%s' % ', '.join(bc.constrained_results(
-                system, sysarg=sysarg, below=below)))
+            print(('Results(C):\n\t%s' % ', '.join(bc.constrained_results(
+                system, sysarg=sysarg, below=below))).encode('utf-8'))
         else:
-            print('Results:\n\t%s' % ', '.join(bc.results(
-                system, sysarg=sysarg)))
+            print(('Results:\n\t%s' % ', '.join(bc.results(
+                system, sysarg=sysarg))).encode('utf-8'))
         print('')
 
+    elif args.operation in (
+            'analyze', 'analyze:json', 'analyze:ods', 'analyze:xlsx'):
+
+        stats = OrderedDict()
+        if system == 'all':
+            system = 'ballots,duplicates,rankings,pairs'
+        for method in (m.strip() for m in system.lower().split(',')):
+            if method == 'rankings':
+                stats.update(bc.get_candidate_rank_stats())
+
+            elif method == 'pairs':
+                stats.update(bc.get_candidate_pairwise_stats())
+
+            elif method == 'duplicates':
+                stats.update(bc.get_duplicate_ballots(threshold_pct=5))
+
+            elif method == 'ballots':
+                stats.update(bc.get_ballot_stats())
+
+            else:
+                raise ValueError('Unknown analysis: %s' % method)
+
+        if args.exclude:
+            stats = bc.exclude_candidate_stats(stats, args.exclude)
+
+        if args.operation == 'analyze':
+            print(bc.stats_as_text(stats).encode('utf-8'))
+
+        elif args.operation == 'analyze:json':
+            json.dump(stats, sys.stdout, indent=1)
+
+        elif args.operation in ('analyze:ods', 'analyze:xlsx'):
+            sys.stdout.write(bc.stats_as_spreadsheet(
+                args.operation.split(':')[1], stats))
+
+    else:
+        raise ValueError('Unknown operation: %s' % args.operation)
 else:
     # Suppress errors in case logging isn't configured elsewhere
     logger.addHandler(logging.NullHandler())

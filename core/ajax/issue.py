@@ -10,7 +10,7 @@ from core.ajax.utils import jsonize
 @login_required
 @jsonize
 def issue_vote(request):
-    issue = int(request.REQUEST.get("issue", 0))
+    issue = int(request.POST.get("issue", request.GET.get("issue", 0)))
     issue = get_object_or_404(Issue, id=issue)
 
     if not issue.is_voting():
@@ -19,7 +19,7 @@ def issue_vote(request):
     if not issue.can_vote(user=request.user):
         return issue_poll(request)
 
-    val = int(request.REQUEST.get("vote", 0))
+    val = int(request.POST.get("vote", request.GET.get("vote", 0)))
 
     (vote, created) = Vote.objects.get_or_create(user=request.user, issue=issue)
     vote.value = val
@@ -43,7 +43,8 @@ def issue_comment_send(request):
 
 @jsonize
 def issue_poll(request):
-    issue = get_object_or_404(Issue, id=request.REQUEST.get("issue", 0))
+    issue = int(request.POST.get("issue", request.GET.get("issue", 0)))
+    issue = get_object_or_404(Issue, id=issue)
     ctx = {}
     comments = [{"id": comment.id, "created_by": comment.created_by.username, "created": str(comment.created), "created_since": timesince(comment.created), "comment": comment.comment} for comment in issue.comment_set.all().order_by("created")]
     documents = []
