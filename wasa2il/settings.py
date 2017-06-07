@@ -116,7 +116,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'core.middleware.UserSettingsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-) + LOCAL_MIDDLEWARE_CLASSES
+)
+try:
+    MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
+except:
+    pass
 
 ROOT_URLCONF = 'urls'
 
@@ -145,7 +149,11 @@ INSTALLED_APPS = (
     'core',
     'forum',
     'gateway',
-) + LOCAL_INSTALLED_APPS
+)
+try:
+    INSTALLED_APPS += LOCAL_INSTALLED_APPS
+except:
+    pass
 
 # Allow users to attempt log-ins using any of the following:
 # e-mail address, SSN or username.
