@@ -23,6 +23,7 @@ build:
 test1:
   stage: test
   script:
+    - docker run $CONTAINER_TEST_IMAGE python initial_setup.py
     - docker run $CONTAINER_TEST_IMAGE python manage.py test
 
 release-image:
