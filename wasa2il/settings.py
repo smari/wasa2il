@@ -6,7 +6,9 @@ from utils import here
 try:
     from local_settings import *
 except ImportError:
-    raise Exception('You need to set up local_settings.py (see local_settings.py-example')
+    from default_settings import *
+    print('No local_settings.py found. Setting default values.')
+
 
 # Some error checking for local_settings
 if not SECRET_KEY:
