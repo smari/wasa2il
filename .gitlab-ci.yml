@@ -1,0 +1,4 @@
+image: wasa2il/image:latest
+
+test:
+    python manage.py test
