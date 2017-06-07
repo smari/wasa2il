@@ -1,5 +1,33 @@
-image: wasa2il/image:latest
+image: docker:git
+services:
+- docker:dind
 
-test:
-    script:
-        python manage.py test
+stages:
+- build
+- test
+- release
+
+variables:
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/piratar/wasa2il/image:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/piratar/wasa2il/image:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+build:
+  stage: build
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+test1:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE python manage.py test
+
+release-image:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
