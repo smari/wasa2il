@@ -1,4 +1,5 @@
 image: wasa2il/image:latest
 
 test:
-    python manage.py test
+    script:
+        python manage.py test
