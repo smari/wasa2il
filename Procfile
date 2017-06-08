@@ -1,0 +1,1 @@
+web: gunicorn wasa2il.wsgi

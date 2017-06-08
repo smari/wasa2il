@@ -1,12 +1,15 @@
 #coding:utf-8
 # Django settings for wasa2il project.
 
+import os
 from utils import here
 
 try:
     from local_settings import *
 except ImportError:
-    raise Exception('You need to set up local_settings.py (see local_settings.py-example')
+    from default_settings import *
+    print('No local_settings.py found. Setting default values.')
+
 
 # Some error checking for local_settings
 if not SECRET_KEY:
@@ -26,6 +29,17 @@ DATABASES = {
         'PORT': DATABASE_PORT,                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+try:
+    # Check for env var $DATABASE_URL (for Heroku)
+    db_url = os.environ['DATABASE_URL']
+    # If exists, confic accordingly
+    import dj_database_url
+    # Update database configuration with $DATABASE_URL.
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+except KeyError:
+    pass
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -117,6 +131,10 @@ MIDDLEWARE_CLASSES = (
     'core.middleware.UserSettingsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 )
+try:
+    MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
+except:
+    pass
 
 ROOT_URLCONF = 'urls'
 
@@ -146,6 +164,10 @@ INSTALLED_APPS = (
     'forum',
     'gateway',
 )
+try:
+    INSTALLED_APPS += LOCAL_INSTALLED_APPS
+except:
+    pass
 
 # Allow users to attempt log-ins using any of the following:
 # e-mail address, SSN or username.

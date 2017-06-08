@@ -1,0 +1,46 @@
+image: docker:git
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - deploy
+  - release
+
+variables:
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/piratar/wasa2il/image:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/piratar/wasa2il/image:latest
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+build:
+  stage: build
+  script:
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+test1:
+  stage: test
+  script:
+    - docker run $CONTAINER_TEST_IMAGE python manage.py test
+
+staging:
+  stage: deploy
+  only:
+    - development
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=wasa2il-staging --api-key=$HEROKU_STAGING_API_KEY
+
+release-image:
+  stage: release
+  only:
+    - tags
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE

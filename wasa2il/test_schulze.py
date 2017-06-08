@@ -1,4 +1,4 @@
-import schulze
+import core.schulze
 import random
 
 
@@ -98,4 +98,3 @@ def test_3_candidates_3_votes_cyclical():
     # All path strengths should be equal, this is a tied vote!
     for sp in strongest_paths.itervalues():
         assert sum(sp.values()) == 4
-
