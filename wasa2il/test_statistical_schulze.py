@@ -1,4 +1,4 @@
-import schulze
+import core.schulze
 import random
 
 
