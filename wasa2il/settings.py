@@ -108,12 +108,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'django.middleware.locale.LocaleMiddleware',
+    'core.middleware.IgnoreHTTPAcceptLanguageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'core.middleware.UserSettingsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -145,10 +147,19 @@ INSTALLED_APPS = (
     'gateway',
 )
 
-# Comment this section to restore Django's native login mechanism
-#AUTHENTICATION_BACKENDS = (
-#    'core.authentication.PiratePartyMemberAuthenticationBackend',
-#)
+# Allow users to attempt log-ins using any of the following:
+# e-mail address, SSN or username.
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'core.authentication.SSNAuthenticationBackend',
+#
+# Note: It may make sense to disable the following, so merely compromising
+# an e-mail account isn't sufficient to take over a wasa2il account. However,
+# Icelandic SSNs are such poorly kept secrets (they're effectively public)
+# that this wouldn't improve security for us, it'd just hurt usability.
+#
+    'core.authentication.EmailAuthenticationBackend',
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

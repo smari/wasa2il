@@ -1,6 +1,9 @@
 {% load i18n %}
 
-<p>{% trans "Please be advised that by registering and verifying your account, you become a member of the Pirate Party of Iceland." %}</p>
+<p>{% trans "As of February 12th 2014, we require the verification of all user accounts via the so-called Icekey." %}</p>
+{% if not request.GET.email %}
+<p><b>{% trans "Please be advised that by registering and verifying your account, you become a member of the Pirate Party of Iceland." %}</b></p>
+{% endif %}
 <p>{% trans "Membership of political organizations is considered sensitive information by law." %}</p>
 <p>{% trans "Therefore, you should keep the following in mind when becoming a member and using our system:" %}</p>
 <ul>

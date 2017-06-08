@@ -2,7 +2,7 @@
 {% load wasa2il %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8">
     <title>{% trans "Voting System - Pirate Party Iceland" %}{% if polity %} - {{ polity }}{% endif %}</title>
@@ -34,7 +34,6 @@
         background-color: #FAFAFA;
         background-image: url("/static/img/header-bg.png");
         background-repeat: repeat-x;
-        vertical-align: center;
         height: 75px;
       }
       .navbar .navbar-brand {
@@ -68,10 +67,13 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
+
+    {% block head_extra %}{% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -82,6 +84,20 @@
           </button>
           <a class="navbar-brand" href="/polities/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
         </div>
+
+        <div id="ajax-status-messages">
+          <div id="submit-error" class="alert alert-danger" style="display: none;">
+            <p>{% trans "There was an error while processing your vote. Please try again." %}</p>
+          </div>
+          <div id="submit-is-magic" class="alert alert-success" style="display: none;">
+            <p><b>{% trans "Your votes have been submitted!" %}</b><br>
+               {% trans "You can continue adding, removing or reordering candidates until the deadline." %}</p>
+          </div>
+          <div id="submit-working" class="alert" style="display: none;">
+            <p><i>{% trans "Working..." %}</i><br>
+          </div>
+        </div>
+
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse piratepurple" id="bs-example-navbar-collapse-1">
@@ -100,7 +116,7 @@
               </ul>
             </li>
             {% else %}
-            <li><a href="/accounts/login/">{% trans "Log in" %}</a></li>
+            <li><a href="/accounts/login/{% if '/accounts/' not in request.get_full_path %}?next={{ request.get_full_path }}{% endif %}">{% trans "Log in" %}</a></li>
             <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
             {% endif %}
           </ul>
@@ -112,11 +128,9 @@
               </div>
             </div>
           </form>
-          
         </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-
+    </div> <!-- end container -->
+  </nav>
     <div class="container">
     {% block content %}{% endblock %}
       <footer class="footer">

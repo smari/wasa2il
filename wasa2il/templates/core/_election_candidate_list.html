@@ -5,26 +5,39 @@
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
     <div style="position: relative;">
-        <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
-        <a href="/accounts/profile/{{ candidate.user.username }}/" style="font-size: 18px;">{{ candidate.user.get_name }}</a>
         {% if election.is_voting %}
-        {% if candidate_selected %}
-        {% if user_is_member %}
-        <button class="btn btn-default vote-button" onclick="election_deselect_candidate(this);">{% trans "Remove" %}</button>
+            {% if candidate_selected %}
+                {% if user_can_vote %}
+                    <button class="btn btn-default vote-button vote-remove" style="color:#C00" onclick="election_deselect_candidate(this);">
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
+                      <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
+                      <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                    </button>
+                {% endif %}
+            {% else %}
+                {% if user_can_vote %}
+                    <button class="btn btn-default vote-button vote-yes" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
+                {% endif %}
+            {% endif %}
         {% endif %}
-        {% else %}
-        {% if user_is_member %}
-        <button class="btn btn-default vote-button" onclick="election_select_candidate(this);">{% trans "Vote" %}</button>
-        {% endif %}
-        {% endif %}
-        {% endif %}
+        <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
+        <a href="/accounts/profile/{{ candidate.user.username }}/" style="font-size: 15px;">{{ candidate.user.get_name | truncatechars:80 }}</a>
     </div>
 </li>
 {% empty %}
-<p>{% if election.is_voting %}
-        {% trans "Drag candidates here." %}
+{% if candidate_selected %}
+    <p>
+        {% trans "Your ballot is empty." %}<br><br>
+        {% trans "Drag candidates here or click the vote buttons." %}
+    </p>
+{% elif candidate_total > 0 %}
+    <p>{% trans "You have selected all the candidates, good work!" %}</p>
 {% else %}
-        {% trans "There are no candidates standing in this election yet!" %}
-{% endif %}</p>
+    <p>{% trans "There are no candidates standing in this election yet!" %}</p>
+{% endif %}
 {% endfor %}
 {% endif %}

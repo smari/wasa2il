@@ -3,11 +3,14 @@
 *.mo
 *.swp
 *.swo
+pip-selfcheck.json
 bin
 include
 lib/python2.7
+lib/
 local
 share
 .idea
-wasa2il/wasa2il.sqlite
+wasa2il.sqlite
 *~
+venv/

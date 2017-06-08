@@ -5,15 +5,23 @@ import os
 import subprocess
 import fileinput
 import shutil
+import sys
 
 from sys import stderr
 from sys import stdin
 from sys import stdout
+from sys import argv
 
 import random
 random = random.SystemRandom()
 
 TERMINAL_WIDTH = 80
+venv_path = os.path.relpath(os.path.dirname(sys.executable), sys.path[0])
+
+def get_executable_path(executable):
+    if len(argv) > 1 and argv[1] == '--venv':
+        return os.path.join(venv_path, executable)
+    return executable
 
 
 def get_random_string(length=12,
@@ -62,7 +70,7 @@ print "*" * TERMINAL_WIDTH
 
 # Install (or upgrade) Python package dependencies
 stdout.write('Installing dependencies:\n')
-result = subprocess.call(["pip", "install", "--upgrade", "-r", "requirements.txt"])
+result = subprocess.call([get_executable_path("pip"), "install", "--upgrade", "-r", "requirements.txt"])
 if result == 0:
     stdout.write('Dependency installation complete.\n')
 else:
@@ -126,14 +134,10 @@ for line in fileinput.input('wasa2il/local_settings.py', inplace=1):
 if not local_settings_changed:
     stdout.write('- No changes needed.\n')
 
-
-# Change to Wasa2il's directory
-os.chdir('wasa2il')
-
-
 # Compile the translation files
-for lang in next(os.walk(os.path.join(os.getcwd(), 'locale')))[1]:
-    subprocess.call(['pybabel', 'compile', '-d', os.path.join(os.getcwd(), 'locale'), '-D', 'django', '-l', lang])
+for lang in next(os.walk(os.path.join(os.getcwd(), 'wasa2il/locale')))[1]:
+    print [get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'wasa2il/locale'), '-D', 'django', '-l', lang]
+    subprocess.call([get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'wasa2il/locale'), '-D', 'django', '-l', lang])
 
 
 # Setup database if needed
@@ -150,25 +154,28 @@ else:
 
 if create_database:
     stdout.write('Setting up database (via "migrate"):\n')
-    migrate_result = subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'migrate'])
+    migrate_result = subprocess.call([get_executable_path('python'), os.path.join(os.getcwd(), 'manage.py'), 'migrate'])
 
     if migrate_result != 0:
         stderr.write('Error: Django migration gave errors. Quitting.\n')
         quit(1)
 
     stdout.write('We will now create a superuser to configure polities within Wasa2il once it has been set up.\n')
-    subprocess.call(['python', os.path.join(os.getcwd(), 'manage.py'), 'createsuperuser'])
+    subprocess.call([get_executable_path('python'), os.path.join(os.getcwd(), 'manage.py'), 'createsuperuser'])
+
+    stdout.write('Populate wasa2il with some fake data...\n')
+    subprocess.call([get_executable_path('python'), os.path.join(os.getcwd(), 'manage.py'), 'load_fake_data'])
 
 
 print "*" * TERMINAL_WIDTH
 print "All done!"
 print "To run Wasa2il and start configuring polities, follow these steps:"
-print "- Go to the 'wasa2il' directory and run 'python manage.py runserver'"
+print "- Run '"+get_executable_path('python')+" manage.py runserver'"
 print "- Open your favorite browser and type in: http://localhost:8000"
 print "- Log in with the superuser account created previously"
 print
-print "(If you don't have a superuser account yet, then go to the 'wasa2il' directory"
-print "and run 'python manage.py createsuperuser')"
+print "Additional superuser accounts can be created with"
+print "- "+get_executable_path('python')+" manage.py createsuperuser"
 print "*" * TERMINAL_WIDTH
 
 

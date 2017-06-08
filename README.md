@@ -1,10 +1,10 @@
 # Wasa2il - ‫وسائل
 
 Wasa2il is a participatory democracy software project. It is based around the core
-idea of polities - political entities - which users of the system can join or leave, 
+idea of polities - political entities - which users of the system can join or leave,
 make proposals in, alter existing proposals, and adopt laws to self-govern.
 
-The goal of this is to make it easy for groups on any scale - from the local 
+The goal of this is to make it easy for groups on any scale - from the local
 whiskey club to the largest nation - to self-organize and manage their intents,
 goals and mutual understandings.
 
@@ -22,6 +22,10 @@ Long story short, to set up Wasa2il for development and/or testing:
 
 3. In a command line, run the script **initial_setup.py**, which should guide you through the rest of the process.
 
+4. Optional: Run **manage.py load_fake_data --full --reset**, which will reset the database and populate with a large volume of test data.
+
+The 3rd step will populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password). The fourth (optional) step will do the same thing, only with much more data.
+
 That should be it!
 
 # Project concepts
@@ -30,20 +34,20 @@ That should be it!
 
 A polity is a political entity which consists of a group of people and a set of laws
 the group has decided to adhere to. In an abstract sense, membership in a polity
-grants a person certain rights and priviledges. For instance, membership in a 
+grants a person certain rights and priviledges. For instance, membership in a
 school's student body may grant you the right to attend their annual prom,
-and membership in a country (i.e. residency or citizenship) grants you a right 
-to live there and do certain things there, such as start companies. stand in 
+and membership in a country (i.e. residency or citizenship) grants you a right
+to live there and do certain things there, such as start companies. stand in
 elections, and so on.
 
-Each polity has different rules - these are also called statutes, bylaws or laws - 
+Each polity has different rules - these are also called statutes, bylaws or laws -
 which affect the polity on two different levels.
 
 Firstly, there are meta-rules, which describe how rules are formed, how
-decisions are made, how meetings happen, and how governance in general 
-happens. Wasa2il has to be flexible enough to accomodate the varying 
-meta-rules of a given polity, otherwise the polity may decide that Wasa2il isn't 
-useful to them. Sometimes these rules are referred to as "rules of procedure" 
+decisions are made, how meetings happen, and how governance in general
+happens. Wasa2il has to be flexible enough to accomodate the varying
+meta-rules of a given polity, otherwise the polity may decide that Wasa2il isn't
+useful to them. Sometimes these rules are referred to as "rules of procedure"
 or "constitution", depending on the type of polity which is using them.
 
 Secondly there are external rules, which are the decisions the polity makes which
@@ -86,3 +90,46 @@ issue indefinitely opponents could gang up to game the system and eliminate the
 possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
 should support the creation of that.]
 
+
+# Alternative installation instructions
+
+If you don't know what a virtualenv or a docker is, you can safely ignore the
+following and just use the [setup instruction above](#setup). Alternatives
+are included for those who wish to develop and support the project using those
+technologies.
+
+## Virtualenv
+
+    virtualenv venv
+    venv/bin/python initial_setup.py --venv
+
+The initial setup script guides you through the rest of the process.
+
+## Docker
+
+    docker build -t piratar/wasa2il .
+    docker run --name wasa2il-dev-container -p 8000:8000 -it piratar/wasa2il
+
+The first command builds a new docker image and gives it the name `piratar/wasa2il`
+The second command starts a new docker container based of the latest version
+of the `piaratar/wasa2il` image, forwards port 8000 of the docker host to the
+same port on the docker container, and names it `wasa2il-dev-container`.  The
+Docker CMD command runs `initial_setup.py` so when running the container for
+the first time you will be prompted for username, e-mail and password.
+
+Since the sqlite database is created inside the container on the first run,
+and not for example mounted through a volume, if you want your test data to
+persist you must re-use the container after building it.  You can stop and
+start the named container like so:
+
+    docker stop wasa2il-dev-container
+
+and
+
+    docker start wasa2il-dev-container
+
+## Docker-compose
+
+Detailed instructions in our wiki: 
+
+https://github.com/piratar/wasa2il/wiki/Installation

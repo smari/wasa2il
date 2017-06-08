@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-04 21:00+0000\n"
+"POT-Creation-Date: 2016-08-24 00:28+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language-Team: Icelandic\n"
@@ -13,17 +13,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: crowdin.net\n"
 
-#: core/authentication.py:20 core/forms.py:46
+#: core/authentication.py:57 core/forms.py:46
 msgid "E-mail"
 msgstr "Netfang"
 
-#: core/authentication.py:21
-#, fuzzy
+#: core/authentication.py:58
 msgid "Password"
-msgstr "Change proposals"
+msgstr "Lykilorð"
 
-#: core/base_classes.py:9 core/models.py:43
-#: templates/forum/forum_detail.html:18
+#: core/base_classes.py:8 core/models.py:47
+#: wasa2il/templates/forum/forum_detail.html:18
 msgid "Name"
 msgstr "Nafn"
 
@@ -35,65 +34,65 @@ msgstr "Netfangið sem þú vilt nota á vefnum."
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/models.py:29
+#: core/models.py:33
 msgid "Description"
 msgstr "Lýsing"
 
-#: core/models.py:43
+#: core/models.py:47
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:44
+#: core/models.py:48
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:44
+#: core/models.py:48
 #, fuzzy
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:45
+#: core/models.py:49
 msgid "Bio"
 msgstr "Saga"
 
-#: core/models.py:46
+#: core/models.py:50
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:50
+#: core/models.py:54
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:51
+#: core/models.py:55
 msgid "Whether to show all topics in a polity, or only starred."
-msgstr ""
+msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
-#: core/models.py:138
+#: core/models.py:171
 msgid "Officers"
 msgstr "Umsjónarmenn"
 
-#: core/models.py:140
+#: core/models.py:173
 msgid "Publicly listed?"
 msgstr "Listað opinberlega?"
 
-#: core/models.py:140
+#: core/models.py:173
 msgid "Whether the polity is publicly listed or not."
 msgstr "Hvort þingið sé listað opinberlega eður ei."
 
-#: core/models.py:141
+#: core/models.py:174
 msgid "Publicly viewable?"
 msgstr "Sýnilegt opinberlega?"
 
-#: core/models.py:141
+#: core/models.py:174
 msgid "Whether non-members can view the polity and its activities."
 msgstr ""
 "Hvort notendur sem ekki eru meðlimir þingsins geti séð það og innihald þess."
 
-#: core/models.py:142
+#: core/models.py:175
 msgid "Can only officers make new issues?"
 msgstr "Geta einungis umsjónarmenn búið til ný mál?"
 
-#: core/models.py:142
+#: core/models.py:175
 msgid ""
 "If this is checked, only officers can create new issues. If it's unchecked, "
 "any member can start a new issue."
@@ -101,11 +100,11 @@ msgstr ""
 "Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
 "allir meðlimir búið til ný mál."
 
-#: core/models.py:143
+#: core/models.py:176
 msgid "Front polity?"
 msgstr "Aðalþing?"
 
-#: core/models.py:143
+#: core/models.py:176
 msgid ""
 "If checked, this polity will be displayed on the front page. The first "
 "created polity automatically becomes the front polity."
@@ -113,95 +112,1203 @@ msgstr ""
 "Ef hakað er við þetta verður þetta þing sýnt á forsíðunni. Fyrsta þingið sem "
 "búið er til verður sjálfkrafa að aðalþingi."
 
-#: core/models.py:227
+#: core/models.py:304
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
 
-#: core/models.py:228
+#: core/models.py:305
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: core/models.py:232 templates/core/polity_detail.html:43
-#: templates/core/polity_detail.html:50 templates/core/polity_list.html:17
+#: core/models.py:314 wasa2il/templates/core/polity_detail.html:24
+#: wasa2il/templates/core/polity_detail.html:107
+#: wasa2il/templates/core/polity_detail.html:114
+#: wasa2il/templates/core/polity_list.html:17
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: core/models.py:238
+#: core/models.py:320
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: core/models.py:240 templates/core/issue_detail.html:39
+#: core/models.py:322 wasa2il/templates/core/issue_detail.html:39
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: core/models.py:375 templates/core/polity_detail.html:89
+#: core/models.py:511 wasa2il/templates/core/issues_new.html:18
+#: wasa2il/templates/core/polity_detail.html:47
 msgid "Issue"
 msgstr "Málefni"
 
-#: core/models.py:380
+#: core/models.py:516
 msgid "Topic"
 msgstr "Málaflokkur"
 
-#: core/models.py:385 templates/core/polity_list.html:16
-#: templates/profile.html:50
+#: core/models.py:521 wasa2il/templates/core/polity_list.html:16
 msgid "Polity"
 msgstr "Þing"
 
-#: core/models.py:521
+#: core/models.py:660
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:522 templates/core/issue_detail.html:49
+#: core/models.py:661 wasa2il/templates/core/issue_detail.html:49
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:523 templates/core/issue_detail.html:49
+#: core/models.py:662 wasa2il/templates/core/issue_detail.html:49
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: core/models.py:524
+#: core/models.py:663
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:648 templates/core/election_detail.html:28
+#: core/models.py:801 wasa2il/templates/core/election_detail.html:99
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:649 templates/core/election_detail.html:24
-#: templates/core/election_list.html:19
+#: core/models.py:802 wasa2il/templates/core/election_detail.html:84
+#: wasa2il/templates/core/election_list.html:19
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:650 templates/core/election_detail.html:25
-#: templates/core/election_list.html:20 templates/core/issue_detail.html:36
+#: core/models.py:803
+msgid "Start time for votes"
+msgstr "Upphaf kosninga"
+
+#: core/models.py:804 wasa2il/templates/core/election_detail.html:85
+#: wasa2il/templates/core/election_list.html:20
+#: wasa2il/templates/core/issue_detail.html:36
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:654
+#: core/models.py:815 wasa2il/templates/core/election_detail.html:87
 msgid "Membership deadline"
-msgstr "Skráningarmörk meðlima"
+msgstr "Skráningarmörk kjósenda"
 
-#: core/models.py:657 templates/base.html:127
+#: core/models.py:818 wasa2il/templates/base.html:142
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
-#: core/views.py:377
+#: core/models.py:821
+msgid "Statistics as JSON"
+msgstr ""
+
+#: core/models.py:822
+msgid "Limit how many candidates we publish stats for"
+msgstr ""
+
+#: core/views.py:424
 msgid "voting"
 msgstr "atkvæðagreiðsla"
 
-#: templates/403.html:5
+#: local/env/lib/python2.7/site-packages/django/contrib/messages/apps.py:7
+#: wasa2il/templates/forum/forum_detail.html:19
+msgid "Messages"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/contrib/sitemaps/apps.py:7
+msgid "Site Maps"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/contrib/staticfiles/apps.py:7
+msgid "Static Files"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/contrib/syndication/apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/contrib/webdesign/apps.py:7
+msgid "Web Design"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:20
+msgid "Enter a valid value."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:94
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:712
+msgid "Enter a valid URL."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:137
+msgid "Enter a valid integer."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:148
+msgid "Enter a valid email address."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:222
+msgid ""
+"Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:227
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:246
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:232
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:247
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:242
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:245
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:270
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1144
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:279
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:305
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:312
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:321
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/core/validators.py:332
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/base.py:1130
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:718
+msgid "and"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/base.py:1132
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:107
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:108
+msgid "This field cannot be null."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:109
+msgid "This field cannot be blank."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:110
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
+#. Eg: "Title must be unique for pub_date year"
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:114
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:132
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:922
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1832
+msgid "Integer"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:926
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1830
+#, python-format
+msgid "'%(value)s' value must be an integer."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1001
+#, python-format
+msgid "'%(value)s' value must be either True or False."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1003
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1078
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1139
+msgid "Comma-separated integers"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1188
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1190
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1340
+#, python-format
+msgid ""
+"'%(value)s' value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1193
+msgid "Date (without time)"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1338
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1342
+#, python-format
+msgid ""
+"'%(value)s' value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1346
+msgid "Date (with time)"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1498
+#, python-format
+msgid "'%(value)s' value must be a decimal number."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1500
+msgid "Decimal number"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1651
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid format. It must be in [DD] [HH:[MM:]]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1654
+msgid "Duration"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1705
+msgid "Email address"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1729
+msgid "File path"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1796
+#, python-format
+msgid "'%(value)s' value must be a float."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1798
+msgid "Floating point number"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1899
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1914
+msgid "IPv4 address"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:1950
+msgid "IP address"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2029
+#, python-format
+msgid "'%(value)s' value must be either None, True or False."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2031
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2091
+msgid "Positive integer"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2103
+msgid "Positive small integer"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2116
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2145
+msgid "Small integer"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2152
+#: wasa2il/templates/core/election_detail.html:207
+#: wasa2il/templates/core/stub/document_view.html:84
+msgid "Text"
+msgstr "Texti"
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2175
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2177
+#, python-format
+msgid ""
+"'%(value)s' value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2180
+msgid "Time"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2308
+msgid "URL"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2331
+msgid "Raw binary data"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/__init__.py:2375
+#, python-format
+msgid "'%(value)s' is not a valid UUID."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/files.py:238
+msgid "File"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/files.py:388
+msgid "Image"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/related.py:1809
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/related.py:1811
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/related.py:2041
+msgid "One-to-one relationship"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/db/models/fields/related.py:2131
+msgid "Many-to-many relationship"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:64
+msgid "This field is required."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:237
+msgid "Enter a whole number."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:280
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:317
+msgid "Enter a number."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:319
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:323
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:327
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:438
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:1193
+msgid "Enter a valid date."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:462
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:1194
+msgid "Enter a valid time."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:484
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:525
+msgid "Enter a valid duration."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:591
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:592
+msgid "No file was submitted."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:593
+msgid "The submitted file is empty."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:595
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:598
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:660
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:827
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:921
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:1238
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:922
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:1037
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:1237
+msgid "Enter a list of values."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:1038
+msgid "Enter a complete value."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/fields.py:1264
+msgid "Enter a valid UUID."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: local/env/lib/python2.7/site-packages/django/forms/forms.py:129
+msgid ":"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/forms.py:214
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: local/env/lib/python2.7/site-packages/django/forms/forms.py:659
+msgid ":?.!"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/formsets.py:96
+msgid "ManagementForm data is missing or has been tampered with"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/formsets.py:333
+#, python-format
+msgid "Please submit %d or fewer forms."
+msgid_plural "Please submit %d or fewer forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/formsets.py:340
+#, python-format
+msgid "Please submit %d or more forms."
+msgid_plural "Please submit %d or more forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/formsets.py:368
+#: local/env/lib/python2.7/site-packages/django/forms/formsets.py:370
+msgid "Order"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/formsets.py:372
+msgid "Delete"
+msgstr "Eyða"
+
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:712
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:716
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:722
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:730
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:1053
+msgid "The inline foreign key did not match the parent instance primary key."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:1123
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/models.py:1240
+#, python-format
+msgid "\"%(pk)s\" is not a valid value for a primary key."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/utils.py:165
+#, python-format
+msgid ""
+"%(datetime)s couldn't be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/widgets.py:345
+msgid "Currently"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/widgets.py:346
+msgid "Change"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/widgets.py:347
+msgid "Clear"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/widgets.py:555
+msgid "Unknown"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/forms/widgets.py:556
+#: wasa2il/templates/core/_document_agreement_list_table.html:5
+#: wasa2il/templates/core/issue_detail.html:44
+#: wasa2il/templates/core/issue_detail.html:80
+msgid "Yes"
+msgstr "Já"
+
+#: local/env/lib/python2.7/site-packages/django/forms/widgets.py:557
+#: wasa2il/templates/core/_document_agreement_list_table.html:6
+#: wasa2il/templates/core/issue_detail.html:45
+#: wasa2il/templates/core/issue_detail.html:82
+msgid "No"
+msgstr "Nei"
+
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:865
+msgid "yes,no,maybe"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:894
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:906
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:908
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:910
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:912
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:914
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/template/defaultfilters.py:916
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dateformat.py:61
+msgid "p.m."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dateformat.py:62
+msgid "a.m."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dateformat.py:67
+msgid "PM"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dateformat.py:68
+msgid "AM"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dateformat.py:153
+msgid "midnight"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dateformat.py:155
+msgid "noon"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:6
+msgid "Monday"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:6
+msgid "Tuesday"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:6
+msgid "Wednesday"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:6
+msgid "Thursday"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:6
+msgid "Friday"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:7
+msgid "Saturday"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:7
+msgid "Sunday"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:10
+msgid "Mon"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:10
+msgid "Tue"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:10
+msgid "Wed"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:10
+msgid "Thu"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:10
+msgid "Fri"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:11
+msgid "Sat"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:11
+msgid "Sun"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:18
+msgid "January"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:18
+msgid "February"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:18
+msgid "March"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:18
+msgid "April"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:18
+msgid "May"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:18
+msgid "June"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:19
+msgid "July"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:19
+msgid "August"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:19
+msgid "September"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:19
+msgid "October"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:19
+msgid "November"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:20
+msgid "December"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:23
+msgid "jan"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:23
+msgid "feb"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:23
+msgid "mar"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:23
+msgid "apr"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:23
+msgid "may"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:23
+msgid "jun"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:24
+msgid "jul"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:24
+msgid "aug"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:24
+msgid "sep"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:24
+msgid "oct"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:24
+msgid "nov"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:24
+msgid "dec"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:31
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:32
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:33
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:34
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:35
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:36
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:37
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:38
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:39
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:40
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:41
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:42
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:45
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:46
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:47
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:48
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:49
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:50
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:51
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:52
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:53
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:54
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:55
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/dates.py:56
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/ipv6.py:10
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/text.py:79
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s..."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/text.py:248
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: local/env/lib/python2.7/site-packages/django/utils/text.py:267
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:58
+msgid ", "
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:10
+#, python-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:11
+#, python-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:12
+#, python-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:13
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:14
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:15
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: local/env/lib/python2.7/site-packages/django/utils/timesince.py:47
+msgid "0 minutes"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/csrf.py:107
+msgid "Forbidden"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/csrf.py:108
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/csrf.py:112
+msgid ""
+"You are seeing this message because this HTTPS site requires a 'Referer "
+"header' to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/csrf.py:117
+msgid ""
+"If you have configured your browser to disable 'Referer' headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for 'same-"
+"origin' requests."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/csrf.py:122
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/csrf.py:127
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for 'same-origin' requests."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/csrf.py:132
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/debug.py:583
+msgid "Welcome to Django"
+msgstr "Velkomin í Wasa2il!"
+
+#: local/env/lib/python2.7/site-packages/django/views/debug.py:584
+msgid "It worked!"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/debug.py:585
+msgid "Congratulations on your first Django-powered page."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/debug.py:586
+msgid ""
+"Of course, you haven't actually done any work yet. Next, start your first "
+"app by running <code>python manage.py startapp [app_label]</code>."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/debug.py:588
+msgid ""
+"You're seeing this message because you have <code>DEBUG = True</code> in "
+"your Django settings file and you haven't configured any URLs. Get to work!"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:48
+msgid "No year specified"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:104
+msgid "No month specified"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:163
+msgid "No day specified"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:219
+msgid "No week specified"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:378
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:406
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:660
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/dates.py:694
+#, python-format
+msgid "Invalid date string '%(datestr)s' given format '%(format)s'"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/detail.py:55
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/list.py:76
+msgid "Page is not 'last', nor can it be converted to an int."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/list.py:81
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/generic/list.py:172
+#, python-format
+msgid "Empty list and '%(class_name)s.allow_empty' is False."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/static.py:58
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/static.py:60
+#, python-format
+msgid "\"%(path)s\" does not exist"
+msgstr ""
+
+#: local/env/lib/python2.7/site-packages/django/views/static.py:100
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: wasa2il/templates/403.html:5
 msgid "403 Access Denied"
 msgstr ""
 
-#: templates/404.html:5
+#: wasa2il/templates/404.html:5
 msgid "404 File Not Found"
 msgstr ""
 
-#: templates/500.html:7
+#: wasa2il/templates/500.html:7
 msgid "Something bad happened!"
 msgstr "Eitthvað slæmt gerðist!"
 
-#: templates/500.html:9
+#: wasa2il/templates/500.html:9
 msgid ""
 "A bunch of well-trained monkeys have been notified and they will take a look "
 "at the problem as soon as possible."
@@ -209,7 +1316,7 @@ msgstr ""
 "Hópur vel þjálfaðra apa hefur verið látinn vita og mun líta á vandann eins "
 "fljótt og auðið er."
 
-#: templates/500.html:11
+#: wasa2il/templates/500.html:11
 msgid ""
 "Sometimes things break only for a few seconds, so it may work if you try "
 "again."
@@ -217,681 +1324,892 @@ msgstr ""
 "Stundum bila hlutirnir bara í nokkrar sekúndur þannig að það gæti virkað að "
 "reyna aftur."
 
-#: templates/500.html:13
+#: wasa2il/templates/500.html:13
 msgid "Otherwise, please email us at"
 msgstr "Ef ekki, vinsamlegast sendið okkur póst á netfangið"
 
-#: templates/base.html:8
+#: wasa2il/templates/base.html:8
 msgid "Voting System - Pirate Party Iceland"
 msgstr "Kosningakerfi Pírata"
 
-#: templates/base.html:90 templates/help/is/agreement.html:6
-#: templates/help/is/authors.html:6 templates/help/is/copyright.html:6
-#: templates/help/is/index.html:6 templates/help/is/polity.html:6
-#: templates/help/is/proposal.html:6 templates/help/is/wasa2il.html:6
-msgid "Help"
-msgstr "Hjálp"
-
-#: templates/base.html:96
-msgid "My profile"
-msgstr "Mín síða"
-
-#: templates/base.html:97
-msgid "My settings"
-msgstr "Stillingar"
-
-#: templates/base.html:99 templates/registration/verification_needed.html:12
-msgid "Logout"
-msgstr "Útskrá"
-
-#: templates/base.html:103 templates/entry.html:17
-#: templates/registration/login.html:12
-#: templates/registration/password_reset_complete.html:9
-msgid "Log in"
-msgstr "Innskrá"
-
-#: templates/base.html:104 templates/entry.html:11
-#: templates/registration/login.html:25
-#: templates/registration/registration_form.html:12
-#: templates/registration/registration_form.html:23
-msgid "Sign up"
-msgstr "Nýskrá"
-
-#: templates/base.html:110
-msgid "Search agreements"
-msgstr "Leita í samþykktum"
-
-#: templates/base.html:124
-msgid "Back to top"
-msgstr "Fara efst"
-
-#: templates/base.html:125
-msgid "About wasa2il"
-msgstr "Um wasa2il"
-
-#: templates/base.html:126
-msgid "License"
-msgstr "Notandaleyfi"
-
-#: templates/base.html:128 templates/help/is/authors.html:6
-msgid "Authors"
-msgstr "Höfundar"
-
-#: templates/core/_delegations_table.html:4
-msgid "Type"
-msgstr "Tegund"
-
-#: templates/core/_delegations_table.html:5
-msgid "Item"
-msgstr "Item"
-
-#: templates/core/_delegations_table.html:6
-msgid "To"
-msgstr "To"
-
-#: templates/core/_delegations_table.html:7
-#: templates/core/issue_detail.html:49
-msgid "Result"
-msgstr "Niðurstaða"
-
-#: templates/core/_delegations_table.html:8
-#: templates/core/_delegations_table.html:16
-#: templates/core/delegate_detail.html:29
-msgid "Details"
-msgstr "Details"
-
-#: templates/core/_delegations_table.html:21
-msgid "There are no delegations"
-msgstr "There are no delegations"
-
-#: templates/core/_delegations_table.html:22
-msgid "What is a delegation?"
-msgstr "What is a delegation?"
-
-#: templates/core/_document_agreement_list_table.html:4
-#: templates/core/_document_list_table.html:4
-#: templates/core/_document_proposals_list_table.html:4
-msgid "Document"
-msgstr "Skjal"
-
-#: templates/core/_document_agreement_list_table.html:5
-msgid "Adopted"
-msgstr "Samþykkt"
-
-#: templates/core/_document_agreement_list_table.html:15
-msgid "This polity has no agreements."
-msgstr "Þetta þing hefur engar samþykktir."
-
-#: templates/core/_document_agreement_list_table.html:16
-#: templates/help/is/polity.html:119 templates/help/is/proposal.html:64
-msgid "What is an agreement?"
-msgstr "Hvað er samþykkt?"
-
-#: templates/core/_document_list_table.html:5
-msgid "Adopted?"
-msgstr "Samþykkt?"
-
-#: templates/core/_document_list_table.html:6
-msgid "Original author"
-msgstr "Upprunalegur höfundur"
-
-#: templates/core/_document_list_table.html:7
-msgid "Contributors"
-msgstr "Þátttakendur"
-
-#: templates/core/_document_list_table.html:8
-#: templates/core/_document_proposals_list_table.html:5
-msgid "Last edit"
-msgstr "Síðasta breyting"
-
-#: templates/core/_document_list_table.html:21
-#: templates/core/_document_proposals_list_table.html:17
-msgid "There are no documents here!"
-msgstr "Hér eru engin skjöl!"
-
-#: templates/core/_document_modal.html:6
-#, python-format
-msgid "New %(type_name)s"
-msgstr ""
-
-#: templates/core/_document_modal.html:11
-#, fuzzy
-msgid "Choose a document to reference"
-msgstr "Veldu skjal til að vísa í:"
-
-#: templates/core/_document_modal.html:22
-msgid "Write assumption:"
-msgstr "Skrifaðu forsendu:"
-
-#: templates/core/_document_modal.html:41
-msgid "Statements:"
-msgstr "Statements:"
-
-#: templates/core/_document_modal.html:49
-#: templates/core/polity_detail.html:165 templates/core/topic_detail.html:72
-#: templates/forum/forum_detail.html:48
-msgid "Close"
-msgstr "Loka"
-
-#: templates/core/_document_modal.html:50
-#, python-format
-msgid "Save %(type_name)s"
-msgstr ""
-
-#: templates/core/_document_proposals_list_table.html:6
-msgid "Actions"
-msgstr "Actions"
-
-#: templates/core/_document_proposals_list_table.html:12
-msgid "Propose"
-msgstr "Propose"
-
-#: templates/core/_documentsMenu.html:5
-msgid "Your Documents"
-msgstr "Skjölin þín"
-
-#: templates/core/_documentsMenu.html:19
-msgid "Proposed Documents"
-msgstr "Framlagðar tillögur"
-
-#: templates/core/_documentsMenu.html:33
-msgid "Adopted documents"
-msgstr "Samþykkt skjöl"
-
-#: templates/core/_election_candidate_list.html:13
-msgid "Remove"
-msgstr ""
-
-#: templates/core/_election_candidate_list.html:17
-#: templates/core/issue_detail.html:76
-msgid "Vote"
-msgstr "Kjósa"
-
-#: templates/core/_election_candidate_list.html:25
-msgid "Drag candidates here."
-msgstr "Dragðu frambjóðendur hingað."
-
-#: templates/core/_election_candidate_list.html:27
-msgid "There are no candidates standing in this election yet!"
-msgstr "Það eru engir frambjóðendur í þessari kosningu ennþá!"
-
-#: templates/core/_election_list_table.html:8
-#, fuzzy
-msgid "You have voted in this election"
-msgstr "You have voted on this issue"
-
-#: templates/core/_election_list_table.html:8
-#, fuzzy
-msgid "You have not voted in this election"
-msgstr "You have not voted on this issue"
-
-#: templates/core/_election_list_table.html:11
-#: templates/core/election_list.html:25 templates/core/polity_detail.html:103
-#: templates/core/topic_detail.html:34
-msgid "Voting"
-msgstr "Í kosningu"
-
-#: templates/core/_election_list_table.html:11
-#: templates/core/election_list.html:25 templates/core/polity_detail.html:103
-#: templates/core/topic_detail.html:34
-msgid "Open"
-msgstr "Opið"
-
-#: templates/core/_election_list_table.html:11
-#: templates/core/election_list.html:25 templates/core/topic_detail.html:34
-msgid "Closed"
-msgstr "Lokað"
-
-#: templates/core/_topic_list_table.html:17
-msgid "There are no topics in this polity!"
-msgstr "Það eru engir málaflokkar á þessu þingi!"
-
-#: templates/core/_topic_list_table.html:18
-msgid "Start a new topic"
-msgstr "Stofna nýjan málaflokk"
-
-#: templates/core/delegate_detail.html:6
-#: templates/core/document_detail.html:14
-#: templates/core/election_detail.html:7 templates/core/election_list.html:8
-#: templates/core/issue_detail.html:6 templates/core/topic_detail.html:7
-#: templates/forum/discussion_detail.html:6
-#: templates/forum/forum_detail.html:7
-msgid "Back to polity"
-msgstr "Fara aftur í þing"
-
-#: templates/core/delegate_detail.html:8
-msgid "Delegation:"
-msgstr "Delegation:"
-
-#: templates/core/delegate_detail.html:8
-msgid "to"
-msgstr "to"
-
-#: templates/core/delegate_detail.html:13
-msgid "Stop delegating"
-msgstr "Stop delegating"
-
-#: templates/core/delegate_detail.html:14
-msgid "Change delegation"
-msgstr "Change delegation"
-
-#: templates/core/delegate_detail.html:33
-msgid "Delegation type"
-msgstr "Delegation type"
-
-#: templates/core/delegate_detail.html:37
-msgid "Delegated item"
-msgstr "Delegated item"
-
-#: templates/core/delegate_detail.html:41
-msgid "Delegated to user"
-msgstr "Delegated to user"
-
-#: templates/core/delegate_detail.html:45
-msgid "Resulting delegation"
-msgstr "Resulting delegation"
-
-#: templates/core/delegate_detail.html:54
-msgid "Pathway breakdown"
-msgstr "Pathway breakdown"
-
-#: templates/core/document_detail.html:8
-msgid "Withdraw proposal"
-msgstr "Draga tillögu til baka"
-
-#: templates/core/document_detail.html:10
-msgid "Propose this document"
-msgstr "Leggja fram sem tillögu"
-
-#: templates/core/document_detail.html:13
-msgid "Edit this document"
-msgstr "Breyta þessu skjali"
-
-#: templates/core/document_detail.html:22
-msgid "Assumptions"
-msgstr "Forsendur"
-
-#: templates/core/document_detail.html:36
-msgid "Declarations"
-msgstr "Ályktanir"
-
-#: templates/core/document_form.html:17
-msgid "New Document"
-msgstr "Nýtt skjal"
-
-#: templates/core/document_form.html:20
-msgid "In polity:"
-msgstr "Í þingi:"
-
-#: templates/core/document_form.html:29
-#: templates/core/document_update.html:121
-#: templates/core/election_form.html:37 templates/core/issue_form.html:32
-#: templates/core/polity_form.html:24 templates/core/topic_form.html:25
-#: templates/forum/discussion_form.html:16 templates/forum/forum_form.html:17
-#: templates/registration/password_change_form.html:21
-#: templates/registration/password_reset_confirm.html:14
-#: templates/settings.html:19
-msgid "Save"
-msgstr "Vista"
-
-#: templates/core/document_list.html:7 templates/core/polity_detail.html:68
-msgid "New document"
-msgstr "Nýtt skjal"
-
-#: templates/core/document_list.html:10 templates/core/polity_list.html:18
-#: templates/search.html:6
-msgid "Documents"
-msgstr "Skjöl"
-
-#: templates/core/document_update.html:15
-msgid "Change proposal must differ from its predecessor."
-msgstr "Breytingatillaga verður að vera öðruvísi en upprunatexti."
-
-#: templates/core/document_update.html:91
-msgid "Agreement"
-msgstr "Samþykkt"
-
-#: templates/core/document_update.html:93 templates/core/issue_detail.html:22
-msgid "Proposal"
-msgstr "Tillaga"
-
-#: templates/core/document_update.html:115
-#: templates/core/document_update.html:184
-#: templates/core/polity_detail.html:91 templates/core/topic_detail.html:23
-msgid "Comments"
-msgstr "Ummæli"
-
-#: templates/core/document_update.html:115
-msgid "optional"
-msgstr "valkvæmt"
-
-#: templates/core/document_update.html:120
-msgid "Preview"
-msgstr "Forskoða"
-
-#: templates/core/document_update.html:123
-msgid "Preview is required before saving"
-msgstr "Forskoða þarf skjal áður en það er vistað"
-
-#: templates/core/document_update.html:127
-#: templates/core/document_update.html:129
-#: templates/registration/password_change_form.html:20
-msgid "Cancel"
-msgstr "Hætta við"
-
-#: templates/core/document_update.html:136
-msgid "Propose change"
-msgstr "Stinga upp á breytingu"
-
-#: templates/core/document_update.html:141
-#: templates/core/document_update.html:143
-msgid "Put to vote"
-msgstr "Setja í kosningu"
-
-#: templates/core/document_update.html:162
-msgid "Referenced issue"
-msgstr "Tilheyrandi mál"
-
-#: templates/core/document_update.html:178
-msgid "Versions"
-msgstr "Útgáfur"
-
-#: templates/core/document_update.html:182
-msgid "Status"
-msgstr "Ástand"
-
-#: templates/core/document_update.html:183
-msgid "Author"
-msgstr "Höfundur"
-
-#: templates/core/document_update.html:202
-msgid "New draft"
-msgstr "Ný drög"
-
-#: templates/core/election_detail.html:9
-msgid "Election:"
-msgstr "Kosning:"
-
-#: templates/core/election_detail.html:12
-msgid "This election is closed."
-msgstr "Þessu máli er lokið."
-
-#: templates/core/election_detail.html:16
-#, fuzzy
-msgid "This election is delegated."
-msgstr "This topic is delegated."
-
-#: templates/core/election_detail.html:16 templates/core/topic_detail.html:12
-msgid "View details."
-msgstr "View details."
-
-#: templates/core/election_detail.html:26
-#: templates/core/election_detail.html:70 templates/core/election_list.html:18
-#: templates/core/issue_detail.html:42 templates/core/polity_detail.html:92
-#: templates/core/polity_detail.html:136 templates/core/topic_detail.html:24
-msgid "Votes"
-msgstr "Atkvæði"
-
-#: templates/core/election_detail.html:27
-#: templates/core/election_detail.html:80 templates/core/election_list.html:17
-#: templates/core/polity_detail.html:135
-msgid "Candidates"
-msgstr "Frambjóðendur"
-
-#: templates/core/election_detail.html:35
-msgid ""
-"You don't have to submit your vote; whatever is on your ballot when the vote "
-"deadline passes will be counted."
-msgstr ""
-"Það þarf ekki að skila inn atkvæði sérstaklega, heldur verður það talið eins "
-"og það lítur út þegar kosningunni lýkur. Þú getur því breytt röðun "
-"frambjóðenda eins oft og þú vilt fram að því að kosningafrestur rennur út."
-
-#: templates/core/election_detail.html:47
-msgid "Election results"
-msgstr "Niðurstöður kosningar"
-
-#: templates/core/election_detail.html:71 templates/core/issue_detail.html:77
+#: wasa2il/templates/base.html:91 wasa2il/templates/core/issue_detail.html:78
 msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 "Það kom upp villa við úrvinnslu atkvæðisins þíns. Vinsamlegast reyndu aftur."
 
-#: templates/core/election_detail.html:72
-msgid "Drag candidates to change order"
-msgstr "Dragðu frambjóðendur með músinni til að breyta röðun"
+#: wasa2il/templates/base.html:94
+msgid "Your votes have been submitted!"
+msgstr "Atkvæði þitt hefur verið móttekið!"
 
-#: templates/core/election_detail.html:80
-msgid "running in this election"
-msgstr "í þessari kosningu"
+#: wasa2il/templates/base.html:95
+msgid ""
+"You can continue adding, removing or reordering candidates until the "
+"deadline."
+msgstr ""
+"Þú getur haldið áfram að bæta við, fjarlægja eða umraða frambjóðendum þar "
+"til fresturinn rennur út."
 
-#: templates/core/election_detail.html:82
-msgid "Announce candidacy"
-msgstr "Tilkynna framboð"
+#: wasa2il/templates/base.html:98
+#: wasa2il/templates/core/election_detail.html:255
+msgid "Working..."
+msgstr "Sendi gögn..."
 
-#: templates/core/election_detail.html:83
-msgid "Withdraw candidacy"
-msgstr "Draga framboð til baka"
+#: wasa2il/templates/base.html:107 wasa2il/templates/help/is/agreement.html:6
+#: wasa2il/templates/help/is/authors.html:6
+#: wasa2il/templates/help/is/copyright.html:6
+#: wasa2il/templates/help/is/index.html:6
+#: wasa2il/templates/help/is/polity.html:6
+#: wasa2il/templates/help/is/proposal.html:6
+#: wasa2il/templates/help/is/wasa2il.html:6
+msgid "Help"
+msgstr "Hjálp"
 
-#: templates/core/election_form.html:30 templates/core/polity_detail.html:116
-msgid "New election"
-msgstr "Ný kosning"
+#: wasa2il/templates/base.html:113
+msgid "My profile"
+msgstr "Mín síða"
 
-#: templates/core/election_list.html:10
-msgid "Elections in polity"
-msgstr "Kosningar í þingi"
+#: wasa2il/templates/base.html:114
+msgid "My settings"
+msgstr "Stillingar"
 
-#: templates/core/election_list.html:15 templates/core/polity_detail.html:133
-msgid "Election"
-msgstr "Kosning"
+#: wasa2il/templates/base.html:116
+#: wasa2il/templates/registration/verification_needed.html:12
+msgid "Logout"
+msgstr "Útskrá"
 
-#: templates/core/election_list.html:16 templates/core/polity_detail.html:90
-#: templates/core/polity_detail.html:134 templates/core/topic_detail.html:22
-msgid "State"
-msgstr "Ástand"
+#: wasa2il/templates/base.html:120 wasa2il/templates/entry.html:17
+#: wasa2il/templates/registration/login.html:6
+#: wasa2il/templates/registration/password_reset_complete.html:9
+msgid "Log in"
+msgstr "Innskrá"
 
-#: templates/core/issue_detail.html:24
-msgid "In topics"
-msgstr "Í málaflokkum"
+#: wasa2il/templates/base.html:121 wasa2il/templates/entry.html:11
+#: wasa2il/templates/registration/login.html:23
+#: wasa2il/templates/registration/registration_form.html:6
+#: wasa2il/templates/registration/registration_form.html:26
+msgid "Sign up"
+msgstr "Nýskrá"
 
-#: templates/core/issue_detail.html:27
-msgid "Start time"
-msgstr "Upphafstími"
+#: wasa2il/templates/base.html:127
+msgid "Search agreements"
+msgstr "Leita í samþykktum"
 
-#: templates/core/issue_detail.html:29
-msgid "Deadline for discussion"
-msgstr "Tímamörk fyrir umræður"
+#: wasa2il/templates/base.html:139
+msgid "Back to top"
+msgstr "Fara efst"
 
-#: templates/core/issue_detail.html:32
-msgid "Deadline for proposals"
-msgstr "Tímamörk fyrir tillögur"
+#: wasa2il/templates/base.html:140
+msgid "About wasa2il"
+msgstr "Um wasa2il"
 
-#: templates/core/issue_detail.html:44 templates/core/issue_detail.html:79
-msgid "Yes"
-msgstr "Já"
+#: wasa2il/templates/base.html:141
+msgid "License"
+msgstr "Notandaleyfi"
 
-#: templates/core/issue_detail.html:45 templates/core/issue_detail.html:81
-msgid "No"
-msgstr "Nei"
+#: wasa2il/templates/base.html:143 wasa2il/templates/help/is/authors.html:6
+msgid "Authors"
+msgstr "Höfundar"
 
-#: templates/core/issue_detail.html:53
-msgid "Majority threshold"
-msgstr "Meirihlutaþröskuldur"
+#: wasa2il/templates/core/_delegations_table.html:4
+msgid "Type"
+msgstr "Tegund"
 
-#: templates/core/issue_detail.html:57
-#: templates/forum/discussion_detail.html:9
-msgid "Discussion"
-msgstr "Umræða"
+#: wasa2il/templates/core/_delegations_table.html:5
+msgid "Item"
+msgstr "Item"
 
-#: templates/core/issue_detail.html:67
-#: templates/forum/discussion_detail.html:23
-msgid "Add comment"
-msgstr "Bæta við ummælum"
+#: wasa2il/templates/core/_delegations_table.html:6
+msgid "To"
+msgstr "To"
 
-#: templates/core/issue_detail.html:76
-msgid "for or against this issue"
-msgstr "með eða á móti þessu máli"
+#: wasa2il/templates/core/_delegations_table.html:7
+#: wasa2il/templates/core/issue_detail.html:49
+msgid "Result"
+msgstr "Niðurstaða"
 
-#: templates/core/issue_detail.html:80
+#: wasa2il/templates/core/_delegations_table.html:8
+#: wasa2il/templates/core/_delegations_table.html:16
+#: wasa2il/templates/core/delegate_detail.html:29
+msgid "Details"
+msgstr "Upplýsingar"
+
+#: wasa2il/templates/core/_delegations_table.html:21
+msgid "There are no delegations"
+msgstr ""
+
+#: wasa2il/templates/core/_delegations_table.html:22
+msgid "What is a delegation?"
+msgstr ""
+
+#: wasa2il/templates/core/_document_agreement_list_table.html:4
+#: wasa2il/templates/core/_document_list_table.html:4
+#: wasa2il/templates/core/_document_proposals_list_table.html:4
+msgid "Document"
+msgstr "Skjal"
+
+#: wasa2il/templates/core/_document_agreement_list_table.html:7
+#: wasa2il/templates/core/issue_detail.html:81
 msgid "Abstain"
 msgstr "Sitja hjá"
 
-#: templates/core/issue_form.html:8
-msgid "version"
-msgstr "útgáfa"
+#: wasa2il/templates/core/_document_agreement_list_table.html:8
+msgid "Adopted"
+msgstr "Samþykkt"
 
-#: templates/core/issue_form.html:24
-msgid "New issue"
-msgstr "Nýtt mál"
+#: wasa2il/templates/core/_document_agreement_list_table.html:27
+msgid "This polity has no agreements."
+msgstr "Þetta þing hefur engar samþykktir."
 
-#: templates/core/polity_detail.html:9
-msgid "You are an officer in this polity."
-msgstr "Þú ert umsjónarmaður í þessu þingi."
+#: wasa2il/templates/core/_document_agreement_list_table.html:28
+#: wasa2il/templates/help/is/polity.html:119
+#: wasa2il/templates/help/is/proposal.html:64
+msgid "What is an agreement?"
+msgstr "Hvað er samþykkt?"
 
-#: templates/core/polity_detail.html:11
-msgid "You are a member of this polity."
-msgstr "Þú ert meðlimur þessa þings."
+#: wasa2il/templates/core/_document_list_table.html:5
+msgid "Adopted?"
+msgstr "Samþykkt?"
 
-#: templates/core/polity_detail.html:22
-msgid "topics"
-msgstr "málaflokkar"
+#: wasa2il/templates/core/_document_list_table.html:6
+msgid "Original author"
+msgstr "Upprunalegur höfundur"
 
-#: templates/core/polity_detail.html:23
-msgid "agreements"
-msgstr "samþykktir"
+#: wasa2il/templates/core/_document_list_table.html:7
+msgid "Contributors"
+msgstr "Þátttakendur"
 
-#: templates/core/polity_detail.html:24
-msgid "subpolities"
-msgstr "undirþing"
+#: wasa2il/templates/core/_document_list_table.html:8
+#: wasa2il/templates/core/_document_proposals_list_table.html:5
+msgid "Last edit"
+msgstr "Síðasta breyting"
 
-#: templates/core/polity_detail.html:35 templates/core/topic_form.html:17
-msgid "New topic"
-msgstr "Nýr málaflokkur"
+#: wasa2il/templates/core/_document_list_table.html:21
+#: wasa2il/templates/core/_document_proposals_list_table.html:17
+msgid "There are no documents here!"
+msgstr "Hér eru engin skjöl!"
 
-#: templates/core/polity_detail.html:39
-msgid "Show only starred topics"
-msgstr "Sýna bara stjörnumerkta málaflokka"
-
-#: templates/core/polity_detail.html:43
-msgid "of discussion"
-msgstr "til umræðu"
-
-#: templates/core/polity_detail.html:45
-msgid "Topics are thematic categories that contain specific issues."
-msgstr "Málaflokkar eru flokkar með þemu sem innihalda mál."
-
-#: templates/core/polity_detail.html:51 templates/core/topic_detail.html:21
-msgid "Issues"
-msgstr "Mál"
-
-#: templates/core/polity_detail.html:52
-msgid "Open Issues"
-msgstr "Opin mál"
-
-#: templates/core/polity_detail.html:53
-msgid "Voting Issues"
-msgstr "Mál í kosningu"
-
-#: templates/core/polity_detail.html:71 templates/help/is/agreement.html:6
-msgid "Agreements"
-msgstr "Samþykktir"
-
-#: templates/core/polity_detail.html:71
-msgid "of this polity"
-msgstr "þessa þings"
-
-#: templates/core/polity_detail.html:73
-msgid "Here are all of the agreements this polity has arrived at."
-msgstr "Hér eru allar samþykktir þessa þings."
-
-#: templates/core/polity_detail.html:82
-msgid "New issues"
-msgstr "Ný mál"
-
-#: templates/core/polity_detail.html:82
-msgid "in discussion"
-msgstr "til umræðu"
-
-#: templates/core/polity_detail.html:84
-msgid "These are the newest issues being discussed in this polity."
-msgstr "Þetta eru nýjustu málin til umræðu í þessu þingi."
-
-#: templates/core/polity_detail.html:100 templates/core/topic_detail.html:30
-msgid "You have voted on this issue"
-msgstr "Þú hefur greitt atkvæði í þessu máli"
-
-#: templates/core/polity_detail.html:100 templates/core/topic_detail.html:30
-msgid "You have not voted on this issue"
-msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
-
-#: templates/core/polity_detail.html:103
-msgid "New"
+#: wasa2il/templates/core/_document_modal.html:6
+#, python-format
+msgid "New %(type_name)s"
 msgstr ""
 
-#: templates/core/polity_detail.html:121
+#: wasa2il/templates/core/_document_modal.html:11
+msgid "Choose a document to reference"
+msgstr "Veldu skjal til að vísa í"
+
+#: wasa2il/templates/core/_document_modal.html:22
+msgid "Write assumption:"
+msgstr "Skrifaðu forsendu:"
+
+#: wasa2il/templates/core/_document_modal.html:41
+msgid "Statements:"
+msgstr "Statements:"
+
+#: wasa2il/templates/core/_document_modal.html:49
+#: wasa2il/templates/core/polity_detail.html:148
+#: wasa2il/templates/core/topic_detail.html:72
+#: wasa2il/templates/forum/forum_detail.html:48
+msgid "Close"
+msgstr "Loka"
+
+#: wasa2il/templates/core/_document_modal.html:50
+#, python-format
+msgid "Save %(type_name)s"
+msgstr ""
+
+#: wasa2il/templates/core/_document_proposals_list_table.html:6
+msgid "Actions"
+msgstr "Actions"
+
+#: wasa2il/templates/core/_document_proposals_list_table.html:12
+msgid "Propose"
+msgstr "Propose"
+
+#: wasa2il/templates/core/_documentsMenu.html:5
+msgid "Your Documents"
+msgstr "Skjölin þín"
+
+#: wasa2il/templates/core/_documentsMenu.html:19
+msgid "Proposed Documents"
+msgstr "Framlagðar tillögur"
+
+#: wasa2il/templates/core/_documentsMenu.html:33
+msgid "Adopted documents"
+msgstr "Samþykkt skjöl"
+
+#: wasa2il/templates/core/_election_candidate_list.html:23
+#: wasa2il/templates/core/issue_detail.html:77
+msgid "Vote"
+msgstr "Kjósa"
+
+#: wasa2il/templates/core/_election_candidate_list.html:34
+msgid "Your ballot is empty."
+msgstr "Kjörseðillinn er tómur."
+
+#: wasa2il/templates/core/_election_candidate_list.html:35
+msgid "Drag candidates here or click the vote buttons."
+msgstr "Dragðu frambjóðendur hingað eða smelltu á takka til að kjósa."
+
+#: wasa2il/templates/core/_election_candidate_list.html:38
+msgid "You have selected all the candidates, good work!"
+msgstr "Þú hefur raðað öllum á seðilinn, vel gert!"
+
+#: wasa2il/templates/core/_election_candidate_list.html:40
+msgid "There are no candidates standing in this election yet!"
+msgstr "Þessar kosningar hafa enga frambjóðendur enn sem komið er."
+
+#: wasa2il/templates/core/_election_list_table.html:8
+msgid "You have voted in this election"
+msgstr "Þú hefur greitt atkvæði í þessum kosningum"
+
+#: wasa2il/templates/core/_election_list_table.html:8
+msgid "You have not voted in this election"
+msgstr "Þú hefur ekki greitt atkvæði um þetta mál"
+
+#: wasa2il/templates/core/_election_list_table.html:11
+#: wasa2il/templates/core/election_list.html:25
+#: wasa2il/templates/core/issues_new.html:32
+#: wasa2il/templates/core/polity_detail.html:61
+#: wasa2il/templates/core/topic_detail.html:34
+msgid "Voting"
+msgstr "Í kosningu"
+
+#: wasa2il/templates/core/_election_list_table.html:11
+#: wasa2il/templates/core/election_list.html:25
+#: wasa2il/templates/core/issues_new.html:32
+#: wasa2il/templates/core/polity_detail.html:61
+#: wasa2il/templates/core/topic_detail.html:34
+msgid "Open"
+msgstr "Opið"
+
+#: wasa2il/templates/core/_election_list_table.html:11
+#: wasa2il/templates/core/election_list.html:25
+#: wasa2il/templates/core/topic_detail.html:34
+msgid "Closed"
+msgstr "Lokað"
+
+#: wasa2il/templates/core/_election_list_table.html:18
+msgid "No elections are scheduled at the moment."
+msgstr "Engar kosningar eru á dagskrá í augnablikinu."
+
+#: wasa2il/templates/core/_polity_detail_elections.html:8
+#: wasa2il/templates/core/election_form.html:28
+msgid "New election"
+msgstr "Ný kosning"
+
+#: wasa2il/templates/core/_polity_detail_elections.html:13
 msgid "Show closed elections"
 msgstr "Sýna liðnar kosningar"
 
-#: templates/core/polity_detail.html:122
+#: wasa2il/templates/core/_polity_detail_elections.html:14
 msgid "Show all elections"
 msgstr "Sýna allar kosningar"
 
-#: templates/core/polity_detail.html:126
+#: wasa2il/templates/core/_polity_detail_elections.html:18
+#: wasa2il/templates/core/polity_detail.html:25
 msgid "Elections"
 msgstr "Kosningar"
 
-#: templates/core/polity_detail.html:126
+#: wasa2il/templates/core/_polity_detail_elections.html:18
 msgid "putting people in power"
 msgstr "gefa fólki völd"
 
-#: templates/core/polity_detail.html:128
+#: wasa2il/templates/core/_polity_detail_elections.html:20
 msgid ""
 "Sometimes you need to put people in their places. Elections do just that."
 msgstr "Stundum þarf að setja fólk á sinn stað. Kosningar gera einmitt það."
 
-#: templates/core/polity_detail.html:155
+#: wasa2il/templates/core/_polity_detail_elections.html:25
+#: wasa2il/templates/core/election_list.html:15
+msgid "Election"
+msgstr "Kosning"
+
+#: wasa2il/templates/core/_polity_detail_elections.html:26
+#: wasa2il/templates/core/election_list.html:16
+#: wasa2il/templates/core/issues_new.html:19
+#: wasa2il/templates/core/polity_detail.html:48
+#: wasa2il/templates/core/topic_detail.html:22
+msgid "State"
+msgstr "Ástand"
+
+#: wasa2il/templates/core/_polity_detail_elections.html:27
+#: wasa2il/templates/core/election_detail.html:109
+#: wasa2il/templates/core/election_detail.html:252
+#: wasa2il/templates/core/election_list.html:17
+msgid "Candidates"
+msgstr "Frambjóðendur"
+
+#: wasa2il/templates/core/_polity_detail_elections.html:28
+#: wasa2il/templates/core/election_detail.html:111
+#: wasa2il/templates/core/election_detail.html:228
+#: wasa2il/templates/core/election_list.html:18
+#: wasa2il/templates/core/issue_detail.html:42
+#: wasa2il/templates/core/issues_new.html:21
+#: wasa2il/templates/core/polity_detail.html:50
+#: wasa2il/templates/core/topic_detail.html:24
+msgid "Votes"
+msgstr "Atkvæði"
+
+#: wasa2il/templates/core/_topic_list_table.html:19
+msgid "There are no topics in this polity!"
+msgstr "Það eru engir málaflokkar á þessu þingi!"
+
+#: wasa2il/templates/core/_topic_list_table.html:20
+msgid "Start a new topic"
+msgstr "Stofna nýjan málaflokk"
+
+#: wasa2il/templates/core/delegate_detail.html:6
+#: wasa2il/templates/core/document_detail.html:14
+#: wasa2il/templates/core/election_detail.html:32
+#: wasa2il/templates/core/election_list.html:8
+#: wasa2il/templates/core/issue_detail.html:6
+#: wasa2il/templates/core/issues_new.html:8
+#: wasa2il/templates/core/topic_detail.html:7
+#: wasa2il/templates/forum/discussion_detail.html:6
+#: wasa2il/templates/forum/forum_detail.html:7
+msgid "Back to polity"
+msgstr "Fara aftur í þing"
+
+#: wasa2il/templates/core/delegate_detail.html:8
+msgid "Delegation:"
+msgstr "Delegation:"
+
+#: wasa2il/templates/core/delegate_detail.html:8
+msgid "to"
+msgstr "to"
+
+#: wasa2il/templates/core/delegate_detail.html:13
+msgid "Stop delegating"
+msgstr "Stop delegating"
+
+#: wasa2il/templates/core/delegate_detail.html:14
+msgid "Change delegation"
+msgstr "Change delegation"
+
+#: wasa2il/templates/core/delegate_detail.html:33
+msgid "Delegation type"
+msgstr "Delegation type"
+
+#: wasa2il/templates/core/delegate_detail.html:37
+msgid "Delegated item"
+msgstr "Delegated item"
+
+#: wasa2il/templates/core/delegate_detail.html:41
+msgid "Delegated to user"
+msgstr "Delegated to user"
+
+#: wasa2il/templates/core/delegate_detail.html:45
+msgid "Resulting delegation"
+msgstr "Resulting delegation"
+
+#: wasa2il/templates/core/delegate_detail.html:54
+msgid "Pathway breakdown"
+msgstr "Pathway breakdown"
+
+#: wasa2il/templates/core/document_detail.html:8
+msgid "Withdraw proposal"
+msgstr "Draga tillögu til baka"
+
+#: wasa2il/templates/core/document_detail.html:10
+msgid "Propose this document"
+msgstr "Leggja fram sem tillögu"
+
+#: wasa2il/templates/core/document_detail.html:13
+msgid "Edit this document"
+msgstr "Breyta þessu skjali"
+
+#: wasa2il/templates/core/document_detail.html:22
+msgid "Assumptions"
+msgstr "Forsendur"
+
+#: wasa2il/templates/core/document_detail.html:36
+msgid "Declarations"
+msgstr "Ályktanir"
+
+#: wasa2il/templates/core/document_form.html:6
+msgid "New Document"
+msgstr "Nýtt skjal"
+
+#: wasa2il/templates/core/document_form.html:9
+msgid "In polity:"
+msgstr "Í þingi:"
+
+#: wasa2il/templates/core/document_form.html:18
+#: wasa2il/templates/core/document_update.html:121
+#: wasa2il/templates/core/election_form.html:35
+#: wasa2il/templates/core/issue_form.html:30
+#: wasa2il/templates/core/polity_form.html:13
+#: wasa2il/templates/core/topic_form.html:14
+#: wasa2il/templates/forum/discussion_form.html:16
+#: wasa2il/templates/forum/forum_form.html:17
+#: wasa2il/templates/registration/password_change_form.html:21
+#: wasa2il/templates/registration/password_reset_confirm.html:13
+#: wasa2il/templates/settings.html:19
+msgid "Save"
+msgstr "Vista"
+
+#: wasa2il/templates/core/document_list.html:7
+#: wasa2il/templates/core/polity_detail.html:83
+msgid "New document"
+msgstr "Nýtt skjal"
+
+#: wasa2il/templates/core/document_list.html:10
+#: wasa2il/templates/core/polity_list.html:18 wasa2il/templates/search.html:6
+msgid "Documents"
+msgstr "Skjöl"
+
+#: wasa2il/templates/core/document_update.html:15
+msgid "Change proposal must differ from its predecessor."
+msgstr "Breytingatillaga verður að vera öðruvísi en upprunatexti."
+
+#: wasa2il/templates/core/document_update.html:88
+msgid "Agreement"
+msgstr "Samþykkt"
+
+#: wasa2il/templates/core/document_update.html:90
+#: wasa2il/templates/core/issue_detail.html:22
+msgid "Proposal"
+msgstr "Tillaga"
+
+#: wasa2il/templates/core/document_update.html:115
+#: wasa2il/templates/core/document_update.html:192
+#: wasa2il/templates/core/issues_new.html:20
+#: wasa2il/templates/core/polity_detail.html:49
+#: wasa2il/templates/core/topic_detail.html:23
+msgid "Comments"
+msgstr "Ummæli"
+
+#: wasa2il/templates/core/document_update.html:115
+msgid "optional"
+msgstr "valkvæmt"
+
+#: wasa2il/templates/core/document_update.html:120
+msgid "Preview"
+msgstr "Forskoða"
+
+#: wasa2il/templates/core/document_update.html:123
+msgid "Preview is required before saving"
+msgstr "Forskoða þarf skjal áður en það er vistað"
+
+#: wasa2il/templates/core/document_update.html:127
+#: wasa2il/templates/core/document_update.html:129
+#: wasa2il/templates/registration/password_change_form.html:20
+msgid "Cancel"
+msgstr "Hætta við"
+
+#: wasa2il/templates/core/document_update.html:136
+msgid "Propose change"
+msgstr "Stinga upp á breytingu"
+
+#: wasa2il/templates/core/document_update.html:141
+#: wasa2il/templates/core/document_update.html:143
+msgid "Edit proposal"
+msgstr "Breyta tillögu"
+
+#: wasa2il/templates/core/document_update.html:149
+#: wasa2il/templates/core/document_update.html:151
+msgid "Put to vote"
+msgstr "Setja í kosningu"
+
+#: wasa2il/templates/core/document_update.html:170
+msgid "Referenced issue"
+msgstr "Tilheyrandi mál"
+
+#: wasa2il/templates/core/document_update.html:186
+msgid "Versions"
+msgstr "Útgáfur"
+
+#: wasa2il/templates/core/document_update.html:190
+msgid "Status"
+msgstr "Ástand"
+
+#: wasa2il/templates/core/document_update.html:191
+msgid "Author"
+msgstr "Höfundur"
+
+#: wasa2il/templates/core/document_update.html:210
+msgid "New draft"
+msgstr "Ný drög"
+
+#: wasa2il/templates/core/election_detail.html:34
+msgid "Election:"
+msgstr "Kosning:"
+
+#: wasa2il/templates/core/election_detail.html:38
+msgid "This election is closed."
+msgstr "Þessu máli er lokið."
+
+#: wasa2il/templates/core/election_detail.html:39
+#, python-format
+msgid ""
+"\n"
+"    You ended up in %(user_result)s. place.\n"
+"  "
+msgstr ""
+"\n"
+"Þú lentir í %(user_result)s. sæti."
+
+#: wasa2il/templates/core/election_detail.html:45
+msgid "You cannot vote in this election:"
+msgstr "Þú getur ekki kosið í þessum kosningum:"
+
+#: wasa2il/templates/core/election_detail.html:47
+#: wasa2il/templates/core/election_detail.html:60
+msgid "Please log in."
+msgstr "Vinsamlegast skráðu þig inn."
+
+#: wasa2il/templates/core/election_detail.html:49
+msgid "You joined the organization too late."
+msgstr "Það er of stutt síðan þú gekkst í félagið."
+
+#: wasa2il/templates/core/election_detail.html:51
+#: wasa2il/templates/core/election_detail.html:62
+msgid "You are not a member of this polity."
+msgstr "Þú ert ekki meðlimur þessa þings."
+
+#: wasa2il/templates/core/election_detail.html:53
+#: wasa2il/templates/core/election_detail.html:64
+msgid "You do not meet the requirements."
+msgstr "Þú uppfyllir ekki skilyrðin."
+
+#: wasa2il/templates/core/election_detail.html:58
+msgid "You cannot run in this election:"
+msgstr "Þú getur ekki farið fram í þessum kosningum:"
+
+#: wasa2il/templates/core/election_detail.html:71
+msgid "This election is delegated."
+msgstr ""
+
+#: wasa2il/templates/core/election_detail.html:71
+#: wasa2il/templates/core/topic_detail.html:12
+msgid "View details."
+msgstr "Birta smáatriði."
+
+#: wasa2il/templates/core/election_detail.html:83
+msgid "Voting begins"
+msgstr "Upphaf kosninga"
+
+#: wasa2il/templates/core/election_detail.html:90
+msgid "Candidacy polities"
+msgstr "Þing frambjóðenda"
+
+#: wasa2il/templates/core/election_detail.html:91
+msgid "You can run"
+msgstr "Mátt bjóða fram"
+
+#: wasa2il/templates/core/election_detail.html:95
+msgid "Voting polities"
+msgstr "Þing kjósenda"
+
+#: wasa2il/templates/core/election_detail.html:96
+msgid "You can vote"
+msgstr "Mátt kjósa"
+
+#: wasa2il/templates/core/election_detail.html:101
+msgid "Details ..."
+msgstr "Upplýsingar ..."
+
+#: wasa2il/templates/core/election_detail.html:113
+msgid "Shortest ballot length"
+msgstr "Lengd stystu kjörseðla"
+
+#: wasa2il/templates/core/election_detail.html:115
+#: wasa2il/templates/core/election_detail.html:123
+#: wasa2il/templates/core/election_detail.html:128
+msgid "ballots"
+msgstr "kjörseðlar"
+
+#: wasa2il/templates/core/election_detail.html:118
+msgid "Average ballot length"
+msgstr "Meðallengd kjörseðla"
+
+#: wasa2il/templates/core/election_detail.html:121
+msgid "Longest ballot length"
+msgstr "Lengd lengstu kjörseðla"
+
+#: wasa2il/templates/core/election_detail.html:126
+msgid "Most common ballot length"
+msgstr "Algengasta lengd kjörseðla"
+
+#: wasa2il/templates/core/election_detail.html:131
+msgid "Ballot lengths"
+msgstr "Lengd kjörseðla"
+
+#: wasa2il/templates/core/election_detail.html:150
+#: wasa2il/templates/core/election_detail.html:234
+msgid "About This Election"
+msgstr "Um Þessar Kosningar"
+
+#: wasa2il/templates/core/election_detail.html:159
+msgid "Election results"
+msgstr "Niðurstöður kosningar"
+
+#: wasa2il/templates/core/election_detail.html:170
+msgid "Vote statistics"
+msgstr "Kosningatölfræði"
+
+#: wasa2il/templates/core/election_detail.html:173
+msgid "votes"
+msgstr "atkvæði"
+
+#: wasa2il/templates/core/election_detail.html:180
+msgid "for your eyes only"
+msgstr "bara fyrir þig"
+
+#: wasa2il/templates/core/election_detail.html:192
+msgid "No votes were cast."
+msgstr "Engin atkvæði voru greidd."
+
+#: wasa2il/templates/core/election_detail.html:196
+msgid "Votes are still being counted."
+msgstr "Enn er verið að telja atkvæðin."
+
+#: wasa2il/templates/core/election_detail.html:206
+msgid "Download detailed statistics as:"
+msgstr "Hala niður tölfræði sem:"
+
+#: wasa2il/templates/core/election_detail.html:212
+msgid "Downloads include rankings, pairwise victories and ballot counts."
+msgstr "Tölfræðiniðurhal inniheldur raðtölur, vinninga og tölfræði kjörseðla."
+
+#: wasa2il/templates/core/election_detail.html:213
+#, python-format
+msgid ""
+"\n"
+"                 Details below %(limit)s. place are omitted except for\n"
+"                 the candidates themselves and members of staff.\n"
+"            "
+msgstr ""
+"\n"
+"Tölfræði eftir %(limit)s. sæti er sleppt, nema hjá frambjóðendum sjálfum og "
+"starfsfólki."
+
+#: wasa2il/templates/core/election_detail.html:228
+msgid "your favorites first!"
+msgstr "uppáhaldin þín efst!"
+
+#: wasa2il/templates/core/election_detail.html:237
+msgid "How To Vote"
+msgstr "Hvernig Skal Kjósa"
+
+#: wasa2il/templates/core/election_detail.html:239
+msgid "Click the Start Voting button to begin"
+msgstr "Smelltu á Opna Kjörseðil hnappinn til að byrja"
+
+#: wasa2il/templates/core/election_detail.html:240
+msgid "Click a Vote button to vote for a candidate"
+msgstr "Smelltu á Kjósa hnapp til að kjósa frambjóðanda"
+
+#: wasa2il/templates/core/election_detail.html:241
+msgid "Click the arrows to move your favorite candidates to the top"
+msgstr "Smelltu á örvarnar til að raða bestu frambjóðendunum í efstu sætin"
+
+#: wasa2il/templates/core/election_detail.html:242
+msgid "Your vote will be counted when the deadline has passed"
+msgstr "Atkvæði þitt verður talið þegar fresturinn rennur út"
+
+#: wasa2il/templates/core/election_detail.html:245
+msgid "Start Voting"
+msgstr "Opna Kjörseðil"
+
+#: wasa2il/templates/core/election_detail.html:252
+msgid "running in this election"
+msgstr "í þessari kosningu"
+
+#: wasa2il/templates/core/election_detail.html:257
+msgid "Announce candidacy"
+msgstr "Tilkynna framboð"
+
+#: wasa2il/templates/core/election_detail.html:260
+msgid "Are you sure you want to withdraw? This can not be undone."
+msgstr "Ertu viss um að draga framboð þitt til baka? Það er óafturkræft."
+
+#: wasa2il/templates/core/election_detail.html:262
+msgid "Withdraw candidacy"
+msgstr "Draga framboð til baka"
+
+#: wasa2il/templates/core/election_list.html:10
+msgid "Elections in polity"
+msgstr "Kosningar í þingi"
+
+#: wasa2il/templates/core/issue_detail.html:24
+msgid "In topics"
+msgstr "Í málaflokkum"
+
+#: wasa2il/templates/core/issue_detail.html:27
+msgid "Start time"
+msgstr "Upphafstími"
+
+#: wasa2il/templates/core/issue_detail.html:29
+msgid "Deadline for discussion"
+msgstr "Tímamörk fyrir umræður"
+
+#: wasa2il/templates/core/issue_detail.html:32
+msgid "Deadline for proposals"
+msgstr "Tímamörk fyrir tillögur"
+
+#: wasa2il/templates/core/issue_detail.html:53
+msgid "Majority threshold"
+msgstr "Meirihlutaþröskuldur"
+
+#: wasa2il/templates/core/issue_detail.html:57
+#: wasa2il/templates/forum/discussion_detail.html:9
+msgid "Discussion"
+msgstr "Umræða"
+
+#: wasa2il/templates/core/issue_detail.html:68
+#: wasa2il/templates/forum/discussion_detail.html:23
+msgid "Add comment"
+msgstr "Bæta við ummælum"
+
+#: wasa2il/templates/core/issue_detail.html:77
+msgid "for or against this issue"
+msgstr "með eða á móti þessu máli"
+
+#: wasa2il/templates/core/issue_form.html:8
+msgid "version"
+msgstr "útgáfa"
+
+#: wasa2il/templates/core/issue_form.html:22
+msgid "New issue"
+msgstr "Nýtt mál"
+
+#: wasa2il/templates/core/issues_new.html:10
+#: wasa2il/templates/core/polity_detail.html:22
+#: wasa2il/templates/core/polity_detail.html:40
+msgid "New issues"
+msgstr "Ný mál"
+
+#: wasa2il/templates/core/issues_new.html:10
+#: wasa2il/templates/core/polity_detail.html:40
+msgid "in discussion"
+msgstr "til umræðu"
+
+#: wasa2il/templates/core/issues_new.html:11
+#: wasa2il/templates/core/polity_detail.html:42
+msgid "These are the newest issues being discussed in this polity."
+msgstr "Þetta eru nýjustu málin til umræðu í þessu þingi."
+
+#: wasa2il/templates/core/issues_new.html:29
+#: wasa2il/templates/core/polity_detail.html:58
+#: wasa2il/templates/core/topic_detail.html:30
+msgid "You have voted on this issue"
+msgstr "Þú hefur greitt atkvæði í þessu máli"
+
+#: wasa2il/templates/core/issues_new.html:29
+#: wasa2il/templates/core/polity_detail.html:58
+#: wasa2il/templates/core/topic_detail.html:30
+msgid "You have not voted on this issue"
+msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
+
+#: wasa2il/templates/core/issues_new.html:32
+#: wasa2il/templates/core/polity_detail.html:61
+msgid "New"
+msgstr ""
+
+#: wasa2il/templates/core/polity_detail.html:9
+msgid "You are an officer in this polity."
+msgstr "Þú ert umsjónarmaður í þessu þingi."
+
+#: wasa2il/templates/core/polity_detail.html:11
+msgid "You are a member of this polity."
+msgstr "Þú ert meðlimur þessa þings."
+
+#: wasa2il/templates/core/polity_detail.html:23
+#: wasa2il/templates/core/polity_detail.html:86
+#: wasa2il/templates/help/is/agreement.html:6
+msgid "Agreements"
+msgstr "Samþykktir"
+
+#: wasa2il/templates/core/polity_detail.html:36
+msgid "Show all new issues"
+msgstr "Sýna öll ný mál"
+
+#: wasa2il/templates/core/polity_detail.html:68
+msgid "There are no new issues at the moment."
+msgstr "Engin nýleg mál eru til umræðu í augnabliknu."
+
+#: wasa2il/templates/core/polity_detail.html:86
+msgid "of this polity"
+msgstr "þessa þings"
+
+#: wasa2il/templates/core/polity_detail.html:88
+msgid "Here are all of the agreements this polity has arrived at."
+msgstr "Hér eru allar samþykktir þessa þings."
+
+#: wasa2il/templates/core/polity_detail.html:99
+#: wasa2il/templates/core/topic_form.html:6
+msgid "New topic"
+msgstr "Nýr málaflokkur"
+
+#: wasa2il/templates/core/polity_detail.html:103
+msgid "Show only starred topics"
+msgstr "Sýna bara stjörnumerkta málaflokka"
+
+#: wasa2il/templates/core/polity_detail.html:107
+msgid "of discussion"
+msgstr "til umræðu"
+
+#: wasa2il/templates/core/polity_detail.html:109
+msgid "Topics are thematic categories that contain specific issues."
+msgstr "Málaflokkar eru flokkar með þemu sem innihalda mál."
+
+#: wasa2il/templates/core/polity_detail.html:115
+#: wasa2il/templates/core/topic_detail.html:21
+msgid "Issues"
+msgstr "Mál"
+
+#: wasa2il/templates/core/polity_detail.html:116
+msgid "Open Issues"
+msgstr "Opin mál"
+
+#: wasa2il/templates/core/polity_detail.html:117
+msgid "Voting Issues"
+msgstr "Mál í kosningu"
+
+#: wasa2il/templates/core/polity_detail.html:138
 msgid "Subpolities"
 msgstr "Undirþing"
 
-#: templates/core/polity_form.html:17 templates/core/polity_list.html:8
+#: wasa2il/templates/core/polity_form.html:6
+#: wasa2il/templates/core/polity_list.html:8
 msgid "New polity"
 msgstr "Nýtt þing"
 
-#: templates/core/polity_list.html:12 templates/help/is/polity.html:6
+#: wasa2il/templates/core/polity_list.html:12
+#: wasa2il/templates/help/is/polity.html:6
 msgid "Polities"
 msgstr "Þing"
 
-#: templates/core/stub/document_view.html:14
-#: templates/core/stub/document_view.html:85
+#: wasa2il/templates/core/stub/document_view.html:14
+#: wasa2il/templates/core/stub/document_view.html:85
 msgid "Comparison"
 msgstr "Samanburður"
 
-#: templates/core/stub/document_view.html:15
+#: wasa2il/templates/core/stub/document_view.html:15
 msgid "Comparison in progress..."
 msgstr "Samanburður í vinnslu..."
 
-#: templates/core/stub/document_view.html:84
-msgid "Text"
-msgstr ""
-
-#: templates/core/stub/document_view.html:89
+#: wasa2il/templates/core/stub/document_view.html:89
 msgid "Compared to"
 msgstr "Samanborið við"
 
-#: templates/core/stub/document_view.html:93
-#: templates/core/stub/document_view.html:95 templates/profile.html:61
+#: wasa2il/templates/core/stub/document_view.html:93
+#: wasa2il/templates/core/stub/document_view.html:95
+#: wasa2il/templates/profile.html:55
 msgid "Version"
 msgstr "Útgáfa"
 
-#: templates/core/stub/document_view.html:93
-#: templates/core/stub/document_view.html:95
+#: wasa2il/templates/core/stub/document_view.html:93
+#: wasa2il/templates/core/stub/document_view.html:95
 msgid "predecessor"
 msgstr "fyrirrennari"
 
-#: templates/core/stub/documentcontent_status.html:9
+#: wasa2il/templates/core/stub/documentcontent_status.html:9
 msgid "This proposal has been accepted by vote."
 msgstr "Tillaga þessi hefur verið samþykkt með atkvæðagreiðslu."
 
-#: templates/core/stub/documentcontent_status.html:11
+#: wasa2il/templates/core/stub/documentcontent_status.html:11
 msgid ""
 "This content is still merely a proposal and has not yet been accepted by "
 "vote."
@@ -899,98 +2217,88 @@ msgstr ""
 "Enn er þetta einungis tillaga sem hefur ekki verið samþykkt með "
 "atkvæðagreiðslu."
 
-#: templates/core/stub/documentcontent_status.html:13
+#: wasa2il/templates/core/stub/documentcontent_status.html:13
 msgid "This proposal has been rejected by vote."
 msgstr "Tillögu þessari hefur verið hafnað með atkvæðagreiðslu."
 
-#: templates/core/stub/documentcontent_status.html:15
+#: wasa2il/templates/core/stub/documentcontent_status.html:15
 msgid "This proposal is deprecated. A newer version has taken effect."
 msgstr "Þessi tillaga er úreld. Nýrri útgáfa hefur tekið gildi."
 
-#: templates/core/topic_detail.html:12
+#: wasa2il/templates/core/topic_detail.html:12
 msgid "This topic is delegated."
 msgstr "This topic is delegated."
 
-#: templates/core/topic_detail.html:18
+#: wasa2il/templates/core/topic_detail.html:18
 msgid "List of issues"
 msgstr "Málalisti"
 
-#: templates/core/topic_detail.html:43
+#: wasa2il/templates/core/topic_detail.html:43
 msgid "New discussions"
 msgstr "Nýjar umræður"
 
-#: templates/core/topic_detail.html:48
+#: wasa2il/templates/core/topic_detail.html:48
 msgid "in"
 msgstr "í"
 
-#: templates/core/topic_detail.html:60
+#: wasa2il/templates/core/topic_detail.html:60
 msgid "Followers of this topic"
 msgstr "Fylgjendur þessa málaflokks"
 
-#: templates/entry.html:12
+#: wasa2il/templates/entry.html:12
 msgid "In order to use Wasa2il you need to register an account."
 msgstr "Til að nota Wasa2il þarftu að skrá notandaaðgang."
 
-#: templates/entry.html:18
+#: wasa2il/templates/entry.html:18
 msgid "If you log in, you can participate in your polities."
 msgstr "Ef þú skráir þig inn þá getur þú tekið þátt í þínum þingum."
 
-#: templates/entry.html:23
+#: wasa2il/templates/entry.html:23
 msgid "Browse Polities"
 msgstr "Skoða þing"
 
-#: templates/entry.html:24
+#: wasa2il/templates/entry.html:24
 msgid "You can browse publicly visible polities without registering."
 msgstr "Þú getur skoðað þing, sem eru opin öllum án þess að skrá þig inn."
 
-#: templates/forum/discussion_detail.html:7
-#, fuzzy
+#: wasa2il/templates/forum/discussion_detail.html:7
 msgid "Back to forum"
-msgstr "Fara efst"
+msgstr ""
 
-#: templates/forum/discussion_detail.html:12
-#, fuzzy
+#: wasa2il/templates/forum/discussion_detail.html:12
 msgid "This discussion is closed."
 msgstr "Þessi umræða er lokuð."
 
-#: templates/forum/discussion_form.html:5 templates/forum/forum_form.html:5
-#, fuzzy
+#: wasa2il/templates/forum/discussion_form.html:5
+#: wasa2il/templates/forum/forum_form.html:5
 msgid "New forum"
-msgstr "Nýtt skjal"
+msgstr ""
 
-#: templates/forum/forum_detail.html:8
-#, fuzzy
+#: wasa2il/templates/forum/forum_detail.html:8
 msgid "New discussion"
 msgstr "Ný umræða"
 
-#: templates/forum/forum_detail.html:10
+#: wasa2il/templates/forum/forum_detail.html:10
 msgid "Forum:"
 msgstr ""
 
-#: templates/forum/forum_detail.html:15
-#, fuzzy
+#: wasa2il/templates/forum/forum_detail.html:15
 msgid "Discussions"
 msgstr "Umræður"
 
-#: templates/forum/forum_detail.html:19
-msgid "Messages"
-msgstr ""
-
-#: templates/forum/forum_detail.html:20
+#: wasa2il/templates/forum/forum_detail.html:20
 msgid "Participants"
 msgstr ""
 
-#: templates/forum/forum_detail.html:36
-#, fuzzy
+#: wasa2il/templates/forum/forum_detail.html:36
 msgid "Followers of this forum"
-msgstr "Followers of this topic"
+msgstr ""
 
-#: templates/forum/forum_form.html:16
+#: wasa2il/templates/forum/forum_form.html:16
 msgid "Name:"
 msgstr ""
 
-#: templates/help/is/agreement.html:8
-#, fuzzy
+#: wasa2il/templates/help/is/agreement.html:8
 msgid ""
 "\n"
 "<p>\n"
@@ -1078,178 +2386,80 @@ msgid ""
 "</div>\n"
 "</p>\n"
 msgstr ""
-"\n"
-"<p>\n"
-"<a href=\"/help/polity/\">Polities</a> are groups of people who come "
-"together to make decisions and enact their will.\n"
-"The decisions they make collectively are <b>agreements</b>. An agreement is "
-"generally made about a document, which\n"
-"generally consists of a list of statements which the members of the polity "
-"generally agree to.\n"
-"</p>\n"
-"<p>\n"
-"There's a lot of \"generally\" in there, because different polities do "
-"things in different ways.\n"
-"</p>\n"
-"<h3>Conditions of adoption</h3>\n"
-"<p>\n"
-"Depending on the rules of the polity, different conditions may apply to how "
-"an agreement gets accepted.\n"
-"When an agreement has been accepted under the rules of a polity, it is "
-"normally said that it has been \"adopted\".\n"
-"In the most simple approach, if more than half of the members of the polity "
-"who participate in a vote on the matter\n"
-"agree, then the relevant document gets adopted.\n"
-"</p>\n"
-"<p>More complicated methods might require consensus (everybody agrees), some "
-"other amount of support (say, 2/3), or\n"
-"there could be a minimum number of members required to cast votes in order "
-"for it to be adopted.\n"
-"</p>\n"
-"<p>A more obscure, but interesting condition, is \"rolling adoption\" - that "
-"at every point in time, enough\n"
-"members of the polity must accept the document for it to remain adopted, "
-"otherwise it becomes \"unadopted\".\n"
-"This requires that new members go through previous agreements and acccept or "
-"reject them, otherwise they\n"
-"might simply be aged out of the polity.\n"
-"</p>\n"
-"<h3>Document structure</h3>\n"
-"<p>\n"
-"Depending on the rules of the polity, an agreement document may have very "
-"varying structure. A common example for international treaties is that "
-"documents\n"
-"consist of references to previous agreements, followed by a list of "
-"assumptions made by the authors of the agreement, followed by a list of "
-"declarations\n"
-"which the signatory polities agree to. <a href=\"http://www.europarl.europa."
-"eu/sides/getDoc.do?pubRef=-//EP//NONSGML+WDECL+P7-DCL-2010-0047+0+DOC+PDF"
-"+V0//EN&language=EN\">Here is a delightful example</a> - hover over "
-"different parts to see what they're for.\n"
-"<div style=\"margin: 20px; margin-left:  50px; width: 500px; padding: 30px; "
-"border: 1px solid #000;\">\n"
-"\\\\\\\\t<p><b>0047/2010</b></p>\n"
-"\\\\\\\\t<p id=\"expl_title\"><b>Written declaration on the establishment of "
-"European Home-Made Ice Cream Day</b></p>\n"
-"\\\\\\\\t<p id=\"expl_polity\"><i>The European Parliament,</i></p>\n"
-"\\\\\\\\t<p id=\"expl_reference\">&mdash;&nbsp;&nbsp; having regard to Rule "
-"123 of its Rules of Procedure,</p>\n"
-"\\\\\\\\t<ol type=\"A\" id=\"expl_assumptions\">\n"
-"\\\\\\\\t\\\\\\\\t<li>whereas the quality of food is a distinctive feature "
-"of European products and home-made ice cream is synonymous \n"
-"\\\\\\\\t\\\\\\\\twith quality as far as fresh dairy products are concerned,"
-"</li>\n"
-"\\\\\\\\t\\\\\\\\t<li>whereas in some areas home-made ice cream is a typical "
-"food product in the fresh dairy \n"
-"product category and can therefore contribute to the development of such "
-"areas,</li>\n"
-"\\\\\\\\t\\\\\\\\t<li>whereas turnover in the home-made ice cream industry "
-"in Europe and in other countries is \n"
-"continually on the rise, employing an ever increasing number of workers in "
-"the sector,</li>\n"
-"\\\\\\\\t</ol>\n"
-"\\\\\\\\t<ol id=\"expl_declarations\">\n"
-"\\\\\\\\t\\\\\\\\t<li>Calls on the Member States to support the quality "
-"product that is home-made ice cream as \n"
-"an area of competitiveness for our economies, an important choice to back "
-"given the \n"
-"current crisis affecting the dairy sector;</li>\n"
-"\\\\\\\\t\\\\\\\\t<li>Considers it important, to that end, to establish "
-"European Home-Made Ice Cream Day, to \n"
-"be celebrated on 24 March, to contribute to the growth of this industry;</"
-"li>\n"
-"\\\\\\\\t\\\\\\\\t<li>Instructs its President to forward this declaration, "
-"together with the names of the \n"
-"signatories, to the governments and parliaments of the Member States.</li>\n"
-"\\\\\\\\t</ol>\n"
-"</div>\n"
-"</p>\n"
 
-#: templates/help/is/agreement.html:64
+#: wasa2il/templates/help/is/agreement.html:64
 msgid "The title"
 msgstr "Fyrirsögnin"
 
-#: templates/help/is/agreement.html:64
+#: wasa2il/templates/help/is/agreement.html:64
 msgid ""
 "Agreements may have various forms of reference. One is a reference number, "
 "which should be unique and cannonical. Another is a human readable title "
 "that is descriptive. Some polities might choose not to use either one, but "
 "rules around this should generally be decided on."
 msgstr ""
-"Agreements may have various forms of reference. One is a reference number, "
-"which should be unique and cannonical. Another is a human readable title "
-"that is descriptive. Some polities might choose not to use either one, but "
-"rules around this should generally be decided on."
 
-#: templates/help/is/agreement.html:65
+#: wasa2il/templates/help/is/agreement.html:65
 msgid "The polity"
 msgstr "Þingið"
 
-#: templates/help/is/agreement.html:65
+#: wasa2il/templates/help/is/agreement.html:65
 msgid ""
 "Many polities make sure that their agreements contain their name, so as not "
 "to be confusing."
 msgstr ""
-"Many polities make sure that their agreements contain their name, so as not "
-"to be confusing."
 
-#: templates/help/is/agreement.html:66
+#: wasa2il/templates/help/is/agreement.html:66
 msgid "References section"
 msgstr "Tilvísanasvæðið"
 
-#: templates/help/is/agreement.html:66
+#: wasa2il/templates/help/is/agreement.html:66
 msgid ""
 "In the references section, a polity may choose to include references to "
 "previous agreements, or articles in those agreements."
 msgstr ""
-"In the references section, a polity may choose to include references to "
-"previous agreements, or articles in those agreements."
 
-#: templates/help/is/agreement.html:67
+#: wasa2il/templates/help/is/agreement.html:67
 msgid "Assumptions section"
 msgstr "Forsendusvæðið"
 
-#: templates/help/is/agreement.html:67
+#: wasa2il/templates/help/is/agreement.html:67
 msgid ""
 "The assumptions section generally contains a list of assumptions that are "
 "being made. Often these are factual references, or slightly more oblique "
 "references to previous decisions. Sometimes they're bizzarre statements of "
 "opinion, or even, if used incorrectly, declarations of their own right."
 msgstr ""
-"The assumptions section generally contains a list of assumptions that are "
-"being made. Often these are factual references, or slightly more oblique "
-"references to previous decisions. Sometimes they're bizzarre statements of "
-"opinion, or even, if used incorrectly, declarations of their own right."
 
-#: templates/help/is/agreement.html:68
+#: wasa2il/templates/help/is/agreement.html:68
 msgid "Declarations section"
 msgstr "Fullyrðingasvæðið"
 
-#: templates/help/is/agreement.html:68
+#: wasa2il/templates/help/is/agreement.html:68
 msgid ""
 "This is the meat of the agreement. It contains one or more statements which "
 "are considered to be agreed upon by the polity when the document is adopted. "
 "One might even call this the law."
 msgstr ""
-"This is the meat of the agreement. It contains one or more statements which "
-"are considered to be agreed upon by the polity when the document is adopted. "
-"One might even call this the law."
 
-#: templates/help/is/agreement.html:71 templates/help/is/polity.html:117
-#: templates/help/is/proposal.html:62
+#: wasa2il/templates/help/is/agreement.html:71
+#: wasa2il/templates/help/is/polity.html:117
+#: wasa2il/templates/help/is/proposal.html:62
 msgid "Related help pages"
 msgstr "Tengdar hjálparsíður"
 
-#: templates/help/is/agreement.html:73
+#: wasa2il/templates/help/is/agreement.html:73
 msgid "How does one make a proposal?"
 msgstr "Hvernig leggur maður fram tillögu?"
 
-#: templates/help/is/agreement.html:74 templates/help/is/index.html:13
-#: templates/help/is/polity.html:120 templates/help/is/proposal.html:65
+#: wasa2il/templates/help/is/agreement.html:74
+#: wasa2il/templates/help/is/index.html:13
+#: wasa2il/templates/help/is/polity.html:120
+#: wasa2il/templates/help/is/proposal.html:65
 msgid "How does electronic democracy work?"
 msgstr "Hvernig virkar rafrænt lýðræði?"
 
-#: templates/help/is/authors.html:8
+#: wasa2il/templates/help/is/authors.html:8
 msgid ""
 "\n"
 "<h2>Developers:</h2>\n"
@@ -1258,6 +2468,7 @@ msgid ""
 "        <li>Tómas Árni Jónasson</li>\n"
 "        <li>Helgi Hrafn Gunnarsson</li>\n"
 "        <li>Björn Leví Gunnarsson</li>\n"
+"        <li>Bjarni Rúnar Einarsson</li>\n"
 "</ul>\n"
 "<h3>Contributors:</h3>\n"
 "<ul>\n"
@@ -1266,6 +2477,10 @@ msgid ""
 "        <li>Zineb Belmkaddem</li>\n"
 "        <li>Þórgnýr Thoroddssen</li>\n"
 "        <li>Stefán Vignir Skarphéðinsson</li>\n"
+"        <li>Jóhann Haukur Gunnarsson</li>\n"
+"        <li>Steinn Eldjárn Sigurðarson</li>\n"
+"        <li>Björgvin Ragnarsson</li>\n"
+"        <li>Viktor Smári</li>\n"
 "</ul>\n"
 "\n"
 "<h2>Translations:</h2>\n"
@@ -1278,7 +2493,7 @@ msgid ""
 "\n"
 "<h3>Icelandic:</h3>\n"
 "<ul>\n"
-"        <li>Eva Þurríðardóttir</li>\n"
+"        <li>Eva Þuríðardóttir</li>\n"
 "        <li>Smári McCarthy</li>\n"
 "        <li>Tómas Árni Jónasson</li>\n"
 "</ul>\n"
@@ -1290,18 +2505,18 @@ msgid ""
 "</ul>\n"
 msgstr ""
 
-#: templates/help/is/copyright.html:6
+#: wasa2il/templates/help/is/copyright.html:6
 msgid "Copyright"
 msgstr ""
 
-#: templates/help/is/copyright.html:8
+#: wasa2il/templates/help/is/copyright.html:8
 msgid ""
 "\n"
 "This is free software, licensed under the GNU Affero General Public "
 "License.\n"
 msgstr ""
 
-#: templates/help/is/index.html:8
+#: wasa2il/templates/help/is/index.html:8
 msgid ""
 "Hello! Welcome to the Wasa2il help system. Here we will try to help you with "
 "all of the problems you might run into when using a direct democracy system."
@@ -1309,7 +2524,7 @@ msgstr ""
 "Hello! Welcome to the Wasa2il help system. Here we will try to help you with "
 "all of the problems you might run into when using a direct democracy system."
 
-#: templates/help/is/index.html:9
+#: wasa2il/templates/help/is/index.html:9
 msgid ""
 "If you ever feel like you aren't getting a good enough explanation, please "
 "<a href=\\"
@@ -1317,32 +2532,31 @@ msgstr ""
 "If you ever feel like you aren't getting a good enough explanation, please "
 "<a href=\""
 
-#: templates/help/is/index.html:12
+#: wasa2il/templates/help/is/index.html:12
 msgid "What is wasa2il?"
 msgstr "Hvað er wasa2il?"
 
-#: templates/help/is/index.html:14
+#: wasa2il/templates/help/is/index.html:14
 msgid "Who can use wasa2il?"
 msgstr "Hver getur notað wasa2il?"
 
-#: templates/help/is/index.html:15
+#: wasa2il/templates/help/is/index.html:15
 msgid "What is a polity?"
 msgstr "Hvað er þing?"
 
-#: templates/help/is/index.html:16
+#: wasa2il/templates/help/is/index.html:16
 msgid "What is a topic?"
 msgstr "Hvað er málaflokkur?"
 
-#: templates/help/is/index.html:17
+#: wasa2il/templates/help/is/index.html:17
 msgid "What is an issue?"
 msgstr "Hvað er mál?"
 
-#: templates/help/is/index.html:18
+#: wasa2il/templates/help/is/index.html:18
 msgid "What's a sensible process for a polity?"
 msgstr "Hvað er skynsamt verkferli fyrir þing?"
 
-#: templates/help/is/polity.html:8
-#, fuzzy
+#: wasa2il/templates/help/is/polity.html:8
 msgid ""
 "\n"
 "<p>\n"
@@ -1498,166 +2712,12 @@ msgid ""
 "<i></i>\n"
 "</p>\n"
 msgstr ""
-"\n"
-"<p>\n"
-"Polities are groups of people who come together to make decisions and enact "
-"their will.\n"
-"These are given various names depending on their form, structure, intent, "
-"scale and scope.\n"
-"Therefore they are variously called \"countries\", \"towns\", \"clubs\", "
-"\"cabals\", \"mafias\", \"federations\",\n"
-"\"treaties\", \"unions\", \"associations\", \"companies\", \"phyles\", "
-"\"tribes\", \"counties\", \"regions\", \n"
-"or any other of a number of different terms.\n"
-"</p>\n"
-"<p>\n"
-"The reason we use the word \"polity\" in Wasa2il is that it is the most "
-"generic term we could\n"
-"find. It says nothing of the form, the structure, the intent, scale or scope "
-"of the group\n"
-"of people, nor does it preclude anything. Using the word \"group\" could "
-"work too, but it lacks\n"
-"the imporant factor that there is an intent to make decisions and enact "
-"will.\n"
-"</p>\n"
-"<p>\n"
-"In addition to consisting of a group of people, a polity will have a set of "
-"laws\n"
-"the group has decided to adhere to. In an abstract sense, membership in a "
-"polity\n"
-"grants a person certain rights and priviledges. For instance, membership in "
-"a \n"
-"school's student body may grant you the right to attend their annual prom,\n"
-"and membership in a country (i.e. residency or citizenship) grants you a "
-"right \n"
-"to live there and do certain things there, such as start companies. stand "
-"in \n"
-"elections, and so on.\n"
-"</p>\n"
-"<p>\n"
-"Each polity has different rules - these are also called statutes, bylaws or "
-"laws - \n"
-"which affect the polity on two different levels.\n"
-"</p>\n"
-"<p>\n"
-"Firstly, there are meta-rules, which describe how rules are formed, how\n"
-"decisions are made, how meetings happen, and how governance in general \n"
-"happens. Wasa2il has to be flexible enough to accomodate the varying \n"
-"meta-rules of a given polity, otherwise the polity may decide that Wasa2il "
-"isn't \n"
-"useful to them. Sometimes these rules are referred to as \"rules of procedure"
-"\" \n"
-"or \"constitution\", depending on the type of polity which is using them.\n"
-"</p>\n"
-"<p>\n"
-"Secondly there are external rules, which are the decisions the polity makes "
-"which\n"
-"don't affect its internal decisionmaking process.\n"
-"</p>\n"
-"<p>\n"
-"It is hard to talk about a term completely in the abstract. We can describe "
-"its features, but\n"
-"that only gets us so far. So let's look at some of the things that can vary "
-"from one polity\n"
-"to another, and then take a few examples in each.\n"
-"</p>\n"
-"<h2>Scope</h2>\n"
-"<p>\n"
-"The scope of a polity determines the range of things that the polity "
-"concerns itself with. The\n"
-"scope may be a geographic region, a set of ideas, a particular part of "
-"social activity, or\n"
-"a common interest of its members.\n"
-"</p>\n"
-"<p>\n"
-"<i>La Casa Invisible</i> is a social center in Málaga, Spain, which works in "
-"the Málaga region\n"
-"to promote ideas of social cohesion, autonomy, and democracy. It operates a "
-"café, a book store,\n"
-"a music hall, and various other projects, each of which could be considered "
-"a sub-polity of\n"
-"the social center itself. The scope of La Casa Invisible's actions is mostly "
-"bound to decisions\n"
-"regarding the social center itself, and the activities that take place "
-"within it.\n"
-"</p>\n"
-"<p>\n"
-"<i>The Union of the Comoros (Udzima wa Komori)</i> is an island nation to "
-"the east of Africa, \n"
-"just north of Madagascar. It has a population of 798.000 people living in an "
-"area of 2.235km². \n"
-"The scope of The Comoros as a polity is the land and national waters they "
-"control, their airspace,\n"
-"and their foreign trade, defense and other agreements they are party to. As "
-"such, they have\n"
-"municipal sub-polities, and are a member of the African Union, Francophonie, "
-"Organization of Islamic\n"
-"Cooperation, Arab League and Indian Ocean Commission superpolities, amongst "
-"others.\n"
-"</p>\n"
-"<h2>Scale</h2>\n"
-"<p>\n"
-"The scale of a polity determines how large it can be expected to become. "
-"Some polities are specifically\n"
-"structured with intent to grow, while others intentionally try to stay at a "
-"constant size.\n"
-"</p>\n"
-"<p>\n"
-"<i>Muff Divers</i> is a diving club in the village of Muff in Ireland. It "
-"claims to be the fastest\n"
-"growing diving club in the world, most likely owing to its name.\n"
-"</p>\n"
-"<h2>Intent</h2>\n"
-"<p>\n"
-"A polity is created around intent. Some polities intend to take over the "
-"world, others intend to make\n"
-"the nicest cupcakes in all of the land. Some polities intend to send people "
-"into space, and others\n"
-"intend to track down and arrest criminals. Polities have all sorts of "
-"motives and intents.\n"
-"</p>\n"
-"<p>\n"
-"On the most basic level, a polity's intent is a description of what it "
-"intends to do. This has nothing\n"
-"to do with whether the polity has the ability to do it, or whether anybody "
-"or anything - such as another\n"
-"polity, or the laws of physics - stand in their way.\n"
-"</p>\n"
-"<p>\n"
-"<i></i>\n"
-"</p>\n"
-"<h2>Structure</h2>\n"
-"<p>\n"
-"Representative democracy, direct democracy, participatory democracy, "
-"dictatorship. There are lots of terms\n"
-"which describe the structure of a polity. In one sense, it refers to where "
-"in the structure of relations\n"
-"between people the authority lies. In a dictatorship, one person has "
-"ultimate authority, although he may\n"
-"choose to grant some authority downstream to trusted advisors, who in turn "
-"have trusted advisors, and so\n"
-"on. In a fully egealitarian system, each individual is equipotent, meaning "
-"he has an equal ability to\n"
-"everybody else to instigate decisions - however, it depends on the structure "
-"what ability the individual\n"
-"has to actually complete the decision making.\n"
-"</p>\n"
-"<p>\n"
-"<i></i>\n"
-"</p>\n"
-"<h2>Form</h2>\n"
-"<p>\n"
-"</p>\n"
-"<p>\n"
-"<i></i>\n"
-"</p>\n"
 
-#: templates/help/is/proposal.html:6
+#: wasa2il/templates/help/is/proposal.html:6
 msgid "Proposals"
 msgstr "Tillögur"
 
-#: templates/help/is/proposal.html:8
-#, fuzzy
+#: wasa2il/templates/help/is/proposal.html:8
 msgid ""
 "\n"
 "<p>\n"
@@ -1733,81 +2793,8 @@ msgid ""
 "individually first.\n"
 "</p>\n"
 msgstr ""
-"\n"
-"<p>\n"
-"Before members of a <a href=\"/help/polity/\">polity</a> can reach an <a "
-"href=\"/help/agreement/\">agreement</a>, somebody needs to\n"
-"propose something to be agreed upon. There are many ways in which a proposal "
-"can come about - such as through a lone member\n"
-"thinking about a problem, a group of people working together to solve a "
-"problem, or couple of people brainstorming. Exactly\n"
-"how people come up with ideas isn't really as important, for this "
-"discussion, as what happens after the idea has come up.\n"
-"</p>\n"
-"<p>\n"
-"In Wasa2il, a user who realizes a problem can raise an <a href=\"/help/issue/"
-"\">issue</a> in his polity. The issue belongs in\n"
-"one or more of the <a href=\"/help/topic/\">topics</a> that the polity is "
-"interested in. \n"
-"</p>\n"
-"<p>\n"
-"Depending on the purpose of the polity, a particular issue might not even be "
-"appropriate - for instance, if your polity \n"
-"is a golf club, it would be strange to raise an issue relating to a tennis "
-"court on the other side of town. A good rule \n"
-"of thumb is, if there isn't a topic that your issue belongs in, then it's "
-"likely that the issue doesn't belong in the\n"
-"polity. If you think that it is, perhaps you should raise the issue that "
-"there are too few or overly narrow topics in \n"
-"your polity!\n"
-"</p>\n"
-"<p>\n"
-"Once an issue has been raised, there are two things that happen. First, "
-"members of the polity can discuss the issue. Secondly,\n"
-"members of the polity can work on a solution. The discussion is covered more "
-"thoroughly elsewhere. Here, we focus on the\n"
-"juicy bit: proposals!\n"
-"</p>\n"
-"<h3>Proposing a new agreement</h3>\n"
-"<p>\n"
-"In order to propose a new agreement, one makes a <a href=\"/help/document/"
-"\">document</a> and attaches it to the issue.\n"
-"</p>\n"
-"<h3>Proposing changes to a previous agreement</h3>\n"
-"<p>\n"
-"Rather than making a new agreement from scratch every time, which in the "
-"best case leads to redundancy, and in the worst case\n"
-"can lead to internal contradictions, it is sometimes more appropriate to "
-"propose changes to a previous agreement. These can be\n"
-"minor changes, such as dropping a word, a sentence or a clause; or major "
-"changes, such as restructuring the document in its\n"
-"entirety or adding a new chapter.\n"
-"</p>\n"
-"<h3>Making changes to a proposal</h3>\n"
-"<p>\n"
-"When somebody has made a proposal, members of the polity might agree with it "
-"in general but disagree with some specific points,\n"
-"or think the wording or language needs some clean up. There are really only "
-"four kinds of changes that are possible:\n"
-"<ol>\n"
-"\\\\\\\\t<li>Remove a clause/statement from the document</li>\n"
-"\\\\\\\\t<li>Move a clause/statement within the document</li>\n"
-"\\\\\\\\t<li>Change a clause/statement in the document</li>\n"
-"\\\\\\\\t<li>Add a clause/statement to the document</li>\n"
-"</ol>\n"
-"All other actions are combinations of these four.\n"
-"</p>\n"
-"<h3>Voting on a proposal</h3>\n"
-"<p>\n"
-"In order for a proposal to be accepted, it needs to be <a href=\"/help/vote"
-"\">voted</a> on in accordance with the rules of the polity.\n"
-"Before the entire proposal can be voted on, the polity first needs to "
-"resolve which version of the document it is voting on. This\n"
-"is done by voting on all of the change proposals to the proposal "
-"individually first.\n"
-"</p>\n"
 
-#: templates/help/is/wasa2il.html:8
+#: wasa2il/templates/help/is/wasa2il.html:8
 msgid ""
 "\n"
 "<p>\n"
@@ -1836,88 +2823,66 @@ msgid ""
 "for all we care.\n"
 "<p>\n"
 msgstr ""
-"\n"
-"<p>\n"
-"Wasa2il is a participatory democracy software project. It is based around "
-"the core\n"
-"idea of polities - political entities - which users of the system can join "
-"or leave, \n"
-"make proposals in, alter existing proposals, and adopt laws to self-govern.\n"
-"</p>\n"
-"<p>\n"
-"The goal of this is to make it easy for groups on any scale - from the "
-"local \n"
-"whiskey club to the largest nation - to self-organize and manage their "
-"intents,\n"
-"goals and mutual understandings.\n"
-"</p>\n"
-"<p>\n"
-"The word \"wasa2il\" (pronounced \"wasa'il\") is from Arabic, where it means "
-"\"means\" - the\n"
-"ability to accomplish something. The first part of the word, \"wasa\", means "
-"\"liquid\", which\n"
-"appropriately describes the concept of liquid democracy. We like this mish-"
-"mash of meaning,\n"
-"but if it doesn't mean much to you, don't worry - it's just a name. You can "
-"call it \"Bob\"\n"
-"for all we care.\n"
-"<p>\n"
 
-#: templates/profile.html:19
+#: wasa2il/templates/profile.html:19
 msgid "Summary"
 msgstr "Yfirlit"
 
-#: templates/profile.html:32
+#: wasa2il/templates/profile.html:39
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
-#: templates/profile.html:69
-msgid "is not viewable by non-members."
-msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
-
-#: templates/registration/activate.html:5
+#: wasa2il/templates/registration/activate.html:5
 msgid "Welcome to Wasa2il!"
 msgstr "Velkominn í Wasa2il!"
 
-#: templates/registration/activate.html:6
+#: wasa2il/templates/registration/activate.html:6
 msgid "You are now successfully signed up. Sign in to start having fun!"
 msgstr ""
 "Þú hefur nú verið nýskráður. Skráðu þig inn til þess að hefja skemmtunina!"
 
-#: templates/registration/activation_complete.html:7
+#: wasa2il/templates/registration/activation_complete.html:7
 msgid "Email verified!"
 msgstr "Netfang staðfest!"
 
-#: templates/registration/activation_complete.html:11
+#: wasa2il/templates/registration/activation_complete.html:11
 msgid "Congratulations, your email has been verified!"
 msgstr "Til hamingju, netfangið þitt hefur verið staðfest!"
 
-#: templates/registration/activation_complete.html:12
+#: wasa2il/templates/registration/activation_complete.html:12
 msgid "You may now try to log in!"
 msgstr "Þú getur núna reynt að innskrá þig!"
 
-#: templates/registration/activation_complete.html:13
-#: templates/registration/login.html:24
+#: wasa2il/templates/registration/activation_complete.html:13
+#: wasa2il/templates/registration/login.html:22
 msgid "Login"
 msgstr "Innskrá"
 
-#: templates/registration/activation_email.txt:2
+#: wasa2il/templates/registration/activation_email.txt:2
 msgid "Please click the link below to verify your email address."
 msgstr ""
 "Vinsamlegast smelltu á tengilinn hér fyrir neðan til að staðfesta netfangið "
 "þitt."
 
-#: templates/registration/activation_email.txt:6
+#: wasa2il/templates/registration/activation_email.txt:6
 #, python-format
 msgid "This link will be active for %(expiration_days)s days."
 msgstr "Þessi tengill verður virkur í %(expiration_days)s daga."
 
-#: templates/registration/activation_email_subject.txt:2
-#: templates/registration/registration_complete.html:7
+#: wasa2il/templates/registration/activation_email_subject.txt:2
+#: wasa2il/templates/registration/registration_complete.html:7
 msgid "Email verification"
 msgstr "Staðfesting netfangs"
 
-#: templates/registration/data_disclaimer.html:3
+#: wasa2il/templates/registration/data_disclaimer.html:3
+msgid ""
+"As of February 12th 2014, we require the verification of all user accounts "
+"via the so-called Icekey."
+msgstr ""
+"Frá og með 12. febrúar 2014 krefjumst við staðfestingar allra innskráðra "
+"notenda með hinum svokallaða Íslykli."
+
+#: wasa2il/templates/registration/data_disclaimer.html:5
 msgid ""
 "Please be advised that by registering and verifying your account, you become "
 "a member of the Pirate Party of Iceland."
@@ -1925,20 +2890,20 @@ msgstr ""
 "Vinsamlegast athugið að með því að nýskrá og staðfesta aðgang gerist þú "
 "meðlimur að Pírötum."
 
-#: templates/registration/data_disclaimer.html:4
+#: wasa2il/templates/registration/data_disclaimer.html:7
 msgid ""
 "Membership of political organizations is considered sensitive information by "
 "law."
 msgstr ""
 "Félagatöl stjórnmálaafla teljast til persónulegra gagna samkvæmt lögum."
 
-#: templates/registration/data_disclaimer.html:5
+#: wasa2il/templates/registration/data_disclaimer.html:8
 msgid ""
 "Therefore, you should keep the following in mind when becoming a member and "
 "using our system:"
 msgstr "Því ættirðu að hafa eftirfarandi í huga þegar þú notar kerfin okkar:"
 
-#: templates/registration/data_disclaimer.html:7
+#: wasa2il/templates/registration/data_disclaimer.html:10
 msgid ""
 "Your username is publicly visible. If you don't want to be recognized, use a "
 "different one than what you use elsewhere."
@@ -1946,7 +2911,7 @@ msgstr ""
 "Notandanafnið þitt er sýnilegt öllum. Ef þú vilt fela auðkenni þitt, notaðu "
 "annað en þau sem þú notar annars staðar."
 
-#: templates/registration/data_disclaimer.html:8
+#: wasa2il/templates/registration/data_disclaimer.html:11
 msgid ""
 "Your profile settings <strong>are mostly public</strong>, including your "
 "display name, image and description. We don't fill that out for you, though."
@@ -1954,109 +2919,153 @@ msgstr ""
 "Prófíllinn þinn <strong>er að mestu sýnilegur opinberlega</strong>, þar á "
 "meðal nafn þitt, mynd og lýsing. Við fyllum prófílinn þó ekki út fyrir þig."
 
-#: templates/registration/data_disclaimer.html:9
+#: wasa2il/templates/registration/data_disclaimer.html:12
 msgid "Don't put anything in there that you don't want visible to the public."
 msgstr "Ekki setja neitt í prófílinn þinn sem þú vilt ekki að sjáist út á við."
 
-#: templates/registration/data_disclaimer.html:10
+#: wasa2il/templates/registration/data_disclaimer.html:13
 msgid "We do <strong>not</strong> display your email address in public."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: templates/registration/data_disclaimer.html:11
+#: wasa2il/templates/registration/data_disclaimer.html:14
 msgid "If you have questions or concerns regarding privacy, please email us:"
 msgstr ""
 "Ef einhverjar spurningar vakna varðandi persónugögn, vinsamlegast sendið "
 "okkur tölvupóst:"
 
-#: templates/registration/login.html:12
-#: templates/registration/registration_form.html:12
+#: wasa2il/templates/registration/login.html:6
+#: wasa2il/templates/registration/registration_form.html:6
 msgid "and partake in democracy..."
 msgstr "og taktu þátt í lýðræðinu..."
 
-#: templates/registration/login.html:14
+#: wasa2il/templates/registration/login.html:9
 msgid ""
-"Please note that as of February 12th 2014, we require the verification of "
-"all user accounts via the so-called Icekey."
+"If you forgot your username, you can log in or reset your password with your "
+"email address or SSN instead."
 msgstr ""
-"Vinsamlegast athugið að frá og með 12. febrúar 2014 krefjumst við "
-"staðfestingar allra innskráðra notenda með hinum svokallaða Íslykli."
+"Ef þú hefur gleymt notendanafni þínu, þá má einnig nota netfang eða "
+"kennitölu til að skrá sig inn eða panta nýtt lykilorð."
 
-#: templates/registration/login.html:15
+#: wasa2il/templates/registration/login.html:11
 msgid "If problems arise, please send an email to the following email address:"
 msgstr ""
 "Ef vandamál koma upp, vinsamlegast sendið netpóst á eftirfarandi netfang:"
 
-#: templates/registration/login.html:26
-#: templates/registration/password_reset_complete.html:5
-#: templates/registration/password_reset_confirm.html:6
-#: templates/registration/password_reset_done.html:5
-#: templates/registration/password_reset_form.html:5
+#: wasa2il/templates/registration/login.html:24
+#: wasa2il/templates/registration/password_reset_complete.html:5
+#: wasa2il/templates/registration/password_reset_confirm.html:8
+#: wasa2il/templates/registration/password_reset_done.html:5
+#: wasa2il/templates/registration/password_reset_form.html:5
 msgid "Password reset"
-msgstr ""
+msgstr "Stilla Lykilorð"
 
-#: templates/registration/logout.html:7
+#: wasa2il/templates/registration/logout.html:7
 msgid "Logged out"
-msgstr ""
+msgstr "Skráð út"
 
-#: templates/registration/logout.html:10
+#: wasa2il/templates/registration/logout.html:10
 msgid "We hope you'll be back soon. It'd be fun!"
 msgstr "Við vonum að þú komir fljótt aftur! Það væri gaman!"
 
-#: templates/registration/password_change_done.html:7
-#: templates/registration/password_change_form.html:7
-#: templates/settings.html:8
-#, fuzzy
+#: wasa2il/templates/registration/password_change_done.html:7
+#: wasa2il/templates/registration/password_change_form.html:7
+#: wasa2il/templates/settings.html:8
 msgid "Change password"
-msgstr "Change proposals"
+msgstr "Breyta lykilorði"
 
-#: templates/registration/password_change_done.html:12
+#: wasa2il/templates/registration/password_change_done.html:11
 msgid "Success! Your password has been changed."
 msgstr "Það tókst! Lykilorði þínu hefur verið breytt."
 
-#: templates/registration/password_change_done.html:14
+#: wasa2il/templates/registration/password_change_done.html:13
 msgid "Back to settings"
 msgstr "Aftur í stillingar"
 
-#: templates/registration/password_reset_complete.html:7
+#: wasa2il/templates/registration/password_reset_complete.html:7
 msgid "Password reset successfully"
-msgstr ""
+msgstr "Lykilorðinu hefur verið breytt"
 
-#: templates/registration/password_reset_confirm.html:19
+#: wasa2il/templates/registration/password_reset_confirm.html:22
+msgid "Error"
+msgstr "Villa"
+
+#: wasa2il/templates/registration/password_reset_confirm.html:23
 msgid "Password reset failed"
-msgstr ""
+msgstr "Mistókst að breyta lykilorðinu! Kannski var vefslóðin úrelt?"
 
-#: templates/registration/password_reset_done.html:6
-msgid "Email with password reset instructions has been sent."
+#: wasa2il/templates/registration/password_reset_done.html:5
+msgid "Check your email!"
+msgstr "Kannaðu tölvupóstinn þinn!"
+
+#: wasa2il/templates/registration/password_reset_done.html:7
+msgid "Email with password reset instructions may have been sent."
 msgstr ""
 "Ef þetta var rétt netfang, þá hefur tölvupóstur með upplýsingum um "
 "endurstillingu lykilorðs verið sendur."
 
-#: templates/registration/password_reset_email.html:2
+#: wasa2il/templates/registration/password_reset_done.html:9
+#: wasa2il/templates/registration/password_reset_form.html:15
+msgid "Hints:"
+msgstr "Athugið:"
+
+#: wasa2il/templates/registration/password_reset_done.html:11
+msgid "Check your spam folder!"
+msgstr "Mundu að kíkja í ruslpóstinn!"
+
+#: wasa2il/templates/registration/password_reset_done.html:12
+msgid ""
+"If you do not receive an email, try resetting your password with other email "
+"addresses you may have used."
+msgstr ""
+"Ef þú fékkst engan póst, reyndu þá að endurstilla lykilorðið með öðrum "
+"netföngum sem þú gætir hafa notað."
+
+#: wasa2il/templates/registration/password_reset_done.html:13
+msgid ""
+"For security and privacy reasons, we cannot tell you whether you used the "
+"correct email address. Sorry!"
+msgstr ""
+"Af öryggis- og persónuverndarástæðum, getum við því miður ekki gefið það upp "
+"á vefnum hvort þú notaðir rétt netfang."
+
+#: wasa2il/templates/registration/password_reset_done.html:14
+msgid "Still nothing? Try creating a new account."
+msgstr "Enn ekkert? Kannski þarftu að nýskrá þig."
+
+#: wasa2il/templates/registration/password_reset_email.html:2
 #, python-format
 msgid "Someone (probably you) requested a password reset at %(site_name)s."
 msgstr ""
 "Einhver (sennilega þú) bað um endurstillingu lykilorðs á vefsetrinu "
 "%(site_name)s."
 
-#: templates/registration/password_reset_email.html:4
+#: wasa2il/templates/registration/password_reset_email.html:4
 msgid ""
 "If you are unfamiliar with this request, you should ignore this message."
 msgstr "Ef þú kannast ekki við slíka beiðnu skaltu hunsa þessi skilaboð."
 
-#: templates/registration/password_reset_email.html:6
+#: wasa2il/templates/registration/password_reset_email.html:6
 msgid "To reset your password, please click the following link:"
 msgstr ""
 "Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil:"
 
-#: templates/registration/password_reset_form.html:10
+#: wasa2il/templates/registration/password_reset_form.html:5
+msgid "The tricky email question"
+msgstr "Lúmska netfangaspurningin"
+
+#: wasa2il/templates/registration/password_reset_form.html:11
 msgid "Send password"
 msgstr "Endurstilla lykilorð"
 
-#: templates/registration/password_reset_subject.txt:2
+#: wasa2il/templates/registration/password_reset_form.html:17
+msgid "Not sure which email you used? Try them all!"
+msgstr "Ekki viss hvaða netfang þú notaðir? Prófaðu þau öll!"
+
+#: wasa2il/templates/registration/password_reset_subject.txt:2
 msgid "Password reset requested"
 msgstr "Beiðni um endurstillingu lykilorðs"
 
-#: templates/registration/registration_complete.html:11
+#: wasa2il/templates/registration/registration_complete.html:11
 msgid ""
 "Please check your email to find the verification message we have just sent, "
 "and click the appropriate link."
@@ -2065,27 +3074,27 @@ msgstr ""
 "netfanginu þínu. Vinsamlegast finndu þann póst og smelltu á viðeigandi "
 "tengil."
 
-#: templates/registration/saml_error.html:6
+#: wasa2il/templates/registration/saml_error.html:6
 msgid "Verification error"
 msgstr "Villa við staðfestingu"
 
-#: templates/registration/saml_error.html:8
+#: wasa2il/templates/registration/saml_error.html:8
 msgid ""
 "The following error occurred during the processing of your account's "
 "verification:"
 msgstr "Eftirfarandi villa kom upp við staðfestingu aðgangsins þíns:"
 
-#: templates/registration/saml_error.html:14
+#: wasa2il/templates/registration/saml_error.html:14
 msgid "Please try again and if the error persists, contact an administrator."
 msgstr ""
 "Vinsamlegast reynið aftur og ef villan kemur aftur, hafið samband við "
 "umsjónarmann."
 
-#: templates/registration/verification_duplicate.html:6
+#: wasa2il/templates/registration/verification_duplicate.html:6
 msgid "Multiple accounts detected"
 msgstr "Fleiri en einn reikningur til"
 
-#: templates/registration/verification_duplicate.html:8
+#: wasa2il/templates/registration/verification_duplicate.html:8
 msgid ""
 "It appears that you already have a different account. Its username and email "
 "address are provided below. Please try logging in again using its "
@@ -2095,54 +3104,77 @@ msgstr ""
 "notandanafn og netfang. Vinsamlegast reynið innskráningu með þeim "
 "upplýsingum."
 
-#: templates/registration/verification_duplicate.html:9
+#: wasa2il/templates/registration/verification_duplicate.html:9
 msgid "If you have any further problems, please contact an administrator."
 msgstr ""
 "Ef þú rekst á einhver frekari vandamál, vinsamlegast hafðu samband við "
 "umsjónarmann."
 
-#: templates/registration/verification_duplicate.html:11
+#: wasa2il/templates/registration/verification_duplicate.html:11
 msgid "Username"
 msgstr "Notandanafn"
 
-#: templates/registration/verification_duplicate.html:12
+#: wasa2il/templates/registration/verification_duplicate.html:12
 msgid "Email"
 msgstr "Netfang"
 
-#: templates/registration/verification_needed.html:6
+#: wasa2il/templates/registration/verification_needed.html:6
 msgid "Verification needed"
 msgstr "Staðfestingar er þarfnast"
 
-#: templates/registration/verification_needed.html:8
+#: wasa2il/templates/registration/verification_needed.html:8
 msgid ""
 "The account registration process cannot be completed until verification has "
 "been provided."
 msgstr "Staðfestingu á auðkenni þarf til þess að klára skráningarferli."
 
-#: templates/registration/verification_needed.html:9
+#: wasa2il/templates/registration/verification_needed.html:9
 msgid "Please select one of the following options"
 msgstr "Vinsamlegast veljið einn eftirfarandi valmöguleika"
 
-#: templates/registration/verification_needed.html:11
+#: wasa2il/templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
 
-#: templates/settings.html:9
+#: wasa2il/templates/settings.html:9
 msgid "Settings"
 msgstr "Stillingar"
 
-#: templates/settings.html:10
+#: wasa2il/templates/settings.html:10
 msgid "You are signed in as"
 msgstr "Þú ert innskráð(ur) sem"
+
+#~ msgid "Drag candidates here."
+#~ msgstr "Dragðu frambjóðendur hingað."
+
+#~ msgid ""
+#~ "You don't have to submit your vote; whatever is on your ballot when the "
+#~ "vote deadline passes will be counted."
+#~ msgstr ""
+#~ "Það þarf ekki að skila inn atkvæði sérstaklega, heldur verður það talið "
+#~ "eins og það lítur út þegar kosningunni lýkur. Þú getur því breytt röðun "
+#~ "frambjóðenda eins oft og þú vilt fram að því að kosningafrestur rennur út."
+
+#~ msgid "Drag candidates to change order"
+#~ msgstr "Dragðu frambjóðendur með músinni til að breyta röðun"
+
+#~ msgid "topics"
+#~ msgstr "málaflokkar"
+
+#~ msgid "agreements"
+#~ msgstr "samþykktir"
+
+#~ msgid "subpolities"
+#~ msgstr "undirþing"
+
+#~ msgid "is not viewable by non-members."
+#~ msgstr "er ekki sýnilegt þeim sem eru ekki meðlimir."
 
 #~ msgid "Password changed"
 #~ msgstr "Lykilorði breytt"
 
 #~ msgid "Voting closes in"
 #~ msgstr "Kosningu lýkur eftir"
-
-#~ msgid "This issue is delegated."
-#~ msgstr "Þetta mál er framvísað."
 
 #~ msgid "Leave polity"
 #~ msgstr "Yfirgefa þing"
@@ -2170,9 +3202,6 @@ msgstr "Þú ert innskráð(ur) sem"
 
 #~ msgid "Yes, I want to leave this polity."
 #~ msgstr "Já, ég vil yfirgefa þingið."
-
-#~ msgid "Open issues"
-#~ msgstr "Opin mál"
 
 #~ msgid "followers"
 #~ msgstr "fylgjendur"
@@ -2232,10 +3261,6 @@ msgstr "Þú ert innskráð(ur) sem"
 
 #~ msgid "Recent decisions"
 #~ msgstr "Nýlegar ákvarðanir"
-
-#, fuzzy
-#~ msgid "Your polities"
-#~ msgstr "Þingin þín"
 
 #, fuzzy
 #~ msgid "Browse other polities"
@@ -2322,9 +3347,6 @@ msgstr "Þú ert innskráð(ur) sem"
 #, fuzzy
 #~ msgid "Version status"
 #~ msgstr "Ályktanir"
-
-#~ msgid "Draft proposal"
-#~ msgstr "Drög að tillögu"
 
 #~ msgid "Closed elections"
 #~ msgstr "Lokaðar kosningar"
@@ -2473,9 +3495,6 @@ msgstr "Þú ert innskráð(ur) sem"
 #~ msgid "Your request to join this polity is still pending."
 #~ msgstr "Beiðni þín um þáttöku í þessu þingi, bíður en samþykkis."
 
-#~ msgid "members"
-#~ msgstr "meðlimir"
-
 #~ msgid "Members of this polity"
 #~ msgstr "Meðlimir þessa þings"
 
@@ -2524,9 +3543,6 @@ msgstr "Þú ert innskráð(ur) sem"
 
 #~ msgid "Import structure"
 #~ msgstr "Import structure"
-
-#~ msgid "Please note:"
-#~ msgstr "Please note:"
 
 #~ msgid "This document has been proposed."
 #~ msgstr "This document has been proposed."
@@ -2589,9 +3605,6 @@ msgstr "Þú ert innskráð(ur) sem"
 
 #~ msgid "Add subheading"
 #~ msgstr "Bæta við millifyrirsögn"
-
-#~ msgid "Delete"
-#~ msgstr "Eyða"
 
 #~ msgid "New meeting"
 #~ msgstr "Nýr fundur"

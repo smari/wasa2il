@@ -1,0 +1,35 @@
+{% load i18n %}
+{% load wasa2il %}
+
+    <div class="col-md-6 col-xs-12"><a name="elections"></a>
+        <div class="btn-group" role="group" style="float: right">
+            {% if user_is_member %}
+                {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
+                <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/election/new/">{% trans "New election" %}</a>
+                {% endif %}
+            {% endif %}
+            <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu" style="left: -50px;">
+                <li><a id="elections_showclosed_toggle" onclick="elections_showclosed_toggle({{ polity.id }});"><span class="glyphicon glyphicon-ok icon-grey"></span> {% trans "Show closed elections" %}</a></li>
+                <li><a href="/polity/{{ polity.id }}/election/">{% trans "Show all elections" %}</a></li>
+            </ul>
+        </div>
+
+        <h2>{% trans "Elections" %} <small>{% trans "putting people in power"%}</small></h2>
+
+        <p class="muted">{% trans "Sometimes you need to put people in their places. Elections do just that." %}</p>
+
+        <table class="table table-striped table-bordered table-condensed" id="elections_list">
+        <thead>
+        <tr>
+            <th>{% trans "Election" %}</th>
+            <th>{% trans "State" %}</th>
+            <th>{% trans "Candidates" %}</th>
+            <th>{% trans "Votes" %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% include "core/_election_list_table.html" with elections=newelections %}
+        </tbody>
+        </table>
+    </div>

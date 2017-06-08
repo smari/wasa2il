@@ -1,0 +1,5 @@
+[
+ [[1, "Bjarni"], [2, "Smari"], [3, "Bjorn"]],
+ [[2, "Bjarni"], [3, "Smari"], [1, "Bjorn"]],
+ [[3, "Bjarni"], [1, "Smari"], [2, "Bjorn"]]
+]
