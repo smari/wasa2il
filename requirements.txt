@@ -23,6 +23,7 @@ MySQL-python==1.2.5
 odfpy==0.9.6
 openpyxl==2.4.8
 Pillow==3.0.0
+psycopg2==2.7.1
 pyasn1==0.1.9
 pycparser==2.14
 pyexcel==0.2.4
