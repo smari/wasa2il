@@ -31,8 +31,7 @@ staging:
   only:
     - development
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
+    - apk --update add ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=wasa2il-staging --api-key=$HEROKU_STAGING_API_KEY
 
