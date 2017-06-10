@@ -9,37 +9,34 @@ stages:
   - release
 
 variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/piratar/wasa2il/image:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: registry.gitlab.com/piratar/wasa2il/image:latest
-
-before_script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
 
 build:
   stage: build
+  image: python:2-onbuild
   script:
-    - docker build -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
+    - echo "This is where we build it..."
 
 test1:
   stage: test
+  image: python:2-onbuild
   script:
-    - docker run $CONTAINER_TEST_IMAGE python manage.py test
+    - python initial_setup.py
+    - python manage.py test
 
 staging:
   stage: deploy
   only:
     - development
   script:
-    - apk --update add ruby-dev
-    - gem install dpl
-    - dpl --provider=heroku --app=wasa2il-staging --api-key=$HEROKU_STAGING_API_KEY
+    - git remote add heroku https://heroku:$HEROKU_STAGING_API_KEY@git.heroku.com/wasa2il-staging.git
+    - git push -f heroku HEAD:master
 
 release-image:
   stage: release
   only:
     - tags
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t $CONTAINER_RELEASE_IMAGE .
     - docker push $CONTAINER_RELEASE_IMAGE
