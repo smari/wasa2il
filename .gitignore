@@ -14,5 +14,6 @@ share
 wasa2il.sqlite
 *~
 venv/
-htmlcov/
+reports/*
+!reports/index.html
 .coverage

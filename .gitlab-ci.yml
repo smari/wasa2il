@@ -17,12 +17,25 @@ build:
   script:
     - echo "This is where we build it..."
 
-test1:
+test:
   stage: test
   image: python:2-onbuild
   script:
-    - python initial_setup.py
-    - python manage.py test
+    - pip install -r requirements.txt
+    - coverage run --source=. manage.py test -v 2
+    - coverage html
+    - flake8 --htmldir reports/flake8 --format=html
+  artifacts:
+    paths:
+      - reports/
+
+pages:
+  stage: deploy
+  script:
+    - mv reports/ public/
+  artifacts:
+    paths:
+      - public
 
 staging:
   stage: deploy
