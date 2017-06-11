@@ -24,7 +24,7 @@ test:
     - pip install -r requirements.txt
     - coverage run --source=. manage.py test -v 2
     - coverage html
-    - flake8 --htmldir reports/flake8 --format=html
+    - flake8 --htmldir reports/flake8 --format=html -v
   artifacts:
     paths:
       - reports/
