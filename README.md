@@ -1,6 +1,7 @@
 # Wasa2il - ‫وسائل
-[![build status](https://gitlab.com/piratar/wasa2il/badges/development/build.svg)](https://gitlab.com/piratar/wasa2il/commits/development)
-[![coverage report](https://gitlab.com/piratar/wasa2il/badges/development/coverage.svg)](https://gitlab.com/piratar/wasa2il/commits/development)
+[![Build Status](https://travis-ci.org/piratar/wasa2il.svg?branch=master)](https://travis-ci.org/piratar/wasa2il)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=piratar/wasa2il&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&utm_medium=referral&utm_content=piratar/wasa2il&utm_campaign=Badge_Coverage)
 
 **Wasa2il** is a participatory democracy software project. It is based around the core
 idea of polities - political entities - which users of the system can join or leave,
