@@ -1,9 +1,6 @@
 language: python
 python:
 - '2.7'
-env:
-  global:
-  - secure: DypK3rEVbtnMLbDZJr9hOAGwJwdXErE1xs+2HFSjs4wTkMa/Run/SWiAeRKarQWhTpaqgIigwBWR0o48RuDP+2I0/LGKX15rXaqRdT8fa7TwvHbcMmawgqn8yWz/XMNDV3cFs73nXJA/zK/Payff7o4jkIN1vWjW3HFuo32HtEM=
 install: pip install -r requirements.txt
 script:
   - coverage run --source=. manage.py test -v 2
