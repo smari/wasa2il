@@ -1,12 +1,23 @@
 # Wasa2il - ‫وسائل
+[![Build Status](https://travis-ci.org/piratar/wasa2il.svg?branch=master)](https://travis-ci.org/piratar/wasa2il)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=piratar/wasa2il&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&utm_medium=referral&utm_content=piratar/wasa2il&utm_campaign=Badge_Coverage)
 
-Wasa2il is a participatory democracy software project. It is based around the core
+**Wasa2il** is a participatory democracy software project. It is based around the core
 idea of polities - political entities - which users of the system can join or leave,
 make proposals in, alter existing proposals, and adopt laws to self-govern.
 
 The goal of this is to make it easy for groups on any scale - from the local
 whiskey club to the largest nation - to self-organize and manage their intents,
 goals and mutual understandings.
+
+It's main development has been moved to **[Gitlab](https://gitlab.com/piratar/wasa2il)** but it will be updated on [Github](https://github.com/piratar/wasa2il) frequently.
+
+# Staging/demo
+
+The current development version is deployed to Heroku when changes are merged into the development branch.
+
+The app can be found at [https://wasa2il-staging.herokuapp.com](https://wasa2il-staging.herokuapp.com)
 
 # Setup
 
@@ -18,7 +29,7 @@ Long story short, to set up Wasa2il for development and/or testing:
 
 1. Install Python. You will need **pip** installed which is included by default in Python versions 2.7.9 and newer but can be downloaded separately for older versions. (URL: https://www.python.org/)
 
-2. Clone the Wasa2il Git project (URL: https://github.com/piratar/wasa2il.git)
+2. Clone the Wasa2il Git project (URL: https://gitlab.com/piratar/wasa2il.git)
 
 3. In a command line, run the script **initial_setup.py**, which should guide you through the rest of the process.
 
@@ -27,6 +38,17 @@ Long story short, to set up Wasa2il for development and/or testing:
 The 3rd step will populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password). The fourth (optional) step will do the same thing, only with much more data.
 
 That should be it!
+
+## Development process
+1. Select an unassigned issue from the backlog, assign it to yourself, create a branch from the issue and check out the branch on your local machine
+
+2. Make changes to the code that address the issue (and preferably don't stuff much more in there) and push them. Note: small changes will make for way quicker reviews
+
+3. Monitor the pipeline on Gitlab, cross your fingers and hope for it to pass through
+
+4. Create a merge request into development branch and assign it to someone.
+
+5. If all is well the merge request will be approved into to development and the cahnges deployed to [staging](https://wasa2il-staging.herokuapp.com)
 
 # Project concepts
 
@@ -132,4 +154,4 @@ and
 
 Detailed instructions in our wiki: 
 
-https://github.com/piratar/wasa2il/wiki/Installation
+https://gitlab.com/piratar/wasa2il/wikis/installation

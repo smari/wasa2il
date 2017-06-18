@@ -1,0 +1,55 @@
+image: docker:git
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - deploy
+  - release
+
+variables:
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/piratar/wasa2il/image:latest
+
+build:
+  stage: build
+  image: python:2-onbuild
+  script:
+    - echo "This is where we build it..."
+
+test:
+  stage: test
+  image: python:2-onbuild
+  script:
+    - pip install -r requirements.txt
+    - coverage run --source=. manage.py test -v 2
+    - coverage html
+    - flake8 --htmldir reports/flake8 --format=html -v
+  artifacts:
+    paths:
+      - reports/
+
+pages:
+  stage: deploy
+  script:
+    - mv reports/ public/
+  artifacts:
+    paths:
+      - public
+
+staging:
+  stage: deploy
+  only:
+    - development
+  script:
+    - git remote add heroku https://heroku:$HEROKU_STAGING_API_KEY@git.heroku.com/wasa2il-staging.git
+    - git push -f heroku HEAD:master
+
+release-image:
+  stage: release
+  only:
+    - tags
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t $CONTAINER_RELEASE_IMAGE .
+    - docker push $CONTAINER_RELEASE_IMAGE
