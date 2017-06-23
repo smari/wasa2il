@@ -132,6 +132,10 @@
     </div> <!-- end container -->
   </nav>
     <div class="container">
+    {% block breadcrumbs %}
+    {% add_breadcrumb _('Home') '/' prepend=True %}
+    {% render_breadcrumbs %}
+    {% endblock %}
     {% block content %}{% endblock %}
       <footer class="footer">
         <hr/>

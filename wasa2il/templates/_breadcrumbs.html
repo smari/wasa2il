@@ -1,0 +1,11 @@
+{% if breadcrumbs|length > 1 or currentpath == breadcrumbs.0.url %}
+<ol class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+        {% if not breadcrumb.url or currentpath == breadcrumb.url %}
+            <li class="active">{{ breadcrumb.name }}</li>
+        {% else %}
+            <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+</ol>
+{% endif %}

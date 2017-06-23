@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load wasa2il %}
+
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities' %}
+{% add_breadcrumb polity.name %}
+{{ block.super }}
+{% endblock %}
+
 {% block content %}
 
 {% if user_is_member %}

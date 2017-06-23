@@ -2,6 +2,14 @@
 {% load i18n %}
 {% load wasa2il %}
 
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities/' %}
+{% url 'polity_detail' polity.id as polityurl %}
+{% add_breadcrumb polity.name polityurl %}
+{% add_breadcrumb _('Issue') %}
+{{ block.super }}
+{% endblock %}
+
 {% block content %}
 
     <div style="float: right;">

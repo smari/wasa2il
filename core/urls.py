@@ -55,12 +55,12 @@ urlpatterns = patterns('',
 
     (r'^polity/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
     (r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$', login_required(PolityDetailView.as_view())),
-    (r'^polity/(?P<pk>\d+)/$',
+    url(r'^polity/(?P<pk>\d+)/$',
         cache_page(60*5)(vary_on_headers('Cookie')(
-            PolityDetailView.as_view()))),
+            PolityDetailView.as_view())), name='polity_detail'),
     (r'^polity/(?P<polity>\d+)/topic/new/$', login_required(TopicCreateView.as_view())),
     (r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
-    (r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$', TopicDetailView.as_view()),
+    url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$', TopicDetailView.as_view(), name='polity_topic_detail'),
 
 #   (r'^delegation/(?P<pk>\d+)/$', login_required(DetailView.as_view(model=Delegate, context_object_name="delegation"))),
 
