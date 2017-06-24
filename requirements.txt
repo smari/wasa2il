@@ -29,6 +29,7 @@ mccabe==0.6.1
 MySQL-python==1.2.5
 odfpy==0.9.6
 openpyxl==2.4.8
+pilkit==1.1.13
 Pillow==3.0.0
 pipdeptree==0.10.1
 psycopg2==2.7.1
