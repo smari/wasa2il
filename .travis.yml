@@ -12,3 +12,5 @@ deploy:
     secure: bK5Wp0bTkv5LceRzIJjZntTKHbed70oLoMNaRv4sr8pkCKZQtVUmqmXMNsvihm49tU0nM9sVJCmb6HwcEX+1Nl9aeE0dJOi1zQC8ppNALNaHza77yGYW5aABQk9zq+xUW0w1BxxnN/6ysUzCsqQjvE2dIMDXt5Y01Cy3494AjJ8=
   app:
     development: wasa2il-staging
+  run:
+    - "python manage.py compilemessages"

@@ -39,6 +39,12 @@ The 3rd step will populate the database with a small amount of random data, incl
 
 That should be it!
 
+## Contributing
+
+Pull requests are welcome. Update translations by running **manage.py
+makemessages** and edit the appropriate translation file, such as
+`wasa2il/locale/is/LC_MESSAGES/django.po`.
+
 ## Development process
 1. Select an unassigned issue from the backlog, assign it to yourself, create a branch from the issue and check out the branch on your local machine
 
