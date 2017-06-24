@@ -1,4 +1,4 @@
-Babel==2.1.1
+Babel==2.3.4
 certifi==2017.4.17
 cffi==1.5.2
 chardet==3.0.4
@@ -10,6 +10,7 @@ defusedxml==0.4.1
 diff-match-patch==20121119
 dj-database-url==0.4.2
 Django==1.8.10
+django-babel==0.5.1
 django-bootstrap-form==3.2
 django-registration-redux==1.4
 eight==0.3.3
