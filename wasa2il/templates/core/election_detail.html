@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load wasa2il %}
+
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities/' %}
+{% url 'polity_detail' election.polity.id as polityurl %}
+{% add_breadcrumb election.polity.name polityurl %}
+{% add_breadcrumb election.name %}
+{{ block.super }}
+{% endblock %}
+
 {% block head_extra %}
     <style type="text/css">
         .hidebuttons button {display: none}

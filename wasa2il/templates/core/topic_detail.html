@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load wasa2il %}
+
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities/' %}
+{% url 'polity_detail' topic.polity.id as polityurl %}
+{% add_breadcrumb topic.polity.name polityurl %}
+{% add_breadcrumb topic.name %}
+{{ block.super }}
+{% endblock %}
+
 {% block content %}
 
 <div style="float:right">

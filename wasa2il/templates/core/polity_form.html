@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load wasa2il %}
+
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities' %}
+{% add_breadcrumb _('New polity') %}
+{{ block.super }}
+{% endblock %}
 
 {% block content %}
 
