@@ -430,6 +430,9 @@ class IssueDetailView(DetailView):
         context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
         context_data['can_vote'] = (self.request.user is not None and
                                     self.object.can_vote(self.request.user))
+        context_data['comments_closed'] = (
+            not self.request.user.is_authenticated() or self.object.discussions_closed()
+        )
 
         return context_data
 

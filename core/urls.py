@@ -1,27 +1,20 @@
-from django.conf.urls import patterns
-from django.conf.urls import url
+from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
-from django.views.generic import ListView
-from django.views.generic import UpdateView
-from django.views.generic import DetailView
+from django.views.generic import ListView, UpdateView, DetailView
 
 from django.conf import settings
 
-from core.ajax.issue import issue_comment_send
-from core.ajax.issue import issue_poll
-from core.ajax.issue import issue_vote
-from core.ajax.document import document_propose
-from core.ajax.document import document_propose_change
-from core.ajax.document import render_markdown
-from core.ajax.document import documentcontent_render_diff
+from core.ajax.issue import issue_comment_send, issue_poll, issue_vote
+from core.ajax.document import (
+    document_propose, document_propose_change, render_markdown,
+    documentcontent_render_diff
+)
+from core.ajax.topic import topic_poll
 from core.views import *
 from core.ajax import *
-from core.models import Polity
-from core.models import Topic
-from core.models import Issue
-from core.models import Delegate
+from core.models import Polity, Topic, Issue, Delegate
 
 
 urlpatterns = patterns('',
@@ -70,6 +63,8 @@ urlpatterns = patterns('',
     (r'^api/issue/comment/send/$', issue_comment_send),
     (r'^api/issue/poll/$', issue_poll),
     (r'^api/issue/vote/$', issue_vote),
+
+    (r'^api/topic/poll/$', topic_poll),
 
     (r'^api/election/poll/$', election_poll),
     (r'^api/election/vote/$', election_vote),

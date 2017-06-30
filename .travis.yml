@@ -13,4 +13,5 @@ deploy:
   app:
     development: wasa2il-staging
   run:
+    - "python manage.py makemessages"
     - "python manage.py compilemessages"

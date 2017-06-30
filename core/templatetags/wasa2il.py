@@ -7,6 +7,7 @@ from pilkit.processors import SmartResize
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 
 from core.models import UserTopic, Vote, ElectionVote
 
@@ -131,4 +132,14 @@ def render_breadcrumbs(context):
     return {
         'breadcrumbs': breadcrumbs,
         'currentpath': request.path
+    }
+
+
+@register.inclusion_tag('_comments_section.html')
+def comments_section(obj_key, obj_id, closed=False):
+    return {
+        'obj_id': obj_id,
+        'obj_key': obj_key,
+        'closed': closed,
+        'btntext': _('Add comment')
     }
