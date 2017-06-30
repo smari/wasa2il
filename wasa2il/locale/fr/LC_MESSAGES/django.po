@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-24 18:25+0000\n"
+"POT-Creation-Date: 2017-06-30 17:56+0000\n"
 "PO-Revision-Date: 2013-01-24 19:50+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language: fr\n"
@@ -679,25 +679,33 @@ msgstr "Proposed Documents"
 msgid "Adopted documents"
 msgstr "Adopted documents"
 
-#: wasa2il/templates/core/_election_candidate_list.html:23
+#: wasa2il/templates/core/_election_candidate_list.html:34
+msgid "Move to top"
+msgstr ""
+
+#: wasa2il/templates/core/_election_candidate_list.html:38
+msgid "Move to bottom"
+msgstr ""
+
+#: wasa2il/templates/core/_election_candidate_list.html:48
 #: wasa2il/templates/core/issue_detail.html:91
 #, fuzzy
 msgid "Vote"
 msgstr "Votes"
 
-#: wasa2il/templates/core/_election_candidate_list.html:34
+#: wasa2il/templates/core/_election_candidate_list.html:58
 msgid "Your ballot is empty."
 msgstr ""
 
-#: wasa2il/templates/core/_election_candidate_list.html:35
+#: wasa2il/templates/core/_election_candidate_list.html:59
 msgid "Drag candidates here or click the vote buttons."
 msgstr ""
 
-#: wasa2il/templates/core/_election_candidate_list.html:38
+#: wasa2il/templates/core/_election_candidate_list.html:62
 msgid "You have selected all the candidates, good work!"
 msgstr ""
 
-#: wasa2il/templates/core/_election_candidate_list.html:40
+#: wasa2il/templates/core/_election_candidate_list.html:64
 #, fuzzy
 msgid "There are no candidates standing in this election yet!"
 msgstr "There are no topics in this polity!"

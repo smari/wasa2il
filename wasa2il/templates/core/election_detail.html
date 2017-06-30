@@ -325,27 +325,45 @@ function show_details() {
 
 function election_select_candidate(element) {
     $(element).hide();  // TODO: This is not doing anything
-    $(element).parent().parent().appendTo("#vote");
+    $(element).closest('li').appendTo("#vote");
     election_update();
 }
 
 function election_deselect_candidate(element) {
-    $(element).hide();
-    $(element).parent().find(".vote-up").hide();
-    $(element).parent().find(".vote-down").hide();
-    $(element).parent().find(".vote-yes").show();  // TODO: is this needed?
-    $(element).parent().parent().appendTo("#candidates");
+   $(element).closest('li').appendTo("#candidates");
     election_update();
 }
 
 function election_up_candidate(element) {
-    $(element).parent().parent().insertBefore($(element).parent().parent().prev());
+    $(element).closest('li').insertBefore($(element).closest('li').prev());
     election_update();
 }
 
 function election_down_candidate(element) {
-    $(element).parent().parent().insertAfter($(element).parent().parent().next());
+    $(element).closest('li').insertAfter($(element).closest('li').next());
     election_update();
+}
+
+function election_top_candidate(element) {
+    $(element).closest('li').parent().prepend($(element).closest('li'));
+    election_update();
+}
+
+function election_bottom_candidate(element) {
+    $(element).closest('li').parent().append($(element).closest('li'));
+    election_update();
+}
+
+function election_freeze_candidate(element) {
+    //$(element).closest('li').toggleClass("frozen"); // opacity
+    $(element).find('span').toggleClass("glyphicon-check").toggleClass("glyphicon-edit");
+    votebuttons = $(element).closest('li').find('.vote-button');
+    if(votebuttons.prop('disabled')){
+      votebuttons.prop('disabled', false);
+    } else {
+      votebuttons.prop('disabled', true);
+    }
+
 }
 
 function election_update() {

@@ -60,41 +60,31 @@ textarea {
 	counter-reset: 			statement-counter -1;
 }
 
-.candidates {
-	min-height:			50px;
-}
-
 .candidates p {
 	padding:			10px;
 	border:				1px solid #ddd;
 }
 
 .candidates li {
-	border-bottom:		1px solid #ddd;
-	padding-bottom:		3px;
-	padding-top:      3px;
-	font-size:			15pt;
-}
-
-.candidates li div {
-	display:			block;
+	border-top:		1px solid #ddd;
+	padding:      5px;
+	font-size:    15px;
 }
 
 .candidates li div:hover {
 	text-decoration:		none;
 }
 
-#candidates li {
-	display:			block;
-}
-
 #candidates {
   padding-left: 0px;
 }
 
-.vote-button {
-    float: right;
-    margin-top: 12px;
+#election_candidates ul{
+  list-style-type: none;
+}
+
+.vote-yes {
+   float: right;
 }
 
 .vote-image {
@@ -108,13 +98,21 @@ textarea {
 }
 
 #vote {
-  padding-left: 20px;
+  padding-left: 7px;
 }
 
 #votes li {
 	display:			list-item;
 }
 
+.vote-tip{
+  font-size: 15px;
+  padding: 15px 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.frozen {
+}
 
 .memberstatusbox {
 	padding:			5px;
