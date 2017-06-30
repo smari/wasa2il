@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-24 18:25+0000\n"
+"POT-Creation-Date: 2017-06-30 17:56+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language: is\n"
@@ -201,11 +201,11 @@ msgstr "Leiðbeiningar"
 
 #: core/models.py:821
 msgid "Statistics as JSON"
-msgstr ""
+msgstr "Tölfræði sem JSON"
 
 #: core/models.py:822
 msgid "Limit how many candidates we publish stats for"
-msgstr ""
+msgstr "Takmarka fjölda frambjóðenda til að birta tölfræði um"
 
 #: core/views.py:430
 msgid "voting"
@@ -253,11 +253,11 @@ msgstr "Mál"
 #: wasa2il/templates/_entry_summary.html:4
 #: wasa2il/templates/_entry_summary.html:66
 msgid "up for vote"
-msgstr ""
+msgstr "í kosningu"
 
 #: wasa2il/templates/_entry_summary.html:5
 msgid "These are the issues up for vote."
-msgstr ""
+msgstr "Þetta eru málin sem eru í kosningu."
 
 #: wasa2il/templates/_entry_summary.html:11
 #: wasa2il/templates/_entry_summary.html:115
@@ -313,12 +313,12 @@ msgstr "Engin nýleg mál eru til umræðu í augnabliknu."
 #: wasa2il/templates/_entry_summary.html:39
 #: wasa2il/templates/_entry_summary.html:144
 msgid "Show all"
-msgstr ""
+msgstr "Sýna allt"
 
 #: wasa2il/templates/_entry_summary.html:58
 #: wasa2il/templates/_entry_summary.html:163
 msgid "Show less"
-msgstr ""
+msgstr "Sýna minna"
 
 #: wasa2il/templates/_entry_summary.html:66
 #: wasa2il/templates/core/_polity_detail_elections.html:18
@@ -404,7 +404,7 @@ msgstr "til umræðu"
 
 #: wasa2il/templates/_entry_summary.html:108
 msgid "These are the issues being discussed."
-msgstr ""
+msgstr "Þetta eru málin í umræðu."
 
 #: wasa2il/templates/base.html:8
 msgid "Voting System - Pirate Party Iceland"
@@ -677,24 +677,32 @@ msgstr "Framlagðar tillögur"
 msgid "Adopted documents"
 msgstr "Samþykkt skjöl"
 
-#: wasa2il/templates/core/_election_candidate_list.html:23
+#: wasa2il/templates/core/_election_candidate_list.html:34
+msgid "Move to top"
+msgstr "Færa efst"
+
+#: wasa2il/templates/core/_election_candidate_list.html:38
+msgid "Move to bottom"
+msgstr "Færa neðst"
+
+#: wasa2il/templates/core/_election_candidate_list.html:48
 #: wasa2il/templates/core/issue_detail.html:91
 msgid "Vote"
 msgstr "Kjósa"
 
-#: wasa2il/templates/core/_election_candidate_list.html:34
+#: wasa2il/templates/core/_election_candidate_list.html:58
 msgid "Your ballot is empty."
 msgstr "Kjörseðillinn er tómur."
 
-#: wasa2il/templates/core/_election_candidate_list.html:35
+#: wasa2il/templates/core/_election_candidate_list.html:59
 msgid "Drag candidates here or click the vote buttons."
 msgstr "Dragðu frambjóðendur hingað eða smelltu á takka til að kjósa."
 
-#: wasa2il/templates/core/_election_candidate_list.html:38
+#: wasa2il/templates/core/_election_candidate_list.html:62
 msgid "You have selected all the candidates, good work!"
 msgstr "Þú hefur raðað öllum á seðilinn, vel gert!"
 
-#: wasa2il/templates/core/_election_candidate_list.html:40
+#: wasa2il/templates/core/_election_candidate_list.html:64
 msgid "There are no candidates standing in this election yet!"
 msgstr "Þessar kosningar hafa enga frambjóðendur enn sem komið er."
 
@@ -742,7 +750,7 @@ msgstr "Delegation:"
 
 #: wasa2il/templates/core/delegate_detail.html:8
 msgid "to"
-msgstr "to"
+msgstr "til"
 
 #: wasa2il/templates/core/delegate_detail.html:13
 msgid "Stop delegating"
@@ -1148,7 +1156,7 @@ msgstr "Þetta eru nýjustu málin til umræðu í þessu þingi."
 #: wasa2il/templates/core/issues_new.html:40
 #: wasa2il/templates/core/polity_detail.html:68
 msgid "New"
-msgstr ""
+msgstr "Nýtt"
 
 #: wasa2il/templates/core/polity_detail.html:16
 msgid "You are an officer in this polity."

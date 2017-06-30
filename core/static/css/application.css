@@ -23,7 +23,7 @@
 .ui-tpicker-grid-label
 {
     margin: 0;
-    padding: 0; 
+    padding: 0;
 
     border: none;
     background: none;
@@ -59,8 +59,8 @@
     font-weight: normal;
     font-style: normal;
 
-    src: url('League_Gothic-webfont.eot');
-    src: url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),
+    src: url('League_Gothic-webfont.eot'),
+         url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),
          url('League_Gothic-webfont.woff') format('woff'),
          url('League_Gothic-webfont.ttf') format('truetype'),
          url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg');
@@ -69,19 +69,19 @@
 h1
 {
     font-family: 'LeagueGothicRegular';
-    font-size: 400%; 
+    font-size: 400%;
     font-weight: normal;
 }
 h2
 {
     font-family: 'LeagueGothicRegular';
-    font-size: 300%; 
+    font-size: 300%;
     font-weight: normal;
 }
 h3
 {
     font-family: 'LeagueGothicRegular';
-    font-size: 250%; 
+    font-size: 250%;
     font-weight: normal;
 }
 a
@@ -122,11 +122,6 @@ textarea
     counter-reset: statement-counter -1;
 }
 
-.candidates
-{
-    min-height: 50px;
-}
-
 .candidates p
 {
     padding: 10px;
@@ -136,17 +131,11 @@ textarea
 
 .candidates li
 {
-    font-size: 15pt;
+    font-size: 15px;
 
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding: 5px;
 
-    border-bottom: 1px solid #ddd;
-}
-
-.candidates li div
-{
-    display: block;
+    border-top: 1px solid #ddd;
 }
 
 .candidates li div:hover
@@ -154,26 +143,23 @@ textarea
     text-decoration: none;
 }
 
-#candidates li
-{
-    display: block;
-}
-
 #candidates
 {
     padding-left: 0;
 }
 
-.vote-button
+#election_candidates ul
+{
+    list-style-type: none;
+}
+
+.vote-yes
 {
     float: right;
-
-    margin-top: 12px;
 }
 
 .vote-image
 {
-    width: 50px;
     height: 50px;
 }
 
@@ -186,13 +172,23 @@ textarea
 
 #vote
 {
-    padding-left: 20px;
+    padding-left: 7px;
 }
 
 #votes li
 {
     display: list-item;
 }
+
+.vote-tip
+{
+    font-size: 15px;
+
+    padding: 15px 5px;
+
+    border-bottom: 1px solid #ccc;
+}
+
 
 
 .memberstatusbox
@@ -411,7 +407,7 @@ div#submit-working
     margin-bottom: 10px;
     padding: 12px 24px 12px 24px;
 
-    text-align: justify; 
+    text-align: justify;
 
     border: 1px #e0e0e0 solid;
 }
@@ -437,13 +433,13 @@ div#submit-working
 }
 #legal-text li
 {
-    margin: 0 0 18px 0; 
+    margin: 0 0 18px 0;
     padding: 0 0 0 0;
 }
 
 #legal-text-editor
 {
-    font-family: Courier New; 
+    font-family: Courier New;
 
     width: 100%;
     height: 400px;
@@ -466,7 +462,7 @@ div#submit-working
 {
     float: right;
 
-    padding: 0 0 0 12px; 
+    padding: 0 0 0 12px;
 
     border-bottom: 1px solid #e0e0e0;
     border-left: 1px solid #e0e0e0;
@@ -499,14 +495,14 @@ div#submit-working
 
     max-width: 800px;
     margin-top: 48px;
-    margin-bottom: 48px; 
+    margin-bottom: 48px;
 
     border: 1px solid #a0a0a0;
 }
 .instructions p,
 .instructions ul
 {
-    max-width: 800px; 
+    max-width: 800px;
     margin-top: 16px;
     margin-bottom: 16px;
 }
@@ -521,7 +517,7 @@ div#submit-working
 .instructions .instructions-nav label
 {
     float: left;
-    clear: both; 
+    clear: both;
 
     width: 100px;
     margin: 0;
@@ -534,7 +530,7 @@ div#submit-working
 }
 .profile-document-data p.document
 {
-    font-size: 18px; 
+    font-size: 18px;
     font-weight: bold;
 }
 .profile-document-data p.documentcontent
@@ -549,7 +545,7 @@ div#submit-working
 {
     float: right;
 
-    margin-bottom: 16px; 
+    margin-bottom: 16px;
     margin-left: 16px;
 
     border: 1px solid #606060;
