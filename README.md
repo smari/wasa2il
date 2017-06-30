@@ -11,21 +11,32 @@ The goal of this is to make it easy for groups on any scale - from the local
 whiskey club to the largest nation - to self-organize and manage their intents,
 goals and mutual understandings.
 
-It's main development has been moved to **[Gitlab](https://gitlab.com/piratar/wasa2il)** but it will be updated on [Github](https://github.com/piratar/wasa2il) frequently.
-
 # Staging/demo
 
-The current development version is deployed to Heroku when changes are merged into the development branch.
+The current branches are deployed to Heroku when changes are merged.
 
-The app can be found at [https://wasa2il-staging.herokuapp.com](https://wasa2il-staging.herokuapp.com)
+### master branch:
+[https://wasa2il-staging.herokuapp.com](https://wasa2il-staging.herokuapp.com)
+
+### development branch:
+[https://wasa2il-development.herokuapp.com](https://wasa2il-development.herokuapp.com)
+
+Login with any of the following 4 user:pass (a:a, b:b, c:c, d:d)
 
 # Setup
 
 _Note: Setup instructions are OS-agnostic unless otherwise specified. We test on Linux, Mac OS X and Windows._
 
-For production use, Wasa2il must be set up on a web server capable of running Django. Instructions on setting up a Django production environment are however beyond the scope of this project, as well as Git cloning, Python installation and how to use a command line. Plenty of tutorials on these topics exist in various places online and we suggest you take a look at them if any of this seems confusing.
+### For production use
+Wasa2il must be set up on a web server capable of running Django. Instructions on setting up a Django production environment are however beyond the scope of this project, as well as Git cloning, Python installation and how to use a command line. Plenty of tutorials on these topics exist in various places online and we suggest you take a look at them if any of this seems confusing.
 
-Long story short, to set up Wasa2il for development and/or testing:
+### For development use
+
+**Recommended**: You can read about **virtualenv** or **docker** setup here:
+
+https://github.com/piratar/wasa2il/wiki/Installation
+
+Normal setup:
 
 1. Install Python. You will need **pip** installed which is included by default in Python versions 2.7.9 and newer but can be downloaded separately for older versions. (URL: https://www.python.org/)
 
@@ -117,47 +128,3 @@ results are being forced out, whereas if there is a simple method to postpone an
 issue indefinitely opponents could gang up to game the system and eliminate the
 possibility of a Condorcet winner. Some middle ground should exist, and Wasa2il
 should support the creation of that.]
-
-
-# Alternative installation instructions
-
-If you don't know what a virtualenv or a docker is, you can safely ignore the
-following and just use the [setup instruction above](#setup). Alternatives
-are included for those who wish to develop and support the project using those
-technologies.
-
-## Virtualenv
-
-    virtualenv venv
-    venv/bin/python initial_setup.py --venv
-
-The initial setup script guides you through the rest of the process.
-
-## Docker
-
-    docker build -t piratar/wasa2il .
-    docker run --name wasa2il-dev-container -p 8000:8000 -it piratar/wasa2il
-
-The first command builds a new docker image and gives it the name `piratar/wasa2il`
-The second command starts a new docker container based of the latest version
-of the `piaratar/wasa2il` image, forwards port 8000 of the docker host to the
-same port on the docker container, and names it `wasa2il-dev-container`.  The
-Docker CMD command runs `initial_setup.py` so when running the container for
-the first time you will be prompted for username, e-mail and password.
-
-Since the sqlite database is created inside the container on the first run,
-and not for example mounted through a volume, if you want your test data to
-persist you must re-use the container after building it.  You can stop and
-start the named container like so:
-
-    docker stop wasa2il-dev-container
-
-and
-
-    docker start wasa2il-dev-container
-
-## Docker-compose
-
-Detailed instructions in our wiki: 
-
-https://gitlab.com/piratar/wasa2il/wikis/installation
