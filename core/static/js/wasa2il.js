@@ -196,7 +196,7 @@ function commentPoll(obj_key, obj_id) {
             // Silent error reporting?
         }
     }).fail(function(xhr, textStatus, errorThrown) {
-        alert("Error: " + errorThrown);
+        console.log("Error: " + errorThrown);
     });
 }
 
@@ -226,10 +226,10 @@ function commentSend(obj_key, obj_id, comment) {
             render_comments(object.comments, "#" + key + "_comments");
             comment.focus();
         } else {
-            alert('Error: Data malformed');
+            console.log('Error: Data malformed');
         }
     }).fail(function(xhr, textStatus, errorThrown) {
-        alert("Error: " + errorThrown);
+        console.log("Error: " + errorThrown);
     });
 }
 

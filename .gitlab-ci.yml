@@ -40,9 +40,17 @@ pages:
 staging:
   stage: deploy
   only:
-    - development
+    - master
   script:
     - git remote add heroku https://heroku:$HEROKU_STAGING_API_KEY@git.heroku.com/wasa2il-staging.git
+    - git push -f heroku HEAD:master
+
+development:
+  stage: deploy
+  only:
+    - development
+  script:
+    - git remote add heroku https://heroku:$HEROKU_STAGING_API_KEY@git.heroku.com/wasa2il-development.git
     - git push -f heroku HEAD:master
 
 release-image:

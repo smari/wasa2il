@@ -2,16 +2,23 @@ language: python
 python:
 - '2.7'
 install: pip install -r requirements.txt
+
 script:
   - coverage run --source=. manage.py test -v 2
   - coverage xml
   - python-codacy-coverage -r coverage.xml
+
 deploy:
   provider: heroku
   api_key:
     secure: bK5Wp0bTkv5LceRzIJjZntTKHbed70oLoMNaRv4sr8pkCKZQtVUmqmXMNsvihm49tU0nM9sVJCmb6HwcEX+1Nl9aeE0dJOi1zQC8ppNALNaHza77yGYW5aABQk9zq+xUW0w1BxxnN/6ysUzCsqQjvE2dIMDXt5Y01Cy3494AjJ8=
   app:
-    development: wasa2il-staging
+    development: wasa2il-development
+    master: wasa2il-staging
+
   run:
     - "python manage.py makemessages"
     - "python manage.py compilemessages"
+after_success:
+  - ./tag.sh
+

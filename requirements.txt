@@ -1,4 +1,5 @@
 Babel==2.3.4
+bumpversion==0.5.3
 certifi==2017.4.17
 cffi==1.5.2
 chardet==3.0.4
