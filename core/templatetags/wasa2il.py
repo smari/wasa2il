@@ -134,7 +134,6 @@ def render_breadcrumbs(context):
         'currentpath': request.path
     }
 
-
 @register.inclusion_tag('_comments_section.html')
 def comments_section(obj_key, obj_id, closed=False):
     return {
