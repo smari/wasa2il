@@ -375,6 +375,9 @@ class Issue(BaseIssue):
 
         return False
 
+    def discussions_closed(self):
+        return datetime.now() > self.deadline_discussions
+
     def process(self):
         """
             Process issue

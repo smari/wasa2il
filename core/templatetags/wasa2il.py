@@ -1,12 +1,13 @@
-
 import os
 import markdown2
 
 from PIL import Image
+from pilkit.processors import SmartResize
 
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 
 from core.models import UserTopic, Vote, ElectionVote
 
@@ -85,7 +86,8 @@ def thumbnail(file, size='104x104'):
         # if the image wasn't already resized, resize it
         if not os.path.exists(miniature_filename):
             image = Image.open(filename)
-            image.thumbnail([x, y], Image.ANTIALIAS)
+            processor = SmartResize(width=x, height=y)
+            image = processor.process(image)
             try:
                 image.save(miniature_filename, image.format, quality=90, optimize=1)
             except Exception as e:
@@ -130,4 +132,13 @@ def render_breadcrumbs(context):
     return {
         'breadcrumbs': breadcrumbs,
         'currentpath': request.path
+    }
+
+@register.inclusion_tag('_comments_section.html')
+def comments_section(obj_key, obj_id, closed=False):
+    return {
+        'obj_id': obj_id,
+        'obj_key': obj_key,
+        'closed': closed,
+        'btntext': _('Add comment')
     }

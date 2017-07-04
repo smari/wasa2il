@@ -135,10 +135,7 @@ if not local_settings_changed:
     stdout.write('- No changes needed.\n')
 
 # Compile the translation files
-for lang in next(os.walk(os.path.join(os.getcwd(), 'wasa2il/locale')))[1]:
-    print [get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'wasa2il/locale'), '-D', 'django', '-l', lang]
-    subprocess.call([get_executable_path('pybabel'), 'compile', '-d', os.path.join(os.getcwd(), 'wasa2il/locale'), '-D', 'django', '-l', lang])
-
+subprocess.call([get_executable_path('python'), os.path.join(os.getcwd(), 'manage.py'), 'compilemessages'])
 
 # Setup database if needed
 create_database = False

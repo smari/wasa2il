@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load wasa2il %}
 {% block content %}
 
 <div style="float: right;" class="btn-group">
@@ -13,25 +14,10 @@
 {% endif %}
 
 <div class="row">
-	<div class="span6 pull-left">
-		<div id="discussion_comments">
-		</div>
-
-		{% if not discussion.is_closed %}
-		<div class="comment_form form-inline">
-			<textarea id="id_comment" class="span4"></textarea>
-			<button class="btn primary" onclick="discussion_comment_send({{discussion.id}}, $('#id_comment'));">{% trans "Add comment" %}</button>
-		</div>
-		{% endif %}
+	<div class="col-xs-10">
+		{% comments_section "discussion" discussion.id discussion.is_closed %}
 	</div>
 </div>
 
-<script>
-discussion_id = {{discussion.id}};
-$(function() {
-	discussion_poll(discussion_id);
-	discussion_timer_start();
-});
-</script>
 
 {% endblock %}

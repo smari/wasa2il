@@ -93,36 +93,6 @@ function elections_showclosed_toggle(polity_id) {
 }
 
 
-function issue_comment_send(issue, comment) {
-    comment_text = comment.val();
-
-    if (comment_text == "") {
-        comment.focus();
-        return;
-    }
-
-    data = {
-        'issue': issue,
-        'comment': comment_text,
-        'csrfmiddlewaretoken': $('.comment_form').find('input[name="csrfmiddlewaretoken"]').val(),
-    }
-
-    $.post("/api/issue/comment/send/", data, null, 'json').done(function(data) {
-        if (data.ok) {
-            comment.val("");
-            issue_object = data.issue;
-            issue_render();
-            comment.focus();
-        }
-        else {
-            alert('Error: Data was received but does not seem to be JSON');
-        }
-    }).fail(function(xhr, textStatus, errorThrown) {
-        alert("Error: " + errorThrown);
-    });
-}
-
-
 function issue_timer_start() {
     issue_timer = window.setInterval(function() { issue_poll(issue_id); }, 5000);
 }
@@ -157,7 +127,6 @@ function issue_poll(issue) {
     });
 }
 
-
 function issue_render(issue) {
     //remove selection and deactivate all active buttons
     $("#vote_yes").parent().children().removeClass('btn-success');
@@ -174,75 +143,106 @@ function issue_render(issue) {
         $("#vote_abstain").addClass('active');
     }
     $("#issue_votes_count").text(issue_object.votes.count);
-    $("#issue_comments").empty();
     if (issue_object.comments.length > 0) {
         $("#issue-comments-header").show();
     }
     else {
         $("#issue-comments-header").hide();
     }
-    for (i in issue_object.comments) {
-        comment = issue_object.comments[i];
-        div = "<div class=\"comment\" id=\"comment_" + comment.id + "\">";
-        div +=    "<div class=\"comment_created_by\"><a href=\"/accounts/profile/" + comment.created_by + "/\">" + comment.created_by + "</a></div>";
-        div +=    "<div class=\"comment_content\">" + comment.comment.replace(/\n/g, '<br />') + "</div>";
-        div +=    "<div class=\"comment_created\">" + comment.created_since + "</div>";
-        div += "</div>";
-        $("#issue_comments").append(div);
+}
+
+function render_comment(comment) {
+    div = "<div class=\"comment\" id=\"comment_" + comment.id + "\">";
+    div +=  "<div class=\"profilepic\">";
+    div +=    "<a href=\"/accounts/profile/" + comment.created_by + "/\"><img src=\"" + comment.created_by_thumb + "\" /></a>";
+    div +=  "</div>";
+    div +=  "<div class=\"content\">";
+    div +=    "<div class=\"created_by\"><a href=\"/accounts/profile/" + comment.created_by + "/\">" + comment.created_by + "</a> ";
+    if (comment.issue_id) {
+        div += comment.in + " <a href=\"/issue/" + comment.issue_id + "/\">" + comment.issue_name + "</a>";
+    }
+    div += "</div>";
+    div +=    "<div class=\"text\">" + comment.comment.replace(/\n/g, '<br />') + "</div>";
+    div +=    "<div class=\"created\">" + comment.created_since + "</div>";
+    div +=  "</div>";
+    div += "</div>";
+    return div
+}
+
+function render_comments(comments, $id) {
+    $($id).empty();
+    for (i in comments) {
+        comment = comments[i];
+        $($id).append(render_comment(comment));
     }
 }
 
+function commentPoll(obj_key, obj_id) {
+    var obj = {};
+    obj[obj_key] = obj_id;
+    var APIPath = "/api/" + obj_key + "/poll/";
 
-function discussion_poll(discussion) {
-    $.getJSON("/api/discussion/poll/", {"discussion": discussion}, function(data) {
+    $.get(APIPath, obj).done(function(data) {
         if (data.ok) {
-            discussion_object = data.discussion;
-            discussion_render();
+            keys = Object.keys(data);
+            ok_pos = keys.indexOf("ok");
+            if (ok_pos != -1) {
+                keys.splice(keys.indexOf("ok"), 1);
+            }
+            key = keys[0];
+            object = data[key];
+            render_comments(object.comments, "#" + key + "_comments");
         } else {
             // Silent error reporting?
         }
+    }).fail(function(xhr, textStatus, errorThrown) {
+        console.log("Error: " + errorThrown);
     });
 }
 
 
-function discussion_render(discussion) {
-    $("#discussion_comments").empty();
-    for (i in discussion_object.comments) {
-        comment = discussion_object.comments[i];
-        div = "<div class=\"comment\" id=\"comment_" + comment.id + "\">";
-        div +=    "<div class=\"comment_created_by\"><a href=\"/accounts/profile/" + comment.created_by + "/\">" + comment.created_by + "</a></div>";
-        div +=    "<div class=\"comment_content\">" + comment.comment + "</div>";
-        div +=    "<div class=\"comment_created\">" + comment.created_since + "</div>";
-        div += "</div>";
-        $("#discussion_comments").append(div);
-    }
-}
-
-
-
-function discussion_comment_send(discussion, comment) {
+function commentSend(obj_key, obj_id, comment) {
     comment_text = comment.val();
-    if (comment_text == "") { return; }
-    $.getJSON("/api/discussion/comment/send/", {"discussion": discussion, "comment": comment_text}, function(data) {
+    if (comment_text == "") {
+        comment.focus();
+        return;
+    }
+    var APIPath = "/api/" + obj_key + "/comment/send/";
+    var postData = {};
+    postData["comment"] = comment_text;
+    postData[obj_key] = obj_id;
+    postData['csrfmiddlewaretoken'] = $('.comment_form'
+        ).find('input[name="csrfmiddlewaretoken"]').val();
+    $.post(APIPath, postData, null, 'json').done(function(data) {
         if (data.ok) {
             comment.val("");
-            discussion_object = data.discussion;
-            discussion_render();
+            keys = Object.keys(data);
+            ok_pos = keys.indexOf("ok");
+            if (ok_pos != -1) {
+                keys.splice(keys.indexOf("ok"), 1);
+            }
+            key = keys[0];
+            object = data[key];
+            render_comments(object.comments, "#" + key + "_comments");
+            comment.focus();
         } else {
-            // Silent error reporting?
+            console.log('Error: Data malformed');
         }
+    }).fail(function(xhr, textStatus, errorThrown) {
+        console.log("Error: " + errorThrown);
     });
 }
 
 
-function discussion_timer_start() {
-    discussion_timer = window.setInterval(function() { discussion_poll(discussion_id); }, 5000);
+function commentTimerStart(key, obj_id) {
+    discussion_timer = window.setInterval(function() {
+        commentPoll(key, obj_id);
+    }, 5000);
 }
 
-function discussion_timer_stop() {
+function commentTimerStop() {
     window.clearInterval(discussion_timer);
 }
-
 
 function election_timer_start() {
     // This is basically just checking for new candidates or keeping
@@ -364,6 +364,9 @@ $(document).ready(function() {
     }
 });
 
+// function start_introjs(){
+//     introJs().start();
+// }
 
 $(function() {
 
