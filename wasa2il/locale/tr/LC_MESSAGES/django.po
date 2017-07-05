@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-30 17:56+0000\n"
+"POT-Creation-Date: 2017-07-04 23:21+0000\n"
 "PO-Revision-Date: 2013-01-24 19:50+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language: tr\n"
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Special process"
 msgstr ""
 
-#: core/models.py:511 wasa2il/templates/_entry_summary.html:9
+#: core/models.py:514 wasa2il/templates/_entry_summary.html:9
 #: wasa2il/templates/_entry_summary.html:113
 #: wasa2il/templates/core/issues_new.html:9
 #: wasa2il/templates/core/issues_new.html:26
@@ -139,71 +139,78 @@ msgstr ""
 msgid "Issue"
 msgstr "Issues"
 
-#: core/models.py:516
-#, fuzzy
+#: core/models.py:519
 msgid "Topic"
 msgstr "Topics"
 
-#: core/models.py:521 wasa2il/templates/_entry_summary.html:10
+#: core/models.py:524 wasa2il/templates/_entry_summary.html:10
 #: wasa2il/templates/_entry_summary.html:74
 #: wasa2il/templates/_entry_summary.html:114
 #: wasa2il/templates/core/polity_list.html:23
 msgid "Polity"
 msgstr "Polity"
 
-#: core/models.py:660
+#: core/models.py:663
 msgid "Proposed"
 msgstr ""
 
-#: core/models.py:661 wasa2il/templates/core/issue_detail.html:63
+#: core/models.py:664 wasa2il/templates/core/issue_detail.html:63
 msgid "Accepted"
 msgstr ""
 
-#: core/models.py:662 wasa2il/templates/core/issue_detail.html:63
+#: core/models.py:665 wasa2il/templates/core/issue_detail.html:63
 msgid "Rejected"
 msgstr ""
 
-#: core/models.py:663
+#: core/models.py:666
 msgid "Deprecated"
 msgstr ""
 
-#: core/models.py:801 wasa2il/templates/core/election_detail.html:129
+#: core/models.py:804 wasa2il/templates/core/election_detail.html:129
 msgid "Voting system"
 msgstr ""
 
-#: core/models.py:802 wasa2il/templates/core/election_detail.html:98
+#: core/models.py:805 wasa2il/templates/core/election_detail.html:98
 #: wasa2il/templates/core/election_list.html:28
 msgid "Deadline for candidacy"
 msgstr ""
 
-#: core/models.py:803
+#: core/models.py:806
 msgid "Start time for votes"
 msgstr ""
 
-#: core/models.py:804 wasa2il/templates/core/election_detail.html:104
+#: core/models.py:807 wasa2il/templates/core/election_detail.html:104
 #: wasa2il/templates/core/election_list.html:29
 #: wasa2il/templates/core/issue_detail.html:50
 msgid "Deadline for votes"
 msgstr ""
 
-#: core/models.py:815 wasa2il/templates/core/election_detail.html:111
+#: core/models.py:818 wasa2il/templates/core/election_detail.html:111
 msgid "Membership deadline"
 msgstr ""
 
-#: core/models.py:818 wasa2il/templates/base.html:145
+#: core/models.py:821 wasa2il/templates/base.html:145
 msgid "Instructions"
 msgstr ""
 
-#: core/models.py:821
+#: core/models.py:824
 msgid "Statistics as JSON"
 msgstr ""
 
-#: core/models.py:822
+#: core/models.py:825
 msgid "Limit how many candidates we publish stats for"
 msgstr ""
 
 #: core/views.py:430
 msgid "voting"
+msgstr ""
+
+#: core/ajax/topic.py:26
+msgid "in"
+msgstr ""
+
+#: core/templatetags/wasa2il.py:143
+msgid "Add comment"
 msgstr ""
 
 #: wasa2il/templates/403.html:5
@@ -408,7 +415,7 @@ msgstr ""
 msgid "Voting System - Pirate Party Iceland"
 msgstr ""
 
-#: wasa2il/templates/base.html:90 wasa2il/templates/core/issue_detail.html:92
+#: wasa2il/templates/base.html:90 wasa2il/templates/core/issue_detail.html:79
 msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 
@@ -486,18 +493,19 @@ msgstr "Lisans"
 msgid "Authors"
 msgstr "Yazarlar"
 
+#: wasa2il/templates/base.html:147
+#: wasa2il/templates/core/stub/document_view.html:93
+#: wasa2il/templates/core/stub/document_view.html:95
+#: wasa2il/templates/profile.html:55
+msgid "Version"
+msgstr ""
+
 #: wasa2il/templates/profile.html:19
 msgid "Summary"
 msgstr ""
 
 #: wasa2il/templates/profile.html:39
 msgid "This user hasn't provided a biography."
-msgstr ""
-
-#: wasa2il/templates/core/stub/document_view.html:93
-#: wasa2il/templates/core/stub/document_view.html:95
-#: wasa2il/templates/profile.html:55
-msgid "Version"
 msgstr ""
 
 #: wasa2il/templates/core/document_list.html:10
@@ -576,18 +584,18 @@ msgstr "Doküman"
 
 #: wasa2il/templates/core/_document_agreement_list_table.html:5
 #: wasa2il/templates/core/issue_detail.html:58
-#: wasa2il/templates/core/issue_detail.html:94
+#: wasa2il/templates/core/issue_detail.html:81
 msgid "Yes"
 msgstr ""
 
 #: wasa2il/templates/core/_document_agreement_list_table.html:6
 #: wasa2il/templates/core/issue_detail.html:59
-#: wasa2il/templates/core/issue_detail.html:96
+#: wasa2il/templates/core/issue_detail.html:83
 msgid "No"
 msgstr ""
 
 #: wasa2il/templates/core/_document_agreement_list_table.html:7
-#: wasa2il/templates/core/issue_detail.html:95
+#: wasa2il/templates/core/issue_detail.html:82
 msgid "Abstain"
 msgstr ""
 
@@ -647,7 +655,7 @@ msgstr "Save statement"
 
 #: wasa2il/templates/core/_document_modal.html:49
 #: wasa2il/templates/core/polity_detail.html:155
-#: wasa2il/templates/core/topic_detail.html:81
+#: wasa2il/templates/core/topic_detail.html:72
 #: wasa2il/templates/forum/forum_detail.html:48
 msgid "Close"
 msgstr "Close"
@@ -688,7 +696,7 @@ msgid "Move to bottom"
 msgstr ""
 
 #: wasa2il/templates/core/_election_candidate_list.html:48
-#: wasa2il/templates/core/issue_detail.html:91
+#: wasa2il/templates/core/issue_detail.html:78
 #, fuzzy
 msgid "Vote"
 msgstr "Votes"
@@ -744,7 +752,7 @@ msgstr ""
 #: wasa2il/templates/core/issue_detail.html:20
 #: wasa2il/templates/core/issues_new.html:16
 #: wasa2il/templates/core/topic_detail.html:16
-#: wasa2il/templates/forum/discussion_detail.html:6
+#: wasa2il/templates/forum/discussion_detail.html:7
 #: wasa2il/templates/forum/forum_detail.html:7
 msgid "Back to polity"
 msgstr "Back to polity"
@@ -1128,16 +1136,11 @@ msgid "Majority threshold"
 msgstr ""
 
 #: wasa2il/templates/core/issue_detail.html:71
-#: wasa2il/templates/forum/discussion_detail.html:9
+#: wasa2il/templates/forum/discussion_detail.html:10
 msgid "Discussion"
 msgstr "Tartışma"
 
-#: wasa2il/templates/core/issue_detail.html:82
-#: wasa2il/templates/forum/discussion_detail.html:23
-msgid "Add comment"
-msgstr "Add comment"
-
-#: wasa2il/templates/core/issue_detail.html:91
+#: wasa2il/templates/core/issue_detail.html:78
 msgid "for or against this issue"
 msgstr ""
 
@@ -1243,11 +1246,7 @@ msgstr ""
 msgid "New discussions"
 msgstr "New discussions"
 
-#: wasa2il/templates/core/topic_detail.html:57
-msgid "in"
-msgstr "in"
-
-#: wasa2il/templates/core/topic_detail.html:69
+#: wasa2il/templates/core/topic_detail.html:60
 #, fuzzy
 msgid "Followers of this topic"
 msgstr "Members of this polity"
@@ -1288,12 +1287,12 @@ msgstr ""
 msgid "This proposal is deprecated. A newer version has taken effect."
 msgstr ""
 
-#: wasa2il/templates/forum/discussion_detail.html:7
+#: wasa2il/templates/forum/discussion_detail.html:8
 #, fuzzy
 msgid "Back to forum"
 msgstr "Başa dön"
 
-#: wasa2il/templates/forum/discussion_detail.html:12
+#: wasa2il/templates/forum/discussion_detail.html:13
 #, fuzzy
 msgid "This discussion is closed."
 msgstr "of discussion"
@@ -2335,6 +2334,15 @@ msgstr ""
 #: wasa2il/templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr ""
+
+#~ msgid "Topic"
+#~ msgstr "Topics"
+
+#~ msgid "Add comment"
+#~ msgstr "Add comment"
+
+#~ msgid "in"
+#~ msgstr "in"
 
 #~ msgid "In order to use Wasa2il you need to register an account."
 #~ msgstr "Wasa2il kullanmak için bir hesaba kayıt olmanız gerek."

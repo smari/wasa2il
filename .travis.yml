@@ -17,7 +17,6 @@ deploy:
     master: wasa2il-staging
 
   run:
-    - "python manage.py makemessages"
     - "python manage.py compilemessages"
 after_success:
   - ./tag.sh
