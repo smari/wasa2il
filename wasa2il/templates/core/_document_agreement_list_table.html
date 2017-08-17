@@ -7,17 +7,17 @@
     <th>{% trans "Abstain" %} </th>
     <th class="right">{% trans "Adopted" %}</th>
 </tr>
-{% for documentcontent in documentcontents %}
+{% for documentcontent in agreements %}
 <tr>
     <td><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></td>
     <td class="col-md-1 green">
-      {{ documentcontent.issue.get_votes.yes }}
+      {{ documentcontent.issue.votecount_yes }}
     </td>
     <td class="col-md-1 red">
-      {{ documentcontent.issue.get_votes.no }}
+      {{ documentcontent.issue.votecount_no }}
     </td>
     <td class="col-md-1 grey">
-      {{ documentcontent.issue.get_votes.abstain }}
+      {{ documentcontent.issue.votecount_abstain }}
     </td>
     <td class="date">{{ documentcontent.issue.deadline_votes|date }}</td>
 </tr>

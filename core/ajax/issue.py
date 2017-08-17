@@ -26,6 +26,21 @@ def issue_vote(request):
     vote.value = val
     vote.save()
 
+    # Update vote counts
+    issue.votecount = issue.votecount_yes = issue.votecount_abstain = issue.votecount_no = 0
+    votes = issue.vote_set.all()
+    for vote in votes:
+        if vote.value == 1:
+            issue.votecount += 1
+            issue.votecount_yes += 1
+        elif vote.value == 0:
+            # We purposely skip adding one to the total vote count.
+            issue.votecount_abstain += 1
+        elif vote.value == -1:
+            issue.votecount += 1
+            issue.votecount_no += 1
+    issue.save()
+
     return issue_poll(request)
 
 
@@ -58,9 +73,8 @@ def issue_poll(request):
             "comment": comment.comment
         } for comment in issue.comment_set.all().order_by("created")
     ]
-    ctx["issue"] = {"comments": comments }
+    ctx["issue"] = {"comments": comments, "votecount": issue.votecount }
     ctx["ok"] = True
-    ctx["issue"]["votes"] = issue.get_votes()
     if not request.user.is_anonymous():
         try:
             v = Vote.objects.get(user=request.user, issue=issue)

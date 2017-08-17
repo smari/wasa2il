@@ -24,7 +24,7 @@
                 <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
             </td>
             <td>{{ issue.comment_set.count }}</td>
-            <td>{{ issue.get_votes.count }}</td>
+            <td>{{ issue.votecount }}</td>
         </tr>
     {% empty %}
         <tr>
@@ -50,7 +50,7 @@
                     <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
                 </td>
                 <td>{{ issue.comment_set.count }}</td>
-                <td>{{ issue.get_votes.count }}</td>
+                <td>{{ issue.votecount }}</td>
             </tr>
         {% endfor %}
             <tr class="more showLess" style="display:none;">
@@ -129,7 +129,7 @@
                     <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
                 </td>
                 <td>{{ issue.comment_set.count }}</td>
-                <td>{{ issue.get_votes.count }}</td>
+                <td>{{ issue.votecount }}</td>
             </tr>
         {% empty %}
             <tr>
@@ -155,7 +155,7 @@
                         <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
                     </td>
                     <td>{{ issue.comment_set.count }}</td>
-                    <td>{{ issue.get_votes.count }}</td>
+                    <td>{{ issue.votecount }}</td>
                 </tr>
             {% endfor %}
                 <tr class="more showLess" style="display:none;">

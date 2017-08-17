@@ -222,7 +222,13 @@ class Polity(BaseIssue):
         return topics
 
     def agreements(self):
-        return DocumentContent.objects.select_related('document').filter(status='accepted', document__polity_id=self.id).order_by('-issue__deadline_votes')
+        return DocumentContent.objects.select_related(
+            'document',
+            'issue'
+        ).filter(
+            status='accepted',
+            document__polity_id=self.id
+        ).order_by('-issue__deadline_votes')
 
     def update_agreements(self):
         issues_to_process = Issue.objects.filter(is_processed=False).filter(deadline_votes__lt=timezone.now())
@@ -318,7 +324,13 @@ class Issue(BaseIssue):
     deadline_votes = models.DateTimeField(**nullblank)
     majority_percentage = models.DecimalField(max_digits=5, decimal_places=2)
     ruleset = models.ForeignKey(PolityRuleset, verbose_name=_("Ruleset"), editable=True)
+
     is_processed = models.BooleanField(default=False)
+    votecount = models.IntegerField(default=0)
+    votecount_yes = models.IntegerField(default=0)
+    votecount_abstain = models.IntegerField(default=0)
+    votecount_no = models.IntegerField(default=0)
+
     special_process = models.CharField(max_length='32', verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
 
     d = dict(
@@ -378,6 +390,9 @@ class Issue(BaseIssue):
     def discussions_closed(self):
         return datetime.now() > self.deadline_discussions
 
+    def percentage_reached(self):
+        return float(self.votecount_yes) / float(self.votecount) * 100
+
     def process(self):
         """
             Process issue
@@ -430,29 +445,14 @@ class Issue(BaseIssue):
         except TypeError:
             return []
 
-    def get_votes(self):
-        votes = {}
-        if self.is_closed():
-            votes["yes"] = sum([x.get_value() for x in self.vote_set.filter(value=1)])
-            votes["abstain"] = sum([x.get_value() for x in self.vote_set.filter(value=0)])
-            votes["no"] = -sum([x.get_value() for x in self.vote_set.filter(value=-1)])
-        else:
-            votes["yes"] = -1
-            votes["abstain"] = -1
-            votes["no"] = -1
-        votes["total"] = sum([x.get_value() for x in self.vote_set.all()])
-        votes["count"] = self.vote_set.exclude(value=0).count()
-        return votes
-
     def majority_reached(self):
         result = False
 
         if self.special_process == 'accepted_at_assembly':
             result = True
         else:
-            votes = self.get_votes()
-            if votes['count'] > 0:
-                result = float(votes['yes']) / votes['count'] > float(self.majority_percentage) / 100
+            if self.votecount > 0:
+                result = float(self.votecount_yes) / self.votecount > float(self.majority_percentage) / 100
 
         return result
 

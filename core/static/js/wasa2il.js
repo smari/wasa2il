@@ -142,7 +142,7 @@ function issue_render(issue) {
         $("#vote_abstain").addClass('btn-success');
         $("#vote_abstain").addClass('active');
     }
-    $("#issue_votes_count").text(issue_object.votes.count);
+    $("#issue_votes_count").text(issue_object.votecount);
     if (issue_object.comments.length > 0) {
         $("#issue-comments-header").show();
     }
