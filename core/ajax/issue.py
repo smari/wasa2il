@@ -58,8 +58,7 @@ def issue_poll(request):
             "comment": comment.comment
         } for comment in issue.comment_set.all().order_by("created")
     ]
-    documents = []
-    ctx["issue"] = {"comments": comments, "documents": documents}
+    ctx["issue"] = {"comments": comments }
     ctx["ok"] = True
     ctx["issue"]["votes"] = issue.get_votes()
     if not request.user.is_anonymous():
