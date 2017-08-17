@@ -217,3 +217,18 @@ ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = "/"
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+if DEBUG:
+    import imp
+    try:
+        imp.find_module('debug_toolbar')
+
+        INSTALLED_APPS += ('debug_toolbar.apps.DebugToolbarConfig',)
+        MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+        INTERNAL_IPS = ('127.0.0.1',)
+        DEBUG_TOOLBAR_CONFIG = {
+            'JQUERY_URL': ''
+        }
+    except ImportError:
+        # Silently continue if django-debug-toolbar isn't installed
+        pass
