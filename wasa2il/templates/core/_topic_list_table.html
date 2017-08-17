@@ -8,10 +8,10 @@
         {% endif %}
         <a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a>
     </td>
-    <td>{{topic.issue_set.count}}</td>
+    <td>{{ topic.issue_count}} </td>
     <td>{{topic.issues_open}}</td>
     <td>{{topic.issues_voting}}</td>
-    <td>{{topic.usertopic_set.count}}</td>
+    <td>{{ topic.usertopic_count }}</td>
 </tr>
 {% empty %}
 <tr>

@@ -11,6 +11,7 @@ from core.utils import AttrDict
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Count
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -215,9 +216,13 @@ class Polity(BaseIssue):
 
     def get_topic_list(self, user):
         if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
-            topics = Topic.objects.filter(polity=self).order_by('name')
+            topics = Topic.objects.filter(polity=self)
         else:
-            topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self).order_by('topic__name')]
+            topics = Topic.objects.filter(polity=self, usertopic__user=user)
+
+        # Annotate issue count and usertopic count.
+        topics = topics.annotate(issue_count=Count('issue', distinct=True))
+        topics = topics.annotate(usertopic_count=Count('usertopic', distinct=True))
 
         return topics
 
