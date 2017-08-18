@@ -468,7 +468,7 @@ class PolityListView(ListView):
         return context_data
 
 class PolityDetailView(DetailView):
-    model = Polity
+    queryset = Polity.objects.prefetch_related('officers')
     context_object_name = "polity"
     template_name = "core/polity_detail.html"
 
