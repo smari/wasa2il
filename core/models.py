@@ -11,6 +11,7 @@ from core.utils import AttrDict
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import BooleanField
 from django.db.models import Case
 from django.db.models import Count
 from django.db.models import IntegerField
@@ -277,6 +278,19 @@ class TopicQuerySet(models.QuerySet):
                 Case(
                     When(Q(issue__deadline_votes__gte=now, issue__deadline_proposals__lt=now), then=True),
                     output_field=IntegerField()
+                ),
+                distinct=True
+            )
+        )
+
+        # Annotate the user's favoriteness of topics. Note that even though
+        # it's intended as a boolean, it is actually produced as an integer.
+        # So it's 1/0, not True/False.
+        topics = topics.annotate(
+            favorited=Count(
+                Case(
+                    When(usertopic__user=user, then=True),
+                    output_field=BooleanField
                 ),
                 distinct=True
             )
