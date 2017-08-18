@@ -481,7 +481,7 @@ class PolityDetailView(DetailView):
         context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
         self.object.update_agreements()
         ctx['user_is_member'] = self.object.is_member(self.request.user)
-        ctx["politytopics"] = self.object.get_topic_list(self.request.user)
+        ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
         ctx["agreements"] = self.object.agreements()
         ctx["delegation"] = self.object.get_delegation(self.request.user)
         ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:20]

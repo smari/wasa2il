@@ -11,7 +11,11 @@ from core.utils import AttrDict
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Case
 from django.db.models import Count
+from django.db.models import IntegerField
+from django.db.models import Q
+from django.db.models import When
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -214,18 +218,6 @@ class Polity(BaseIssue):
     def election_potential_candidates(self):
         return self.members
 
-    def get_topic_list(self, user):
-        if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
-            topics = Topic.objects.filter(polity=self)
-        else:
-            topics = Topic.objects.filter(polity=self, usertopic__user=user)
-
-        # Annotate issue count and usertopic count.
-        topics = topics.annotate(issue_count=Count('issue', distinct=True))
-        topics = topics.annotate(usertopic_count=Count('usertopic', distinct=True))
-
-        return topics
-
     def agreements(self):
         return DocumentContent.objects.select_related(
             'document',
@@ -254,8 +246,49 @@ class Polity(BaseIssue):
         return super(Polity, self).save(*args, **kwargs)
 
 
+class TopicQuerySet(models.QuerySet):
+    def listing_info(self, user):
+        '''
+        Adds information relevant to listing of topics
+        '''
+
+        topics = self
+        now = datetime.now()
+
+        if not user.is_anonymous and not UserProfile.objects.get(user=user).topics_showall:
+            topics = topics.filter(usertopic__user=user)
+
+        # Annotate issue count.
+        topics = topics.annotate(issue_count=Count('issue', distinct=True))
+
+        # Annotate usertopic count.
+        topics = topics.annotate(usertopic_count=Count('usertopic', distinct=True))
+
+        # Annotate counts of issues that are open and/or being voted on.
+        topics = topics.annotate(
+            issues_open=Count(
+                Case(
+                    When(issue__deadline_votes__gte=now, then=True),
+                    output_field=IntegerField()
+                ),
+                distinct=True
+            ),
+            issues_voting=Count(
+                Case(
+                    When(Q(issue__deadline_votes__gte=now, issue__deadline_proposals__lt=now), then=True),
+                    output_field=IntegerField()
+                ),
+                distinct=True
+            )
+        )
+
+        return topics
+
+
 class Topic(BaseIssue):
     """A collection of issues unified categorically."""
+    objects = TopicQuerySet.as_manager()
+
     created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_created_by')
     modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_modified_by')
     created = models.DateTimeField(auto_now_add=True)
@@ -274,18 +307,6 @@ class Topic(BaseIssue):
 
     class Meta:
         ordering = ["name"]
-
-    def issues_open(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_open()]
-        return len(issues)
-
-    def issues_voting(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_voting()]
-        return len(issues)
-
-    def issues_closed(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_closed()]
-        return len(issues)
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
