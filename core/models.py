@@ -256,8 +256,23 @@ class TopicQuerySet(models.QuerySet):
         topics = self
         now = datetime.now()
 
-        if not user.is_anonymous and not UserProfile.objects.get(user=user).topics_showall:
-            topics = topics.filter(usertopic__user=user)
+        if not user.is_anonymous():
+            if not UserProfile.objects.get(user=user).topics_showall:
+                topics = topics.filter(usertopic__user=user)
+
+            # Annotate the user's favoriteness of topics. Note that even though
+            # it's intended as a boolean, it is actually produced as an integer.
+            # So it's 1/0, not True/False.
+            if not user.is_anonymous():
+                topics = topics.annotate(
+                    favorited=Count(
+                        Case(
+                            When(usertopic__user=user, then=True),
+                            output_field=BooleanField
+                        ),
+                        distinct=True
+                    )
+                )
 
         # Annotate issue count.
         topics = topics.annotate(issue_count=Count('issue', distinct=True))
@@ -278,19 +293,6 @@ class TopicQuerySet(models.QuerySet):
                 Case(
                     When(Q(issue__deadline_votes__gte=now, issue__deadline_proposals__lt=now), then=True),
                     output_field=IntegerField()
-                ),
-                distinct=True
-            )
-        )
-
-        # Annotate the user's favoriteness of topics. Note that even though
-        # it's intended as a boolean, it is actually produced as an integer.
-        # So it's 1/0, not True/False.
-        topics = topics.annotate(
-            favorited=Count(
-                Case(
-                    When(usertopic__user=user, then=True),
-                    output_field=BooleanField
                 ),
                 distinct=True
             )
