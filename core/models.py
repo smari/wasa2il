@@ -11,6 +11,12 @@ from core.utils import AttrDict
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import BooleanField
+from django.db.models import Case
+from django.db.models import Count
+from django.db.models import IntegerField
+from django.db.models import Q
+from django.db.models import When
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -213,16 +219,14 @@ class Polity(BaseIssue):
     def election_potential_candidates(self):
         return self.members
 
-    def get_topic_list(self, user):
-        if user.is_anonymous() or UserProfile.objects.get(user=user).topics_showall:
-            topics = Topic.objects.filter(polity=self).order_by('name')
-        else:
-            topics = [x.topic for x in UserTopic.objects.filter(user=user, topic__polity=self).order_by('topic__name')]
-
-        return topics
-
     def agreements(self):
-        return DocumentContent.objects.select_related('document').filter(status='accepted', document__polity_id=self.id).order_by('-issue__deadline_votes')
+        return DocumentContent.objects.select_related(
+            'document',
+            'issue'
+        ).filter(
+            status='accepted',
+            document__polity_id=self.id
+        ).order_by('-issue__deadline_votes')
 
     def update_agreements(self):
         issues_to_process = Issue.objects.filter(is_processed=False).filter(deadline_votes__lt=timezone.now())
@@ -243,8 +247,64 @@ class Polity(BaseIssue):
         return super(Polity, self).save(*args, **kwargs)
 
 
+class TopicQuerySet(models.QuerySet):
+    def listing_info(self, user):
+        '''
+        Adds information relevant to listing of topics
+        '''
+
+        topics = self
+        now = datetime.now()
+
+        if not user.is_anonymous():
+            if not UserProfile.objects.get(user=user).topics_showall:
+                topics = topics.filter(usertopic__user=user)
+
+            # Annotate the user's favoriteness of topics. Note that even though
+            # it's intended as a boolean, it is actually produced as an integer.
+            # So it's 1/0, not True/False.
+            if not user.is_anonymous():
+                topics = topics.annotate(
+                    favorited=Count(
+                        Case(
+                            When(usertopic__user=user, then=True),
+                            output_field=BooleanField
+                        ),
+                        distinct=True
+                    )
+                )
+
+        # Annotate issue count.
+        topics = topics.annotate(issue_count=Count('issue', distinct=True))
+
+        # Annotate usertopic count.
+        topics = topics.annotate(usertopic_count=Count('usertopic', distinct=True))
+
+        # Annotate counts of issues that are open and/or being voted on.
+        topics = topics.annotate(
+            issues_open=Count(
+                Case(
+                    When(issue__deadline_votes__gte=now, then=True),
+                    output_field=IntegerField()
+                ),
+                distinct=True
+            ),
+            issues_voting=Count(
+                Case(
+                    When(Q(issue__deadline_votes__gte=now, issue__deadline_proposals__lt=now), then=True),
+                    output_field=IntegerField()
+                ),
+                distinct=True
+            )
+        )
+
+        return topics
+
+
 class Topic(BaseIssue):
     """A collection of issues unified categorically."""
+    objects = TopicQuerySet.as_manager()
+
     created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_created_by')
     modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_modified_by')
     created = models.DateTimeField(auto_now_add=True)
@@ -263,18 +323,6 @@ class Topic(BaseIssue):
 
     class Meta:
         ordering = ["name"]
-
-    def issues_open(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_open()]
-        return len(issues)
-
-    def issues_voting(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_voting()]
-        return len(issues)
-
-    def issues_closed(self):
-        issues = [issue for issue in self.issue_set.all() if issue.is_closed()]
-        return len(issues)
 
     def get_delegation(self, user):
         """Check if there is a delegation on this topic."""
@@ -318,7 +366,13 @@ class Issue(BaseIssue):
     deadline_votes = models.DateTimeField(**nullblank)
     majority_percentage = models.DecimalField(max_digits=5, decimal_places=2)
     ruleset = models.ForeignKey(PolityRuleset, verbose_name=_("Ruleset"), editable=True)
+
     is_processed = models.BooleanField(default=False)
+    votecount = models.IntegerField(default=0)
+    votecount_yes = models.IntegerField(default=0)
+    votecount_abstain = models.IntegerField(default=0)
+    votecount_no = models.IntegerField(default=0)
+
     special_process = models.CharField(max_length='32', verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
 
     d = dict(
@@ -378,6 +432,9 @@ class Issue(BaseIssue):
     def discussions_closed(self):
         return datetime.now() > self.deadline_discussions
 
+    def percentage_reached(self):
+        return float(self.votecount_yes) / float(self.votecount) * 100
+
     def process(self):
         """
             Process issue
@@ -430,29 +487,14 @@ class Issue(BaseIssue):
         except TypeError:
             return []
 
-    def get_votes(self):
-        votes = {}
-        if self.is_closed():
-            votes["yes"] = sum([x.get_value() for x in self.vote_set.filter(value=1)])
-            votes["abstain"] = sum([x.get_value() for x in self.vote_set.filter(value=0)])
-            votes["no"] = -sum([x.get_value() for x in self.vote_set.filter(value=-1)])
-        else:
-            votes["yes"] = -1
-            votes["abstain"] = -1
-            votes["no"] = -1
-        votes["total"] = sum([x.get_value() for x in self.vote_set.all()])
-        votes["count"] = self.vote_set.exclude(value=0).count()
-        return votes
-
     def majority_reached(self):
         result = False
 
         if self.special_process == 'accepted_at_assembly':
             result = True
         else:
-            votes = self.get_votes()
-            if votes['count'] > 0:
-                result = float(votes['yes']) / votes['count'] > float(self.majority_percentage) / 100
+            if self.votecount > 0:
+                result = float(self.votecount_yes) / self.votecount > float(self.majority_percentage) / 100
 
         return result
 

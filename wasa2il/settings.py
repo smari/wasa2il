@@ -10,7 +10,7 @@ except ImportError:
     from default_settings import *
     print('No local_settings.py found. Setting default values.')
 
-WASA2IL_VERSION = '0.9.1'
+WASA2IL_VERSION = '0.9.2'
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
@@ -217,3 +217,18 @@ ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_REDIRECT_URL = "/"
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+if DEBUG:
+    import imp
+    try:
+        imp.find_module('debug_toolbar')
+
+        INSTALLED_APPS += ('debug_toolbar.apps.DebugToolbarConfig',)
+        MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+        INTERNAL_IPS = ('127.0.0.1',)
+        DEBUG_TOOLBAR_CONFIG = {
+            'JQUERY_URL': ''
+        }
+    except ImportError:
+        # Silently continue if django-debug-toolbar isn't installed
+        pass

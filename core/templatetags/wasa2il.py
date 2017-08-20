@@ -36,15 +36,6 @@ def sparkline(variable, skip_last=False):
     return ','.join(str(v) for v in variable)
 
 
-@register.filter(name='topicfavorited')
-def topicfavorited(topic, user):
-    try:
-        UserTopic.objects.get(user=user, topic=topic)
-        return True
-    except UserTopic.DoesNotExist:
-        return False
-
-
 @register.filter(name='issuevoted')
 def issuevoted(issue, user):
     try:

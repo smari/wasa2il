@@ -182,7 +182,7 @@ def topic_star(request):
         UserTopic(topic=topic, user=request.user).save()
         ctx["starred"] = True
 
-    topics = topic.polity.get_topic_list(request.user)
+    topics = topic.polity.topic_set.listing_info(request.user)
     ctx["html"] = render_to_string("core/_topic_list_table.html", {"topics": topics, "user": request.user, "polity": topic.polity})
 
     ctx["ok"] = True
@@ -204,7 +204,7 @@ def topic_showstarred(request):
     if polity:
         try:
             polity = Polity.objects.get(id=polity)
-            topics = polity.get_topic_list(request.user)
+            topics = polity.topic_set.listing_info(request.user)
             ctx["html"] = render_to_string("core/_topic_list_table.html", {"topics": topics, "user": request.user, "polity": polity})
         except Exception, e:
             ctx["error"] = e

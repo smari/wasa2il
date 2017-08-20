@@ -64,6 +64,7 @@ class TopicAdmin(BaseIssueAdmin):
 class IssueAdmin(BaseIssueAdmin):
     fieldsets = None
     list_display = BaseIssueAdmin.list_display + ['topics_str']
+    exclude = ['votecount', 'votecount_yes', 'votecount_abstain', 'votecount_no']
 
 
 class DelegateAdmin(admin.ModelAdmin):

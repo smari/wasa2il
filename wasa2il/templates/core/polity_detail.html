@@ -67,7 +67,7 @@
                 </td>
                 <td class="issue-status">{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
                 <td>{{ issue.comment_set.count }}</td>
-                <td>{{ issue.get_votes.count }}</td>
+                <td>{{ issue.votecount }}</td>
             </tr>
         {% empty %}
             <tr>
@@ -94,9 +94,7 @@
 
         <p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
 
-        {% with polity.agreements as documentcontents %}
-            {% include "core/_document_agreement_list_table.html" %}
-        {% endwith %}
+        {% include "core/_document_agreement_list_table.html" %}
     </div>
 
     <div class="col-md-6 col-xs-12"><a name="topics"></a>

@@ -65,7 +65,7 @@ if settings.DEBUG:
             'document_root': settings.MEDIA_ROOT,
         }),
     )
-    if 'debug_toolbar' in settings.INSTALLED_APPS:
+    if 'debug_toolbar.apps.DebugToolbarConfig' in settings.INSTALLED_APPS:
         try:
             import debug_toolbar
             urlpatterns += patterns(

@@ -418,15 +418,6 @@ class IssueDetailView(DetailView):
         # TODO: Unused, as of yet.
         #context_data["delegation"] = self.object.get_delegation(self.request.user)
 
-        votes_percentage_reached = 0
-        votes = self.object.get_votes()
-        if votes['count']:
-            votes_percentage_reached = float(votes['yes']) / float(votes['count']) * 100
-
-        context_data['votes_yes'] = votes['yes']
-        context_data['votes_no'] = votes['no']
-        context_data['votes_count'] = votes['count']
-        context_data['votes_percentage_reached'] = votes_percentage_reached
         context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
         context_data['can_vote'] = (self.request.user is not None and
                                     self.object.can_vote(self.request.user))
@@ -477,7 +468,7 @@ class PolityListView(ListView):
         return context_data
 
 class PolityDetailView(DetailView):
-    model = Polity
+    queryset = Polity.objects.prefetch_related('officers')
     context_object_name = "polity"
     template_name = "core/polity_detail.html"
 
@@ -490,7 +481,8 @@ class PolityDetailView(DetailView):
         context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
         self.object.update_agreements()
         ctx['user_is_member'] = self.object.is_member(self.request.user)
-        ctx["politytopics"] = self.object.get_topic_list(self.request.user)
+        ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
+        ctx["agreements"] = self.object.agreements()
         ctx["delegation"] = self.object.get_delegation(self.request.user)
         ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:20]
         ctx["newelections"] = self.object.election_set.filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:10]
