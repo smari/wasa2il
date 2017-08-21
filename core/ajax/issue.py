@@ -11,7 +11,7 @@ from core.templatetags.wasa2il import thumbnail
 @login_required
 @jsonize
 def issue_vote(request):
-    issue = int(request.POST.get("issue", request.GET.get("issue", 0)))
+    issue = int(request.POST.get("issue", 0))
     issue = get_object_or_404(Issue, id=issue)
 
     if not issue.is_voting():
@@ -20,7 +20,7 @@ def issue_vote(request):
     if not issue.can_vote(user=request.user):
         return issue_poll(request)
 
-    val = int(request.POST.get("vote", request.GET.get("vote", 0)))
+    val = int(request.POST.get("vote", 0))
 
     (vote, created) = Vote.objects.get_or_create(user=request.user, issue=issue)
     vote.value = val

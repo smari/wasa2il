@@ -104,7 +104,11 @@ function issue_timer_stop() {
 
 function issue_vote(val) {
     issue_timer_stop();
-    $.getJSON("/api/issue/vote/", {"issue": issue_id, "vote": val}, function(data) {
+    $.post("/api/issue/vote/", {
+        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
+        "issue": issue_id,
+        "vote": val
+    }, function(data) {
         if (data.ok) {
             issue_object = data.issue;
             issue_render();
