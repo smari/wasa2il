@@ -50,14 +50,14 @@ class UserProfile(models.Model):
     verified_timing = models.DateTimeField(null=True, blank=True)
 
     # User information
-    displayname = models.CharField(max_length="255", verbose_name=_("Name"), help_text=_("The name to display on the site."), **nullblank)
+    displayname = models.CharField(max_length=255, verbose_name=_("Name"), help_text=_("The name to display on the site."), **nullblank)
     email_visible = models.BooleanField(default=False, verbose_name=_("E-mail visible"), help_text=_("Whether to display your email address on your profile page."))
     bio = models.TextField(verbose_name=_("Bio"), **nullblank)
     picture = models.ImageField(upload_to="users", verbose_name=_("Picture"), **nullblank)
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
-    language = models.CharField(max_length="6", default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, verbose_name=_("Language"))
+    language = models.CharField(max_length=6, default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, verbose_name=_("Language"))
     topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 
     def save(self, *largs, **kwargs):
@@ -373,7 +373,7 @@ class Issue(BaseIssue):
     votecount_abstain = models.IntegerField(default=0)
     votecount_no = models.IntegerField(default=0)
 
-    special_process = models.CharField(max_length='32', verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
+    special_process = models.CharField(max_length=32, verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
 
     d = dict(
         editable=False,
@@ -707,7 +707,7 @@ class DocumentContent(models.Model):
         ('rejected', _('Rejected')),
         ('deprecated', _('Deprecated')),
     )
-    status = models.CharField(max_length='32', choices=STATUS_CHOICES, default='proposed')
+    status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='proposed')
     predecessor = models.ForeignKey('DocumentContent', null=True, blank=True)
 
 
