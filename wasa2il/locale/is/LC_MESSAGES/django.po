@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-21 17:50+0000\n"
+"POT-Creation-Date: 2017-08-21 18:26+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language: is\n"
@@ -171,11 +171,11 @@ msgstr "Hafnað"
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: core/models.py:846 wasa2il/templates/core/election_detail.html:129
+#: core/models.py:846 wasa2il/templates/core/election_detail.html:134
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:847 wasa2il/templates/core/election_detail.html:98
+#: core/models.py:847 wasa2il/templates/core/election_detail.html:103
 #: wasa2il/templates/core/election_list.html:28
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
@@ -184,13 +184,13 @@ msgstr "Tímamörk fyrir framboð"
 msgid "Start time for votes"
 msgstr "Upphaf kosninga"
 
-#: core/models.py:849 wasa2il/templates/core/election_detail.html:104
+#: core/models.py:849 wasa2il/templates/core/election_detail.html:109
 #: wasa2il/templates/core/election_list.html:29
 #: wasa2il/templates/core/issue_detail.html:72
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:860 wasa2il/templates/core/election_detail.html:111
+#: core/models.py:860 wasa2il/templates/core/election_detail.html:116
 msgid "Membership deadline"
 msgstr "Skráningarmörk kjósenda"
 
@@ -280,9 +280,9 @@ msgstr "Ummæli"
 #: wasa2il/templates/_entry_summary.html:77
 #: wasa2il/templates/_entry_summary.html:116
 #: wasa2il/templates/core/_polity_detail_elections.html:28
-#: wasa2il/templates/core/election_detail.html:126
-#: wasa2il/templates/core/election_detail.html:141
-#: wasa2il/templates/core/election_detail.html:264
+#: wasa2il/templates/core/election_detail.html:131
+#: wasa2il/templates/core/election_detail.html:146
+#: wasa2il/templates/core/election_detail.html:269
 #: wasa2il/templates/core/election_list.html:27
 #: wasa2il/templates/core/issue_detail.html:79
 #: wasa2il/templates/core/issues_new.html:29
@@ -356,9 +356,9 @@ msgstr "Ástand"
 
 #: wasa2il/templates/_entry_summary.html:76
 #: wasa2il/templates/core/_polity_detail_elections.html:27
-#: wasa2il/templates/core/election_detail.html:124
-#: wasa2il/templates/core/election_detail.html:139
-#: wasa2il/templates/core/election_detail.html:288
+#: wasa2il/templates/core/election_detail.html:129
+#: wasa2il/templates/core/election_detail.html:144
+#: wasa2il/templates/core/election_detail.html:293
 #: wasa2il/templates/core/election_list.html:26
 msgid "Candidates"
 msgstr "Frambjóðendur"
@@ -436,7 +436,7 @@ msgstr ""
 " til fresturinn rennur út."
 
 #: wasa2il/templates/base.html:97
-#: wasa2il/templates/core/election_detail.html:291
+#: wasa2il/templates/core/election_detail.html:296
 msgid "Working..."
 msgstr "Sendi gögn..."
 
@@ -910,148 +910,143 @@ msgstr "Kosning:"
 msgid "This election is closed."
 msgstr "Þessu máli er lokið."
 
-#: wasa2il/templates/core/election_detail.html:50
+#: wasa2il/templates/core/election_detail.html:49
 #, python-format
-msgid ""
-"\n"
-"    You ended up in %(user_result)s. place.\n"
-"  "
+msgid "You ended up in %(user_result)s. place."
 msgstr ""
-"\n"
-"Þú lentir í %(user_result)s. sæti."
 
-#: wasa2il/templates/core/election_detail.html:54
+#: wasa2il/templates/core/election_detail.html:55
 msgid "You cannot vote in this election:"
 msgstr "Þú getur ekki kosið í þessum kosningum:"
 
-#: wasa2il/templates/core/election_detail.html:56
-#: wasa2il/templates/core/election_detail.html:69
+#: wasa2il/templates/core/election_detail.html:58
+#: wasa2il/templates/core/election_detail.html:73
 #: wasa2il/templates/core/issue_detail.html:35
 msgid "Please log in."
 msgstr "Vinsamlegast skráðu þig inn."
 
-#: wasa2il/templates/core/election_detail.html:58
+#: wasa2il/templates/core/election_detail.html:60
 msgid "You joined the organization too late."
 msgstr "Það er of stutt síðan þú gekkst í félagið."
 
-#: wasa2il/templates/core/election_detail.html:60
-#: wasa2il/templates/core/election_detail.html:71
+#: wasa2il/templates/core/election_detail.html:62
+#: wasa2il/templates/core/election_detail.html:75
 #: wasa2il/templates/core/issue_detail.html:37
 msgid "You are not a member of this polity."
 msgstr "Þú ert ekki meðlimur þessa þings."
 
-#: wasa2il/templates/core/election_detail.html:62
-#: wasa2il/templates/core/election_detail.html:73
+#: wasa2il/templates/core/election_detail.html:64
+#: wasa2il/templates/core/election_detail.html:77
 #: wasa2il/templates/core/issue_detail.html:39
 msgid "You do not meet the requirements."
 msgstr "Þú uppfyllir ekki skilyrðin."
 
-#: wasa2il/templates/core/election_detail.html:67
+#: wasa2il/templates/core/election_detail.html:70
 msgid "You cannot run in this election:"
 msgstr "Þú getur ekki farið fram í þessum kosningum:"
 
-#: wasa2il/templates/core/election_detail.html:80
+#: wasa2il/templates/core/election_detail.html:85
 msgid "This election is delegated."
 msgstr ""
 
-#: wasa2il/templates/core/election_detail.html:80
+#: wasa2il/templates/core/election_detail.html:85
 #: wasa2il/templates/core/topic_detail.html:21
 msgid "View details."
 msgstr "Birta smáatriði."
 
-#: wasa2il/templates/core/election_detail.html:92
+#: wasa2il/templates/core/election_detail.html:97
 msgid "Voting begins"
 msgstr "Upphaf kosninga"
 
-#: wasa2il/templates/core/election_detail.html:114
+#: wasa2il/templates/core/election_detail.html:119
 msgid "Candidacy polities"
 msgstr "Þing frambjóðenda"
 
-#: wasa2il/templates/core/election_detail.html:115
+#: wasa2il/templates/core/election_detail.html:120
 msgid "You can run"
 msgstr "Mátt bjóða fram"
 
-#: wasa2il/templates/core/election_detail.html:119
+#: wasa2il/templates/core/election_detail.html:124
 msgid "Voting polities"
 msgstr "Þing kjósenda"
 
-#: wasa2il/templates/core/election_detail.html:120
+#: wasa2il/templates/core/election_detail.html:125
 msgid "You can vote"
 msgstr "Mátt kjósa"
 
-#: wasa2il/templates/core/election_detail.html:131
+#: wasa2il/templates/core/election_detail.html:136
 msgid "Details ..."
 msgstr "Upplýsingar ..."
 
-#: wasa2il/templates/core/election_detail.html:143
+#: wasa2il/templates/core/election_detail.html:148
 msgid "Shortest ballot length"
 msgstr "Lengd stystu kjörseðla"
 
-#: wasa2il/templates/core/election_detail.html:146
-#: wasa2il/templates/core/election_detail.html:156
-#: wasa2il/templates/core/election_detail.html:163
+#: wasa2il/templates/core/election_detail.html:151
+#: wasa2il/templates/core/election_detail.html:161
+#: wasa2il/templates/core/election_detail.html:168
 msgid "ballots"
 msgstr "kjörseðlar"
 
-#: wasa2il/templates/core/election_detail.html:150
+#: wasa2il/templates/core/election_detail.html:155
 msgid "Average ballot length"
 msgstr "Meðallengd kjörseðla"
 
-#: wasa2il/templates/core/election_detail.html:153
+#: wasa2il/templates/core/election_detail.html:158
 msgid "Longest ballot length"
 msgstr "Lengd lengstu kjörseðla"
 
-#: wasa2il/templates/core/election_detail.html:160
+#: wasa2il/templates/core/election_detail.html:165
 msgid "Most common ballot length"
 msgstr "Algengasta lengd kjörseðla"
 
-#: wasa2il/templates/core/election_detail.html:167
+#: wasa2il/templates/core/election_detail.html:172
 msgid "Ballot lengths"
 msgstr "Lengd kjörseðla"
 
-#: wasa2il/templates/core/election_detail.html:186
-#: wasa2il/templates/core/election_detail.html:270
+#: wasa2il/templates/core/election_detail.html:191
+#: wasa2il/templates/core/election_detail.html:275
 msgid "About This Election"
 msgstr "Um Þessar Kosningar"
 
-#: wasa2il/templates/core/election_detail.html:195
+#: wasa2il/templates/core/election_detail.html:200
 msgid "Election results"
 msgstr "Niðurstöður kosningar"
 
-#: wasa2il/templates/core/election_detail.html:206
+#: wasa2il/templates/core/election_detail.html:211
 msgid "Vote statistics"
 msgstr "Kosningatölfræði"
 
-#: wasa2il/templates/core/election_detail.html:209
+#: wasa2il/templates/core/election_detail.html:214
 msgid "votes"
 msgstr "atkvæði"
 
-#: wasa2il/templates/core/election_detail.html:216
+#: wasa2il/templates/core/election_detail.html:221
 msgid "for your eyes only"
 msgstr "bara fyrir þig"
 
-#: wasa2il/templates/core/election_detail.html:228
+#: wasa2il/templates/core/election_detail.html:233
 msgid "No votes were cast."
 msgstr "Engin atkvæði voru greidd."
 
-#: wasa2il/templates/core/election_detail.html:232
+#: wasa2il/templates/core/election_detail.html:237
 msgid "Votes are still being counted."
 msgstr "Enn er verið að telja atkvæðin."
 
-#: wasa2il/templates/core/election_detail.html:242
+#: wasa2il/templates/core/election_detail.html:247
 msgid "Download detailed statistics as:"
 msgstr "Hala niður tölfræði sem:"
 
-#: wasa2il/templates/core/election_detail.html:243
+#: wasa2il/templates/core/election_detail.html:248
 #: wasa2il/templates/core/stub/document_view.html:84
 msgid "Text"
 msgstr ""
 
-#: wasa2il/templates/core/election_detail.html:248
+#: wasa2il/templates/core/election_detail.html:253
 msgid "Downloads include rankings, pairwise victories and ballot counts."
 msgstr "Tölfræðiniðurhal inniheldur raðtölur, vinninga og tölfræði kjörseðla."
 
-#: wasa2il/templates/core/election_detail.html:252
+#: wasa2il/templates/core/election_detail.html:257
 #, python-format
 msgid ""
 "\n"
@@ -1063,47 +1058,47 @@ msgstr ""
 "Tölfræði eftir %(limit)s. sæti er sleppt, nema hjá frambjóðendum sjálfum "
 "og starfsfólki."
 
-#: wasa2il/templates/core/election_detail.html:264
+#: wasa2il/templates/core/election_detail.html:269
 msgid "your favorites first!"
 msgstr "uppáhaldin þín efst!"
 
-#: wasa2il/templates/core/election_detail.html:273
+#: wasa2il/templates/core/election_detail.html:278
 msgid "How To Vote"
 msgstr "Hvernig Skal Kjósa"
 
-#: wasa2il/templates/core/election_detail.html:275
+#: wasa2il/templates/core/election_detail.html:280
 msgid "Click the Start Voting button to begin"
 msgstr "Smelltu á Opna Kjörseðil hnappinn til að byrja"
 
-#: wasa2il/templates/core/election_detail.html:276
+#: wasa2il/templates/core/election_detail.html:281
 msgid "Click a Vote button to vote for a candidate"
 msgstr "Smelltu á Kjósa hnapp til að kjósa frambjóðanda"
 
-#: wasa2il/templates/core/election_detail.html:277
+#: wasa2il/templates/core/election_detail.html:282
 msgid "Click the arrows to move your favorite candidates to the top"
 msgstr "Smelltu á örvarnar til að raða bestu frambjóðendunum í efstu sætin"
 
-#: wasa2il/templates/core/election_detail.html:278
+#: wasa2il/templates/core/election_detail.html:283
 msgid "Your vote will be counted when the deadline has passed"
 msgstr "Atkvæði þitt verður talið þegar fresturinn rennur út"
 
-#: wasa2il/templates/core/election_detail.html:281
+#: wasa2il/templates/core/election_detail.html:286
 msgid "Start Voting"
 msgstr "Opna Kjörseðil"
 
-#: wasa2il/templates/core/election_detail.html:288
+#: wasa2il/templates/core/election_detail.html:293
 msgid "running in this election"
 msgstr "í þessari kosningu"
 
-#: wasa2il/templates/core/election_detail.html:293
+#: wasa2il/templates/core/election_detail.html:298
 msgid "Announce candidacy"
 msgstr "Tilkynna framboð"
 
-#: wasa2il/templates/core/election_detail.html:296
+#: wasa2il/templates/core/election_detail.html:301
 msgid "Are you sure you want to withdraw? This can not be undone."
 msgstr "Ertu viss um að draga framboð þitt til baka? Það er óafturkræft."
 
-#: wasa2il/templates/core/election_detail.html:298
+#: wasa2il/templates/core/election_detail.html:303
 msgid "Withdraw candidacy"
 msgstr "Draga framboð til baka"
 
@@ -1113,7 +1108,7 @@ msgstr "Kosningar í þingi"
 
 #: wasa2il/templates/core/issue_detail.html:28
 msgid "This issue is closed."
-msgstr ""
+msgstr "Þessu máli er lokið."
 
 #: wasa2il/templates/core/issue_detail.html:32
 msgid "You cannot vote on this issue:"
@@ -2265,4 +2260,12 @@ msgstr "Staðfesta auðkenni"
 
 #~ msgid "You can browse publicly visible polities without registering."
 #~ msgstr "Þú getur skoðað þing, sem eru opin öllum án þess að skrá þig inn."
+
+#~ msgid ""
+#~ "\n"
+#~ "    You ended up in %(user_result)s. place.\n"
+#~ "  "
+#~ msgstr ""
+#~ "\n"
+#~ "Þú lentir í %(user_result)s. sæti."
 
