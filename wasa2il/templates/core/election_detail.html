@@ -148,7 +148,7 @@
             <tr><th>{% trans "Shortest ballot length" %}:</th><td id="election_ballot_length_shortest">
                 {{ statistics.ballot_length_shortest.length }}
                 <small style="float: right">
-                    ({{ statistics.ballot_length_shortest.count }} {% trans "ballots" %},
+                    ({{ statistics.ballot_length_shortest.count }} {% trans "ballots" %} =
                      {{ statistics.ballot_length_shortest.pct|floatformat }}%)
                 </small>
             </td></tr>
@@ -158,14 +158,14 @@
             <tr><th>{% trans "Longest ballot length" %}:</th><td id="election_ballot_length_longest">
                 {{ statistics.ballot_length_longest.length }}
                 <small style="float: right">
-                    ({{ statistics.ballot_length_longest.count }} {% trans "ballots" %},
+                    ({{ statistics.ballot_length_longest.count }} {% trans "ballots" %} =
                      {{ statistics.ballot_length_longest.pct|floatformat }}%)
                 </small>
             </td></tr>
             <tr><th>{% trans "Most common ballot length" %}:</th><td id="election_ballot_length_most_common">
                 {{ statistics.ballot_length_most_common.length }}
                 <small style="float: right">
-                    ({{ statistics.ballot_length_most_common.count }} {% trans "ballots" %},
+                    ({{ statistics.ballot_length_most_common.count }} {% trans "ballots" %} =
                      {{ statistics.ballot_length_most_common.pct|floatformat }}%)
                 </small>
             </td></tr>
@@ -460,10 +460,15 @@ $(function() {
     });
     {% endif %}
 
-    $('.ranking_sparkline, .ballots_sparkline').sparkline('html', {
+    $('.ranking_sparkline').sparkline('html', {
         type: 'bar',
-        chartRangeMax: {{ election.get_vote_count }},
         barColor: 'green'
+    });
+    $('.ballots_sparkline').sparkline('html', {
+        type: 'bar',
+        barColor: 'green',
+        barWidth: 3,
+        barSpacing: 0
     });
 });
 </script>
