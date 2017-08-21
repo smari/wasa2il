@@ -43,36 +43,41 @@
 <h1><small>{% trans "Election:" %}</small> {{ election.name }}</h1>
 
 {% if election.is_closed %}
-<div class="alert alert-danger">
-  {% trans "This election is closed." %}
-  {% if user_result %}<b>{% blocktrans %}
-    You ended up in {{user_result}}. place.
-  {% endblocktrans %}</b>{% endif %}
-</div>
-{% elif election.is_voting and not can_vote %}
-<div class="alert alert-danger">
-  {% trans "You cannot vote in this election:" %}
-  <b>{% if not user.is_authenticated %}
-  <a href="/accounts/login/?next={{ request.get_full_path }}">{% trans "Please log in." %}</a>
-  {% elif user.userprofile.joined_org >= election.deadline_joined_org %}
-  {% trans "You joined the organization too late." %}
-  {% elif not user_is_member %}
-  {% trans "You are not a member of this polity." %}
-  {% else %}
-  {% trans "You do not meet the requirements." %}
-  {% endif %}</b>
-</div>
-{% elif not election.is_voting and not can_run %}
-<div class="alert alert-danger">
-  {% trans "You cannot run in this election:" %}
-  <b>{% if not user.is_authenticated %}
-  {% trans "Please log in." %}
-  {% elif not user_is_member %}
-  {% trans "You are not a member of this polity." %}
-  {% else %}
-  {% trans "You do not meet the requirements." %}
-  {% endif %}</b>
-</div>
+    <div class="alert alert-danger">
+        {% trans "This election is closed." %}
+        {% if user_result %}
+            <b>{% blocktrans %}You ended up in {{user_result}}. place.{% endblocktrans %}</b>
+        {% endif %}
+    </div>
+{% else %}
+    {% if not can_vote %}
+        <div class="alert alert-warning">
+            {% trans "You cannot vote in this election:" %}
+            <b>
+            {% if not user.is_authenticated %}
+                <a href="/accounts/login/?next={{ request.get_full_path }}">{% trans "Please log in." %}</a>
+            {% elif user.userprofile.joined_org >= election.deadline_joined_org %}
+                {% trans "You joined the organization too late." %}
+            {% elif not user_is_member %}
+                {% trans "You are not a member of this polity." %}
+            {% else %}
+                {% trans "You do not meet the requirements." %}
+            {% endif %}</b>
+        </div>
+    {% endif %}
+    {% if not election.is_voting and not can_run %}
+        <div class="alert alert-warning">
+            {% trans "You cannot run in this election:" %}
+            <b>
+            {% if not user.is_authenticated %}
+                {% trans "Please log in." %}
+            {% elif not user_is_member %}
+                {% trans "You are not a member of this polity." %}
+            {% else %}
+                {% trans "You do not meet the requirements." %}
+            {% endif %}</b>
+        </div>
+    {% endif %}
 {% endif %}
 
 

@@ -419,6 +419,7 @@ class IssueDetailView(DetailView):
         #context_data["delegation"] = self.object.get_delegation(self.request.user)
 
         context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
+        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         context_data['can_vote'] = (self.request.user is not None and
                                     self.object.can_vote(self.request.user))
         context_data['comments_closed'] = (
