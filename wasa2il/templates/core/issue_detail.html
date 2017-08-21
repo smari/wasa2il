@@ -24,9 +24,11 @@
 {% csrf_token %}
 
 {% if issue.is_closed %}
-    <div class="alert alert-danger">
-        {% trans "This issue is closed." %}
-    </div>
+    {% if not issue.is_processed %}
+        <div class="alert alert-danger">
+            {% trans "This issue is closed and awaits final processing." %}
+        </div>
+    {% endif %}
 {% elif not can_vote %}
     <div class="alert alert-warning">
         {% trans "You cannot vote on this issue:" %}
