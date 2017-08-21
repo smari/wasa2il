@@ -125,26 +125,20 @@
                {% if can_vote %}<i class="user_can_vote">{% trans "You can vote" %}</i>{% endif %}
             </td></tr>
 {% endif %}
-{% if not statistics %}
-            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}
-            </td></tr>
-            <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}
-            </td></tr>
-{% endif %}
             <tr><th>{% trans "Voting system" %}:</th><td>{{ election.get_voting_system_display }}</td></tr>
             <tr id="show_details"><td colspan=2>
                 <a onclick="show_details();" href="#">{% trans "Details ..." %}</a>
             </td></tr>
-        </table>
-    </div>
-
-{% if statistics %}
-    <div class="col-md-6 col-xs-12">
-        <table id="election_ballot_stats" class="table table-compact">
             <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}
             </td></tr>
             <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}
             </td></tr>
+        </table>
+    </div>
+
+{% if statistics and election.stats_publish_ballots_basic %}
+    <div class="col-md-6 col-xs-12">
+        <table id="election_ballot_stats" class="table table-compact">
             <tr><th>{% trans "Shortest ballot length" %}:</th><td id="election_ballot_length_shortest">
                 {{ statistics.ballot_length_shortest.length }}
                 <small style="float: right">
@@ -180,11 +174,7 @@
 <div class="row">
 {% endif %}
 
-{% if statistics %}
-    <div class="col-md-12 col-xs-12">
-{% else %}
-    <div class="col-md-6 col-xs-12">
-{% endif %}
+    <div class="col-md-{% if statistics and election.stats_publish_ballots_basic %}12{% else %}6{% endif %} col-xs-12">
         {% if election.instructions %}
             {% if not voting_interface_enabled or not election.is_voting or started_voting or step == "vote" %}
                 <div class="alert alert-success">
@@ -207,7 +197,7 @@
                         <div style="position: relative;">
                             <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
                             <a href="/accounts/profile/{{ candidate.user.username }}/">{{ candidate.user.get_name }}</a>
-                      {% if statistics %}
+                      {% if statistics and election.stats_publish_ballots_per_candidate %}
                             <div style="float: right; font-size: 0.8em;" title="{% trans "Vote statistics" %}">
                             {% with statistics.rankings|get_item:candidate.user as ranking %}
                                 {% for r in ranking %}{% if forloop.last %}
@@ -241,7 +231,7 @@
     </div>
 </div>
 
-{% if statistics and election.is_closed %}
+{% if statistics and election.stats_publish_files and election.is_closed %}
 <div class="row">
     <p class="stats_downloads" style="text-align: right;">
         {% trans "Download detailed statistics as:" %}
