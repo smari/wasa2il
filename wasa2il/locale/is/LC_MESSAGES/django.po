@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-21 18:26+0000\n"
+"POT-Creation-Date: 2017-08-21 18:34+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language: is\n"
@@ -132,7 +132,7 @@ msgstr "Málaflokkar"
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: core/models.py:376 wasa2il/templates/core/issue_detail.html:75
+#: core/models.py:376 wasa2il/templates/core/issue_detail.html:77
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
@@ -159,11 +159,11 @@ msgstr "Þing"
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: core/models.py:706 wasa2il/templates/core/issue_detail.html:97
+#: core/models.py:706 wasa2il/templates/core/issue_detail.html:99
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: core/models.py:707 wasa2il/templates/core/issue_detail.html:97
+#: core/models.py:707 wasa2il/templates/core/issue_detail.html:99
 msgid "Rejected"
 msgstr "Hafnað"
 
@@ -186,7 +186,7 @@ msgstr "Upphaf kosninga"
 
 #: core/models.py:849 wasa2il/templates/core/election_detail.html:109
 #: wasa2il/templates/core/election_list.html:29
-#: wasa2il/templates/core/issue_detail.html:72
+#: wasa2il/templates/core/issue_detail.html:74
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
@@ -284,7 +284,7 @@ msgstr "Ummæli"
 #: wasa2il/templates/core/election_detail.html:146
 #: wasa2il/templates/core/election_detail.html:269
 #: wasa2il/templates/core/election_list.html:27
-#: wasa2il/templates/core/issue_detail.html:79
+#: wasa2il/templates/core/issue_detail.html:81
 #: wasa2il/templates/core/issues_new.html:29
 #: wasa2il/templates/core/polity_detail.html:57
 #: wasa2il/templates/core/topic_detail.html:33
@@ -417,7 +417,7 @@ msgstr "Þetta eru málin í umræðu."
 msgid "Voting System - Pirate Party Iceland"
 msgstr "Kosningakerfi Pírata"
 
-#: wasa2il/templates/base.html:90 wasa2il/templates/core/issue_detail.html:113
+#: wasa2il/templates/base.html:90 wasa2il/templates/core/issue_detail.html:115
 msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 "Það kom upp villa við úrvinnslu atkvæðisins þíns. Vinsamlegast reyndu "
@@ -559,7 +559,7 @@ msgid "To"
 msgstr "To"
 
 #: wasa2il/templates/core/_delegations_table.html:7
-#: wasa2il/templates/core/issue_detail.html:97
+#: wasa2il/templates/core/issue_detail.html:99
 msgid "Result"
 msgstr "Niðurstaða"
 
@@ -584,19 +584,19 @@ msgid "Document"
 msgstr "Skjal"
 
 #: wasa2il/templates/core/_document_agreement_list_table.html:5
-#: wasa2il/templates/core/issue_detail.html:84
-#: wasa2il/templates/core/issue_detail.html:115
+#: wasa2il/templates/core/issue_detail.html:86
+#: wasa2il/templates/core/issue_detail.html:117
 msgid "Yes"
 msgstr "Já"
 
 #: wasa2il/templates/core/_document_agreement_list_table.html:6
-#: wasa2il/templates/core/issue_detail.html:91
-#: wasa2il/templates/core/issue_detail.html:117
+#: wasa2il/templates/core/issue_detail.html:93
+#: wasa2il/templates/core/issue_detail.html:119
 msgid "No"
 msgstr "Nei"
 
 #: wasa2il/templates/core/_document_agreement_list_table.html:7
-#: wasa2il/templates/core/issue_detail.html:116
+#: wasa2il/templates/core/issue_detail.html:118
 msgid "Abstain"
 msgstr "Sitja hjá"
 
@@ -694,7 +694,7 @@ msgid "Move to bottom"
 msgstr "Færa neðst"
 
 #: wasa2il/templates/core/_election_candidate_list.html:48
-#: wasa2il/templates/core/issue_detail.html:112
+#: wasa2il/templates/core/issue_detail.html:114
 msgid "Vote"
 msgstr "Kjósa"
 
@@ -846,7 +846,7 @@ msgid "Agreement"
 msgstr "Samþykkt"
 
 #: wasa2il/templates/core/document_update.html:97
-#: wasa2il/templates/core/issue_detail.html:58
+#: wasa2il/templates/core/issue_detail.html:60
 msgid "Proposal"
 msgstr "Tillaga"
 
@@ -921,7 +921,7 @@ msgstr "Þú getur ekki kosið í þessum kosningum:"
 
 #: wasa2il/templates/core/election_detail.html:58
 #: wasa2il/templates/core/election_detail.html:73
-#: wasa2il/templates/core/issue_detail.html:35
+#: wasa2il/templates/core/issue_detail.html:37
 msgid "Please log in."
 msgstr "Vinsamlegast skráðu þig inn."
 
@@ -931,13 +931,13 @@ msgstr "Það er of stutt síðan þú gekkst í félagið."
 
 #: wasa2il/templates/core/election_detail.html:62
 #: wasa2il/templates/core/election_detail.html:75
-#: wasa2il/templates/core/issue_detail.html:37
+#: wasa2il/templates/core/issue_detail.html:39
 msgid "You are not a member of this polity."
 msgstr "Þú ert ekki meðlimur þessa þings."
 
 #: wasa2il/templates/core/election_detail.html:64
 #: wasa2il/templates/core/election_detail.html:77
-#: wasa2il/templates/core/issue_detail.html:39
+#: wasa2il/templates/core/issue_detail.html:41
 msgid "You do not meet the requirements."
 msgstr "Þú uppfyllir ekki skilyrðin."
 
@@ -1106,40 +1106,40 @@ msgstr "Draga framboð til baka"
 msgid "Elections in polity"
 msgstr "Kosningar í þingi"
 
-#: wasa2il/templates/core/issue_detail.html:28
-msgid "This issue is closed."
-msgstr "Þessu máli er lokið."
+#: wasa2il/templates/core/issue_detail.html:29
+msgid "This issue is closed and awaits final processing."
+msgstr "Þessu máli er lokið og bíður það lokaúrvinnslu."
 
-#: wasa2il/templates/core/issue_detail.html:32
+#: wasa2il/templates/core/issue_detail.html:34
 msgid "You cannot vote on this issue:"
 msgstr "Þú getur ekki greitt atkvæði í þessari atkvæðagreiðslu:"
 
-#: wasa2il/templates/core/issue_detail.html:60
+#: wasa2il/templates/core/issue_detail.html:62
 msgid "In topics"
 msgstr "Í málaflokkum"
 
-#: wasa2il/templates/core/issue_detail.html:63
+#: wasa2il/templates/core/issue_detail.html:65
 msgid "Start time"
 msgstr "Upphafstími"
 
-#: wasa2il/templates/core/issue_detail.html:65
+#: wasa2il/templates/core/issue_detail.html:67
 msgid "Deadline for discussion"
 msgstr "Tímamörk fyrir umræður"
 
-#: wasa2il/templates/core/issue_detail.html:68
+#: wasa2il/templates/core/issue_detail.html:70
 msgid "Deadline for proposals"
 msgstr "Tímamörk fyrir tillögur"
 
-#: wasa2il/templates/core/issue_detail.html:101
+#: wasa2il/templates/core/issue_detail.html:103
 msgid "Majority threshold"
 msgstr "Meirihlutaþröskuldur"
 
-#: wasa2il/templates/core/issue_detail.html:105
+#: wasa2il/templates/core/issue_detail.html:107
 #: wasa2il/templates/forum/discussion_detail.html:10
 msgid "Discussion"
 msgstr "Umræða"
 
-#: wasa2il/templates/core/issue_detail.html:112
+#: wasa2il/templates/core/issue_detail.html:114
 msgid "for or against this issue"
 msgstr "með eða á móti þessu máli"
 
@@ -2268,4 +2268,7 @@ msgstr "Staðfesta auðkenni"
 #~ msgstr ""
 #~ "\n"
 #~ "Þú lentir í %(user_result)s. sæti."
+
+#~ msgid "This issue is closed."
+#~ msgstr "Þessu máli er lokið."
 
