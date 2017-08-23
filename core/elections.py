@@ -6,6 +6,8 @@ import random
 import sys
 from collections import OrderedDict
 
+from django.utils.translation import ugettext_lazy as _
+
 from pyvotecore.schulze_method import SchulzeMethod as Condorcet
 from pyvotecore.schulze_npr import SchulzeNPR as Schulze
 from pyvotecore.schulze_stv import SchulzeSTV
@@ -343,19 +345,20 @@ class BallotCounter(BallotAnalyzer):
     tally up the results using a few different methods.
     """
     VOTING_SYSTEMS = (
-        ('condorcet', 'Condorcet'),
-        ('schulze', 'Schulze, Ordered list'),
-        ('schulze_old', 'Schulze, Ordered list (old)'),
-        ('schulze_new', 'Schulze, Ordered list (new)'),
-        ('schulze_both', 'Schulze, Ordered list (both)'),
-        ('stcom', 'Steering Committee Election'),
-        ('stv1', 'STV, Single winner'),
-        ('stv2', 'STV, Two winners'),
-        ('stv3', 'STV, Three winners'),
-        ('stv4', 'STV, Four winners'),
-        ('stv5', 'STV, Five winners'),
-        ('stv10', 'STV, Ten winners'),
-        ('stonethor', 'STV partition with Schulze ranking')
+        ('condorcet', _('Condorcet')),
+        ('schulze', _('Schulze, ordered list')),
+        ('schulze_old', _('Schulze, ordered list (old)')),
+        ('schulze_new', _('Schulze, ordered list (new)')),
+        ('schulze_both', _('Schulze, ordered list (both)')),
+        ('stcom', _('Steering Committee Election')),
+        ('stv1', _('STV, single winner')),
+        ('stv2', _('STV, two winners')),
+        ('stv3', _('STV, three winners')),
+        ('stv4', _('STV, four winners')),
+        ('stv5', _('STV, five winners')),
+        ('stv8', _('STV, eight winners')),
+        ('stv10', _('STV, ten winners')),
+        ('stonethor', _('STV partition with Schulze ranking'))
     )
 
     def system_name(self, system):
