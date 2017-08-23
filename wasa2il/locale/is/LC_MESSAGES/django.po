@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  wasa2il\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-22 16:33+0000\n"
+"POT-Creation-Date: 2017-08-23 18:17+0000\n"
 "PO-Revision-Date: 2013-01-31 22:03+0100\n"
 "Last-Translator: smari <smari@immi.is>\n"
 "Language: is\n"
@@ -26,6 +26,62 @@ msgstr "Lykilorð"
 #: wasa2il/templates/forum/forum_detail.html:18
 msgid "Name"
 msgstr "Nafn"
+
+#: core/elections.py:348
+msgid "Condorcet"
+msgstr "Condorcet"
+
+#: core/elections.py:349
+msgid "Schulze, ordered list"
+msgstr "Schulze, raðaður listi"
+
+#: core/elections.py:350
+msgid "Schulze, ordered list (old)"
+msgstr "Schulze, raðaður listi (eldri aðferð)"
+
+#: core/elections.py:351
+msgid "Schulze, ordered list (new)"
+msgstr "Schulze, raðaður listi (nýrri aðferð)"
+
+#: core/elections.py:352
+msgid "Schulze, ordered list (both)"
+msgstr "Schulze, raðaður listi (báðar aðferðir)"
+
+#: core/elections.py:353
+msgid "Steering Committee Election"
+msgstr "Kosning til framkvæmdaráðs"
+
+#: core/elections.py:354
+msgid "STV, single winner"
+msgstr "STV, einn sigurvegari"
+
+#: core/elections.py:355
+msgid "STV, two winners"
+msgstr "STV, tveir sigurvegarar"
+
+#: core/elections.py:356
+msgid "STV, three winners"
+msgstr "STV, þrír sigurvegarar"
+
+#: core/elections.py:357
+msgid "STV, four winners"
+msgstr "STV, fjórir sigurvegarar"
+
+#: core/elections.py:358
+msgid "STV, five winners"
+msgstr "STV, fimm sigurvegarar"
+
+#: core/elections.py:359
+msgid "STV, eight winners"
+msgstr "STV, átta sigurvegarar"
+
+#: core/elections.py:360
+msgid "STV, ten winners"
+msgstr "STV, tíu sigurvegarar"
+
+#: core/elections.py:361
+msgid "STV partition with Schulze ranking"
+msgstr "STV deiling með Schulze forgangsröðun"
 
 #: core/forms.py:59
 msgid "The email address you'd like to use for the site."
@@ -175,46 +231,50 @@ msgstr "Úrelt"
 msgid "Voting system"
 msgstr "Kosningakerfi"
 
-#: core/models.py:847 wasa2il/templates/core/election_detail.html:103
+#: core/models.py:855
+msgid "Results are ordered"
+msgstr "Niðurstöður eru raðaðar"
+
+#: core/models.py:857 wasa2il/templates/core/election_detail.html:103
 #: wasa2il/templates/core/election_list.html:28
 msgid "Deadline for candidacy"
 msgstr "Tímamörk fyrir framboð"
 
-#: core/models.py:848
+#: core/models.py:858
 msgid "Start time for votes"
 msgstr "Upphaf kosninga"
 
-#: core/models.py:849 wasa2il/templates/core/election_detail.html:109
+#: core/models.py:859 wasa2il/templates/core/election_detail.html:109
 #: wasa2il/templates/core/election_list.html:29
 #: wasa2il/templates/core/issue_detail.html:74
 msgid "Deadline for votes"
 msgstr "Tímamörk fyrir atkvæði"
 
-#: core/models.py:860 wasa2il/templates/core/election_detail.html:116
+#: core/models.py:870 wasa2il/templates/core/election_detail.html:116
 msgid "Membership deadline"
 msgstr "Skráningarmörk kjósenda"
 
-#: core/models.py:863 wasa2il/templates/base.html:145
+#: core/models.py:873 wasa2il/templates/base.html:145
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
-#: core/models.py:866
+#: core/models.py:876
 msgid "Statistics as JSON"
 msgstr "Tölfræði sem JSON"
 
-#: core/models.py:867
+#: core/models.py:877
 msgid "Limit how many candidates we publish stats for"
 msgstr "Takmarka fjölda frambjóðenda til að birta tölfræði um"
 
-#: core/models.py:868
+#: core/models.py:878
 msgid "Publish basic ballot statistics"
 msgstr "Gefa út grunntölfræði um atkvæði"
 
-#: core/models.py:869
+#: core/models.py:879
 msgid "Publish ballot statistics for each candidate"
 msgstr "Gefa út tölfræði um atkvæði til hvers frambjóðanda"
 
-#: core/models.py:870
+#: core/models.py:880
 msgid "Publish advanced statistics (downloadable)"
 msgstr "Gefa út ítarlega tölfræði (niðurhalanlega)"
 
@@ -293,7 +353,7 @@ msgstr "Ummæli"
 #: wasa2il/templates/_entry_summary.html:116
 #: wasa2il/templates/core/_polity_detail_elections.html:28
 #: wasa2il/templates/core/election_detail.html:134
-#: wasa2il/templates/core/election_detail.html:259
+#: wasa2il/templates/core/election_detail.html:262
 #: wasa2il/templates/core/election_list.html:27
 #: wasa2il/templates/core/issue_detail.html:81
 #: wasa2il/templates/core/issues_new.html:29
@@ -368,7 +428,7 @@ msgstr "Ástand"
 #: wasa2il/templates/_entry_summary.html:76
 #: wasa2il/templates/core/_polity_detail_elections.html:27
 #: wasa2il/templates/core/election_detail.html:132
-#: wasa2il/templates/core/election_detail.html:283
+#: wasa2il/templates/core/election_detail.html:286
 #: wasa2il/templates/core/election_list.html:26
 msgid "Candidates"
 msgstr "Frambjóðendur"
@@ -446,7 +506,7 @@ msgstr ""
 " til fresturinn rennur út."
 
 #: wasa2il/templates/base.html:97
-#: wasa2il/templates/core/election_detail.html:286
+#: wasa2il/templates/core/election_detail.html:289
 msgid "Working..."
 msgstr "Sendi gögn..."
 
@@ -1015,7 +1075,7 @@ msgid "Ballot lengths"
 msgstr "Lengd kjörseðla"
 
 #: wasa2il/templates/core/election_detail.html:181
-#: wasa2il/templates/core/election_detail.html:265
+#: wasa2il/templates/core/election_detail.html:268
 msgid "About This Election"
 msgstr "Um Þessar Kosningar"
 
@@ -1023,40 +1083,48 @@ msgstr "Um Þessar Kosningar"
 msgid "Election results"
 msgstr "Niðurstöður kosningar"
 
-#: wasa2il/templates/core/election_detail.html:201
+#: wasa2il/templates/core/election_detail.html:192
+msgid ""
+"The voting system used in this election generates a non-ordered list. All"
+" winners are in the same place."
+msgstr ""
+"Talningaraðferð þessarar kosningar skilar óröðuðum lista. Allir "
+"sigurvegarar eru í sama sæti."
+
+#: wasa2il/templates/core/election_detail.html:204
 msgid "Vote statistics"
 msgstr "Kosningatölfræði"
 
-#: wasa2il/templates/core/election_detail.html:204
+#: wasa2il/templates/core/election_detail.html:207
 msgid "votes"
 msgstr "atkvæði"
 
-#: wasa2il/templates/core/election_detail.html:211
+#: wasa2il/templates/core/election_detail.html:214
 msgid "for your eyes only"
 msgstr "bara fyrir þig"
 
-#: wasa2il/templates/core/election_detail.html:223
+#: wasa2il/templates/core/election_detail.html:226
 msgid "No votes were cast."
 msgstr "Engin atkvæði voru greidd."
 
-#: wasa2il/templates/core/election_detail.html:227
+#: wasa2il/templates/core/election_detail.html:230
 msgid "Votes are still being counted."
 msgstr "Enn er verið að telja atkvæðin."
 
-#: wasa2il/templates/core/election_detail.html:237
+#: wasa2il/templates/core/election_detail.html:240
 msgid "Download detailed statistics as:"
 msgstr "Hala niður tölfræði sem:"
 
-#: wasa2il/templates/core/election_detail.html:238
+#: wasa2il/templates/core/election_detail.html:241
 #: wasa2il/templates/core/stub/document_view.html:84
 msgid "Text"
 msgstr ""
 
-#: wasa2il/templates/core/election_detail.html:243
+#: wasa2il/templates/core/election_detail.html:246
 msgid "Downloads include rankings, pairwise victories and ballot counts."
 msgstr "Tölfræðiniðurhal inniheldur raðtölur, vinninga og tölfræði kjörseðla."
 
-#: wasa2il/templates/core/election_detail.html:247
+#: wasa2il/templates/core/election_detail.html:250
 #, python-format
 msgid ""
 "\n"
@@ -1068,47 +1136,47 @@ msgstr ""
 "Tölfræði eftir %(limit)s. sæti er sleppt, nema hjá frambjóðendum sjálfum "
 "og starfsfólki."
 
-#: wasa2il/templates/core/election_detail.html:259
+#: wasa2il/templates/core/election_detail.html:262
 msgid "your favorites first!"
 msgstr "uppáhaldin þín efst!"
 
-#: wasa2il/templates/core/election_detail.html:268
+#: wasa2il/templates/core/election_detail.html:271
 msgid "How To Vote"
 msgstr "Hvernig Skal Kjósa"
 
-#: wasa2il/templates/core/election_detail.html:270
+#: wasa2il/templates/core/election_detail.html:273
 msgid "Click the Start Voting button to begin"
 msgstr "Smelltu á Opna Kjörseðil hnappinn til að byrja"
 
-#: wasa2il/templates/core/election_detail.html:271
+#: wasa2il/templates/core/election_detail.html:274
 msgid "Click a Vote button to vote for a candidate"
 msgstr "Smelltu á Kjósa hnapp til að kjósa frambjóðanda"
 
-#: wasa2il/templates/core/election_detail.html:272
+#: wasa2il/templates/core/election_detail.html:275
 msgid "Click the arrows to move your favorite candidates to the top"
 msgstr "Smelltu á örvarnar til að raða bestu frambjóðendunum í efstu sætin"
 
-#: wasa2il/templates/core/election_detail.html:273
+#: wasa2il/templates/core/election_detail.html:276
 msgid "Your vote will be counted when the deadline has passed"
 msgstr "Atkvæði þitt verður talið þegar fresturinn rennur út"
 
-#: wasa2il/templates/core/election_detail.html:276
+#: wasa2il/templates/core/election_detail.html:279
 msgid "Start Voting"
 msgstr "Opna Kjörseðil"
 
-#: wasa2il/templates/core/election_detail.html:283
+#: wasa2il/templates/core/election_detail.html:286
 msgid "running in this election"
 msgstr "í þessari kosningu"
 
-#: wasa2il/templates/core/election_detail.html:288
+#: wasa2il/templates/core/election_detail.html:291
 msgid "Announce candidacy"
 msgstr "Tilkynna framboð"
 
-#: wasa2il/templates/core/election_detail.html:291
+#: wasa2il/templates/core/election_detail.html:294
 msgid "Are you sure you want to withdraw? This can not be undone."
 msgstr "Ertu viss um að draga framboð þitt til baka? Það er óafturkræft."
 
-#: wasa2il/templates/core/election_detail.html:293
+#: wasa2il/templates/core/election_detail.html:296
 msgid "Withdraw candidacy"
 msgstr "Draga framboð til baka"
 
