@@ -45,7 +45,7 @@
 {% if election.is_closed %}
     <div class="alert alert-danger">
         {% trans "This election is closed." %}
-        {% if user_result %}
+        {% if user_result and election.results_are_ordered %}
             <b>{% blocktrans %}You ended up in {{user_result}}. place.{% endblocktrans %}</b>
         {% endif %}
     </div>
@@ -188,9 +188,12 @@
 
         {% if election.is_closed %}
             <h2>{% trans 'Election results' %}</h2>
+            {% if not election.results_are_ordered %}
+                <div class="alert alert-info">{% trans 'The voting system used in this election generates a non-ordered list. All winners are in the same place.' %}</div>
+            {% endif %}
             {% if ordered_candidates %}
             <div id="election_candidates_winners" style="margin-top: 1em;">
-                <ol class="candidates" id="candidates_winners">
+                <ol class="candidates" id="candidates_winners" {% if not election.results_are_ordered %}style="list-style: none; padding-left: 0px;"{% endif %}>
                 {% for candidate in ordered_candidates %}
                     {% if not election.stats_limit or forloop.counter <= election.stats_limit or candidate.user == user or user.is_staff %}
                     <li data-seqid="{{ candidate.id }}"{% if election.stats_limit and forloop.counter > election.stats_limit %} style="background: #efe;"{% endif %}>

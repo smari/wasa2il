@@ -844,6 +844,16 @@ class Election(NameSlugBase):
 
     polity = models.ForeignKey(Polity)
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
+
+    # Tells whether the election results page should show the winning
+    # candidates as an ordered list or as a set of winners. Some voting
+    # systems (most notably STV) do not typically give an ordered list where
+    # one candidate is higher or lower than another one. It would be more
+    # elegant to set this in a model describing the voting system in more
+    # detail. To achieve that, the BallotCounter.VOTING_SYSTEMS list above
+    # should to be turned into a proper Django model.
+    results_are_ordered = models.BooleanField(default=True, verbose_name=_('Results are ordered'))
+
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
     starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Start time for votes'))
     deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
