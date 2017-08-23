@@ -17,9 +17,10 @@ class Command(BaseCommand):
         count = 1
         for usernames in options.get('username', [[]])[0]:
             for u in (un.strip() for un in usernames.split(',') if un):
+                u = u.decode('utf-8')
                 try:
                     name = User.objects.get(username=u).get_name()
                 except:
                     name = '[no such user]'
-                print '%d. %s (%s)' % (count, name, u)
+                print ('%d. %s (%s)' % (count, name, u)).encode('utf-8')
                 count += 1

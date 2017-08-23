@@ -8,7 +8,7 @@ from suds.client import Client
 
 import xml.etree.ElementTree as ET
 from base64 import b64decode
-from signxml import xmldsig
+from signxml import XMLSigner
 
 from django.conf import settings
 from django.contrib.auth import login
@@ -36,7 +36,7 @@ def get_saml(request, token):
 		root = ET.fromstring(data)
 		cert = root.find('.//{http://www.w3.org/2000/09/xmldsig#}X509Certificate').text
 		try:
-			assertion_data = xmldsig(data).verify(x509_cert=cert)
+			assertion_data = XMLSigner().sign(data).verify(x509_cert=cert)
 		except:
 			raise SamlException('x509 certificate exception')
 		return {'saml': data}

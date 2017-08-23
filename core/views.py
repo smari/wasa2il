@@ -23,7 +23,7 @@ from django.db import DatabaseError
 from django.db.models import Q
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -419,6 +419,7 @@ class IssueDetailView(DetailView):
         #context_data["delegation"] = self.object.get_delegation(self.request.user)
 
         context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
+        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         context_data['can_vote'] = (self.request.user is not None and
                                     self.object.can_vote(self.request.user))
         context_data['comments_closed'] = (
@@ -769,6 +770,10 @@ def election_ballots(request, pk=None):
 
 def election_stats_download(request, polity=None, pk=None, filename=None):
     election = Election.objects.get(pk=pk)
+
+    if not election.stats_publish_files:
+        raise Http404
+
     filetype = filename.split('.')[-1].lower()
     assert(filetype in ('json', 'xlsx', 'ods', 'html'))
 

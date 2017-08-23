@@ -50,14 +50,14 @@ class UserProfile(models.Model):
     verified_timing = models.DateTimeField(null=True, blank=True)
 
     # User information
-    displayname = models.CharField(max_length="255", verbose_name=_("Name"), help_text=_("The name to display on the site."), **nullblank)
+    displayname = models.CharField(max_length=255, verbose_name=_("Name"), help_text=_("The name to display on the site."), **nullblank)
     email_visible = models.BooleanField(default=False, verbose_name=_("E-mail visible"), help_text=_("Whether to display your email address on your profile page."))
     bio = models.TextField(verbose_name=_("Bio"), **nullblank)
     picture = models.ImageField(upload_to="users", verbose_name=_("Picture"), **nullblank)
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
-    language = models.CharField(max_length="6", default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, verbose_name=_("Language"))
+    language = models.CharField(max_length=6, default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, verbose_name=_("Language"))
     topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 
     def save(self, *largs, **kwargs):
@@ -373,7 +373,7 @@ class Issue(BaseIssue):
     votecount_abstain = models.IntegerField(default=0)
     votecount_no = models.IntegerField(default=0)
 
-    special_process = models.CharField(max_length='32', verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
+    special_process = models.CharField(max_length=32, verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
 
     d = dict(
         editable=False,
@@ -707,7 +707,7 @@ class DocumentContent(models.Model):
         ('rejected', _('Rejected')),
         ('deprecated', _('Deprecated')),
     )
-    status = models.CharField(max_length='32', choices=STATUS_CHOICES, default='proposed')
+    status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='proposed')
     predecessor = models.ForeignKey('DocumentContent', null=True, blank=True)
 
 
@@ -844,6 +844,16 @@ class Election(NameSlugBase):
 
     polity = models.ForeignKey(Polity)
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
+
+    # Tells whether the election results page should show the winning
+    # candidates as an ordered list or as a set of winners. Some voting
+    # systems (most notably STV) do not typically give an ordered list where
+    # one candidate is higher or lower than another one. It would be more
+    # elegant to set this in a model describing the voting system in more
+    # detail. To achieve that, the BallotCounter.VOTING_SYSTEMS list above
+    # should to be turned into a proper Django model.
+    results_are_ordered = models.BooleanField(default=True, verbose_name=_('Results are ordered'))
+
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
     starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Start time for votes'))
     deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
@@ -865,6 +875,9 @@ class Election(NameSlugBase):
     # These are election statistics;
     stats = models.TextField(null=True, blank=True, verbose_name=_('Statistics as JSON'))
     stats_limit = models.IntegerField(null=True, blank=True, verbose_name=_('Limit how many candidates we publish stats for'))
+    stats_publish_ballots_basic = models.BooleanField(default=False, verbose_name=_('Publish basic ballot statistics'))
+    stats_publish_ballots_per_candidate = models.BooleanField(default=False, verbose_name=_('Publish ballot statistics for each candidate'))
+    stats_publish_files = models.BooleanField(default=False, verbose_name=_('Publish advanced statistics (downloadable)'))
 
     # An election can only be processed once, since votes are deleted during the process
     class AlreadyProcessedException(Exception):

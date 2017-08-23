@@ -21,6 +21,30 @@
 </div>
 <h1>{{ issue.name }}</h1>
 
+{% csrf_token %}
+
+{% if issue.is_closed %}
+    {% if not issue.is_processed %}
+        <div class="alert alert-danger">
+            {% trans "This issue is closed and awaits final processing." %}
+        </div>
+    {% endif %}
+{% elif not can_vote %}
+    <div class="alert alert-warning">
+        {% trans "You cannot vote on this issue:" %}
+        <b>
+        {% if not user.is_authenticated %}
+            <a href="/accounts/login/?next={{ request.get_full_path }}">{% trans "Please log in." %}</a>
+        {% elif not user_is_member %}
+            {% trans "You are not a member of this polity." %}
+        {% else %}
+            {% trans "You do not meet the requirements." %}
+        {% endif %}
+        </b>
+    </div>
+{% endif %}
+
+
 <div class="row">
     <div class="col-md-6 col-xs-12">
         {% if issue.is_processed %}
@@ -85,7 +109,7 @@
 
     </div>
 
-    {% if issue.is_voting and not user.is_anonymous %}
+    {% if issue.is_voting and can_vote %}
         <div class="col-md-6 col-xs-12 well">
             <h2>{% trans "Vote" %} <small>{% trans "for or against this issue" %}</small></h2>
             <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>

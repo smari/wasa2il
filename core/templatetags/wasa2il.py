@@ -22,6 +22,8 @@ def get_item(dictionary, key):
 
 @register.filter
 def sparkline(variable, skip_last=False):
+    if not variable:
+        return ''
     if isinstance(variable, dict):
         pairs = sorted([(k, v) for k, v in variable.iteritems()])
         sparkline = [0] * (pairs[-1][0] + 1)

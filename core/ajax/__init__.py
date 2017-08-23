@@ -142,10 +142,11 @@ def election_vote(request):
 
     logged_in = request.user.is_authenticated()
     can_vote = logged_in and election.can_vote(request.user)
-    is_open = not election.is_closed()
-    if not (logged_in and can_vote and is_open):
+    is_voting = election.is_voting()
+    is_closed = election.is_closed()
+    if not (logged_in and can_vote and is_voting):
         ctx["please_login"] = not logged_in
-        ctx["is_closed"] = not is_open
+        ctx["is_closed"] = is_closed
         ctx["can_vote"] = can_vote
         ctx["ok"] = False
         return ctx
