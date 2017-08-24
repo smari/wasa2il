@@ -106,6 +106,9 @@ def classname(obj):
 
 @register.simple_tag(takes_context=True)
 def add_breadcrumb(context, name=None, url=False, **kwargs):
+    if not 'request' in context:
+        return ""
+
     if not hasattr(context['request'], 'breadcrumbs'):
         context['request'].breadcrumbs = []
     breadcrumb = { "name": name, "url": url }
@@ -117,6 +120,9 @@ def add_breadcrumb(context, name=None, url=False, **kwargs):
 
 @register.inclusion_tag('_breadcrumbs.html', takes_context=True)
 def render_breadcrumbs(context):
+    if not 'request' in context:
+        return None
+
     request = context['request']
     if hasattr(request, 'breadcrumbs'):
         breadcrumbs = request.breadcrumbs
