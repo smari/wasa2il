@@ -45,7 +45,6 @@ pickleshare==0.7.4
 pilkit==2.0
 Pillow==4.2.1
 pipdeptree==0.10.1
-pkg-resources==0.0.0
 prompt-toolkit==1.0.15
 psycopg2==2.7.3
 ptyprocess==0.5.2
