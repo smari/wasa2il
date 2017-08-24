@@ -260,7 +260,7 @@
     <div class="col-md-5 col-xs-12 well voting">
         {% if started_voting or step == "vote" %}
         <h2>{% trans "Votes" %} <small>{% trans "your favorites first!" %}</small></h2>
-        <ol id="vote" class="candidates">
+        <ol id="vote" class="candidates sortable">
 
         </ol>
         {% else %}
@@ -439,7 +439,7 @@ $(function() {
     {% if voting_interface_enabled %}
     election_timer_start();
 
-    $(".candidates").sortable({
+    $(".sortable").sortable({
         start: function() { election_dragging = true; },
         stop: function() {
             election_dragging = false;

@@ -58,7 +58,7 @@
         {% trans "Your ballot is empty." %}<br><br>
         {% trans "Drag candidates here or click the vote buttons." %}
     </p>
-{% elif candidate_total > 0 %}
+{% elif candidate_total > 0 and election.is_voting %}
     <p>{% trans "You have selected all the candidates, good work!" %}</p>
 {% else %}
     <p>{% trans "There are no candidates standing in this election yet!" %}</p>
