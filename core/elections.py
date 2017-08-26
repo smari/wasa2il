@@ -407,12 +407,32 @@ class BallotCounter(BallotAnalyzer):
             ).as_dict()['winners']))
 
     def stv_results(self, winners=None):
+        # FIXME: Variable names here may be somewhat confusing.
+        #     - winners: The count of required winners.
+        #     - winnerset: The set of winners returned.
         if winners is None:
             winners = 1
-        return list(STV(
-                list(self.hashes_with_counts(self.ballots_as_lists())),
-                required_winners=winners
-            ).as_dict()['winners'])
+
+        winnerset = []
+
+        mid_result = STV(list(self.hashes_with_counts(self.ballots_as_lists())), required_winners=winners).as_dict()
+        winners_found = 0
+        for mid_round in mid_result['rounds']:
+            if not 'winners' in mid_round:
+                continue
+
+            found_this_time = len(mid_round['winners'])
+            if winners_found + found_this_time > winners:
+                winnerset.extend(random.sample(mid_round['winners'], winners - winners_found))
+            else:
+                winnerset.extend(mid_round['winners'])
+
+            winners_found += found_this_time
+
+        if len(winnerset) < winners:
+            return mid_result['winners']
+
+        return winnerset
 
     def condorcet_results(self):
         result = Condorcet(
