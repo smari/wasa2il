@@ -69,7 +69,7 @@ def thumbnail(file, size='104x104'):
         # defining the filename and the miniature filename
         filehead, filetail = os.path.split(file.path)
         basename, format = os.path.splitext(filetail)
-        miniature = basename + '_' + size + format
+        miniature = basename + '_' + size + '.png'
         filename = file.path
         miniature_filename = os.path.join(filehead, miniature)
         filehead, filetail = os.path.split(file.url)
@@ -82,10 +82,10 @@ def thumbnail(file, size='104x104'):
             processor = SmartResize(width=x, height=y)
             image = processor.process(image)
             try:
-                image.save(miniature_filename, image.format, quality=90, optimize=1)
+                image.save(miniature_filename, 'png', quality=90, optimize=1)
             except Exception as e:
                 print 'Error: %s' % e
-                image.save(miniature_filename, image.format, quality=90)
+                image.save(miniature_filename, 'png', quality=90)
 
         return miniature_url
     except Exception as e:
