@@ -1,5 +1,5 @@
 # Wasa2il - ‫وسائل
-## v 0.9.5
+## v 0.9.6
 [![Build Status](https://travis-ci.org/piratar/wasa2il.svg?branch=development)](https://travis-ci.org/piratar/wasa2il)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=piratar/wasa2il&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&utm_medium=referral&utm_content=piratar/wasa2il&utm_campaign=Badge_Coverage)
