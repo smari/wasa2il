@@ -535,7 +535,7 @@ class DocumentCreateView(CreateView):
 class DocumentDetailView(DetailView):
     model = Document
     context_object_name = "document"
-    template_name = "core/document_update.html"
+    template_name = "core/document_detail.html"
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
