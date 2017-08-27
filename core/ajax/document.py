@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from core.models import Document, Issue, DocumentContent
 from core.ajax.utils import jsonize
 
-from google_diff_match_patch.diff_match_patch import diff_match_patch
+from diff_match_patch.diff_match_patch import diff_match_patch
 
 
 @login_required

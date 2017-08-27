@@ -22,7 +22,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from registration.signals import user_registered
 
-from google_diff_match_patch.diff_match_patch import diff_match_patch
+from diff_match_patch.diff_match_patch import diff_match_patch
 
 from elections import BallotCounter
 

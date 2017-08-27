@@ -158,7 +158,7 @@ INSTALLED_APPS = (
 
     'registration',
     'bootstrapform',
-    'google_diff_match_patch',
+    'diff_match_patch',
 
     'core',
     'forum',
