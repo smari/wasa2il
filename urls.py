@@ -27,8 +27,6 @@ urlpatterns = [
 
     # Core app
     url(r'^', include('core.urls')),
-    # Forums app
-    url(r'^', include('forum.urls')),
     # Gateway
     url(r'^gateway/', include('gateway.urls')),
 
