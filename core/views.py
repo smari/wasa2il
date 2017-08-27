@@ -334,7 +334,6 @@ class TopicDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
-        context_data["delegation"] = self.object.get_delegation(self.request.user)
         context_data["polity"] = self.object.polity
         context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         return context_data
@@ -415,9 +414,6 @@ class IssueDetailView(DetailView):
             else:
                 context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
 
-        # TODO: Unused, as of yet.
-        #context_data["delegation"] = self.object.get_delegation(self.request.user)
-
         context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
         context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         context_data['can_vote'] = (self.request.user is not None and
@@ -484,11 +480,9 @@ class PolityDetailView(DetailView):
         ctx['user_is_member'] = self.object.is_member(self.request.user)
         ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
         ctx["agreements"] = self.object.agreements()
-        ctx["delegation"] = self.object.get_delegation(self.request.user)
         ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:20]
         ctx["newelections"] = self.object.election_set.filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:10]
         ctx["settings"] = settings
-        # ctx["delegations"] = Delegate.objects.filter(user=self.request.user, polity=self.object)
 
         context_data.update(ctx)
         return context_data

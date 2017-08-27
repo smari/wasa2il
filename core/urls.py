@@ -16,7 +16,7 @@ from core.ajax.topic import topic_poll
 from core.views import *
 from core import views as core_views
 from core.ajax import *
-from core.models import Polity, Topic, Issue, Delegate
+from core.models import Polity, Topic, Issue
 
 
 urlpatterns = [
@@ -55,8 +55,6 @@ urlpatterns = [
     url(r'^polity/(?P<polity>\d+)/topic/new/$', login_required(TopicCreateView.as_view())),
     url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
     url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$', TopicDetailView.as_view(), name='polity_topic_detail'),
-
-#   (r'^delegation/(?P<pk>\d+)/$', login_required(DetailView.as_view(model=Delegate, context_object_name="delegation"))),
 
     url(r'^api/topic/star/$', topic_star),
     url(r'^api/topic/showstarred/$', topic_showstarred),

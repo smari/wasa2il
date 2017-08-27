@@ -80,11 +80,6 @@
     {% endif %}
 {% endif %}
 
-
-{% if delegation %}
-<div class="alert alert-notice">{% trans "This election is delegated." %} <a href="/delegation/{{ delegation.0.id }}">{% trans "View details." %}</a></div>
-{% endif %}
-
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <p>{{ election.description }}</p>

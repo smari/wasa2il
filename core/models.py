@@ -191,17 +191,6 @@ class Polity(BaseIssue):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def get_delegation(self, user):
-        """Check if there is a delegation on this polity."""
-        if not user.is_authenticated():
-            return []
-        try:
-            d = Delegate.objects.get(user=user, base_issue=self)
-            return d.get_path()
-        except Delegate.DoesNotExist:
-            pass
-        return []
-
     def is_member(self, user):
         return self.members.filter(id=user.id).exists()
 
@@ -323,16 +312,6 @@ class Topic(BaseIssue):
 
     class Meta:
         ordering = ["name"]
-
-    def get_delegation(self, user):
-        """Check if there is a delegation on this topic."""
-        if not user.is_authenticated():
-            return []
-        try:
-            d = Delegate.objects.get(user=user, base_issue=self)
-            return d.get_path()
-        except Delegate.DoesNotExist:
-            return self.polity.get_delegation(user)
 
     def new_comments(self):
         return Comment.objects.filter(issue__topics=self).order_by("-created")[:10]
@@ -464,17 +443,6 @@ class Issue(BaseIssue):
         return self.get_voters().filter(
             id=(user_id if (user_id is not None) else user.id)).exists()
 
-    def get_delegation(self, user):
-        """Check if there is a delegation on this topic."""
-        if not user.is_authenticated():
-            return []
-        try:
-            d = Delegate.objects.get(user=user, base_issue=self)
-            return d.get_path()
-        except Delegate.DoesNotExist:
-            for i in self.topics.all():
-                return i.get_delegation(user)
-
     def topics_str(self):
         return ', '.join(map(str, self.topics.all()))
 
@@ -517,97 +485,6 @@ class Comment(models.Model):
     modified_by = models.ForeignKey(User, related_name='comment_modified_by', **d)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-
-class Delegate(models.Model):
-    polity = models.ForeignKey(Polity)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    delegate = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='delegate_user')
-    base_issue = models.ForeignKey(BaseIssue)
-
-    class Meta:
-        unique_together = (('user', 'base_issue'))
-
-    def __unicode__(self):
-        return u"[%s:%s] %s -> %s" % (self.type(), self.base_issue, self.user, self.delegate)
-
-    def polity(self):
-        """Gets the polity that the delegation exists within."""
-        try:
-            return self.base_issue.issue.polity
-        except AttributeError:
-            pass
-        try:
-            return self.base_issue.topic.polity
-        except AttributeError:
-            pass
-        try:
-            return self.base_issue.polity
-        except AttributeError:
-            print "ERROR: Delegate's base_issue is None, apparently"
-
-    def result(self):
-        """Work through the delegations and figure out where it ends"""
-        return self.get_path()[-1].delegate
-
-    def type(self):
-        """Figure out what kind of thing is being delegated. Returns a translated string."""
-        try:
-            self.base_issue.issue
-            return _("Issue")
-        except AttributeError:
-            pass
-        try:
-            self.base_issue.topic
-            return _("Topic")
-        except AttributeError:
-            pass
-        try:
-            self.base_issue.polity
-            return _("Polity")
-        except AttributeError:
-            print "ERROR: Delegate's base_issue is None, apparently"
-
-    def get_power(self):
-        """Get how much power has been transferred through to this point in the (reverse) delegation chain."""
-        # TODO: FIXME
-        pass
-
-    def get_path(self):
-        """Get the delegation pathway from here to the end of the chain."""
-        path = [self]
-        while True:
-            item = path[-1]
-            user = item.delegate
-            dels = user.delegate_set.filter(base_issue=item.base_issue)
-            if len(dels) > 0:
-                path.append(dels[0])
-                continue
-
-            if item.base_issue and item.base_issue.issue:
-                base_issue = item.base_issue.issue
-                if base_issue and base_issue.topics:  # If this works, we are working with an "Issue"
-                    for topic in base_issue.topics.all():
-                        dels = user.delegate_set.filter(base_issue=topic)
-                        if len(dels) > 0:
-                            # TODO: FIXME
-                            # Problem: Whereas an issue can belong to multiple topics, this is
-                            #  basically picking the first delegation to a topic, rather than
-                            #  creating weightings. Should we do weightings?
-                            path.append(dels[0])
-                            continue
-
-            try:  # If this works, we are working with an "Issue"
-                base_issue = item.base_issue.topic
-                dels = user.delegate_set.filter(base_issue=base_issue)
-                if len(dels) > 0:
-                    path.append(dels[0])
-                    continue
-            except AttributeError:
-                pass
-
-            break
-
-        return path
 
 
 class Vote(models.Model):
@@ -811,27 +688,6 @@ MOTION = {
     'CLARIFY': 3,
     'POINT': 4,
 }
-
-
-def get_power(user, issue):
-    power = 1
-    bases = [issue, issue.polity]
-    bases.extend(issue.topics.all())
-
-    # print "Getting power for user %s on issue %s" % (user, issue)
-    delegations = Delegate.objects.filter(delegate=user, base_issue__in=bases)
-    for i in delegations:
-        power += get_power(i.user, issue)
-    return power
-
-
-def get_issue_power(issue, user):
-    return get_power(user, issue)
-
-
-# TODO: Why are these set here? Fix later..?
-Issue.get_power = get_issue_power
-User.get_power = get_power
 
 
 class Election(NameSlugBase):

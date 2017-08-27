@@ -6,7 +6,6 @@ from django.contrib import auth
 from models import (
     Polity, Topic, Issue,
     Comment, Vote,
-    Delegate,
     UserProfile,
     PolityRuleset,
     Document, ChangeProposal,
@@ -67,10 +66,6 @@ class IssueAdmin(BaseIssueAdmin):
     exclude = ['votecount', 'votecount_yes', 'votecount_abstain', 'votecount_no']
 
 
-class DelegateAdmin(admin.ModelAdmin):
-    list_display = ['user', 'delegate', 'base_issue']
-
-
 #class VoteOptionAdmin(NameSlugAdmin):
 #    pass
 
@@ -106,7 +101,6 @@ register(Topic, TopicAdmin)
 register(Issue, IssueAdmin)
 # register(VoteOption, VoteOptionAdmin)
 register(Comment, CommentAdmin)
-register(Delegate, DelegateAdmin)
 #register(Vote, VoteAdmin)
 
 # User profile mucking
