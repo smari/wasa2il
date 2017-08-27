@@ -98,19 +98,6 @@ def get_name(user):
 User.get_name = get_name
 
 
-# NOTE: This is currently unused.
-#       We just leave it here to prevent the migrations from breaking.
-#
-class LocationCode(models.Model):
-    location_code = models.CharField(max_length=20, unique=True)
-    location_name = models.CharField(max_length=200)
-
-    def __unicode__(self):
-        if self.location_name:
-            return u'%s (%s)' % (self.location_code, self.location_name)
-        return u'%s' % self.location_code
-
-
 class PolityRuleset(models.Model):
     """A polity's ruleset."""
     polity = models.ForeignKey('Polity')
