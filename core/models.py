@@ -632,43 +632,6 @@ class DocumentContent(models.Model):
         return u"DocumentContent (ID: %d)" % self.id
 
 
-class ChangeProposal(models.Model):
-    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='change_proposal_created_by')
-    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='change_proposal_modified_by')
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    document = models.ForeignKey(Document)    # Document to reference
-    issue = models.ForeignKey(Issue)
-
-    d = dict(
-        editable=False,
-        null=True,
-        blank=True,
-        )
-
-    created_by = models.ForeignKey(User, related_name='change_proposal_created_by', **d)
-    modified_by = models.ForeignKey(User, related_name='change_proposal_modified_by', **d)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    CHANGE_PROPOSAL_ACTION_CHOICES = (
-        ('NEW', 'New Agreement'),
-        ('CHANGE', 'Change Agreement Text'),
-        ('CHANGE_TITLE', 'Change Agreement Title'),
-        ('RETIRE', 'Retire Agreement'),
-    )
-    action = models.CharField(max_length=20, choices=CHANGE_PROPOSAL_ACTION_CHOICES)
-
-    content = models.TextField(help_text='Content of document, or new title', **nullblank)
-
-    def __unicode__(self):
-        return u'Change Proposal: %s (content: "%s")' % (self.action, self.content_short())
-
-    def content_short(self):
-        return trim(self.content, 30)
-
-
 MOTION = {
     'TALK': 1,
     'REPLY': 2,

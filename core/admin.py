@@ -8,7 +8,7 @@ from models import (
     Comment, Vote,
     UserProfile,
     PolityRuleset,
-    Document, ChangeProposal,
+    Document,
     DocumentContent,
     Election, Candidate, ElectionVote,
     )
@@ -77,10 +77,6 @@ class DocumentContentAdmin(admin.ModelAdmin):
     list_display = ['document', 'order', 'comments', 'user', 'created']
 
 
-class ChangeProposalAdmin(admin.ModelAdmin):
-    list_display = ['content_short', 'action', 'created', 'document', 'issue']
-
-
 class CommentAdmin(admin.ModelAdmin):
     save_model = save_model
 
@@ -112,7 +108,6 @@ register(PolityRuleset)
 
 register(Document, NameSlugAdmin)
 register(DocumentContent, DocumentContentAdmin)
-register(ChangeProposal, ChangeProposalAdmin)
 
 register(Election)
 register(Candidate)
