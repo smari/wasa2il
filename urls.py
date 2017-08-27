@@ -7,13 +7,8 @@ from django.contrib.auth import views as auth_views
 from django.views import static
 
 from core import views as core_views
-from core.authentication import PiratePartyMemberAuthenticationForm
 
 from django.contrib import admin
-
-login_url_params = {}
-if 'core.authentication.PiratePartyMemberAuthenticationBackend' in settings.AUTHENTICATION_BACKENDS:
-    login_url_params = { 'authentication_form': PiratePartyMemberAuthenticationForm }
 
 urlpatterns = [
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -32,8 +27,7 @@ urlpatterns = [
 
     url(r'^accounts/profile/(?:(?P<username>.+)/)?$', core_views.profile),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
-    # (r'^accounts/login/', 'django.contrib.auth.views.login', login_url_params),
-    url(r'^accounts/login/', core_views.login, login_url_params),
+    url(r'^accounts/login/', core_views.login),
     url(r'^accounts/verify/', core_views.verify),
     url(r'^accounts/sso/', core_views.sso),
 
