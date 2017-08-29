@@ -112,7 +112,7 @@
             <tr id="join_deadline"><th>{% trans "Membership deadline" %}:</th><td>{{ election.deadline_joined_org }}</td></tr>
         {% endif %}
 {% if election.candidate_polities.count > 0 %}
-            <tr id="cand_polities"><th>{% trans "Candidacy polities" %}:</th><td>{% for polity in election.candidate_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
+            <tr id="cand_polities"><th>{% trans "Candidate polities" %}:</th><td>{% for polity in election.candidate_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
                {% if can_run %}<i class="user_can_run">{% trans "You can run" %}</i>{% endif %}
             </td></tr>
 {% endif %}

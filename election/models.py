@@ -42,8 +42,8 @@ class Election(models.Model):
     # particular allowing access to elections based on geographical polities
     # without residency granting access to participate in all other polity
     # activities.
-    voting_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_votes')
-    candidate_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_candidates')
+    voting_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_votes', verbose_name=_('Voting polities'))
+    candidate_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_candidates', verbose_name=_('Candidate polities'))
 
     # Sometimes elections may depend on a user having been the organization's member for an X amount of time
     # This optional field lets the vote counter disregard members who are too new.
