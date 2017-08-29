@@ -2,7 +2,6 @@
 {% load i18n %}
 
 {% block javascript %}
-    {{ block.super }}
     <script language="javascript" type="text/javascript">
 
         var NAME = "{% if documentcontent %}{{ documentcontent.document.name }}{% endif %}{% if documentcontent.order > 1 %}, {% trans 'version' %} {{ documentcontent.order }}{% endif %}";
