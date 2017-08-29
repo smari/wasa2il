@@ -383,7 +383,10 @@ class Issue(BaseIssue):
         return datetime.now() > self.deadline_discussions
 
     def percentage_reached(self):
-        return float(self.votecount_yes) / float(self.votecount) * 100
+        if self.votecount != 0:
+            return float(self.votecount_yes) / float(self.votecount) * 100
+        else:
+            return 0.0
 
     def process(self):
         """
