@@ -19,12 +19,6 @@ from diff_match_patch.diff_match_patch import diff_match_patch
 nullblank = {'null': True, 'blank': True}
 
 
-def trim(text, length):
-    if len(text) > length:
-        return '%s…' % text[:length - 1]
-    return text
-
-
 class BaseIssue(NameSlugBase):
     description = models.TextField(verbose_name=_("Description"), **nullblank)
 
@@ -620,14 +614,3 @@ class DocumentContent(models.Model):
 
     def __unicode__(self):
         return u"DocumentContent (ID: %d)" % self.id
-
-
-MOTION = {
-    'TALK': 1,
-    'REPLY': 2,
-    'CLARIFY': 3,
-    'POINT': 4,
-}
-
-
-
