@@ -1,5 +1,5 @@
 from django.test import TestCase
-from core import schulze
+from election import schulze
 import random
 
 
