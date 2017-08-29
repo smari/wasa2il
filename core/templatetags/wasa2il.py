@@ -9,7 +9,7 @@ from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
-from core.models import UserTopic, Vote, ElectionVote
+from core.models import Vote
 
 
 register = template.Library()
@@ -18,24 +18,6 @@ register = template.Library()
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
-
-
-@register.filter
-def sparkline(variable, skip_last=False):
-    if not variable:
-        return ''
-    if isinstance(variable, dict):
-        pairs = sorted([(k, v) for k, v in variable.iteritems()])
-        sparkline = [0] * (pairs[-1][0] + 1)
-        for i, v in pairs:
-            sparkline[i] = v
-        if 0 not in variable and '0' not in variable:
-            variable = sparkline[1:]
-        else:
-            variable = sparkline
-    if skip_last:
-        variable = variable[:-1]
-    return ','.join(str(v) for v in variable)
 
 
 @register.filter(name='issuevoted')
@@ -50,16 +32,6 @@ def issuevoted(issue, user):
         print e
         return False
 
-
-@register.filter(name='electionvoted')
-def electionvoted(election, user):
-    ut = 0
-    try:
-        ut = ElectionVote.objects.filter(user=user, election=election).count()
-    except TypeError:
-        pass
-
-    return (ut > 0)
 
 @register.filter(name="thumbnail")
 def thumbnail(file, size='104x104'):

@@ -161,6 +161,7 @@ INSTALLED_APPS = (
     'diff_match_patch',
 
     'core',
+    'election',
     'forum',
     'gateway',
 )

@@ -25,6 +25,9 @@ urlpatterns = [
     # Gateway
     url(r'^gateway/', include('gateway.urls')),
 
+    # Elections
+    url(r'^', include('election.urls')),
+
     url(r'^accounts/profile/(?:(?P<username>.+)/)?$', core_views.profile),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
     url(r'^accounts/login/', core_views.login),

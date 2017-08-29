@@ -10,7 +10,6 @@ from models import (
     PolityRuleset,
     Document,
     DocumentContent,
-    Election, Candidate, ElectionVote,
     )
 
 
@@ -108,7 +107,3 @@ register(PolityRuleset)
 
 register(Document, NameSlugAdmin)
 register(DocumentContent, DocumentContentAdmin)
-
-register(Election)
-register(Candidate)
-#register(ElectionVote)

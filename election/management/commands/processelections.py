@@ -4,7 +4,8 @@ from datetime import datetime
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from core.models import *
+from election.models import Election
+
 
 class Command(BaseCommand):
 
