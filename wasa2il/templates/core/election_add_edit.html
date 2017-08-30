@@ -15,7 +15,11 @@
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {
             $('#id_deadline_candidacy').datetimepicker();
+            $('#id_starttime_votes').datetimepicker();
             $('#id_deadline_votes').datetimepicker();
+            $('#id_deadline_joined_org').datetimepicker();
+
+            /*
             var next_week = new Date((new Date()).getTime() + 60 * 60 * 1000 * 24 * 7);
             var two_weeks = new Date((new Date()).getTime() + 60 * 60 * 1000 * 24 * 7 * 2);
             next_week.setMinutes(0)
@@ -25,7 +29,8 @@
             two_weeks.setSeconds(0)
             two_weeks.setMilliseconds(0)
             $('#id_deadline_candidacy').datetimepicker('setDate', next_week)
-            $('#id_deadline_votes').datetimepicker('setDate',two_weeks)
+            $('#id_deadline_votes').datetimepicker('setDate', two_weeks)
+            */
         });
     </script>
 
@@ -40,7 +45,9 @@
     <table class="table table-striped">
         {{ form.as_table }}
     </table>
-    <button type="submit" class="btn btn-default" />{% trans 'Save' %}</button>
+
+    <button type="submit" class="btn btn-primary" />{% trans 'Save' %}</button>
+    <a class="btn btn-default" href="{% if election.id %}/polity/{{ polity.id }}/election/{{ election.id }}/{% else %}/polity/{{ polity.id }}/{% endif %}">{% trans 'Cancel' %}</a>
 </form>
 
 
