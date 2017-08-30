@@ -20,13 +20,10 @@ urlpatterns = [
     # https://docs.djangoproject.com/en/1.4/topics/i18n/translation/#the-set-language-redirect-view
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
-    # Core app
+    url(r'^', include('election.urls')),
     url(r'^', include('core.urls')),
     # Gateway
     url(r'^gateway/', include('gateway.urls')),
-
-    # Elections
-    url(r'^', include('election.urls')),
 
     url(r'^accounts/profile/(?:(?P<username>.+)/)?$', core_views.profile),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
