@@ -35,8 +35,8 @@
 
 <h1>{% trans "New election" %}</h1>
 
-<form action="/polity/{{ polity.id }}/election/new/" method="POST" />
-    {%csrf_token%}
+<form method="POST">
+    {% csrf_token %}
     <table class="table table-striped">
         {{ form.as_table }}
     </table>

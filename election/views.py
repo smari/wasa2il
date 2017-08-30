@@ -1,13 +1,12 @@
 from datetime import datetime
 
 from django.db.models import Count
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.shortcuts import render
-from django.views.generic import CreateView
-from django.views.generic import DetailView
-from django.views.generic import ListView
-from django.views.generic import UpdateView
 
 from core.models import Polity
 
@@ -15,111 +14,94 @@ from election.forms import ElectionForm
 from election.models import Election
 
 
-class ElectionCreateView(CreateView):
-    model = Election
-    context_object_name = "election"
-    template_name = "core/election_form.html"
-    form_class = ElectionForm
-    success_url = "/polity/%(polity)d/election/%(id)d/"
+@login_required
+def election_add_edit(request, polity_id, election_id=None):
+    try:
+        polity = Polity.objects.get(id=polity_id, officers=request.user)
+    except Polity.DoesNotExist:
+        raise PermissionDenied()
 
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        self.success_url = "/polity/" + str(self.polity.id) + "/election/$(id)d/"
-        return super(ElectionCreateView, self).dispatch(*args, **kwargs)
+    if election_id:
+        election = get_object_or_404(Election, id=election_id, polity=polity)
+    else:
+        election = Election(polity=polity)
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(ElectionCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
+    if request.method == 'POST':
+        form = ElectionForm(request.POST, instance=election)
+        if form.is_valid():
+            election = form.save()
+            return redirect(reverse('election', args=(polity_id, election.id)))
+    else:
+        form = ElectionForm(instance=election)
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.save()
-        self.success_url = "/polity/" + str(self.polity.id) + "/election/" + str(self.object.id) + "/"
-        return HttpResponseRedirect(self.get_success_url())
+    ctx = {
+        'polity': polity,
+        'election': election,
+        'form': form,
+    }
+    return render(request, 'core/election_add_edit.html', ctx)
 
 
-class ElectionDetailView(DetailView):
-    model = Election
-    context_object_name = "election"
-    template_name = "core/election_detail.html"
+def election_view(request, polity_id, election_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+    election = get_object_or_404(Election, polity=polity, id=election_id)
 
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(ElectionDetailView, self).dispatch(*args, **kwargs)
+    voting_interface_enabled = election.is_voting and election.can_vote(request.user)
 
-    def get_context_data(self, *args, **kwargs):
-        election = self.get_object()
-
-        # Single variable for template to check which controls to enable
-        voting_interface_enabled = (
-            self.get_object().is_voting and
-            self.get_object().can_vote(self.request.user))
-
-        if election.is_processed:
-            ordered_candidates = election.get_winners()
-            vote_count = election.result.vote_count
-            statistics = election.get_stats(user=self.request.user)
-            users = [c.user for c in ordered_candidates]
-            if self.request.user in users:
-                user_result = users.index(self.request.user) + 1
-            else:
-                user_result = None
+    if election.is_processed:
+        ordered_candidates = election.get_winners()
+        vote_count = election.result.vote_count
+        statistics = election.get_stats(user=request.user)
+        users = [c.user for c in ordered_candidates]
+        if request.user in users:
+            user_result = users.index(request.user) + 1
         else:
-            # Returning nothing! Some voting systems are too slow for us to
-            # calculate results on the fly.
-            ordered_candidates = []
-            vote_count = election.get_vote_count
-            statistics = None
             user_result = None
+    else:
+        # Returning nothing! Some voting systems are too slow for us to
+        # calculate results on the fly.
+        ordered_candidates = []
+        vote_count = election.get_vote_count
+        statistics = None
+        user_result = None
 
-        context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
-        context_data.update(
-            {
-                'polity': self.polity,
-                'step': self.request.GET.get('step', None),
-                "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
-                'ordered_candidates': ordered_candidates,
-                'statistics': statistics,
-                'vote_count': vote_count,
-                'voting_interface_enabled': voting_interface_enabled,
-                'user_is_member': self.polity.is_member(self.request.user),
-                'user_result': user_result,
-                'facebook_title': '%s (%s)' % (election.name, self.polity.name),
-                'can_vote': (self.request.user is not None and
-                             self.object.can_vote(self.request.user)),
-                'can_run': (self.request.user is not None and
-                            self.object.can_be_candidate(self.request.user))
-            }
-        )
-        if voting_interface_enabled:
-            context_data.update({
-                'started_voting': election.has_voted(self.request.user),
-                'finished_voting': False
-            })
-
-        return context_data
-
-
-class ElectionListView(ListView):
-    model = Election
-    context_object_name = "elections"
-    template_name = "core/election_list.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(ElectionListView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-
-        elections = Election.objects.filter(polity=self.polity).annotate(candidate_count=Count('candidate')).order_by('-deadline_votes')
-
-        context_data = super(ElectionListView, self).get_context_data(*args, **kwargs)
-        context_data.update({
-            'polity': self.polity,
-            'elections': elections,
+    ctx = {
+        'polity': polity,
+        'election': election,
+        'step': request.GET.get('step', None),
+        'now': datetime.now().strftime('%d/%m/%Y %H:%I'),
+        'ordered_candidates': ordered_candidates,
+        'statistics': statistics,
+        'vote_count': vote_count,
+        'voting_interface_enabled': voting_interface_enabled,
+        'user_is_member': polity.is_member(request.user),
+        'user_is_officer': polity.is_officer(request.user),
+        'user_result': user_result,
+        'facebook_title': '%s (%s)' % (election.name, polity.name),
+        'can_vote': (request.user is not None and election.can_vote(request.user)),
+        'can_run': (request.user is not None and election.can_be_candidate(request.user))
+    }
+    if voting_interface_enabled:
+        ctx.update({
+            'started_voting': election.has_voted(request.user),
+            'finished_voting': False
         })
+    return render(request, 'core/election_view.html', ctx)
 
-        return context_data
+
+def election_list(request, polity_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+
+    elections = Election.objects.filter(
+        polity=polity
+    ).annotate(
+        candidate_count=Count('candidate')
+    ).order_by(
+        '-deadline_votes'
+    )
+
+    ctx = {
+        'polity': polity,
+        'elections': elections,
+    }
+    return render(request, 'core/election_list.html', ctx)
