@@ -10,7 +10,7 @@ except ImportError:
     from default_settings import *
     print('No local_settings.py found. Setting default values.')
 
-WASA2IL_VERSION = '0.9.6'
+WASA2IL_VERSION = '0.9.10'
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
@@ -158,9 +158,10 @@ INSTALLED_APPS = (
 
     'registration',
     'bootstrapform',
-    'google_diff_match_patch',
+    'diff_match_patch',
 
     'core',
+    'election',
     'forum',
     'gateway',
 )

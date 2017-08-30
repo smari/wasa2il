@@ -7,13 +7,8 @@ from django.contrib.auth import views as auth_views
 from django.views import static
 
 from core import views as core_views
-from core.authentication import PiratePartyMemberAuthenticationForm
 
 from django.contrib import admin
-
-login_url_params = {}
-if 'core.authentication.PiratePartyMemberAuthenticationBackend' in settings.AUTHENTICATION_BACKENDS:
-    login_url_params = { 'authentication_form': PiratePartyMemberAuthenticationForm }
 
 urlpatterns = [
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -25,17 +20,14 @@ urlpatterns = [
     # https://docs.djangoproject.com/en/1.4/topics/i18n/translation/#the-set-language-redirect-view
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
-    # Core app
+    url(r'^', include('election.urls')),
     url(r'^', include('core.urls')),
-    # Forums app
-    url(r'^', include('forum.urls')),
     # Gateway
     url(r'^gateway/', include('gateway.urls')),
 
     url(r'^accounts/profile/(?:(?P<username>.+)/)?$', core_views.profile),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
-    # (r'^accounts/login/', 'django.contrib.auth.views.login', login_url_params),
-    url(r'^accounts/login/', core_views.login, login_url_params),
+    url(r'^accounts/login/', core_views.login),
     url(r'^accounts/verify/', core_views.verify),
     url(r'^accounts/sso/', core_views.sso),
 

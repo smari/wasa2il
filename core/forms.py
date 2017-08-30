@@ -3,7 +3,7 @@ from django.forms import EmailField
 from django.forms import ValidationError
 from django.utils.translation import ugettext as _
 
-from core.models import Topic, Issue, Comment, Document, Polity, UserProfile, Election
+from core.models import Topic, Issue, Comment, Document, Polity, UserProfile
 
 
 class TopicForm(ModelForm):
@@ -47,12 +47,6 @@ class PolityForm(ModelForm):
     class Meta:
         model = Polity
         exclude = ('slug', 'parent', 'members')
-
-
-class ElectionForm(ModelForm):
-    class Meta:
-        model = Election
-        exclude = ('polity', 'slug', 'is_processed')
 
 
 class UserProfileForm(ModelForm):

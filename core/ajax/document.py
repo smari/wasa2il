@@ -4,10 +4,10 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
-from core.models import Document, Issue, ChangeProposal, DocumentContent
+from core.models import Document, Issue, DocumentContent
 from core.ajax.utils import jsonize
 
-from google_diff_match_patch.diff_match_patch import diff_match_patch
+from diff_match_patch.diff_match_patch import diff_match_patch
 
 
 @login_required
@@ -63,30 +63,6 @@ def document_propose_change(request):
             ))
 
     ctx['order'] = content.order
-
-    return ctx
-
-
-@login_required
-@jsonize
-def document_changeproposal_new(request, document, type):
-    ctx = {}
-
-    doc = get_object_or_404(Document, id=document)
-
-    if not doc.polity.is_member(request.user):
-        ctx['error'] = 403
-        return ctx
-
-    s = ChangeProposal()
-    s.user = request.user
-    s.document = doc
-    s.contenttype = type
-    s.actiontype = 4
-    s.refitem = request.GET.get('after')
-    s.destination = request.GET.get('after')  # TODO: Not correct...
-    s.content = request.GET.get('text', '')
-    s.save()
 
     return ctx
 

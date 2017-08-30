@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.views.decorators.cache import never_cache
 from django.views.decorators.vary import vary_on_headers
-from django.views.generic import ListView, UpdateView, DetailView
 
 from django.conf import settings
 
@@ -16,7 +15,7 @@ from core.ajax.topic import topic_poll
 from core.views import *
 from core import views as core_views
 from core.ajax import *
-from core.models import Polity, Topic, Issue, Delegate
+from core.models import Polity, Topic, Issue
 
 
 urlpatterns = [
@@ -37,16 +36,6 @@ urlpatterns = [
     url(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$', DocumentDetailView.as_view()),
     # (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$', login_required(DocumentUpdateView.as_view())),
 
-    url(r'^polity/(?P<polity>\d+)/election/$',
-        cache_page(60*1)(vary_on_headers('Cookie')(
-            ElectionListView.as_view()))),
-    url(r'^polity/(?P<polity>\d+)/election/new/$',
-        login_required(ElectionCreateView.as_view())),
-    url(r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/$', never_cache(ElectionDetailView.as_view())),
-    url(r'^polity/(?P<polity>\d+)/election/(?P<pk>\d+)/stats-dl/(?P<filename>.+)$',
-        election_stats_download),
-#   (r'^polity/(\d+)/election/(?P<pk>\d+)/ballots/$', election_ballots),
-
     url(r'^polity/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
     url(r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$', login_required(PolityDetailView.as_view())),
     url(r'^polity/(?P<pk>\d+)/$',
@@ -56,8 +45,6 @@ urlpatterns = [
     url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
     url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$', TopicDetailView.as_view(), name='polity_topic_detail'),
 
-#   (r'^delegation/(?P<pk>\d+)/$', login_required(DetailView.as_view(model=Delegate, context_object_name="delegation"))),
-
     url(r'^api/topic/star/$', topic_star),
     url(r'^api/topic/showstarred/$', topic_showstarred),
 
@@ -66,11 +53,6 @@ urlpatterns = [
     url(r'^api/issue/vote/$', never_cache(issue_vote)),
 
     url(r'^api/topic/poll/$', never_cache(topic_poll)),
-
-    url(r'^api/election/poll/$', never_cache(election_poll)),
-    url(r'^api/election/vote/$', never_cache(election_vote)),
-    url(r'^api/election/candidacy/$', never_cache(election_candidacy)),
-    url(r'^api/election/showclosed/$', election_showclosed),
 
     url(r'^api/document/propose/(?P<document>\d+)/(?P<state>\d+)/$', document_propose),
     url(r'^api/document/propose-change/$', document_propose_change),

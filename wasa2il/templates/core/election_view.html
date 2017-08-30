@@ -1,0 +1,470 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+{% load elections %}
+
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities/' %}
+{% url 'polity_detail' election.polity.id as polityurl %}
+{% add_breadcrumb election.polity.name polityurl %}
+{% add_breadcrumb election.name %}
+{{ block.super }}
+{% endblock %}
+
+{% block head_extra %}
+    <style type="text/css">
+        .hidebuttons button {display: none}
+        #submit-is-magic {transition: all 200ms; display: hidden;}
+        #submit-working, .start-voting, #election_announce_working {text-align: center;}
+        #election_button_withdraw {float: right;}
+        .start-voting {font-size: 1.5em; margin-top: 1em;}
+        .user_can_vote, .user_can_run {display: inline-block; float: right;}
+        {% if not election.is_closed %}
+        table#election_details tr {display: none;}
+        {% if election.is_voting %}
+        table#election_details tr#vote_deadline,
+        {% elif election.is_waiting %}
+        table#election_details tr#vote_starttime,
+        {% elif not election.is_closed %}
+        table#election_details tr#vote_starttime,
+        table#election_details tr#cand_deadline,
+        {% endif %}
+        table#election_details tr#show_details {display: table-row;}
+    {% else %}
+        table#election_details tr#show_details {display: none;}
+    {% endif %}
+    </style>
+    <script type="text/javascript" src="/static/js/jquery.sparkline.min.js"></script>
+{% endblock %}
+{% block content %}
+
+<div style="float: right;">
+    {% if user_is_officer %}
+        <a class="btn btn-default" role="button" href="{% url 'election_add_edit' polity.id election.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
+    <a class="btn btn-default" role="button" href="/polity/{{ election.polity.id }}">{% trans "Back to polity" %}</a>
+</div>
+<h1><small>{% trans "Election:" %}</small> {{ election.name }}</h1>
+
+{% if election.is_closed %}
+    <div class="alert alert-danger">
+        {% trans "This election is closed." %}
+        {% if user_result and election.results_are_ordered %}
+            <b>{% blocktrans %}You ended up in {{user_result}}. place.{% endblocktrans %}</b>
+        {% endif %}
+    </div>
+{% else %}
+    {% if not can_vote %}
+        <div class="alert alert-warning">
+            {% trans "You cannot vote in this election:" %}
+            <b>
+            {% if not user.is_authenticated %}
+                <a href="/accounts/login/?next={{ request.get_full_path }}">{% trans "Please log in." %}</a>
+            {% elif election.deadline_joined_org and user.userprofile.joined_org >= election.deadline_joined_org %}
+                {% trans "You joined the organization too late." %}
+            {% elif not user_is_member %}
+                {% trans "You are not a member of this polity." %}
+            {% else %}
+                {% trans "You do not meet the requirements." %}
+            {% endif %}</b>
+        </div>
+    {% endif %}
+    {% if not election.is_voting and not can_run %}
+        <div class="alert alert-warning">
+            {% trans "You cannot run in this election:" %}
+            <b>
+            {% if not user.is_authenticated %}
+                {% trans "Please log in." %}
+            {% elif not user_is_member %}
+                {% trans "You are not a member of this polity." %}
+            {% else %}
+                {% trans "You do not meet the requirements." %}
+            {% endif %}</b>
+        </div>
+    {% endif %}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <p>{{ election.description }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <table id="election_details" class="table table-compact">
+            <tr id="vote_starttime"><th>{% trans "Voting begins" %}:</th><td>
+                {{ election.voting_start_time }}
+                <small style="float: right">
+                    ({{ election.voting_start_time|timeuntil }})
+                </small>
+            </td></tr>
+            <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>
+                {{ election.deadline_candidacy }}
+                <small style="float: right">
+                    ({{ election.deadline_candidacy|timeuntil }})
+                </small>
+            </td></tr>
+            <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>
+                {{ election.deadline_votes }}
+                <small style="float: right">
+                    ({{ election.deadline_votes|timeuntil }})
+                </small>
+            </td></tr>
+        {% if election.deadline_joined_org %}
+            <tr id="join_deadline"><th>{% trans "Membership deadline" %}:</th><td>{{ election.deadline_joined_org }}</td></tr>
+        {% endif %}
+{% if election.candidate_polities.count > 0 %}
+            <tr id="cand_polities"><th>{% trans "Candidate polities" %}:</th><td>{% for polity in election.candidate_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
+               {% if can_run %}<i class="user_can_run">{% trans "You can run" %}</i>{% endif %}
+            </td></tr>
+{% endif %}
+{% if election.voting_polities.count > 0 %}
+            <tr id="vote_polities"><th>{% trans "Voting polities" %}:</th><td>{% for polity in election.voting_polities.all %}{{ polity.name }}{% if not forloop.last %},{% endif %} {% endfor %}
+               {% if can_vote %}<i class="user_can_vote">{% trans "You can vote" %}</i>{% endif %}
+            </td></tr>
+{% endif %}
+            <tr><th>{% trans "Voting system" %}:</th><td>{{ election.get_voting_system_display }}</td></tr>
+            <tr id="show_details"><td colspan=2>
+                <a onclick="show_details();" href="#">{% trans "Details ..." %}</a>
+            </td></tr>
+            <tr><th>{% trans "Candidates" %}:</th><td id="election_candidates_count">{{ election.candidate_set.count }}
+            </td></tr>
+            <tr id="counted_votes"><th>{% trans "Votes" %}:</th><td id="election_votes_count">{{ election.get_vote_count }}
+            </td></tr>
+        </table>
+    </div>
+
+{% if statistics and election.stats_publish_ballots_basic %}
+    <div class="col-md-6 col-xs-12">
+        <table id="election_ballot_stats" class="table table-compact">
+            <tr><th>{% trans "Shortest ballot length" %}:</th><td id="election_ballot_length_shortest">
+                {{ statistics.ballot_length_shortest.length }}
+                <small style="float: right">
+                    ({{ statistics.ballot_length_shortest.count }} {% trans "ballots" %} =
+                     {{ statistics.ballot_length_shortest.pct|floatformat }}%)
+                </small>
+            </td></tr>
+            <tr><th>{% trans "Average ballot length" %}:</th><td id="election_ballot_length_average">
+                {{ statistics.ballot_length_average|floatformat }}
+            </td></tr>
+            <tr><th>{% trans "Longest ballot length" %}:</th><td id="election_ballot_length_longest">
+                {{ statistics.ballot_length_longest.length }}
+                <small style="float: right">
+                    ({{ statistics.ballot_length_longest.count }} {% trans "ballots" %} =
+                     {{ statistics.ballot_length_longest.pct|floatformat }}%)
+                </small>
+            </td></tr>
+            <tr><th>{% trans "Most common ballot length" %}:</th><td id="election_ballot_length_most_common">
+                {{ statistics.ballot_length_most_common.length }}
+                <small style="float: right">
+                    ({{ statistics.ballot_length_most_common.count }} {% trans "ballots" %} =
+                     {{ statistics.ballot_length_most_common.pct|floatformat }}%)
+                </small>
+            </td></tr>
+            <tr><th>{% trans "Ballot lengths" %}:</th><td id="election_ballot_lengths">
+                {% with statistics.ballot_lengths as lengths %}
+                <span class="ballots_sparkline">{{ statistics.ballot_lengths|sparkline }}</span>
+                {% endwith %}
+            </td></tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+{% endif %}
+
+    <div class="col-md-{% if statistics and election.stats_publish_ballots_basic %}12{% else %}6{% endif %} col-xs-12">
+        {% if election.instructions %}
+            {% if not voting_interface_enabled or not election.is_voting or started_voting or step == "vote" %}
+                <div class="alert alert-success">
+                    <h3>{% trans "About This Election" %}</h3>
+                    <p>{{ election.instructions|safe|linebreaks }}</p>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {{ election.description }}
+
+        {% if election.is_closed %}
+            <h2>{% trans 'Election results' %}</h2>
+            {% if not election.results_are_ordered %}
+                <div class="alert alert-info">{% trans 'The voting system used in this election generates a non-ordered list. All winners are in the same place.' %}</div>
+            {% endif %}
+            {% if ordered_candidates %}
+            <div id="election_candidates_winners" style="margin-top: 1em;">
+                <ol class="candidates" id="candidates_winners" {% if not election.results_are_ordered %}style="list-style: none; padding-left: 0px;"{% endif %}>
+                {% for candidate in ordered_candidates %}
+                    {% if not election.stats_limit or forloop.counter <= election.stats_limit or candidate.user == user or user.is_staff %}
+                    <li data-seqid="{{ candidate.id }}"{% if election.stats_limit and forloop.counter > election.stats_limit %} style="background: #efe;"{% endif %}>
+                        <div style="position: relative;">
+                            <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
+                            <a href="/accounts/profile/{{ candidate.user.username }}/">{{ candidate.user.get_name }}</a>
+                      {% if statistics and election.stats_publish_ballots_per_candidate %}
+                            <div style="float: right; font-size: 0.8em;" title="{% trans "Vote statistics" %}">
+                            {% with statistics.rankings|get_item:candidate.user as ranking %}
+                                {% for r in ranking %}{% if forloop.last %}
+                                    {{r}} {% trans "votes" %}:
+                                {% endif %}{% endfor %}
+                                <span class="ranking_sparkline" values="{{ ranking|sparkline:True }}"></span>
+                            {% endwith %}
+                            </div>
+                      {% endif %}
+                      {% if election.stats_limit and forloop.counter > election.stats_limit %}
+                            <tt style="font-size: 0.5em; position: absolute; right: 2px; bottom: 1px;">{% trans "for your eyes only" %}</tt>
+                      {% endif %}
+                        </div>
+                    {% else %}
+                    <li data-seqid="{{ candidate.id }}" style="height: 2px; opacity: 0;">
+                    {% endif %}
+                    </li>
+                {% endfor %}
+                </ol>
+            </div>
+            {% elif vote_count == 0 %}
+            <div class="alert alert-success">
+                <p>{% trans "No votes were cast." %}</p>
+            </div>
+            {% else %}
+            <div class="alert alert-success">
+                <p>{% trans "Votes are still being counted." %}</p>
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+{% if statistics and election.stats_publish_files and election.is_closed %}
+<div class="row">
+    <p class="stats_downloads" style="text-align: right;">
+        {% trans "Download detailed statistics as:" %}
+        <a href="stats-dl/election-{{ election.id }}-stats.html">{% trans "Text" %}</a>,
+        <a href="stats-dl/election-{{ election.id }}-stats.json">JSON</a>,
+        <a href="stats-dl/election-{{ election.id }}-stats.ods">ODS</a>,
+        <a href="stats-dl/election-{{ election.id }}-stats.xlsx">XLS</a><br>
+        <small style="display: inline-block; width: 50%;">
+            {% trans "Downloads include rankings, pairwise victories and ballot counts." %}
+            {% if election.stats_limit %}{% with election.stats_limit as limit %}{% blocktrans %}
+                 Details below {{limit}}. place are omitted except for
+                 the candidates themselves and members of staff.
+            {% endblocktrans %}{% endwith %}{% endif %}
+        </small>
+    </p>
+</div>
+{% endif %}
+
+
+{% if not election.is_closed %}
+<div class="row">
+    {% if voting_interface_enabled and election.is_voting %}
+    <div class="col-md-5 col-xs-12 well voting">
+        {% if started_voting or step == "vote" %}
+        <h2>{% trans "Votes" %} <small>{% trans "your favorites first!" %}</small></h2>
+        <ol id="vote" class="candidates sortable">
+
+        </ol>
+        {% else %}
+            {% if election.instructions %}
+            <h2>{% trans "About This Election" %}</h2>
+            <p>{{ election.instructions|safe|linebreaks }}</p>
+            {% endif %}
+        <h2>{% trans "How To Vote" %}</h2>
+        <ul>
+            <li>{% trans "Click the Start Voting button to begin" %}</li>
+            <li>{% trans "Click a Vote button to vote for a candidate" %}</li>
+            <li>{% trans "Click the arrows to move your favorite candidates to the top" %}</li>
+            <li>{% trans "Your vote will be counted when the deadline has passed" %}</li>
+        </ul>
+        <div class="alert alert-success start-voting">
+            <a href="?step=vote"><button><b>{% trans "Start Voting" %}</b></button></a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-1"></div>
+    {% endif %}
+    <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
+        <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
+        {% if can_run %}
+        <div id="election_announce_working" class="alert" style="display: none;">
+            <p><i>{% trans "Working..." %}</i><br>
+        </div>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
+        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();"
+             {% if election.is_voting or election.is_waiting %}
+             data-confirm="{% trans "Are you sure you want to withdraw? This can not be undone." %}"
+             {% endif %}
+             >{% trans 'Withdraw candidacy' %}</a>
+        <br clear="both">
+        {% endif %}
+
+        <div id="election_candidates" style="margin-top: 1em;">
+            <ul class="candidates{% if started_voting or step == "vote" %}{% else %} hidebuttons{% endif %}" id="candidates">
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- This is used by the Javascript for CSRF and to detect when users get
+     logged out due to inactivity. -->
+<input type="hidden" name="user_id" value="{{ user.id }}">{% csrf_token %}
+
+<script>
+var election_id = {{ election.id }};
+var election_dragging = false;
+var election_update_timer = null;
+var election_update_wanted = false;
+var election_update_error = false;
+
+function show_details() {
+    $('table#election_details tr').css('display', 'table-row');
+    $('table#election_details tr#show_details').hide();
+}
+
+function election_select_candidate(element) {
+    $(element).hide();  // TODO: This is not doing anything
+    $(element).closest('li').appendTo("#vote");
+    election_update();
+}
+
+function election_deselect_candidate(element) {
+   $(element).closest('li').appendTo("#candidates");
+    election_update();
+}
+
+function election_up_candidate(element) {
+    $(element).closest('li').insertBefore($(element).closest('li').prev());
+    election_update();
+}
+
+function election_down_candidate(element) {
+    $(element).closest('li').insertAfter($(element).closest('li').next());
+    election_update();
+}
+
+function election_top_candidate(element) {
+    $(element).closest('li').parent().prepend($(element).closest('li'));
+    election_update();
+}
+
+function election_bottom_candidate(element) {
+    $(element).closest('li').parent().append($(element).closest('li'));
+    election_update();
+}
+
+function election_freeze_candidate(element) {
+    //$(element).closest('li').toggleClass("frozen"); // opacity
+    $(element).find('span').toggleClass("glyphicon-check").toggleClass("glyphicon-edit");
+    votebuttons = $(element).closest('li').find('.vote-button');
+    if(votebuttons.prop('disabled')){
+      votebuttons.prop('disabled', false);
+    } else {
+      votebuttons.prop('disabled', true);
+    }
+
+}
+
+function election_update() {
+    // We use a short timer here to consolidate multiple quick changes into
+    // a single request. If there is no request pending, we start one.
+    if (election_update_timer == null) {
+        $('#submit-working').show();
+        $('#submit-is-magic, #submit-error').hide();
+        election_update_timer = setTimeout(do_election_update, 100);
+    }
+    else {
+        // Otherwise, we make a note that an update was requested.
+        election_update_wanted = true;
+    }
+}
+
+function election_update_done() {
+    // We just finished updating the backend, starting another request
+    // is now safe.
+    election_update_timer = null;
+
+    // If an updated was requested but not handled: handle it!
+    if (election_update_wanted) {
+        election_update();
+    } else {
+        $('#submit-working, #submit-is-magic, #submit-error').hide();
+        if (election_update_error) {
+            $('#submit-error').show(200);
+        }
+        else {
+            $('#submit-is-magic').show(200);
+        }
+        // Restart timer from zero, as it will wipe our popups and we
+        // don't want that happening too soon.
+        election_timer_restart();
+    }
+}
+
+function do_election_update() {
+    // We're about to handle all the requests that have been made up to now.
+    election_update_wanted = false;
+    election_update_error = true; // Assume failure!
+
+    ord = [];
+    $("#vote li").each(function(item) {
+        ord.push($($("#vote li")[item]).data("seqid"));
+    });
+    $.post("/api/election/vote/", {
+        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
+        "election": election_id,
+        "order": ord
+    }, function(data) {
+        if (data.logged_out) user_logged_out();
+        if (data.ok && data.election) {
+            election_update_error = false;
+            election_object = data.election;
+        } else {
+            // Note: Error is assumed unless the ok block above runs.
+        }
+        election_render();
+    }, "json").always(election_update_done);
+}
+
+$(function() {
+    election_ui_update_is_safe = function() {
+        // We can safely update the UI if there aren't more changes
+        // pending, and drags are not in progress. Not rendering when
+        // more updates are pending prevents "jumping" in the UI and
+        // should preserve changes made by the user while the last
+        // update was in flight.
+        return (!(election_update_wanted || election_dragging));
+    }
+    election_poll(election_id);
+
+    {% if voting_interface_enabled %}
+    election_timer_start();
+
+    $(".sortable").sortable({
+        start: function() { election_dragging = true; },
+        stop: function() {
+            election_dragging = false;
+            election_update();
+        },
+        distance: 5,
+        delay: 300,
+        connectWith: ".candidates",
+        opacity: 0.6,
+        cursor: 'move'
+    });
+    {% endif %}
+
+    $('.ranking_sparkline').sparkline('html', {
+        type: 'bar',
+        barColor: 'green'
+    });
+    $('.ballots_sparkline').sparkline('html', {
+        type: 'bar',
+        barColor: 'green',
+        barWidth: 3,
+        barSpacing: 0
+    });
+});
+</script>
+
+
+
+{% endblock %}

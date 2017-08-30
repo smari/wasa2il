@@ -1,7 +1,6 @@
 
 from datetime import datetime, timedelta
 import os.path
-import decimal
 import json
 
 # for Discourse SSO support
@@ -13,13 +12,11 @@ from urlparse import parse_qs
 # SSO done
 
 from django.shortcuts import render_to_response, redirect, get_object_or_404
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
 from django.http import Http404
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.template import RequestContext
-from django.db import DatabaseError
 from django.db.models import Q
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
@@ -45,9 +42,10 @@ from django.views.decorators.debug import sensitive_post_parameters
 # END
 
 from django.contrib.auth.models import User
-from core.models import Candidate, Polity, Document, DocumentContent, Topic, Issue, Election, ElectionVote, UserProfile
-from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm, ElectionForm
+from core.models import Polity, Document, DocumentContent, Topic, Issue, UserProfile
+from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm
 from core.saml import authenticate, SamlException
+from election.models import Election
 from gateway.icepirate import configure_external_member_db
 from hashlib import sha1
 
@@ -334,7 +332,6 @@ class TopicDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
-        context_data["delegation"] = self.object.get_delegation(self.request.user)
         context_data["polity"] = self.object.polity
         context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         return context_data
@@ -415,9 +412,6 @@ class IssueDetailView(DetailView):
             else:
                 context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
 
-        # TODO: Unused, as of yet.
-        #context_data["delegation"] = self.object.get_delegation(self.request.user)
-
         context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
         context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         context_data['can_vote'] = (self.request.user is not None and
@@ -484,11 +478,9 @@ class PolityDetailView(DetailView):
         ctx['user_is_member'] = self.object.is_member(self.request.user)
         ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
         ctx["agreements"] = self.object.agreements()
-        ctx["delegation"] = self.object.get_delegation(self.request.user)
         ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:20]
         ctx["newelections"] = self.object.election_set.filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:10]
         ctx["settings"] = settings
-        # ctx["delegations"] = Delegate.objects.filter(user=self.request.user, polity=self.object)
 
         context_data.update(ctx)
         return context_data
@@ -541,7 +533,7 @@ class DocumentCreateView(CreateView):
 class DocumentDetailView(DetailView):
     model = Document
     context_object_name = "document"
-    template_name = "core/document_update.html"
+    template_name = "core/document_detail.html"
 
     def dispatch(self, *args, **kwargs):
         self.polity = get_object_or_404(Polity, id=kwargs["polity"])
@@ -647,147 +639,6 @@ class SearchListView(ListView):
         context_data = super(SearchListView, self).get_context_data(*args, **kwargs)
         return context_data
 
-
-class ElectionCreateView(CreateView):
-    model = Election
-    context_object_name = "election"
-    template_name = "core/election_form.html"
-    form_class = ElectionForm
-    success_url = "/polity/%(polity)d/election/%(id)d/"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        self.success_url = "/polity/" + str(self.polity.id) + "/election/$(id)d/"
-        return super(ElectionCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(ElectionCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.save()
-        self.success_url = "/polity/" + str(self.polity.id) + "/election/" + str(self.object.id) + "/"
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class ElectionDetailView(DetailView):
-    model = Election
-    context_object_name = "election"
-    template_name = "core/election_detail.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(ElectionDetailView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        election = self.get_object()
-
-        # Single variable for template to check which controls to enable
-        voting_interface_enabled = (
-            self.get_object().is_voting and
-            self.get_object().can_vote(self.request.user))
-
-        if election.is_processed:
-            ordered_candidates = election.get_winners()
-            vote_count = election.result.vote_count
-            statistics = election.get_stats(user=self.request.user)
-            users = [c.user for c in ordered_candidates]
-            if self.request.user in users:
-                user_result = users.index(self.request.user) + 1
-            else:
-                user_result = None
-        else:
-            # Returning nothing! Some voting systems are too slow for us to
-            # calculate results on the fly.
-            ordered_candidates = []
-            vote_count = election.get_vote_count
-            statistics = None
-            user_result = None
-
-        context_data = super(ElectionDetailView, self).get_context_data(*args, **kwargs)
-        context_data.update(
-            {
-                'polity': self.polity,
-                'step': self.request.GET.get('step', None),
-                "now": datetime.now().strftime("%d/%m/%Y %H:%I"),
-                'ordered_candidates': ordered_candidates,
-                'statistics': statistics,
-                'vote_count': vote_count,
-                'voting_interface_enabled': voting_interface_enabled,
-                'user_is_member': self.polity.is_member(self.request.user),
-                'user_result': user_result,
-                'facebook_title': '%s (%s)' % (election.name, self.polity.name),
-                'can_vote': (self.request.user is not None and
-                             self.object.can_vote(self.request.user)),
-                'can_run': (self.request.user is not None and
-                            self.object.can_be_candidate(self.request.user))
-            }
-        )
-        if voting_interface_enabled:
-            context_data.update({
-                'started_voting': election.has_voted(self.request.user),
-                'finished_voting': False
-            })
-
-        return context_data
-
-
-class ElectionListView(ListView):
-    model = Election
-    context_object_name = "elections"
-    template_name = "core/election_list.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(ElectionListView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-
-        elections = Election.objects.filter(polity=self.polity).annotate(candidate_count=Count('candidate')).order_by('-deadline_votes')
-
-        context_data = super(ElectionListView, self).get_context_data(*args, **kwargs)
-        context_data.update({
-            'polity': self.polity,
-            'elections': elections,
-        })
-
-        return context_data
-
-
-def election_ballots(request, pk=None):
-    ctx = {}
-    election = get_object_or_404(Election, pk=pk)
-    if election.is_closed():
-        ctx["ballotbox"] = election.get_ballots()
-        return render_to_response("core/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
-    else:
-        raise PermissionDenied
-
-
-def election_stats_download(request, polity=None, pk=None, filename=None):
-    election = Election.objects.get(pk=pk)
-
-    if not election.stats_publish_files:
-        raise Http404
-
-    filetype = filename.split('.')[-1].lower()
-    assert(filetype in ('json', 'xlsx', 'ods', 'html'))
-
-    response = HttpResponse(
-        election.get_formatted_stats(filetype, user=request.user),
-        content_type={
-            'json': 'application/json; charset=utf-8',
-            'ods': 'application/vnd.oasis.opendocument.spreadsheet',
-            'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'html': 'text/html; charset=utf-8'
-        }.get(filetype, 'application/octet-stream'))
-
-    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
-    return response
 
 def error500(request):
     return render_to_response('500.html')
