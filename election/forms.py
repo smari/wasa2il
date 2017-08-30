@@ -6,4 +6,4 @@ from election.models import Election
 class ElectionForm(ModelForm):
     class Meta:
         model = Election
-        exclude = ('polity', 'slug', 'is_processed')
+        exclude = ('polity', 'slug', 'is_processed', 'stats')
