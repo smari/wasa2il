@@ -1,4 +1,6 @@
 #coding:utf-8
+import re
+
 from base_classes import NameSlugBase
 from datetime import datetime, timedelta
 from django.conf import settings
