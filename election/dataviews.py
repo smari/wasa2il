@@ -1,8 +1,11 @@
+import random
+
 from datetime import datetime
 from hashlib import md5
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
