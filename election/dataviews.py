@@ -191,7 +191,7 @@ def election_ballots(request, pk=None):
 
 
 def election_stats_download(request, polity_id=None, election_id=None, filename=None):
-    election = Election.objects.get(id=election_id, polity_id=polity_id)
+    election = get_object_or_404(Election, id=election_id, polity_id=polity_id)
 
     if not election.stats_publish_files:
         raise Http404
