@@ -478,8 +478,12 @@ class PolityDetailView(DetailView):
         ctx['user_is_member'] = self.object.is_member(self.request.user)
         ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
         ctx["agreements"] = self.object.agreements()
-        ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:20]
-        ctx["newelections"] = self.object.election_set.filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:10]
+        ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(
+            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
+        )
+        ctx["newelections"] = self.object.election_set.filter(
+            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
+        )
         ctx["settings"] = settings
 
         context_data.update(ctx)

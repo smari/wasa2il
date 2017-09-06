@@ -1,8 +1,10 @@
 import random
 
 from datetime import datetime
+from datetime import timedelta
 from hashlib import md5
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import Http404
@@ -169,7 +171,10 @@ def election_showclosed(request):
         if showclosed == 1:
             elections = Election.objects.filter(polity_id=polity_id).order_by('-deadline_votes')
         else:
-            elections = Election.objects.filter(polity_id=polity_id, deadline_votes__gt=datetime.now()).order_by('-deadline_votes')
+            elections = Election.objects.filter(
+                polity_id=polity_id,
+                deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
+            ).order_by('-deadline_votes')
 
         ctx['showclosed'] = showclosed
         ctx['html'] = render_to_string('core/_election_list_table.html', {'elections': elections })

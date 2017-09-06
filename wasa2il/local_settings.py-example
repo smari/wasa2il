@@ -39,6 +39,9 @@ DATETIME_INPUT_FORMATS = (
 
 LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
 
+RECENT_ELECTION_DAYS = 7 # Number of days in which a closed election is considered "new".
+RECENT_ISSUE_DAYS = 7 # Number of days in which a closed issue is considered "new".
+
 # Uncomment the following to enable SAML 1.2 support (originally implemented for the "Icekey" in Iceland)
 #SAML_1 = {
 #    'URL': 'https://innskraning.island.is/?id=audkenni.piratar.is&path=/accounts/verify/',
