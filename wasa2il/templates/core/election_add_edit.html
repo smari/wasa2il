@@ -11,29 +11,7 @@
 {% endblock %}
 
 {% block javascript %}
-
-    <script language="javascript" type="text/javascript">
-        $(document).ready(function() {
-            $('#id_deadline_candidacy').datetimepicker();
-            $('#id_starttime_votes').datetimepicker();
-            $('#id_deadline_votes').datetimepicker();
-            $('#id_deadline_joined_org').datetimepicker();
-
-            /*
-            var next_week = new Date((new Date()).getTime() + 60 * 60 * 1000 * 24 * 7);
-            var two_weeks = new Date((new Date()).getTime() + 60 * 60 * 1000 * 24 * 7 * 2);
-            next_week.setMinutes(0)
-            next_week.setSeconds(0)
-            next_week.setMilliseconds(0)
-            two_weeks.setMinutes(0)
-            two_weeks.setSeconds(0)
-            two_weeks.setMilliseconds(0)
-            $('#id_deadline_candidacy').datetimepicker('setDate', next_week)
-            $('#id_deadline_votes').datetimepicker('setDate', two_weeks)
-            */
-        });
-    </script>
-
+    {{ form.media }}
 {% endblock %}
 
 {% block content %}

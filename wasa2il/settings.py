@@ -159,6 +159,7 @@ INSTALLED_APPS = (
     'registration',
     'bootstrapform',
     'diff_match_patch',
+    'datetimewidget',
 
     'core',
     'election',

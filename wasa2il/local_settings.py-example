@@ -18,6 +18,24 @@ ALLOW_LEAVE_POLITY = False
 
 DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'd/m/Y H:i:s'
+DATETIME_FORMAT_DJANGO_WIDGET = 'dd/mm/yyyy hh:ii' # django-datetime-widget
+'''
+# Only needed if not defined in Django forms locale. Example is Icelandic.
+DATETIME_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S',
+    '%Y-%m-%d %H:%M:%S.%f',
+    '%Y-%m-%d %H:%M',
+    '%Y-%m-%d',
+    '%d/%m/%Y %H:%M:%S',
+    '%d/%m/%Y %H:%M:%S.%f',
+    '%d/%m/%Y %H:%M',
+    '%d/%m/%Y',
+    '%d/%m/%y %H:%M:%S',
+    '%d/%m/%y %H:%M:%S.%f',
+    '%d/%m/%y %H:%M',
+    '%d/%m/%y'
+)
+'''
 
 LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
 
