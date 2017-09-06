@@ -133,8 +133,6 @@ class Command(BaseCommand):
                 PolityRuleset(
                     polity=p,
                     name='Silly rules',
-                    issue_quora=5,
-                    issue_quora_percent=10,
                     issue_majority=50,
                     issue_discussion_time=24*3600,
                     issue_proposal_time=24*3600,

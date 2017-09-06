@@ -89,12 +89,6 @@ class PolityRuleset(models.Model):
     polity = models.ForeignKey('Polity')
     name = models.CharField(max_length=255)
 
-    # Issue quora is how many members need to support a discussion
-    # before it goes into proposal mode. If 0, use timer.
-    # If issue_quora_percent, user percentage of polity members.
-    issue_quora_percent = models.BooleanField(default=False)
-    issue_quora = models.IntegerField()
-
     # Issue majority is how many percent of the polity are needed
     # for a decision to be made on the issue.
     issue_majority = models.DecimalField(max_digits=5, decimal_places=2)
@@ -104,38 +98,8 @@ class PolityRuleset(models.Model):
     issue_proposal_time = models.IntegerField()
     issue_vote_time = models.IntegerField()
 
-    # Sometimes we require an issue to be confirmed with a secondary vote.
-    # Note that one option here is to reference the same ruleset, and thereby
-    # force continuous confirmation (such as with annual budgets, etc..)
-    # Also, can be used to create multiple discussion rounds
-    confirm_with = models.ForeignKey('PolityRuleset', **nullblank)
-
-    # For multi-round discussions, we may want corresponding documents not to
-    # be adopted when the vote is complete, but only for the successful vote
-    # to allow progression into the next round.
-    adopted_if_accepted = models.BooleanField(default=True)
-
     def __unicode__(self):
         return u'%s' % self.name
-
-    def has_quora(self, issue):
-        # TODO: Return whether this has acheived quora on this ruleset
-        pass
-
-    def has_majority(self, issue):
-        # TODO: Return whether this has majority on this ruleset
-        pass
-
-    def get_phase(self, issue):
-        # TODO: Return information about the current phase
-        pass
-
-    def get_timeline(self, issue):
-        # TODO: Return a data structure describing when things will happen
-        # Should contain reference to confirmation actions, but not expand
-        # on them (as this could be an infinite loop, and confirmation
-        # actions aren't actually determined until post-vote.
-        pass
 
 
 class Polity(BaseIssue):
