@@ -84,3 +84,21 @@ class Polity(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.name)
+
+
+class PolityRuleset(models.Model):
+    """A polity's ruleset."""
+    polity = models.ForeignKey('polity.Polity')
+    name = models.CharField(max_length=255)
+
+    # Issue majority is how many percent of the polity are needed
+    # for a decision to be made on the issue.
+    issue_majority = models.DecimalField(max_digits=5, decimal_places=2)
+
+    # Denotes how many seconds an issue is in various phases.
+    issue_discussion_time = models.IntegerField()
+    issue_proposal_time = models.IntegerField()
+    issue_vote_time = models.IntegerField()
+
+    def __unicode__(self):
+        return u'%s' % self.name

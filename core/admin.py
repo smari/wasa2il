@@ -7,7 +7,6 @@ from models import (
     Topic, Issue,
     Comment, Vote,
     UserProfile,
-    PolityRuleset,
     Document,
     DocumentContent,
     )
@@ -97,7 +96,6 @@ admin.site.unregister(auth.models.User)
 register(auth.models.User, UserAdmin)
 
 register(UserProfile)
-register(PolityRuleset)
 
 register(Document, NameSlugAdmin)
 register(DocumentContent, DocumentContentAdmin)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from polity.models import Polity
-#from polity.models import PolityRuleset
+from polity.models import PolityRuleset
 
 
 class PolityAdmin(admin.ModelAdmin):
@@ -11,4 +11,4 @@ class PolityAdmin(admin.ModelAdmin):
 
 register = admin.site.register
 register(Polity, PolityAdmin)
-#register(PolityRuleset)
+register(PolityRuleset)

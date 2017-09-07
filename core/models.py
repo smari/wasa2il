@@ -84,24 +84,6 @@ def get_name(user):
 User.get_name = get_name
 
 
-class PolityRuleset(models.Model):
-    """A polity's ruleset."""
-    polity = models.ForeignKey('polity.Polity')
-    name = models.CharField(max_length=255)
-
-    # Issue majority is how many percent of the polity are needed
-    # for a decision to be made on the issue.
-    issue_majority = models.DecimalField(max_digits=5, decimal_places=2)
-
-    # Denotes how many seconds an issue is in various phases.
-    issue_discussion_time = models.IntegerField()
-    issue_proposal_time = models.IntegerField()
-    issue_vote_time = models.IntegerField()
-
-    def __unicode__(self):
-        return u'%s' % self.name
-
-
 class TopicQuerySet(models.QuerySet):
     def listing_info(self, user):
         '''
@@ -210,7 +192,7 @@ class Issue(BaseIssue):
     deadline_proposals = models.DateTimeField(**nullblank)
     deadline_votes = models.DateTimeField(**nullblank)
     majority_percentage = models.DecimalField(max_digits=5, decimal_places=2)
-    ruleset = models.ForeignKey(PolityRuleset, verbose_name=_("Ruleset"), editable=True)
+    ruleset = models.ForeignKey('polity.PolityRuleset', verbose_name=_("Ruleset"), editable=True)
 
     is_processed = models.BooleanField(default=False)
     votecount = models.IntegerField(default=0)
