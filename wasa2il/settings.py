@@ -115,7 +115,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.template.context_processors.static',
     'django.template.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
+    'django.template.context_processors.request',
 
     'core.contextprocessors.globals',
 )
