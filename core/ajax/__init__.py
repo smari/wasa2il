@@ -2,12 +2,13 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
-from core.models import Polity
 from core.models import Topic
 from core.models import UserProfile
 from core.models import UserTopic
 
 from core.ajax.utils import jsonize
+
+from polity.models import Polity
 
 
 @login_required

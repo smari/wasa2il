@@ -4,7 +4,7 @@ from django.contrib import auth
 
 
 from models import (
-    Polity, Topic, Issue,
+    Topic, Issue,
     Comment, Vote,
     UserProfile,
     PolityRuleset,
@@ -49,11 +49,6 @@ BaseIssueAdmin.fieldsets = [
 BaseIssueAdmin.save_model = save_model
 
 
-class PolityAdmin(BaseIssueAdmin):
-    fieldsets = None
-    list_display = BaseIssueAdmin.list_display + ['parent']
-
-
 class TopicAdmin(BaseIssueAdmin):
     fieldsets = None
     list_display = BaseIssueAdmin.list_display + ['polity']
@@ -91,7 +86,6 @@ class UserAdmin(auth.admin.UserAdmin):
 
 # Register the admins
 register = admin.site.register
-register(Polity, PolityAdmin)
 register(Topic, TopicAdmin)
 register(Issue, IssueAdmin)
 # register(VoteOption, VoteOptionAdmin)

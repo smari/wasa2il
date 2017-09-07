@@ -22,6 +22,7 @@ urlpatterns = [
 
     url(r'^', include('election.urls')),
     url(r'^', include('core.urls')),
+    url(r'^', include('polity.urls')),
     # Gateway
     url(r'^gateway/', include('gateway.urls')),
 

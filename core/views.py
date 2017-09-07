@@ -42,10 +42,11 @@ from django.views.decorators.debug import sensitive_post_parameters
 # END
 
 from django.contrib.auth.models import User
-from core.models import Polity, Document, DocumentContent, Topic, Issue, UserProfile
-from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm
+from core.models import Document, DocumentContent, Topic, Issue, UserProfile
+from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm
 from core.saml import authenticate, SamlException
 from election.models import Election
+from polity.models import Polity
 from gateway.icepirate import configure_external_member_db
 from hashlib import sha1
 
@@ -438,68 +439,6 @@ class IssueOpenListView(ListView):
         context_data = super(IssueOpenListView, self).get_context_data(*args, **kwargs)
         context_data.update({'polity': self.polity})
         return context_data
-
-
-class PolityListView(ListView):
-    model = Polity
-    context_object_name = 'polities'
-    template_name = 'core/polity_list'
-
-    def get_context_data(self, *args, **kwargs):
-        ctx = {}
-        context_data = super(PolityListView, self).get_context_data(*args, **kwargs)
-
-        if self.request.user.is_authenticated():
-            polities = self.request.user.polities.all()
-        else:
-            polities = Polity.objects.filter(is_nonmembers_readable=True)
-
-        ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-        ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-        ctx["elections"] = Election.objects.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now(),polity__in=polities)
-
-        context_data.update(ctx)
-        return context_data
-
-class PolityDetailView(DetailView):
-    queryset = Polity.objects.prefetch_related('officers')
-    context_object_name = "polity"
-    template_name = "core/polity_detail.html"
-
-    def dispatch(self, *args, **kwargs):
-        res = super(PolityDetailView, self).dispatch(*args, **kwargs)
-        return res
-
-    def get_context_data(self, *args, **kwargs):
-        ctx = {}
-        context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
-        self.object.update_agreements()
-        ctx['user_is_member'] = self.object.is_member(self.request.user)
-        ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
-        ctx["agreements"] = self.object.agreements()
-        ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(
-            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
-        )
-        ctx["newelections"] = self.object.election_set.filter(
-            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
-        )
-        ctx["settings"] = settings
-
-        context_data.update(ctx)
-        return context_data
-
-
-class PolityCreateView(CreateView):
-    model = Polity
-    context_object_name = "polity"
-    template_name = "core/polity_form.html"
-    form_class = PolityForm
-    success_url = "/polity/%(id)d/"
-
-    def form_valid(self, form):
-        self.object = form.save()
-        self.object.members.add(self.request.user)
-        return super(PolityCreateView, self).form_valid(form)
 
 
 class DocumentCreateView(CreateView):

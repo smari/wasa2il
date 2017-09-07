@@ -8,7 +8,6 @@ from django.db import models
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
-from core.models import Polity
 from election.utils import BallotCounter
 
 
@@ -23,7 +22,7 @@ class Election(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
-    polity = models.ForeignKey(Polity)
+    polity = models.ForeignKey('polity.Polity')
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
 
     # Tells whether the election results page should show the winning
@@ -43,8 +42,8 @@ class Election(models.Model):
     # particular allowing access to elections based on geographical polities
     # without residency granting access to participate in all other polity
     # activities.
-    voting_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_votes', verbose_name=_('Voting polities'))
-    candidate_polities = models.ManyToManyField(Polity, blank=True, related_name='remote_election_candidates', verbose_name=_('Candidate polities'))
+    voting_polities = models.ManyToManyField('polity.Polity', blank=True, related_name='remote_election_votes', verbose_name=_('Voting polities'))
+    candidate_polities = models.ManyToManyField('polity.Polity', blank=True, related_name='remote_election_candidates', verbose_name=_('Candidate polities'))
 
     # Sometimes elections may depend on a user having been the organization's member for an X amount of time
     # This optional field lets the vote counter disregard members who are too new.

@@ -15,13 +15,11 @@ from core.ajax.topic import topic_poll
 from core.views import *
 from core import views as core_views
 from core.ajax import *
-from core.models import Polity, Topic, Issue
+from core.models import Topic, Issue
 
 
 urlpatterns = [
     url(r'^$', core_views.home),
-    url(r'^polities/$', PolityListView.as_view()),
-    url(r'^polity/new/$', login_required(PolityCreateView.as_view())),
 
     url(r'^issue/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Issue, success_url="/issue/%(id)d/"))),
     url(r'^issue/(?P<pk>\d+)/$', IssueDetailView.as_view()),
@@ -36,11 +34,6 @@ urlpatterns = [
     url(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$', DocumentDetailView.as_view()),
     # (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$', login_required(DocumentUpdateView.as_view())),
 
-    url(r'^polity/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Polity, success_url="/polity/%(id)d/"))),
-    url(r'^polity/(?P<pk>\d+)/(?P<action>\w+)/$', login_required(PolityDetailView.as_view())),
-    url(r'^polity/(?P<pk>\d+)/$',
-        cache_page(60*5)(vary_on_headers('Cookie')(
-            PolityDetailView.as_view())), name='polity_detail'),
     url(r'^polity/(?P<polity>\d+)/topic/new/$', login_required(TopicCreateView.as_view())),
     url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
     url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$', TopicDetailView.as_view(), name='polity_topic_detail'),

@@ -8,10 +8,10 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from core.models import Polity
-
 from election.forms import ElectionForm
 from election.models import Election
+
+from polity.models import Polity
 
 
 @login_required

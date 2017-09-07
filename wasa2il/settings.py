@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     'datetimewidget',
 
     'core',
+    'polity',
     'election',
     'forum',
     'gateway',
