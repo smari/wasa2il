@@ -325,7 +325,7 @@ class Election(models.Model):
             return None
 
     def get_winners(self):
-        return [r.candidate for r in self.result.rows.order_by('order')]
+        return [r.candidate for r in self.result.rows.select_related('candidate__user__userprofile').order_by('order')]
 
     def get_candidates(self):
         ctx = {}
