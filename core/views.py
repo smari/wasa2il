@@ -412,7 +412,6 @@ class IssueDetailView(DetailView):
             else:
                 context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
 
-        context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
         context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
         context_data['can_vote'] = (self.request.user is not None and
                                     self.object.can_vote(self.request.user))
@@ -609,7 +608,6 @@ class DocumentDetailView(DetailView):
         context_data['selected_diff_documentcontent'] = doc.preferred_version
         context_data['issue'] = issue
         context_data['buttons'] = buttons
-        context_data['facebook_title'] = '%s (%s)' % (self.object.name, self.object.polity.name)
 
         context_data.update(csrf(self.request))
         return context_data

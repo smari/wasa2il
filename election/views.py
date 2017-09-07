@@ -77,7 +77,6 @@ def election_view(request, polity_id, election_id):
         'user_is_member': polity.is_member(request.user),
         'user_is_officer': polity.is_officer(request.user),
         'user_result': user_result,
-        'facebook_title': '%s (%s)' % (election.name, polity.name),
         'can_vote': (request.user is not None and election.can_vote(request.user)),
         'can_run': (request.user is not None and election.can_be_candidate(request.user))
     }

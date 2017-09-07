@@ -3,6 +3,9 @@
 {% load wasa2il %}
 {% load elections %}
 
+{% block facebook_title %}{% trans 'Election:' %} {{ election }}{% endblock %}
+{% block facebook_description %}{% trans 'Voting system:' %} {{ election.get_voting_system_display }} - {% trans 'Deadline for votes:' %} {{ election.deadline_votes }}{% endblock %}
+
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
 {% url 'polity_detail' election.polity.id as polityurl %}

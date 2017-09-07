@@ -2,6 +2,9 @@
 {% load i18n %}
 {% load wasa2il %}
 
+{% block facebook_title %}{% trans 'Issue vote:' %} {{ issue }}{% endblock %}
+{% block facebook_description %}{% trans "Deadline for votes:" %} {{ issue.deadline_votes }}{% endblock %}
+
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
 {% url 'polity_detail' issue.polity.id as polityurl %}
