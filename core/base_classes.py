@@ -11,13 +11,5 @@ class NameSlugBase(models.Model):
     class Meta:
         abstract = True
 
-    def get_url(self, anchor=True):
-        if anchor:
-            print type(mark_safe(u'<a href="%s">%s</a>' % (self.slug, self.name)))
-            return mark_safe(u'<a href="%s">%s</a>' % (self.slug, self.name))
-        return u'/slug/%s/' % self.slug
-    get_url.allow_tags = True
-    get_url.short_description = 'Slug-URL'
-
     def __unicode__(self):
         return u'%s' % (self.name)

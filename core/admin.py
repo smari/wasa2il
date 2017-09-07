@@ -34,7 +34,7 @@ class NameSlugAdmin(admin.ModelAdmin):
         (None, {'fields': ['name', 'slug']}),
     ]
     prepopulated_fields = {'slug': ['name']}
-    list_display = ['name', 'get_url']
+    list_display = ['name']
     search_fields = ['name']
 
 
