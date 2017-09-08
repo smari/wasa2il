@@ -15,6 +15,15 @@ class Migration(migrations.Migration):
     ]
 
     state_operations = [
+        migrations.RemoveField(
+            model_name='polityruleset',
+            name='polity',
+        ),
+        migrations.AlterField(
+            model_name='issue',
+            name='ruleset',
+            field=models.ForeignKey(verbose_name='Ruleset', to='polity.PolityRuleset'),
+        ),
         migrations.DeleteModel('PolityRuleset')
     ]
 
