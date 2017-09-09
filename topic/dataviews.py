@@ -4,11 +4,11 @@ from django.template.loader import render_to_string
 
 from core.ajax.utils import jsonize
 from core.models import UserProfile
-from core.models import UserTopic
 
 from polity.models import Polity
 
 from topic.models import Topic
+from topic.models import UserTopic
 
 
 @login_required

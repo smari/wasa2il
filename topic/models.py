@@ -91,3 +91,12 @@ class Topic(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.name)
+
+
+class UserTopic(models.Model):
+    """Whether a user likes a topic."""
+    topic = models.ForeignKey('topic.Topic')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    class Meta:
+        unique_together = (("topic", "user"),)

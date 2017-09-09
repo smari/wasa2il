@@ -84,15 +84,6 @@ def get_name(user):
 User.get_name = get_name
 
 
-class UserTopic(models.Model):
-    """Whether a user likes a topic."""
-    topic = models.ForeignKey('topic.Topic')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
-    class Meta:
-        unique_together = (("topic", "user"),)
-
-
 class Issue(BaseIssue):
     SPECIAL_PROCESS_CHOICES = (
         ('accepted_at_assembly', _('Accepted at assembly')),
