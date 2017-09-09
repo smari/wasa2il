@@ -11,11 +11,10 @@ from core.ajax.document import (
     document_propose, document_propose_change, render_markdown,
     documentcontent_render_diff
 )
-from core.ajax.topic import topic_poll
 from core.views import *
 from core import views as core_views
 from core.ajax import *
-from core.models import Topic, Issue
+from core.models import Issue
 
 
 urlpatterns = [
@@ -34,18 +33,9 @@ urlpatterns = [
     url(r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/$', DocumentDetailView.as_view()),
     # (r'^polity/(?P<polity>\d+)/document/(?P<pk>\d+)/edit/$', login_required(DocumentUpdateView.as_view())),
 
-    url(r'^polity/(?P<polity>\d+)/topic/new/$', login_required(TopicCreateView.as_view())),
-    url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(model=Topic, success_url="/polity/%(polity__id)d/topic/%(id)d/"))),
-    url(r'^polity/(?P<polity>\d+)/topic/(?P<pk>\d+)/$', TopicDetailView.as_view(), name='polity_topic_detail'),
-
-    url(r'^api/topic/star/$', topic_star),
-    url(r'^api/topic/showstarred/$', topic_showstarred),
-
     url(r'^api/issue/comment/send/$', never_cache(issue_comment_send)),
     url(r'^api/issue/poll/$', never_cache(issue_poll)),
     url(r'^api/issue/vote/$', never_cache(issue_vote)),
-
-    url(r'^api/topic/poll/$', never_cache(topic_poll)),
 
     url(r'^api/document/propose/(?P<document>\d+)/(?P<state>\d+)/$', document_propose),
     url(r'^api/document/propose-change/$', document_propose_change),

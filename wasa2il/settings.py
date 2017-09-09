@@ -163,6 +163,7 @@ INSTALLED_APPS = (
 
     'core',
     'polity',
+    'topic',
     'election',
     'gateway',
 )

@@ -84,90 +84,9 @@ def get_name(user):
 User.get_name = get_name
 
 
-class TopicQuerySet(models.QuerySet):
-    def listing_info(self, user):
-        '''
-        Adds information relevant to listing of topics
-        '''
-
-        topics = self
-        now = datetime.now()
-
-        if not user.is_anonymous():
-            if not UserProfile.objects.get(user=user).topics_showall:
-                topics = topics.filter(usertopic__user=user)
-
-            # Annotate the user's favoriteness of topics. Note that even though
-            # it's intended as a boolean, it is actually produced as an integer.
-            # So it's 1/0, not True/False.
-            if not user.is_anonymous():
-                topics = topics.annotate(
-                    favorited=Count(
-                        Case(
-                            When(usertopic__user=user, then=True),
-                            output_field=BooleanField
-                        ),
-                        distinct=True
-                    )
-                )
-
-        # Annotate issue count.
-        topics = topics.annotate(issue_count=Count('issue', distinct=True))
-
-        # Annotate usertopic count.
-        topics = topics.annotate(usertopic_count=Count('usertopic', distinct=True))
-
-        # Annotate counts of issues that are open and/or being voted on.
-        topics = topics.annotate(
-            issues_open=Count(
-                Case(
-                    When(issue__deadline_votes__gte=now, then=True),
-                    output_field=IntegerField()
-                ),
-                distinct=True
-            ),
-            issues_voting=Count(
-                Case(
-                    When(Q(issue__deadline_votes__gte=now, issue__deadline_proposals__lt=now), then=True),
-                    output_field=IntegerField()
-                ),
-                distinct=True
-            )
-        )
-
-        return topics
-
-
-class Topic(BaseIssue):
-    """A collection of issues unified categorically."""
-    objects = TopicQuerySet.as_manager()
-
-    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_created_by')
-    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='topic_modified_by')
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    polity = models.ForeignKey('polity.Polity')
-    d = dict(
-        editable=False,
-        null=True,
-        blank=True,
-        )
-    created_by = models.ForeignKey(User, related_name='topic_created_by', **d)
-    modified_by = models.ForeignKey(User, related_name='topic_modified_by', **d)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ["name"]
-
-    def new_comments(self):
-        return Comment.objects.filter(issue__topics=self).order_by("-created")[:10]
-
-
 class UserTopic(models.Model):
     """Whether a user likes a topic."""
-    topic = models.ForeignKey(Topic)
+    topic = models.ForeignKey('topic.Topic')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     class Meta:
@@ -186,7 +105,7 @@ class Issue(BaseIssue):
     modified = models.DateTimeField(auto_now=True)
 
     polity = models.ForeignKey('polity.Polity')
-    topics = models.ManyToManyField(Topic, verbose_name=_("Topics"))
+    topics = models.ManyToManyField('topic.Topic', verbose_name=_('Topics'))
     documentcontent = models.OneToOneField('DocumentContent', related_name='issue', **nullblank)
     deadline_discussions = models.DateTimeField(**nullblank)
     deadline_proposals = models.DateTimeField(**nullblank)

@@ -3,13 +3,7 @@ from django.forms import EmailField
 from django.forms import ValidationError
 from django.utils.translation import ugettext as _
 
-from core.models import Topic, Issue, Comment, Document, UserProfile
-
-
-class TopicForm(ModelForm):
-    class Meta:
-        model = Topic
-        exclude = ('polity', 'slug')
+from core.models import Issue, Comment, Document, UserProfile
 
 
 class IssueForm(ModelForm):

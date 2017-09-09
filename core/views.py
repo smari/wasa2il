@@ -42,12 +42,14 @@ from django.views.decorators.debug import sensitive_post_parameters
 # END
 
 from django.contrib.auth.models import User
-from core.models import Document, DocumentContent, Topic, Issue, UserProfile
-from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm
+from core.models import Document, DocumentContent, Issue, UserProfile
+from core.forms import DocumentForm, UserProfileForm, IssueForm, CommentForm
 from core.saml import authenticate, SamlException
 from election.models import Election
 from polity.models import Polity
 from gateway.icepirate import configure_external_member_db
+from topic.models import Topic
+
 from hashlib import sha1
 
 
@@ -292,50 +294,6 @@ def sso(request):
     out_query = urllib.urlencode({'sso': out_payload, 'sig' : out_signature})
 
     return HttpResponseRedirect('%s?%s' % (return_url, out_query))
-
-class TopicListView(ListView):
-    context_object_name = "topics"
-    template_name = "core/topic_list.html"
-
-    def get_queryset(self):
-        polity = get_object_or_404(Polity, polity=self.kwargs["polity"])
-        return Topic.objects.filter(polity=polity)
-
-
-class TopicCreateView(CreateView):
-    context_object_name = "topic"
-    template_name = "core/topic_form.html"
-    form_class = TopicForm
-    success_url = "/polity/%(polity)d/topic/%(id)d/"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        self.success_url = "/polity/" + str(self.polity.id) + "/topic/%(id)d/"
-        return super(TopicCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(TopicCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class TopicDetailView(DetailView):
-    model = Topic
-    context_object_name = "topic"
-    template_name = "core/topic_detail.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
-        context_data["polity"] = self.object.polity
-        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
-        return context_data
 
 
 class IssueCreateView(CreateView):
