@@ -23,10 +23,6 @@ from issue.models import Issue
 nullblank = {'null': True, 'blank': True}
 
 
-class BaseIssue(NameSlugBase):
-    description = models.TextField(verbose_name=_("Description"), **nullblank)
-
-
 class UserProfile(models.Model):
     """A user's profile data. Contains various informative areas, plus various settings."""
     user = models.OneToOneField(User)
