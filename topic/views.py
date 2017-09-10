@@ -9,7 +9,7 @@ from topic.models import Topic
 
 class TopicListView(ListView):
     context_object_name = "topics"
-    template_name = "core/topic_list.html"
+    template_name = "topic/topic_list.html"
 
     def get_queryset(self):
         polity = get_object_or_404(Polity, polity=self.kwargs["polity"])
@@ -18,7 +18,7 @@ class TopicListView(ListView):
 
 class TopicCreateView(CreateView):
     context_object_name = "topic"
-    template_name = "core/topic_form.html"
+    template_name = "topic/topic_form.html"
     form_class = TopicForm
     success_url = "/polity/%(polity)d/topic/%(id)d/"
 
@@ -43,7 +43,7 @@ class TopicCreateView(CreateView):
 class TopicDetailView(DetailView):
     model = Topic
     context_object_name = "topic"
-    template_name = "core/topic_detail.html"
+    template_name = "topic/topic_detail.html"
 
     def get_context_data(self, *args, **kwargs):
         context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
