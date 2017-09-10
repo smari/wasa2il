@@ -9,7 +9,7 @@ from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
-from core.models import Vote
+from issue.models import Vote
 
 
 register = template.Library()

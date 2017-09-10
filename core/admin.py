@@ -4,7 +4,7 @@ from django.contrib import auth
 
 
 from models import (
-    Comment, Vote,
+    Comment,
     UserProfile,
     Document,
     DocumentContent,
@@ -36,13 +36,6 @@ class NameSlugAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-#class VoteOptionAdmin(NameSlugAdmin):
-#    pass
-
-class VoteAdmin(admin.ModelAdmin):
-    list_display = ['user']  # , 'option']
-
-
 class DocumentContentAdmin(admin.ModelAdmin):
     list_display = ['document', 'order', 'comments', 'user', 'created']
 
@@ -62,9 +55,7 @@ class UserAdmin(auth.admin.UserAdmin):
 
 # Register the admins
 register = admin.site.register
-# register(VoteOption, VoteOptionAdmin)
 register(Comment, CommentAdmin)
-#register(Vote, VoteAdmin)
 
 # User profile mucking
 admin.site.unregister(auth.models.User)

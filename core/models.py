@@ -106,36 +106,6 @@ class Comment(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
 
-class Vote(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    issue = models.ForeignKey('issue.Issue')
-    # option = models.ForeignKey(VoteOption)
-    value = models.IntegerField()
-    cast = models.DateTimeField(auto_now_add=True)
-    power_when_cast = models.IntegerField()
-
-    class Meta:
-        unique_together = (('user', 'issue'))
-
-    def save(self, *largs, **kwargs):
-        if self.value > 1:
-            self.value = 1
-        elif self.value < -1:
-            self.value = -1
-
-        self.power_when_cast = self.power()
-        super(Vote, self).save(*largs, **kwargs)
-
-    def power(self):
-        # Follow reverse delgation chain to discover how much power we have.
-        p = 1
-
-        return p
-
-    def get_value(self):
-        return self.power() * self.value
-
-
 class Document(NameSlugBase):
     polity = models.ForeignKey('polity.Polity')
     issues = models.ManyToManyField('issue.Issue')
