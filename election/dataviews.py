@@ -74,7 +74,7 @@ def election_poll(request, **kwargs):
             "vote": {}}}
 
     ctx["election"]["candidates"]["html"] = render_to_string(
-        "core/_election_candidate_list.html", {
+        "election/_election_candidate_list.html", {
             "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
@@ -86,7 +86,7 @@ def election_poll(request, **kwargs):
             "candidate_selected": False})
 
     ctx["election"]["vote"]["html"] = render_to_string(
-        "core/_election_candidate_list.html", {
+        "election/_election_candidate_list.html", {
             "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
@@ -177,7 +177,7 @@ def election_showclosed(request):
             ).order_by('-deadline_votes')
 
         ctx['showclosed'] = showclosed
-        ctx['html'] = render_to_string('core/_election_list_table.html', {'elections': elections })
+        ctx['html'] = render_to_string('election/_election_list_table.html', {'elections': elections })
         ctx['ok'] = True
     except Exception as e:
         ctx['error'] = e
@@ -190,7 +190,7 @@ def election_ballots(request, pk=None):
     election = get_object_or_404(Election, pk=pk)
     if election.is_closed():
         ctx["ballotbox"] = election.get_ballots()
-        return render_to_response("core/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
+        return render_to_response("election/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
     else:
         raise PermissionDenied
 
