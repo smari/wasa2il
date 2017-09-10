@@ -4,7 +4,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import DocumentContent
-from core.models import Issue
+
+from issue.models import Issue
 
 
 class Polity(models.Model):

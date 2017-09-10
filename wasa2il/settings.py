@@ -165,6 +165,7 @@ INSTALLED_APPS = (
     'polity',
     'topic',
     'election',
+    'issue',
     'gateway',
 )
 try:

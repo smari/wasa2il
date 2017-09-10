@@ -3,10 +3,11 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.timesince import timesince
 
-from core.models import Issue, Vote, Comment
+from core.models import Vote, Comment
 from core.ajax.utils import jsonize
 from core.templatetags.wasa2il import thumbnail
 
+from issue.models import Issue
 
 @login_required
 @jsonize

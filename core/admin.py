@@ -4,7 +4,6 @@ from django.contrib import auth
 
 
 from models import (
-    Issue,
     Comment, Vote,
     UserProfile,
     Document,
@@ -37,23 +36,6 @@ class NameSlugAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-BaseIssueAdmin = getDerivedAdmin(NameSlugAdmin,
-        list_display=['description'],
-        search_fields=['description'],
-    )
-BaseIssueAdmin.fieldsets = [
-        NameSlugAdmin.fieldsets[0],
-        (None, {'fields': ['description']}),
-    ]
-BaseIssueAdmin.save_model = save_model
-
-
-class IssueAdmin(BaseIssueAdmin):
-    fieldsets = None
-    list_display = BaseIssueAdmin.list_display + ['topics_str']
-    exclude = ['votecount', 'votecount_yes', 'votecount_abstain', 'votecount_no']
-
-
 #class VoteOptionAdmin(NameSlugAdmin):
 #    pass
 
@@ -80,7 +62,6 @@ class UserAdmin(auth.admin.UserAdmin):
 
 # Register the admins
 register = admin.site.register
-register(Issue, IssueAdmin)
 # register(VoteOption, VoteOptionAdmin)
 register(Comment, CommentAdmin)
 #register(Vote, VoteAdmin)
