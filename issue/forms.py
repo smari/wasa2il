@@ -1,5 +1,6 @@
 from django import forms
 
+from issue.models import Comment
 from issue.models import Issue
 
 class IssueForm(forms.ModelForm):
@@ -19,3 +20,9 @@ class IssueForm(forms.ModelForm):
             'votecount_abstain',
             'votecount_no'
         )
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ('issue',)

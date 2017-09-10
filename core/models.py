@@ -82,26 +82,6 @@ def get_name(user):
 User.get_name = get_name
 
 
-class Comment(models.Model):
-    created_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='comment_created_by')
-    modified_by = models.ForeignKey(User, editable=False, null=True, blank=True, related_name='comment_modified_by')
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    comment = models.TextField()
-    issue = models.ForeignKey('issue.Issue')
-
-    d = dict(
-        editable=False,
-        null=True,
-        blank=True,
-        )
-    created_by = models.ForeignKey(User, related_name='comment_created_by', **d)
-    modified_by = models.ForeignKey(User, related_name='comment_modified_by', **d)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-
 class Document(NameSlugBase):
     polity = models.ForeignKey('polity.Polity')
     issues = models.ManyToManyField('issue.Issue')

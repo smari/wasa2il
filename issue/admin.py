@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from issue.models import Comment
 from issue.models import Issue
 
 
@@ -11,3 +12,4 @@ class IssueAdmin(admin.ModelAdmin):
 
 register = admin.site.register
 register(Issue, IssueAdmin)
+register(Comment)

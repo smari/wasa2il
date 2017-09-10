@@ -175,3 +175,13 @@ class Vote(models.Model):
 
     def get_value(self):
         return self.power() * self.value
+
+
+class Comment(models.Model):
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='comment_created_by')
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='comment_modified_by')
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    comment = models.TextField()
+    issue = models.ForeignKey('issue.Issue')

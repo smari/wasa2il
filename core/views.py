@@ -43,7 +43,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 
 from django.contrib.auth.models import User
 from core.models import Document, DocumentContent, UserProfile
-from core.forms import DocumentForm, UserProfileForm, CommentForm
+from core.forms import DocumentForm, UserProfileForm
 from core.saml import authenticate, SamlException
 from election.models import Election
 from issue.models import Issue

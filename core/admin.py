@@ -4,7 +4,6 @@ from django.contrib import auth
 
 
 from models import (
-    Comment,
     UserProfile,
     Document,
     DocumentContent,
@@ -40,10 +39,6 @@ class DocumentContentAdmin(admin.ModelAdmin):
     list_display = ['document', 'order', 'comments', 'user', 'created']
 
 
-class CommentAdmin(admin.ModelAdmin):
-    save_model = save_model
-
-
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
@@ -55,7 +50,6 @@ class UserAdmin(auth.admin.UserAdmin):
 
 # Register the admins
 register = admin.site.register
-register(Comment, CommentAdmin)
 
 # User profile mucking
 admin.site.unregister(auth.models.User)
