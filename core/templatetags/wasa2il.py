@@ -29,7 +29,6 @@ def issuevoted(issue, user):
 
         return True
     except Exception, e:
-        print e
         return False
 
 
