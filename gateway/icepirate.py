@@ -16,7 +16,9 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.text import slugify
 
 
-from core.models import Polity, UserProfile
+from core.models import UserProfile
+
+from polity.models import Polity
 
 
 class IcePirateException(Exception):

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities/' %}
+{% url 'polity_detail' polity.id as polityurl %}
+{% add_breadcrumb polity.name polityurl %}
+{% add_breadcrumb _('New election') %}
+{{ block.super }}
+{% endblock %}
+
+{% block javascript %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "New election" %}</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <table class="table table-striped">
+        {{ form.as_table }}
+    </table>
+
+    <button type="submit" class="btn btn-primary" />{% trans 'Save' %}</button>
+    <a class="btn btn-default" href="{% if election.id %}/polity/{{ polity.id }}/election/{{ election.id }}/{% else %}/polity/{{ polity.id }}/{% endif %}">{% trans 'Cancel' %}</a>
+</form>
+
+
+{% endblock %}

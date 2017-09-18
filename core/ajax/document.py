@@ -4,8 +4,10 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
-from core.models import Document, Issue, DocumentContent
+from core.models import Document, DocumentContent
 from core.ajax.utils import jsonize
+
+from issue.models import Issue
 
 from diff_match_patch.diff_match_patch import diff_match_patch
 

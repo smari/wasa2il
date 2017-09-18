@@ -3,50 +3,13 @@ from django.forms import EmailField
 from django.forms import ValidationError
 from django.utils.translation import ugettext as _
 
-from core.models import Topic, Issue, Comment, Document, Polity, UserProfile
-
-
-class TopicForm(ModelForm):
-    class Meta:
-        model = Topic
-        exclude = ('polity', 'slug')
-
-
-class IssueForm(ModelForm):
-    class Meta:
-        model = Issue
-        exclude = (
-            'polity',
-            'slug',
-            'documentcontent',
-            'deadline_discussions',
-            'deadline_proposals',
-            'deadline_votes',
-            'majority_percentage',
-            'is_processed',
-            'votecount',
-            'votecount_yes',
-            'votecount_abstain',
-            'votecount_no'
-        )
-
-
-class CommentForm(ModelForm):
-    class Meta:
-        model = Comment
-        exclude = ('issue',)
+from core.models import Document, UserProfile
 
 
 class DocumentForm(ModelForm):
     class Meta:
         model = Document
         exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug', 'issues')
-
-
-class PolityForm(ModelForm):
-    class Meta:
-        model = Polity
-        exclude = ('slug', 'parent', 'members')
 
 
 class UserProfileForm(ModelForm):

@@ -4,10 +4,7 @@ from django.contrib import auth
 
 
 from models import (
-    Polity, Topic, Issue,
-    Comment, Vote,
     UserProfile,
-    PolityRuleset,
     Document,
     DocumentContent,
     )
@@ -34,50 +31,12 @@ class NameSlugAdmin(admin.ModelAdmin):
         (None, {'fields': ['name', 'slug']}),
     ]
     prepopulated_fields = {'slug': ['name']}
-    list_display = ['name', 'get_url']
+    list_display = ['name']
     search_fields = ['name']
-
-
-BaseIssueAdmin = getDerivedAdmin(NameSlugAdmin,
-        list_display=['description'],
-        search_fields=['description'],
-    )
-BaseIssueAdmin.fieldsets = [
-        NameSlugAdmin.fieldsets[0],
-        (None, {'fields': ['description']}),
-    ]
-BaseIssueAdmin.save_model = save_model
-
-
-class PolityAdmin(BaseIssueAdmin):
-    fieldsets = None
-    list_display = BaseIssueAdmin.list_display + ['parent']
-
-
-class TopicAdmin(BaseIssueAdmin):
-    fieldsets = None
-    list_display = BaseIssueAdmin.list_display + ['polity']
-
-
-class IssueAdmin(BaseIssueAdmin):
-    fieldsets = None
-    list_display = BaseIssueAdmin.list_display + ['topics_str']
-    exclude = ['votecount', 'votecount_yes', 'votecount_abstain', 'votecount_no']
-
-
-#class VoteOptionAdmin(NameSlugAdmin):
-#    pass
-
-class VoteAdmin(admin.ModelAdmin):
-    list_display = ['user']  # , 'option']
 
 
 class DocumentContentAdmin(admin.ModelAdmin):
     list_display = ['document', 'order', 'comments', 'user', 'created']
-
-
-class CommentAdmin(admin.ModelAdmin):
-    save_model = save_model
 
 
 class UserProfileInline(admin.StackedInline):
@@ -91,19 +50,12 @@ class UserAdmin(auth.admin.UserAdmin):
 
 # Register the admins
 register = admin.site.register
-register(Polity, PolityAdmin)
-register(Topic, TopicAdmin)
-register(Issue, IssueAdmin)
-# register(VoteOption, VoteOptionAdmin)
-register(Comment, CommentAdmin)
-#register(Vote, VoteAdmin)
 
 # User profile mucking
 admin.site.unregister(auth.models.User)
 register(auth.models.User, UserAdmin)
 
 register(UserProfile)
-register(PolityRuleset)
 
 register(Document, NameSlugAdmin)
 register(DocumentContent, DocumentContentAdmin)

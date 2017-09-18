@@ -2,6 +2,10 @@
 {% load i18n %}
 {% load wasa2il %}
 
+{% block facebook_title %}{% if profile.displayname %}{{ profile.displayname }}{% else %}{% trans 'User' %}{% endif %}{% endblock %}
+{% block facebook_description %}{% if profile.bio %}{{ profile.bio }}{% else %}{{ INSTANCE_NAME }}{% endif %}{% endblock %}
+{% block facebook_image_url %}{{ INSTANCE_URL }}{{ profile.picture.url }}{% endblock %}
+
 {% block content %}
 
 {% if profile.email_visible %}<div class="pull-right"><small>{{ subject.email }}</small></div>{% endif %}

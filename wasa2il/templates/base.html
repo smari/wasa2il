@@ -14,15 +14,12 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'img/pirateparty-16x16-is.png' %}"/>
 
     <meta property="og:type" content="website" />
-    {% if facebook_title %}
-    <meta property="og:title" content="{{ facebook_title }}" />
-    {% else %}
-    <meta property="og:title" content="{{ INSTANCE_NAME }}" />
-    {% endif %}
-    <meta property="og:description" content="{{ facebook_description }}" />
-    <meta property="og:url" content="{{ INSTANCE_URL }}{{ request.path }}" />
+    <meta property="og:title" content="{% block facebook_title %}{{ INSTANCE_NAME }}{% endblock %}" />
+    <meta property="og:description" content="{% block facebook_description %}{% trans 'An online platform for holding elections and voting on issues.' %}{% endblock %}" />
+    <meta property="og:url" content="{{ INSTANCE_URL }}{{ request.path }}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" />
     <meta property="og:site_name" content="{{ INSTANCE_NAME }}" />
-    <meta property="og:image" content="{{ INSTANCE_FACEBOOK_IMAGE }}" />
+    <meta property="og:image" content="{% block facebook_image_url %}{{ INSTANCE_FACEBOOK_IMAGE }}{% endblock %}" />
+    <meta property="fb:app_id" content="{{ INSTANCE_FACEBOOK_APP_ID }}" />
 
     <link href="/static/css/application.css" rel="stylesheet" />
     <style type="text/css">
@@ -52,10 +49,8 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script src="/static/js/trans.js"></script>
-    <script src="/static/js/jquery-1.11.3.min.js"></script>
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
     <script src="/static/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
-    <script src="/static/js/jquery-ui-timepicker-addon.js"></script>
     <script src="/static/bootstrap/js/bootstrap.js"></script>
     <script src="/static/js/wasa2il.js"></script>
 

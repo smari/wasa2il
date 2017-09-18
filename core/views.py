@@ -42,11 +42,15 @@ from django.views.decorators.debug import sensitive_post_parameters
 # END
 
 from django.contrib.auth.models import User
-from core.models import Polity, Document, DocumentContent, Topic, Issue, UserProfile
-from core.forms import DocumentForm, UserProfileForm, TopicForm, IssueForm, CommentForm, PolityForm
+from core.models import Document, DocumentContent, UserProfile
+from core.forms import DocumentForm, UserProfileForm
 from core.saml import authenticate, SamlException
 from election.models import Election
+from issue.models import Issue
+from polity.models import Polity
 from gateway.icepirate import configure_external_member_db
+from topic.models import Topic
+
 from hashlib import sha1
 
 
@@ -292,212 +296,6 @@ def sso(request):
 
     return HttpResponseRedirect('%s?%s' % (return_url, out_query))
 
-class TopicListView(ListView):
-    context_object_name = "topics"
-    template_name = "core/topic_list.html"
-
-    def get_queryset(self):
-        polity = get_object_or_404(Polity, polity=self.kwargs["polity"])
-        return Topic.objects.filter(polity=polity)
-
-
-class TopicCreateView(CreateView):
-    context_object_name = "topic"
-    template_name = "core/topic_form.html"
-    form_class = TopicForm
-    success_url = "/polity/%(polity)d/topic/%(id)d/"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        self.success_url = "/polity/" + str(self.polity.id) + "/topic/%(id)d/"
-        return super(TopicCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(TopicCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class TopicDetailView(DetailView):
-    model = Topic
-    context_object_name = "topic"
-    template_name = "core/topic_detail.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
-        context_data["polity"] = self.object.polity
-        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
-        return context_data
-
-
-class IssueCreateView(CreateView):
-    context_object_name = "issue"
-    template_name = "core/issue_form.html"
-    form_class = IssueForm
-    success_url = "/issue/%(id)d/"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-
-        if self.polity.is_newissue_only_officers and self.request.user not in self.polity.officers.all():
-            raise PermissionDenied()
-
-        return super(IssueCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(IssueCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        context_data['form'].fields['topics'].queryset = Topic.objects.filter(polity=self.polity)
-        context_data['selected_topics'] = []
-
-        selected_topics = []
-        if self.kwargs['documentcontent']:
-            current_content = DocumentContent.objects.get(id=self.kwargs['documentcontent'])
-
-            if current_content.order > 1:
-                previous_topics = current_content.previous_topics()
-                context_data['selected_topics'] = json.dumps(previous_topics)
-                context_data['tab'] = 'diff'
-
-            context_data['documentcontent'] = current_content
-            context_data['documentcontent_comments'] = current_content.comments.replace("\n", "\\n")
-            context_data['selected_diff_documentcontent'] = current_content.document.preferred_version()
-
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-
-        self.object.apply_ruleset()
-
-        context_data = self.get_context_data(form=form)
-        if 'documentcontent' in context_data:
-            self.object.documentcontent = context_data['documentcontent']
-
-        self.object.save()
-
-        for topic in form.cleaned_data.get('topics'):
-            self.object.topics.add(topic)
-
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class IssueDetailView(DetailView):
-    model = Issue
-    context_object_name = "issue"
-    template_name = "core/issue_detail.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
-
-        if self.object.documentcontent:
-            documentcontent = self.object.documentcontent
-            if documentcontent.order > 1:
-                context_data['tab'] = 'diff'
-            else:
-                context_data['tab'] = 'view'
-
-            context_data['documentcontent'] = documentcontent
-            if self.object.is_processed:
-                context_data['selected_diff_documentcontent'] = documentcontent.predecessor
-            else:
-                context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
-
-        context_data['facebook_title'] = '%s, %s (%s)' % (self.object.name, _(u'voting'), self.object.polity.name)
-        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
-        context_data['can_vote'] = (self.request.user is not None and
-                                    self.object.can_vote(self.request.user))
-        context_data['comments_closed'] = (
-            not self.request.user.is_authenticated() or self.object.discussions_closed()
-        )
-
-        return context_data
-
-
-class IssueOpenListView(ListView):
-    model = Issue
-    context_object_name = 'newissues'
-    template_name = "core/issues_new.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs['polity'])
-        return super(IssueOpenListView, self).dispatch(*args, **kwargs)
-
-    def get_queryset(self):
-        return self.polity.issue_set.order_by('deadline_votes').filter(deadline_votes__gt=datetime.now())
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(IssueOpenListView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        return context_data
-
-
-class PolityListView(ListView):
-    model = Polity
-    context_object_name = 'polities'
-    template_name = 'core/polity_list'
-
-    def get_context_data(self, *args, **kwargs):
-        ctx = {}
-        context_data = super(PolityListView, self).get_context_data(*args, **kwargs)
-
-        if self.request.user.is_authenticated():
-            polities = self.request.user.polities.all()
-        else:
-            polities = Polity.objects.filter(is_nonmembers_readable=True)
-
-        ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-        ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-        ctx["elections"] = Election.objects.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now(),polity__in=polities)
-
-        context_data.update(ctx)
-        return context_data
-
-class PolityDetailView(DetailView):
-    queryset = Polity.objects.prefetch_related('officers')
-    context_object_name = "polity"
-    template_name = "core/polity_detail.html"
-
-    def dispatch(self, *args, **kwargs):
-        res = super(PolityDetailView, self).dispatch(*args, **kwargs)
-        return res
-
-    def get_context_data(self, *args, **kwargs):
-        ctx = {}
-        context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
-        self.object.update_agreements()
-        ctx['user_is_member'] = self.object.is_member(self.request.user)
-        ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
-        ctx["agreements"] = self.object.agreements()
-        ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:20]
-        ctx["newelections"] = self.object.election_set.filter(deadline_votes__gt=datetime.now() - timedelta(days=7))[:10]
-        ctx["settings"] = settings
-
-        context_data.update(ctx)
-        return context_data
-
-
-class PolityCreateView(CreateView):
-    model = Polity
-    context_object_name = "polity"
-    template_name = "core/polity_form.html"
-    form_class = PolityForm
-    success_url = "/polity/%(id)d/"
-
-    def form_valid(self, form):
-        self.object = form.save()
-        self.object.members.add(self.request.user)
-        return super(PolityCreateView, self).form_valid(form)
-
 
 class DocumentCreateView(CreateView):
     model = Document
@@ -605,7 +403,6 @@ class DocumentDetailView(DetailView):
         context_data['selected_diff_documentcontent'] = doc.preferred_version
         context_data['issue'] = issue
         context_data['buttons'] = buttons
-        context_data['facebook_title'] = '%s (%s)' % (self.object.name, self.object.polity.name)
 
         context_data.update(csrf(self.request))
         return context_data

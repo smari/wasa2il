@@ -10,7 +10,7 @@ except ImportError:
     from default_settings import *
     print('No local_settings.py found. Setting default values.')
 
-WASA2IL_VERSION = '0.9.11'
+WASA2IL_VERSION = '0.9.12'
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
@@ -115,7 +115,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.template.context_processors.static',
     'django.template.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
+    'django.template.context_processors.request',
 
     'core.contextprocessors.globals',
 )
@@ -159,10 +159,13 @@ INSTALLED_APPS = (
     'registration',
     'bootstrapform',
     'diff_match_patch',
+    'datetimewidget',
 
     'core',
+    'polity',
+    'topic',
     'election',
-    'forum',
+    'issue',
     'gateway',
 )
 try:

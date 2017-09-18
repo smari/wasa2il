@@ -11,6 +11,7 @@ INSTANCE_SLUG = ''
 INSTANCE_LOGO = ''
 INSTANCE_URL = '' # Base URL for application, for example https://wasa2il.example.com/
 INSTANCE_FACEBOOK_IMAGE = 'https://example.com/full/url/to/image.png'
+INSTANCE_FACEBOOK_APP_ID = '1234567890'
 
 TIME_ZONE = 'Iceland'
 
@@ -18,8 +19,29 @@ ALLOW_LEAVE_POLITY = False
 
 DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'd/m/Y H:i:s'
+DATETIME_FORMAT_DJANGO_WIDGET = 'dd/mm/yyyy hh:ii' # django-datetime-widget
+'''
+# Only needed if not defined in Django forms locale. Example is Icelandic.
+DATETIME_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S',
+    '%Y-%m-%d %H:%M:%S.%f',
+    '%Y-%m-%d %H:%M',
+    '%Y-%m-%d',
+    '%d/%m/%Y %H:%M:%S',
+    '%d/%m/%Y %H:%M:%S.%f',
+    '%d/%m/%Y %H:%M',
+    '%d/%m/%Y',
+    '%d/%m/%y %H:%M:%S',
+    '%d/%m/%y %H:%M:%S.%f',
+    '%d/%m/%y %H:%M',
+    '%d/%m/%y'
+)
+'''
 
 LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
+
+RECENT_ELECTION_DAYS = 7 # Number of days in which a closed election is considered "new".
+RECENT_ISSUE_DAYS = 7 # Number of days in which a closed issue is considered "new".
 
 # Uncomment the following to enable SAML 1.2 support (originally implemented for the "Icekey" in Iceland)
 #SAML_1 = {

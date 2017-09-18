@@ -8,10 +8,10 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from core.models import Polity
-
 from election.forms import ElectionForm
 from election.models import Election
+
+from polity.models import Polity
 
 
 @login_required
@@ -39,7 +39,7 @@ def election_add_edit(request, polity_id, election_id=None):
         'election': election,
         'form': form,
     }
-    return render(request, 'core/election_add_edit.html', ctx)
+    return render(request, 'election/election_add_edit.html', ctx)
 
 
 def election_view(request, polity_id, election_id):
@@ -77,7 +77,6 @@ def election_view(request, polity_id, election_id):
         'user_is_member': polity.is_member(request.user),
         'user_is_officer': polity.is_officer(request.user),
         'user_result': user_result,
-        'facebook_title': '%s (%s)' % (election.name, polity.name),
         'can_vote': (request.user is not None and election.can_vote(request.user)),
         'can_run': (request.user is not None and election.can_be_candidate(request.user))
     }
@@ -86,7 +85,7 @@ def election_view(request, polity_id, election_id):
             'started_voting': election.has_voted(request.user),
             'finished_voting': False
         })
-    return render(request, 'core/election_view.html', ctx)
+    return render(request, 'election/election_view.html', ctx)
 
 
 def election_list(request, polity_id):
@@ -104,4 +103,4 @@ def election_list(request, polity_id):
         'polity': polity,
         'elections': elections,
     }
-    return render(request, 'core/election_list.html', ctx)
+    return render(request, 'election/election_list.html', ctx)

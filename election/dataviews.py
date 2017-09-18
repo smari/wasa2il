@@ -1,8 +1,10 @@
 import random
 
 from datetime import datetime
+from datetime import timedelta
 from hashlib import md5
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import Http404
@@ -72,7 +74,7 @@ def election_poll(request, **kwargs):
             "vote": {}}}
 
     ctx["election"]["candidates"]["html"] = render_to_string(
-        "core/_election_candidate_list.html", {
+        "election/_election_candidate_list.html", {
             "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
@@ -84,7 +86,7 @@ def election_poll(request, **kwargs):
             "candidate_selected": False})
 
     ctx["election"]["vote"]["html"] = render_to_string(
-        "core/_election_candidate_list.html", {
+        "election/_election_candidate_list.html", {
             "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
@@ -169,10 +171,13 @@ def election_showclosed(request):
         if showclosed == 1:
             elections = Election.objects.filter(polity_id=polity_id).order_by('-deadline_votes')
         else:
-            elections = Election.objects.filter(polity_id=polity_id, deadline_votes__gt=datetime.now()).order_by('-deadline_votes')
+            elections = Election.objects.filter(
+                polity_id=polity_id,
+                deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
+            ).order_by('-deadline_votes')
 
         ctx['showclosed'] = showclosed
-        ctx['html'] = render_to_string('core/_election_list_table.html', {'elections': elections })
+        ctx['html'] = render_to_string('election/_election_list_table.html', {'elections': elections })
         ctx['ok'] = True
     except Exception as e:
         ctx['error'] = e
@@ -185,13 +190,13 @@ def election_ballots(request, pk=None):
     election = get_object_or_404(Election, pk=pk)
     if election.is_closed():
         ctx["ballotbox"] = election.get_ballots()
-        return render_to_response("core/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
+        return render_to_response("election/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
     else:
         raise PermissionDenied
 
 
 def election_stats_download(request, polity_id=None, election_id=None, filename=None):
-    election = Election.objects.get(id=election_id, polity_id=polity_id)
+    election = get_object_or_404(Election, id=election_id, polity_id=polity_id)
 
     if not election.stats_publish_files:
         raise Http404
