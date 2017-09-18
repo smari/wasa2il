@@ -10,7 +10,7 @@ except ImportError:
     from default_settings import *
     print('No local_settings.py found. Setting default values.')
 
-WASA2IL_VERSION = '0.9.11'
+WASA2IL_VERSION = '0.9.12'
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
