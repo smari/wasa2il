@@ -6,7 +6,6 @@ from django.contrib import auth
 from models import (
     UserProfile,
     Document,
-    DocumentContent,
     )
 
 
@@ -35,10 +34,6 @@ class NameSlugAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-class DocumentContentAdmin(admin.ModelAdmin):
-    list_display = ['document', 'order', 'comments', 'user', 'created']
-
-
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
@@ -58,4 +53,3 @@ register(auth.models.User, UserAdmin)
 register(UserProfile)
 
 register(Document, NameSlugAdmin)
-register(DocumentContent, DocumentContentAdmin)

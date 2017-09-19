@@ -24,7 +24,7 @@ class Issue(models.Model):
 
     polity = models.ForeignKey('polity.Polity')
     topics = models.ManyToManyField('topic.Topic', verbose_name=_('Topics'))
-    documentcontent = models.OneToOneField('core.DocumentContent', related_name='issue', null=True, blank=True)
+    documentcontent = models.OneToOneField('issue.DocumentContent', related_name='issue', null=True, blank=True)
     deadline_discussions = models.DateTimeField(null=True, blank=True)
     deadline_proposals = models.DateTimeField(null=True, blank=True)
     deadline_votes = models.DateTimeField(null=True, blank=True)
@@ -185,3 +185,77 @@ class Comment(models.Model):
 
     comment = models.TextField()
     issue = models.ForeignKey('issue.Issue')
+
+
+class DocumentContent(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    document = models.ForeignKey('core.Document')
+    created = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    order = models.IntegerField(default=1)
+    comments = models.TextField(blank=True)
+    STATUS_CHOICES = (
+        ('proposed', _('Proposed')),
+        ('accepted', _('Accepted')),
+        ('rejected', _('Rejected')),
+        ('deprecated', _('Deprecated')),
+    )
+    status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='proposed')
+    predecessor = models.ForeignKey('issue.DocumentContent', null=True, blank=True)
+
+
+    # Attempt to inherit earlier issue's topic selection
+    def previous_topics(self):
+        selected_topics = []
+        if self.order > 1:
+            # NOTE: This is entirely distinct from Document.preferred_version() and should not be replaced by it.
+            # This function actually regards Issues, not DocumentContents, but is determined by DocumentContent as input.
+
+            # Find the last accepted documentcontent
+            prev_contents = self.document.documentcontent_set.exclude(id=self.id).order_by('-order')
+            selected_topics = []
+            for c in prev_contents: # NOTE: We're iterating from newest to oldest.
+                if c.status == 'accepted':
+                    # A previously accepted DocumentContent MUST correspond to an issue so we brutally assume so.
+                    selected_topics = [t.id for t in c.issue.topics.all()]
+                    break
+
+            # If no topic list is determined from previously accepted issue, we inherit from the last Issue, if any.
+            if len(selected_topics) == 0:
+                for c in prev_contents:
+                    try:
+                        c_issue = c.issue.get()
+                        selected_topics = [t.id for t in c_issue.topics.all()]
+                        break;
+                    except:
+                        pass
+
+        return selected_topics
+
+    # Gets all DocumentContents which belong to the Document to which this DocumentContent belongs to.
+    def siblings(self):
+        siblings = DocumentContent.objects.filter(document_id=self.document_id).order_by('order')
+        return siblings
+
+    # Generates a diff between this DocumentContent and the one provided to the function.
+    def diff(self, documentcontent_id):
+        earlier_content = DocumentContent.objects.get(id=documentcontent_id)
+
+        # Basic diff_match_patch thing
+        dmp = diff_match_patch()
+
+        dmp.Diff_Timeout = 0
+        # dmp.Diff_EditCost = 10 # Higher value means more semantic cleanup. 4 is default which works for us right now.
+
+        d = dmp.diff_main(earlier_content.text, self.text)
+
+        # Calculate the diff
+        dmp.diff_cleanupSemantic(d)
+        result = dmp.diff_prettyHtml(d).replace('&para;', '')
+
+        result = re.sub(r'\r<br>', r'<br>', result) # Because we're using <pre></pre> in the template, so the HTML creates two newlines.
+
+        return result
+
+    def __unicode__(self):
+        return u"DocumentContent (ID: %d)" % self.id

@@ -42,10 +42,11 @@ from django.views.decorators.debug import sensitive_post_parameters
 # END
 
 from django.contrib.auth.models import User
-from core.models import Document, DocumentContent, UserProfile
+from core.models import Document, UserProfile
 from core.forms import DocumentForm, UserProfileForm
 from core.saml import authenticate, SamlException
 from election.models import Election
+from issue.models import DocumentContent
 from issue.models import Issue
 from polity.models import Polity
 from gateway.icepirate import configure_external_member_db

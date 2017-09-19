@@ -9,9 +9,9 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
-from core.models import DocumentContent
 
 from issue.forms import IssueForm
+from issue.models import DocumentContent
 from issue.models import Issue
 
 from polity.models import Polity
