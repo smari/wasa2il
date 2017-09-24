@@ -23,6 +23,10 @@ def election_add_edit(request, polity_id, election_id=None):
 
     if election_id:
         election = get_object_or_404(Election, id=election_id, polity=polity)
+
+        # We don't want to edit anything that has already been processed.
+        if election.is_processed:
+            raise PermissionDenied()
     else:
         election = Election(polity=polity)
 
