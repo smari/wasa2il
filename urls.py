@@ -21,9 +21,9 @@ urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
     url(r'^', include('election.urls')),
+    url(r'^', include('issue.urls')),
     url(r'^', include('core.urls')),
     url(r'^', include('polity.urls')),
-    url(r'^', include('issue.urls')),
     url(r'^', include('topic.urls')),
     # Gateway
     url(r'^gateway/', include('gateway.urls')),

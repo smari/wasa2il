@@ -1,12 +1,7 @@
-
 from django.contrib import admin
 from django.contrib import auth
 
-
-from models import (
-    UserProfile,
-    Document,
-    )
+from models import UserProfile
 
 
 def getDerivedAdmin(base_admin, **kwargs):
@@ -23,15 +18,6 @@ def save_model(self, request, obj, form, change):
         obj.created_by = request.user
     obj.modified_by = request.user
     obj.save()
-
-
-class NameSlugAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None, {'fields': ['name', 'slug']}),
-    ]
-    prepopulated_fields = {'slug': ['name']}
-    list_display = ['name']
-    search_fields = ['name']
 
 
 class UserProfileInline(admin.StackedInline):
@@ -51,5 +37,3 @@ admin.site.unregister(auth.models.User)
 register(auth.models.User, UserAdmin)
 
 register(UserProfile)
-
-register(Document, NameSlugAdmin)

@@ -52,7 +52,7 @@
     <div class="col-md-6 col-xs-12">
         {% if issue.is_processed %}
             {% if documentcontent %}
-                {% include "core/stub/documentcontent_status.html" %}
+                {% include "issue/stub/documentcontent_status.html" %}
             {% endif %}
         {% endif %}
 
@@ -126,7 +126,7 @@
 
     <div class="col-md-6 col-xs-12"><a name="documents"></a>
         {% if documentcontent %}
-            {% include 'core/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
+            {% include 'issue/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
         {% endif %}
     </div>
 

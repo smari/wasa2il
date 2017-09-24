@@ -42,10 +42,12 @@ from django.views.decorators.debug import sensitive_post_parameters
 # END
 
 from django.contrib.auth.models import User
-from core.models import Document, UserProfile
-from core.forms import DocumentForm, UserProfileForm
+from core.models import UserProfile
+from core.forms import UserProfileForm
 from core.saml import authenticate, SamlException
 from election.models import Election
+from issue.forms import DocumentForm
+from issue.models import Document
 from issue.models import DocumentContent
 from issue.models import Issue
 from polity.models import Polity
@@ -296,146 +298,6 @@ def sso(request):
     out_query = urllib.urlencode({'sso': out_payload, 'sig' : out_signature})
 
     return HttpResponseRedirect('%s?%s' % (return_url, out_query))
-
-
-class DocumentCreateView(CreateView):
-    model = Document
-    context_object_name = "document"
-    template_name = "core/document_form.html"
-    form_class = DocumentForm
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = None
-        if kwargs.has_key('polity'):
-            try:
-                self.polity = Polity.objects.get(id=kwargs["polity"])
-            except Polity.DoesNotExist:
-                pass # self.polity defaulted to None already.
-
-        return super(DocumentCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(DocumentCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.user = self.request.user
-        self.object.save()
-        self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/?action=new"
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class DocumentDetailView(DetailView):
-    model = Document
-    context_object_name = "document"
-    template_name = "core/document_detail.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(DocumentDetailView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        doc = self.object
-
-        context_data = super(DocumentDetailView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-
-        # Request variables taken together
-        action = self.request.GET.get('action', '')
-        try:
-            version_num = int(self.request.GET.get('v', 0))
-        except ValueError:
-            raise Exception('Bad "v(ersion)" parameter')
-
-        # If version_num is not specified, we want the "preferred" version
-        if version_num > 0:
-            current_content = get_object_or_404(DocumentContent, document=doc, order=version_num)
-        else:
-            current_content = doc.preferred_version()
-
-        issue = None
-        if current_content is not None and hasattr(current_content, 'issue'):
-            issue = current_content.issue
-
-        # If current_content is None here, that means the document has no
-        # content at all, which is a bit weird unless we're creating a new
-        # one...
-
-        if action == 'new':
-            context_data['editor_enabled'] = True
-
-            current_content = DocumentContent()
-            current_content.order = 0
-            current_content.predecessor = doc.preferred_version()
-
-            if current_content.predecessor:
-                current_content.text = current_content.predecessor.text
-
-        elif action == 'edit':
-            if current_content.user.id == self.request.user.id and current_content.status == 'proposed' and issue is None:
-                context_data['editor_enabled'] = True
-
-
-        user_is_member = self.polity.is_member(self.request.user)
-        user_is_officer = self.polity.is_officer(self.request.user)
-
-        buttons = {
-            'propose_change': False,
-            'put_to_vote': False,
-            'edit_proposal': False,
-        }
-        if ((not issue or not issue.is_voting())
-                and current_content is not None):
-            if current_content.status == 'accepted':
-                if user_is_member:
-                    buttons['propose_change'] = 'enabled'
-            elif current_content.status == 'proposed':
-                if user_is_officer and not issue:
-                    buttons['put_to_vote'] = 'disabled' if doc.has_open_issue() else 'enabled'
-                if current_content.user_id == self.request.user.id:
-                    buttons['edit_proposal'] = 'disabled' if issue is not None else 'enabled'
-
-        context_data['action'] = action
-        context_data['current_content'] = current_content
-        context_data['selected_diff_documentcontent'] = doc.preferred_version
-        context_data['issue'] = issue
-        context_data['buttons'] = buttons
-
-        context_data.update(csrf(self.request))
-        return context_data
-
-
-class DocumentListView(ListView):
-    model = Document
-    context_object_name = "documents"
-    template_name = "core/document_list.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(DocumentListView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(DocumentListView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data.update({'agreements': [x.preferred_version() for x in context_data["documents"]]})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
-
-class SearchListView(ListView):
-    model = Document
-    context_object_name = "documents"
-    template_name = "search.html"
-
-    def dispatch(self, *args, **kwargs):
-        return super(SearchListView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(SearchListView, self).get_context_data(*args, **kwargs)
-        return context_data
 
 
 def error500(request):
