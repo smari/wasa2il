@@ -195,7 +195,6 @@ class Document(models.Model):
     slug = models.SlugField(max_length=128, blank=True)
 
     polity = models.ForeignKey('polity.Polity')
-    issues = models.ManyToManyField('issue.Issue')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     is_adopted = models.BooleanField(default=False)
     is_proposed = models.BooleanField(default=False)
