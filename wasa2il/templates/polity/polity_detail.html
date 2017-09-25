@@ -23,6 +23,11 @@
 {% endif %}
 
 <h1>{{ polity.name }}</h1>
+<div style="float: right;">
+    {% if user.is_staff %}
+        <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
+</div>
 
 {% if user_is_member or polity.is_nonmembers_readable %}
 

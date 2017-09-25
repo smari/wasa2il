@@ -2,10 +2,12 @@ from datetime import datetime
 from datetime import timedelta
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.shortcuts import render
-from django.views.generic import CreateView
-from django.views.generic import DetailView
-from django.views.generic import ListView
 
 from election.models import Election
 
@@ -15,63 +17,89 @@ from polity.forms import PolityForm
 from polity.models import Polity
 
 
-class PolityListView(ListView):
-    model = Polity
-    context_object_name = 'polities'
-    template_name = 'polity/polity_list.html'
+def polity_list(request):
+    polities = Polity.objects.all()
 
-    def get_context_data(self, *args, **kwargs):
-        ctx = {}
-        context_data = super(PolityListView, self).get_context_data(*args, **kwargs)
+    # Find user polities. Those are used to determine which voting issues,
+    # open issues and elections are to be shown on the page as well.
+    if request.user.is_authenticated():
+        user_polities = request.user.polities.all()
+    else:
+        user_polities = Polity.objects.filter(is_nonmembers_readable=True)
 
-        if self.request.user.is_authenticated():
-            polities = self.request.user.polities.all()
-        else:
-            polities = Polity.objects.filter(is_nonmembers_readable=True)
+    votingissues = Issue.objects.order_by("deadline_votes").filter(
+        deadline_proposals__lt=datetime.now(),
+        deadline_votes__gt=datetime.now(),
+        polity__in=user_polities
+    )
+    openissues = Issue.objects.order_by("deadline_votes").filter(
+        deadline_proposals__gt=datetime.now(),
+        deadline_votes__gt=datetime.now(),
+        polity__in=user_polities
+    )
+    elections = Election.objects.order_by("deadline_votes").filter(
+        deadline_votes__gt=datetime.now(),
+        polity__in=user_polities
+    )
 
-        ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-        ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-        ctx["elections"] = Election.objects.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now(),polity__in=polities)
+    ctx = {
+        'polities': polities,
+        'votingissues': votingissues,
+        'openissues': openissues,
+        'elections': elections,
+    }
+    return render(request, 'polity/polity_list.html', ctx)
 
-        context_data.update(ctx)
-        return context_data
 
-class PolityDetailView(DetailView):
-    queryset = Polity.objects.prefetch_related('officers')
-    context_object_name = "polity"
-    template_name = 'polity/polity_detail.html'
+def polity_view(request, polity_id):
+    polity = get_object_or_404(Polity, id=polity_id)
 
-    def dispatch(self, *args, **kwargs):
-        res = super(PolityDetailView, self).dispatch(*args, **kwargs)
-        return res
+    polity.update_agreements()
 
-    def get_context_data(self, *args, **kwargs):
-        ctx = {}
-        context_data = super(PolityDetailView, self).get_context_data(*args, **kwargs)
-        self.object.update_agreements()
-        ctx['user_is_member'] = self.object.is_member(self.request.user)
-        ctx["politytopics"] = self.object.topic_set.listing_info(self.request.user).all()
-        ctx["agreements"] = self.object.agreements()
-        ctx["newissues"] = self.object.issue_set.order_by("deadline_votes").filter(
+    ctx = {
+        'polity': polity,
+        'user_is_member': polity.is_member(request.user),
+        'politytopics': polity.topic_set.listing_info(request.user).all(),
+        'agreements': polity.agreements(),
+        'newissues': polity.issue_set.order_by('deadline_votes').filter(
             deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
-        )
-        ctx["newelections"] = self.object.election_set.filter(
+        ),
+        'newelections': polity.election_set.filter(
             deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
-        )
-        ctx["settings"] = settings
+        ),
+        'settings': settings,
+    }
 
-        context_data.update(ctx)
-        return context_data
+    return render(request, 'polity/polity_detail.html', ctx)
 
 
-class PolityCreateView(CreateView):
-    model = Polity
-    context_object_name = "polity"
-    template_name = "polity/polity_form.html"
-    form_class = PolityForm
-    success_url = "/polity/%(id)d/"
+@login_required
+def polity_add_edit(request, polity_id=None):
+    if not request.user.is_staff:
+        raise PermissionDenied()
 
-    def form_valid(self, form):
-        self.object = form.save()
-        self.object.members.add(self.request.user)
-        return super(PolityCreateView, self).form_valid(form)
+    if polity_id:
+        polity = get_object_or_404(Polity, id=polity_id)
+    else:
+        polity = Polity()
+
+    if request.method == 'POST':
+        form = PolityForm(request.POST, instance=polity)
+        if form.is_valid():
+            polity = form.save()
+            return redirect(reverse('polity', args=(polity.id,)))
+    else:
+        if polity.id:
+            form = PolityForm(instance=polity)
+        else:
+            # Automatically set current user as an officer if we're starting
+            # from scratch. Someone needs to take some responsibility here!
+            form = PolityForm(instance=polity, initial={
+                'officers': [request.user]
+            })
+
+    ctx = {
+        'polity': polity,
+        'form': form,
+    }
+    return render(request, 'polity/polity_form.html', ctx)
