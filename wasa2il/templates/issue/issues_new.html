@@ -35,7 +35,7 @@
                 <td>
                     <span id="issuestar_{{ issue.id }}" class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
                         title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></span>
-                    <a href="/issue/{{ issue.id }}/">{{ issue.name }}</a>
+                    <a href="{% url 'issue' polity.id issue.id %}">{{ issue.name }}</a>
                 </td>
                 <td class="issue-status">{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
                 <td>{{ issue.comment_set.count }}</td>

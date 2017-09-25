@@ -20,6 +20,9 @@
 
 {% block content %}
 <div style="float: right;">
+    {% if user_is_officer and not issue.is_processed %}
+        <a class="btn btn-default" role="button" href="{% url 'issue_edit' polity.id issue.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
     <a class="btn btn-default" role="button" href="/polity/{{ issue.polity.id }}">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{ issue.name }}</h1>

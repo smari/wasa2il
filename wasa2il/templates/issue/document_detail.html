@@ -135,7 +135,7 @@
                         {% if document.get_versions.count > 0 %}
                             <a class="btn btn-default" role="button" href=".">{% trans 'Cancel' %}</a>
                         {% else %}
-                            <a class="btn btn-default" role="button" href="/polity/{{ document.polity_id }}/">{% trans 'Cancel' %}</a>
+                            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/">{% trans 'Cancel' %}</a>
                         {% endif %}
                     </div>
 
@@ -157,7 +157,7 @@
                         {% if buttons.put_to_vote == 'disabled' %}
                             <a class="btn btn-default disabled" role="button">{% trans "Put to vote" %}</a>
                         {% else %}
-                            <a class="btn btn-default" role="button" href="/polity/{{ document.polity_id }}/issue/new/documentcontent/{{ current_content.id }}/">{% trans "Put to vote" %}</a>
+                            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/issue/new/documentcontent/{{ current_content.id }}/">{% trans "Put to vote" %}</a>
                         {% endif %}
                     {% endif %}
 
@@ -176,7 +176,7 @@
 
         {% if issue %}
             <table class="table table-compact">
-                <tr><th>{% trans "Referenced issue" %}:</th><td><a href="/issue/{{ issue.id }}/">{{ issue.name }}</a></td></tr>
+                <tr><th>{% trans "Referenced issue" %}:</th><td><a href="{% url 'issue' polity.id issue.id %}">{{ issue.name }}</a></td></tr>
             </table>
         {% endif %}
 

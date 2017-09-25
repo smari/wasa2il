@@ -42,7 +42,7 @@
         <div class="btn-group" role="group" style="float: right">
             <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
             <ul class="dropdown-menu" style="left: -50px;">
-                <li><a href="{% url 'polity_issues_new' polity.id %}">{% trans "Show all new issues" %}</a></li>
+                <li><a href="{% url 'issues_new' polity.id %}">{% trans "Show all new issues" %}</a></li>
             </ul>
         </div>
 
@@ -65,7 +65,7 @@
                 <td>
                     <span id="issuestar_{{ issue.id }}" class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
                         title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></span>
-                    <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
+                    <a href="{% url 'issue' polity.id issue.id %}">{{ issue.name }}</a>
                 </td>
                 <td class="issue-status">{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}</td>
                 <td>{{ issue.comment_set.count }}</td>
@@ -87,16 +87,20 @@
     <br clear="both">
 
     <div class="col-md-6 col-xs-12" style="float: right;"><a name="documents"></a>
-        {% if user_is_member %}
-        <div class="btn-group" style="float: right">
-            <a class="btn btn-default btn-sm" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
+
+        <div class="btn-group" role="group" style="float: right">
+            {% if user_is_member %}
+                <a class="btn btn-default btn-sm" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
+            {% endif %}
+            <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu" style="left: -50px;">
+                <li><a href="/polity/{{ polity.id }}/agreements/">{% trans "Show all agreements" %}</a></li>
+            </ul>
         </div>
-        {% endif %}
+
         <h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
-
         <p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
-
-        {% include "issue/_document_agreement_list_table.html" %}
+        {% include "issue/_agreements.html" %}
     </div>
 
     <div class="col-md-6 col-xs-12"><a name="topics"></a>

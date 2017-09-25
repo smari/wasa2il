@@ -208,9 +208,6 @@ class Document(models.Model):
     def get_versions(self):
         return DocumentContent.objects.filter(document=self).order_by('order')
 
-    def get_contributors(self):
-        return set([dc.user for dc in self.documentcontent_set.order_by('user__username')])
-
     # preferred_version() finds the most proper, previous documentcontent to build a new one on.
     # It prefers the latest accepted one, but if it cannot find one, it will default to the first proposed one.
     # If it finds neither a proposed nor accepted one, it will try to find the first rejected one.

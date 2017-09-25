@@ -89,7 +89,7 @@
                 {% trans 'Compared to' %}:
                 <select id="siblings">
                 {% for sibling in documentcontent.siblings %}
-                    {% if sibling.id == selected_diff_documentcontent.id %}
+                    {% if sibling.id == documentcontent.document.preferred_version.id %}
                         <option value="{{ sibling.id }}" selected="selected">{% trans "Version" %} {{ sibling.order }} - {{ sibling.get_status_display }} {% if sibling == documentcontent.predecessor %}({% trans "predecessor" %}){% endif %}</option>
                     {% else %}
                         <option value="{{ sibling.id }}">{% trans "Version" %} {{ sibling.order }} - {{ sibling.get_status_display }} {% if sibling == documentcontent.predecessor %}({% trans "predecessor" %}){% endif %}</option>

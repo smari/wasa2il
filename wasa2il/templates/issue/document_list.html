@@ -4,11 +4,12 @@
 {% block content %}
 
 <div style="float:right;">
-    <a class="btn btn-default" role="button" href="/polity/{{polity.id}}/document/new/">{% trans "New document" %}</a>
+    <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
+    <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/">{% trans "Back to polity" %}</a>
 </div>
 
-<h1>{% trans "Documents" %}</h1>
+<h1>{% trans "Agreements" %} <small>{% trans 'in polity:' %} {{ polity }}</small></h1>
 
-{% include "issue/_document_list_table.html" %}
+{% include "issue/_agreements.html" %}
 
 {% endblock %}

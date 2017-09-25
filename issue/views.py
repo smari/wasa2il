@@ -2,14 +2,18 @@ import json
 
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.shortcuts import render
 from django.template.context_processors import csrf
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
-
 
 from issue.forms import DocumentForm
 from issue.forms import IssueForm
@@ -22,244 +26,228 @@ from polity.models import Polity
 from topic.models import Topic
 
 
-class IssueCreateView(CreateView):
-    context_object_name = "issue"
-    template_name = "issue/issue_form.html"
-    form_class = IssueForm
-    success_url = "/issue/%(id)d/"
+@login_required
+def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
+    polity = get_object_or_404(Polity, id=polity_id)
 
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
+    # Make sure that user is allowed to do this.
+    if polity.is_newissue_only_officers and request.user not in polity.officers.all():
+        raise PermissionDenied()
 
-        if self.polity.is_newissue_only_officers and self.request.user not in self.polity.officers.all():
+    if issue_id:
+        issue = get_object_or_404(Issue, id=issue_id, polity_id=polity_id)
+        current_content = issue.documentcontent
+
+        # We don't want to edit anything that has already been processed.
+        if issue.is_processed:
             raise PermissionDenied()
-
-        return super(IssueCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(IssueCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        context_data['form'].fields['topics'].queryset = Topic.objects.filter(polity=self.polity)
-        context_data['selected_topics'] = []
-
-        selected_topics = []
-        if self.kwargs['documentcontent']:
-            current_content = DocumentContent.objects.get(id=self.kwargs['documentcontent'])
-
-            if current_content.order > 1:
-                previous_topics = current_content.previous_topics()
-                context_data['selected_topics'] = json.dumps(previous_topics)
-                context_data['tab'] = 'diff'
-
-            context_data['documentcontent'] = current_content
-            context_data['documentcontent_comments'] = current_content.comments.replace("\n", "\\n")
-            context_data['selected_diff_documentcontent'] = current_content.document.preferred_version()
-
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-
-        self.object.apply_ruleset()
-
-        context_data = self.get_context_data(form=form)
-        if 'documentcontent' in context_data:
-            self.object.documentcontent = context_data['documentcontent']
-
-        self.object.save()
-
-        for topic in form.cleaned_data.get('topics'):
-            self.object.topics.add(topic)
-
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class IssueDetailView(DetailView):
-    model = Issue
-    context_object_name = "issue"
-    template_name = "issue/issue_detail.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(IssueDetailView, self).get_context_data(*args, **kwargs)
-
-        if self.object.documentcontent:
-            documentcontent = self.object.documentcontent
-            if documentcontent.order > 1:
-                context_data['tab'] = 'diff'
-            else:
-                context_data['tab'] = 'view'
-
-            context_data['documentcontent'] = documentcontent
-            if self.object.is_processed:
-                context_data['selected_diff_documentcontent'] = documentcontent.predecessor
-            else:
-                context_data['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
-
-        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
-        context_data['can_vote'] = (self.request.user is not None and
-                                    self.object.can_vote(self.request.user))
-        context_data['comments_closed'] = (
-            not self.request.user.is_authenticated() or self.object.discussions_closed()
-        )
-
-        return context_data
-
-
-class IssueOpenListView(ListView):
-    model = Issue
-    context_object_name = 'newissues'
-    template_name = "issue/issues_new.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs['polity'])
-        return super(IssueOpenListView, self).dispatch(*args, **kwargs)
-
-    def get_queryset(self):
-        return self.polity.issue_set.order_by('deadline_votes').filter(deadline_votes__gt=datetime.now())
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(IssueOpenListView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        return context_data
-
-
-class DocumentCreateView(CreateView):
-    model = Document
-    context_object_name = "document"
-    template_name = "issue/document_form.html"
-    form_class = DocumentForm
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = None
-        if kwargs.has_key('polity'):
-            try:
-                self.polity = Polity.objects.get(id=kwargs["polity"])
-            except Polity.DoesNotExist:
-                pass # self.polity defaulted to None already.
-
-        return super(DocumentCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(DocumentCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.user = self.request.user
-        self.object.save()
-        self.success_url = "/polity/" + str(self.polity.id) + "/document/" + str(self.object.id) + "/?action=new"
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class DocumentDetailView(DetailView):
-    model = Document
-    context_object_name = "document"
-    template_name = "issue/document_detail.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(DocumentDetailView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        doc = self.object
-
-        context_data = super(DocumentDetailView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-
-        # Request variables taken together
-        action = self.request.GET.get('action', '')
-        try:
-            version_num = int(self.request.GET.get('v', 0))
-        except ValueError:
-            raise Exception('Bad "v(ersion)" parameter')
-
-        # If version_num is not specified, we want the "preferred" version
-        if version_num > 0:
-            current_content = get_object_or_404(DocumentContent, document=doc, order=version_num)
+    else:
+        issue = Issue(polity=polity)
+        if documentcontent_id:
+            current_content = get_object_or_404(DocumentContent, id=documentcontent_id)
         else:
-            current_content = doc.preferred_version()
+            current_content = None
 
-        issue = None
-        if current_content is not None and hasattr(current_content, 'issue'):
-            issue = current_content.issue
+    if request.method == 'POST':
+        form = IssueForm(request.POST, instance=issue)
+        if form.is_valid():
+            issue = form.save(commit=False)
+            issue.apply_ruleset()
+            issue.documentcontent = current_content
+            issue.save()
 
-        # If current_content is None here, that means the document has no
-        # content at all, which is a bit weird unless we're creating a new
-        # one...
+            issue.topics.clear()
+            for topic in request.POST.getlist('topics'):
+                issue.topics.add(topic)
 
-        if action == 'new':
-            context_data['editor_enabled'] = True
+            return redirect(reverse('issue', args=(polity_id, issue.id)))
+    else:
+        # Check if we need to inherit information from previous documentcontent.
+        if not issue_id and current_content:
+            name = current_content.document.name
+            selected_topics = []
 
-            current_content = DocumentContent()
-            current_content.order = 0
-            current_content.predecessor = doc.preferred_version()
+            # If this is a new issue, being made from existing content, we
+            # want to inherit the previously selected topics, and add a
+            # version number to the name.
+            if current_content.order > 1:
+                name += u', %s %d' % (_(u'version'), current_content.order)
+                selected_topics = current_content.previous_topics()
 
-            if current_content.predecessor:
-                current_content.text = current_content.predecessor.text
+            form = IssueForm(instance=issue, initial={
+                'name': name,
+                'description': current_content.comments.replace("\n", "\\n"),
+                'topics': selected_topics,
+            })
+        else:
+            form = IssueForm(instance=issue)
 
-        elif action == 'edit':
-            if current_content.user.id == self.request.user.id and current_content.status == 'proposed' and issue is None:
-                context_data['editor_enabled'] = True
+    # Make only topics from this polity available.
+    form.fields['topics'].queryset = Topic.objects.filter(polity=polity)
 
+    ctx = {
+        'polity': polity,
+        'user_is_member': polity.is_member(request.user),
+        'form': form,
+        'documentcontent': current_content,
+        'tab': 'diff' if current_content.order > 1 else '',
+    }
 
-        user_is_member = self.polity.is_member(self.request.user)
-        user_is_officer = self.polity.is_officer(self.request.user)
-
-        buttons = {
-            'propose_change': False,
-            'put_to_vote': False,
-            'edit_proposal': False,
-        }
-        if ((not issue or not issue.is_voting())
-                and current_content is not None):
-            if current_content.status == 'accepted':
-                if user_is_member:
-                    buttons['propose_change'] = 'enabled'
-            elif current_content.status == 'proposed':
-                if user_is_officer and not issue:
-                    buttons['put_to_vote'] = 'disabled' if doc.has_open_issue() else 'enabled'
-                if current_content.user_id == self.request.user.id:
-                    buttons['edit_proposal'] = 'disabled' if issue is not None else 'enabled'
-
-        context_data['action'] = action
-        context_data['current_content'] = current_content
-        context_data['selected_diff_documentcontent'] = doc.preferred_version
-        context_data['issue'] = issue
-        context_data['buttons'] = buttons
-
-        context_data.update(csrf(self.request))
-        return context_data
+    return render(request, 'issue/issue_form.html', ctx)
 
 
-class DocumentListView(ListView):
-    model = Document
-    context_object_name = "documents"
-    template_name = "issue/document_list.html"
+def issue_view(request, polity_id, issue_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+    issue = get_object_or_404(Issue, id=issue_id, polity_id=polity_id)
 
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        return super(DocumentListView, self).dispatch(*args, **kwargs)
+    ctx = {}
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(DocumentListView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data.update({'agreements': [x.preferred_version() for x in context_data["documents"]]})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
+    if issue.documentcontent:
+        documentcontent = issue.documentcontent
+        if documentcontent.order > 1:
+            ctx['tab'] = 'diff'
+        else:
+            ctx['tab'] = 'view'
 
-class SearchListView(ListView):
-    model = Document
-    context_object_name = "documents"
-    template_name = "issue/search.html"
+        ctx['documentcontent'] = documentcontent
+        if issue.is_processed:
+            ctx['selected_diff_documentcontent'] = documentcontent.predecessor
+        else:
+            ctx['selected_diff_documentcontent'] = documentcontent.document.preferred_version()
 
-    def dispatch(self, *args, **kwargs):
-        return super(SearchListView, self).dispatch(*args, **kwargs)
+    ctx['polity'] = polity
+    ctx['issue'] = issue
+    ctx['user_is_member'] = polity.is_member(request.user)
+    ctx['can_vote'] = (request.user is not None and issue.can_vote(request.user))
+    ctx['comments_closed'] = not request.user.is_authenticated() or issue.discussions_closed()
+    ctx['user_is_officer'] = polity.is_officer(request.user)
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(SearchListView, self).get_context_data(*args, **kwargs)
-        return context_data
+    return render(request, 'issue/issue_detail.html', ctx)
+
+
+def issues_new(request, polity_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+
+    newissues = polity.issue_set.order_by('deadline_votes').filter(deadline_votes__gt=datetime.now())
+
+    ctx = {
+        'polity': polity,
+        'newissues': newissues,
+    }
+    return render(request, 'issue/issues_new.html', ctx)
+
+
+@login_required
+def document_add(request, polity_id):
+    try:
+        polity = Polity.objects.get(id=polity_id, members=request.user)
+    except Polity.DoesNotExist:
+        raise PermissionDenied()
+
+    document = Document(polity=polity, user=request.user)
+
+    if request.method == 'POST':
+        form = DocumentForm(request.POST)
+        if form.is_valid():
+            document = form.save(commit=False)
+            document.polity = polity
+            document.user = request.user
+            document.save()
+            return redirect('%s?action=new' % reverse('document', args=(polity_id, document.id)))
+    else:
+        form = DocumentForm()
+
+    ctx = {
+        'polity': polity,
+        'form': form,
+    }
+    return render(request, 'issue/document_form.html', ctx)
+
+
+def document_view(request, polity_id, document_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+    document = get_object_or_404(Document, id=document_id, polity__id=polity_id)
+
+    # Request variables taken together
+    action = request.GET.get('action', '')
+    try:
+        version_num = int(request.GET.get('v', 0))
+    except ValueError:
+        raise Exception('Bad "v(ersion)" parameter')
+
+    # If version_num is not specified, we want the "preferred" version
+    if version_num > 0:
+        current_content = get_object_or_404(DocumentContent, document=document, order=version_num)
+    else:
+        current_content = document.preferred_version()
+
+    issue = None
+    if current_content is not None and hasattr(current_content, 'issue'):
+        issue = current_content.issue
+
+    # If current_content is None here, that means the document has no
+    # content at all, which is a bit weird unless we're creating a new
+    # one...
+
+    ctx = {}
+
+    if action == 'new':
+        ctx['editor_enabled'] = True
+
+        current_content = DocumentContent()
+        current_content.order = 0
+        current_content.predecessor = document.preferred_version()
+
+        if current_content.predecessor:
+            current_content.text = current_content.predecessor.text
+
+    elif action == 'edit':
+        if current_content.user.id == request.user.id and current_content.status == 'proposed' and issue is None:
+            ctx['editor_enabled'] = True
+
+
+    user_is_member = polity.is_member(request.user)
+    user_is_officer = polity.is_officer(request.user)
+
+    buttons = {
+        'propose_change': False,
+        'put_to_vote': False,
+        'edit_proposal': False,
+    }
+    if ((not issue or not issue.is_voting())
+            and current_content is not None):
+        if current_content.status == 'accepted':
+            if user_is_member:
+                buttons['propose_change'] = 'enabled'
+        elif current_content.status == 'proposed':
+            if user_is_officer and not issue:
+                buttons['put_to_vote'] = 'disabled' if document.has_open_issue() else 'enabled'
+            if current_content.user_id == request.user.id:
+                buttons['edit_proposal'] = 'disabled' if issue is not None else 'enabled'
+
+    ctx['action'] = action
+    ctx['polity'] = polity
+    ctx['document'] = document
+    ctx['current_content'] = current_content
+    ctx['selected_diff_documentcontent'] = document.preferred_version
+    ctx['issue'] = issue
+    ctx['buttons'] = buttons
+
+    return render(request, 'issue/document_detail.html', ctx)
+
+
+def document_agreements(request, polity_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+
+    user_is_member = polity.is_member(request.user)
+
+    ctx = {
+        'polity': polity,
+        'agreements': polity.agreements(),
+        'user_is_member': user_is_member,
+    }
+    return render(request, 'issue/document_list.html', ctx)
+
+
+def document_search(request):
+    return render(request, 'issue/search.html')

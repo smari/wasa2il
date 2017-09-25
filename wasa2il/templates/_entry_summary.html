@@ -19,7 +19,7 @@
             <td>
                 <span id="issuestar_{{ issue.id }}" class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
                     title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></span>
-                <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
+                <a href="{% url 'issue' issue.polity.id issue.id %}">{{ issue.name }}</a>
             </td>
             <td>
                 <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
@@ -45,7 +45,7 @@
                 <td>
                     <span id="issuestar_{{ issue.id }}" class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
                         title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></span>
-                    <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
+                    <a href="{% url 'issue' issue.polity.id issue.id %}">{{ issue.name }}</a>
                 </td>
                 <td>
                     <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
@@ -124,7 +124,7 @@
                 <td>
                     <span id="issuestar_{{ issue.id }}" class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
                         title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></span>
-                    <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
+                    <a href="{% url 'issue' issue.polity.id issue.id %}">{{ issue.name }}</a>
                 </td>
                 <td>
                     <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
@@ -150,7 +150,7 @@
                     <td>
                         <span id="issuestar_{{ issue.id }}" class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
                             title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"></span>
-                        <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
+                        <a href="{% url 'issue' issue.polity.id issue.id %}">{{ issue.name }}</a>
                     </td>
                     <td>
                         <a href="/polity/{{issue.polity.id}}">{{ issue.polity.name }}</a>
