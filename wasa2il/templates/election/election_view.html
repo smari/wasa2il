@@ -8,7 +8,7 @@
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' election.polity.id as polityurl %}
+{% url 'polity' election.polity.id as polityurl %}
 {% add_breadcrumb election.polity.name polityurl %}
 {% add_breadcrumb election.name %}
 {{ block.super }}

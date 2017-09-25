@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' topic.polity.id as polityurl %}
+{% url 'polity' topic.polity.id as polityurl %}
 {% add_breadcrumb topic.polity.name polityurl %}
 {% add_breadcrumb topic.name %}
 {{ block.super }}
@@ -13,6 +13,9 @@
 {% block content %}
 
 <div style="float:right">
+    {% if user_is_officer %}
+        <a class="btn btn-default" role="button" href="{% url 'topic_edit' polity.id topic.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
     <a class="btn btn-default" role="button" href="/polity/{{topic.polity.id}}/">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{topic.name}}</h1>

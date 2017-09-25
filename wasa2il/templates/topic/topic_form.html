@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' polity.id as polityurl %}
+{% url 'polity' polity.id as polityurl %}
 {% add_breadcrumb polity.name polityurl %}
 {% add_breadcrumb _('New topic') %}
 {{ block.super }}
@@ -14,13 +14,13 @@
 
 <h1>{% trans "New topic" %}</h1>
 
-<form action="/polity/{{polity.id}}/topic/new/" method="POST"/>
+<form method="POST"/>
     {%csrf_token%}
 
     <table class="table table-striped">
         {{form.as_table}}
     </table>
-    <button type="submit" class="btn"/>{% trans "Save" %}</button>
+    <button type="submit" class="btn btn-default" />{% trans "Save" %}</button>
 </form>
 
 {% endblock %}
