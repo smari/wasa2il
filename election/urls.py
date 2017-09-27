@@ -4,6 +4,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.vary import vary_on_headers
 
 from election.dataviews import election_candidacy
+from election.dataviews import election_candidates_details
 from election.dataviews import election_poll
 from election.dataviews import election_vote
 from election.dataviews import election_showclosed
@@ -17,6 +18,7 @@ urlpatterns = [
     url(r'^polity/(?P<polity_id>\d+)/elections/$', never_cache(election_list), name='elections'),
     url(r'^polity/(?P<polity_id>\d+)/election/new/$', election_add_edit, name='election_add_edit'),
     url(r'^polity/(?P<polity_id>\d+)/election/(?P<election_id>\d+)/edit/$', election_add_edit, name='election_add_edit'),
+    url(r'^polity/(?P<polity_id>\d+)/election/(?P<election_id>\d+)/candidates-details/$', never_cache(election_candidates_details), name='election_candidates_details'),
     url(r'^polity/(?P<polity_id>\d+)/election/(?P<election_id>\d+)/$', never_cache(election_view), name='election'),
     url(r'^polity/(?P<polity_id>\d+)/election/(?P<election_id>\d+)/stats-dl/(?P<filename>.+)$', election_stats_download),
 

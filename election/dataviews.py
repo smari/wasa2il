@@ -6,6 +6,7 @@ from hashlib import md5
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import Http404
 from django.http import HttpResponse
@@ -213,5 +214,30 @@ def election_stats_download(request, polity_id=None, election_id=None, filename=
             'html': 'text/html; charset=utf-8'
         }.get(filetype, 'application/octet-stream'))
 
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+    return response
+
+
+@login_required
+def election_candidates_details(request, polity_id, election_id):
+    try:
+        election = Election.objects.get(id=election_id, polity_id=polity_id, polity__officers=request.user)
+    except Election.DoesNotExist:
+        raise PermissionDenied()
+
+    candidates = election.candidate_set.select_related('user__userprofile').order_by('user__userprofile__verified_name')
+
+    candidate_list = ['"SSN","Name from registry","Email address","Username"']
+    for user in [c.user for c in candidates]:
+        candidate_list.append(','.join(['"%s"' % item for item in [
+            user.userprofile.verified_ssn,
+            user.userprofile.verified_name,
+            user.email,
+            user.username,
+        ]]))
+
+    filename = u'Candidates - %s.csv' % election.name
+
+    response = HttpResponse('\n'.join(candidate_list), content_type='application/csv; charset=utf-8')
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
     return response
