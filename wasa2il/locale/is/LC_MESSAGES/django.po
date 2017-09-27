@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-27 17:08+0000\n"
+"POT-Creation-Date: 2017-09-27 19:21+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -1935,22 +1935,28 @@ msgstr ""
 msgid "Still nothing? Try creating a new account."
 msgstr "Enn ekkert? Kannski þarftu að nýskrá þig."
 
-#: wasa2il/templates/registration/password_reset_email.html:2
+#: wasa2il/templates/registration/password_reset_email.html:11
 #, python-format
-msgid "Someone (probably you) requested a password reset at %(site_name)s."
-msgstr ""
-"Einhver (sennilega þú) bað um endurstillingu lykilorðs á vefsetrinu "
-"%(site_name)s."
-
-#: wasa2il/templates/registration/password_reset_email.html:4
 msgid ""
-"If you are unfamiliar with this request, you should ignore this message."
-msgstr "Ef þú kannast ekki við slíka beiðnu skaltu hunsa þessi skilaboð."
-
-#: wasa2il/templates/registration/password_reset_email.html:6
-msgid "To reset your password, please click the following link:"
+"You are receiving this email because you (or someone pretending to be you) "
+"requested that your password be reset on the %(domain)s site. If you do not "
+"wish to reset your password, please ignore this message."
 msgstr ""
-"Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil:"
+"Þú ert að fá þennan póst vegna þess að þú (eða einhver sem þykist vera þú) "
+"baðst um að lykilorð þitt yrði endurstillt á vefnum %(domain)s. Ef þú vilt "
+"ekki endurstilla lykilorðið þitt, vinsamlegast hunsaðu þennan tölvupóst."
+
+#: wasa2il/templates/registration/password_reset_email.html:14
+msgid ""
+"To reset your password, please click the following link, or copy and paste "
+"it into your web browser:"
+msgstr ""
+"Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil eða "
+"afrita hann inn í vafrann þinn:"
+
+#: wasa2il/templates/registration/password_reset_email.html:22
+msgid "Your username, in case you've forgotten:"
+msgstr "Notandanafnið þitt er, ef ske kynni að þú hefðir gleymt því:"
 
 #: wasa2il/templates/registration/password_reset_form.html:5
 msgid "The tricky email question"
