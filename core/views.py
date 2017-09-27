@@ -93,6 +93,7 @@ def help(request, page):
     raise Http404
 
 
+@never_cache
 def profile(request, username=None):
     ctx = {}
     if username:
