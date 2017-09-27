@@ -86,7 +86,14 @@
                 {% if issue.is_voting or issue.is_closed %}
                     <tr>
                         <th>{% trans "Votes" %}:</th>
-                        <td id="issue_votes_count">{{ issue.votecount }}</td>
+                        <td>
+                            <span id="votecount_value">{{ issue.votecount }}</span>
+                            {% if issue.votecount_abstain %}
+                                <small id="votecount_abstain_container">
+                                (<span id="votecount_abstain_value">{{ issue.votecount_abstain }}</span> {% trans 'abstain' %})
+                                </small>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% if issue.is_closed %}
                         <tr>

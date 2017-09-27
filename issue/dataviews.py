@@ -81,6 +81,8 @@ def issue_poll(request):
         } for comment in issue.comment_set.all().order_by("created")
     ]
     ctx["issue"] = {"comments": comments, "votecount": issue.votecount }
+    if issue.is_closed():
+        ctx["issue"]["votecount_abstain"] = issue.votecount_abstain
     ctx["ok"] = True
     if not request.user.is_anonymous():
         try:
