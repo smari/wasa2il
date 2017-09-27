@@ -142,7 +142,7 @@ function issue_render(issue) {
     } else if (issue_object.vote == -1) {
         $("#vote_no").addClass('btn-success');
         $("#vote_no").addClass('active');
-    } else {
+    } else if (issue_object.vote == 0) {
         $("#vote_abstain").addClass('btn-success');
         $("#vote_abstain").addClass('active');
     }
