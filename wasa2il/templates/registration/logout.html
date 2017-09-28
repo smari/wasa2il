@@ -7,6 +7,9 @@
 <div class="page-header"><h1>{% trans "Logged out" %}</h1></div>
 
 <div>
+    {% if request.GET.timeout %}
+        <p>{% trans 'For security reasons, you have been automatically logged out due to inactivity.' %}</p>
+    {% endif %}
     <p>{% trans "We hope you'll be back soon. It'd be fun!" %}</p>
 </div>
 
