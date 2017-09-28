@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-27 19:21+0000\n"
+"POT-Creation-Date: 2017-09-28 10:36+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -59,28 +59,29 @@ msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 msgid "Add comment"
 msgstr "Bæta við ummælum"
 
-#: election/models.py:26 wasa2il/templates/election/election_view.html:130
+#: election/models.py:26 wasa2il/templates/election/election_view.html:7
+#: wasa2il/templates/election/election_view.html:130
 msgid "Voting system"
-msgstr "Kosningakerfi"
+msgstr "Talningarkerfi"
 
 #: election/models.py:35
 msgid "Results are ordered"
 msgstr "Niðurstöður eru raðaðar"
 
 #: election/models.py:37 wasa2il/templates/election/election_list.html:28
-#: wasa2il/templates/election/election_view.html:105
-msgid "Deadline for candidacy"
-msgstr "Tímamörk fyrir framboð"
+#: wasa2il/templates/election/election_view.html:99
+msgid "Candidacies accepted until"
+msgstr "Framboðsfrestur rennur út"
 
-#: election/models.py:38
-msgid "Start time for votes"
-msgstr "Upphaf kosninga"
+#: election/models.py:38 wasa2il/templates/election/election_view.html:105
+msgid "Election begins"
+msgstr "Kosning hefst"
 
 #: election/models.py:39 wasa2il/templates/election/election_list.html:29
+#: wasa2il/templates/election/election_view.html:7
 #: wasa2il/templates/election/election_view.html:111
-#: wasa2il/templates/issue/issue_detail.html:81
-msgid "Deadline for votes"
-msgstr "Tímamörk fyrir atkvæði"
+msgid "Election ends"
+msgstr "Kosningu lýkur"
 
 #: election/models.py:45 wasa2il/templates/election/election_view.html:126
 msgid "Voting polities"
@@ -671,15 +672,6 @@ msgstr "Kosningar í þingi"
 msgid "Election:"
 msgstr "Kosning:"
 
-#: wasa2il/templates/election/election_view.html:7
-msgid "Voting system:"
-msgstr "Kosningakerfi:"
-
-#: wasa2il/templates/election/election_view.html:7
-#: wasa2il/templates/issue/issue_detail.html:6
-msgid "Deadline for votes:"
-msgstr "Tímamörk fyrir atkvæði:"
-
 #: wasa2il/templates/election/election_view.html:46
 #: wasa2il/templates/issue/issue_detail.html:24
 #: wasa2il/templates/polity/polity_detail.html:28
@@ -725,10 +717,6 @@ msgstr "Þú uppfyllir ekki skilyrðin."
 #: wasa2il/templates/election/election_view.html:77
 msgid "You cannot run in this election:"
 msgstr "Þú getur ekki farið fram í þessum kosningum:"
-
-#: wasa2il/templates/election/election_view.html:99
-msgid "Voting begins"
-msgstr "Upphaf kosninga"
 
 #: wasa2il/templates/election/election_view.html:122
 msgid "You can run"
@@ -1531,6 +1519,11 @@ msgstr "í þingi:"
 msgid "Issue vote:"
 msgstr "Atkvæðagreiðsla:"
 
+#: wasa2il/templates/issue/issue_detail.html:6
+#: wasa2il/templates/issue/issue_detail.html:81
+msgid "Issue vote ends at"
+msgstr "Atkvæðagreiðslu lýkur"
+
 #: wasa2il/templates/issue/issue_detail.html:35
 msgid "This issue is closed and awaits final processing."
 msgstr "Þessu máli er lokið og bíður það lokaúrvinnslu."
@@ -1548,12 +1541,12 @@ msgid "Start time"
 msgstr "Upphafstími"
 
 #: wasa2il/templates/issue/issue_detail.html:74
-msgid "Deadline for discussion"
-msgstr "Tímamörk fyrir umræður"
+msgid "Discussion ends"
+msgstr "Umræðum lýkur"
 
 #: wasa2il/templates/issue/issue_detail.html:77
-msgid "Deadline for proposals"
-msgstr "Tímamörk fyrir tillögur"
+msgid "Issue vote begins"
+msgstr "Atkvæðagreiðsla hefst"
 
 #: wasa2il/templates/issue/issue_detail.html:93
 msgid "abstain"
@@ -2120,9 +2113,6 @@ msgstr "Fylgjendur þessa málaflokks"
 
 #~ msgid "New discussion"
 #~ msgstr "Ný umræða"
-
-#~ msgid "Discussions"
-#~ msgstr "Umræður"
 
 #~ msgid "Result:"
 #~ msgstr "Niðurstaða:"
