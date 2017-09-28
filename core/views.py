@@ -11,6 +11,7 @@ import urllib
 from urlparse import parse_qs
 # SSO done
 
+from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
@@ -96,23 +97,27 @@ def help(request, page):
 @never_cache
 def profile(request, username=None):
     ctx = {}
+
+    # Determine if we're looking up the currently logged in user or someone else.
     if username:
-        subject = get_object_or_404(User, username=username)
+        profile_user = get_object_or_404(User, username=username)
     elif request.user.is_authenticated():
-        subject = request.user
+        profile_user = request.user
     else:
         return HttpResponseRedirect(settings.LOGIN_URL)
 
-    ctx["subject"] = subject
-    ctx["profile"] = UserProfile.objects.get(user=subject)
-    if subject == request.user:
-        ctx["polities"] = subject.polities.all()
+    # Get the user's polities.
+    if profile_user == request.user:
+        polities = profile_user.polities.all()
     else:
-        ctx["polities"] = [p for p in subject.polities.all() if p.is_member(request.user) or p.is_listed]
+        polities = [p for p in profile_user.polities.all() if p.is_member(request.user) or p.is_listed]
+
+    # Get the user's profile object.
+    profile = UserProfile.objects.get(user_id=profile_user.id)
 
     # Get documents and documentcontents which user has made
     documentdata = []
-    contents = subject.documentcontent_set.select_related('document').order_by('document__name', 'order')
+    contents = profile_user.documentcontent_set.select_related('document').order_by('document__name', 'order')
     last_doc_id = 0
     for c in contents:
         if c.document_id != last_doc_id:
@@ -121,9 +126,18 @@ def profile(request, username=None):
 
         documentdata.append(c)
 
-    ctx['documentdata'] = documentdata
+    # Get running elections in which the user is currently a candidate
+    now = datetime.now()
+    current_elections = Election.objects.filter(candidate__user=profile_user, deadline_votes__gte=now)
 
-    return render_to_response("profile.html", ctx, context_instance=RequestContext(request))
+    ctx = {
+        'polities': polities,
+        'current_elections': current_elections,
+        'documentdata': documentdata,
+        'profile_user': profile_user,
+        'profile': profile,
+    }
+    return render(request, 'profile.html', ctx)
 
 
 @login_required

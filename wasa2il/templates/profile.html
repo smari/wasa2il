@@ -8,12 +8,12 @@
 
 {% block content %}
 
-{% if profile.email_visible %}<div class="pull-right"><small>{{ subject.email }}</small></div>{% endif %}
+{% if profile.email_visible %}<div class="pull-right"><small>{{ profile_user.email }}</small></div>{% endif %}
 <h1>
     {% if profile.displayname %}
-        {{ profile.displayname }} <small>({{ subject.username }})</small>
+        {{ profile.displayname }} <small>({{ profile_user.username }})</small>
     {% else %}
-        {{ subject.username }}
+        {{ profile_user.username }}
     {% endif %}
 </h1>
 
@@ -35,7 +35,15 @@
                             <img class="img-thumbnail" src="http://placekitten.com/g/200/300" />
                         {% endif %}
                     </div>
-                     <div class="col-md-8">
+                    <div class="col-md-8">
+                        {% for current_election in current_elections %}
+                            <div class="alert alert-info">
+                                <h2>
+                                    {% trans 'Candidate in:' %}
+                                    <strong><a href="{% url 'election' current_election.polity_id current_election.id %}">{{ current_election }}</a></strong>
+                                </h2>
+                            </div>
+                        {% endfor %}
                         <div id="user-bio">
                             {% if profile.bio %}
                                 {{profile.bio|linebreaksbr}}
