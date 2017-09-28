@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-28 10:36+0000\n"
+"POT-Creation-Date: 2017-09-28 13:24+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -567,7 +567,7 @@ msgstr "Höfundar"
 #: wasa2il/templates/base.html:142
 #: wasa2il/templates/issue/stub/document_view.html:93
 #: wasa2il/templates/issue/stub/document_view.html:95
-#: wasa2il/templates/profile.html:59
+#: wasa2il/templates/profile.html:67
 msgid "Version"
 msgstr "Útgáfa"
 
@@ -1704,7 +1704,11 @@ msgstr "Notandi"
 msgid "Summary"
 msgstr "Yfirlit"
 
-#: wasa2il/templates/profile.html:43
+#: wasa2il/templates/profile.html:42
+msgid "Candidate in:"
+msgstr "Frambjóðandi í:"
+
+#: wasa2il/templates/profile.html:51
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
