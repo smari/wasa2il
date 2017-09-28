@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-28 13:24+0000\n"
+"POT-Creation-Date: 2017-09-28 16:36+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -1863,7 +1863,15 @@ msgstr "Stilla Lykilorð"
 msgid "Logged out"
 msgstr "Skráð út"
 
-#: wasa2il/templates/registration/logout.html:10
+#: wasa2il/templates/registration/logout.html:11
+msgid ""
+"For security reasons, you have been automatically logged out due to "
+"inactivity."
+msgstr ""
+"Af öryggisástæðum hefurðu verið sjálfkrafa útskráð(ur) vegna langs tíma frá "
+"síðustu virkni."
+
+#: wasa2il/templates/registration/logout.html:13
 msgid "We hope you'll be back soon. It'd be fun!"
 msgstr "Við vonum að þú komir fljótt aftur! Það væri gaman!"
 
