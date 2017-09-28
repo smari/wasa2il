@@ -34,9 +34,9 @@ class Election(models.Model):
     # should to be turned into a proper Django model.
     results_are_ordered = models.BooleanField(default=True, verbose_name=_('Results are ordered'))
 
-    deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
-    starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Start time for votes'))
-    deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
+    deadline_candidacy = models.DateTimeField(verbose_name=_('Candidacies accepted until'))
+    starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Election begins'))
+    deadline_votes = models.DateTimeField(verbose_name=_('Election ends'))
 
     # This allows one polity to host elections for one or more others, in
     # particular allowing access to elections based on geographical polities

@@ -4,7 +4,7 @@
 {% load elections %}
 
 {% block facebook_title %}{% trans 'Election:' %} {{ election }}{% endblock %}
-{% block facebook_description %}{% trans 'Voting system:' %} {{ election.get_voting_system_display }} - {% trans 'Deadline for votes:' %} {{ election.deadline_votes }}{% endblock %}
+{% block facebook_description %}{% trans 'Voting system' %}: {{ election.get_voting_system_display }} - {% trans 'Election ends' %}: {{ election.deadline_votes }}{% endblock %}
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
@@ -96,19 +96,19 @@
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <table id="election_details" class="table table-compact">
-            <tr id="vote_starttime"><th>{% trans "Voting begins" %}:</th><td>
-                {{ election.voting_start_time }}
-                <small style="float: right">
-                    ({{ election.voting_start_time|timeuntil }})
-                </small>
-            </td></tr>
-            <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>
+            <tr id="cand_deadline"><th>{% trans "Candidacies accepted until" %}:</th><td>
                 {{ election.deadline_candidacy }}
                 <small style="float: right">
                     ({{ election.deadline_candidacy|timeuntil }})
                 </small>
             </td></tr>
-            <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>
+            <tr id="vote_starttime"><th>{% trans "Election begins" %}:</th><td>
+                {{ election.voting_start_time }}
+                <small style="float: right">
+                    ({{ election.voting_start_time|timeuntil }})
+                </small>
+            </td></tr>
+            <tr id="vote_deadline"><th>{% trans "Election ends" %}:</th><td>
                 {{ election.deadline_votes }}
                 <small style="float: right">
                     ({{ election.deadline_votes|timeuntil }})

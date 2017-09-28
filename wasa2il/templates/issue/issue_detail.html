@@ -3,7 +3,7 @@
 {% load wasa2il %}
 
 {% block facebook_title %}{% trans 'Issue vote:' %} {{ issue }}{% endblock %}
-{% block facebook_description %}{% trans "Deadline for votes:" %} {{ issue.deadline_votes }}{% endblock %}
+{% block facebook_description %}{% trans "Issue vote ends at" %}: {{ issue.deadline_votes }}{% endblock %}
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
@@ -71,14 +71,14 @@
             {% if not issue.special_process %}
                 <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
                 {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
-                    <tr><th>{% trans "Deadline for discussion" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
+                    <tr><th>{% trans "Discussion ends" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
                 {% endif %}
                 {% if issue.deadline_proposals != issue.created %}
-                    <tr><th>{% trans "Deadline for proposals" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
+                    <tr><th>{% trans "Issue vote begins" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
                 {% endif %}
             {% endif %}
 
-            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
+            <tr><th>{% trans "Issue vote ends at" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
 
             {% if issue.special_process %}
                 <tr><th>{% trans 'Special process' %}:</th><td>{{ issue.get_special_process_display }}</td></tr>
