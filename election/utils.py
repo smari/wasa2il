@@ -159,12 +159,21 @@ class BallotAnalyzer(BallotContainer):
 
         return stats
 
+    def reranked_ballot(self, ballot):
+        """Guarantee ballot rankings are sequential"""
+        rank = 0
+        fixed = []
+        for br, candidate in sorted(ballot):
+            fixed.append((rank, candidate))
+            rank += 1
+        return fixed
+    
     def get_candidate_rank_stats(self):
         cands, stats = self._cands_and_stats()
         ranks = [[0 for r in cands] for c in cands]
         stats['ranking_matrix'] = ranks
         for ballot in self.ballots:
-            for rank, candidate in ballot:
+            for rank, candidate in self.reranked_ballot(ballot):
                 if candidate in cands:
                     ranks[cands.index(candidate)][int(rank)] += 1
         for ranking in ranks:
