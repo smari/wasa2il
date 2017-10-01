@@ -6,7 +6,10 @@ import random
 import sys
 from collections import OrderedDict
 
-from django.utils.translation import ugettext_lazy as _
+if __name__ != "__main__":
+    from django.utils.translation import ugettext_lazy as _
+else:
+    _ = lambda x: x
 
 from pyvotecore.schulze_method import SchulzeMethod as Condorcet
 from pyvotecore.schulze_npr import SchulzeNPR as Schulze
