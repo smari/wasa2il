@@ -50,11 +50,12 @@ class Wasa2ilForm(forms.ModelForm):
             if field_type is ModelChoiceField:
                 field.widget = forms.RadioSelect()
                 # Remove ugly and pointless '---------' option.
-                field.empty_label = None
+                if field.required:
+                    field.empty_label = None
             elif field_type is TypedChoiceField:
                 field.widget = forms.RadioSelect()
                 # Remove ugly and pointless '---------' option.
-                if len(field.choices) > 0 and field.choices[0][1] == '---------':
+                if field.required and len(field.choices) > 0 and field.choices[0][1] == '---------':
                     field.choices.pop(0)
             elif field_type is ModelMultipleChoiceField:
                 field.widget = forms.CheckboxSelectMultiple()
