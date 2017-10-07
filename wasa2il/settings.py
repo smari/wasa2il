@@ -160,6 +160,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     'diff_match_patch',
     'datetimewidget',
+    'crispy_forms',
 
     'core',
     'polity',
@@ -172,6 +173,9 @@ try:
     INSTALLED_APPS += LOCAL_INSTALLED_APPS
 except:
     pass
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_FAIL_SILENTLY = not DEBUG
 
 # Allow users to attempt log-ins using any of the following:
 # e-mail address, SSN or username.

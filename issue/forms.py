@@ -1,10 +1,12 @@
 from django import forms
 
+from wasa2il.forms import Wasa2ilForm
+
 from issue.models import Comment
 from issue.models import Document
 from issue.models import Issue
 
-class IssueForm(forms.ModelForm):
+class IssueForm(Wasa2ilForm):
     class Meta:
         model = Issue
         exclude = (
@@ -23,7 +25,7 @@ class IssueForm(forms.ModelForm):
         )
 
 
-class DocumentForm(forms.ModelForm):
+class DocumentForm(Wasa2ilForm):
     class Meta:
         model = Document
         exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug', 'issues')

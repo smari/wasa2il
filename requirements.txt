@@ -15,6 +15,7 @@ diff-match-patch==20121119
 dj-database-url==0.4.2
 Django==1.8.18
 django-bootstrap-form==3.3
+django-crispy-forms==1.6.1
 django-datetime-widget==0.9.3
 django-debug-toolbar==1.8
 django-registration-redux==1.7

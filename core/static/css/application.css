@@ -110,6 +110,8 @@ textarea
     text-align: right !important;
 }
 
+/* Container for cancel URL, for use with cancel-buttons. */
+#cancel-url { display: none; }
 
 #statements_declarations ol li:before
 {

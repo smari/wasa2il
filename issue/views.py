@@ -87,6 +87,7 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
 
     ctx = {
         'polity': polity,
+        'issue': issue,
         'user_is_member': polity.is_member(request.user),
         'form': form,
         'documentcontent': current_content,
