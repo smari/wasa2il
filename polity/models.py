@@ -1,10 +1,8 @@
+from django.apps import apps
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
-from issue.models import DocumentContent
-from issue.models import Issue
 
 
 class Polity(models.Model):
@@ -56,6 +54,7 @@ class Polity(models.Model):
         return self.members
 
     def agreements(self):
+        DocumentContent = apps.get_model('issue', 'DocumentContent')
         return DocumentContent.objects.select_related(
             'document',
             'issue'
@@ -65,6 +64,7 @@ class Polity(models.Model):
         ).order_by('-issue__deadline_votes')
 
     def update_agreements(self):
+        Issue = apps.get_model('issue', 'Issue')
         issues_to_process = Issue.objects.filter(is_processed=False).filter(deadline_votes__lt=timezone.now())
         for issue in issues_to_process:
             issue.process()
