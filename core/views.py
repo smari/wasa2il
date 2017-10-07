@@ -217,7 +217,7 @@ def login(request, template_name='registration/login.html',
             request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
 
             if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
-                if not request.user.userprofile.user_is_verified():
+                if not request.user.userprofile.verified:
                     return HttpResponseRedirect(settings.SAML_1['URL'])
 
             if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?

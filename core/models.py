@@ -33,6 +33,10 @@ class UserProfile(models.Model):
     verified_name = models.CharField(max_length=100, null=True, blank=True)
     verified_token = models.CharField(max_length=100, null=True, blank=True)
     verified_timing = models.DateTimeField(null=True, blank=True)
+    # When using SAML, the 'verified' field is set to true if verified_ssn,
+    # verified_name and verified_timing have all been set with actual content.
+    # Otherwise, it should be the same as User.is_active.
+    verified = models.BooleanField(default=False)
 
     # User information
     displayname = models.CharField(max_length=255, verbose_name=_("Name"), help_text=_("The name to display on the site."), **nullblank)
@@ -48,11 +52,16 @@ class UserProfile(models.Model):
     def save(self, *largs, **kwargs):
         if not self.picture:
             self.picture.name = "default.jpg"
-        super(UserProfile, self).save(*largs, **kwargs)
 
-    def user_is_verified(self):
-        # We require both of these be set to consider the user verified
-        return (self.verified_ssn and self.verified_name)
+        if hasattr(settings, 'SAML_1'):
+            self.verified = all((
+                self.verified_ssn is not None and len(self.verified_ssn) > 0,
+                self.verified_name is not None and len(self.verified_name) > 0
+            ))
+        else:
+            self.verified = self.user.is_active
+
+        super(UserProfile, self).save(*largs, **kwargs)
 
     def __unicode__(self):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
