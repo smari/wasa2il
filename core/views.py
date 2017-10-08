@@ -73,7 +73,7 @@ def home(request):
         else:
             polities = request.user.polities.all()
     else:
-        polities = Polity.objects.filter(is_nonmembers_readable=True)
+        polities = Polity.objects.all()
 
     ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
     ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)

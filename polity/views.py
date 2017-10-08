@@ -27,7 +27,7 @@ def polity_list(request):
     if request.user.is_authenticated():
         user_polities = request.user.polities.all()
     else:
-        user_polities = Polity.objects.filter(is_nonmembers_readable=True)
+        user_polities = Polity.objects.all()
 
     votingissues = Issue.objects.order_by("deadline_votes").filter(
         deadline_proposals__lt=datetime.now(),

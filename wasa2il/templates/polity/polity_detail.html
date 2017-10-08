@@ -33,8 +33,6 @@
     {% endif %}
 </h1>
 
-{% if user_is_member or polity.is_nonmembers_readable %}
-
 <div>
     {% trans "New issues" %}: <strong>{{ newissues.count }}</strong>
     &nbsp;|&nbsp; {% trans "New elections" %}: <strong>{{ newelections.count }}</strong>
@@ -169,7 +167,5 @@
         </div>
     </div>
 </div>
-
-{% endif %}
 
 {% endblock %}
