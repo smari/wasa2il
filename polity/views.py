@@ -69,7 +69,7 @@ def polity_view(request, polity_id):
         'newelections': polity.election_set.filter(
             deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
         ),
-        'verified_user_count': UserProfile.objects.filter(verified=True).count(),
+        'verified_user_count': polity.members.filter(userprofile__verified=True).count(),
         'settings': settings,
     }
 
