@@ -13,30 +13,34 @@
 {% block content %}
 
 {% if user_is_member %}
-    <div class="memberstatusbox">
+    <div class="alert alert-info" style="float: right;">
         {% if user in polity.officers.all %}
             {% trans "You are an officer in this polity." %}
         {% else %}
             {% trans "You are a member of this polity." %}
         {% endif %}
     </div>
+{% elif user.is_authenticated %}
+    <div class="alert alert-warning" style="float: right;">
+        {% trans "You are not a member of this polity." %}
+    </div>
 {% endif %}
 
-<h1>{{ polity.name }}</h1>
-<div style="float: right;">
+<h1>
+    {{ polity.name }}
     {% if user.is_staff %}
         <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
     {% endif %}
-</div>
+</h1>
 
 {% if user_is_member or polity.is_nonmembers_readable %}
 
 <div>
-    <span class="badge badge-info">{{ verified_user_count }} {% trans "Verified Users" %}</span>
-    | <span class="badge badge-info">{{ newissues.count }} {% trans "New issues" %}</span>
-    | <span class="badge badge-info">{{ polity.agreements.count }} {% trans "Agreements" %}</span>
-    | <span class="badge badge-info">{{ polity.topic_set.count }} {% trans "Topics" %}</span>
-    | <span class="badge badge-info">{{ newelections.count }} {% trans "Elections" %}</span>
+    {% trans "New issues" %}: <strong>{{ newissues.count }}</strong>
+    &nbsp;|&nbsp; {% trans "New elections" %}: <strong>{{ newelections.count }}</strong>
+    &nbsp;|&nbsp; {% trans "Verified Users" %}: <strong>{{ verified_user_count }}</strong>
+    &nbsp;|&nbsp; {% trans "Agreements" %}: <strong>{{ polity.agreements.count }}</strong>
+    &nbsp;|&nbsp; {% trans "Topics" %}: <strong>{{ polity.topic_set.count }}</strong>
 </div>
 <hr>
 <div class="row">

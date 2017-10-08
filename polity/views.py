@@ -60,6 +60,7 @@ def polity_view(request, polity_id):
 
     ctx = {
         'polity': polity,
+        'user': request.user,
         'user_is_member': polity.is_member(request.user),
         'politytopics': polity.topic_set.listing_info(request.user).all(),
         'agreements': polity.agreements(),
