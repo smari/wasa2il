@@ -9,6 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
+from core.models import UserProfile
+
 from election.models import Election
 
 from issue.models import Issue
@@ -67,6 +69,7 @@ def polity_view(request, polity_id):
         'newelections': polity.election_set.filter(
             deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
         ),
+        'verified_user_count': UserProfile.objects.filter(verified=True).count(),
         'settings': settings,
     }
 
