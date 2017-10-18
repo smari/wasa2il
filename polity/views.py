@@ -90,7 +90,14 @@ def polity_add_edit(request, polity_id=None):
     if request.method == 'POST':
         form = PolityForm(request.POST, instance=polity)
         if form.is_valid():
+            is_new = polity.id is None
+
             polity = form.save()
+
+            # Make sure that the creator of the polity is also a member.
+            if is_new:
+                polity.members.add(request.user)
+
             return redirect(reverse('polity', args=(polity.id,)))
     else:
         if polity.id:
