@@ -9,30 +9,36 @@
 
 {% block content %}
 
-{% include "_entry_summary.html" %}
-{% if user.is_staff %}
-<div style="float:right;">
-    <a class="btn btn-default" role="button" href="/polity/new/">{% trans "New polity" %}</a>
+<div class="row">
+    {% include 'issue/_issues_recent.html' %}
+    {% include 'election/_elections_recent.html' %}
 </div>
-{% endif %}
 
-<div class="page-header"><h1>{% trans "Polities" %}</h1></div>
+<div class="row">
+    {% if user.is_staff %}
+    <div style="float:right;">
+        <a class="btn btn-default" role="button" href="/polity/new/">{% trans "New polity" %}</a>
+    </div>
+    {% endif %}
 
-<table class="table table-striped table-bordered">
-<tr>
-    <th>{% trans "Polity" %}</th>
-    <th>{% trans "Topics" %}</th>
-    <th>{% trans "Documents" %}</th>
-</tr>
-{% for polity in polities %}
-{% if polity.is_listed %}
-<tr>
-    <td><a href="/polity/{{polity.id}}/">{{polity.name}}</a></td>
-    <td>{{polity.topic_set.count}}</td>
-    <td>{{polity.document_set.count}}</td>
-</tr>
-{% endif %}
-{% endfor %}
-</table>
+    <h1>{% trans "Polities" %}</h1>
+
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>{% trans "Polity" %}</th>
+            <th>{% trans "Topics" %}</th>
+            <th>{% trans "Documents" %}</th>
+        </tr>
+        {% for polity in polities %}
+            {% if polity.is_listed %}
+                <tr>
+                    <td><a href="/polity/{{polity.id}}/">{{polity.name}}</a></td>
+                    <td>{{polity.topic_set.count}}</td>
+                    <td>{{polity.document_set.count}}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

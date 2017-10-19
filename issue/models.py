@@ -9,7 +9,16 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+class IssueQuerySet(models.QuerySet):
+    def recent(self):
+        return self.order_by('deadline_votes').filter(
+            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
+        )
+
+
 class Issue(models.Model):
+    objects = IssueQuerySet.as_manager()
+
     SPECIAL_PROCESS_CHOICES = (
         ('accepted_at_assembly', _('Accepted at assembly')),
         ('rejected_at_assembly', _('Rejected at assembly')),

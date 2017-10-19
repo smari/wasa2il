@@ -8,7 +8,6 @@ var election_ui_update_is_safe = function() { return true; }
 var discussion_timer;
 var discussion_object;
 var discussion_id;
-var show_closed_elections;
 
 
 function user_logged_out() {
@@ -72,21 +71,6 @@ function topics_showstarred_toggle(polity) {
                 $("#topics_showstarred_toggle span").removeClass("icon-grey");
             } else {
                 $("#topics_showstarred_toggle span").addClass("icon-grey");
-            }
-        }
-    });
-}
-
-
-function elections_showclosed_toggle(polity_id) {
-    show_closed_elections = (show_closed_elections ? 0 : 1);
-    $.getJSON("/api/election/showclosed/", {"polity_id": polity_id, "showclosed": show_closed_elections}, function(data) {
-        if (data.ok) {
-            $("#elections_list tbody").html(data.html);
-            if (data.showclosed) {
-                $("#elections_showclosed_toggle span").removeClass("icon-grey");
-            } else {
-                $("#elections_showclosed_toggle span").addClass("icon-grey");
             }
         }
     });

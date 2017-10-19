@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,11 +12,16 @@ from django.utils.translation import ugettext_lazy as _
 from election.utils import BallotCounter
 
 
+class ElectionQuerySet(models.QuerySet):
+    def recent(self):
+        return self.filter(deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS))
+
 class Election(models.Model):
     """
     An election is different from an issue vote; it's a vote
     on people. Users, specifically.
     """
+    objects = ElectionQuerySet.as_manager()
 
     VOTING_SYSTEMS = BallotCounter.VOTING_SYSTEMS
 
@@ -58,6 +64,9 @@ class Election(models.Model):
     stats_publish_ballots_basic = models.BooleanField(default=False, verbose_name=_('Publish basic ballot statistics'))
     stats_publish_ballots_per_candidate = models.BooleanField(default=False, verbose_name=_('Publish ballot statistics for each candidate'))
     stats_publish_files = models.BooleanField(default=False, verbose_name=_('Publish advanced statistics (downloadable)'))
+
+    class Meta:
+        ordering = ['-deadline_votes']
 
     # An election can only be processed once, since votes are deleted during the process
     class AlreadyProcessedException(Exception):

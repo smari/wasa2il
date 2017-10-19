@@ -22,33 +22,15 @@ from polity.models import Polity
 def polity_list(request):
     polities = Polity.objects.all()
 
-    # Find user polities. Those are used to determine which voting issues,
-    # open issues and elections are to be shown on the page as well.
-    if request.user.is_authenticated():
-        user_polities = request.user.polities.all()
-    else:
-        user_polities = Polity.objects.all()
-
-    votingissues = Issue.objects.order_by("deadline_votes").filter(
-        deadline_proposals__lt=datetime.now(),
-        deadline_votes__gt=datetime.now(),
-        polity__in=user_polities
-    )
-    openissues = Issue.objects.order_by("deadline_votes").filter(
-        deadline_proposals__gt=datetime.now(),
-        deadline_votes__gt=datetime.now(),
-        polity__in=user_polities
-    )
-    elections = Election.objects.order_by("deadline_votes").filter(
-        deadline_votes__gt=datetime.now(),
-        polity__in=user_polities
-    )
+    issues_recent = Issue.objects.recent().filter(polity__in=polities).order_by('polity__name')
+    elections_recent = Election.objects.recent().filter(polity__in=polities).order_by('polity__name')
 
     ctx = {
         'polities': polities,
-        'votingissues': votingissues,
-        'openissues': openissues,
-        'elections': elections,
+        'issues_recent': issues_recent,
+        'elections_recent': elections_recent,
+        'RECENT_ISSUE_DAYS': settings.RECENT_ISSUE_DAYS,
+        'RECENT_ELECTION_DAYS': settings.RECENT_ELECTION_DAYS,
     }
     return render(request, 'polity/polity_list.html', ctx)
 
@@ -64,14 +46,11 @@ def polity_view(request, polity_id):
         'user_is_member': polity.is_member(request.user),
         'politytopics': polity.topic_set.listing_info(request.user).all(),
         'agreements': polity.agreements(),
-        'newissues': polity.issue_set.order_by('deadline_votes').filter(
-            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
-        ),
-        'newelections': polity.election_set.filter(
-            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
-        ),
+        'issues_recent': polity.issue_set.recent(),
+        'elections_recent': polity.election_set.recent(),
+        'RECENT_ISSUE_DAYS': settings.RECENT_ISSUE_DAYS,
+        'RECENT_ELECTION_DAYS': settings.RECENT_ELECTION_DAYS,
         'verified_user_count': polity.members.filter(userprofile__verified=True).count(),
-        'settings': settings,
     }
 
     return render(request, 'polity/polity_detail.html', ctx)

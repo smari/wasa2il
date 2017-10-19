@@ -11,6 +11,7 @@ import urllib
 from urlparse import parse_qs
 # SSO done
 
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -59,27 +60,26 @@ from hashlib import sha1
 
 
 def home(request):
-    ctx = {}
-
+    # Redirect to main polity, if it exists.
     try:
         polity = Polity.objects.get(is_front_polity=True)
-        return HttpResponseRedirect("/polity/%d/" % polity.id)
+        return HttpResponseRedirect(reverse('polity', args=(polity.id,)))
     except Polity.DoesNotExist:
         pass
 
-    if request.user.is_authenticated():
-        if request.user.is_staff and Polity.objects.count() == 0:
-            return HttpResponseRedirect("/polity/new")
-        else:
-            polities = request.user.polities.all()
+    # If no polities have been created yet...
+    if Polity.objects.count() == 0:
+        # ...create one, if we have the access.
+        if request.user.is_authenticated() and request.user.is_staff:
+            return HttpResponseRedirect(reverse('polity_add'))
+
+        # If we're logged out or don't have staff access, display welcome page.
+        return render(request, 'welcome.html')
+
     else:
-        polities = Polity.objects.all()
-
-    ctx["votingissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__lt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-    ctx["openissues"] = Issue.objects.order_by("deadline_votes").filter(deadline_proposals__gt=datetime.now(),deadline_votes__gt=datetime.now(),polity__in=polities)
-    ctx["elections"] = Election.objects.order_by("deadline_votes").filter(deadline_votes__gt=datetime.now(),polity__in=polities)
-
-    return render_to_response("entry.html", ctx, context_instance=RequestContext(request))
+        # If polities exists, but there is no main polity, redirect to the
+        # polity listing.
+        return HttpResponseRedirect(reverse('polities'))
 
 
 def help(request, page):

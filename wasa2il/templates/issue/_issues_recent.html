@@ -1,0 +1,97 @@
+{% load i18n %}
+{% load wasa2il %}
+
+<script language="javascript" type="text/javascript">
+
+var show_closed_issues;
+
+$(document).ready(function() {
+
+    $('#issues-showclosed').on('click', function() {
+
+        var polity_id = $(this).attr('data-polity-id') || 0;
+
+        show_closed_issues = (show_closed_issues ? 0 : 1);
+
+        var params = {
+            'polity_id': polity_id,
+            'showclosed': show_closed_issues
+        };
+
+        $.getJSON('/api/issue/showclosed/', params, function(data) {
+            if (data.ok) {
+                $('#issues-recent tbody').html(data.html);
+                if (data.showclosed) {
+                    $('#issues-showclosed span').removeClass('icon-grey');
+                } else {
+                    $('#issues-showclosed span').addClass('icon-grey');
+                }
+            }
+        });
+
+    });
+
+});
+
+</script>
+
+<div class="col-md-6 col-xs-12">
+    <a name="newissues"></a>
+
+    <div class="btn-group" role="group" style="float: right">
+        <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+            <span class="glyphicon glyphicon-list"></span>
+            <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" style="left: -50px;">
+            <li>
+                <a id="issues-showclosed" data-polity-id="{{ polity.id}}">
+                    <span class="glyphicon glyphicon-ok icon-grey"></span>
+                    {% trans "Show closed issues" %}
+                </a>
+            </li>
+            <li class="divider"></li>
+            {% if polity %}
+                <li><a href="{% url 'issues_new' polity.id %}">{% trans 'Show all issues in polity' %}</a></li>
+            {% else %}
+                {% for issue in issues_recent %}
+                    {% ifchanged issue.polity_id %}
+                        {% with issue.polity as polity %}
+                        <li>
+                            <a href="{% url 'issues_new' issue.polity_id %}">
+                                {% blocktrans %}Show all issues in: {{ polity }}{% endblocktrans %}
+                            </a>
+                        </li>
+                        {% endwith %}
+                    {% endifchanged %}
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+
+    <h2>{% trans "New and recent issues" %}</h2>
+    <p class="muted">
+        {% blocktrans %}Issues ongoing, upcoming or concluded in the past {{ RECENT_ISSUE_DAYS }} days.{% endblocktrans %}
+    </p>
+
+    <table class="table table-striped table-bordered table-condensed" id="issues-recent">
+        <thead>
+            <tr>
+                <th>{% trans 'Issue' %}</th>
+                {% if not polity %}
+                    <th>{% trans 'Polity' %}</th>
+                {% endif %}
+                <th>{% trans 'State' %}</th>
+                <th style="width: 1px; text-align: center;">
+                    <i class="glyphicon glyphicon-comment" title="{% trans 'Comments' %}"></i>
+                </th>
+                <th style="width: 1px; text-align: center;">
+                    <i class="glyphicon glyphicon-pencil" title="{% trans 'Votes' %}"></i>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% include 'issue/_issues_recent_table.html' %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load wasa2il %}
+
+{% for issue in issues_recent %}
+    <tr>
+        <td>
+            <span id="issuestar_{{ issue.id }}"
+                    class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
+                    title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"
+            ></span>
+            <a href="{% url 'issue' issue.polity_id issue.id %}">{{ issue.name }}</a>
+        </td>
+        {% if not polity %}
+            <td>
+                <a href="{% url 'polity' issue.polity_id %}">{{ issue.polity }}</a>
+            </td>
+        {% endif %}
+        <td class="issue-status">
+            {% if issue.is_voting %}<strong>{% trans "Voting" %}</strong>{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}
+        </td>
+        <td style="text-align: right;">{{ issue.comment_set.count }}</td>
+        <td style="text-align: right;">{{ issue.votecount }}</td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="{% if polity %}4{% else %}5{% endif %}" style="text-align: center;">
+            {% trans 'There are no new issues at the moment.' %}
+        </td>
+    </tr>
+{% endfor %}
+

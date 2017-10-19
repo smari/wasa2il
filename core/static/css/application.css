@@ -559,11 +559,6 @@ div#submit-working
     text-align: justify;
 }
 
-#newissues_list .issue-status
-{
-    white-space: nowrap;
-}
-
 .comment
 {
     display: grid;

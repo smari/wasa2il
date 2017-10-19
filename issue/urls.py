@@ -6,6 +6,7 @@ from django.views.generic import UpdateView
 from issue.dataviews import issue_comment_send
 from issue.dataviews import issue_poll
 from issue.dataviews import issue_vote
+from issue.dataviews import issue_showclosed
 #from issue.dataviews import document_propose
 from issue.dataviews import document_propose_change
 from issue.dataviews import documentcontent_render_diff
@@ -35,6 +36,7 @@ urlpatterns = [
     url(r'^api/issue/comment/send/$', never_cache(issue_comment_send)),
     url(r'^api/issue/poll/$', never_cache(issue_poll)),
     url(r'^api/issue/vote/$', never_cache(issue_vote)),
+    url(r'^api/issue/showclosed/$', issue_showclosed),
 
     url(r'^api/document/propose-change/$', document_propose_change),
     url(r'^api/document/render-markdown/$', render_markdown),
