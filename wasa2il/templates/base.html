@@ -54,7 +54,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/polities/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
+          <a class="navbar-brand" href="/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
         </div>
 
         <div id="ajax-status-messages">
@@ -105,7 +105,6 @@
   </nav>
     <div class="container">
     {% block breadcrumbs %}
-    {% add_breadcrumb _('Home') '/' prepend=True %}
     {% render_breadcrumbs %}
     {% endblock %}
     {% block content %}{% endblock %}

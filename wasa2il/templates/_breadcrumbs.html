@@ -1,4 +1,4 @@
-{% if breadcrumbs|length > 1 or currentpath == breadcrumbs.0.url %}
+{% if breadcrumbs|length > 0 or currentpath == breadcrumbs.0.url %}
 <ol class="breadcrumb">
     {% for breadcrumb in breadcrumbs %}
         {% if not breadcrumb.url or currentpath == breadcrumb.url %}

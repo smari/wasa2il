@@ -40,8 +40,11 @@ def polity_view(request, polity_id):
 
     polity.update_agreements()
 
+    sub_polities = polity.polity_set.all()
+
     ctx = {
         'polity': polity,
+        'sub_polities': sub_polities,
         'user': request.user,
         'user_is_member': polity.is_member(request.user),
         'politytopics': polity.topic_set.listing_info(request.user).all(),

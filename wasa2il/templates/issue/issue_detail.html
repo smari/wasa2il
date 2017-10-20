@@ -9,11 +9,6 @@
 {% add_breadcrumb _('Polities') '/polities/' %}
 {% url 'polity' issue.polity.id as polityurl %}
 {% add_breadcrumb issue.polity.name polityurl %}
-
-{% with issue.topics.first as topic %}
-{% url 'topic' issue.polity.id topic.id as topicurl %}
-{% add_breadcrumb topic.name topicurl %}
-{% endwith %}
 {% add_breadcrumb issue.name %}
 {{ block.super }}
 {% endblock %}
