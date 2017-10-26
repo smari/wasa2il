@@ -41,6 +41,19 @@
 {% endblock %}
 {% block content %}
 
+<div id="ajax-status-messages">
+  <div id="submit-error" class="alert alert-danger" style="display: none;">
+    <p>{% trans "There was an error while processing your vote. Please try again." %}</p>
+  </div>
+  <div id="submit-is-magic" class="alert alert-success" style="display: none;">
+    <p><b>{% trans "Your votes have been submitted!" %}</b><br>
+       {% trans "You can continue adding, removing or reordering candidates until the deadline." %}</p>
+  </div>
+  <div id="submit-working" class="alert" style="display: none;">
+    <p><i>{% trans "Working..." %}</i><br>
+  </div>
+</div>
+
 <div style="float: right;">
     {% if user_is_officer and not election.is_processed %}
         <a class="btn btn-default" role="button" href="{% url 'election_add_edit' polity.id election.id %}">{% trans 'Edit' %}</a>
