@@ -64,7 +64,7 @@
             <li><a href="/help/instructions/">{% trans "Help" %}</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }}<span class="caret"></span>
+                <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }} <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="/accounts/profile/"><span class="glyphicon glyphicon-user"></span> {% trans "My profile" %}</a></li>
@@ -78,7 +78,8 @@
             <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
             {% endif %}
           </ul>
-           <form class="navbar-form navbar-right" action="/search">
+
+          <form class="navbar-form navbar-right" action="/search">
             <div class="form-group" style="display:inline;">
               <div class="input-group">
                 <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}">
@@ -86,6 +87,7 @@
               </div>
             </div>
           </form>
+
         </div><!-- /.navbar-collapse -->
     </div> <!-- end container -->
   </nav>
@@ -93,6 +95,7 @@
     {% block breadcrumbs %}
     {% render_breadcrumbs %}
     {% endblock %}
+
     {% block content %}{% endblock %}
       <footer class="footer">
         <hr/>
