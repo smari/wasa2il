@@ -118,6 +118,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.template.context_processors.request',
 
     'core.contextprocessors.globals',
+
+    'polity.contextprocessors.polities',
 )
 
 MIDDLEWARE_CLASSES = (

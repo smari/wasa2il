@@ -1,10 +1,23 @@
-body { padding-top: 80px; padding-bottom: 40px; }
+body { padding-top: 50px; padding-bottom: 40px; }
 footer { font-size: 10pt; margin-top: 30px; }
 
- .navbar { background-color: #FAFAFA; background-image: url("/static/img/header-bg.png"); background-repeat: repeat-x; height: 75px; }
+ .navbar { background-color: #FAFAFA; background-image: url("/static/img/header-bg.png"); background-repeat: repeat-x; }
  .navbar .navbar-brand { margin: 0px; padding: 0px; color: #fff; }
+ .navbar .navbar-brand img { max-height: 54px; }
  .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a { color: #fff; }
  .navbar .nav > li > a:hover { color: #eee; }
+
+/* Global search field */
+
+@media (max-width: 767px) {
+ .piratepurple { background-color: #62388d; }
+ .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a { font-size: 20px; margin: 7px 0; }
+ .navbar-default .navbar-nav .open .dropdown-menu > li > a { color: #fff; }
+}
+
+@media (min-width: 768px) {
+ form.navbar-form { padding: 0px; max-width: 220px; }
+}
 
 .img-negpad { margin-top: -5px; margin-bottom: -5px; }
 
@@ -99,8 +112,3 @@ div#submit-working { background: #bbb; }
 .comment > .content > .created_by { font-size: 9pt; font-weight: bold; display: block; }
 .comment > .content > .created { font-size: 8pt; font-style: italic; margin-top: 3px; color: #333; }
 .comment > .content > .text { display: inline; }
-
-@media (max-width: 767px) { .piratepurple { background-color: #62388d; }
- .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a { font-size: 20px; margin: 7px 0; }
- .navbar-header { height: 74px; }
-  }

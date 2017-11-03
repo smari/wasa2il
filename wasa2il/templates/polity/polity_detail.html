@@ -12,63 +12,31 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-4">
-
-        <h1>
-            {{ polity.name }}
-            {% if user.is_staff %}
-                <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
-            {% endif %}
-        </h1>
-
-        {% if user_is_member %}
-            {% if user in polity.officers.all %}
-                <span class="label label-success">{% trans 'You are an officer in this polity.' %}</span>
-            {% else %}
-                <span class="label label-primary">{% trans 'You are a member of this polity.' %}</span>
-            {% endif %}
-            </span>
-        {% elif user.is_authenticated %}
-            <span class="label label-warning">{% trans 'You are not a member of this polity.' %}</span>
-        {% endif %}
-
-    </div>
-    <div class="col-md-8">
-        <div class="panel panel-default">
-            <div class="panel-body">
-
-                {% if sub_polities %}
-                <div class="btn-group" role="group" style="float: right;">
-                    <a class="btn btn-default dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-                        {% trans 'Subpolities' %}
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" style="left: -50px;">
-                    {% for sub_polity in sub_polities %}
-                        <li><a href="{% url 'polity' sub_polity.id %}">{{ sub_polity }}</a></li>
-                    {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-                {% if polity.parent_id %}
-                    <a href="{% url 'polity' polity.parent_id %}" class="btn btn-default" style="float: right;">
-                        {% trans 'Polity' %}: {{ polity.parent }}
-                    </a>
-                {% endif %}
-
-                <div>
-                    <strong>{% trans 'Information on polity' %}:</strong><br />
-                    {% trans "New issues" %}: <strong>{{ issues_recent.count }}</strong>
-                    &nbsp;|&nbsp; {% trans "New elections" %}: <strong>{{ elections_recent.count }}</strong>
-                    &nbsp;|&nbsp; {% trans "Verified Users" %}: <strong>{{ verified_user_count }}</strong>
-                    &nbsp;|&nbsp; {% trans "Agreements" %}: <strong>{{ polity.agreements.count }}</strong>
-                    &nbsp;|&nbsp; {% trans "Topics" %}: <strong>{{ polity.topic_set.count }}</strong>
-                </div>
-            </div>
-        </div>
-    </div>
+<div style="float: right;">
+    <span style="white-space: nowrap;">{% trans "New issues" %}: <strong>{{ issues_recent.count }}</strong></span>
+    <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "New elections" %}: <strong>{{ elections_recent.count }}</strong></span>
+    <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "Verified Users" %}: <strong>{{ verified_user_count }}</strong></span>
+    <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "Agreements" %}: <strong>{{ polity.agreements.count }}</strong></span>
+    <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "Topics" %}: <strong>{{ polity.topic_set.count }}</strong></span>
 </div>
+
+<h1>
+    {{ polity.name }}
+    {% if user.is_staff %}
+        <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
+</h1>
+
+{% if user_is_member %}
+    {% if user in polity.officers.all %}
+        <span class="label label-success">{% trans 'You are an officer in this polity.' %}</span>
+    {% else %}
+        <span class="label label-primary">{% trans 'You are a member of this polity.' %}</span>
+    {% endif %}
+    </span>
+{% elif user.is_authenticated %}
+    <span class="label label-warning">{% trans 'You are not a member of this polity.' %}</span>
+{% endif %}
 
 <hr />
 

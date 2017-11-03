@@ -75,6 +75,13 @@ def classname(obj):
     classname = obj.__class__.__name__
     return classname
 
+
+@register.simple_tag
+def repeater(string, count):
+    # Making up for Django's inexplicable lack of ability to iterate from one
+    # number to another in a template.
+    return str(string) * count
+
 @register.simple_tag(takes_context=True)
 def add_breadcrumb(context, name=None, url=False, **kwargs):
     if not 'request' in context:
