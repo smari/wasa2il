@@ -10,9 +10,21 @@
 {{ block.super }}
 {% endblock %}
 
+{% block javascript %}
+<script language="javascript" type="text/javascript">
+
+$(document).ready(function() {
+    $('button#polity-info-toggle').on('click', function() {
+        $('div#polity-info-mobile').toggle();
+    });
+});
+
+</script>
+{% endblock %}
+
 {% block content %}
 
-<div style="float: right;">
+<div id="polity-info" style="float: right;">
     <span style="white-space: nowrap;">{% trans "New issues" %}: <strong>{{ issues_recent.count }}</strong></span>
     <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "New elections" %}: <strong>{{ elections_recent.count }}</strong></span>
     <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "Verified Users" %}: <strong>{{ verified_user_count }}</strong></span>
@@ -25,7 +37,18 @@
     {% if user.is_staff %}
         <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
     {% endif %}
+    <button type="button" class="btn btn-default" id="polity-info-toggle">{% trans 'Toggle information' %}</button>
 </h1>
+
+<div id="polity-info-mobile" style="display: none;">
+    <p>
+        {% trans "New issues" %}: <strong>{{ issues_recent.count }}</strong><br />
+        {% trans "New elections" %}: <strong>{{ elections_recent.count }}</strong><br />
+        {% trans "Verified Users" %}: <strong>{{ verified_user_count }}</strong><br />
+        {% trans "Agreements" %}: <strong>{{ polity.agreements.count }}</strong><br />
+        {% trans "Topics" %}: <strong>{{ polity.topic_set.count }}</strong><br />
+    </p>
+</div>
 
 {% if user_is_member %}
     {% if user in polity.officers.all %}

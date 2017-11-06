@@ -13,10 +13,12 @@ footer { font-size: 10pt; margin-top: 30px; }
  .piratepurple { background-color: #62388d; }
  .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a { font-size: 20px; margin: 7px 0; }
  .navbar-default .navbar-nav .open .dropdown-menu > li > a { color: #fff; }
+ #polity-info { display: none; }
 }
 
 @media (min-width: 768px) {
  form.navbar-form { padding: 0px; max-width: 220px; }
+ #polity-info-toggle { display: none; }
 }
 
 .img-negpad { margin-top: -5px; margin-bottom: -5px; }
