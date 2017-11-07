@@ -15,7 +15,21 @@
                 <a href="{% url 'polity' election.polity_id %}">{{ election.polity }}</a>
             </td>
         {% endif %}
-        <td>{% if election.is_voting %}<strong>{% trans "Voting" %}</strong>{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
+        <td class="minimize">
+            {% with election.election_state as state %}
+                {% if state == 'accepting_candidates' %}
+                    <strong>{% trans 'Accepting candidates' %}</strong>
+                {% elif state == 'waiting' %}
+                    {% trans 'Candidacy deadline expired' %}
+                {% elif state == 'voting' %}
+                    <strong>{% trans 'Voting' %}</strong>
+                {% elif state == 'concluded' %}
+                    {% trans 'Concluded' %}
+                {% else %}
+                    {% trans 'Unknown state' %}
+                {% endif %}
+            {% endwith %}
+        </td>
         <td style="text-align: right;">{{ election.candidate_set.count }}</td>
         <td style="text-align: right;">{{ election.get_vote_count }}</td>
     </tr>

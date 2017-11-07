@@ -40,7 +40,7 @@ class Election(models.Model):
     # should to be turned into a proper Django model.
     results_are_ordered = models.BooleanField(default=True, verbose_name=_('Results are ordered'))
 
-    deadline_candidacy = models.DateTimeField(verbose_name=_('Candidacies accepted until'))
+    deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacies'))
     starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Election begins'))
     deadline_votes = models.DateTimeField(verbose_name=_('Election ends'))
 
@@ -234,28 +234,33 @@ class Election(models.Model):
             return max(self.starttime_votes, self.deadline_candidacy)
         return self.deadline_candidacy
 
-    def is_waiting(self):
-        if not self.deadline_candidacy or not self.deadline_votes:
-            return False
-
+    def election_state(self):
+        # Short-hands.
         now = datetime.now()
-        return (now <= self.voting_start_time() and now > self.deadline_candidacy)
+        deadline_candidacy = self.deadline_candidacy
+        deadline_votes = self.deadline_votes
+        voting_start_time = self.voting_start_time()
+
+        if deadline_votes < now:
+            return 'concluded'
+        elif voting_start_time < now:
+            return 'voting'
+        elif voting_start_time > now and deadline_candidacy < now:
+            return 'waiting'
+        elif deadline_candidacy > now:
+            return 'accepting_candidates'
+        else:
+            # Should never happen.
+            return 'unknown'
+
+    def is_waiting(self):
+        return self.election_state() == 'waiting'
 
     def is_voting(self):
-        if not self.deadline_candidacy or not self.deadline_votes:
-            return False
-
-        now = datetime.now()
-        return (now > self.voting_start_time() and now < self.deadline_votes)
+        return self.election_state() == 'voting'
 
     def is_closed(self):
-        if not self.deadline_votes:
-            return False
-
-        if datetime.now() > self.deadline_votes:
-            return True
-
-        return False
+        return self.election_state() == 'concluded'
 
     def get_stats(self, user=None, load_users=True, rename_users=False):
         """Load stats from the DB and convert to pythonic format.

@@ -109,20 +109,20 @@
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <table id="election_details" class="table table-compact">
-            <tr id="cand_deadline"><th>{% trans "Candidacies accepted until" %}:</th><td>
-                {{ election.deadline_candidacy }}
+            <tr id="cand_deadline"><th>{% trans "Deadline for candidacies" %}:</th><td>
+                {{ election.deadline_candidacy|may_expire }}
                 <small style="float: right">
                     ({{ election.deadline_candidacy|timeuntil }})
                 </small>
             </td></tr>
             <tr id="vote_starttime"><th>{% trans "Election begins" %}:</th><td>
-                {{ election.voting_start_time }}
+                {{ election.voting_start_time|may_expire }}
                 <small style="float: right">
                     ({{ election.voting_start_time|timeuntil }})
                 </small>
             </td></tr>
             <tr id="vote_deadline"><th>{% trans "Election ends" %}:</th><td>
-                {{ election.deadline_votes }}
+                {{ election.deadline_votes|may_expire }}
                 <small style="float: right">
                     ({{ election.deadline_votes|timeuntil }})
                 </small>

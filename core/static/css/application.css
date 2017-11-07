@@ -23,6 +23,13 @@ footer { font-size: 10pt; margin-top: 30px; }
 
 .img-negpad { margin-top: -5px; margin-bottom: -5px; }
 
+/* For minimizing the width of elements while still not wrapping content */
+.minimize { width: 1px; white-space: nowrap; }
+
+/* Dates that express whether they've passed or not */
+.not-expired { color: #090; }
+.expired { color: #a00; }
+
 @font-face { font-family: 'LeagueGothicRegular'; font-weight: normal; font-style: normal; src: url('League_Gothic-webfont.eot'), url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'), url('League_Gothic-webfont.woff') format('woff'), url('League_Gothic-webfont.ttf') format('truetype'), url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg'); }
 
 #ajax-status-messages { position: absolute; top: 55px; width: 100%; }
