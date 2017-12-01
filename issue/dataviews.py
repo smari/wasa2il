@@ -105,10 +105,12 @@ def issue_showclosed(request):
     showclosed = int(request.GET.get('showclosed', 0)) # 0 = False, 1 = True
 
     try:
+        issues = Issue.objects.select_related('polity')
+
         if polity_id:
-            issues = Issue.objects.filter(polity_id=polity_id)
+            issues = issues.filter(polity_id=polity_id)
         else:
-            issues = Issue.objects.order_by('polity__name', '-deadline_votes')
+            issues = issues.order_by('polity__name', '-deadline_votes')
 
         if not showclosed:
             issues = issues.recent()
