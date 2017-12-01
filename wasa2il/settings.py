@@ -46,9 +46,6 @@ except KeyError:
 LANGUAGES = (
   ('is', 'Íslenska'),
   ('en', 'English'),
-  ('es', 'Español'),
-  ('fr', 'Française'),
-  ('nl', 'Nederlands'),
 )
 
 SITE_ID = 1
