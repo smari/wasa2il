@@ -18,7 +18,7 @@
         <td class="issue-status">
             {% if issue.is_voting %}<strong>{% trans "Voting" %}</strong>{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}
         </td>
-        <td style="text-align: right;">{{ issue.comment_set.count }}</td>
+        <td style="text-align: right;">{{ issue.comment_count }}</td>
         <td style="text-align: right;">{{ issue.votecount }}</td>
     </tr>
 {% empty %}

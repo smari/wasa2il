@@ -51,6 +51,9 @@ class Issue(models.Model):
 
     special_process = models.CharField(max_length=32, verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
 
+
+    comment_count = models.IntegerField(default=0)
+
     class Meta:
         ordering = ["-deadline_votes"]
 
@@ -155,6 +158,10 @@ class Issue(models.Model):
 
         return result
 
+    def update_comment_count(self):
+        self.comment_count = self.comment_set.count()
+        self.save()
+
     def __unicode__(self):
         return u'%s' % (self.name)
 
@@ -197,6 +204,19 @@ class Comment(models.Model):
 
     comment = models.TextField()
     issue = models.ForeignKey('issue.Issue')
+
+    def save(self, *args, **kwargs):
+        is_new = self.id is None
+
+        super(Comment, self).save(*args, **kwargs)
+
+        if is_new:
+            self.issue.update_comment_count()
+
+    def delete(self):
+        super(Comment, self).delete()
+
+        self.issue.update_comment_count()
 
 
 class Document(models.Model):
