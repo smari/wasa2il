@@ -11,8 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class IssueQuerySet(models.QuerySet):
     def recent(self):
-        return self.order_by('deadline_votes').filter(
-            deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
+        return self.filter(deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS))
         )
 
 
