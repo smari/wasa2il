@@ -137,7 +137,7 @@ div#submit-working { background: #bbb; }
 }
 
 #wrapper.toggled {
-  padding-left: 250px;
+  padding-left: 0px;
 }
 
 #sidebar-wrapper {
@@ -230,15 +230,27 @@ div#submit-working { background: #bbb; }
   background: none;
 }
 
+.navbar-toggle {
+  float: left;
+  margin-left: 12px;
+  margin-right: 6px;
+}
+
+@media(max-width:767px) {
+  #sidebar-wrapper {
+    box-shadow: 1px 0px 4px #ccc;
+  }
+}
+
 @media(min-width:768px) {
   #wrapper {
-    padding-left: 0;
+    padding-left: 250px;
   }
   #wrapper.toggled {
     padding-left: 250px;
   }
   #sidebar-wrapper {
-    width: 0;
+    width: 250px;
   }
   #wrapper.toggled #sidebar-wrapper {
     width: 250px;
