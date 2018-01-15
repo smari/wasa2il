@@ -1,0 +1,51 @@
+{% load i18n %}
+{% load wasa2il %}
+{% load static %}
+
+<ul class="sidebar-nav">
+  <li class="sidebar-brand">{{polity.name}}</li>
+  <li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/">
+    <i class="glyphicon glyphicon-asterisk"></i>
+    Yfirlit
+  </a></li>
+  <li{% if request.resolver_match.url_name == "issues" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/issues">
+    <i class="glyphicon glyphicon-star"></i>
+    Mál
+  </a></li>
+  <li{% if request.resolver_match.url_name == "elections" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/elections/">
+    <i class="glyphicon glyphicon-ok"></i>
+    Kosningar
+  </a></li>
+  <li{% if request.resolver_match.url_name == "topics" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/topics/">
+    <i class="glyphicon glyphicon-th-list"></i>
+    Málaflokkar
+  </a></li>
+  <li{% if request.resolver_match.url_name == "agreements" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/agreements/">
+    <i class="glyphicon glyphicon-book"></i>
+    Samþykktir
+  </a></li>
+
+  <form class="navbar-form" style="margin-left: auto; margin-right: auto;" action="/search">
+    <div class="form-group">
+      <div class="input-group">
+        {% if polity %}
+        <input type="hidden" name="polity" value="{{polity.id}}"/>
+        {% endif %}
+        <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+      </div>
+    </div>
+  </form>
+
+  <li>
+    {% if user_is_member %}
+        {% if user in polity.officers.all %}
+            <span class="label label-success">{% trans 'You are an officer in this polity.' %}</span>
+        {% else %}
+            <span class="label label-primary">{% trans 'You are a member of this polity.' %}</span>
+        {% endif %}
+        </span>
+    {% elif user.is_authenticated %}
+        <span class="label label-warning">{% trans 'You are not a member of this polity.' %}</span>
+    {% endif %}
+  </li>
