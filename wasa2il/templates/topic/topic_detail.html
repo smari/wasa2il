@@ -16,7 +16,6 @@
     {% if user_is_officer %}
         <a class="btn btn-default" role="button" href="{% url 'topic_edit' polity.id topic.id %}">{% trans 'Edit' %}</a>
     {% endif %}
-    <a class="btn btn-default" role="button" href="/polity/{{topic.polity.id}}/">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{topic.name}}</h1>
 
@@ -34,8 +33,8 @@
         {% for issue in topic.issue_set.all %}
         <tr>
             <td>
-                <i rel="tooltip" 
-                    title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}" 
+                <i rel="tooltip"
+                    title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"
                     id="issuestar_{{issue.id}}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"></i>
                 <a href="{% url 'issue' polity.id issue.id %}">{{ issue.name }}</a>
             </td>
