@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-07 18:30+0000\n"
+"POT-Creation-Date: 2018-01-15 20:05+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: core/base_classes.py:8 core/models.py:42 election/models.py:28
-#: issue/models.py:27 issue/models.py:203 polity/models.py:10
+#: issue/models.py:43 issue/models.py:232 polity/models.py:10
 #: topic/models.py:74
 msgid "Name"
 msgstr "Nafn"
@@ -175,19 +175,19 @@ msgstr "STV, tíu sigurvegarar"
 msgid "STV partition with Schulze ranking"
 msgstr "STV deiling með Schulze forgangsröðun"
 
-#: issue/models.py:23
+#: issue/models.py:39
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
 
-#: issue/models.py:24
+#: issue/models.py:40
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: issue/models.py:30 polity/models.py:13 topic/models.py:77
+#: issue/models.py:46 polity/models.py:13 topic/models.py:77
 msgid "Description"
 msgstr "Lýsing"
 
-#: issue/models.py:38 wasa2il/templates/polity/polity_detail.html:32
+#: issue/models.py:54 wasa2il/templates/polity/polity_detail.html:32
 #: wasa2il/templates/polity/polity_detail.html:49
 #: wasa2il/templates/polity/polity_detail.html:103
 #: wasa2il/templates/polity/polity_detail.html:110
@@ -195,27 +195,31 @@ msgstr "Lýsing"
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: issue/models.py:44
+#: issue/models.py:60
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: issue/models.py:52 wasa2il/templates/issue/issue_detail.html:79
+#: issue/models.py:68 wasa2il/templates/issue/issue_detail.html:79
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: issue/models.py:266
+#: issue/models.py:295
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: issue/models.py:267 wasa2il/templates/issue/issue_detail.html:108
+#: issue/models.py:296 wasa2il/templates/issue/_issues_recent_table.html:29
+#: wasa2il/templates/issue/issue_detail.html:108
+#: wasa2il/templates/issue/issues.html:46
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: issue/models.py:268 wasa2il/templates/issue/issue_detail.html:108
+#: issue/models.py:297 wasa2il/templates/issue/_issues_recent_table.html:31
+#: wasa2il/templates/issue/issue_detail.html:108
+#: wasa2il/templates/issue/issues.html:48
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: issue/models.py:269
+#: issue/models.py:298
 msgid "Deprecated"
 msgstr "Úrelt"
 
@@ -450,7 +454,7 @@ msgstr "Þing"
 #: wasa2il/templates/election/_elections_recent.html:94
 #: wasa2il/templates/election/election_list.html:25
 #: wasa2il/templates/issue/_issues_recent.html:84
-#: wasa2il/templates/issue/issues_new.html:27
+#: wasa2il/templates/issue/issues.html:25
 #: wasa2il/templates/topic/topic_detail.html:30
 msgid "State"
 msgstr "Ástand"
@@ -468,7 +472,7 @@ msgstr "Frambjóðendur"
 #: wasa2il/templates/election/election_view.html:277
 #: wasa2il/templates/issue/_issues_recent.html:89
 #: wasa2il/templates/issue/issue_detail.html:83
-#: wasa2il/templates/issue/issues_new.html:29
+#: wasa2il/templates/issue/issues.html:27
 #: wasa2il/templates/topic/topic_detail.html:32
 msgid "Votes"
 msgstr "Atkvæði"
@@ -493,14 +497,16 @@ msgstr "Framboðsfrestur liðinn"
 
 #: wasa2il/templates/election/_elections_recent_table.html:25
 #: wasa2il/templates/election/election_list.html:41
-#: wasa2il/templates/issue/_issues_recent_table.html:19
-#: wasa2il/templates/issue/issues_new.html:40
+#: wasa2il/templates/issue/_issues_recent_table.html:25
+#: wasa2il/templates/issue/issues.html:42
 #: wasa2il/templates/topic/topic_detail.html:42
 msgid "Voting"
 msgstr "Í kosningu"
 
 #: wasa2il/templates/election/_elections_recent_table.html:27
 #: wasa2il/templates/election/election_list.html:43
+#: wasa2il/templates/issue/_issues_recent_table.html:34
+#: wasa2il/templates/issue/issues.html:51
 msgid "Concluded"
 msgstr "Lokið"
 
@@ -519,7 +525,7 @@ msgstr "Engar kosningar eru á dagskrá í augnablikinu."
 #: wasa2il/templates/help/is/polity.html:6
 #: wasa2il/templates/issue/document_detail.html:9
 #: wasa2il/templates/issue/issue_detail.html:9
-#: wasa2il/templates/issue/issues_new.html:6
+#: wasa2il/templates/issue/issues.html:6
 #: wasa2il/templates/polity/polity_detail.html:8
 #: wasa2il/templates/polity/polity_form.html:7
 #: wasa2il/templates/polity/polity_list.html:6
@@ -537,7 +543,7 @@ msgstr "Kosningar"
 #: wasa2il/templates/election/election_view.html:61
 #: wasa2il/templates/issue/document_list.html:8
 #: wasa2il/templates/issue/issue_detail.html:21
-#: wasa2il/templates/issue/issues_new.html:16
+#: wasa2il/templates/issue/issues.html:17
 #: wasa2il/templates/topic/topic_detail.html:19
 msgid "Back to polity"
 msgstr "Fara aftur í þing"
@@ -1358,43 +1364,39 @@ msgid ""
 msgstr "Mál í gangi, á döfinni eða lokið síðustu %(RECENT_ISSUE_DAYS)s daga."
 
 #: wasa2il/templates/issue/_issues_recent.html:80
-#: wasa2il/templates/issue/issues_new.html:9
-#: wasa2il/templates/issue/issues_new.html:26
+#: wasa2il/templates/issue/issues.html:9 wasa2il/templates/issue/issues.html:24
 msgid "Issue"
 msgstr "Málefni"
 
 #: wasa2il/templates/issue/_issues_recent.html:86
 #: wasa2il/templates/issue/document_detail.html:124
 #: wasa2il/templates/issue/document_detail.html:201
-#: wasa2il/templates/issue/issues_new.html:28
+#: wasa2il/templates/issue/issues.html:26
 #: wasa2il/templates/topic/topic_detail.html:31
 msgid "Comments"
 msgstr "Ummæli"
 
 #: wasa2il/templates/issue/_issues_recent_table.html:9
-#: wasa2il/templates/issue/issues_new.html:37
 #: wasa2il/templates/topic/topic_detail.html:38
 msgid "You have voted on this issue"
 msgstr "Þú hefur greitt atkvæði í þessu máli"
 
 #: wasa2il/templates/issue/_issues_recent_table.html:9
-#: wasa2il/templates/issue/issues_new.html:37
 #: wasa2il/templates/topic/topic_detail.html:38
 msgid "You have not voted on this issue"
 msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
 
-#: wasa2il/templates/issue/_issues_recent_table.html:19
-#: wasa2il/templates/issue/issues_new.html:40
-#: wasa2il/templates/topic/topic_detail.html:42
-msgid "Open"
-msgstr "Opið"
+#: wasa2il/templates/issue/_issues_recent_table.html:21
+#: wasa2il/templates/issue/issues.html:38
+msgid "In discussion"
+msgstr "Í umræðu"
 
-#: wasa2il/templates/issue/_issues_recent_table.html:19
-#: wasa2il/templates/issue/issues_new.html:40
-msgid "New"
-msgstr "Nýtt"
+#: wasa2il/templates/issue/_issues_recent_table.html:23
+#: wasa2il/templates/issue/issues.html:40
+msgid "Accepting proposals"
+msgstr "Opið fyrir tillögur"
 
-#: wasa2il/templates/issue/_issues_recent_table.html:27
+#: wasa2il/templates/issue/_issues_recent_table.html:45
 msgid "There are no new issues at the moment."
 msgstr "Engin nýleg mál eru til umræðu í augnabliknu."
 
@@ -1546,19 +1548,9 @@ msgstr "Nýtt mál"
 msgid "Comparison"
 msgstr "Samanburður"
 
-#: wasa2il/templates/issue/issues_new.html:18
-#: wasa2il/templates/polity/polity_detail.html:28
-#: wasa2il/templates/polity/polity_detail.html:45
-msgid "New issues"
-msgstr "Ný mál"
-
-#: wasa2il/templates/issue/issues_new.html:18
-msgid "in discussion"
-msgstr "til umræðu"
-
-#: wasa2il/templates/issue/issues_new.html:19
-msgid "These are the newest issues being discussed in this polity."
-msgstr "Þetta eru nýjustu málin til umræðu í þessu þingi."
+#: wasa2il/templates/issue/issues.html:19
+msgid "Issues in polity"
+msgstr "Mál í þingi"
 
 #: wasa2il/templates/issue/search.html:6
 #: wasa2il/templates/polity/polity_list.html:30
@@ -1597,6 +1589,11 @@ msgstr "Tillögu þessari hefur verið hafnað með atkvæðagreiðslu."
 #: wasa2il/templates/issue/stub/documentcontent_status.html:15
 msgid "This proposal is deprecated. A newer version has taken effect."
 msgstr "Þessi tillaga er úreld. Nýrri útgáfa hefur tekið gildi."
+
+#: wasa2il/templates/polity/polity_detail.html:28
+#: wasa2il/templates/polity/polity_detail.html:45
+msgid "New issues"
+msgstr "Ný mál"
 
 #: wasa2il/templates/polity/polity_detail.html:29
 #: wasa2il/templates/polity/polity_detail.html:46
@@ -2051,6 +2048,10 @@ msgstr "Stofna nýjan málaflokk"
 #: wasa2il/templates/topic/topic_detail.html:26
 msgid "List of issues"
 msgstr "Málalisti"
+
+#: wasa2il/templates/topic/topic_detail.html:42
+msgid "Open"
+msgstr "Opið"
 
 #: wasa2il/templates/topic/topic_detail.html:42
 msgid "Closed"
