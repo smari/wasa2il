@@ -201,7 +201,7 @@
                 <th>{% trans "Comments" %}</th>
             </tr>
             {% for content in document.get_versions %}
-            <tr class="change {% if content.order == current_content.order %}current{% elif content.order < current_content.order %}accepted{% endif %}" data-id="{{ content.id }}" data-patch="{{ content.patch }}">
+            <tr class="change {% if content.order == current_content.order %}current{% endif %}" data-id="{{ content.id }}" data-patch="{{ content.patch }}">
                 {% if content.order != current_content.order %}
                     <td><a href="?v={{ content.order }}">{{ content.order }}</a></td>
                     <td style="white-space: nowrap;"><a href="?v={{ content.order }}">{{ content.get_status_display }}</a></td>
