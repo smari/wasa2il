@@ -106,5 +106,7 @@ def election_list(request, polity_id):
     ctx = {
         'polity': polity,
         'elections': elections,
+        'user_is_member': polity.is_member(request.user),
+        'user_is_officer': polity.is_officer(request.user),
     }
     return render(request, 'election/election_list.html', ctx)
