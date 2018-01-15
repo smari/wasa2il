@@ -38,42 +38,20 @@ $(document).ready(function() {
 <div class="col-md-6 col-xs-12">
     <a name="elections"></a>
 
-    <div class="btn-group" role="group" style="float: right">
+    <div style="float: right">
         {% if user_is_member %}
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/election/new/">
+            <a class="btn btn-default" role="button" href="/polity/{{polity.id}}/election/new/">
                 {% trans "New election" %}
             </a>
             {% endif %}
         {% endif %}
-        <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-            <span class="glyphicon glyphicon-list"></span>
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" style="left: -50px;">
-            <li>
-                <a id="elections-showclosed" data-polity-id="{{ polity.id }}">
-                    <span class="glyphicon glyphicon-ok icon-grey"></span>
-                    {% trans "Show closed elections" %}
-                </a>
-            </li>
-            <li class="divider"></li>
+            <a class="btn btn-toggle btn-default" id="elections-showclosed" data-polity-id="{{ polity.id }}">
+                <span class="glyphicon glyphicon-ok icon-grey"></span>
+                {% trans "Show closed elections" %}
+            </a>
             {% if polity %}
-                <li>
-                    <a href="{% url 'elections' polity.id %}">{% trans 'Show all elections in polity' %}</a>
-                </li>
-            {% else %}
-                {% for election in elections_recent %}
-                    {% ifchanged election.polity_id %}
-                        {% with election.polity as polity %}
-                        <li>
-                            <a href="{% url 'elections' election.polity_id %}">
-                                {% blocktrans %}Show all elections in: {{ polity }}{% endblocktrans %}
-                            </a>
-                        </li>
-                        {% endwith %}
-                    {% endifchanged %}
-                {% endfor %}
+            <a class="btn btn-default" href="{% url 'elections' polity.id %}">{% trans 'Show all elections in polity' %}</a>
             {% endif %}
         </ul>
     </div>
