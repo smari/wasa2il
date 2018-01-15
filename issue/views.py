@@ -126,16 +126,16 @@ def issue_view(request, polity_id, issue_id):
     return render(request, 'issue/issue_detail.html', ctx)
 
 
-def issues_new(request, polity_id):
+def issues(request, polity_id):
     polity = get_object_or_404(Polity, id=polity_id)
 
-    newissues = polity.issue_set.order_by('deadline_votes').filter(deadline_votes__gt=datetime.now())
+    issues = polity.issue_set.order_by('-deadline_votes')
 
     ctx = {
         'polity': polity,
-        'newissues': newissues,
+        'issues': issues,
     }
-    return render(request, 'issue/issues_new.html', ctx)
+    return render(request, 'issue/issues.html', ctx)
 
 
 @login_required
@@ -215,7 +215,7 @@ def document_view(request, polity_id, document_id):
         'put_to_vote': False,
         'edit_proposal': False,
     }
-    if ((not issue or not issue.is_voting())
+    if ((not issue or issue.issue_state() != 'voting')
             and current_content is not None):
         if current_content.status == 'accepted':
             if user_is_member:

@@ -30,6 +30,10 @@ footer { font-size: 10pt; margin-top: 30px; }
 .not-expired { color: #090; }
 .expired { color: #a00; }
 
+/* Colors for expressing whether an issue was accepted or rejected */
+.accepted { color: #090; }
+.rejected { color: #a00; }
+
 @font-face { font-family: 'LeagueGothicRegular'; font-weight: normal; font-style: normal; src: url('League_Gothic-webfont.eot'), url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'), url('League_Gothic-webfont.woff') format('woff'), url('League_Gothic-webfont.ttf') format('truetype'), url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg'); }
 
 #ajax-status-messages { position: absolute; top: 55px; width: 100%; }

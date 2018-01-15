@@ -15,8 +15,26 @@
                 <a href="{% url 'polity' issue.polity_id %}">{{ issue.polity }}</a>
             </td>
         {% endif %}
-        <td class="issue-status">
-            {% if issue.is_voting %}<strong>{% trans "Voting" %}</strong>{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "New" %}{% endif %}{% endif %}
+        <td style="white-space: nowrap;">
+            {% with issue.issue_state as state %}
+                {% if state == 'discussion' %}
+                    <strong>{% trans 'In discussion' %}</strong>
+                {% elif state == 'accepting_proposals' %}
+                    <strong>{% trans 'Accepting proposals' %}</strong>
+                {% elif state == 'voting' %}
+                    <strong>{% trans 'Voting' %}</strong>
+                {% elif state == 'concluded' %}
+                    {% if issue.is_processed %}
+                        {% if issue.majority_reached %}
+                            <span class="accepted">{% trans 'Accepted' %}<span>
+                        {% else %}
+                            <span class="rejected">{% trans 'Rejected' %}</span>
+                        {% endif %}
+                    {% else %}
+                        {% trans 'Concluded' %}
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
         </td>
         <td style="text-align: right;">{{ issue.comment_count }}</td>
         <td style="text-align: right;">{{ issue.votecount }}</td>

@@ -24,7 +24,7 @@
 
 {% csrf_token %}
 
-{% if issue.is_closed %}
+{% if issue.issue_state == 'concluded' %}
     {% if not issue.is_processed %}
         <div class="alert alert-danger">
             {% trans "This issue is closed and awaits final processing." %}
@@ -78,7 +78,7 @@
             {% if issue.special_process %}
                 <tr><th>{% trans 'Special process' %}:</th><td>{{ issue.get_special_process_display }}</td></tr>
             {% else %}
-                {% if issue.is_voting or issue.is_closed %}
+                {% if issue.issue_state == 'voting' or issue.issue_state == 'concluded' %}
                     <tr>
                         <th>{% trans "Votes" %}:</th>
                         <td>
@@ -90,7 +90,7 @@
                             {% endif %}
                         </td>
                     </tr>
-                    {% if issue.is_closed %}
+                    {% if issue.issue_state == 'concluded' %}
                         <tr>
                             <th>{% trans "Yes" %}:</th>
                             <td id="issue_votes_yes">
@@ -118,7 +118,7 @@
 
     </div>
 
-    {% if issue.is_voting and can_vote %}
+    {% if issue.issue_state == 'voting' and can_vote %}
         <div class="col-md-6 col-xs-12 well">
             <h2>{% trans "Vote" %} <small>{% trans "for or against this issue" %}</small></h2>
             <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>

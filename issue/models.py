@@ -72,28 +72,21 @@ class Issue(models.Model):
 
         self.majority_percentage = self.ruleset.issue_majority # Doesn't mechanically matter but should be official.
 
-    def is_open(self):
-        if not self.is_closed():
-            return True
-        return False
+    def issue_state(self):
+        # Short-hands.
+        now = datetime.now()
+        deadline_votes = self.deadline_votes
+        deadline_proposals = self.deadline_proposals
+        deadline_discussions = self.deadline_discussions
 
-    def is_voting(self):
-        if not self.deadline_proposals or not self.deadline_votes:
-            return False
-
-        if datetime.now() > self.deadline_proposals and datetime.now() < self.deadline_votes:
-            return True
-
-        return False
-
-    def is_closed(self):
-        if not self.deadline_votes:
-            return False
-
-        if datetime.now() > self.deadline_votes:
-            return True
-
-        return False
+        if deadline_votes < now:
+            return 'concluded'
+        elif deadline_proposals < now:
+            return 'voting'
+        elif deadline_discussions < now:
+            return 'accepting_proposals'
+        else:
+            return 'discussion'
 
     def discussions_closed(self):
         return datetime.now() > self.deadline_discussions

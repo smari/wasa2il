@@ -18,11 +18,11 @@ from issue.views import document_search
 from issue.views import document_view
 from issue.views import issue_add_edit
 from issue.views import issue_view
-from issue.views import issues_new
+from issue.views import issues
 
 urlpatterns = [
 
-    url(r'^polity/(?P<polity_id>\d+)/issues/open/$', issues_new, name='issues_new'),
+    url(r'^polity/(?P<polity_id>\d+)/issues/$', issues, name='issues'),
     url(r'^polity/(?P<polity_id>\d+)/issue/(?P<issue_id>\d+)/edit/$', issue_add_edit, name='issue_edit'),
     url(r'^polity/(?P<polity_id>\d+)/issue/new/(documentcontent/(?P<documentcontent_id>\d+)/)?$', issue_add_edit, name='issue_add'),
     url(r'^polity/(?P<polity_id>\d+)/issue/(?P<issue_id>\d+)/$', never_cache(issue_view), name='issue'),

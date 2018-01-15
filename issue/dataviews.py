@@ -25,7 +25,7 @@ def issue_vote(request):
     issue = int(request.POST.get("issue", 0))
     issue = get_object_or_404(Issue, id=issue)
 
-    if not issue.is_voting():
+    if issue.issue_state() != 'voting':
         return issue_poll(request)
 
     if not issue.can_vote(user=request.user):
@@ -85,7 +85,7 @@ def issue_poll(request):
         } for comment in issue.comment_set.all().order_by("created")
     ]
     ctx["issue"] = {"comments": comments, "votecount": issue.votecount }
-    if issue.is_closed():
+    if issue.issue_state() == 'concluded':
         ctx["issue"]["votecount_abstain"] = issue.votecount_abstain
     ctx["ok"] = True
     if not request.user.is_anonymous():

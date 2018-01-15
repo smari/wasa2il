@@ -52,13 +52,13 @@ $(document).ready(function() {
             </li>
             <li class="divider"></li>
             {% if polity %}
-                <li><a href="{% url 'issues_new' polity.id %}">{% trans 'Show all issues in polity' %}</a></li>
+                <li><a href="{% url 'issues' polity.id %}">{% trans 'Show all issues in polity' %}</a></li>
             {% else %}
                 {% for issue in issues_recent %}
                     {% ifchanged issue.polity_id %}
                         {% with issue.polity as polity %}
                         <li>
-                            <a href="{% url 'issues_new' issue.polity_id %}">
+                            <a href="{% url 'issues' issue.polity_id %}">
                                 {% blocktrans %}Show all issues in: {{ polity }}{% endblocktrans %}
                             </a>
                         </li>
