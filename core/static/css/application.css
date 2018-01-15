@@ -35,15 +35,16 @@ footer { font-size: 10pt; margin-top: 30px; }
 .rejected { color: #a00; }
 .abstained { color: grey; }
 
-@font-face { font-family: 'LeagueGothicRegular'; font-weight: normal; font-style: normal; src: url('League_Gothic-webfont.eot'), url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'), url('League_Gothic-webfont.woff') format('woff'), url('League_Gothic-webfont.ttf') format('truetype'), url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg'); }
-
 #ajax-status-messages { position: absolute; top: 55px; width: 100%; }
 #ajax-status-messages div { max-width: 400px; margin: 0 auto 0 auto; }
 
 /* Headers */
-h1 { font-family: 'LeagueGothicRegular'; font-size: 400%; font-weight: normal; }
-h2 { font-family: 'LeagueGothicRegular'; font-size: 300%; font-weight: normal; }
-h3 { font-family: 'LeagueGothicRegular'; font-size: 250%; font-weight: normal; }
+h1 { font-family: Montserrat, Arial, Tahoma, sans-serif;
+; font-size: 300%; font-weight: normal; }
+h2 { font-family: Montserrat, Arial, Tahoma, sans-serif;
+; font-size: 200%; font-weight: normal; }
+h3 { font-family: Montserrat, Arial, Tahoma, sans-serif;
+; font-size: 180%; font-weight: normal; }
 
 /* Links */
 a { color: #644f80; }
