@@ -25,18 +25,6 @@
     Samþykktir
   </a></li>
 
-  <form class="navbar-form" style="margin-left: auto; margin-right: auto;" action="/search">
-    <div class="form-group">
-      <div class="input-group">
-        {% if polity %}
-        <input type="hidden" name="polity" value="{{polity.id}}"/>
-        {% endif %}
-        <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-      </div>
-    </div>
-  </form>
-
   <li>
     {% if user_is_member %}
         {% if user in polity.officers.all %}
