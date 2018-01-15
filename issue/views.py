@@ -134,6 +134,8 @@ def issues(request, polity_id):
     ctx = {
         'polity': polity,
         'issues': issues,
+        'user_is_member': polity.is_member(request.user),
+        'user_is_officer': polity.is_officer(request.user),
     }
     return render(request, 'issue/issues.html', ctx)
 
