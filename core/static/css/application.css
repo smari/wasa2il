@@ -66,6 +66,9 @@ div#submit-working { background: #bbb; }
 .glyphicon { cursor: pointer; }
 .dropdown-menu { cursor: pointer; }
 
+/* Helpful color classes. */
+.icon-grey { color: #c0d0c0; }
+
 /* Election-related stuff */
 .candidates p { padding: 10px; border: 1px solid #ddd; }
 .candidates li { font-size: 15px; padding: 5px; border-top: 1px solid #ddd; }
