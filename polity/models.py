@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
 
 
 class Polity(models.Model):
@@ -52,15 +53,21 @@ class Polity(models.Model):
     def election_potential_candidates(self):
         return self.members
 
-    def agreements(self):
+    def agreements(self, query=None):
         DocumentContent = apps.get_model('issue', 'DocumentContent')
-        return DocumentContent.objects.select_related(
+        res = DocumentContent.objects.select_related(
             'document',
             'issue'
         ).filter(
             status='accepted',
             document__polity_id=self.id
         ).order_by('-issue__deadline_votes')
+        if query:
+            res = res.filter(Q(issue__name__icontains=query)
+                           | Q(issue__description__icontains=query)
+                           | Q(text__icontains=query))
+
+        return res
 
     def update_agreements(self):
         Issue = apps.get_model('issue', 'Issue')

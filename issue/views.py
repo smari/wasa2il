@@ -244,9 +244,16 @@ def document_agreements(request, polity_id):
 
     user_is_member = polity.is_member(request.user)
 
+    q = request.POST.get('q') or ''
+    if q:
+        agreements = polity.agreements(q)
+    else:
+        agreements = polity.agreements()
+
     ctx = {
+        'q': q,
         'polity': polity,
-        'agreements': polity.agreements(),
+        'agreements': agreements,
         'user_is_member': user_is_member,
     }
     return render(request, 'issue/document_list.html', ctx)
