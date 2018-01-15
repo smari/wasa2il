@@ -33,6 +33,7 @@ footer { font-size: 10pt; margin-top: 30px; }
 /* Colors for expressing whether an issue was accepted or rejected */
 .accepted { color: #090; }
 .rejected { color: #a00; }
+.abstained { color: grey; }
 
 @font-face { font-family: 'LeagueGothicRegular'; font-weight: normal; font-style: normal; src: url('League_Gothic-webfont.eot'), url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'), url('League_Gothic-webfont.woff') format('woff'), url('League_Gothic-webfont.ttf') format('truetype'), url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg'); }
 
@@ -64,12 +65,6 @@ div#submit-working { background: #bbb; }
 
 .glyphicon { cursor: pointer; }
 .dropdown-menu { cursor: pointer; }
-
-/* Helpful color classes. */
-.icon-grey { color: #c0d0c0; }
-.red { color: red; }
-.green { color: green; }
-.grey { color: grey; }
 
 /* Election-related stuff */
 .candidates p { padding: 10px; border: 1px solid #ddd; }
