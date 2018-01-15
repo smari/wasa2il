@@ -9,6 +9,21 @@
 
 <h1>{% trans "Agreements" %} <small>{% trans 'in polity:' %} {{ polity }}</small></h1>
 
-{% include "issue/_agreements.html" %}
+<div class="well">
+  <form class="form" method="POST" style="margin-left: auto; margin-right: auto;" action="/polity/{{polity.id}}/agreements/">
+    {% csrf_token %}
+    <div class="form-group">
+      <div class="input-group">
+        <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}" value="{{q}}">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+      </div>
+    </div>
+  </form>
+
+  <div>{{agreements.count}} {% trans "agreements found" %}</div>
+</div>
+
+{% include "issue/_agreements_list.html" %}
+
 
 {% endblock %}

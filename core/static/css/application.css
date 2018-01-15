@@ -264,3 +264,41 @@ div#submit-working { background: #bbb; }
     margin-right: 0;
   }
 }
+
+
+/* --------------------------- */
+
+.list-wrapper {
+
+}
+
+.list-item:first-of-type {
+  margin-top: 25px;
+  border-top: 1px solid #62388d;
+}
+
+.list-item {
+  position: relative;
+  display: block;
+  min-height: 120px;
+  padding: 16px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #62388d;
+}
+
+.list-item-agreement {
+
+}
+
+.list-item-agreement h3 {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.list-item-agreement .date {
+}
+
+.list-item-agreement .voteresults {
+  bottom: 10px;
+  margin-top: 10px;
+}
