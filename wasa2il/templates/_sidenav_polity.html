@@ -19,23 +19,23 @@
 
   <li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/">
     <i class="glyphicon glyphicon-asterisk"></i>
-    Yfirlit
+    {% trans "Overview" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "issues" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/issues">
-    <i class="glyphicon glyphicon-star"></i>
-    Mál
+    <i class="glyphicon glyphicon-flash"></i>
+    {% trans "Proposals" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "elections" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/elections/">
     <i class="glyphicon glyphicon-ok"></i>
-    Kosningar
+    {% trans "Elections" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "topics" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/topics/">
     <i class="glyphicon glyphicon-th-list"></i>
-    Málaflokkar
+    {% trans "Topics" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "agreements" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/agreements/">
     <i class="glyphicon glyphicon-book"></i>
-    Samþykktir
+    {% trans "Agreements" %}
   </a></li>
 
   <li>
