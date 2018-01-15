@@ -3,7 +3,20 @@
 {% load static %}
 
 <ul class="sidebar-nav">
-  <li class="sidebar-brand">{{polity.name}}</li>
+  <li class="dropdown" style="font-size: 115%;">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">    {{polity.name}} <span class="caret" style="position: absolute; right: 10px; top: 18px"></span></a>
+      <ul class="dropdown-menu">
+        {% for entry in polity_menulist %}
+          <li>
+            <a href="{% url 'polity' entry.polity_id %}">
+              {% repeater '&dash;' entry.depth %}
+              {{ entry.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+  </li>
+
   <li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/">
     <i class="glyphicon glyphicon-asterisk"></i>
     Yfirlit
