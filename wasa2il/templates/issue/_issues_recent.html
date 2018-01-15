@@ -44,7 +44,7 @@ $(document).ready(function() {
         {% trans "Show closed issues" %}
       </a>
       {% if polity %}
-          <a class="btn btn-toggle btn-default" href="{% url 'issues_new' polity.id %}">{% trans 'Show all issues in polity' %}</a></li>
+          <a class="btn btn-toggle btn-default" href="{% url 'issues' polity.id %}">{% trans 'Show all issues in polity' %}</a></li>
       {% endif %}
 
         </ul>
