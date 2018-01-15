@@ -48,6 +48,7 @@ def topic_view(request, polity_id, topic_id):
     ctx = {
         'polity': polity,
         'topic': topic,
-        'user_is_officer': user_is_officer,
+        'user_is_member': polity.is_member(request.user),
+        'user_is_officer': polity.is_officer(request.user),
     }
     return render(request, 'topic/topic_detail.html', ctx)
