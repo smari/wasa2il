@@ -29,7 +29,7 @@ urlpatterns = [
 
     url(r'^search/$', document_search),
 
-    url(r'^polity/(?P<polity_id>\d+)/agreements/$', document_agreements),
+    url(r'^polity/(?P<polity_id>\d+)/agreements/$', document_agreements, name="agreements"),
     url(r'^polity/(?P<polity_id>\d+)/document/new/$', document_add),
     url(r'^polity/(?P<polity_id>\d+)/document/(?P<document_id>\d+)/$', document_view, name='document'),
 
