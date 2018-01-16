@@ -12,6 +12,16 @@
 
 {% block content %}
 
+    <div style="float: right">
+    {% if user_is_member %}
+        {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
+        <a class="btn btn-default" role="button" href="/polity/{{polity.id}}/election/new/">
+            {% trans "New election" %}
+        </a>
+        {% endif %}
+    {% endif %}
+    </div>
+
     <div class="page-header">
         <h1>{% trans "Elections in polity" %}: {{ polity.name }}</h1>
     </div>
