@@ -4,7 +4,11 @@
 
 <ul class="sidebar-nav">
   <li class="dropdown" style="font-size: 115%;">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">    {{polity.name}} <span class="caret" style="position: absolute; right: 10px; top: 18px"></span></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fas fa-users"></i>
+        {{polity.name}}
+        <span class="caret" style="position: absolute; right: 10px; top: 18px"></span>
+      </a>
       <ul class="dropdown-menu">
         {% for entry in polity_menulist %}
           <li>
@@ -18,23 +22,23 @@
   </li>
 
   <li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/">
-    <i class="glyphicon glyphicon-asterisk"></i>
+    <i class="fas fa-asterisk"></i>
     {% trans "Overview" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "issues" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/issues">
-    <i class="glyphicon glyphicon-flash"></i>
+    <i class="fas fa-lightbulb"></i>
     {% trans "Proposals" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "elections" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/elections/">
-    <i class="glyphicon glyphicon-ok"></i>
+    <i class="fas fa-check-square"></i>
     {% trans "Elections" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "topics" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/topics/">
-    <i class="glyphicon glyphicon-th-list"></i>
+    <i class="fas fa-list"></i>
     {% trans "Topics" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "agreements" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/agreements/">
-    <i class="glyphicon glyphicon-book"></i>
+    <i class="fas fa-book"></i>
     {% trans "Agreements" %}
   </a></li>
 

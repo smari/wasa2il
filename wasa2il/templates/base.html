@@ -29,6 +29,7 @@
     <script src="/static/js/jquery-3.2.1.min.js"></script>
     <script src="/static/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.js"></script>
+    <script src="/static/fontawesome/js/fontawesome-all.min.js"></script>
     <script src="/static/js/wasa2il.js"></script>
 
     {% block javascript %}
@@ -63,21 +64,21 @@
 
             <ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
-              <li><a href="/help/instructions/">{% trans "Help" %}</a></li>
+              <li><a href="/help/instructions/"><i class="fas fa-question-circle"></i> {% trans "Help" %}</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                   <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="/accounts/profile/"><span class="glyphicon glyphicon-user"></span> {% trans "My profile" %}</a></li>
-                  <li><a href="/accounts/settings/"><span class="glyphicon glyphicon-wrench"></span> {% trans "My settings" %}</a></li>
+                  <li><a href="/accounts/profile/"><i class="fas fa-user"></i> {% trans "My profile" %}</a></li>
+                  <li><a href="/accounts/settings/"><i class="fa fa-cog"></i> {% trans "My settings" %}</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="/accounts/logout/"><span class="glyphicon glyphicon-off"></span> {% trans "Logout" %}</a></li>
+                  <li><a href="/accounts/logout/"><i class="fas  fa-sign-out-alt"></i> {% trans "Logout" %}</a></li>
                 </ul>
               </li>
               {% else %}
-              <li><a href="/accounts/login/{% if '/accounts/' not in request.get_full_path %}?next={{ request.get_full_path }}{% endif %}">{% trans "Log in" %}</a></li>
-              <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
+              <li><a href="/accounts/login/{% if '/accounts/' not in request.get_full_path %}?next={{ request.get_full_path }}{% endif %}"><i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a></li>
+              <li><a href="/accounts/register/"><i class="fas fa-user-plus"></i> {% trans "Sign up" %}</a></li>
               {% endif %}
             </ul>
 

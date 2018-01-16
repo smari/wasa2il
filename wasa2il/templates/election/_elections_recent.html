@@ -47,7 +47,7 @@ $(document).ready(function() {
             {% endif %}
         {% endif %}
             <a class="btn btn-toggle btn-default" id="elections-showclosed" data-polity-id="{{ polity.id }}">
-                <span class="glyphicon glyphicon-ok icon-grey"></span>
+                <span class="fas fa-check icon-grey"></span>
                 {% trans "Show closed elections" %}
             </a>
             {% if polity %}
@@ -71,10 +71,10 @@ $(document).ready(function() {
                 {% endif %}
                 <th class="minimize">{% trans 'State' %}</th>
                 <th class="minimize" style="text-align: center;">
-                    <i class="glyphicon glyphicon-user" title="{% trans 'Candidates' %}"></i>
+                    <i class="fas fa-user" title="{% trans 'Candidates' %}"></i>
                 </th>
                 <th class="minimize" style="text-align: center;">
-                    <i class="glyphicon glyphicon-pencil" title="{% trans 'Votes' %}"></i>
+                    <i class="fas fa-check-square" title="{% trans 'Votes' %}"></i>
                 </th>
             </tr>
         </thead>
