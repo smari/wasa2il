@@ -11,7 +11,7 @@
       <a class="btn btn-default" role="button" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
       {% endif %}
 
-      <a class="btn btn-toggle btn-default" id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});"><span class="glyphicon glyphicon-ok {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></span> {% trans "Show only starred topics" %}</a>
+      <a class="btn btn-toggle btn-default" id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});"><span class="fas fa-check {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></span> {% trans "Show only starred topics" %}</a>
     </div>
     {% endif %}
     <h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
@@ -25,7 +25,7 @@
         <th>{% trans "Issues" %}</th>
         <th>{% trans "Open Issues" %}</th>
         <th>{% trans "Voting Issues" %}</th>
-        <th><span class="glyphicon glyphicon-star"></span></th>
+        <th><span class="fas fa-star"></span></th>
     </tr>
     </thead>
     <tbody>

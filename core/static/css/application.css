@@ -64,7 +64,6 @@ div#submit-working { background: #bbb; }
 /* Container for cancel URL, for use with cancel-buttons. */
 #cancel-url { display: none; }
 
-.glyphicon { cursor: pointer; }
 .dropdown-menu { cursor: pointer; }
 
 /* Helpful color classes. */
@@ -192,11 +191,6 @@ div#submit-working { background: #bbb; }
   color: #62388d;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-}
-
-.sidebar-nav li a .glyphicon {
-  display: inline;
-  width: 22px;
 }
 
 .sidebar-nav li a:hover, .sidebar-nav li.active a {

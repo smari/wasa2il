@@ -368,7 +368,7 @@ function election_bottom_candidate(element) {
 
 function election_freeze_candidate(element) {
     //$(element).closest('li').toggleClass("frozen"); // opacity
-    $(element).find('span').toggleClass("glyphicon-check").toggleClass("glyphicon-edit");
+    $(element).find('span').toggleClass("fa-check").toggleClass("fa-edit");
     votebuttons = $(element).closest('li').find('.vote-button');
     if(votebuttons.prop('disabled')){
       votebuttons.prop('disabled', false);

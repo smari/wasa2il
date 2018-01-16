@@ -16,25 +16,25 @@
                 {% if user_can_vote %}
                 <div class="col-xs-6">
                   <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
-                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                    <i class="fas fa-chevron-up" aria-hidden="true"></i>
                   </button>
                   <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
-                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
                   </button>
                   <button class="btn btn-default vote-button vote-down"   style="color:#C00" onclick="election_deselect_candidate(this);">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <i class="fas fa-user-times" aria-hidden="true"></i>
                   </button>
                   <div class="dropdown" style="display: inline";>
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                      <span class="glyphicon glyphicon-option-horizontal" span>
+                      <i class="fas fa-ellipsis-v"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                       <div class="vote-tip" onclick="election_top_candidate(this);">
-                        <span class="glyphicon glyphicon-step-forward" style="transform: rotate(-90deg);" aria-hidden="true"></span>
+                        <i class="fas fa-step-forward" style="transform: rotate(-90deg);" aria-hidden="true"></span>
                         {% trans "Move to top" %}
                       </div>
                       <div class="vote-tip" onclick="election_bottom_candidate(this);">
-                        <span class="glyphicon glyphicon-step-forward" style="transform: rotate(90deg);"  aria-hidden="true"></span>
+                        <span class="fas fa-step-forward" style="transform: rotate(90deg);"  aria-hidden="true"></span>
                         {% trans "Move to bottom" %}
                       </div>
                    </div> <!-- End dropdown-menu -->
