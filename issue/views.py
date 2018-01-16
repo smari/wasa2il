@@ -257,7 +257,3 @@ def document_agreements(request, polity_id):
         'user_is_member': user_is_member,
     }
     return render(request, 'issue/document_list.html', ctx)
-
-
-def document_search(request):
-    return render(request, 'issue/search.html')
