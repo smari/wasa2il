@@ -3,6 +3,12 @@
 {% load static %}
 
 <ul class="sidebar-nav">
+  {% if polity_menulist|length == 1 %}
+  <li><a href="#">
+    <i class="fas fa-users"></i>
+    {{polity.name}}
+  </a></li>
+  {% else %}
   <li class="dropdown" style="font-size: 115%;">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class="fas fa-users"></i>
@@ -20,6 +26,7 @@
         {% endfor %}
       </ul>
   </li>
+  {% endif %}
 
   <li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/">
     <i class="fas fa-asterisk"></i>
