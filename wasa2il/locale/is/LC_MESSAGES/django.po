@@ -1985,7 +1985,7 @@ msgstr "Netfang"
 
 #: wasa2il/templates/registration/verification_needed.html:6
 msgid "Verification needed"
-msgstr "Staðfestingar er þarfnast"
+msgstr "Staðfestingar er þörf"
 
 #: wasa2il/templates/registration/verification_needed.html:8
 msgid ""
