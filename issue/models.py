@@ -22,6 +22,13 @@ class Issue(models.Model):
         ('rejected_at_assembly', _('Rejected at assembly')),
     )
 
+    ISSUE_TYPE_CHOICES = (
+        (1, "Policy"),
+        (2, "Bylaw"),
+        (3, "Resolution"),
+        (999, "Other"),
+    )
+
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
@@ -32,8 +39,10 @@ class Issue(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    issue_type = models.IntegerField(choices=ISSUE_TYPE_CHOICES, default=1)
     polity = models.ForeignKey('polity.Polity')
     topics = models.ManyToManyField('topic.Topic', verbose_name=_('Topics'))
+
     documentcontent = models.OneToOneField('issue.DocumentContent', related_name='issue', null=True, blank=True)
     deadline_discussions = models.DateTimeField(null=True, blank=True)
     deadline_proposals = models.DateTimeField(null=True, blank=True)
