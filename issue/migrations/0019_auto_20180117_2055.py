@@ -42,13 +42,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='issue',
             name='issue_num',
-            field=models.IntegerField(default=None),
+            field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='issue',
             name='issue_year',
-            field=models.IntegerField(default=None),
+            field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.RunPython(generate_issue_identifier, dummy_function),
