@@ -29,7 +29,6 @@ $(document).ready(function() {
     {% if user.is_staff %}
         <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
     {% endif %}
-    <button type="button" class="btn btn-default" id="polity-info-toggle">{% trans 'Toggle information' %}</button>
 </h1>
 
 <div id="polity-info">

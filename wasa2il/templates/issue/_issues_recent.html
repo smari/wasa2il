@@ -44,12 +44,12 @@ $(document).ready(function() {
     </p>
 
     <div>
-      <a class="btn btn-toggle btn-default" id="issues-showclosed" data-polity-id="{{ polity.id}}">
+      <a class="btn btn-toggle btn-default btn-sm" id="issues-showclosed" data-polity-id="{{ polity.id}}">
         <span class="fas fa-check icon-grey"></span>
         {% trans "Show closed issues" %}
       </a>
       {% if polity %}
-      <a class="btn btn-toggle btn-default" href="{% url 'issues' polity.id %}">
+      <a class="btn btn-toggle btn-default btn-sm" href="{% url 'issues' polity.id %}">
         {% trans 'Show all issues in polity' %}
       </a>
       {% endif %}

@@ -47,17 +47,17 @@ $(document).ready(function() {
     <div>
         {% if user_is_member %}
             {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-default" role="button" href="/polity/{{polity.id}}/election/new/">
+            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/election/new/">
                 {% trans "New election" %}
             </a>
             {% endif %}
         {% endif %}
-            <a class="btn btn-toggle btn-default" id="elections-showclosed" data-polity-id="{{ polity.id }}">
+            <a class="btn btn-toggle btn-default btn-sm" id="elections-showclosed" data-polity-id="{{ polity.id }}">
                 <span class="fas fa-check icon-grey"></span>
                 {% trans "Show closed elections" %}
             </a>
             {% if polity %}
-            <a class="btn btn-default" href="{% url 'elections' polity.id %}">{% trans 'Show all elections in polity' %}</a>
+            <a class="btn btn-default btn-sm" href="{% url 'elections' polity.id %}">{% trans 'Show all elections in polity' %}</a>
             {% endif %}
     </div>
 
