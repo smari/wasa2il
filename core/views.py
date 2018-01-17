@@ -89,7 +89,7 @@ def help(request, page):
     for locale in [settings.LANGUAGE_CODE, "is"]: # Icelandic fallback
       filename = "help/%s/%s.html" % (locale, page)
       if os.path.isfile(os.path.join(os.path.dirname(__file__), '..', 'wasa2il/templates', filename)):
-          return render_to_response(filename, ctx, context_instance=RequestContext(request))
+          return render(request, filename, ctx)
 
     raise Http404
 
@@ -237,8 +237,7 @@ def login(request, template_name='registration/login.html',
     }
     if extra_context is not None:
         context.update(extra_context)
-    return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
+    return TemplateResponse(request, template_name, context) #,                            current_app=current_app)
 
 
 @login_required
