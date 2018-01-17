@@ -23,10 +23,10 @@ class Issue(models.Model):
     )
 
     ISSUE_TYPE_CHOICES = (
-        (1, "Policy"),
-        (2, "Bylaw"),
-        (3, "Resolution"),
-        (999, "Other"),
+        (1, _("Policy")),
+        (2, _("Bylaw")),
+        (3, _("Resolution")),
+        (999, _("Other")),
     )
 
     name = models.CharField(max_length=128, verbose_name=_('Name'))
