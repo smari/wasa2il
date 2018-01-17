@@ -32,6 +32,9 @@ class Issue(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
+    issue_num = models.IntegerField()
+    issue_year = models.IntegerField()
+
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='issue_created_by')

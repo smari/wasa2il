@@ -56,6 +56,12 @@
         {{ issue.description|linebreaks }}
 
         <table class="table table-compact">
+
+            <tr>
+                <th>{% trans 'Issue number' %}:</th>
+                <td>{{ issue.issue_num }}/{{ issue.issue_year }}</td>
+            </tr>
+
             {% if documentcontent %}
                 <tr><th>{% trans "Proposal" %}:</th><td><a href="/polity/{{ issue.polity.id }}/document/{{ documentcontent.document_id }}/?v={{ documentcontent.order }}">{{ documentcontent.document.name }}</a></td></tr>
                 <tr><th>{% trans "Author" %}:</th><td><a href="{% url 'profile' documentcontent.user.username %}">{{ documentcontent.user }}</a></td></tr>
