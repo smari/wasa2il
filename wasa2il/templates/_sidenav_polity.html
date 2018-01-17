@@ -19,7 +19,7 @@
         {% for entry in polity_menulist %}
           <li>
             <a href="{% url 'polity' entry.polity_id %}">
-              {% repeater '&dash;' entry.depth %}
+              {% repeater '-' entry.depth %}
               {{ entry.name }}
             </a>
           </li>
