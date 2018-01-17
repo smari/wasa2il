@@ -15,8 +15,6 @@ WASA2IL_VERSION = '0.9.14'
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
 
-TEMPLATE_DEBUG = DEBUG
-
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -92,32 +90,12 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.template.context_processors.debug',
-    'django.template.context_processors.i18n',
-    'django.template.context_processors.media',
-    'django.template.context_processors.static',
-    'django.template.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'django.template.context_processors.request',
-
-    'core.contextprocessors.globals',
-
-    'polity.contextprocessors.polities',
-)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -137,9 +115,28 @@ except:
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (
-    here('templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [here('templates/')],
+        'APP_DIRS': False,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+                'core.contextprocessors.globals',
+                'polity.contextprocessors.polities',
+            ],
+        },
+    }
+]
+
 
 LOCALE_PATHS = (
     here('locale'),
@@ -230,8 +227,8 @@ if DEBUG:
     try:
         imp.find_module('debug_toolbar')
 
-        INSTALLED_APPS += ('debug_toolbar.apps.DebugToolbarConfig',)
-        MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+        # INSTALLED_APPS += ('debug_toolbar.apps.DebugToolbarConfig',)
+        # MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
         INTERNAL_IPS = ('127.0.0.1',)
         DEBUG_TOOLBAR_CONFIG = {
             'JQUERY_URL': ''

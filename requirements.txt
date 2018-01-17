@@ -13,7 +13,7 @@ decorator==4.1.2
 defusedxml==0.5.0
 diff-match-patch==20121119
 dj-database-url==0.4.2
-Django==1.8.18
+Django==1.11.9
 django-bootstrap-form==3.3
 django-crispy-forms==1.6.1
 django-datetime-widget==0.9.3
