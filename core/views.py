@@ -28,20 +28,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.encoding import force_bytes
-
-# BEGIN - Copied from django.contrib.auth.views to accommodate the login() function
-from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import resolve_url
-from django.template.response import TemplateResponse
-from django.utils.http import is_safe_url
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.debug import sensitive_post_parameters
-# END
 
 from django.contrib.auth.models import User
 from core.models import UserProfile
@@ -57,6 +44,11 @@ from gateway.icepirate import configure_external_member_db
 from topic.models import Topic
 
 from hashlib import sha1
+
+# BEGIN - Included for Wasa2ilLoginView
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.views import LoginView
+# END
 
 
 def home(request):
@@ -182,62 +174,29 @@ def view_settings(request):
     return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
 
 
-@sensitive_post_parameters()
-@csrf_protect
-@never_cache
-def login(request, template_name='registration/login.html',
-          redirect_field_name=REDIRECT_FIELD_NAME,
-          authentication_form=AuthenticationForm,
-          current_app=None, extra_context=None):
-    """
-    Displays the login form and handles the login action.
-    """
-    redirect_to = request.POST.get(redirect_field_name,
-                                   request.GET.get(redirect_field_name, ''))
+class Wasa2ilLoginView(LoginView):
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        auth_login(self.request, form.get_user())
 
-    if request.method == "POST":
-        form = authentication_form(request, data=request.POST)
-        if form.is_valid():
+        # Make sure that profile exists
+        try:
+            UserProfile.objects.get(user=self.request.user)
+        except UserProfile.DoesNotExist:
+            profile = UserProfile()
+            profile.user = self.request.user
+            profile.save()
 
-            # Ensure the user-originating redirection url is safe.
-            if not is_safe_url(url=redirect_to, host=request.get_host()):
-                redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
+        self.request.session[LANGUAGE_SESSION_KEY] = self.request.user.userprofile.language
 
-            # Okay, security check complete. Log the user in.
-            auth_login(request, form.get_user())
+        if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
+            if not self.request.user.userprofile.verified:
+                return HttpResponseRedirect(settings.SAML_1['URL'])
 
-            # Make sure that profile exists
-            try:
-                UserProfile.objects.get(user=request.user)
-            except UserProfile.DoesNotExist:
-                profile = UserProfile()
-                profile.user = request.user
-                profile.save()
+        if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
+            configure_external_member_db(self.request.user, create_if_missing=False)
 
-            request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
-
-            if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
-                if not request.user.userprofile.verified:
-                    return HttpResponseRedirect(settings.SAML_1['URL'])
-
-            if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
-                configure_external_member_db(request.user, create_if_missing=False)
-
-            return HttpResponseRedirect(redirect_to)
-    else:
-        form = authentication_form(request)
-
-    current_site = get_current_site(request)
-
-    context = {
-        'form': form,
-        redirect_field_name: redirect_to,
-        'site': current_site,
-        'site_name': current_site.name,
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-    return TemplateResponse(request, template_name, context) #,                            current_app=current_app)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @login_required
