@@ -20,8 +20,7 @@ class Command(BaseCommand):
             stdout.write('Processing issue %s...' % issue_name)
             stdout.flush()
 
-            # If this fails, we want to see the errors in the output, so we
-            # don't check for errors here.
-            issue.process()
-
-            stdout.write(' done\n')
+            if issue.process():
+                stdout.write(' done\n')
+            else:
+                stdout.write(' failed!\n')
