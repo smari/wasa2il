@@ -110,24 +110,51 @@ class Issue(models.Model):
             return 0.0
 
     def process(self):
-        """
-            Process issue
-            - check if majority was reached
-            - set document content to appropriate status
-            - set issue status to processed
-        """
-        try:
+
+        # We're not interested in issues that don't have documentcontents.
+        # They shouldn't actually exist, by the way. They were possible in
+        # earlier versions but the system no longer offers creating them
+        # except using a documentcontent. These issues should be dealt with
+        # somehow, at some point.
+        if self.documentcontent == None:
+            return False
+
+        # Short-hands.
+        documentcontent = self.documentcontent
+        document = documentcontent.document
+
+        if self.issue_state() == 'concluded' and not self.is_processed:
+
+            # Figure out the current documentcontent's predecessor.
+            # See function for details.
+            documentcontent.predecessor = document.preferred_version()
+
+            # Figure out if issue was accepted or rejected.
             if self.majority_reached():
-                #issue deadline has passed and majority achieved according to selected ruleset
                 self.documentcontent.status = 'accepted'
+
+                # Since the new version has been accepted, deprecate
+                # previously accepted versions.
+                prev_contents = document.documentcontent_set.exclude(
+                    id=documentcontent.id
+                ).filter(status='accepted')
+                for prev_content in prev_contents:
+                    prev_content.status = 'deprecated'
+                    prev_content.save()
+
             else:
                 self.documentcontent.status = 'rejected'
-            self.documentcontent.save()
+
+            self.vote_set.all().delete()
+
             self.is_processed = True
+
+            documentcontent.save()
+
             self.save()
-            return True
-        except Exception as e:
-            return False
+
+        return True
+
 
     def get_voters(self):
         # FIXME: This is one place to check if we've invited other groups to
@@ -172,31 +199,11 @@ class Issue(models.Model):
 class Vote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     issue = models.ForeignKey('issue.Issue')
-    # option = models.ForeignKey(VoteOption)
     value = models.IntegerField()
     cast = models.DateTimeField(auto_now_add=True)
-    power_when_cast = models.IntegerField()
 
     class Meta:
         unique_together = (('user', 'issue'))
-
-    def save(self, *largs, **kwargs):
-        if self.value > 1:
-            self.value = 1
-        elif self.value < -1:
-            self.value = -1
-
-        self.power_when_cast = self.power()
-        super(Vote, self).save(*largs, **kwargs)
-
-    def power(self):
-        # Follow reverse delgation chain to discover how much power we have.
-        p = 1
-
-        return p
-
-    def get_value(self):
-        return self.power() * self.value
 
 
 class Comment(models.Model):

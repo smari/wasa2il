@@ -91,7 +91,7 @@ def issue_poll(request):
     if not request.user.is_anonymous():
         try:
             v = Vote.objects.get(user=request.user, issue=issue)
-            ctx["issue"]["vote"] = v.get_value()
+            ctx["issue"]["vote"] = v.value
         except Vote.DoesNotExist:
             pass
     return ctx
