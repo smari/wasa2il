@@ -26,7 +26,8 @@ footer {
 .navbar {
   background-color: #503087;
   height: 70px;
-  margin-top: 40px; }
+  margin-top: 40px;
+  padding-right: 50px; }
   .navbar .btn, .navbar button {
     color: #fff;
     font-size: 25px; }
@@ -47,7 +48,6 @@ footer {
   .navbar .navbar-brand img {
     max-height: 70px; }
   .navbar .nav > .li, .navbar .navbar .nav > li > a:hover, .navbar .navbar-nav li > a {
-    border-bottom: 3px solid #503087;
     color: #fff;
     font-family: "Montserrat";
     font-size: 18px;
@@ -57,11 +57,17 @@ footer {
     margin-left: 20px; }
   .navbar .navbar-nav li a:hover, .navbar .navbar-nav li a:active, .navbar .navbar-nav li a:focus {
     background-color: #503087; }
+  .navbar .dropdown-menu > li > a:focus, .navbar .dropdown-menu > li > a:hover {
+    background-image: none;
+    background-color: #fff;
+    border-bottom: 2px solid #503087; }
   .navbar .dropdown-menu {
-    background-color: #eee; }
-    .navbar .dropdown-menu li a {
-      background-color: #eee;
-      color: #000; }
+    background-color: #fff; }
+    .navbar .dropdown-menu li > a, .navbar .dropdown-menu li a {
+      background-color: #fff;
+      border-bottom: 2px solid #fff;
+      color: #000;
+      margin-left: 0; }
 
 .btn {
   margin-bottom: 3px;
