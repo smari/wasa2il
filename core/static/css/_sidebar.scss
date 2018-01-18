@@ -18,8 +18,7 @@
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
-  background: #eee;
-  border-right: 1px solid #62388d;
+  background: $background-lightgray;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -59,25 +58,25 @@
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
-  color: #62388d;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  color: $font-color-dark;
+  font-family: $font-heading;
+  font-size: 18px;
+  i, svg {
+    color: $piratepurple;
+    margin-right: 7px;
+  }
 }
 
 .sidebar-nav li a:hover, .sidebar-nav li.active a {
   text-decoration: none;
   color: #000;
   background: #ddd;
-  border-top: 1px solid #62388d;
-  border-bottom: 1px solid #62388d;
 }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
   text-decoration: none;
   color: #000;
   background: #ddd;
-  border-top: 1px solid #62388d;
-  border-bottom: 1px solid #62388d;
 }
 
 .sidebar-nav>.sidebar-brand {

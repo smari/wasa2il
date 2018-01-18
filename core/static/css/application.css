@@ -1,42 +1,89 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700,900&subset=cyrillic,cyrillic-ext,latin-ext");
 body {
-  padding-top: 50px;
+  margin-top: 110px;
   padding-bottom: 40px; }
 
 footer {
+  margin-left: -250px;
+  z-index: 2000;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  display: block;
+  background: #000;
   font-size: 10pt;
-  margin-top: 30px; }
+  font-family: "Montserrat";
+  margin-top: 30px;
+  height: 70px;
+  padding: 20px;
+  color: #fff; }
+  footer a {
+    color: #fff; }
+  @media (max-width: 768px) {
+    footer {
+      margin-left: 0px; } }
 
 .navbar {
-  background-color: #FAFAFA;
-  background-image: url("/static/img/header-bg.png");
-  background-repeat: repeat-x; }
+  background-color: #503087;
+  height: 70px;
+  margin-top: 40px; }
+  .navbar .btn, .navbar button {
+    color: #fff;
+    font-size: 25px; }
+  .navbar .headerbar {
+    position: absolute;
+    top: -40px;
+    height: 40px;
+    width: 100%;
+    background-color: #37215D; }
+    .navbar .headerbar a {
+      font-size: 18px;
+      color: #d6caec;
+      margin-left: 10px; }
+  .navbar .navbar-brand {
+    margin: 0px;
+    padding: 0px;
+    color: #fff; }
+  .navbar .navbar-brand img {
+    max-height: 70px; }
+  .navbar .nav > .li, .navbar .navbar .nav > li > a:hover, .navbar .navbar-nav li > a {
+    border-bottom: 3px solid #503087;
+    color: #fff;
+    font-family: "Montserrat";
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 25px;
+    margin-top: 10px;
+    margin-left: 20px; }
+  .navbar .navbar-nav li a:hover, .navbar .navbar-nav li a:active, .navbar .navbar-nav li a:focus {
+    background-color: #503087; }
+  .navbar .dropdown-menu {
+    background-color: #eee; }
+    .navbar .dropdown-menu li a {
+      background-color: #eee;
+      color: #000; }
 
-.navbar .navbar-brand {
-  margin: 0px;
-  padding: 0px;
-  color: #fff; }
+.btn {
+  margin-bottom: 3px;
+  font-family: "Montserrat"; }
 
-.navbar .navbar-brand img {
-  max-height: 54px; }
+.btn-default {
+  background: none;
+  background-image: none;
+  background-color: #eee; }
 
-.navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a {
-  color: #fff; }
-
-.navbar .nav > li > a:hover {
-  color: #eee; }
+.btn-primary {
+  background-image: none;
+  background-color: #8059c4; }
 
 /* Global search field */
 @media (max-width: 767px) {
   .piratepurple {
-    background-color: #62388d; }
+    background-color: #503087; }
 
   .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a {
     font-size: 20px;
     margin: 7px 0; }
-
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #fff; }
 
   #polity-info {
     display: none; } }
@@ -84,29 +131,29 @@ footer {
 
 /* Headers */
 h1 {
-  font-family: Montserrat, Arial, Tahoma, sans-serif;
+  font-family: "Montserrat";
   font-size: 300%;
   font-weight: 700;
   color: #503087; }
 
 h2 {
-  font-family: Montserrat, Arial, Tahoma, sans-serif;
+  font-family: "Montserrat";
   font-size: 200%;
   font-weight: 500;
   color: #000; }
 
 h3 {
-  font-family: Montserrat, Arial, Tahoma, sans-serif;
+  font-family: "Montserrat";
   font-size: 180%;
   font-weight: 400;
   color: #000; }
 
 /* Links */
 a {
-  color: #644f80; }
+  color: #503087; }
 
 a:hover {
-  color: #47385b; }
+  color: #8059c4; }
 
 ul.errorlist {
   margin-left: 4px;
@@ -353,7 +400,6 @@ div#submit-working {
   margin-left: -250px;
   overflow-y: auto;
   background: #eee;
-  border-right: 1px solid #62388d;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -386,23 +432,22 @@ div#submit-working {
 .sidebar-nav li a {
   display: block;
   text-decoration: none;
-  color: #62388d;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee; }
+  color: #000;
+  font-family: "Montserrat";
+  font-size: 18px; }
+  .sidebar-nav li a i, .sidebar-nav li a svg {
+    color: #503087;
+    margin-right: 7px; }
 
 .sidebar-nav li a:hover, .sidebar-nav li.active a {
   text-decoration: none;
   color: #000;
-  background: #ddd;
-  border-top: 1px solid #62388d;
-  border-bottom: 1px solid #62388d; }
+  background: #ddd; }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
   text-decoration: none;
   color: #000;
-  background: #ddd;
-  border-top: 1px solid #62388d;
-  border-bottom: 1px solid #62388d; }
+  background: #ddd; }
 
 .sidebar-nav > .sidebar-brand {
   height: 65px;

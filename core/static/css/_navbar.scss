@@ -1,0 +1,45 @@
+.navbar {
+   background-color: $background-menubar;
+   height: 70px;
+   margin-top: 40px;
+
+   .btn, button {
+     color: $font-color-light;
+     font-size: 25px;
+   }
+
+   .headerbar {
+     position: absolute;
+     top: -40px;
+     height: 40px;
+     width: 100%;
+     background-color: $background-headerbar;
+     a {
+       font-size: 18px;
+       color: lighten($background-menubar, 50%);
+       margin-left: 10px;
+     }
+   }
+   .navbar-brand { margin: 0px; padding: 0px; color: #fff; }
+   .navbar-brand img { max-height: 70px; }
+   .nav > .li, .navbar .nav > li > a:hover, .navbar-nav li > a {
+     border-bottom: 3px solid $background-menubar;
+     color: #fff;
+     font-family: $font-heading;
+     font-size: 18px;
+     font-weight: 300;
+     line-height: 25px;
+     margin-top: 10px;
+     margin-left: 20px;
+   }
+   .navbar-nav li a:hover, .navbar-nav li a:active, .navbar-nav li a:focus {
+     background-color: $background-menubar;
+   }
+   .dropdown-menu {
+     li a {
+       background-color: $background-lightgray;
+       color: $font-color-dark;
+     }
+     background-color: $background-lightgray;
+   }
+}

@@ -1,0 +1,16 @@
+
+.btn {
+  margin-bottom: 3px;
+  font-family: $font-heading;
+}
+
+.btn-default {
+  background: none;
+  background-image: none;
+  background-color: $color-btn-light;
+}
+
+.btn-primary {
+  background-image: none;
+  background-color: $color-btn-primary;
+}
