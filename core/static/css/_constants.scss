@@ -1,5 +1,18 @@
 
 $piratepurple: #503087;
-$headerbar-background: #37215D;
+
+$background-lightgray: #eee;
+$background-menubar: $piratepurple;
+$background-headerbar: #37215D;
+$background-footer: #000;
+
 $font-color-light: #fff;
 $font-color-dark: #000;
+$font-color-link: $piratepurple;
+$font-color-link-hover: lighten($piratepurple, 20%);
+
+$font-heading: "Montserrat";
+$font-text: Arial, sans-serif;
+
+$color-btn-light: #eee;
+$color-btn-primary: lighten($piratepurple, 20%);

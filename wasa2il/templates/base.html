@@ -45,16 +45,15 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-
+    <nav class="navbar navbar-fixed-top" role="navigation">
+      <div class="headerbar">
+      </div>
       <div class="container-fluid">
 
           <div class="navbar-header">
             <button type="button" class="navbar-toggle" onclick="$('#wrapper').toggleClass('toggled')">
               <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
+              <i class="fa fa-bars"></i>
             </button>
 
             <a class="navbar-brand" href="/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
@@ -106,15 +105,15 @@
         {% endcomment %}
 
         {% block content %}{% endblock %}
-        <footer class="footer">
-          <hr/>
-          <a href="/help/wasa2il/">{% trans "About wasa2il" %}</a> ·
-          <a href="/help/copyright/">{% trans "License" %}</a> ·
-          <a href="/help/instructions/">{% trans "Instructions" %}</a> ·
-          <a href="/help/authors/">{% trans "Authors" %}</a> ·
-          {% trans "Version" %} {{ INSTANCE_VERSION }}
-        </footer>
       </div>
+
+      <footer class="footer">
+        <a href="/help/wasa2il/">{% trans "About wasa2il" %}</a> ·
+        <a href="/help/copyright/">{% trans "License" %}</a> ·
+        <a href="/help/instructions/">{% trans "Instructions" %}</a> ·
+        <a href="/help/authors/">{% trans "Authors" %}</a> ·
+        {% trans "Version" %} {{ INSTANCE_VERSION }}
+      </footer>
     </div>
     {% block extrascripts %}
     {% endblock %}
