@@ -1,0 +1,144 @@
+@import "_fonts.scss";
+@import "_constants.scss";
+
+body { padding-top: 50px; padding-bottom: 40px; }
+footer { font-size: 10pt; margin-top: 30px; }
+
+ .navbar { background-color: #FAFAFA; background-image: url("/static/img/header-bg.png"); background-repeat: repeat-x; }
+ .navbar .navbar-brand { margin: 0px; padding: 0px; color: #fff; }
+ .navbar .navbar-brand img { max-height: 54px; }
+ .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a { color: #fff; }
+ .navbar .nav > li > a:hover { color: #eee; }
+
+/* Global search field */
+
+@media (max-width: 767px) {
+ .piratepurple { background-color: #62388d; }
+ .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a { font-size: 20px; margin: 7px 0; }
+ .navbar-default .navbar-nav .open .dropdown-menu > li > a { color: #fff; }
+ #polity-info { display: none; }
+}
+
+@media (min-width: 768px) {
+ form.navbar-form { padding: 0px; max-width: 220px; }
+ #polity-info-toggle { display: none; }
+}
+
+.img-negpad { margin-top: -5px; margin-bottom: -5px; }
+
+/* For minimizing the width of elements while still not wrapping content */
+.minimize { width: 1px; white-space: nowrap; }
+
+/* Dates that express whether they've passed or not */
+.not-expired { color: #090; }
+.expired { color: #a00; }
+
+/* Colors for expressing whether an issue was accepted or rejected */
+.accepted { color: #090; }
+.rejected { color: #a00; }
+.abstained { color: grey; }
+
+#ajax-status-messages { position: absolute; top: 55px; width: 100%; }
+#ajax-status-messages div { max-width: 400px; margin: 0 auto 0 auto; }
+
+/* Headers */
+h1 {
+  font-family: Montserrat, Arial, Tahoma, sans-serif;
+  font-size: 300%;
+  font-weight: 700;
+  color: $piratepurple;
+}
+h2 {
+  font-family: Montserrat, Arial, Tahoma, sans-serif;
+  font-size: 200%;
+  font-weight: 500;
+  color: #000;
+}
+h3 {
+  font-family: Montserrat, Arial, Tahoma, sans-serif;
+  font-size: 180%;
+  font-weight: 400;
+  color: #000;
+}
+
+/* Links */
+a { color: #644f80; }
+a:hover { color: #47385b; }
+
+ul.errorlist { margin-left: 4px; list-style: none; color: #f00; }
+
+div#submit-working { background: #bbb; }
+
+#content { visibility: hidden; height: 350px; margin-top: 2em; margin-bottom: 2em; border: 1px solid transparent; border-radius: 5px; -webkit-box-shadow: 3px 3px 13px rgba(50, 50, 50, .75); -moz-box-shadow: 3px 3px 13px rgba(50, 50, 50, .75); box-shadow: 3px 3px 13px rgba(50, 50, 50, .75); }
+
+.document { position: relative; }
+
+/* Date fields, typically in a table. */
+.date { text-align: right !important; }
+
+/* Container for cancel URL, for use with cancel-buttons. */
+#cancel-url { display: none; }
+
+.dropdown-menu { cursor: pointer; }
+
+/* Helpful color classes. */
+.icon-grey { color: #c0d0c0; }
+
+/* Election-related stuff */
+.candidates p { padding: 10px; border: 1px solid #ddd; }
+.candidates li { font-size: 15px; padding: 5px; border-top: 1px solid #ddd; }
+.candidates li div:hover { text-decoration: none; }
+#candidates { padding-left: 0; }
+#election_candidates ul { list-style-type: none; }
+
+/* Issue-related stuff */
+.vote-yes { float: right; }
+.vote-image { height: 50px; }
+#votes { list-style-type: decimal; background: #fff; }
+#vote { padding-left: 7px; }
+#votes li { display: list-item; }
+.vote-tip { font-size: 15px; padding: 15px 5px; border-bottom: 1px solid #ccc; }
+
+/* Displaying of document contents, differences between them and such. */
+#legal-text { font-family: serif; font-size: 12px; overflow: overlay; margin-bottom: 10px; padding: 12px 24px 12px 24px; text-align: justify; border: 1px #e0e0e0 solid; }
+#legal-text h1 { font-family: inherit; font-size: 28px; font-weight: bold; margin: 4px 0 4px 4px; }
+#legal-text h2 { font-family: inherit; font-size: 18px; font-weight: bold; margin: 4px 0 4px 4px; }
+#legal-text ol { margin: 12px 0 0 24px; }
+#legal-text li { margin: 0 0 18px 0; padding: 0 0 0 0; }
+#legal-text-editor { font-family: Courier New; width: 100%; height: 400px; }
+#legal-text-editor-preview { width: 100%; }
+#legal-text-diff ins { background-color: #afa !important; }
+#legal-text-diff del { background-color: #faa !important; }
+.legal-text-container #siblings-container { float: right; padding: 0 0 0 12px; border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; background: #f8f8f8; }
+.legal-text-container #siblings { margin: 0; }
+#diff-content { overflow: inherit; white-space: pre-wrap; }
+#propose-change .comments { width: 100%; }
+#propose-change .comments textarea { width: 100%; }
+
+/* Instructions. */
+.instructions img.screenshot { display: block; max-width: 800px; margin-top: 48px; margin-bottom: 48px; border: 1px solid #a0a0a0; }
+.instructions p,.instructions ul { max-width: 800px; margin-top: 16px; margin-bottom: 16px; }
+.instructions ul li { padding-bottom: 12px; }
+.instructions .instructions-nav p { margin: 0; }
+.instructions .instructions-nav label { float: left; clear: both; width: 100px; margin: 0; padding: 0; }
+
+/* Profile. */
+.profile-document-data { margin-top: 12px; }
+.profile-document-data p.document { font-size: 18px; font-weight: bold; }
+.profile-document-data p.documentcontent { padding-left: 18px; }
+.profile-document-data p.documentcontent small { padding-left: 8px; }
+.profile .img-polaroid { float: right; margin-bottom: 16px; margin-left: 16px; border: 1px solid #606060; }
+.profile .tab-content { padding-top: 16px; text-align: justify; }
+
+/* Comment section. */
+.comment { display: grid; overflow: overlay; margin: 2px; padding: 7px; border: 1px solid #ddd; border-radius: 3px; background: #f7f7f7; grid-template-columns: 40px 1fr; grid-gap: 6px; }
+.comment:nth-child(even) { background: #eee; }
+.comment > .profilepic { display: inline-block; }
+.comment > .content { display: inline-block; }
+.comment > .content > .created_by { font-size: 9pt; font-weight: bold; display: block; }
+.comment > .content > .created { font-size: 8pt; font-style: italic; margin-top: 3px; color: #333; }
+.comment > .content > .text { display: inline; }
+
+
+@import "_sidebar.scss";
+@import "_lists.scss";
