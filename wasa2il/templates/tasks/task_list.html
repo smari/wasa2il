@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block content %}
+<section class="hero" style="background-image: url('/static/img/heroes/fistbump.jpg')">
+  <h1>Leggðu þitt af mörkum</h1>
+  <h2>{{tasks.count}} verkefni í boði</h2>
+  <button class="btn btn-primary btn-lg">Skoða verkefni</button>
+</section>
+<section class="lesser-hero">
+  <div class="left">
+    <img src="http://dev1.webmo.is/wp-content/uploads/2017/09/hands-image.svg"/>
+  </div>
+  <div class="right">
+    <h1>Tækifæri til að taka þátt</h1>
+    <h2>Hér finnur þú tækifæri sem henta þínum hæfileikum og áhugasviði</h2>
+    <div class="content">Grasrótarinn er staður þar sem þú getur fundið ýmsar leiðir til að taka þátt í starfi Pírata og auðvelt er að leita eftir verkefnum eftir mismunandi flokkum og áhugasviðum.</div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="toolbar">
+    <h1>Sjálfboðaliðastörf</h1>
+    <div class="tools">
+      <button class="btn btn-default">Fela síu <i class="fas fa-chevron-up"></i></button>
+      <button class="btn btn-default" disabled>Hreinsa síu</button>
+    </div>
+  </div>
+
+  <div class="task-list">
+  {% for task in tasks %}
+    <div class="task-preview">
+      <a class="task-preview__link" href="http://dev1.webmo.is/tasks/tillaga-ad-verklagsreglum-um-bann-vid-mismunun-areitni-thar-a-medal-kynferdislegri-areitni-og-misbeitingu-valds/"></a>
+      <div class="task-preview__skill">Skrifa lög og reglur</div>
+      <div class="task-preview__info-wrapper">
+        <div class="task-preview__main-info">
+          <div class="task-preview__division">Trúnaðarráð</div>
+          <div class="task-preview__title">Tillaga að verklagsreglum um bann við kynferðislegri áreitni og o.fl.</div>
+        </div>
+        <div class="task-preview__description">
+          <div class="task-preview__hrs-per-week">
+            <p class="task-preview__bold-text">1-8</p> Klst á viku
+          </div>
+          <div class="task-preview__lang-skills">
+            <p class="task-preview__bold-text">Icelandic - </p> Tungumál
+          </div>
+        </div>
+      </div>
+      <div class="task-preview__category">
+        <span class="task-preview__category-icon" style="background-image: url('http://dev1.webmo.is/wp-content/uploads/2018/01/jafnretti2.png');"></span>
+        <div class="task-preview__category-text">Jafnrétti</div>
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+
+</section>
+
+{% endblock %}
