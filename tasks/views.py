@@ -17,7 +17,7 @@ def task_list(request, polity_id):
     ctx = {
         'polity': polity,
         'tasks': tasks,
-        'user_is_member': polity.is_member(request.user)
+        'user_is_member': polity.is_member(request.user),
         'user_is_officer': polity.is_officer(request.user),
         'user_is_wrangler': polity.is_wrangler(request.user),
     }
