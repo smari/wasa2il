@@ -3,6 +3,15 @@ body {
   margin-top: 110px;
   padding-bottom: 40px; }
 
+#content-wrapper {
+  padding: 0px; }
+
+section.content {
+  padding-top: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px; }
+
 footer {
   margin-left: -250px;
   z-index: 2000;
@@ -77,10 +86,83 @@ footer {
   background: none;
   background-image: none;
   background-color: #eee; }
+  .btn-default :hover {
+    background-color: #8059c4; }
 
 .btn-primary {
   background-image: none;
-  background-color: #8059c4; }
+  background-color: #663dad; }
+  .btn-primary :hover {
+    background-color: #8059c4; }
+
+.hero {
+  margin: -20px;
+  left: 0px;
+  right: 0px;
+  max-height: 700px;
+  height: 90vh;
+  display: flex;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  flex-flow: column;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center; }
+  .hero h1 {
+    color: #fff;
+    font-size: 60px;
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 16px; }
+  .hero h2 {
+    margin-bottom: 60px;
+    font-size: 36px;
+    color: #fff;
+    text-align: center;
+    vertical-align: baseline; }
+
+.lesser-hero {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  display: flex;
+  flex-flow: row;
+  max-height: 460px;
+  padding: 70px 88px 0px 0px;
+  overflow-y: hidden;
+  background-color: #eee;
+  margin: -20px;
+  margin-top: 20px; }
+  .lesser-hero .left {
+    background-repeat: no-repeat;
+    background-position: bottom;
+    max-width: 570px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 0px; }
+  .lesser-hero .right {
+    padding-left: 120px;
+    display: flex;
+    flex-flow: column; }
+    .lesser-hero .right h1 {
+      font-size: 48px; }
+    .lesser-hero .right h2 {
+      font-size: 24px; }
+
+.toolbar {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  width: 100%; }
+  .toolbar h1 {
+    color: #000;
+    flex: 0 0 40%; }
+  .toolbar .tools {
+    justify-content: flex-end;
+    align-content: flex-start; }
 
 /* Global search field */
 @media (max-width: 767px) {
@@ -159,7 +241,7 @@ a {
   color: #503087; }
 
 a:hover {
-  color: #8059c4; }
+  color: #5b379a; }
 
 ul.errorlist {
   margin-left: 4px;
