@@ -43,7 +43,7 @@ TASK_SKILLS = (
 class Task(models.Model):
     polity = models.ForeignKey('polity.Polity')
     categories = models.ManyToManyField('tasks.TaskCategories')
-    skills = models.IntegerField('tasks.TaskSkills')
+    skills = models.ManyToManyField('tasks.TaskSkills')
 
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
