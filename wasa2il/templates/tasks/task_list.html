@@ -7,6 +7,9 @@
   <h1>Leggðu þitt af mörkum</h1>
   <h2>{{tasks.count}} verkefni í boði</h2>
   <button class="btn btn-primary btn-lg">Skoða verkefni</button>
+  {% if user_is_officer or user_is_wrangler %}
+  <a class="btn btn-default action"><i class="fas fa-plus"></i> New task</a>
+  {%endif%}
 </section>
 <section class="lesser-hero">
   <div class="left">
@@ -23,8 +26,8 @@
   <div class="toolbar">
     <h1>Sjálfboðaliðastörf</h1>
     <div class="tools">
-      <button class="btn btn-default">Fela síu <i class="fas fa-chevron-up"></i></button>
-      <button class="btn btn-default" disabled>Hreinsa síu</button>
+      <button class="btn btn-default btn-lg">Fela síu <i class="fas fa-chevron-up"></i></button>
+      <button class="btn btn-default btn-lg" disabled>Hreinsa síu</button>
     </div>
   </div>
 

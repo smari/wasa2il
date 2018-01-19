@@ -12,8 +12,13 @@ def task_list(request, polity_id):
     polity = get_object_or_404(Polity, id=polity_id)
     tasks = polity.task_set.order_by('-created')
 
+
+
     ctx = {
         'polity': polity,
         'tasks': tasks,
+        'user_is_member': polity.is_member(request.user)
+        'user_is_officer': polity.is_officer(request.user),
+        'user_is_wrangler': polity.is_wrangler(request.user),
     }
     return render(request, 'tasks/task_list.html', ctx)

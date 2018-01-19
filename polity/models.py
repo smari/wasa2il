@@ -43,6 +43,9 @@ class Polity(models.Model):
     def is_officer(self, user):
         return self.officers.filter(id=user.id).exists()
 
+    def is_wrangler(self, user):
+        return self.wranglers.filter(id=user.id).exists()
+
     # FIXME: If we want to have different folks participating in internal
     #        affairs vs. elections, this would be one place to implement that.
     def issue_voters(self):
