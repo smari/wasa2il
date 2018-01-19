@@ -68,8 +68,14 @@ class Task(models.Model):
 class TaskCategory(models.Model):
     name = models.CharField(max_length=128)
 
+    def __unicode__(self):
+        return self.name
+        
 class TaskSkill(models.Model):
     name = models.CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.name
 
 class TaskRequest(models.Model):
     task = models.ForeignKey('tasks.Task')
