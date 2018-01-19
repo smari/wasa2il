@@ -86,22 +86,20 @@ footer {
   background: none;
   background-image: none;
   background-color: #eee; }
-  .btn-default :hover {
-    background-color: #8059c4; }
 
 .btn-primary {
   background-image: none;
   background-color: #663dad; }
-  .btn-primary :hover {
-    background-color: #8059c4; }
 
 .hero {
   margin: -20px;
+  margin-top: 0px;
   left: 0px;
   right: 0px;
-  max-height: 700px;
-  height: 90vh;
+  max-height: 600px;
+  height: 70vh;
   display: flex;
+  position: relative;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -109,6 +107,10 @@ footer {
   box-sizing: border-box;
   justify-content: center;
   align-items: center; }
+  .hero .action {
+    position: absolute;
+    top: 15px;
+    right: 20px; }
   .hero h1 {
     color: #fff;
     font-size: 60px;
@@ -127,7 +129,7 @@ footer {
   -webkit-box-direction: normal;
   display: flex;
   flex-flow: row;
-  max-height: 460px;
+  max-height: 430px;
   padding: 70px 88px 0px 0px;
   overflow-y: hidden;
   background-color: #eee;
@@ -159,7 +161,7 @@ footer {
   width: 100%; }
   .toolbar h1 {
     color: #000;
-    flex: 0 0 40%; }
+    flex: 0 0 60%; }
   .toolbar .tools {
     justify-content: flex-end;
     align-content: flex-start; }

@@ -8,27 +8,23 @@
   background: none;
   background-image: none;
   background-color: $color-btn-light;
-  :hover {
-    background-color: lighten($color-btn-primary, 10%);
-  }
 }
 
 .btn-primary {
   background-image: none;
   background-color: $color-btn-primary;
-  :hover {
-    background-color: lighten($color-btn-primary, 10%);
-  }
 }
 
 
 .hero {
   margin: -20px;
+  margin-top: 0px;
   left: 0px;
   right: 0px;
-  max-height: 700px;
-  height: 90vh;
+  max-height: 600px;
+  height: 70vh;
   display: flex;
+  position: relative;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -36,6 +32,12 @@
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
+
+  .action {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
 
   h1 {
     color: $font-color-light;
@@ -59,7 +61,7 @@
   -webkit-box-direction: normal;
   display: flex;
   flex-flow: row;
-  max-height: 460px;
+  max-height: 430px;
   padding: 70px 88px 0px 0px;
   overflow-y: hidden;
   background-color: $background-lightgray;
@@ -99,7 +101,7 @@
 
   h1 {
     color: $font-color-dark;
-    flex: 0 0 40%;
+    flex: 0 0 60%;
   }
   .tools {
     justify-content: flex-end;
