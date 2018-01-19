@@ -23,7 +23,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
-
+<section class="content">
 <h1>
     {{ polity.name }}
     {% if user.is_staff %}
@@ -68,5 +68,5 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-
+</section>
 {% endblock %}

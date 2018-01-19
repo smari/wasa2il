@@ -4,7 +4,7 @@
 {% load static %}
 
 {% block content %}
-
+<section class="content">
     {% if user_is_member %}
     <div class="btn-group" style="float: right">
       {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
@@ -34,6 +34,6 @@
     {% endwith %}
     </tbody>
     </table>
-
+</section>
 
 {% endblock %}

@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<section class="content">
 <h1>{% trans "New issue" %}</h1>
 
 {% crispy form %}
@@ -19,5 +19,5 @@
     <h2>{% trans 'Comparison' %}</h2>
     {% include 'issue/stub/document_view.html' with tab=tab %}
 {% endif %}
-
+</section>
 {% endblock %}

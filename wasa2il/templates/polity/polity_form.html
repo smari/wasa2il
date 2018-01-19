@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-
+<section class="content">
 <h1>{% trans "New polity" %}</h1>
 
 {% crispy form %}
@@ -19,5 +19,5 @@
 {% else %}
     <span id="cancel-url">{% url 'polities' %}</span>
 {% endif %}
-
+</section>
 {% endblock %}

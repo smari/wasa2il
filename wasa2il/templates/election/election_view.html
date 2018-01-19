@@ -40,7 +40,7 @@
     <script type="text/javascript" src="/static/js/jquery.sparkline.min.js"></script>
 {% endblock %}
 {% block content %}
-
+<section class="content">
 <div id="ajax-status-messages">
   <div id="submit-error" class="alert alert-danger" style="display: none;">
     <p>{% trans "There was an error while processing your vote. Please try again." %}</p>
@@ -322,7 +322,7 @@
 <!-- This is used by the Javascript for CSRF and to detect when users get
      logged out due to inactivity. -->
 <input type="hidden" name="user_id" value="{{ user.id }}">{% csrf_token %}
-
+</section>
 <script>
 var election_id = {{ election.id }};
 var election_dragging = false;

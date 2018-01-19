@@ -2,8 +2,8 @@
 {% load i18n %}
 {% load bootstrap %}
 {% block content %}
-
-<div class="page-header"><h1>{% trans "Sign up" %} <small>{% trans "and partake in democracy..." %}</small></h1></div>
+<section class="content">
+<h1>{% trans "Sign up" %} <small>{% trans "and partake in democracy..." %}</small></h1>
 
 {% if not request.GET.email %}
 <div>
@@ -50,5 +50,5 @@
 {% include "registration/data_disclaimer.html" %}
 </div>
 {% endif %}
-
+</section>
 {% endblock %}

@@ -6,6 +6,7 @@
 {% block facebook_description %}{% trans "Issue vote ends at" %}: {{ issue.deadline_votes }}{% endblock %}
 
 {% block content %}
+<section class="content">
 <div style="float: right;">
     {% if user_is_officer and not issue.is_processed %}
         <a class="btn btn-default" role="button" href="{% url 'issue_edit' polity.id issue.id %}">{% trans 'Edit' %}</a>
@@ -134,6 +135,7 @@
     </div>
 
 </div>
+</section>
 {% endblock %}
 
 {% block extrascripts %}

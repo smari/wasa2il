@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-
+<section class="content">
 <h1>{% trans "Multiple accounts detected" %}</h1>
 <div>
     <p>{% trans "It appears that you already have a different account. Its username and email address are provided below. Please try logging in again using its credentials." %}</p>
@@ -13,6 +13,5 @@
     </ul>
     <p><a href="/accounts/login/" class="btn">Login</a></p>
 </div>
-
+</section>
 {% endblock %}
-

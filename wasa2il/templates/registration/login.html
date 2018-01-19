@@ -2,8 +2,8 @@
 {% load i18n %}
 {% load bootstrap %}
 {% block content %}
-
-<div class="page-header"><h1>{% trans "Log in" %} <small>{% trans "and partake in democracy..." %}</small></h1></div>
+<section class="content">
+<h1>{% trans "Log in" %} <small>{% trans "and partake in democracy..." %}</small></h1>
 
 <p>
   {% trans "If you forgot your username, you can log in or reset your password with your email address or SSN instead." %}
@@ -16,7 +16,7 @@
 	<div class="col-md-6 col-xs-12">
 		<form method="POST">
 			{%csrf_token%}
-			<fieldset> 
+			<fieldset>
 			{{ form|bootstrap }}
 				<label></label>
 				<input class="btn btn-primary" type="submit" value="{% trans "Login" %}"/>
@@ -38,5 +38,5 @@
 <div>
 {% include "registration/data_disclaimer.html" %}
 </div>
-
+</section>
 {% endblock %}

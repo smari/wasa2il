@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-
+<section class="content">
 <h1>{% trans "Verification needed" %}</h1>
 <div>
     <p>{% trans "The account registration process cannot be completed until verification has been provided." %}</p>
@@ -12,6 +12,5 @@
         <li><a href="/accounts/logout/">{% trans "Logout" %}</a></li>
     </ul>
 </div>
-
+</section>
 {% endblock %}
-
