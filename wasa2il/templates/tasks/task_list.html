@@ -8,7 +8,7 @@
   <h2>{{tasks.count}} verkefni í boði</h2>
   <button class="btn btn-primary btn-lg">Skoða verkefni</button>
   {% if user_is_officer or user_is_wrangler %}
-  <a class="btn btn-default action"><i class="fas fa-plus"></i> New task</a>
+  <a class="btn btn-default action" href="/polity/{{polity.id}}/tasks/new/"><i class="fas fa-plus"></i> New task</a>
   {%endif%}
 </section>
 <section class="lesser-hero">
