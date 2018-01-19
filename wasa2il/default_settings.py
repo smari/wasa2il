@@ -21,6 +21,7 @@ ALLOW_LEAVE_POLITY = False
 
 DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'd/m/Y H:i:s'
+DATETIME_FORMAT_DJANGO_WIDGET = 'dd/mm/yyyy hh:ii' # django-datetime-widget
 
 LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
 
