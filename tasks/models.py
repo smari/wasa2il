@@ -42,8 +42,8 @@ TASK_SKILLS = (
 
 class Task(models.Model):
     polity = models.ForeignKey('polity.Polity')
-    categories = models.ManyToManyField('tasks.TaskCategories')
-    skills = models.ManyToManyField('tasks.TaskSkills')
+    categories = models.ManyToManyField('tasks.TaskCategory')
+    skills = models.ManyToManyField('tasks.TaskSkill')
 
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
@@ -65,10 +65,10 @@ class Task(models.Model):
     is_recruiting = models.BooleanField(default=True)
 
 
-class TaskCategories(models.Model):
+class TaskCategory(models.Model):
     name = models.CharField(max_length=128)
 
-class TaskSkills(models.Model):
+class TaskSkill(models.Model):
     name = models.CharField(max_length=128)
 
 class TaskRequest(models.Model):
