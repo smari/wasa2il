@@ -1,3 +1,4 @@
+@import "_media-mixins.scss";
 @import "_fonts.scss";
 @import "_constants.scss";
 
@@ -41,7 +42,12 @@ footer {
 
 @import "_navbar.scss";
 @import "_widgets.scss";
+@import "_sidebar.scss";
+@import "_lists.scss";
 
+@import "_task-list.scss";
+@import "_task.scss";
+@import "_task-single.scss";
 
 
 /* Global search field */
@@ -181,7 +187,3 @@ div#submit-working { background: #bbb; }
 .comment > .content > .created_by { font-size: 9pt; font-weight: bold; display: block; }
 .comment > .content > .created { font-size: 8pt; font-style: italic; margin-top: 3px; color: #333; }
 .comment > .content > .text { display: inline; }
-
-
-@import "_sidebar.scss";
-@import "_lists.scss";

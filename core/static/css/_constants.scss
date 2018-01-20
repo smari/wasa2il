@@ -7,13 +7,26 @@ $background-headerbar: #37215D;
 $background-footer: #000;
 $background-dropdown: #fff;
 
+$white: #fff;
+$black: #000;
+$task-purple: $piratepurple;
+$task-grey: #eee;
+$homepage-about-grey: $task-grey;
+$task-background-grey: $task-grey;
+$task-border-grey: darken($task-grey, 20%);
+$purple: $piratepurple;
+$grey-dark: darken($task-grey, 50%);
+$cta-green: #4daf6f;
+
 $font-color-light: #fff;
 $font-color-dark: #000;
 $font-color-link: $piratepurple;
 $font-color-link-hover: lighten($piratepurple, 5%);
 
 $font-heading: "Montserrat";
+$main-family: $font-heading;
 $font-text: Arial, sans-serif;
+$secondary-family: $font-text;
 
 $color-btn-light: #eee;
 $color-btn-primary: lighten($piratepurple, 10%);
