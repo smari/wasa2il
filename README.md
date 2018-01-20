@@ -51,6 +51,12 @@ The 3rd step will populate the database with a small amount of random data, incl
 
 That should be it!
 
+### Manual installation using pip
+
+If you run into errors manually installing with `pip` (or get error output from `pip` wile running `initial_setup.py`), more often than not it's due to you not having MySQL installed. Try commenting those lines out of the `requirements.txt` file and running pip again.
+
+If you want to run Wasa2il with MySQL, make sure MySQL and the relevant development headers are installed before running `pip` again.
+
 ## Contributing
 
 Pull requests are welcome. Update translations by running **manage.py
@@ -105,7 +111,7 @@ discussed. The members of a polity decide which topics are relevant to them.
 The way in which this is decided depends on the meta-rules of the polity.
 
 Topics are used to manage and display a list of issues. Issues are conversations
-which have been brought to discussion within a polity, and can belong to 
+which have been brought to discussion within a polity, and can belong to
 numerous topics. The purpose of an issue and its associated conversation is to
 arrive at a decision. The decision is represented by a document which can be
 adopted or rejected.
