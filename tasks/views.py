@@ -54,6 +54,7 @@ def task_add_edit(request, polity_id, task_id=None):
     }
     return render(request, 'tasks/task_add_edit.html', ctx)
 
+
 def task_detail(request, polity_id, task_id):
     polity = get_object_or_404(Polity, id=polity_id)
     task = get_object_or_404(Task, id=task_id, polity=polity)
@@ -78,3 +79,22 @@ def task_detail(request, polity_id, task_id):
         'user_is_wrangler': polity.is_wrangler(request.user),
     }
     return render(request, 'tasks/task_detail.html', ctx)
+
+
+def task_applications(request, polity_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+    if not (polity.is_member(request.user) or polity.is_wrangler(request.user)):
+        raise PermissionDenied()
+
+    show_done = False
+
+    tasks = polity.task_set.filter(is_done=show_done).order_by('-created')
+
+    ctx = {
+        'polity': polity,
+        'tasks': tasks,
+        'user_is_member': polity.is_member(request.user),
+        'user_is_officer': polity.is_officer(request.user),
+        'user_is_wrangler': polity.is_wrangler(request.user),
+    }
+    return render(request, 'tasks/task_applications.html', ctx)
