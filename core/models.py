@@ -71,7 +71,6 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 
-
 # Make sure registration creates profiles
 def _create_user_profile(**kwargs):
     UserProfile.objects.get_or_create(user=kwargs['user'])
@@ -94,4 +93,16 @@ def get_name(user):
 
     return name
 
+def tasks_applied(user):
+    return user.taskrequest_set.all()
+
+def tasks_accepted(user):
+    return tasks_applied(user).filter(is_accepted=True)
+
+def tasks_completed(user):
+    return tasks_accepted(user).filter(task__is_done=True)
+
 User.get_name = get_name
+User.tasks_applied = tasks_applied
+User.tasks_accepted = tasks_accepted
+User.tasks_completed = tasks_completed
