@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block content %}
+<section class="content">
+  <h1>{% trans "Applications for tasks" %}</h1>
+  <div class="task_list">
+  {% for task in tasks %}
+    <div class="task_list_item">
+      <h2>{{task.name}}</h2>
+      <div class="task_applications">
+        {% for app in task.taskrequest_set.all %}
+          <div class="task_application">
+            <h3><a href="/accounts/profile/{{app.user.username}}/">{{app.user.get_name}}</a></h3>
+            <p><b>Total applications:</b> {{app.user.tasks_applied.count}}</p>
+            <p><b>Accepted to do tasks:</b> {{app.user.tasks_accepted.count}}</p>
+            <p><b>Completed tasks:</b> {{app.user.tasks_completed.count}}</p>
+            <p>{{app.whyme}}</p>
+            {% if app.is_accepted %}
+            <a class="btn btn-warning" role="button">{% trans "Unassign user" %}</a>
+            {% else %}
+            <a class="btn btn-success" role="button">{% trans "Accept application" %}</a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+{% endblock %}
