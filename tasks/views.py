@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from tasks.models import Task
+from tasks.models import Task, TaskRequest
 from polity.models import Polity
 from tasks.forms import TaskForm
 
@@ -57,10 +57,22 @@ def task_add_edit(request, polity_id, task_id=None):
 def task_detail(request, polity_id, task_id):
     polity = get_object_or_404(Polity, id=polity_id)
     task = get_object_or_404(Task, id=task_id, polity=polity)
-    
+    has_applied = TaskRequest.objects.filter(task=task, user=request.user).first() or False
+
+    if request.method == 'POST' and not has_applied:
+        whyme = request.POST.get('whyme')
+        if whyme.strip() != '':
+            tr = TaskRequest()
+            tr.task = task
+            tr.user = request.user
+            tr.whyme = whyme
+            tr.save()
+            has_applied = True
+
     ctx = {
         'polity': polity,
         'task': task,
+        'has_applied': has_applied,
         'user_is_member': polity.is_member(request.user),
         'user_is_officer': polity.is_officer(request.user),
         'user_is_wrangler': polity.is_wrangler(request.user),
