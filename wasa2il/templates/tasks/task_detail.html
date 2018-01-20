@@ -74,7 +74,7 @@
           <div class="task__form-fields js-form-fields">
               <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10"></textarea>
               <input type="number" name="task_id" value="{{task.id}}" hidden="">
-              <input class="btn btn-primary" type="submit" value="{% trans "Apply" %}" disabled="">
+              <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}">
           </div>
         </form>
         {% elif task.is_done %}
