@@ -21,14 +21,14 @@ section.content {
 footer {
   margin-left: -250px;
   z-index: 2000;
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   width: 100%;
   display: block;
   background: $background-footer;
   font-size: 10pt;
   font-family: $font-heading;
-  margin-top: 30px;
+  margin-top: 80px;
   height: 70px;
   padding: 20px;
   color: $font-color-light;

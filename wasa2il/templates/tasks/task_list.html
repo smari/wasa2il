@@ -8,7 +8,10 @@
   <h2>{{tasks.count}} verkefni í boði</h2>
   <button class="btn btn-primary btn-lg">Skoða verkefni</button>
   {% if user_is_officer or user_is_wrangler %}
-  <a class="btn btn-default action" href="/polity/{{polity.id}}/tasks/new/"><i class="fas fa-plus"></i> New task</a>
+  <div class="actions">
+    <a class="btn btn-default btn-lg" href="/polity/{{polity.id}}/tasks/new/"><i class="fas fa-plus"></i> {% trans "New task" %}</a>
+    <a class="btn btn-default btn-lg" href="/polity/{{polity.id}}/tasks/applications/"><i class="far fa-address-book"></i> {% trans "Review applications" %}</a>
+  </div>
   {%endif%}
 </section>
 <section class="lesser-hero">
@@ -31,28 +34,30 @@
     </div>
   </div>
 
+  <div class="task-filter">
+
+  </div>
+
   <div class="task-list">
   {% for task in tasks %}
     <div class="task-preview">
-      <a class="task-preview__link" href="http://dev1.webmo.is/tasks/tillaga-ad-verklagsreglum-um-bann-vid-mismunun-areitni-thar-a-medal-kynferdislegri-areitni-og-misbeitingu-valds/"></a>
-      <div class="task-preview__skill">Skrifa lög og reglur</div>
+      <a class="task-preview__link" href="/polity/{{polity.id}}/tasks/{{task.id}}/"></a>
+      <div class="task-preview__skill">{% for i in task.skills.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
       <div class="task-preview__info-wrapper">
         <div class="task-preview__main-info">
-          <div class="task-preview__division">Trúnaðarráð</div>
-          <div class="task-preview__title">Tillaga að verklagsreglum um bann við kynferðislegri áreitni og o.fl.</div>
+          <div class="task-preview__title">{{task.name}}</div>
         </div>
         <div class="task-preview__description">
           <div class="task-preview__hrs-per-week">
-            <p class="task-preview__bold-text">1-8</p> Klst á viku
+            <p class="task-preview__bold-text">{{task.estimated_hours_per_week}}</p> {% trans "hours per week" %}
           </div>
-          <div class="task-preview__lang-skills">
-            <p class="task-preview__bold-text">Icelandic - </p> Tungumál
+          <div class="task-preview__est-duration">
+            <p class="task-preview__bold-text">{{task.estimated_duration_weeks}}</p> {% trans "vikur" %}
           </div>
         </div>
       </div>
       <div class="task-preview__category">
-        <span class="task-preview__category-icon" style="background-image: url('http://dev1.webmo.is/wp-content/uploads/2018/01/jafnretti2.png');"></span>
-        <div class="task-preview__category-text">Jafnrétti</div>
+        <div class="task-preview__category-text">{% for i in task.categories.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
       </div>
     </div>
   {% endfor %}
