@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('polity.urls')),
     url(r'^', include('topic.urls')),
-    url(r'^', include('tasks.urls')),
     # Gateway
     url(r'^gateway/', include('gateway.urls')),
 
@@ -54,6 +53,10 @@ urlpatterns = [
 
     url(r'^static/(?P<path>.*)$', static.serve,  {'document_root': settings.STATIC_ROOT}),
 ]
+
+if settings.FEATURES['tasks']:
+    urlpatterns.append(url(r'^', include('tasks.urls')))
+
 
 handler500 = 'core.views.error500'
 
