@@ -162,7 +162,12 @@ footer {
   flex-flow: row;
   align-items: center;
   width: 100%; }
-  .toolbar h1 {
+  .toolbar-small {
+    border-bottom: none;
+    padding-bottom: 0px; }
+  .toolbar form {
+    display: inline-block; }
+  .toolbar h1, .toolbar h2 {
     color: #000;
     flex: 0 0 60%; }
   .toolbar .tools {
@@ -297,22 +302,6 @@ footer {
   bottom: 10px;
   margin-top: 10px; }
 
-.task-list {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  width: 100%; }
-
-@media screen and (min-width: 768px) {
-  .task-list {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    padding: 40px 0px 0px; } }
-@media screen and (min-width: 1200px) {
-  .task-list {
-    justify-content: flex-start;
-    padding: 50px 0px 16px; } }
 .task-preview {
   position: relative;
   flex: 0 0 auto;
@@ -399,6 +388,76 @@ footer {
     max-width: none; }
     .task-preview:nth-child(3n) {
       margin-right: 0; } }
+.task-list {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  width: 100%; }
+
+@media screen and (min-width: 768px) {
+  .task-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 40px 0px 0px; } }
+@media screen and (min-width: 1200px) {
+  .task-list {
+    justify-content: flex-start;
+    padding: 50px 0px 16px; } }
+.task-item {
+  margin-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px; }
+
+.task-stats {
+  margin-bottom: 15px; }
+
+.task-applications-list {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  font-family: "Montserrat";
+  margin-bottom: 20px; }
+
+@media screen and (min-width: 768px) {
+  .task-application {
+    width: 48%;
+    margin-bottom: 40px; } }
+@media screen and (min-width: 1200px) {
+  .task-application {
+    width: 30%;
+    margin-right: 5%;
+    margin-bottom: 24px;
+    max-width: none; }
+    .task-application:nth-child(3n) {
+      margin-right: 0; } }
+.task-application {
+  background: #eee;
+  padding: 15px;
+  padding-top: 0px; }
+  .task-application .user-application-bar {
+    display: block;
+    width: 100%;
+    height: 10px;
+    overflow: visible;
+    white-space: nowrap;
+    margin-bottom: 20px; }
+    .task-application .user-application-bar__red {
+      display: inline-block;
+      background-color: #f00;
+      height: 10px; }
+    .task-application .user-application-bar__green {
+      display: inline-block;
+      background-color: #070;
+      height: 10px; }
+    .task-application .user-application-bar__yellow {
+      display: inline-block;
+      background-color: #ff0;
+      height: 10px; }
+
 .task {
   width: 100%;
   display: flex;

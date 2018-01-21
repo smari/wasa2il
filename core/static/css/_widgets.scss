@@ -99,7 +99,16 @@
   align-items: center;
   width: 100%;
 
-  h1 {
+  &-small {
+    border-bottom: none;
+    padding-bottom: 0px;
+  }
+
+  form {
+    display: inline-block;
+  }
+
+  h1, h2 {
     color: $font-color-dark;
     flex: 0 0 60%;
   }
