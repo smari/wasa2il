@@ -64,13 +64,19 @@ class Task(models.Model):
     is_done = models.BooleanField(default=False)
     is_recruiting = models.BooleanField(default=True)
 
+    def accepted_volunteers(self):
+        return self.taskrequest_set.filter(is_accepted=True).select_related('user')
+
+    def applied_volunteers(self):
+        return self.taskrequest_set.select_related('user')
+
 
 class TaskCategory(models.Model):
     name = models.CharField(max_length=128)
 
     def __unicode__(self):
         return self.name
-        
+
 class TaskSkill(models.Model):
     name = models.CharField(max_length=128)
 
