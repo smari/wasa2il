@@ -4,25 +4,87 @@
 
 {% block content %}
 <section class="content">
+  <div class="pull-right">
+    {% if show_done %}
+    <a class="btn btn-default btn-sm" role="button" href="?showdone=0">{% trans "Hide completed tasks" %}</a>
+    {% else %}
+    <a class="btn btn-default btn-sm" role="button" href="?showdone=1">{% trans "Show completed tasks" %}</a>
+    {% endif %}
+  </div>
   <h1>{% trans "Applications for tasks" %}</h1>
-  <div class="task_list">
+
+  <div class="tasks">
   {% for task in tasks %}
-    <div class="task_list_item">
-      <h2>{{task.name}}</h2>
-      <div class="task_applications">
-        {% for app in task.taskrequest_set.all %}
-          <div class="task_application">
-            <h3><a href="/accounts/profile/{{app.user.username}}/">{{app.user.get_name}}</a></h3>
-            <p><b>Total applications:</b> {{app.user.tasks_applied.count}}</p>
-            <p><b>Accepted to do tasks:</b> {{app.user.tasks_accepted.count}}</p>
-            <p><b>Completed tasks:</b> {{app.user.tasks_completed.count}}</p>
-            <p>{{app.whyme}}</p>
-            {% if app.is_accepted %}
-            <a class="btn btn-warning" role="button">{% trans "Unassign user" %}</a>
+    <div class="task-item">
+      <div class="toolbar toolbar-small">
+        <h2>{{task.name}}</h2>
+        <div class="tools">
+          {% if task.is_done %}
+          <form action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="notdone" value="{{task.id}}"/>
+            <button type="submit" role="button" class="btn btn-default"><i class="fas fa-times"></i> {% trans "Not done" %}</button>
+          </form>
+          {% else %}
+          <form action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="done" value="{{task.id}}"/>
+            <button type="submit" role="button" class="btn btn-default"><i class="fas fa-check"></i> {% trans "Done" %}</button>
+          </form>
+
+            {% if task.is_recruiting %}
+            <form action="" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="stoprecruiting" value="{{task.id}}"/>
+              <button type="submit" role="button" class="btn btn-default"><i class="far fa-stop-circle"></i> {% trans "Stop recruiting" %}</button>
+            </form>
             {% else %}
-            <a class="btn btn-success" role="button">{% trans "Accept application" %}</a>
+            <form action="" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="startrecruiting" value="{{task.id}}"/>
+              <button type="submit" role="button" class="btn btn-default"><i class="far fa-play-circle"></i> {% trans "Start recruiting" %}</button>
+            </form>
             {% endif %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="task-stats">
+        Applications: <b>{{task.taskrequest_set.count}}</b> |
+        Needed: <b>{{task.volunteers_needed}}</b> |
+        Accepted: <b>{{task.accepted_volunteers.count}}</b>
+      </div>
+
+      <div class="task-applications-list">
+        {% for app in task.taskrequest_set.all %}
+          <div class="task-application">
+            <h3><a href="/accounts/profile/{{app.user.username}}/">{{app.user.get_name}}</a></h3>
+            <div class="user-application-bar">
+              <div title="Completed tasks: {{app.user.tasks_completed.count}}" class="user-application-bar__green" style="width: {{app.user.tasks_percent.completed}}%"></div>
+              <div title="Total applications: {{app.user.tasks_applied.count}}" class="user-application-bar__yellow" style="width: {{app.user.tasks_percent.applied}}%"></div>
+              <div title="Unfinished tasks: {{app.user.tasks_accepted.count}}" class="user-application-bar__red" style="width: {{app.user.tasks_percent.accepted}}%"></div>
+            </div>
+            <h4>Reason for applying:</h4>
+            <p>{{app.whyme}}</p>
+            <div class="pull-right">
+            {% if task.is_recruiting %}
+              {% if app.is_accepted %}
+              <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="reject" value="{{app.id}}"/>
+                <button type="submit" role="button" class="btn btn-warning btn-sm"><i class="fas fa-user-times"></i> {% trans "Unassign user" %}</button>
+              </form>
+              {% else %}
+              <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="accept" value="{{app.id}}"/>
+                <button type="submit" role="button" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> {% trans "Accept application" %}</button>
+              </form>
+              {% endif %}
+            {% endif %}
+            </div>
           </div>
+        {% empty %}
+          <div class="alert alert-info">{% trans "No applications yet. Perhaps try drawing attention to the task somehow?" %}</div>
         {% endfor %}
       </div>
     </div>
