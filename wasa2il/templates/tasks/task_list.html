@@ -4,9 +4,9 @@
 
 {% block content %}
 <section class="hero" style="background-image: url('/static/img/heroes/fistbump.jpg')">
-  <h1>Leggðu þitt af mörkum</h1>
-  <h2>{{tasks.count}} verkefni í boði</h2>
-  <button class="btn btn-primary btn-lg">Skoða verkefni</button>
+  <h1>{% trans "Pitch in, help out" %}</h1>
+  <h2>{% blocktrans with number=tasks.count %}{{number}} tasks need your help{% endblocktrans %}</h2>
+  <a href="#verkefni" role="button" class="btn btn-primary btn-lg">{% trans "Check out the tasks" %}</a>
   {% if user_is_officer or user_is_wrangler %}
   <div class="actions">
     <a class="btn btn-default btn-lg" href="/polity/{{polity.id}}/tasks/new/"><i class="fas fa-plus"></i> {% trans "New task" %}</a>
@@ -19,18 +19,21 @@
     <img src="http://dev1.webmo.is/wp-content/uploads/2017/09/hands-image.svg"/>
   </div>
   <div class="right">
-    <h1>Tækifæri til að taka þátt</h1>
-    <h2>Hér finnur þú tækifæri sem henta þínum hæfileikum og áhugasviði</h2>
-    <div class="content">Grasrótarinn er staður þar sem þú getur fundið ýmsar leiðir til að taka þátt í starfi Pírata og auðvelt er að leita eftir verkefnum eftir mismunandi flokkum og áhugasviðum.</div>
+    <h1>{% trans "Your chance to shine" %}</h1>
+    <h2>{% trans "Here you may find an opportunity to help that fits your talents" %}</h2>
+    <div class="content">{% blocktrans %}Our volunteering system matches projects that need doing with people who want to do them. It's a perfect way to put your skills and talents to good use. Check the outstanding projects below!{% endblocktrans %}</div>
   </div>
 </section>
 
 <section class="content">
   <div class="toolbar">
-    <h1>Sjálfboðaliðastörf</h1>
+    <a name="verkefni"></a>
+    <h1>{% trans "Volunteer tasks" %}</h1>
     <div class="tools">
-      <button class="btn btn-default btn-lg">Fela síu <i class="fas fa-chevron-up"></i></button>
-      <button class="btn btn-default btn-lg" disabled>Hreinsa síu</button>
+      {% if tasks.count > 6 %}
+      <button class="btn btn-default btn-lg">{% trans "Hide filter" %} <i class="fas fa-chevron-up"></i></button>
+      <button class="btn btn-default btn-lg" disabled>{% trans "Clear filter" %}</button>
+      {% endif %}
     </div>
   </div>
 
@@ -60,6 +63,8 @@
         <div class="task-preview__category-text">{% for i in task.categories.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
       </div>
     </div>
+  {% empty %}
+    <div class="alert alert-info">{% trans "Currently there are no tasks that need help." %}</div>
   {% endfor %}
   </div>
 
