@@ -86,9 +86,48 @@ def task_applications(request, polity_id):
     if not (polity.is_member(request.user) or polity.is_wrangler(request.user)):
         raise PermissionDenied()
 
-    show_done = False
+    done = request.POST.get('done', None)
+    notdone = request.POST.get('notdone', None)
+    accept = request.POST.get('accept', None)
+    reject = request.POST.get('reject', None)
+    stoprecruiting = request.POST.get('stoprecruiting', None)
+    startrecruiting = request.POST.get('startrecruiting', None)
 
-    tasks = polity.task_set.filter(is_done=show_done).order_by('-created')
+    if done:
+        tr = get_object_or_404(Task, id=done)
+        tr.is_done = True
+        tr.save()
+
+    if notdone:
+        tr = get_object_or_404(Task, id=notdone)
+        tr.is_done = False
+        tr.save()
+
+    if stoprecruiting:
+        tr = get_object_or_404(Task, id=stoprecruiting)
+        tr.is_recruiting = False
+        tr.save()
+
+    if startrecruiting:
+        tr = get_object_or_404(Task, id=startrecruiting)
+        tr.is_recruiting = True
+        tr.save()
+
+    if accept:
+        tr = get_object_or_404(TaskRequest, id=accept)
+        tr.is_accepted = True
+        tr.save()
+
+    if reject:
+        tr = get_object_or_404(TaskRequest, id=reject)
+        tr.is_accepted = False
+        tr.save()
+
+    show_done = bool(int(request.GET.get('showdone', 0)))
+
+    tasks = polity.task_set.order_by('-created')
+    if not show_done:
+        tasks = tasks.filter(is_done=False)
 
     ctx = {
         'polity': polity,
@@ -96,5 +135,6 @@ def task_applications(request, polity_id):
         'user_is_member': polity.is_member(request.user),
         'user_is_officer': polity.is_officer(request.user),
         'user_is_wrangler': polity.is_wrangler(request.user),
+        'show_done': show_done,
     }
     return render(request, 'tasks/task_applications.html', ctx)
