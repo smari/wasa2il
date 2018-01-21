@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 {% load bootstrap %}
 {% block content %}
-
+<section class="content">
 <h1>{{user.name}}</h1>
 <div class="col-md-12">
 	<form action="/accounts/profile/" method="POST">
 		{%csrf_token%}
-		<fieldset> 
+		<fieldset>
 			{{form|bootstrap}}
 			<label></label><input class="btn btn-primary" type="submit" value="Save"/>
 		</fieldset>
 	</form>
 </div>
-
+</section>
 {% endblock %}

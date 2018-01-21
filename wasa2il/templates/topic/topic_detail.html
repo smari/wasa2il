@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-
+<section class="content">
 <div style="float:right">
     {% if user_is_officer %}
         <a class="btn btn-default" role="button" href="{% url 'topic_edit' polity.id topic.id %}">{% trans 'Edit' %}</a>
@@ -70,5 +70,5 @@
     <a onclick="$('#modal_followers').modal('hide');" role="button" class="btn btn-primary">{% trans "Close" %}</a>
   </div>
 </div>
-
+</section>
 {% endblock %}

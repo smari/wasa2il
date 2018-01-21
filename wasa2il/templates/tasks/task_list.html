@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block content %}
+<section class="hero" style="background-image: url('/static/img/heroes/fistbump.jpg')">
+  <h1>{% trans "Pitch in, help out" %}</h1>
+  <h2>{% blocktrans with number=tasks.count %}{{number}} tasks need your help{% endblocktrans %}</h2>
+  <a href="#verkefni" role="button" class="btn btn-primary btn-lg">{% trans "Check out the tasks" %}</a>
+  {% if user_is_officer or user_is_wrangler %}
+  <div class="actions">
+    <a class="btn btn-default btn-lg" href="/polity/{{polity.id}}/tasks/new/"><i class="fas fa-plus"></i> {% trans "New task" %}</a>
+    <a class="btn btn-default btn-lg" href="/polity/{{polity.id}}/tasks/applications/"><i class="far fa-address-book"></i> {% trans "Review applications" %}</a>
+  </div>
+  {%endif%}
+</section>
+<section class="lesser-hero">
+  <div class="left">
+    <img src="http://dev1.webmo.is/wp-content/uploads/2017/09/hands-image.svg"/>
+  </div>
+  <div class="right">
+    <h1>{% trans "Your chance to shine" %}</h1>
+    <h2>{% trans "Here you may find an opportunity to help that fits your talents" %}</h2>
+    <div class="content">{% blocktrans %}Our volunteering system matches projects that need doing with people who want to do them. It's a perfect way to put your skills and talents to good use. Check the outstanding projects below!{% endblocktrans %}</div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="toolbar">
+    <a name="verkefni"></a>
+    <h1>{% trans "Volunteer tasks" %}</h1>
+    <div class="tools">
+      {% if tasks.count > 6 %}
+      <button class="btn btn-default btn-lg">{% trans "Hide filter" %} <i class="fas fa-chevron-up"></i></button>
+      <button class="btn btn-default btn-lg" disabled>{% trans "Clear filter" %}</button>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="task-filter">
+
+  </div>
+
+  <div class="task-list">
+  {% for task in tasks %}
+    <div class="task-preview">
+      <a class="task-preview__link" href="/polity/{{polity.id}}/tasks/{{task.id}}/"></a>
+      <div class="task-preview__skill">{% for i in task.skills.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+      <div class="task-preview__info-wrapper">
+        <div class="task-preview__main-info">
+          <div class="task-preview__title">{{task.name}}</div>
+        </div>
+        <div class="task-preview__description">
+          <div class="task-preview__hrs-per-week">
+            <p class="task-preview__bold-text">{{task.estimated_hours_per_week}}</p> {% trans "hours per week" %}
+          </div>
+          <div class="task-preview__est-duration">
+            <p class="task-preview__bold-text">{{task.estimated_duration_weeks}}</p> {% trans "vikur" %}
+          </div>
+        </div>
+      </div>
+      <div class="task-preview__category">
+        <div class="task-preview__category-text">{% for i in task.categories.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="alert alert-info">{% trans "Currently there are no tasks that need help." %}</div>
+  {% endfor %}
+  </div>
+
+</section>
+
+{% endblock %}

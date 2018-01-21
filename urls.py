@@ -54,6 +54,10 @@ urlpatterns = [
     url(r'^static/(?P<path>.*)$', static.serve,  {'document_root': settings.STATIC_ROOT}),
 ]
 
+if settings.FEATURES['tasks']:
+    urlpatterns.append(url(r'^', include('tasks.urls')))
+
+
 handler500 = 'core.views.error500'
 
 if settings.DEBUG:

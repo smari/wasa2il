@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-
+<section class="content">
     <div style="float: right">
     {% if user_is_member %}
         {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
@@ -58,5 +58,5 @@
             </tr>
         {% endfor %}
     </table>
-
+</section>
 {% endblock %}

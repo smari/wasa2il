@@ -1,0 +1,73 @@
+
+.task-item {
+  margin-bottom: 10px;
+  border-bottom: 2px solid $background-lightgray;
+  padding-bottom: 10px;
+}
+
+.task-stats {
+  margin-bottom: 15px;
+}
+
+.task-applications-list {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  font-family: $main-family;
+  margin-bottom: 20px;
+}
+
+@include tablet() {
+    .task-application {
+        width: 48%;
+        margin-bottom: 40px;
+    }
+}
+
+@include desktop() {
+    .task-application {
+        width: 30%;
+        margin-right: 5%;
+        margin-bottom: 24px;
+        max-width: none;
+
+        &:nth-child(3n) {
+            margin-right: 0;
+        }
+    }
+}
+
+
+.task-application {
+  background: $background-lightgray;
+  padding: 15px;
+  padding-top: 0px;
+
+  .user-application-bar {
+    display: block;
+    width: 100%;
+    height: 10px;
+    overflow: visible;
+    white-space: nowrap;
+    margin-bottom: 20px;
+
+    &__red {
+      display: inline-block;
+      background-color: #f00;
+      height: 10px;
+    }
+    &__green {
+      display: inline-block;
+      background-color: #070;
+      height: 10px;
+    }
+    &__yellow {
+      display: inline-block;
+      background-color: #ff0;
+      height: 10px;
+    }
+  }
+}

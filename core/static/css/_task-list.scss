@@ -1,0 +1,23 @@
+.task-list {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    width: 100%;
+}
+
+@include tablet() {
+    .task-list {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        padding: 40px 0px 0px;
+
+    }
+}
+@include desktop() {
+    .task-list {
+        justify-content: flex-start;
+        padding: 50px 0px 16px;
+
+    }
+}

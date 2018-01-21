@@ -1,3 +1,4 @@
+@import "_media-mixins.scss";
 @import "_fonts.scss";
 @import "_constants.scss";
 
@@ -6,10 +7,21 @@ body {
   padding-bottom: 40px;
 }
 
+#content-wrapper {
+  padding: 0px;
+}
+
+section.content {
+  padding-top: 40px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+}
+
 footer {
   margin-left: -250px;
   z-index: 2000;
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   width: 100%;
   display: block;
@@ -30,7 +42,13 @@ footer {
 
 @import "_navbar.scss";
 @import "_widgets.scss";
+@import "_sidebar.scss";
+@import "_lists.scss";
 
+@import "_task.scss";
+@import "_task-list.scss";
+@import "_task-applications.scss";
+@import "_task-single.scss";
 
 
 /* Global search field */
@@ -172,5 +190,3 @@ div#submit-working { background: #bbb; }
 .comment > .content > .text { display: inline; }
 
 
-@import "_sidebar.scss";
-@import "_lists.scss";

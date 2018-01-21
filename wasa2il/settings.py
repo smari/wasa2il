@@ -15,6 +15,15 @@ WASA2IL_VERSION = '0.9.14'
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
 
+### FEATURE KNOBS ###
+
+FEATURES = {
+    'tasks': True
+}
+
+#####################
+
+
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -163,6 +172,7 @@ INSTALLED_APPS = (
     'topic',
     'election',
     'issue',
+    'tasks',
     'gateway',
 )
 try:
