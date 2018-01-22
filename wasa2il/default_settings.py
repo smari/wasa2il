@@ -5,7 +5,7 @@
 
 # These settings are here in case no local_settings.py file is found.
 
-ALLOWED_HOSTS = ['example.com']
+ALLOWED_HOSTS = ['localhost']
 
 DEBUG = True
 
