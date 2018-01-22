@@ -14,6 +14,9 @@
       {{ documentcontent.issue.get_issue_type_display }}
     </td>
     <td><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></td>
+    {% if documentcontent.issue.special_process %}
+      <td colspan="3" class="col-md-3" style="text-align: center;">{{ documentcontent.issue.get_special_process_display }}</td>
+    {% else %}
     <td class="col-md-1 accepted">
       {{ documentcontent.issue.votecount_yes }}
     </td>
@@ -23,6 +26,7 @@
     <td class="col-md-1 abstained">
       {{ documentcontent.issue.votecount_abstain }}
     </td>
+    {% endif %}
     <td class="date">{{ documentcontent.issue.deadline_votes|date }}</td>
 </tr>
 {% empty %}

@@ -52,8 +52,12 @@
                     {% endif %}
                 {% endwith %}
             </td>
-            <td>{{ issue.comment_count }}</td>
-            <td>{{ issue.votecount }}</td>
+            {% if issue.special_process %}
+            <td colspan="2" style="text-align: center;">{{ issue.get_special_process_display }}</td>
+            {% else %}
+            <td style="text-align: right;">{{ issue.comment_count }}</td>
+            <td style="text-align: right;">{{ issue.votecount }}</td>
+            {% endif %}
         </tr>
     {% endfor %}
     </tbody>
