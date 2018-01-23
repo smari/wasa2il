@@ -11,7 +11,7 @@
 {% for documentcontent in agreements %}
 <tr>
     <td class="col-md-1">
-      {{ documentcontent.issue.get_issue_type_display }}
+      {{ documentcontent.document.get_document_type_display }}
     </td>
     <td><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></td>
     {% if documentcontent.issue.special_process %}

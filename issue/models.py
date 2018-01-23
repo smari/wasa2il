@@ -22,13 +22,6 @@ class Issue(models.Model):
         ('rejected_at_assembly', _('Rejected at assembly')),
     )
 
-    ISSUE_TYPE_CHOICES = (
-        (1, _("Policy")),
-        (2, _("Bylaw")),
-        (3, _("Resolution")),
-        (999, _("Other")),
-    )
-
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
@@ -42,7 +35,6 @@ class Issue(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    issue_type = models.IntegerField(choices=ISSUE_TYPE_CHOICES, default=1)
     polity = models.ForeignKey('polity.Polity')
     topics = models.ManyToManyField('topic.Topic', verbose_name=_('Topics'))
 
@@ -230,8 +222,18 @@ class Comment(models.Model):
 
 
 class Document(models.Model):
+
+    DOCUMENT_TYPE_CHOICES = (
+        (1, _('Policy')),
+        (2, _('Bylaw')),
+        (3, _('Motion')),
+        (999, _('Other')),
+    )
+
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
+
+    document_type = models.IntegerField(choices=DOCUMENT_TYPE_CHOICES, default=1)
 
     polity = models.ForeignKey('polity.Polity')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
