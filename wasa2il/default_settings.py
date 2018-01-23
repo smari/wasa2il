@@ -15,6 +15,11 @@ INSTANCE_LOGO = ''
 INSTANCE_URL = '' # Base URL for application, for example https://wasa2il.example.com/
 INSTANCE_FACEBOOK_IMAGE = 'https://example.com/full/url/to/image.png'
 
+# Feature knobs: features enabled if True, disabled if False
+FEATURES = {
+    'tasks': True
+}
+
 TIME_ZONE = 'Iceland'
 
 ALLOW_LEAVE_POLITY = False

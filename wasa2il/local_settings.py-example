@@ -14,6 +14,10 @@ INSTANCE_URL = '' # Base URL for application, for example https://wasa2il.exampl
 INSTANCE_FACEBOOK_IMAGE = 'https://example.com/full/url/to/image.png'
 INSTANCE_FACEBOOK_APP_ID = '1234567890'
 
+FEATURES = {
+    'tasks': True
+}
+
 TIME_ZONE = 'Iceland'
 
 ALLOW_LEAVE_POLITY = False
