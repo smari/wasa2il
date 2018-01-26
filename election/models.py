@@ -340,6 +340,9 @@ class Election(models.Model):
     def get_winners(self):
         return [r.candidate for r in self.result.rows.select_related('candidate__user__userprofile').order_by('order')]
 
+    def get_winners_users(self):
+        return [r.candidate.user for r in self.result.rows.select_related('candidate__user__userprofile').order_by('order')]
+
     def get_candidates(self):
         ctx = {}
         ctx["count"] = self.candidate_set.count()

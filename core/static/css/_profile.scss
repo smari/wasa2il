@@ -1,0 +1,49 @@
+
+
+.profile {
+  width: 100%;
+  display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-items: stretch;
+	align-content: stretch;
+}
+
+
+
+@include tablet() {
+  .profile {
+    flex-direction: row;
+
+    div {
+      h1 {
+        font-size: 30px;
+        color: #000;
+      }
+    }
+
+    &-picture {
+      float: right;
+      width: 40%;
+      padding: 15px;
+    }
+
+    &-bio {
+      width: 50%;
+      text-align: justify;
+    }
+
+    &-thingsdone {
+      width: 50%;
+    }
+
+    &-candidacies {
+      width: 100%;
+    }
+
+    &-proposals {
+
+    }
+
+  }
+}

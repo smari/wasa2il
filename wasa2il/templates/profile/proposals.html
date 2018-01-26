@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block facebook_title %}{% if profile.displayname %}{{ profile.displayname }}{% else %}{% trans 'User' %}{% endif %}{% endblock %}
+{% block facebook_description %}{% if profile.bio %}{{ profile.bio }}{% else %}{{ INSTANCE_NAME }}{% endif %}{% endblock %}
+{% block facebook_image_url %}{{ INSTANCE_URL }}{{ profile.picture.url }}{% endblock %}
+
+{% block content %}
+<section class="content">
+  {% if profile.email_visible %}<div class="pull-right"><small>{{ profile_user.email }}</small></div>{% endif %}
+  <h1>
+      {% if profile.displayname %}
+          {{ profile.displayname }} <small>({{ profile_user.username }})</small>
+      {% else %}
+          {{ profile_user.username }}
+      {% endif %}
+  </h1>
+
+  {% for polity in polities %}
+  <div class="tab-pane" id="polity{{ polity.id }}">
+      <div class="profile-document-data">
+          {% for item in documentdata %}
+              {% if item|classname == 'Document' %}
+                  {% if item.polity_id == polity.id %}
+                      <p class="document"><a href="/polity/{{ polity.id }}/document/{{ item.id }}/">{{ item.name }}</a></p>
+                  {% endif %}
+              {% else %}
+                  {% if item.document.polity_id == polity.id %}
+                      <p class="documentcontent"><a href="/polity/{{ polity.id }}/document/{{ item.document_id }}/?v={{ item.order }}">{% trans 'Version' %} {{ item.order }}</a> <small>({{ item.get_status_display }})</small></p>
+                  {% endif %}
+              {% endif %}
+          {% endfor %}
+      </div>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}

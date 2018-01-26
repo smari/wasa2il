@@ -580,6 +580,31 @@ footer {
     .task__needs {
       width: 50%;
       padding: 0px; } }
+.profile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: stretch;
+  align-content: stretch; }
+
+@media screen and (min-width: 768px) {
+  .profile {
+    flex-direction: row; }
+    .profile div h1 {
+      font-size: 30px;
+      color: #000; }
+    .profile-picture {
+      float: right;
+      width: 40%;
+      padding: 15px; }
+    .profile-bio {
+      width: 50%;
+      text-align: justify; }
+    .profile-thingsdone {
+      width: 50%; }
+    .profile-candidacies {
+      width: 100%; } }
 /* Global search field */
 @media (max-width: 767px) {
   .piratepurple {

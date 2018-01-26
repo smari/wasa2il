@@ -98,25 +98,49 @@ def profile(request, username=None):
     else:
         return HttpResponseRedirect(settings.LOGIN_URL)
 
-    # Get the user's polities.
-    if profile_user == request.user:
-        polities = profile_user.polities.all()
-    else:
-        polities = [p for p in profile_user.polities.all() if p.is_member(request.user) or p.is_listed]
-
-    # Get the user's profile object.
+    polities = profile_user.polities.all()
     profile = UserProfile.objects.get(user_id=profile_user.id)
 
-    # Get documents and documentcontents which user has made
-    documentdata = []
-    contents = profile_user.documentcontent_set.select_related('document').order_by('document__name', 'order')
-    last_doc_id = 0
-    for c in contents:
-        if c.document_id != last_doc_id:
-            documentdata.append(c.document) # Template will detect the type as Document and show as heading
-            last_doc_id = c.document_id
+    # Get running elections in which the user is currently a candidate
+    now = datetime.now()
+    elections = Election.objects.filter(candidate__user=profile_user)
+    current_elections = elections.filter(deadline_votes__gte=now)
 
-        documentdata.append(c)
+    ctx = {
+        'polities': polities,
+        'current_elections': current_elections,
+        'elections': elections,
+        'profile_user': profile_user,
+        'profile': profile,
+    }
+    return render(request, 'profile/profile.html', ctx)
+
+
+@never_cache
+def user_proposals(request, username=None):
+    ctx = {}
+
+    # Determine if we're looking up the currently logged in user or someone else.
+    if username:
+        profile_user = get_object_or_404(User, username=username)
+    elif request.user.is_authenticated():
+        profile_user = request.user
+    else:
+        return HttpResponseRedirect(settings.LOGIN_URL)
+
+    polities = profile_user.polities.all()
+    profile = UserProfile.objects.get(user_id=profile_user.id)
+
+    # # Get documents and documentcontents which user has made
+    # documentdata = []
+    # contents = profile_user.documentcontent_set.select_related('document').order_by('document__name', 'order')
+    # last_doc_id = 0
+    # for c in contents:
+    #     if c.document_id != last_doc_id:
+    #         documentdata.append(c.document) # Template will detect the type as Document and show as heading
+    #         last_doc_id = c.document_id
+    #
+    #     documentdata.append(c)
 
     # Get running elections in which the user is currently a candidate
     now = datetime.now()
@@ -124,12 +148,12 @@ def profile(request, username=None):
 
     ctx = {
         'polities': polities,
-        'current_elections': current_elections,
-        'documentdata': documentdata,
+        # 'documentdata': documentdata,
         'profile_user': profile_user,
         'profile': profile,
     }
-    return render(request, 'profile.html', ctx)
+    return render(request, 'profile/proposals.html', ctx)
+
 
 
 @login_required
