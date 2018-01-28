@@ -27,6 +27,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('issue', '0020_remove_vote_power_when_cast'),
+        ('issue', '0022_auto_20180123_2157'),
     ]
 
     operations = [
