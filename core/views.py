@@ -13,7 +13,7 @@ from urlparse import parse_qs
 
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
 from django.http import Http404
@@ -189,13 +189,13 @@ def view_settings(request):
         else:
             print "FAIL!"
             ctx["form"] = form
-            return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
+            return render(request, "settings.html", ctx)
 
     else:
         form = UserProfileForm(initial={'email': request.user.email}, instance=UserProfile.objects.get(user=request.user))
 
     ctx["form"] = form
-    return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
+    return render(request, "settings.html", ctx)
 
 
 class Wasa2ilLoginView(LoginView):
@@ -230,7 +230,7 @@ def verify(request):
         auth = authenticate(request, settings.SAML_1['URL'])
     except SamlException as e:
         ctx = {'e': e}
-        return render_to_response('registration/saml_error.html', ctx)
+        return render(request, 'registration/saml_error.html', ctx)
 
     if UserProfile.objects.filter(verified_ssn=auth['ssn']).exists():
         taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user
@@ -241,7 +241,7 @@ def verify(request):
 
         auth_logout(request)
 
-        return render_to_response('registration/verification_duplicate.html', ctx)
+        return render(request, 'registration/verification_duplicate.html', ctx)
 
     profile = request.user.userprofile  # It shall exist at this point
     profile.verified_ssn = auth['ssn']
@@ -298,4 +298,4 @@ def sso(request):
 
 
 def error500(request):
-    return render_to_response('500.html')
+    return render(request, '500.html')
