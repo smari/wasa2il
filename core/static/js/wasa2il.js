@@ -354,7 +354,7 @@ function election_render(election) {
 
 $(document).ready(function() {
     // Focus the first input field.
-    var $inputs = $('input[type="text"],input[type="password"],textarea');
+    var $inputs = $('input[type="text"],input[type="password"],input[type="email"],textarea');
     $inputs.first().focus();
 });
 
