@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
+from core.models import User
 from tasks.models import Task, TaskRequest
 from polity.models import Polity
 from tasks.forms import TaskForm
@@ -21,6 +22,15 @@ def task_list(request, polity_id):
         'user_is_wrangler': polity.is_wrangler(request.user),
     }
     return render(request, 'tasks/task_list.html', ctx)
+
+
+def task_user_tasks(request, username):
+    user = get_object_or_404(User, username=username)
+    ctx = {
+        'profile': user.userprofile,
+        'profile_user': user,
+    }
+    return render(request, 'tasks/task_user_tasks.html', ctx)
 
 
 @login_required
