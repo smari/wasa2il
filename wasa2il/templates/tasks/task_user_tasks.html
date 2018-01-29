@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<section class="content">
+
+    <h1>{% trans "User tasks" %}</h1>
+
+    <div class="task-list">
+    {% for task in user.taskrequest_set.all %}
+      <div class="task-preview">
+        <a class="task-preview__link" href="/polity/{{polity.id}}/tasks/{{task.id}}/"></a>
+        <div class="task-preview__skill">{% for i in task.skills.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+        <div class="task-preview__info-wrapper">
+          <div class="task-preview__main-info">
+            <div class="task-preview__title">{{task.name}}</div>
+          </div>
+          <div class="task-preview__description">
+            <div class="task-preview__hrs-per-week">
+              <p class="task-preview__bold-text">{{task.estimated_hours_per_week}}</p> {% trans "hours per week" %}
+            </div>
+            <div class="task-preview__est-duration">
+              <p class="task-preview__bold-text">{{task.estimated_duration_weeks}}</p> {% trans "vikur" %}
+            </div>
+          </div>
+        </div>
+        <div class="task-preview__category">
+          <div class="task-preview__category-text">{% for i in task.categories.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="alert alert-info">{% trans "User currently isn't volunteering for any tasks." %}</div>
+    {% endfor %}
+    </div>
+
+</section>
+{% endblock %}
