@@ -234,6 +234,13 @@ class Election(models.Model):
             return max(self.starttime_votes, self.deadline_candidacy)
         return self.deadline_candidacy
 
+    ELECTION_STATES = (
+        ('concluded', _('Concluded')),
+        ('voting', _('Voting')),
+        ('waiting', _('Waiting')),
+        ('accepting_candidates', _('Accepting candidates')),
+    )
+
     def election_state(self):
         # Short-hands.
         now = datetime.now()
@@ -252,6 +259,9 @@ class Election(models.Model):
         else:
             # Should never happen.
             return 'unknown'
+
+    def readable_election_state(self):
+        return dict(self.ELECTION_STATES)[self.election_state()]
 
     def is_waiting(self):
         return self.election_state() == 'waiting'
