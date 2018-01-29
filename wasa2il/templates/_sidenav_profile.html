@@ -3,13 +3,13 @@
 {% load static %}
 
 <ul class="sidebar-nav">
-  <li{% if request.resolver_match.url_name == "profile" %} class="active"{% endif %}><a href="/accounts/profile/{{polity.id}}/">
+  <li{% if request.resolver_match.url_name == "profile" %} class="active"{% endif %}><a href="/accounts/profile/{{user.username}}/">
     <i class="fas fa-user"></i>
     {% trans "Profile" %}
   </a></li>
 
   {% if FEATURES.tasks %}
-  <li{% if request.resolver_match.url_name == "tasks" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/tasks/">
+  <li{% if request.resolver_match.url_name == "tasks" %} class="active"{% endif %}><a href="/accounts/profile/{{user.username}}/tasks/">
     <i class="fas fa-hand-paper"></i>
     {% trans "User's tasks" %}
   </a></li>
