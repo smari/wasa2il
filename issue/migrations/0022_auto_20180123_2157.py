@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('issue', '0020_remove_vote_power_when_cast'),
+        ('issue', '0021_reprocess_issues'),
     ]
 
     operations = [
