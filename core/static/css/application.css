@@ -570,7 +570,8 @@ div.prosemirror-editor {
       width: 50%;
       text-align: justify; }
     .profile-thingsdone {
-      width: 50%; }
+      width: 50%;
+      padding-left: 20px; }
     .profile-candidacies {
       width: 100%; } }
 /* Global search field */
