@@ -30,6 +30,9 @@ DATETIME_FORMAT_DJANGO_WIDGET = 'dd/mm/yyyy hh:ii' # django-datetime-widget
 
 LANGUAGE_CODE = 'en-US' # For example 'en-US', 'en', 'is' etc...
 
+RECENT_ELECTION_DAYS = 7 # Number of days in which a closed election is considered "new".
+RECENT_ISSUE_DAYS = 7 # Number of days in which a closed issue is considered "new".
+
 AUTO_LOGOUT_DELAY = 30 # User is logged out after this many minutes. Comment to disable auto-logout.
 
 DATABASE_ENGINE = 'django.db.backends.sqlite3' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
