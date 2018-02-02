@@ -5,7 +5,7 @@
 
 # These settings are here in case no local_settings.py file is found.
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'wasa2il-development.herokuapp.com', 'wasa2il-staging.herokuapp.com']
 
 DEBUG = True
 
