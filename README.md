@@ -22,7 +22,7 @@ The current branches are deployed to Heroku when changes are merged.
 ### development branch:
 [https://wasa2il-development.herokuapp.com](https://wasa2il-development.herokuapp.com)
 
-Login with any of the following 4 user:pass (a:a, b:b, c:c, d:d)
+**Login** with any of the following 4 **user:pass** (a:a, b:b, c:c, d:d)
 
 # Setup
 
