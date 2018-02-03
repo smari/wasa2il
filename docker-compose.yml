@@ -13,6 +13,8 @@ wasaweb:
     - "8000:8000"
   links:
     - "db"
+  environment:
+    - DOCKER_DB_HOST=db
 db:
   image: mysql
   environment:

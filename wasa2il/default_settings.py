@@ -4,6 +4,8 @@
 # ****************************************************************************
 
 # These settings are here in case no local_settings.py file is found.
+from sys import stdout
+import os
 
 ALLOWED_HOSTS = ['localhost', 'wasa2il-development.herokuapp.com', 'wasa2il-staging.herokuapp.com']
 
@@ -35,12 +37,23 @@ RECENT_ISSUE_DAYS = 7 # Number of days in which a closed issue is considered "ne
 
 AUTO_LOGOUT_DELAY = 30 # User is logged out after this many minutes. Comment to disable auto-logout.
 
-DATABASE_ENGINE = 'django.db.backends.sqlite3' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_HOST = ''
-DATABASE_PORT = ''
-DATABASE_NAME = 'wasa2il.sqlite'
-DATABASE_USER = ''
-DATABASE_PASSWORD = ''
+# use Docker db settings if we have this env variable
+if "DOCKER_DB_HOST" in os.environ:
+    stdout.write('Using Docker + mysql container database! \n')
+    DATABASE_ENGINE = 'django.db.backends.mysql' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    DATABASE_HOST = 'db'
+    DATABASE_PORT = '3306'
+    DATABASE_NAME = 'docker'
+    DATABASE_USER = 'docker'
+    DATABASE_PASSWORD = 'docker'
+else:
+    stdout.write('Using local sqlite database! \n')
+    DATABASE_ENGINE = 'django.db.backends.sqlite3' # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+    DATABASE_HOST = ''
+    DATABASE_PORT = ''
+    DATABASE_NAME = 'wasa2il.sqlite'
+    DATABASE_USER = ''
+    DATABASE_PASSWORD = ''
 
 # Where we save anonymized ballots to, in case we need a recount.
 # Set to None to not save ballots at all.
