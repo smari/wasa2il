@@ -74,3 +74,4 @@ texttable==0.9.1
 traitlets==4.3.2
 urllib3==1.22
 wcwidth==0.1.7
+django-prosemirror==0.0.12

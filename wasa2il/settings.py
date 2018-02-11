@@ -158,6 +158,7 @@ INSTALLED_APPS = (
     'diff_match_patch',
     'datetimewidget',
     'crispy_forms',
+    'prosemirror',
 
     'core',
     'polity',
