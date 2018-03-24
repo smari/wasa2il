@@ -421,7 +421,7 @@ class ElectionVote(models.Model):
                     ('election', 'user', 'value'))
 
     def __unicode__(self):
-        return u'In %s, user %s voted for %s for seat %d' % (self.election, self.user, self.candidate, self.value)
+        return u'User %s has voted in election %s' % (self.user, self.election)
 
 
 class ElectionResult(models.Model):
