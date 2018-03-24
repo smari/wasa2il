@@ -198,16 +198,6 @@ def election_showclosed(request):
     return ctx
 
 
-def election_ballots(request, pk=None):
-    ctx = {}
-    election = get_object_or_404(Election, pk=pk)
-    if election.is_closed():
-        ctx["ballotbox"] = election.get_ballots()
-        return render_to_response("election/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
-    else:
-        raise PermissionDenied
-
-
 def election_stats_download(request, polity_id=None, election_id=None, filename=None):
     election = get_object_or_404(Election, id=election_id, polity_id=polity_id)
 
