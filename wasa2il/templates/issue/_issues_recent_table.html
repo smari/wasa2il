@@ -37,7 +37,9 @@
             {% endwith %}
         </td>
         {% if issue.special_process %}
-        <td colspan="2" style="text-align: right;">{{ issue.special_process }}</td>
+            <td colspan="2" style="text-align: right;">
+                {{ issue.get_special_process_display }}
+            </td>
         {% else %}
         <td style="text-align: right;">{{ issue.comment_count }}</td>
         <td style="text-align: right;">{{ issue.votecount }}</td>
