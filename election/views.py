@@ -50,7 +50,7 @@ def election_view(request, polity_id, election_id):
     polity = get_object_or_404(Polity, id=polity_id)
     election = get_object_or_404(Election, polity=polity, id=election_id)
 
-    voting_interface_enabled = election.is_voting and election.can_vote(request.user)
+    voting_interface_enabled = election.election_state() == 'voting' and election.can_vote(request.user)
 
     if election.is_processed:
         ordered_candidates = election.get_winners()

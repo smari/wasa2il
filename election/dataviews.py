@@ -69,9 +69,7 @@ def election_poll(request, **kwargs):
         "election": {
             "user_is_candidate":
                 (request.user in [x.user for x in election.candidate_set.all()]),
-            "is_voting": election.is_voting(),
-            "is_waiting": election.is_waiting(),
-            "is_closed": election.is_closed(),
+            "election_state": election.election_state(),
             "votes": election.get_vote_count(),
             "candidates": all_candidates,
             "vote": {}}}
@@ -110,7 +108,7 @@ def election_poll(request, **kwargs):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.POST.get("election", 0))
-    if election.is_closed():
+    if election.election_state() == 'concluded':
         return election_poll(request)
 
     val = int(request.POST.get("val", 0))
@@ -143,11 +141,8 @@ def election_vote(request):
 
     logged_in = request.user.is_authenticated()
     can_vote = logged_in and election.can_vote(request.user)
-    is_voting = election.is_voting()
-    is_closed = election.is_closed()
-    if not (logged_in and can_vote and is_voting):
+    if not (logged_in and can_vote and election.election_state() == 'voting'):
         ctx["please_login"] = not logged_in
-        ctx["is_closed"] = is_closed
         ctx["can_vote"] = can_vote
         ctx["ok"] = False
         return ctx

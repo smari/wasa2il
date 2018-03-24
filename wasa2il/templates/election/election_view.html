@@ -22,20 +22,22 @@
         #election_button_withdraw {float: right;}
         .start-voting {font-size: 1.5em; margin-top: 1em;}
         .user_can_vote, .user_can_run {display: inline-block; float: right;}
-        {% if not election.is_closed %}
-        table#election_details tr {display: none;}
-        {% if election.is_voting %}
-        table#election_details tr#vote_deadline,
-        {% elif election.is_waiting %}
-        table#election_details tr#vote_starttime,
-        {% elif not election.is_closed %}
-        table#election_details tr#vote_starttime,
-        table#election_details tr#cand_deadline,
-        {% endif %}
-        table#election_details tr#show_details {display: table-row;}
-    {% else %}
-        table#election_details tr#show_details {display: none;}
-    {% endif %}
+        {% with election_state as election.election_state %}
+            {% if election_state != 'concluded' %}
+                table#election_details tr {display: none;}
+                {% if election_state == 'voting' %}
+                    table#election_details tr#vote_deadline,
+                {% elif election_state == 'waiting' %}
+                    table#election_details tr#vote_starttime,
+                {% elif election_state != 'concluded' %}
+                    table#election_details tr#vote_starttime,
+                    table#election_details tr#cand_deadline,
+                {% endif %}
+                table#election_details tr#show_details {display: table-row;}
+            {% else %}
+                table#election_details tr#show_details {display: none;}
+            {% endif %}
+        {% endwith %}
     </style>
     <script type="text/javascript" src="/static/js/jquery.sparkline.min.js"></script>
 {% endblock %}
@@ -61,7 +63,7 @@
 </div>
 <h1><small>{% trans "Election:" %}</small> {{ election.name }}</h1>
 
-{% if election.is_closed %}
+{% if election.election_state == 'concluded' %}
     <div class="alert alert-danger">
         {% trans "This election is closed." %}
         {% if user_result and election.results_are_ordered %}
@@ -84,7 +86,7 @@
             {% endif %}</b>
         </div>
     {% endif %}
-    {% if not election.is_voting and not can_run %}
+    {% if election.election_state != 'voting' and not can_run %}
         <div class="alert alert-warning">
             {% trans "You cannot run in this election:" %}
             <b>
@@ -190,7 +192,7 @@
 
     <div class="col-md-{% if statistics and election.stats_publish_ballots_basic %}12{% else %}6{% endif %} col-xs-12">
         {% if election.instructions %}
-            {% if not voting_interface_enabled or not election.is_voting or started_voting or step == "vote" %}
+            {% if not voting_interface_enabled or election.election_state != 'voting' or started_voting or step == "vote" %}
                 <div class="alert alert-success">
                     <h3>{% trans "About This Election" %}</h3>
                     <p>{{ election.instructions|safe|linebreaks }}</p>
@@ -200,7 +202,7 @@
 
         {{ election.description }}
 
-        {% if election.is_closed %}
+        {% if election.election_state == 'concluded' %}
             <h2>{% trans 'Election results' %}</h2>
             {% if not election.results_are_ordered %}
                 <div class="alert alert-info">{% trans 'The voting system used in this election generates a non-ordered list. All winners are in the same place.' %}</div>
@@ -248,7 +250,7 @@
     </div>
 </div>
 
-{% if statistics and election.stats_publish_files and election.is_closed %}
+{% if statistics and election.stats_publish_files and election.election_state == 'concluded' %}
 <div class="row">
     <p class="stats_downloads" style="text-align: right;">
         {% trans "Download detailed statistics as:" %}
@@ -268,9 +270,9 @@
 {% endif %}
 
 
-{% if not election.is_closed %}
+{% if election.election_state != 'concluded' %}
 <div class="row">
-    {% if voting_interface_enabled and election.is_voting %}
+    {% if voting_interface_enabled and election.election_state == 'voting' %}
     <div class="col-md-5 col-xs-12 well voting">
         {% if started_voting or step == "vote" %}
         <h2>{% trans "Votes" %} <small>{% trans "your favorites first!" %}</small></h2>
@@ -304,7 +306,7 @@
         </div>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
         <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();"
-             {% if election.is_voting or election.is_waiting %}
+             {% if election.election_state == 'voting' or election.election_state == 'waiting' %}
              data-confirm="{% trans "Are you sure you want to withdraw? This can not be undone." %}"
              {% endif %}
              >{% trans 'Withdraw candidacy' %}</a>

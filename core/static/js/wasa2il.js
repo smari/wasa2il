@@ -311,7 +311,8 @@ function election_poll(election) {
 
 
 function election_render(election) {
-    if (election_object.is_voting) {
+    var election_state = election_object.election_state; // Short-hand.
+    if (election_state == 'voting') {
         $(".voting").show();
     }
 
@@ -325,7 +326,7 @@ function election_render(election) {
     //        not break anything at that end, as it will create a gap in
     //        the user's ballot sequence.
     if (election_ui_update_is_safe()) {
-        if (election_object.is_closed || election_object.is_voting) {
+        if (election_state == 'concluded' || election_state == 'voting') {
             $("#election_button_withdraw").hide();
             $("#election_button_announce").hide();
         }
@@ -335,9 +336,7 @@ function election_render(election) {
         }
         else {
             $("#election_button_withdraw").hide();
-            if (election_object.is_voting) {
-                $("#election_button_announce").hide();
-            } else if (election_object.is_waiting) {
+            if (election_state == 'voting' || election_state == 'waiting') {
                 $("#election_button_announce").hide();
             } else {
                 $("#election_button_announce").show();

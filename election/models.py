@@ -108,7 +108,7 @@ class Election(models.Model):
 
     @transaction.atomic
     def process(self):
-        if not self.is_closed():
+        if self.election_state() != 'concluded':
             raise Election.ElectionInProgressException('Election %s is still in progress!' % self)
 
         if not self.is_processed:
@@ -226,9 +226,6 @@ class Election(models.Model):
     def __unicode__(self):
         return u'%s' % self.name
 
-    def is_open(self):
-        return not self.is_closed()
-
     def voting_start_time(self):
         if self.starttime_votes not in (None, ""):
             return max(self.starttime_votes, self.deadline_candidacy)
@@ -262,15 +259,6 @@ class Election(models.Model):
 
     def readable_election_state(self):
         return dict(self.ELECTION_STATES)[self.election_state()]
-
-    def is_waiting(self):
-        return self.election_state() == 'waiting'
-
-    def is_voting(self):
-        return self.election_state() == 'voting'
-
-    def is_closed(self):
-        return self.election_state() == 'concluded'
 
     def get_stats(self, user=None, load_users=True, rename_users=False):
         """Load stats from the DB and convert to pythonic format.
@@ -360,7 +348,7 @@ class Election(models.Model):
         return ctx
 
     def get_unchosen_candidates(self, user):
-        if not user.is_authenticated() or not self.is_voting():
+        if not user.is_authenticated() or self.election_state() != 'voting':
             return Candidate.objects.filter(election=self)
         # votes = []
         votes = ElectionVote.objects.filter(election=self, user=user)
