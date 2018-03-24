@@ -1,7 +1,8 @@
 /*********************
 * Media query mixins *
 *********************/
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700,900&subset=cyrillic,cyrillic-ext,latin-ext");
+/* Downloaded from: https://fonts.googleapis.com/css?family=Montserrat:400,600,700,900&subset=cyrillic,cyrillic-ext,latin-ext */
+@import url(downloads/fonts.googleapis.com-Montserrat.css);
 body {
   margin-top: 70px;
   padding-bottom: 40px; }
