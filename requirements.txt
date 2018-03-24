@@ -19,6 +19,7 @@ django-crispy-forms==1.6.1
 django-datetime-widget==0.9.3
 django-debug-toolbar==1.8
 django-registration-redux==1.7
+django-prosemirror==0.0.12
 eight==0.4.2
 enum34==1.1.6
 et-xmlfile==1.0.1
