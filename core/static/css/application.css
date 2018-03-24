@@ -3,14 +3,14 @@
 *********************/
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700,900&subset=cyrillic,cyrillic-ext,latin-ext");
 body {
-  margin-top: 110px;
+  margin-top: 70px;
   padding-bottom: 40px; }
 
 #content-wrapper {
   padding: 0px; }
 
 section.content {
-  padding-top: 40px;
+  padding-top: 20px;
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 30px; }
@@ -23,11 +23,10 @@ footer {
   width: 100%;
   display: block;
   background: #000;
-  font-size: 10pt;
+  font-size: 9pt;
   font-family: "Montserrat";
-  margin-top: 30px;
-  height: 70px;
-  padding: 20px;
+  height: 40px;
+  padding: 15px;
   color: #fff; }
   footer a {
     color: #fff; }
@@ -38,21 +37,10 @@ footer {
 .navbar {
   background-color: #503087;
   height: 70px;
-  margin-top: 40px;
   padding-right: 50px; }
   .navbar .btn, .navbar button {
     color: #fff;
     font-size: 25px; }
-  .navbar .headerbar {
-    position: absolute;
-    top: -40px;
-    height: 40px;
-    width: 100%;
-    background-color: #37215D; }
-    .navbar .headerbar a {
-      font-size: 18px;
-      color: #d6caec;
-      margin-left: 10px; }
   .navbar .navbar-brand {
     margin: 0px;
     padding: 0px;

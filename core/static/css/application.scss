@@ -3,7 +3,7 @@
 @import "_constants.scss";
 
 body {
-  margin-top: 110px;
+  margin-top: 70px;
   padding-bottom: 40px;
 }
 
@@ -12,7 +12,7 @@ body {
 }
 
 section.content {
-  padding-top: 40px;
+  padding-top: 20px;
   padding-left: 30px;
   padding-right: 30px;
   padding-bottom: 30px;
@@ -26,11 +26,10 @@ footer {
   width: 100%;
   display: block;
   background: $background-footer;
-  font-size: 10pt;
+  font-size: 9pt;
   font-family: $font-heading;
-  margin-top: 30px;
-  height: 70px;
-  padding: 20px;
+  height: 40px;
+  padding: 15px;
   color: $font-color-light;
   a {
     color: $font-color-light;
