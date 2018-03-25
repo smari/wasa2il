@@ -5,6 +5,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -44,7 +45,10 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
     else:
         issue = Issue(polity=polity)
         if documentcontent_id:
-            current_content = get_object_or_404(DocumentContent, id=documentcontent_id)
+            try:
+                current_content = DocumentContent.objects.select_related('document').get(id=documentcontent_id)
+            except DocumentContent.DoesNotExist:
+                raise Http404
         else:
             current_content = None
 
@@ -64,7 +68,7 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
     else:
         # Check if we need to inherit information from previous documentcontent.
         if not issue_id and current_content:
-            name = current_content.document.name
+            name = current_content.name
             selected_topics = []
 
             # If this is a new issue, being made from existing content, we
@@ -197,7 +201,10 @@ def document_view(request, polity_id, document_id):
         current_content.predecessor = document.preferred_version()
 
         if current_content.predecessor:
+            current_content.name = current_content.predecessor.name
             current_content.text = current_content.predecessor.text
+        else:
+            current_content.name = document.name
 
     elif action == 'edit':
         if current_content.user.id == request.user.id and current_content.status == 'proposed' and issue is None:

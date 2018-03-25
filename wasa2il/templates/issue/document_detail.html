@@ -27,12 +27,13 @@
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {
 
-            var original_text = $('#predecessor-legal-text').val();
+            var original_text = $('#predecessor-legal-text').val().trim();
 
             $('.document #propose-change').submit(function (e) {
-                input_text = $('#legal-text-editor').val();
+                input_name = $('#documentcontent-name').val().trim();
+                input_text = $('#legal-text-editor').val().trim();
 
-                if (input_text.trim() == original_text.trim()) {
+                if (input_text == original_text) {
                     alert(ERROR_CHANGE_PROPOSAL_IDENTICAL);
                     e.preventDefault();
                     return false;
@@ -45,7 +46,8 @@
                     {
                         document_id: DOCUMENT_ID,
                         v: $('input[name="v"]').val(),
-                        text: $('#legal-text-editor').val(),
+                        name: input_name,
+                        text: input_text,
                         comments: $(this).find('#comments').val(),
                         patch: '',
                         diff: ''
@@ -63,11 +65,11 @@
             });
 
             $('.document #propose-change #btn-preview').click(function(e) {
-                input_text = $('#legal-text-editor').val();
+                input_text = $('#legal-text-editor').val().trim();
                 $.post(
                     '/api/document/render-markdown/',
                     {
-                        text: $('#legal-text-editor').val()
+                        text: input_text
                     },
                     function(data) {
                         $('#legal-text').html(data.content);
@@ -99,7 +101,10 @@
             {% trans "Proposal" %}:
         {% endif %}
     </small>
-    {{document.name}}
+    {{ current_content.name }}
+    {% if current_content.predecessor and current_content.name != current_content.predecessor.name and current_content.status != 'accepted' %}
+        <small>({% trans 'Name change' %})</small>
+    {% endif %}
 </h1>
 
 <div class="row">
@@ -111,7 +116,14 @@
 
             {% if editor_enabled %}
                 <textarea id="predecessor-legal-text" style="display: none;">{{ current_content.predecessor.text }}</textarea>
-                <textarea id="legal-text-editor">{{ current_content.text }}</textarea>
+                <p>
+                    <label for="documentcontent-name">{% trans 'Name' %}</label>
+                    <input class="form-control" type="text" id="documentcontent-name" value="{{ current_content.name }}" />
+                </p>
+                <p>
+                    <label for="legal-text-editor">{% trans 'Content' %}</label>
+                    <textarea id="legal-text-editor">{{ current_content.text }}</textarea>
+                </p>
             {% else %}
                 {% include 'issue/stub/document_view.html' with documentcontent=current_content %}
             {% endif %}

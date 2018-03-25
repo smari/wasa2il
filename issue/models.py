@@ -24,13 +24,17 @@ class Issue(models.Model):
         ('rejected_at_assembly', _('Rejected at assembly')),
     )
 
-    name = models.CharField(max_length=128, verbose_name=_('Name'))
+    name = models.CharField(max_length=128, verbose_name=_('Name'), help_text=_(
+        'A great issue name expresses the essence of a proposal as briefly as possible.'
+    ))
     slug = models.SlugField(max_length=128, blank=True)
 
     issue_num = models.IntegerField()
     issue_year = models.IntegerField()
 
-    description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
+    description = models.TextField(verbose_name=_("Description"), null=True, blank=True, help_text=_(
+        'An issue description is usually just a copy of the proposal\'s description, but you can customize it here if you so wish.'
+    ))
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='issue_created_by')
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='issue_modified_by')
@@ -145,7 +149,7 @@ class Issue(models.Model):
 
             # Figure out if issue was accepted or rejected.
             if self.majority_reached():
-                self.documentcontent.status = 'accepted'
+                documentcontent.status = 'accepted'
 
                 # Since the new version has been accepted, deprecate
                 # previously accepted versions.
@@ -156,8 +160,13 @@ class Issue(models.Model):
                     prev_content.status = 'deprecated'
                     prev_content.save()
 
+                # Update the document's name, if it has been changed.
+                if document.name != documentcontent.name:
+                    document.name = documentcontent.name
+                    document.save()
+
             else:
-                self.documentcontent.status = 'rejected'
+                documentcontent.status = 'rejected'
 
             self.vote_set.all().delete()
 
@@ -299,6 +308,7 @@ class Document(models.Model):
 
 
 class DocumentContent(models.Model):
+    name = models.CharField(max_length=128, verbose_name=_('Name'))
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     document = models.ForeignKey('issue.Document')
     created = models.DateTimeField(auto_now_add=True)
