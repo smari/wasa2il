@@ -2,12 +2,38 @@
 from django.conf import settings
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
+from django.urls import resolve
 
 from core.models import UserProfile
+
+from polity.models import Polity
 
 from django.contrib import auth
 
 from datetime import datetime, timedelta
+
+# A middleware to make certain variables available to both templates and views.
+class GlobalsMiddleware():
+    def process_request(self, request):
+
+        global_vars = {
+            'polity': None,
+            'user_is_member': False,
+            'user_is_officer': False,
+        }
+
+        match = resolve(request.path)
+        if 'polity_id' in match.kwargs:
+            polity_id = int(match.kwargs['polity_id'])
+            global_vars['polity'] = polity = Polity.objects.get(id=polity_id)
+
+            if not request.user.is_anonymous():
+                global_vars['user_is_member'] = request.user in polity.members.all()
+                global_vars['user_is_officer'] = request.user in polity.officers.all()
+                global_vars['user_is_wrangler'] = request.user in polity.wranglers.all()
+
+        request.globals = global_vars
+
 
 # Put this middleware before LocaleMiddleware to ignore HTTP_ACCEPT_LANGUAGE
 # set by the browser and fall back to settings.LANGUAGE_CODE instead.

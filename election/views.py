@@ -78,8 +78,6 @@ def election_view(request, polity_id, election_id):
         'statistics': statistics,
         'vote_count': vote_count,
         'voting_interface_enabled': voting_interface_enabled,
-        'user_is_member': polity.is_member(request.user),
-        'user_is_officer': polity.is_officer(request.user),
         'user_result': user_result,
         'can_vote': (request.user is not None and election.can_vote(request.user)),
         'can_run': (request.user is not None and election.can_be_candidate(request.user))
@@ -106,7 +104,5 @@ def election_list(request, polity_id):
     ctx = {
         'polity': polity,
         'elections': elections,
-        'user_is_member': polity.is_member(request.user),
-        'user_is_officer': polity.is_officer(request.user),
     }
     return render(request, 'election/election_list.html', ctx)

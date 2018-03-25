@@ -88,7 +88,6 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
     ctx = {
         'polity': polity,
         'issue': issue,
-        'user_is_member': polity.is_member(request.user),
         'form': form,
         'documentcontent': current_content,
         'tab': 'diff' if current_content.order > 1 else '',
@@ -118,10 +117,8 @@ def issue_view(request, polity_id, issue_id):
 
     ctx['polity'] = polity
     ctx['issue'] = issue
-    ctx['user_is_member'] = polity.is_member(request.user)
     ctx['can_vote'] = (request.user is not None and issue.can_vote(request.user))
     ctx['comments_closed'] = not request.user.is_authenticated() or issue.discussions_closed()
-    ctx['user_is_officer'] = polity.is_officer(request.user)
 
     return render(request, 'issue/issue_detail.html', ctx)
 
@@ -134,8 +131,6 @@ def issues(request, polity_id):
     ctx = {
         'polity': polity,
         'issues': issues,
-        'user_is_member': polity.is_member(request.user),
-        'user_is_officer': polity.is_officer(request.user),
     }
     return render(request, 'issue/issues.html', ctx)
 
@@ -209,9 +204,6 @@ def document_view(request, polity_id, document_id):
             ctx['editor_enabled'] = True
 
 
-    user_is_member = polity.is_member(request.user)
-    user_is_officer = polity.is_officer(request.user)
-
     buttons = {
         'propose_change': False,
         'put_to_vote': False,
@@ -220,10 +212,10 @@ def document_view(request, polity_id, document_id):
     if ((not issue or issue.issue_state() != 'voting')
             and current_content is not None):
         if current_content.status == 'accepted':
-            if user_is_member:
+            if request.globals['user_is_member']:
                 buttons['propose_change'] = 'enabled'
         elif current_content.status == 'proposed':
-            if user_is_officer and not issue:
+            if request.globals['user_is_officer'] and not issue:
                 buttons['put_to_vote'] = 'disabled' if document.has_open_issue() else 'enabled'
             if current_content.user_id == request.user.id:
                 buttons['edit_proposal'] = 'disabled' if issue is not None else 'enabled'
@@ -242,8 +234,6 @@ def document_view(request, polity_id, document_id):
 def document_agreements(request, polity_id):
     polity = get_object_or_404(Polity, id=polity_id)
 
-    user_is_member = polity.is_member(request.user)
-
     q = request.POST.get('q') or ''
     if q:
         agreements = polity.agreements(q)
@@ -254,6 +244,5 @@ def document_agreements(request, polity_id):
         'q': q,
         'polity': polity,
         'agreements': agreements,
-        'user_is_member': user_is_member,
     }
     return render(request, 'issue/document_list.html', ctx)

@@ -17,9 +17,6 @@ def task_list(request, polity_id):
     ctx = {
         'polity': polity,
         'tasks': tasks,
-        'user_is_member': polity.is_member(request.user),
-        'user_is_officer': polity.is_officer(request.user),
-        'user_is_wrangler': polity.is_wrangler(request.user),
     }
     return render(request, 'tasks/task_list.html', ctx)
 
@@ -58,9 +55,6 @@ def task_add_edit(request, polity_id, task_id=None):
     ctx = {
         'polity': polity,
         'form': form,
-        'user_is_member': polity.is_member(request.user),
-        'user_is_officer': polity.is_officer(request.user),
-        'user_is_wrangler': polity.is_wrangler(request.user),
     }
     return render(request, 'tasks/task_add_edit.html', ctx)
 
@@ -84,9 +78,6 @@ def task_detail(request, polity_id, task_id):
         'polity': polity,
         'task': task,
         'has_applied': has_applied,
-        'user_is_member': polity.is_member(request.user),
-        'user_is_officer': polity.is_officer(request.user),
-        'user_is_wrangler': polity.is_wrangler(request.user),
     }
     return render(request, 'tasks/task_detail.html', ctx)
 
@@ -142,9 +133,6 @@ def task_applications(request, polity_id):
     ctx = {
         'polity': polity,
         'tasks': tasks,
-        'user_is_member': polity.is_member(request.user),
-        'user_is_officer': polity.is_officer(request.user),
-        'user_is_wrangler': polity.is_wrangler(request.user),
         'show_done': show_done,
     }
     return render(request, 'tasks/task_applications.html', ctx)

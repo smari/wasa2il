@@ -13,4 +13,7 @@ def globals(request):
         'FEATURES': settings.FEATURES
     }
 
+    # Get global variables from GlobalsMiddleWare.
+    ctx.update(request.globals)
+
     return ctx

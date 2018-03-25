@@ -60,7 +60,6 @@ def election_poll(request, **kwargs):
     election = get_object_or_404(Election,
         id=request.POST.get("election", request.GET.get("election", -1)))
 
-    user_is_member = election.polity.is_member(request.user)
     user_can_vote = election.can_vote(request.user)
     all_candidates = election.get_candidates()
 
@@ -76,7 +75,6 @@ def election_poll(request, **kwargs):
 
     ctx["election"]["candidates"]["html"] = render_to_string(
         "election/_election_candidate_list.html", {
-            "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
             "candidate_total": len(all_candidates),
@@ -88,7 +86,6 @@ def election_poll(request, **kwargs):
 
     ctx["election"]["vote"]["html"] = render_to_string(
         "election/_election_candidate_list.html", {
-            "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
             "candidate_total": len(all_candidates),
