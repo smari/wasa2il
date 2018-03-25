@@ -220,9 +220,6 @@ class Election(models.Model):
     def get_ordered_candidates_from_votes(self):
         return self.process_votes()[0]
 
-    def export_openstv_ballot(self):
-        return ""
-
     def __unicode__(self):
         return u'%s' % self.name
 

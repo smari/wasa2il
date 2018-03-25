@@ -179,12 +179,6 @@ class Issue(models.Model):
         return self.get_voters().filter(
             id=(user_id if (user_id is not None) else user.id)).exists()
 
-    def topics_str(self):
-        return ', '.join(map(str, self.topics.all()))
-
-    def proposed_documents(self):
-        return self.document_set.filter(is_proposed=True)
-
     def user_documents(self, user):
         try:
             return self.document_set.filter(user=user)
@@ -259,14 +253,9 @@ class Document(models.Model):
 
     polity = models.ForeignKey('polity.Polity')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    is_adopted = models.BooleanField(default=False)
-    is_proposed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-id"]
-
-    def save(self, *args, **kwargs):
-        return super(Document, self).save(*args, **kwargs)
 
     def get_versions(self):
         return DocumentContent.objects.filter(document=self).order_by('order')

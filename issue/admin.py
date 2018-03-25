@@ -8,7 +8,7 @@ from issue.models import Issue
 
 class IssueAdmin(admin.ModelAdmin):
     fieldsets = None
-    list_display = ['name', 'slug', 'description', 'topics_str']
+    list_display = ['name', 'slug', 'description']
     exclude = ['votecount', 'votecount_yes', 'votecount_abstain', 'votecount_no']
 
 

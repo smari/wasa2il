@@ -31,7 +31,7 @@ class IssueForm(Wasa2ilForm):
 class DocumentForm(Wasa2ilForm):
     class Meta:
         model = Document
-        exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug', 'issues')
+        exclude = ('user', 'polity', 'slug', 'issues')
 
 
 class CommentForm(forms.ModelForm):
