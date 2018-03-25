@@ -11,13 +11,7 @@
 
 {% block content %}
 <section class="content">
-<h1>
-    {% if polity.id %}
-        {% trans 'Polity settings' %}
-    {% else %}
-        {% trans 'New polity' %}
-    {% endif %}
-</h1>
+<h1>{% trans 'Polity officers' %}</h1>
 
 {% crispy form %}
 {% if polity.id %}

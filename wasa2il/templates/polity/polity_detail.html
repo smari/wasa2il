@@ -27,7 +27,8 @@ $(document).ready(function() {
 <h1>
     {{ polity.name }}
     {% if user.is_staff %}
-        <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
+        <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Settings' %}</a>
+        <a class="btn btn-default" role="button" href="{% url 'polity_officers' polity.id %}">{% trans 'Officers' %}</a>
     {% endif %}
 </h1>
 
