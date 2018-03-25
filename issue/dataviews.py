@@ -33,7 +33,10 @@ def issue_vote(request):
 
     val = int(request.POST.get("vote", 0))
 
-    (vote, created) = Vote.objects.get_or_create(user=request.user, issue=issue)
+    try:
+        vote = Vote.objects.get(user=request.user, issue=issue)
+    except Vote.DoesNotExist:
+        vote = Vote(user=request.user, issue=issue)
     vote.value = val
     vote.save()
 
