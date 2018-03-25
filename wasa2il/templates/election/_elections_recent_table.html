@@ -4,10 +4,12 @@
 {% for election in elections_recent %}
     <tr>
         <td>
-            <i id="electionstar_{{ election.id }}"
-                    class="far {% if election|electionvoted:user %}fa-check-square{% else %}fa-square icon-grey{% endif %}"
-                    title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"
-            ></i>
+            {% if not user.is_anonymous and election.election_state == 'voting' %}
+                <i id="electionstar_{{ election.id }}"
+                        class="far {% if election|electionvoted:user %}fa-check-square{% else %}fa-square icon-grey{% endif %}"
+                        title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"
+                ></i>
+            {% endif %}
             <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
         </td>
         {% if not polity %}

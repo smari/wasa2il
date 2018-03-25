@@ -121,6 +121,7 @@ def issue_showclosed(request):
             polity = None
 
         html_ctx = {
+            'user': request.user,
             'polity': polity,
             'issues_recent': issues,
         }

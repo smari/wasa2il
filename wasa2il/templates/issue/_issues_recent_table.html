@@ -4,10 +4,12 @@
 {% for issue in issues_recent %}
     <tr>
         <td>
-            <span id="issuestar_{{ issue.id }}"
-                    class="far {% if issue|issuevoted:user %}fa-check-square{% else %}fa-square icon-grey{% endif %}"
-                    title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"
-            ></span>
+            {% if not user.is_anonymous and issue.issue_state == 'voting' %}
+                <i id="issuestar_{{ issue.id }}"
+                        class="far {% if issue|issuevoted:user %}fa-check-square{% else %}fa-square icon-grey{% endif %}"
+                        title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"
+                ></i>
+            {% endif %}
             <a href="{% url 'issue' issue.polity_id issue.id %}">{{ issue.name }}</a>
         </td>
         {% if not polity %}

@@ -180,6 +180,7 @@ def election_showclosed(request):
             polity = None
 
         html_ctx = {
+            'user': request.user,
             'polity': polity,
             'elections_recent': elections,
         }
