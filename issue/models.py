@@ -6,7 +6,9 @@ from diff_match_patch.diff_match_patch import diff_match_patch
 
 from django.conf import settings
 from django.db import models
+from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 
 class IssueQuerySet(models.QuerySet):
@@ -58,9 +60,29 @@ class Issue(models.Model):
 
     class Meta:
         ordering = ["-deadline_votes"]
+        unique_together = ['polity', 'issue_year', 'issue_num']
 
     def __unicode__(self):
         return u'%s' % self.name
+
+    def save(self, *args, **kwargs):
+        # Determine issue_num and issue_year based on available data.
+        if self.issue_num is None or self.issue_year is None:
+            self.issue_year = timezone.now().year
+
+            with transaction.atomic():
+                try:
+                    self.issue_num = Issue.objects.filter(
+                        polity_id=self.polity_id,
+                        issue_year=self.issue_year
+                    ).order_by('-issue_num')[0].issue_num + 1
+                except IndexError:
+                    self.issue_num = 1
+
+                super(Issue, self).save(*args, **kwargs)
+        else:
+            # No transaction needed
+            super(Issue, self).save(*args, **kwargs)
 
     def apply_ruleset(self, now=None):
         now = now or datetime.now()

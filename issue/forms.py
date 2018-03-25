@@ -12,6 +12,8 @@ class IssueForm(Wasa2ilForm):
         exclude = (
             'polity',
             'slug',
+            'issue_num',
+            'issue_year',
             'documentcontent',
             'deadline_discussions',
             'deadline_proposals',
@@ -21,7 +23,8 @@ class IssueForm(Wasa2ilForm):
             'votecount',
             'votecount_yes',
             'votecount_abstain',
-            'votecount_no'
+            'votecount_no',
+            'comment_count',
         )
 
 
