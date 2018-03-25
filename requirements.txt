@@ -13,13 +13,13 @@ decorator==4.1.2
 defusedxml==0.5.0
 diff-match-patch==20121119
 dj-database-url==0.4.2
-Django==1.11.9
-django-bootstrap-form==3.3
-django-crispy-forms==1.6.1
+Django==1.11.11
+django-bootstrap-form==3.4
+django-crispy-forms==1.7.2
 django-datetime-widget==0.9.3
-django-debug-toolbar==1.8
-django-registration-redux==1.7
+django-debug-toolbar==1.9.1
 django-prosemirror==0.0.12
+django-registration-redux==1.10
 eight==0.4.2
 enum34==1.1.6
 et-xmlfile==1.0.1
@@ -63,7 +63,7 @@ PyMySQL==0.7.11
 pyOpenSSL==17.2.0
 python-memcached==1.58
 python-vote-full==1.0
-pytz==2017.2
+pytz==2018.3
 requests==2.18.4
 scandir==1.5
 signxml==2.4.0
@@ -75,4 +75,3 @@ texttable==0.9.1
 traitlets==4.3.2
 urllib3==1.22
 wcwidth==0.1.7
-django-prosemirror==0.0.12
