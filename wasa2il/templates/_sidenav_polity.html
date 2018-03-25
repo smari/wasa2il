@@ -63,7 +63,6 @@
         {% else %}
             <span class="label label-primary">{% trans 'You are a member of this polity.' %}</span>
         {% endif %}
-        </span>
     {% elif user.is_authenticated %}
         <span class="label label-warning">{% trans 'You are not a member of this polity.' %}</span>
     {% endif %}
