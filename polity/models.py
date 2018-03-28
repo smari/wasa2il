@@ -106,9 +106,9 @@ class PolityRuleset(models.Model):
     issue_majority = models.DecimalField(max_digits=5, decimal_places=2)
 
     # Denotes how many seconds an issue is in various phases.
-    issue_discussion_time = models.IntegerField()
-    issue_proposal_time = models.IntegerField()
-    issue_vote_time = models.IntegerField()
+    issue_discussion_time = models.DurationField()
+    issue_proposal_time = models.DurationField()
+    issue_vote_time = models.DurationField()
 
     def __unicode__(self):
         return u'%s' % self.name

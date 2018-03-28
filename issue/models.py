@@ -1,7 +1,5 @@
 import re
 
-from datetime import datetime
-from datetime import timedelta
 from diff_match_patch.diff_match_patch import diff_match_patch
 
 from django.conf import settings
@@ -13,7 +11,7 @@ from django.utils import timezone
 
 class IssueQuerySet(models.QuerySet):
     def recent(self):
-        return self.filter(deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS))
+        return self.filter(deadline_votes__gt=timezone.now() - timezone.timedelta(days=settings.RECENT_ISSUE_DAYS))
 
 
 class Issue(models.Model):
@@ -89,22 +87,22 @@ class Issue(models.Model):
             super(Issue, self).save(*args, **kwargs)
 
     def apply_ruleset(self, now=None):
-        now = now or datetime.now()
+        now = now or timezone.now()
 
         if self.special_process:
             self.deadline_discussions = now
             self.deadline_proposals = now
             self.deadline_votes = now
         else:
-            self.deadline_discussions = now + timedelta(seconds=self.ruleset.issue_discussion_time)
-            self.deadline_proposals = self.deadline_discussions + timedelta(seconds=self.ruleset.issue_proposal_time)
-            self.deadline_votes = self.deadline_proposals + timedelta(seconds=self.ruleset.issue_vote_time)
+            self.deadline_discussions = now + self.ruleset.issue_discussion_time
+            self.deadline_proposals = self.deadline_discussions + self.ruleset.issue_proposal_time
+            self.deadline_votes = self.deadline_proposals + self.ruleset.issue_vote_time
 
         self.majority_percentage = self.ruleset.issue_majority # Doesn't mechanically matter but should be official.
 
     def issue_state(self):
         # Short-hands.
-        now = datetime.now()
+        now = timezone.now()
         deadline_votes = self.deadline_votes
         deadline_proposals = self.deadline_proposals
         deadline_discussions = self.deadline_discussions
@@ -119,7 +117,7 @@ class Issue(models.Model):
             return 'discussion'
 
     def discussions_closed(self):
-        return datetime.now() > self.deadline_discussions
+        return timezone.now() > self.deadline_discussions
 
     def percentage_reached(self):
         if self.votecount != 0:
