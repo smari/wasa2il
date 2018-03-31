@@ -10,18 +10,6 @@
 {{ block.super }}
 {% endblock %}
 
-{% block javascript %}
-<script language="javascript" type="text/javascript">
-
-$(document).ready(function() {
-    $('button#polity-info-toggle').on('click', function() {
-        $('div#polity-info-mobile').toggle();
-    });
-});
-
-</script>
-{% endblock %}
-
 {% block content %}
 <section class="content">
 <h1>
