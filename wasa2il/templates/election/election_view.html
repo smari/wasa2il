@@ -426,7 +426,6 @@ function do_election_update() {
         ord.push($($("#vote li")[item]).data("seqid"));
     });
     $.post("/api/election/vote/", {
-        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
         "election": election_id,
         "order": ord
     }, function(data) {

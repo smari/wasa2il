@@ -89,7 +89,6 @@ function issue_timer_stop() {
 function issue_vote(val) {
     issue_timer_stop();
     $.post("/api/issue/vote/", {
-        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
         "issue": issue_id,
         "vote": val
     }, function(data) {
@@ -208,8 +207,6 @@ function commentSend(obj_key, obj_id, comment) {
     var postData = {};
     postData["comment"] = comment_text;
     postData[obj_key] = obj_id;
-    postData['csrfmiddlewaretoken'] = $('.comment_form'
-        ).find('input[name="csrfmiddlewaretoken"]').val();
     $.post(APIPath, postData, null, 'json').done(function(data) {
         if (data.ok) {
             comment.val("");
@@ -279,7 +276,6 @@ function election_candidacy_withdraw() {
 function election_candidacy(val) {
     election_timer_stop();
     $.post("/api/election/candidacy/", {
-        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
         "election": election_id,
         "val": val
     }, function(data) {

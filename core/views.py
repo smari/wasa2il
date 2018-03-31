@@ -22,7 +22,6 @@ from django.template import RequestContext
 from django.db.models import Q
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.template.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils.translation import ugettext as _
