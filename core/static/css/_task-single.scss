@@ -1,0 +1,171 @@
+.task {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    font-family: $main-family;
+    &__info {
+        display: flex;
+        flex-flow: column;
+        background-color: $white;
+    }
+    &__title {
+        font-size: 24px;
+        font-weight: bold;
+
+    }
+    &__info-title {
+        font-size: 18px;
+        text-align: left;
+        font-weight: bold;
+        margin: 38px 0px 20px;
+    }
+    &__request {
+        position: relative;
+        display: flex;
+        flex-flow: column;
+        padding: 10px 20px 10px;
+        background-color: $task-background-grey;
+        // border-bottom: 1px solid $task-border-grey;
+
+    }
+    &__border {
+        &:after {
+            content: '';
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 1px;
+            margin: 10px auto 14px;
+            background-color: $task-border-grey;
+        }
+        &:before {
+            content: '';
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 1px;
+            margin: 10px auto 14px;
+            background-color: $task-border-grey;
+        }
+    }
+    &__category-name {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 34px 0px 40px;
+        img {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+    }
+    &__request-title {
+        font-size: 16px;
+    }
+    &__line {
+        display: flex;
+        flex-wrap: wrap;
+        text-align: left;
+
+    }
+    &__needs-answer {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+    &__why-me {
+        position: relative;
+        display: flex;
+        flex-flow: column;
+        background-color: $task-background-grey;
+        padding: 20px;
+    }
+    &__why-me-title {
+        margin: 52px 0px 26px;
+        font-size: 18px;
+        font-weight: bold;
+
+
+    }
+    &__why-me-textarea {
+        width: 100%;
+        height: 250px;
+        margin-bottom: 24px;
+        padding: 14px 20px;
+        font-size: 16px;
+        color: $grey-dark;
+        border: 1px solid $grey-dark;
+        resize: none;
+
+    }
+    &__why-me-button {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+}
+
+@include tablet() {
+    .task {
+        &__info {
+            padding: 40px 44px;
+        }
+        &__title {
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+        &__info-title {
+            font-size: 24px;
+            margin: 46px 0px 34px;
+        }
+        &__needs {
+            padding: 0px 40px;
+            background-color: $white;
+            line-height: 1.13;
+        }
+        &__request {
+            padding: 10px 46px;
+        }
+        &__category-name {
+        }
+        &__why-me {
+            padding: 10px 46px;
+            margin: 40px 0px 15px;
+        }
+        &__why-me-title {
+            margin: 26px 0 12px;
+        }
+        &__tablet-margin {
+            margin-bottom: 36px;
+        }
+        &__why-me-textarea {
+            height: 125px;
+        }
+        &__why-me-button {
+            margin-bottom: 26px;
+        }
+    }
+}
+
+@include desktop() {
+    .task {
+        flex-flow: row;
+
+        &__info-title {
+            margin-bottom: 30px;
+        }
+        &__info {
+            width: 50%;
+            padding-left: 0px;
+            padding-top: 0px;
+            padding-right: 40px;
+            padding-bottom: 52px;
+        }
+        &__needs {
+            width: 50%;
+            padding: 0px;
+
+        }
+    }
+}

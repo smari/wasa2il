@@ -10,141 +10,74 @@
 {{ block.super }}
 {% endblock %}
 
-{% block javascript %}
-<script language="javascript" type="text/javascript">
-
-$(document).ready(function() {
-    $('button#polity-info-toggle').on('click', function() {
-        $('div#polity-info-mobile').toggle();
-    });
-});
-
-</script>
-{% endblock %}
-
 {% block content %}
+<section class="content">
+<h1>
+    {{ polity.name }}
+    {% if user.is_staff %}
+        <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Settings' %}</a>
+        <a class="btn btn-default" role="button" href="{% url 'polity_officers' polity.id %}">{% trans 'Officers' %}</a>
+    {% endif %}
+</h1>
 
-<div id="polity-info" style="float: right;">
+<div id="polity-info">
     <span style="white-space: nowrap;">{% trans "New issues" %}: <strong>{{ issues_recent.count }}</strong></span>
     <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "New elections" %}: <strong>{{ elections_recent.count }}</strong></span>
     <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "Verified Users" %}: <strong>{{ verified_user_count }}</strong></span>
     <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "Agreements" %}: <strong>{{ polity.agreements.count }}</strong></span>
     <span style="white-space: nowrap;">&nbsp;|&nbsp; {% trans "Topics" %}: <strong>{{ polity.topic_set.count }}</strong></span>
+    <span style="white-space: nowrap;">&nbsp;|&nbsp; <a href="#"  onclick="$('#modal_admins').modal();">{% trans 'Officers' %}</a></span>
 </div>
-
-<h1>
-    {{ polity.name }}
-    {% if user.is_staff %}
-        <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Edit' %}</a>
-    {% endif %}
-    <button type="button" class="btn btn-default" id="polity-info-toggle">{% trans 'Toggle information' %}</button>
-</h1>
-
-<div id="polity-info-mobile" style="display: none;">
-    <p>
-        {% trans "New issues" %}: <strong>{{ issues_recent.count }}</strong><br />
-        {% trans "New elections" %}: <strong>{{ elections_recent.count }}</strong><br />
-        {% trans "Verified Users" %}: <strong>{{ verified_user_count }}</strong><br />
-        {% trans "Agreements" %}: <strong>{{ polity.agreements.count }}</strong><br />
-        {% trans "Topics" %}: <strong>{{ polity.topic_set.count }}</strong><br />
-    </p>
-</div>
-
-{% if user_is_member %}
-    {% if user in polity.officers.all %}
-        <span class="label label-success">{% trans 'You are an officer in this polity.' %}</span>
-    {% else %}
-        <span class="label label-primary">{% trans 'You are a member of this polity.' %}</span>
-    {% endif %}
-    </span>
-{% elif user.is_authenticated %}
-    <span class="label label-warning">{% trans 'You are not a member of this polity.' %}</span>
-{% endif %}
 
 <hr />
 
 <div class="row">
-
     {% include 'issue/_issues_recent.html' %}
-
     {% include 'election/_elections_recent.html' %}
-
-    <br clear="both">
-
-    <div class="col-md-6 col-xs-12" style="float: right;"><a name="documents"></a>
-
-        <div class="btn-group" role="group" style="float: right">
-            {% if user_is_member %}
-                <a class="btn btn-default btn-sm" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
-            {% endif %}
-            <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
-            <ul class="dropdown-menu" style="left: -50px;">
-                <li><a href="/polity/{{ polity.id }}/agreements/">{% trans "Show all agreements" %}</a></li>
-            </ul>
-        </div>
-
-        <h2>{% trans "Agreements" %} <small>{% trans "of this polity" %}</small></h2>
-        <p class="muted">{% trans "Here are all of the agreements this polity has arrived at." %}</p>
-        {% include "issue/_agreements.html" %}
-    </div>
-
-    <div class="col-md-6 col-xs-12"><a name="topics"></a>
-        {% if user_is_member %}
-        <div class="btn-group" style="float: right">
-            {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
-            <a class="btn btn-default btn-sm" role="button" href="/polity/{{polity.id}}/topic/new/">{% trans "New topic" %}</a>
-            {% endif %}
-            <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
-            <ul class="dropdown-menu" style="left: -90px;">
-                <li><a id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});"><span class="glyphicon glyphicon-ok {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></span> {% trans "Show only starred topics" %}</a></li>
-            </ul>
-        </div>
-        {% endif %}
-        <h2>{% trans "Topics" %} <small>{% trans "of discussion"%}</small></h2>
-
-        <p class="muted">{% trans "Topics are thematic categories that contain specific issues." %}</p>
-
-        <table class="table table-striped table-bordered table-condensed" id="topics_list">
-        <thead>
-        <tr>
-            <th>{% trans "Topics" %}</th>
-            <th>{% trans "Issues" %}</th>
-            <th>{% trans "Open Issues" %}</th>
-            <th>{% trans "Voting Issues" %}</th>
-            <th><span class="glyphicon glyphicon-star"></span></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% with politytopics as topics %}
-        {% include "topic/_topic_list_table.html" %}
-        {% endwith %}
-        </tbody>
-        </table>
-    </div>
-
 </div>
 
-
-
-<div class="modal fade" id="modal_subpolities">
+<div class="modal fade" id="modal_admins">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>{% trans "Subpolities" %}</h3>
+                <h5 class="modal-title">{% trans "Polity officers" %}</h5>
             </div>
             <div class="modal-body" id="modal_subpolities_list">
+                <p>
+                    {% trans 'Officers can manage issues and manage elections.' %}
+                    {% if FEATURES.tasks %}
+                        {% trans 'They can promote users to wranglers and manage tasks like wranglers.' %}
+                    {% endif %}
+                    {% trans 'These officers have no access beyond other users to personal information, votes, or other database contents.' %}
+                    <strong>{% trans 'Note that system administrators which are not listed here may still have additional access.' %}</strong>
+                </p>
                 <ul>
-                    {% for p in polity.polity_set.all %}
-                        <li><a href="/polity/{{p.id}}/">{{p.name}}</li>
-                    {% endfor %}
+                {% for p in polity.officers.all %}
+                    <li><a href="{% url 'profile' p.username %}">{{ p }}</a></li>
+                {% empty %}
+                    {% trans 'No officers have been designated for this polity.' %}
+                {% endfor %}
                 </ul>
+
+                {% if FEATURES.tasks %}
+                    <hr />
+                    <h4>{% trans "Volunteer wranglers" %}</h4>
+                    <p>{% blocktrans %}Wranglers can create tasks, assign users to tasks they have applied to, unassign users from tasks, and mark tasks as done.{% endblocktrans %}</p>
+                    <ul>
+                    {% for p in polity.wranglers.all %}
+                        <li><a href="{% url 'profile' p.username %}">{{ p }}</a></li>
+                    {% empty %}
+                        {% trans 'No wranglers have been configured for this polity.' %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
             </div>
             <div class="modal-footer">
-                <a onclick="$('#modal_subpolities').modal('hide');" role="button" class="btn btn-primary">{% trans "Close" %}</a>
+                <a onclick="$('#modal_admins').modal('hide');" role="button" class="btn btn-primary">{% trans "Close" %}</a>
             </div>
         </div>
     </div>
 </div>
 
+</section>
 {% endblock %}

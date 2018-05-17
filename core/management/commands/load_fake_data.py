@@ -14,8 +14,10 @@ from django.db.utils import IntegrityError
 from django.http import HttpRequest
 
 from core.models import *
-import core.ajax.document as doc_ajax
-import core.ajax.issue as issue_ajax
+from polity.models import Polity, PolityRuleset
+from topic.models import Topic
+from issue.models import Issue, Document, DocumentContent
+from election.models import Election, Candidate, ElectionVote
 import core.views
 
 
@@ -247,12 +249,15 @@ class Command(BaseCommand):
             # Put max(3, 10%) of all the documents up for election
             howmany = min(max(3, len(documents) // 10), len(documents))
             print 'Creating issues for %d documents.' % howmany
+            j = 1
             for dk in random.sample(documents.keys(), howmany):
                 topic, doc = documents[dk]
                 i = Issue(
                     name=doc.name,
                     polity=doc.polity,
                     created_by=doc.user,
+                    issue_num=j,
+                    issue_year=2018,
                     ruleset=PolityRuleset.objects.filter(polity=doc.polity)[0],
                     majority_percentage=50,
                     documentcontent=doc.preferred_version())
@@ -261,3 +266,4 @@ class Command(BaseCommand):
                 i.apply_ruleset(now=doc.created)
                 i.save()
                 i.topics.add(topic)
+                j += 1

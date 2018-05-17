@@ -13,7 +13,7 @@ from urlparse import parse_qs
 
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
 from django.http import Http404
@@ -22,26 +22,12 @@ from django.template import RequestContext
 from django.db.models import Q
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.template.context_processors import csrf
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.encoding import force_bytes
-
-# BEGIN - Copied from django.contrib.auth.views to accommodate the login() function
-from django.contrib.auth import REDIRECT_FIELD_NAME
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import resolve_url
-from django.template.response import TemplateResponse
-from django.utils.http import is_safe_url
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.debug import sensitive_post_parameters
-# END
 
 from django.contrib.auth.models import User
 from core.models import UserProfile
@@ -57,6 +43,11 @@ from gateway.icepirate import configure_external_member_db
 from topic.models import Topic
 
 from hashlib import sha1
+
+# BEGIN - Included for Wasa2ilLoginView
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.views import LoginView
+# END
 
 
 def home(request):
@@ -89,7 +80,7 @@ def help(request, page):
     for locale in [settings.LANGUAGE_CODE, "is"]: # Icelandic fallback
       filename = "help/%s/%s.html" % (locale, page)
       if os.path.isfile(os.path.join(os.path.dirname(__file__), '..', 'wasa2il/templates', filename)):
-          return render_to_response(filename, ctx, context_instance=RequestContext(request))
+          return render(request, filename, ctx)
 
     raise Http404
 
@@ -106,25 +97,49 @@ def profile(request, username=None):
     else:
         return HttpResponseRedirect(settings.LOGIN_URL)
 
-    # Get the user's polities.
-    if profile_user == request.user:
-        polities = profile_user.polities.all()
-    else:
-        polities = [p for p in profile_user.polities.all() if p.is_member(request.user) or p.is_listed]
-
-    # Get the user's profile object.
+    polities = profile_user.polities.all()
     profile = UserProfile.objects.get(user_id=profile_user.id)
 
-    # Get documents and documentcontents which user has made
-    documentdata = []
-    contents = profile_user.documentcontent_set.select_related('document').order_by('document__name', 'order')
-    last_doc_id = 0
-    for c in contents:
-        if c.document_id != last_doc_id:
-            documentdata.append(c.document) # Template will detect the type as Document and show as heading
-            last_doc_id = c.document_id
+    # Get running elections in which the user is currently a candidate
+    now = datetime.now()
+    elections = Election.objects.filter(candidate__user=profile_user)
+    current_elections = elections.filter(deadline_votes__gte=now)
 
-        documentdata.append(c)
+    ctx = {
+        'polities': polities,
+        'current_elections': current_elections,
+        'elections': elections,
+        'profile_user': profile_user,
+        'profile': profile,
+    }
+    return render(request, 'profile/profile.html', ctx)
+
+
+@never_cache
+def user_proposals(request, username=None):
+    ctx = {}
+
+    # Determine if we're looking up the currently logged in user or someone else.
+    if username:
+        profile_user = get_object_or_404(User, username=username)
+    elif request.user.is_authenticated():
+        profile_user = request.user
+    else:
+        return HttpResponseRedirect(settings.LOGIN_URL)
+
+    polities = profile_user.polities.all()
+    profile = UserProfile.objects.get(user_id=profile_user.id)
+
+    # # Get documents and documentcontents which user has made
+    # documentdata = []
+    # contents = profile_user.documentcontent_set.select_related('document').order_by('document__name', 'order')
+    # last_doc_id = 0
+    # for c in contents:
+    #     if c.document_id != last_doc_id:
+    #         documentdata.append(c.document) # Template will detect the type as Document and show as heading
+    #         last_doc_id = c.document_id
+    #
+    #     documentdata.append(c)
 
     # Get running elections in which the user is currently a candidate
     now = datetime.now()
@@ -132,12 +147,12 @@ def profile(request, username=None):
 
     ctx = {
         'polities': polities,
-        'current_elections': current_elections,
-        'documentdata': documentdata,
+        # 'documentdata': documentdata,
         'profile_user': profile_user,
         'profile': profile,
     }
-    return render(request, 'profile.html', ctx)
+    return render(request, 'profile/proposals.html', ctx)
+
 
 
 @login_required
@@ -173,72 +188,38 @@ def view_settings(request):
         else:
             print "FAIL!"
             ctx["form"] = form
-            return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
+            return render(request, "settings.html", ctx)
 
     else:
         form = UserProfileForm(initial={'email': request.user.email}, instance=UserProfile.objects.get(user=request.user))
 
     ctx["form"] = form
-    return render_to_response("settings.html", ctx, context_instance=RequestContext(request))
+    return render(request, "settings.html", ctx)
 
 
-@sensitive_post_parameters()
-@csrf_protect
-@never_cache
-def login(request, template_name='registration/login.html',
-          redirect_field_name=REDIRECT_FIELD_NAME,
-          authentication_form=AuthenticationForm,
-          current_app=None, extra_context=None):
-    """
-    Displays the login form and handles the login action.
-    """
-    redirect_to = request.POST.get(redirect_field_name,
-                                   request.GET.get(redirect_field_name, ''))
+class Wasa2ilLoginView(LoginView):
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        auth_login(self.request, form.get_user())
 
-    if request.method == "POST":
-        form = authentication_form(request, data=request.POST)
-        if form.is_valid():
+        # Make sure that profile exists
+        try:
+            UserProfile.objects.get(user=self.request.user)
+        except UserProfile.DoesNotExist:
+            profile = UserProfile()
+            profile.user = self.request.user
+            profile.save()
 
-            # Ensure the user-originating redirection url is safe.
-            if not is_safe_url(url=redirect_to, host=request.get_host()):
-                redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
+        self.request.session[LANGUAGE_SESSION_KEY] = self.request.user.userprofile.language
 
-            # Okay, security check complete. Log the user in.
-            auth_login(request, form.get_user())
+        if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
+            if not self.request.user.userprofile.verified:
+                return HttpResponseRedirect(settings.SAML_1['URL'])
 
-            # Make sure that profile exists
-            try:
-                UserProfile.objects.get(user=request.user)
-            except UserProfile.DoesNotExist:
-                profile = UserProfile()
-                profile.user = request.user
-                profile.save()
+        if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
+            configure_external_member_db(self.request.user, create_if_missing=False)
 
-            request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
-
-            if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
-                if not request.user.userprofile.verified:
-                    return HttpResponseRedirect(settings.SAML_1['URL'])
-
-            if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
-                configure_external_member_db(request.user, create_if_missing=False)
-
-            return HttpResponseRedirect(redirect_to)
-    else:
-        form = authentication_form(request)
-
-    current_site = get_current_site(request)
-
-    context = {
-        'form': form,
-        redirect_field_name: redirect_to,
-        'site': current_site,
-        'site_name': current_site.name,
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-    return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @login_required
@@ -248,7 +229,7 @@ def verify(request):
         auth = authenticate(request, settings.SAML_1['URL'])
     except SamlException as e:
         ctx = {'e': e}
-        return render_to_response('registration/saml_error.html', ctx)
+        return render(request, 'registration/saml_error.html', ctx)
 
     if UserProfile.objects.filter(verified_ssn=auth['ssn']).exists():
         taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user
@@ -259,7 +240,7 @@ def verify(request):
 
         auth_logout(request)
 
-        return render_to_response('registration/verification_duplicate.html', ctx)
+        return render(request, 'registration/verification_duplicate.html', ctx)
 
     profile = request.user.userprofile  # It shall exist at this point
     profile.verified_ssn = auth['ssn']
@@ -316,4 +297,4 @@ def sso(request):
 
 
 def error500(request):
-    return render_to_response('500.html')
+    return render(request, '500.html')

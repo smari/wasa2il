@@ -1,5 +1,5 @@
 # Wasa2il - ‫وسائل
-## v 0.9.14
+
 [![Build Status](https://travis-ci.org/piratar/wasa2il.svg?branch=development)](https://travis-ci.org/piratar/wasa2il)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=piratar/wasa2il&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/0bb6ea0bc27d4428ab044d97be638684)](https://www.codacy.com/app/7oi/wasa2il?utm_source=github.com&utm_medium=referral&utm_content=piratar/wasa2il&utm_campaign=Badge_Coverage)
@@ -22,7 +22,7 @@ The current branches are deployed to Heroku when changes are merged.
 ### development branch:
 [https://wasa2il-development.herokuapp.com](https://wasa2il-development.herokuapp.com)
 
-Login with any of the following 4 user:pass (a:a, b:b, c:c, d:d)
+**Login** with any of the following 4 **user:pass** (a:a, b:b, c:c, d:d)
 
 # Setup
 
@@ -50,6 +50,12 @@ Normal setup:
 The 3rd step will populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password). The fourth (optional) step will do the same thing, only with much more data.
 
 That should be it!
+
+### Manual installation using pip
+
+If you run into errors manually installing with `pip` (or get error output from `pip` wile running `initial_setup.py`), more often than not it's due to you not having MySQL installed. Try commenting those lines out of the `requirements.txt` file and running pip again.
+
+If you want to run Wasa2il with MySQL, make sure MySQL and the relevant development headers are installed before running `pip` again.
 
 ## Contributing
 
@@ -105,7 +111,7 @@ discussed. The members of a polity decide which topics are relevant to them.
 The way in which this is decided depends on the meta-rules of the polity.
 
 Topics are used to manage and display a list of issues. Issues are conversations
-which have been brought to discussion within a polity, and can belong to 
+which have been brought to discussion within a polity, and can belong to
 numerous topics. The purpose of an issue and its associated conversation is to
 arrive at a decision. The decision is represented by a document which can be
 adopted or rejected.

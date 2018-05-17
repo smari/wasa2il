@@ -38,41 +38,23 @@ $(document).ready(function() {
 <div class="col-md-6 col-xs-12">
     <a name="newissues"></a>
 
-    <div class="btn-group" role="group" style="float: right">
-        <a class="btn btn-default btn-sm dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-            <span class="glyphicon glyphicon-list"></span>
-            <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" style="left: -50px;">
-            <li>
-                <a id="issues-showclosed" data-polity-id="{{ polity.id}}">
-                    <span class="glyphicon glyphicon-ok icon-grey"></span>
-                    {% trans "Show closed issues" %}
-                </a>
-            </li>
-            <li class="divider"></li>
-            {% if polity %}
-                <li><a href="{% url 'issues' polity.id %}">{% trans 'Show all issues in polity' %}</a></li>
-            {% else %}
-                {% for issue in issues_recent %}
-                    {% ifchanged issue.polity_id %}
-                        {% with issue.polity as polity %}
-                        <li>
-                            <a href="{% url 'issues' issue.polity_id %}">
-                                {% blocktrans %}Show all issues in: {{ polity }}{% endblocktrans %}
-                            </a>
-                        </li>
-                        {% endwith %}
-                    {% endifchanged %}
-                {% endfor %}
-            {% endif %}
-        </ul>
-    </div>
-
     <h2>{% trans "New and recent issues" %}</h2>
     <p class="muted">
         {% blocktrans %}Issues ongoing, upcoming or concluded in the past {{ RECENT_ISSUE_DAYS }} days.{% endblocktrans %}
     </p>
+
+    <div>
+      <a class="btn btn-toggle btn-default btn-sm" id="issues-showclosed" data-polity-id="{{ polity.id}}">
+        <span class="fas fa-check icon-grey"></span>
+        {% trans "Show closed issues" %}
+      </a>
+      {% if polity %}
+      <a class="btn btn-toggle btn-default btn-sm" href="{% url 'issues' polity.id %}">
+        {% trans 'Show all issues in polity' %}
+      </a>
+      {% endif %}
+    </div>
+
 
     <table class="table table-striped table-bordered table-condensed" id="issues-recent">
         <thead>
@@ -83,10 +65,10 @@ $(document).ready(function() {
                 {% endif %}
                 <th>{% trans 'State' %}</th>
                 <th style="width: 1px; text-align: center;">
-                    <i class="glyphicon glyphicon-comment" title="{% trans 'Comments' %}"></i>
+                    <i class="fas fa-comment" title="{% trans 'Comments' %}"></i>
                 </th>
                 <th style="width: 1px; text-align: center;">
-                    <i class="glyphicon glyphicon-pencil" title="{% trans 'Votes' %}"></i>
+                    <i class="fas fa-check-square" title="{% trans 'Votes' %}"></i>
                 </th>
             </tr>
         </thead>

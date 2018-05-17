@@ -33,7 +33,10 @@ def issue_vote(request):
 
     val = int(request.POST.get("vote", 0))
 
-    (vote, created) = Vote.objects.get_or_create(user=request.user, issue=issue)
+    try:
+        vote = Vote.objects.get(user=request.user, issue=issue)
+    except Vote.DoesNotExist:
+        vote = Vote(user=request.user, issue=issue)
     vote.value = val
     vote.save()
 
@@ -91,7 +94,7 @@ def issue_poll(request):
     if not request.user.is_anonymous():
         try:
             v = Vote.objects.get(user=request.user, issue=issue)
-            ctx["issue"]["vote"] = v.get_value()
+            ctx["issue"]["vote"] = v.value
         except Vote.DoesNotExist:
             pass
     return ctx
@@ -121,6 +124,7 @@ def issue_showclosed(request):
             polity = None
 
         html_ctx = {
+            'user': request.user,
             'polity': polity,
             'issues_recent': issues,
         }
@@ -142,9 +146,10 @@ def document_propose_change(request):
     document = get_object_or_404(Document, id=request.POST.get("document_id", 0))
 
     try:
+        name = request.POST['name']
         text = request.POST['text']
     except KeyError:
-        raise Exception('Missing "text"')
+        raise Exception('Missing name or text')
 
     if version_num == 0:
         predecessor = document.preferred_version()
@@ -156,6 +161,7 @@ def document_propose_change(request):
         content.user = request.user
         content.document = document
         content.predecessor = predecessor
+        content.name = name
         content.text = text
         content.comments = request.POST.get('comments', '')
         # TODO: Change this to a query that requests the maximum 'order' and adds to it.
@@ -175,6 +181,7 @@ def document_propose_change(request):
                 status='proposed',
                 issue=None
             )
+            content.name = name
             content.text = text
             content.comments = request.POST.get('comments', '')
 

@@ -1,0 +1,71 @@
+{% load i18n %}
+{% load wasa2il %}
+{% load static %}
+
+<ul class="sidebar-nav">
+  {% if polity_menulist|length == 1 %}
+  <li><a href="#">
+    <i class="fas fa-users"></i>
+    {{polity.name}}
+  </a></li>
+  {% else %}
+  <li class="dropdown" style="font-size: 115%;">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fas fa-users"></i>
+        {{polity.name}}
+        <span class="caret" style="position: absolute; right: 10px; top: 18px"></span>
+      </a>
+      <ul class="dropdown-menu">
+        {% for entry in polity_menulist %}
+          <li>
+            <a href="{% url 'polity' entry.polity_id %}">
+              {% repeater '-' entry.depth %}
+              {{ entry.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+  </li>
+  {% endif %}
+
+  <li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/">
+    <i class="fas fa-asterisk"></i>
+    {% trans "Overview" %}
+  </a></li>
+  <li{% if request.resolver_match.url_name == "issues" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/issues">
+    <i class="fas fa-lightbulb"></i>
+    {% trans "Issues" %}
+  </a></li>
+  <li{% if request.resolver_match.url_name == "elections" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/elections/">
+    <i class="fas fa-check-square"></i>
+    {% trans "Elections" %}
+  </a></li>
+  {% if FEATURES.topic %}
+    <li{% if request.resolver_match.url_name == "topics" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/topics/">
+      <i class="fas fa-list"></i>
+      {% trans "Topics" %}
+    </a></li>
+  {% endif %}
+  <li{% if request.resolver_match.url_name == "agreements" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/agreements/">
+    <i class="fas fa-book"></i>
+    {% trans "Agreements" %}
+  </a></li>
+
+  {% if FEATURES.tasks %}
+  <li{% if request.resolver_match.url_name == "tasks" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/tasks/">
+    <i class="fas fa-hand-paper"></i>
+    {% trans "Volunteer for tasks" %}
+  </a></li>
+  {% endif %}
+
+  <li>
+    {% if user_is_member %}
+        {% if user in polity.officers.all %}
+            <span class="label label-success">{% trans 'You are an officer in this polity.' %}</span>
+        {% else %}
+            <span class="label label-primary">{% trans 'You are a member of this polity.' %}</span>
+        {% endif %}
+    {% elif user.is_authenticated %}
+        <span class="label label-warning">{% trans 'You are not a member of this polity.' %}</span>
+    {% endif %}
+  </li>

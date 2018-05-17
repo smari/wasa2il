@@ -5,11 +5,11 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.template.context_processors import csrf
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -44,7 +44,10 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
     else:
         issue = Issue(polity=polity)
         if documentcontent_id:
-            current_content = get_object_or_404(DocumentContent, id=documentcontent_id)
+            try:
+                current_content = DocumentContent.objects.select_related('document').get(id=documentcontent_id)
+            except DocumentContent.DoesNotExist:
+                raise Http404
         else:
             current_content = None
 
@@ -64,7 +67,7 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
     else:
         # Check if we need to inherit information from previous documentcontent.
         if not issue_id and current_content:
-            name = current_content.document.name
+            name = current_content.name
             selected_topics = []
 
             # If this is a new issue, being made from existing content, we
@@ -88,7 +91,6 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
     ctx = {
         'polity': polity,
         'issue': issue,
-        'user_is_member': polity.is_member(request.user),
         'form': form,
         'documentcontent': current_content,
         'tab': 'diff' if current_content.order > 1 else '',
@@ -118,10 +120,8 @@ def issue_view(request, polity_id, issue_id):
 
     ctx['polity'] = polity
     ctx['issue'] = issue
-    ctx['user_is_member'] = polity.is_member(request.user)
     ctx['can_vote'] = (request.user is not None and issue.can_vote(request.user))
     ctx['comments_closed'] = not request.user.is_authenticated() or issue.discussions_closed()
-    ctx['user_is_officer'] = polity.is_officer(request.user)
 
     return render(request, 'issue/issue_detail.html', ctx)
 
@@ -129,7 +129,7 @@ def issue_view(request, polity_id, issue_id):
 def issues(request, polity_id):
     polity = get_object_or_404(Polity, id=polity_id)
 
-    issues = polity.issue_set.order_by('-deadline_votes')
+    issues = polity.issue_set.order_by('-created')
 
     ctx = {
         'polity': polity,
@@ -200,15 +200,15 @@ def document_view(request, polity_id, document_id):
         current_content.predecessor = document.preferred_version()
 
         if current_content.predecessor:
+            current_content.name = current_content.predecessor.name
             current_content.text = current_content.predecessor.text
+        else:
+            current_content.name = document.name
 
     elif action == 'edit':
         if current_content.user.id == request.user.id and current_content.status == 'proposed' and issue is None:
             ctx['editor_enabled'] = True
 
-
-    user_is_member = polity.is_member(request.user)
-    user_is_officer = polity.is_officer(request.user)
 
     buttons = {
         'propose_change': False,
@@ -218,10 +218,10 @@ def document_view(request, polity_id, document_id):
     if ((not issue or issue.issue_state() != 'voting')
             and current_content is not None):
         if current_content.status == 'accepted':
-            if user_is_member:
+            if request.globals['user_is_member']:
                 buttons['propose_change'] = 'enabled'
         elif current_content.status == 'proposed':
-            if user_is_officer and not issue:
+            if request.globals['user_is_officer'] and not issue:
                 buttons['put_to_vote'] = 'disabled' if document.has_open_issue() else 'enabled'
             if current_content.user_id == request.user.id:
                 buttons['edit_proposal'] = 'disabled' if issue is not None else 'enabled'
@@ -240,15 +240,15 @@ def document_view(request, polity_id, document_id):
 def document_agreements(request, polity_id):
     polity = get_object_or_404(Polity, id=polity_id)
 
-    user_is_member = polity.is_member(request.user)
+    q = request.POST.get('q') or ''
+    if q:
+        agreements = polity.agreements(q)
+    else:
+        agreements = polity.agreements()
 
     ctx = {
+        'q': q,
         'polity': polity,
-        'agreements': polity.agreements(),
-        'user_is_member': user_is_member,
+        'agreements': agreements,
     }
     return render(request, 'issue/document_list.html', ctx)
-
-
-def document_search(request):
-    return render(request, 'issue/search.html')

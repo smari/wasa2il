@@ -1,17 +1,17 @@
 import re
 
-from datetime import datetime
-from datetime import timedelta
 from diff_match_patch.diff_match_patch import diff_match_patch
 
 from django.conf import settings
 from django.db import models
+from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 
 class IssueQuerySet(models.QuerySet):
     def recent(self):
-        return self.filter(deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS))
+        return self.filter(deadline_votes__gt=timezone.now() - timezone.timedelta(days=settings.RECENT_ISSUE_DAYS))
 
 
 class Issue(models.Model):
@@ -22,10 +22,17 @@ class Issue(models.Model):
         ('rejected_at_assembly', _('Rejected at assembly')),
     )
 
-    name = models.CharField(max_length=128, verbose_name=_('Name'))
+    name = models.CharField(max_length=128, verbose_name=_('Name'), help_text=_(
+        'A great issue name expresses the essence of a proposal as briefly as possible.'
+    ))
     slug = models.SlugField(max_length=128, blank=True)
 
-    description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
+    issue_num = models.IntegerField()
+    issue_year = models.IntegerField()
+
+    description = models.TextField(verbose_name=_("Description"), null=True, blank=True, help_text=_(
+        'An issue description is usually just a copy of the proposal\'s description, but you can customize it here if you so wish.'
+    ))
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='issue_created_by')
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='issue_modified_by')
@@ -34,6 +41,7 @@ class Issue(models.Model):
 
     polity = models.ForeignKey('polity.Polity')
     topics = models.ManyToManyField('topic.Topic', verbose_name=_('Topics'))
+
     documentcontent = models.OneToOneField('issue.DocumentContent', related_name='issue', null=True, blank=True)
     deadline_discussions = models.DateTimeField(null=True, blank=True)
     deadline_proposals = models.DateTimeField(null=True, blank=True)
@@ -54,27 +62,47 @@ class Issue(models.Model):
 
     class Meta:
         ordering = ["-deadline_votes"]
+        unique_together = ['polity', 'issue_year', 'issue_num']
 
     def __unicode__(self):
         return u'%s' % self.name
 
+    def save(self, *args, **kwargs):
+        # Determine issue_num and issue_year based on available data.
+        if self.issue_num is None or self.issue_year is None:
+            self.issue_year = timezone.now().year
+
+            with transaction.atomic():
+                try:
+                    self.issue_num = Issue.objects.filter(
+                        polity_id=self.polity_id,
+                        issue_year=self.issue_year
+                    ).order_by('-issue_num')[0].issue_num + 1
+                except IndexError:
+                    self.issue_num = 1
+
+                super(Issue, self).save(*args, **kwargs)
+        else:
+            # No transaction needed
+            super(Issue, self).save(*args, **kwargs)
+
     def apply_ruleset(self, now=None):
-        now = now or datetime.now()
+        now = now or timezone.now()
 
         if self.special_process:
             self.deadline_discussions = now
             self.deadline_proposals = now
             self.deadline_votes = now
         else:
-            self.deadline_discussions = now + timedelta(seconds=self.ruleset.issue_discussion_time)
-            self.deadline_proposals = self.deadline_discussions + timedelta(seconds=self.ruleset.issue_proposal_time)
-            self.deadline_votes = self.deadline_proposals + timedelta(seconds=self.ruleset.issue_vote_time)
+            self.deadline_discussions = now + self.ruleset.issue_discussion_time
+            self.deadline_proposals = self.deadline_discussions + self.ruleset.issue_proposal_time
+            self.deadline_votes = self.deadline_proposals + self.ruleset.issue_vote_time
 
         self.majority_percentage = self.ruleset.issue_majority # Doesn't mechanically matter but should be official.
 
     def issue_state(self):
         # Short-hands.
-        now = datetime.now()
+        now = timezone.now()
         deadline_votes = self.deadline_votes
         deadline_proposals = self.deadline_proposals
         deadline_discussions = self.deadline_discussions
@@ -89,7 +117,7 @@ class Issue(models.Model):
             return 'discussion'
 
     def discussions_closed(self):
-        return datetime.now() > self.deadline_discussions
+        return timezone.now() > self.deadline_discussions
 
     def percentage_reached(self):
         if self.votecount != 0:
@@ -98,24 +126,56 @@ class Issue(models.Model):
             return 0.0
 
     def process(self):
-        """
-            Process issue
-            - check if majority was reached
-            - set document content to appropriate status
-            - set issue status to processed
-        """
-        try:
-            if self.majority_reached():
-                #issue deadline has passed and majority achieved according to selected ruleset
-                self.documentcontent.status = 'accepted'
-            else:
-                self.documentcontent.status = 'rejected'
-            self.documentcontent.save()
-            self.is_processed = True
-            self.save()
-            return True
-        except Exception as e:
+
+        # We're not interested in issues that don't have documentcontents.
+        # They shouldn't actually exist, by the way. They were possible in
+        # earlier versions but the system no longer offers creating them
+        # except using a documentcontent. These issues should be dealt with
+        # somehow, at some point.
+        if self.documentcontent == None:
             return False
+
+        # Short-hands.
+        documentcontent = self.documentcontent
+        document = documentcontent.document
+
+        if self.issue_state() == 'concluded' and not self.is_processed:
+
+            # Figure out the current documentcontent's predecessor.
+            # See function for details.
+            documentcontent.predecessor = document.preferred_version()
+
+            # Figure out if issue was accepted or rejected.
+            if self.majority_reached():
+                documentcontent.status = 'accepted'
+
+                # Since the new version has been accepted, deprecate
+                # previously accepted versions.
+                prev_contents = document.documentcontent_set.exclude(
+                    id=documentcontent.id
+                ).filter(status='accepted')
+                for prev_content in prev_contents:
+                    prev_content.status = 'deprecated'
+                    prev_content.save()
+
+                # Update the document's name, if it has been changed.
+                if document.name != documentcontent.name:
+                    document.name = documentcontent.name
+                    document.save()
+
+            else:
+                documentcontent.status = 'rejected'
+
+            self.vote_set.all().delete()
+
+            self.is_processed = True
+
+            documentcontent.save()
+
+            self.save()
+
+        return True
+
 
     def get_voters(self):
         # FIXME: This is one place to check if we've invited other groups to
@@ -125,12 +185,6 @@ class Issue(models.Model):
     def can_vote(self, user=None, user_id=None):
         return self.get_voters().filter(
             id=(user_id if (user_id is not None) else user.id)).exists()
-
-    def topics_str(self):
-        return ', '.join(map(str, self.topics.all()))
-
-    def proposed_documents(self):
-        return self.document_set.filter(is_proposed=True)
 
     def user_documents(self, user):
         try:
@@ -160,31 +214,11 @@ class Issue(models.Model):
 class Vote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     issue = models.ForeignKey('issue.Issue')
-    # option = models.ForeignKey(VoteOption)
     value = models.IntegerField()
     cast = models.DateTimeField(auto_now_add=True)
-    power_when_cast = models.IntegerField()
 
     class Meta:
         unique_together = (('user', 'issue'))
-
-    def save(self, *largs, **kwargs):
-        if self.value > 1:
-            self.value = 1
-        elif self.value < -1:
-            self.value = -1
-
-        self.power_when_cast = self.power()
-        super(Vote, self).save(*largs, **kwargs)
-
-    def power(self):
-        # Follow reverse delgation chain to discover how much power we have.
-        p = 1
-
-        return p
-
-    def get_value(self):
-        return self.power() * self.value
 
 
 class Comment(models.Model):
@@ -211,19 +245,24 @@ class Comment(models.Model):
 
 
 class Document(models.Model):
+
+    DOCUMENT_TYPE_CHOICES = (
+        (1, _('Policy')),
+        (2, _('Bylaw')),
+        (3, _('Motion')),
+        (999, _('Other')),
+    )
+
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
+    document_type = models.IntegerField(choices=DOCUMENT_TYPE_CHOICES, default=1)
+
     polity = models.ForeignKey('polity.Polity')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    is_adopted = models.BooleanField(default=False)
-    is_proposed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["-id"]
-
-    def save(self, *args, **kwargs):
-        return super(Document, self).save(*args, **kwargs)
 
     def get_versions(self):
         return DocumentContent.objects.filter(document=self).order_by('order')
@@ -267,6 +306,7 @@ class Document(models.Model):
 
 
 class DocumentContent(models.Model):
+    name = models.CharField(max_length=128, verbose_name=_('Name'))
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     document = models.ForeignKey('issue.Document')
     created = models.DateTimeField(auto_now_add=True)

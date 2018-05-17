@@ -11,16 +11,19 @@
 {% endblock %}
 
 {% block content %}
+<section class="content">
+    <h1>{% trans "Issues" %}</h1>
 
-    <div class="page-header">
-        <div style="float: right;">
-            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}">{% trans "Back to polity" %}</a>
-        </div>
-        <h1>{% trans "Issues in polity" %}: {{ polity }}</small></h1>
-    </div>
+    <p class="muted">
+        {% trans 'Issues are proposals that are voted on. If accepted by a majority vote according to the applied rules, issues become accepted decisions known as agreements.' %}
+    </p>
+    <p class="muted">
+        {% trans 'Such agreements come in a few different types such as motions, policy decisions and bylaws.' %}
+    </p>
 
     <table class="table table-striped table-bordered">
     <tr>
+        <th class="date" style="white-space: nowrap;">{% trans "Issue nr." %}</th>
         <th>{% trans "Issue" %}</th>
         <th>{% trans "State" %}</th>
         <th>{% trans "Comments" %}</th>
@@ -29,6 +32,9 @@
     <tbody>
     {% for issue in issues %}
         <tr>
+            <td class="date" style="width: 1px; white-space: nowrap;">
+                {{ issue.issue_num }}/{{ issue.issue_year }}
+            </td>
             <td>
                 <a href="{% url 'issue' polity.id issue.id %}">{{ issue.name }}</a>
             </td>
@@ -53,11 +59,15 @@
                     {% endif %}
                 {% endwith %}
             </td>
-            <td>{{ issue.comment_count }}</td>
-            <td>{{ issue.votecount }}</td>
+            {% if issue.special_process %}
+            <td colspan="2" style="text-align: center;">{{ issue.get_special_process_display }}</td>
+            {% else %}
+            <td style="text-align: right;">{{ issue.comment_count }}</td>
+            <td style="text-align: right;">{{ issue.votecount }}</td>
+            {% endif %}
         </tr>
     {% endfor %}
     </tbody>
     </table>
-
+</section>
 {% endblock %}

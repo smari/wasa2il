@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<section class="content">
 <div class="pull-right">
     <a class="btn btn-default" href="/accounts/password/change/">{% trans "Change password" %}</a>
 </div>
@@ -13,5 +13,5 @@
 
 {% crispy form %}
 <span id="cancel-url">{% url 'profile' %}</span>
-
+</section>
 {% endblock %}

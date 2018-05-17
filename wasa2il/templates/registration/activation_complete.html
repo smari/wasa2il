@@ -2,15 +2,13 @@
 {% load i18n %}
 
 {% block content %}
-
-<div class="page-header">
-    <h1>{% trans "Email verified!" %}</h1>
-</div>
+<section class="content">
+<h1>{% trans "Email verified!" %}</h1>
 
 <div>
     <p>{% trans "Congratulations, your email has been verified!" %}</p>
     <p>{% trans "You may now try to log in!" %}</p>
     <a class="btn btn-default" role="button" href="/accounts/login/">{% trans "Login" %}</a>
 </div>
-
+</section>
 {% endblock %}

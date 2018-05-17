@@ -11,13 +11,25 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="page-header">
-        <div style="float: right;">
-            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}">{% trans "Back to polity" %}</a>
-        </div>
-        <h1>{% trans "Elections in polity" %}: {{ polity.name }}</h1>
+<section class="content">
+    <div style="float: right">
+    {% if user_is_member %}
+        {% if not polity.is_newissue_only_officers or polity.is_newissue_only_officers and user in polity.officers.all %}
+        <a class="btn btn-default" role="button" href="/polity/{{polity.id}}/election/new/">
+            {% trans "New election" %}
+        </a>
+        {% endif %}
+    {% endif %}
     </div>
+
+    <h1>{% trans "Elections" %}</h1>
+
+    <p class="muted">
+        {% trans 'Elections are held in order to select between candidates running for various positions.' %}
+    </p>
+    <p class="muted">
+        {% trans 'The results of elections are determined by applied rules, such as which counting method is used (First-past-the-post, Single-transferable-vote, Schulze etc.).' %}
+    </p>
 
     <table class="table table-striped table-bordered">
         <tr>
@@ -53,5 +65,5 @@
             </tr>
         {% endfor %}
     </table>
-
+</section>
 {% endblock %}

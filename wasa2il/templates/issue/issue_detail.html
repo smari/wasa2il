@@ -5,20 +5,12 @@
 {% block facebook_title %}{% trans 'Issue vote:' %} {{ issue }}{% endblock %}
 {% block facebook_description %}{% trans "Issue vote ends at" %}: {{ issue.deadline_votes }}{% endblock %}
 
-{% block breadcrumbs %}
-{% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity' issue.polity.id as polityurl %}
-{% add_breadcrumb issue.polity.name polityurl %}
-{% add_breadcrumb issue.name %}
-{{ block.super }}
-{% endblock %}
-
 {% block content %}
+<section class="content">
 <div style="float: right;">
     {% if user_is_officer and not issue.is_processed %}
         <a class="btn btn-default" role="button" href="{% url 'issue_edit' polity.id issue.id %}">{% trans 'Edit' %}</a>
     {% endif %}
-    <a class="btn btn-default" role="button" href="/polity/{{ issue.polity.id }}">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{ issue.name }}</h1>
 
@@ -57,6 +49,12 @@
         {{ issue.description|linebreaks }}
 
         <table class="table table-compact">
+
+            <tr>
+                <th>{% trans 'Issue number' %}:</th>
+                <td>{{ issue.issue_num }}/{{ issue.issue_year }}</td>
+            </tr>
+
             {% if documentcontent %}
                 <tr><th>{% trans "Proposal" %}:</th><td><a href="/polity/{{ issue.polity.id }}/document/{{ documentcontent.document_id }}/?v={{ documentcontent.order }}">{{ documentcontent.document.name }}</a></td></tr>
                 <tr><th>{% trans "Author" %}:</th><td><a href="{% url 'profile' documentcontent.user.username %}">{{ documentcontent.user }}</a></td></tr>
@@ -137,6 +135,7 @@
     </div>
 
 </div>
+</section>
 {% endblock %}
 
 {% block extrascripts %}

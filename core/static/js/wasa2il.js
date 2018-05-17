@@ -89,7 +89,6 @@ function issue_timer_stop() {
 function issue_vote(val) {
     issue_timer_stop();
     $.post("/api/issue/vote/", {
-        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
         "issue": issue_id,
         "vote": val
     }, function(data) {
@@ -208,8 +207,6 @@ function commentSend(obj_key, obj_id, comment) {
     var postData = {};
     postData["comment"] = comment_text;
     postData[obj_key] = obj_id;
-    postData['csrfmiddlewaretoken'] = $('.comment_form'
-        ).find('input[name="csrfmiddlewaretoken"]').val();
     $.post(APIPath, postData, null, 'json').done(function(data) {
         if (data.ok) {
             comment.val("");
@@ -279,7 +276,6 @@ function election_candidacy_withdraw() {
 function election_candidacy(val) {
     election_timer_stop();
     $.post("/api/election/candidacy/", {
-        "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
         "election": election_id,
         "val": val
     }, function(data) {
@@ -311,7 +307,8 @@ function election_poll(election) {
 
 
 function election_render(election) {
-    if (election_object.is_voting) {
+    var election_state = election_object.election_state; // Short-hand.
+    if (election_state == 'voting') {
         $(".voting").show();
     }
 
@@ -325,7 +322,7 @@ function election_render(election) {
     //        not break anything at that end, as it will create a gap in
     //        the user's ballot sequence.
     if (election_ui_update_is_safe()) {
-        if (election_object.is_closed || election_object.is_voting) {
+        if (election_state == 'concluded' || election_state == 'voting') {
             $("#election_button_withdraw").hide();
             $("#election_button_announce").hide();
         }
@@ -335,9 +332,7 @@ function election_render(election) {
         }
         else {
             $("#election_button_withdraw").hide();
-            if (election_object.is_voting) {
-                $("#election_button_announce").hide();
-            } else if (election_object.is_waiting) {
+            if (election_state == 'voting' || election_state == 'waiting') {
                 $("#election_button_announce").hide();
             } else {
                 $("#election_button_announce").show();
@@ -353,12 +348,9 @@ function election_render(election) {
 
 
 $(document).ready(function() {
-    // NOTE: The first text input field is the search field at the top of the page.
-    // I was here. This gets the order incorrectly or something.
-    var $inputs = $('input[type="text"],input[type="password"],textarea');
-    if ($inputs.length > 1) {
-        $inputs[1].focus();
-    }
+    // Focus the first input field.
+    var $inputs = $('input[type="text"],input[type="password"],input[type="email"],textarea');
+    $inputs.first().focus();
 });
 
 // function start_introjs(){

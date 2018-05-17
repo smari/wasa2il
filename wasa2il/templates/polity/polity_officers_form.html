@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+{% add_breadcrumb _('Polities') '/polities' %}
+{% add_breadcrumb _('New polity') %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<section class="content">
+<h1>{% trans 'Polity officers' %}</h1>
+
+{% crispy form %}
+{% if polity.id %}
+    <span id="cancel-url">{% url 'polity' polity.id %}</span>
+{% else %}
+    <span id="cancel-url">{% url 'polities' %}</span>
+{% endif %}
+</section>
+{% endblock %}

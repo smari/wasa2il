@@ -16,6 +16,7 @@ from election.models import Election
 from issue.models import Issue
 
 from polity.forms import PolityForm
+from polity.forms import PolityOfficersForm
 from polity.models import Polity
 
 
@@ -43,10 +44,7 @@ def polity_view(request, polity_id):
     sub_polities = polity.polity_set.all()
 
     ctx = {
-        'polity': polity,
         'sub_polities': sub_polities,
-        'user': request.user,
-        'user_is_member': polity.is_member(request.user),
         'politytopics': polity.topic_set.listing_info(request.user).all(),
         'agreements': polity.agreements(),
         'issues_recent': polity.issue_set.recent(),
@@ -61,7 +59,7 @@ def polity_view(request, polity_id):
 
 @login_required
 def polity_add_edit(request, polity_id=None):
-    if not request.user.is_staff:
+    if not request.user.is_staff and not request.globals['user_is_officer']:
         raise PermissionDenied()
 
     if polity_id:
@@ -79,20 +77,40 @@ def polity_add_edit(request, polity_id=None):
             # Make sure that the creator of the polity is also a member.
             if is_new:
                 polity.members.add(request.user)
+                polity.officers.add(request.user)
 
             return redirect(reverse('polity', args=(polity.id,)))
     else:
-        if polity.id:
-            form = PolityForm(instance=polity)
-        else:
-            # Automatically set current user as an officer if we're starting
-            # from scratch. Someone needs to take some responsibility here!
-            form = PolityForm(instance=polity, initial={
-                'officers': [request.user]
-            })
+        form = PolityForm(instance=polity)
 
     ctx = {
         'polity': polity,
         'form': form,
     }
     return render(request, 'polity/polity_form.html', ctx)
+
+
+@login_required
+def polity_officers(request, polity_id):
+    if not request.user.is_staff and not request.globals['user_is_officer']:
+        raise PermissionDenied()
+
+    polity = request.globals['polity']
+
+    if request.method == 'POST':
+        form = PolityOfficersForm(request.POST, instance=polity)
+        if form.is_valid():
+            polity = form.save()
+
+            return redirect(reverse('polity', args=(polity.id,)))
+    else:
+        form = PolityOfficersForm(instance=polity)
+
+    # Make only members from this polity available as officers.
+    form.fields['officers'].queryset = polity.members.all()
+
+    ctx = {
+        'polity': polity,
+        'form': form,
+    }
+    return render(request, 'polity/polity_officers_form.html', ctx)

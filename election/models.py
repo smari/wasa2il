@@ -108,7 +108,7 @@ class Election(models.Model):
 
     @transaction.atomic
     def process(self):
-        if not self.is_closed():
+        if self.election_state() != 'concluded':
             raise Election.ElectionInProgressException('Election %s is still in progress!' % self)
 
         if not self.is_processed:
@@ -220,19 +220,20 @@ class Election(models.Model):
     def get_ordered_candidates_from_votes(self):
         return self.process_votes()[0]
 
-    def export_openstv_ballot(self):
-        return ""
-
     def __unicode__(self):
         return u'%s' % self.name
-
-    def is_open(self):
-        return not self.is_closed()
 
     def voting_start_time(self):
         if self.starttime_votes not in (None, ""):
             return max(self.starttime_votes, self.deadline_candidacy)
         return self.deadline_candidacy
+
+    ELECTION_STATES = (
+        ('concluded', _('Concluded')),
+        ('voting', _('Voting')),
+        ('waiting', _('Waiting')),
+        ('accepting_candidates', _('Accepting candidates')),
+    )
 
     def election_state(self):
         # Short-hands.
@@ -253,14 +254,8 @@ class Election(models.Model):
             # Should never happen.
             return 'unknown'
 
-    def is_waiting(self):
-        return self.election_state() == 'waiting'
-
-    def is_voting(self):
-        return self.election_state() == 'voting'
-
-    def is_closed(self):
-        return self.election_state() == 'concluded'
+    def readable_election_state(self):
+        return dict(self.ELECTION_STATES)[self.election_state()]
 
     def get_stats(self, user=None, load_users=True, rename_users=False):
         """Load stats from the DB and convert to pythonic format.
@@ -340,6 +335,9 @@ class Election(models.Model):
     def get_winners(self):
         return [r.candidate for r in self.result.rows.select_related('candidate__user__userprofile').order_by('order')]
 
+    def get_winners_users(self):
+        return [r.candidate.user for r in self.result.rows.select_related('candidate__user__userprofile').order_by('order')]
+
     def get_candidates(self):
         ctx = {}
         ctx["count"] = self.candidate_set.count()
@@ -347,7 +345,7 @@ class Election(models.Model):
         return ctx
 
     def get_unchosen_candidates(self, user):
-        if not user.is_authenticated() or not self.is_voting():
+        if not user.is_authenticated() or self.election_state() != 'voting':
             return Candidate.objects.filter(election=self)
         # votes = []
         votes = ElectionVote.objects.filter(election=self, user=user)
@@ -408,7 +406,7 @@ class ElectionVote(models.Model):
                     ('election', 'user', 'value'))
 
     def __unicode__(self):
-        return u'In %s, user %s voted for %s for seat %d' % (self.election, self.user, self.candidate, self.value)
+        return u'User %s has voted in election %s' % (self.user, self.election)
 
 
 class ElectionResult(models.Model):

@@ -4,7 +4,7 @@
 <tr>
     <td>
         {% if user.is_authenticated %}
-            <a onclick="topic_star({{topic.id}});"><i id="topicstar_{{topic.id}}" class="glyphicon glyphicon-star {% if not topic.favorited %}icon-grey{% endif %}"></i></a>
+            <a onclick="topic_star({{topic.id}});"><i id="topicstar_{{topic.id}}" class="{% if not topic.favorited %}far icon-grey{%else%}fas{% endif %} fa-star"></i></a>
         {% endif %}
         <a href="/polity/{{polity.id}}/topic/{{topic.id}}/">{{topic.name}}</a>
     </td>

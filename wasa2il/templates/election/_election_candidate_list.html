@@ -1,7 +1,7 @@
 {% load wasa2il %}
 {% load i18n %}
 
-{% if not election.is_closed %}
+{% if election.election_state != 'concluded' %}
 {% for candidate in candidates %}
 <li data-seqid="{{candidate.id}}">
     <div class="row">
@@ -11,33 +11,33 @@
         <div class="col-xs-4">
           <a href="/accounts/profile/{{ candidate.user.username }}/" style="font-size: 15px;">{{ candidate.user.get_name | truncatechars:80 }}</a>
         </div>
-        {% if election.is_voting %}
+        {% if election.election_state == 'voting' %}
             {% if candidate_selected %}
                 {% if user_can_vote %}
                 <div class="col-xs-6">
                   <button class="btn btn-default vote-button vote-up"     style="color:#000" onclick="election_up_candidate(this);">
-                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                    <i class="fas fa-chevron-up" aria-hidden="true"></i>
                   </button>
                   <button class="btn btn-default vote-button vote-down"   style="color:#000" onclick="election_down_candidate(this);">
-                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
                   </button>
                   <button class="btn btn-default vote-button vote-down"   style="color:#C00" onclick="election_deselect_candidate(this);">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <i class="fas fa-user-times" aria-hidden="true"></i>
                   </button>
                   <div class="dropdown" style="display: inline";>
                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                      <span class="glyphicon glyphicon-option-horizontal" span>
+                      <i class="fas fa-ellipsis-v"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                       <div class="vote-tip" onclick="election_top_candidate(this);">
-                        <span class="glyphicon glyphicon-step-forward" style="transform: rotate(-90deg);" aria-hidden="true"></span>
+                        <i class="fas fa-step-forward" style="transform: rotate(-90deg);" aria-hidden="true"></i>
                         {% trans "Move to top" %}
                       </div>
                       <div class="vote-tip" onclick="election_bottom_candidate(this);">
-                        <span class="glyphicon glyphicon-step-forward" style="transform: rotate(90deg);"  aria-hidden="true"></span>
+                        <i class="fas fa-step-forward" style="transform: rotate(90deg);"  aria-hidden="true"></i>
                         {% trans "Move to bottom" %}
                       </div>
-                   </div> <!-- End dropdown-menu -->
+                    </div> <!-- End dropdown-menu -->
                   </div> <!-- End dropdown -->
                 </div> <!-- End col -->
 
@@ -58,7 +58,7 @@
         {% trans "Your ballot is empty." %}<br><br>
         {% trans "Drag candidates here or click the vote buttons." %}
     </p>
-{% elif candidate_total > 0 and election.is_voting %}
+{% elif candidate_total > 0 and election.election_state == 'voting' %}
     <p>{% trans "You have selected all the candidates, good work!" %}</p>
 {% else %}
     <p>{% trans "There are no candidates standing in this election yet!" %}</p>

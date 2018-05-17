@@ -43,11 +43,17 @@ def topic_view(request, polity_id, topic_id):
     polity = get_object_or_404(Polity, id=polity_id)
     topic = get_object_or_404(Topic, id=topic_id, polity_id=polity_id)
 
-    user_is_officer = polity.is_officer(request.user)
-
     ctx = {
         'polity': polity,
         'topic': topic,
-        'user_is_officer': user_is_officer,
     }
     return render(request, 'topic/topic_detail.html', ctx)
+
+def topic_list(request, polity_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+
+    ctx = {
+        'polity': polity,
+        'politytopics': polity.topic_set.listing_info(request.user).all(),
+    }
+    return render(request, 'topic/topic_list.html', ctx)

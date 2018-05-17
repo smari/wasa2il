@@ -4,16 +4,18 @@
 {% for issue in issues_recent %}
     <tr>
         <td>
-            <span id="issuestar_{{ issue.id }}"
-                    class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
-                    title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"
-            ></span>
+            {% if not user.is_anonymous and issue.issue_state == 'voting' %}
+                <i id="issuestar_{{ issue.id }}"
+                        class="far {% if issue|issuevoted:user %}fa-check-square{% else %}fa-square icon-grey{% endif %}"
+                        title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"
+                ></i>
+            {% endif %}
             <a href="{% url 'issue' issue.polity_id issue.id %}">{{ issue.name }}</a>
         </td>
         {% if not polity %}
-            <td>
-                <a href="{% url 'polity' issue.polity_id %}">{{ issue.polity }}</a>
-            </td>
+        <td>
+            <a href="{% url 'polity' issue.polity_id %}">{{ issue.polity }}</a>
+        </td>
         {% endif %}
         <td style="white-space: nowrap;">
             {% with issue.issue_state as state %}
@@ -36,8 +38,14 @@
                 {% endif %}
             {% endwith %}
         </td>
+        {% if issue.special_process %}
+            <td colspan="2" style="text-align: right; white-space: nowrap;">
+                {{ issue.get_special_process_display }}
+            </td>
+        {% else %}
         <td style="text-align: right;">{{ issue.comment_count }}</td>
         <td style="text-align: right;">{{ issue.votecount }}</td>
+        {% endif %}
     </tr>
 {% empty %}
     <tr>
@@ -46,4 +54,3 @@
         </td>
     </tr>
 {% endfor %}
-

@@ -10,12 +10,15 @@ except ImportError:
     from default_settings import *
     print('No local_settings.py found. Setting default values.')
 
-WASA2IL_VERSION = '0.9.14'
+# Get Wasa2il version.
+with open('VERSION', 'r') as f:
+    WASA2IL_VERSION = f.readlines().pop(0).strip()
+    f.close()
+
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
 
-TEMPLATE_DEBUG = DEBUG
 
 MANAGERS = ADMINS
 
@@ -92,32 +95,12 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.template.context_processors.debug',
-    'django.template.context_processors.i18n',
-    'django.template.context_processors.media',
-    'django.template.context_processors.static',
-    'django.template.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'django.template.context_processors.request',
-
-    'core.contextprocessors.globals',
-
-    'polity.contextprocessors.polities',
-)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -129,6 +112,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'core.middleware.UserSettingsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
+    'core.middleware.GlobalsMiddleware',
 )
 try:
     MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
@@ -137,9 +121,28 @@ except:
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (
-    here('templates'),
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [here('templates/')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+                'core.contextprocessors.globals',
+                'polity.contextprocessors.polities',
+            ],
+        },
+    }
+]
+
 
 LOCALE_PATHS = (
     here('locale'),
@@ -160,12 +163,14 @@ INSTALLED_APPS = (
     'diff_match_patch',
     'datetimewidget',
     'crispy_forms',
+    'prosemirror',
 
     'core',
     'polity',
     'topic',
     'election',
     'issue',
+    'tasks',
     'gateway',
 )
 try:

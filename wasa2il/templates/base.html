@@ -23,6 +23,12 @@
 
     <link href="/static/css/application.css" rel="stylesheet" />
 
+    <!-- Font Awesome -->
+    <link href="/static/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/static/fontawesome/css/fa-brands.css" rel="stylesheet">
+    <link href="/static/fontawesome/css/fa-regular.css" rel="stylesheet">
+    <link href="/static/fontawesome/css/fa-solid.css" rel="stylesheet">
+
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -30,7 +36,10 @@
     <script src="/static/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.js"></script>
     <script src="/static/js/wasa2il.js"></script>
-
+    <script src="/static/js/csrf.js"></script>
+    <script>
+    var django = { jQuery: $ };
+    </script>
     {% block javascript %}
     {% endblock %}
 
@@ -43,80 +52,72 @@
     {% block head_extra %}{% endblock %}
   </head>
   <body>
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
 
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
-        </div>
+    <nav class="navbar navbar-fixed-top" role="navigation">
+      <div class="headerbar">
+      </div>
+      <div class="container-fluid">
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse piratepurple" id="bs-example-navbar-collapse-1">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" onclick="$('#wrapper').toggleClass('toggled')">
+              <span class="sr-only">Toggle navigation</span>
+              <i class="fa fa-bars"></i>
+            </button>
 
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'All polities' %} <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                {% for entry in polity_menulist %}
-                  <li>
-                    <a href="{% url 'polity' entry.polity_id %}">
-                      {% repeater '&dash;' entry.depth %}
-                      {{ entry.name }}
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </li>
-          </ul>
+            <a class="navbar-brand" href="/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
+          </div>
 
-          <ul class="nav navbar-nav navbar-right">
-            {% if user.is_authenticated %}
-            <li><a href="/help/instructions/">{% trans "Help" %}</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }} <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="/accounts/profile/"><span class="glyphicon glyphicon-user"></span> {% trans "My profile" %}</a></li>
-                <li><a href="/accounts/settings/"><span class="glyphicon glyphicon-wrench"></span> {% trans "My settings" %}</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="/accounts/logout/"><span class="glyphicon glyphicon-off"></span> {% trans "Logout" %}</a></li>
-              </ul>
-            </li>
-            {% else %}
-            <li><a href="/accounts/login/{% if '/accounts/' not in request.get_full_path %}?next={{ request.get_full_path }}{% endif %}">{% trans "Log in" %}</a></li>
-            <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
-            {% endif %}
-          </ul>
+          <div class="collapse navbar-collapse piratepurple" >
 
-          <form class="navbar-form navbar-right" action="/search">
-            <div class="form-group" style="display:inline;">
-              <div class="input-group">
-                <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-              </div>
-            </div>
-          </form>
+            <ul class="nav navbar-nav navbar-right">
+              {% if user.is_authenticated %}
+              <li><a href="/help/instructions/"><i class="fas fa-question-circle"></i> {% trans "Help" %}</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                  <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="/accounts/profile/"><i class="fas fa-user"></i> {% trans "My profile" %}</a></li>
+                  <li><a href="/accounts/settings/"><i class="fa fa-cog"></i> {% trans "My settings" %}</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="/accounts/logout/"><i class="fas  fa-sign-out-alt"></i> {% trans "Logout" %}</a></li>
+                </ul>
+              </li>
+              {% else %}
+              <li><a href="/accounts/login/{% if '/accounts/' not in request.get_full_path %}?next={{ request.get_full_path }}{% endif %}"><i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a></li>
+              <li><a href="/accounts/register/"><i class="fas fa-user-plus"></i> {% trans "Sign up" %}</a></li>
+              {% endif %}
+            </ul>
 
-        </div><!-- /.navbar-collapse -->
-    </div> <!-- end container -->
-  </nav>
-    <div class="container">
-    {% block breadcrumbs %}
-    {% render_breadcrumbs %}
-    {% endblock %}
+          </div><!-- /.navbar-collapse -->
+      </div> <!-- end container -->
+    </nav>
 
-    {% block content %}{% endblock %}
+
+    <div class="container-fluid" id="wrapper">
+
+      <div id="sidebar-wrapper" role="navigation">
+        {% if polity %}
+          {% include "_sidenav_polity.html" %}
+        {% elif profile %}
+          {% include "_sidenav_profile.html" %}
+        {% endif %}
+
+
+        </ul>
+      </div>
+
+      <div id="content-wrapper">
+        {% comment %}
+          {% block breadcrumbs %}
+          {% render_breadcrumbs %}
+          {% endblock %}
+        {% endcomment %}
+
+        {% block content %}{% endblock %}
+      </div>
+
       <footer class="footer">
-        <hr/>
-        <p class="pull-right"><a href="#">{% trans "Back to top" %}</a></p>
         <a href="/help/wasa2il/">{% trans "About wasa2il" %}</a> ·
         <a href="/help/copyright/">{% trans "License" %}</a> ·
         <a href="/help/instructions/">{% trans "Instructions" %}</a> ·
@@ -129,5 +130,3 @@
 
   </body>
 </html>
-
-

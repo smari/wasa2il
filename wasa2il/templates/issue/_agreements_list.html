@@ -1,0 +1,54 @@
+{% load i18n %}
+<section class="list-wrapper">
+
+{% for documentcontent in agreements %}
+<div class="list-item list-item-agreement">
+    <div class="row">
+      <div class="col-md-10 col-sm-8 title"><h3 class="agreement-heading"><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></h3></div>
+      <div class="col-md-2 col-sm-4 date">{{ documentcontent.issue.deadline_votes|date }}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-7">
+        {% trans "Topics" %}:
+        {% for topic in documentcontent.issue.topics.all %}
+        <a href="">{{topic.name}}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+      <div class="col-md-5">
+        {% trans "Author" %}: <a href="{% url 'profile' documentcontent.user.username %}">{{ documentcontent.user }}</a>
+      </div>
+    </div>
+
+    <div class="voteresults">
+      <span class="col-md-2 accepted">
+        {% trans "Yes" %}: {{ documentcontent.issue.votecount_yes }}
+      </span>
+      <span class="col-md-2 rejected">
+        {% trans "No" %}: {{ documentcontent.issue.votecount_no }}
+      </span>
+      <span class="col-md-2 abstained">
+        {% trans "Abstain" %}: {{ documentcontent.issue.votecount_abstain }}
+      </span>
+      <span class="col-md-2">
+        {% trans "Comments" %}: {{ documentcontent.issue.comment_set.count }}
+      </span>
+
+      <div class="col-md-4" style="text-align: right;">
+        <a class="btn btn-default" href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{% trans "Details" %}</a>
+      </div>
+
+    </div>
+</div>
+
+{% empty %}
+
+<div style="text-align: center; font-size: 170%;">
+    {% if q %}
+      {% trans "Your search returned no results" %}
+    {% else %}
+      {% trans "This polity has no agreements." %}
+      <a href="/help/agreement/">{% trans "What is an agreement?" %}</a>
+    {% endif %}
+</div>
+{% endfor %}
+</section>

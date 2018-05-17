@@ -46,10 +46,15 @@ class UserProfile(models.Model):
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
-    language = models.CharField(max_length=6, default=settings.LANGUAGE_CODE, choices=settings.LANGUAGES, verbose_name=_("Language"))
+    language = models.CharField(max_length=6, default='en', choices=settings.LANGUAGES, verbose_name=_("Language"))
     topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 
     def save(self, *largs, **kwargs):
+        is_new = self.pk is None
+
+        if is_new:
+            self.language = settings.LANGUAGE_CODE
+
         if not self.picture:
             self.picture.name = "default.jpg"
 
@@ -65,7 +70,6 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
-
 
 # Make sure registration creates profiles
 def _create_user_profile(**kwargs):
@@ -89,4 +93,30 @@ def get_name(user):
 
     return name
 
+def tasks_applied(user):
+    return user.taskrequest_set.all()
+
+def tasks_accepted(user):
+    return tasks_applied(user).filter(is_accepted=True)
+
+def tasks_completed(user):
+    return tasks_accepted(user).filter(task__is_done=True)
+
+def tasks_percent(user):
+    applied_cnt = tasks_applied(user).count()
+    if applied_cnt == 0:
+        return {'applied': 0, 'accepted': 0, 'completed': 100}
+    accepted_cnt = tasks_accepted(user).count()
+    completed_cnt = tasks_completed(user).count()
+    ret = {
+        'applied': 100*(applied_cnt - accepted_cnt - completed_cnt) / float(applied_cnt),
+        'accepted': 100*(accepted_cnt - completed_cnt) / float(applied_cnt),
+        'completed': 100*(completed_cnt) / float(applied_cnt)
+    }
+    return ret
+
 User.get_name = get_name
+User.tasks_applied = tasks_applied
+User.tasks_accepted = tasks_accepted
+User.tasks_completed = tasks_completed
+User.tasks_percent = tasks_percent

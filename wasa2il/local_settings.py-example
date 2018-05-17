@@ -2,7 +2,7 @@
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['example.com']
+ALLOWED_HOSTS = ['localhost']
 
 DEBUG = True
 
@@ -13,6 +13,11 @@ INSTANCE_LOGO = ''
 INSTANCE_URL = '' # Base URL for application, for example https://wasa2il.example.com/
 INSTANCE_FACEBOOK_IMAGE = 'https://example.com/full/url/to/image.png'
 INSTANCE_FACEBOOK_APP_ID = '1234567890'
+
+FEATURES = {
+    'tasks': True,
+    'topic': True,
+}
 
 TIME_ZONE = 'Iceland'
 
@@ -148,4 +153,3 @@ ADMINS = (
 # DEBUG_TOOLBAR_CONFIG = {
 #     "SHOW_TOOLBAR_CALLBACK": show_toolbar,
 # }
-

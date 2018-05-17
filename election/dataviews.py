@@ -60,7 +60,6 @@ def election_poll(request, **kwargs):
     election = get_object_or_404(Election,
         id=request.POST.get("election", request.GET.get("election", -1)))
 
-    user_is_member = election.polity.is_member(request.user)
     user_can_vote = election.can_vote(request.user)
     all_candidates = election.get_candidates()
 
@@ -69,16 +68,13 @@ def election_poll(request, **kwargs):
         "election": {
             "user_is_candidate":
                 (request.user in [x.user for x in election.candidate_set.all()]),
-            "is_voting": election.is_voting(),
-            "is_waiting": election.is_waiting(),
-            "is_closed": election.is_closed(),
+            "election_state": election.election_state(),
             "votes": election.get_vote_count(),
             "candidates": all_candidates,
             "vote": {}}}
 
     ctx["election"]["candidates"]["html"] = render_to_string(
         "election/_election_candidate_list.html", {
-            "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
             "candidate_total": len(all_candidates),
@@ -90,7 +86,6 @@ def election_poll(request, **kwargs):
 
     ctx["election"]["vote"]["html"] = render_to_string(
         "election/_election_candidate_list.html", {
-            "user_is_member": user_is_member,
             "user_can_vote": user_can_vote,
             "election": election,
             "candidate_total": len(all_candidates),
@@ -110,7 +105,7 @@ def election_poll(request, **kwargs):
 @jsonize
 def election_candidacy(request):
     election = get_object_or_404(Election, id=request.POST.get("election", 0))
-    if election.is_closed():
+    if election.election_state() == 'concluded':
         return election_poll(request)
 
     val = int(request.POST.get("val", 0))
@@ -143,11 +138,8 @@ def election_vote(request):
 
     logged_in = request.user.is_authenticated()
     can_vote = logged_in and election.can_vote(request.user)
-    is_voting = election.is_voting()
-    is_closed = election.is_closed()
-    if not (logged_in and can_vote and is_voting):
+    if not (logged_in and can_vote and election.election_state() == 'voting'):
         ctx["please_login"] = not logged_in
-        ctx["is_closed"] = is_closed
         ctx["can_vote"] = can_vote
         ctx["ok"] = False
         return ctx
@@ -185,6 +177,7 @@ def election_showclosed(request):
             polity = None
 
         html_ctx = {
+            'user': request.user,
             'polity': polity,
             'elections_recent': elections,
         }
@@ -196,16 +189,6 @@ def election_showclosed(request):
         ctx['error'] = e.__str__() if settings.DEBUG else 'Error raised. Turn on DEBUG for details.'
 
     return ctx
-
-
-def election_ballots(request, pk=None):
-    ctx = {}
-    election = get_object_or_404(Election, pk=pk)
-    if election.is_closed():
-        ctx["ballotbox"] = election.get_ballots()
-        return render_to_response("election/election_ballots.txt", ctx, context_instance=RequestContext(request), content_type="text/plain")
-    else:
-        raise PermissionDenied
 
 
 def election_stats_download(request, polity_id=None, election_id=None, filename=None):

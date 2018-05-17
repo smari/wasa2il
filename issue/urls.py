@@ -14,7 +14,6 @@ from issue.dataviews import render_markdown
 from issue.models import Issue
 from issue.views import document_add
 from issue.views import document_agreements
-from issue.views import document_search
 from issue.views import document_view
 from issue.views import issue_add_edit
 from issue.views import issue_view
@@ -27,9 +26,7 @@ urlpatterns = [
     url(r'^polity/(?P<polity_id>\d+)/issue/new/(documentcontent/(?P<documentcontent_id>\d+)/)?$', issue_add_edit, name='issue_add'),
     url(r'^polity/(?P<polity_id>\d+)/issue/(?P<issue_id>\d+)/$', never_cache(issue_view), name='issue'),
 
-    url(r'^search/$', document_search),
-
-    url(r'^polity/(?P<polity_id>\d+)/agreements/$', document_agreements),
+    url(r'^polity/(?P<polity_id>\d+)/agreements/$', document_agreements, name="agreements"),
     url(r'^polity/(?P<polity_id>\d+)/document/new/$', document_add),
     url(r'^polity/(?P<polity_id>\d+)/document/(?P<document_id>\d+)/$', document_view, name='document'),
 

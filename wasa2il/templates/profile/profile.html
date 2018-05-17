@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block facebook_title %}{% if profile.displayname %}{{ profile.displayname }}{% else %}{% trans 'User' %}{% endif %}{% endblock %}
+{% block facebook_description %}{% if profile.bio %}{{ profile.bio }}{% else %}{{ INSTANCE_NAME }}{% endif %}{% endblock %}
+{% block facebook_image_url %}{{ INSTANCE_URL }}{{ profile.picture.url }}{% endblock %}
+
+{% block content %}
+<section class="content">
+  {% if profile.email_visible %}<div class="pull-right"><small>{{ profile_user.email }}</small></div>{% endif %}
+  <h1>
+      {% if profile.displayname %}
+          {{ profile.displayname }} <small>({{ profile_user.username }})</small>
+      {% else %}
+          {{ profile_user.username }}
+      {% endif %}
+  </h1>
+
+  {% for current_election in current_elections %}
+  <div class="alert alert-info">
+      {% trans 'Candidate in:' %}
+      <strong><a href="{% url 'election' current_election.polity_id current_election.id %}">{{ current_election }}</a></strong>
+  </div>
+  {% endfor %}
+
+  <div class="profile">
+    <div class="profile-bio">
+      <h1>{% trans "Biography" %}</h1>
+        <div class="profile-picture">
+          {% if profile.picture %}
+          <img class="img-thumbnail" src="{{ profile.picture.url }}" />
+          {% else %}
+          <img class="img-thumbnail" src="http://thecatapi.com/api/images/get?format=src" />
+          {% endif %}
+        </div>
+        {% if profile.bio %}
+            {{profile.bio|markdown}}
+        {% else %}
+            {% trans "This user hasn't provided a biography." %}
+        {% endif %}
+    </div>
+    <div class="profile-thingsdone">
+        <div class="profile-polities">
+          <h1>{% trans "Polities" %}</h1>
+          <table class="table">
+          {% for e in profile_user.polities.all %}
+          <tr>
+              <td>
+                  <a href="{% url 'polity' e.id %}">{{e.name}}</a>
+              </td>
+              <td>
+                    {% if profile_user in e.officers.all %}
+                        {% trans "Officer" %}
+                    {% elif profile_user in e.wranglers.all %}
+                        {% trans "Volunteer wrangler" %}
+                    {% else %}
+                        {% trans "Member" %}
+                    {% endif %}
+              </td>
+          </tr>
+          {% empty %}
+          <tr><td>{% blocktrans with user=profile_user.username %}{{user}} is not a member of any polities.{% endblocktrans %}</td></tr>
+          {% endfor %}
+          </table>
+        </div>
+        <div class="profile-candidacies">
+            <h1>{% trans "Elections" %}</h1>
+            <table class="table">
+            {% for e in elections %}
+            <tr>
+                <td>
+                    <a href="{% url 'election' e.polity_id e.id %}">{{e}}</a>
+                </td>
+                <td>{{e.readable_election_state}}</td>
+                <td>
+                  {% if e.is_processed %}
+                      {% if profile.user in e.get_winners_users %}
+                        {% trans "Winner" %}
+                      {% else %}
+                        {% trans "Lost" %}
+                      {% endif %}
+                  {% endif %}
+                </td>
+                <td>
+                    {{e.deadline_votes|date:'d/m/Y'}}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td>{% blocktrans with user=profile_user.username %}{{user}} has not run in any elections.{% endblocktrans %}</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="profile-proposals">
+            <h1>{% trans "Proposals" %}</h1>
+            <table class="table">
+            {% for e in profile_user.documentcontent_set.all %}
+            <tr>
+                <td>
+                    <a href="{% url 'document' e.document.polity.id e.document.id %}?v={{e.order}}">{{e.document.name}}</a>
+                </td>
+                <td>
+                    {{e.get_status_display}}
+                </td>
+                <td>
+                    {{e.created|date:'d/m/Y'}}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td>{% blocktrans with user=profile_user.username %}{{user}} has not proposed anything.{% endblocktrans %}</td></tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
