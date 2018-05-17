@@ -1,52 +1,23 @@
 {% extends "base.html" %}
 {% load i18n %}
-
-{% block javascript %}
-    <script language="javascript" type="text/javascript">
-
-        var NAME = "{% if documentcontent %}{{ documentcontent.document.name }}{% endif %}{% if documentcontent.order > 1 %}, {% trans 'version' %} {{ documentcontent.order }}{% endif %}";
-        var DESCRIPTION = "{% if documentcontent_comments %}{{ documentcontent_comments }}{% endif %}";
-        var SELECTED_TOPICS = {{ selected_topics }};
-
-        $(document).ready(function() {
-            $('#id_name').val(NAME);
-            $('#id_description').val(DESCRIPTION.replace(/&quot;/g, '"', true).replace(/&#39;/g, "'"));
-            $('#id_topics').val(SELECTED_TOPICS);
-        });
-    </script>
-{% endblock %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-    <h1>{% trans "New issue" %}</h1>
-    <div class="row">
-        <div class="span6">
-            <form action="/polity/{{polity.id}}/issue/new/{% if documentcontent %}documentcontent/{{ documentcontent.id }}/{% endif %}" method="POST" />
-                {% csrf_token %}
-                <table class="table table-striped">
-                    {{ form.as_table }}
-                </table>
-                <button type="submit" class="btn btn-default">{% trans "Save" %}</button>
-            </form>
-        </div>
+<h1>{% trans "New issue" %}</h1>
 
-        {% if documentcontent %}
-        <div class="span6 pull-right">
-            {% include 'core/stub/document_view.html' with tab=tab %}
-        </div>
-        {% endif %}
+{% crispy form %}
+{% if issue.id %}
+    <span id="cancel-url">{% url 'issue' issue.polity_id issue.id %}</span>
+{% else %}
+    <span id="cancel-url">{% url 'document' issue.polity_id documentcontent.document_id %}?v={{ documentcontent.order }}</span>
+{% endif %}
 
-    </div>
+<hr />
 
-    <script>
-        $(function () {
-            $('#id_deadline_votes').datetimepicker({
-                showMinute: false,
-                minute: 0,
-                showButtonPanel: false,
-                minDate: Date()
-            });
-        });
-    </script>
+{% if documentcontent %}
+    <h2>{% trans 'Comparison' %}</h2>
+    {% include 'issue/stub/document_view.html' with tab=tab %}
+{% endif %}
 
 {% endblock %}

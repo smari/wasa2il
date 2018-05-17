@@ -1,0 +1,42 @@
+{% load elections %}
+{% load i18n %}
+
+{% for election in elections_recent %}
+    <tr>
+        <td>
+            <i id="electionstar_{{ election.id }}"
+                    class="glyphicon glyphicon-pencil {% if election|electionvoted:user %}{% else %}icon-grey{% endif %}"
+                    title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"
+            ></i>
+            <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
+        </td>
+        {% if not polity %}
+            <td>
+                <a href="{% url 'polity' election.polity_id %}">{{ election.polity }}</a>
+            </td>
+        {% endif %}
+        <td class="minimize">
+            {% with election.election_state as state %}
+                {% if state == 'accepting_candidates' %}
+                    <strong>{% trans 'Accepting candidates' %}</strong>
+                {% elif state == 'waiting' %}
+                    {% trans 'Candidacy deadline expired' %}
+                {% elif state == 'voting' %}
+                    <strong>{% trans 'Voting' %}</strong>
+                {% elif state == 'concluded' %}
+                    {% trans 'Concluded' %}
+                {% else %}
+                    {% trans 'Unknown state' %}
+                {% endif %}
+            {% endwith %}
+        </td>
+        <td style="text-align: right;">{{ election.candidate_set.count }}</td>
+        <td style="text-align: right;">{{ election.get_vote_count }}</td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="{% if polity %}4{% else %}5{% endif %}" style="text-align: center;">
+             {% trans "No elections are scheduled at the moment." %}
+        </td>
+    </tr>
+{% endfor %}

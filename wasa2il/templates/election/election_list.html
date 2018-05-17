@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' polity.id as polityurl %}
+{% url 'polity' polity.id as polityurl %}
 {% add_breadcrumb polity.name polityurl %}
 {% add_breadcrumb _('Elections') %}
 {{ block.super }}
@@ -23,19 +23,33 @@
         <tr>
             <th>{% trans "Election" %}</th>
             <th>{% trans "State" %}</th>
-            <th>{% trans "Candidates" %}</th>
-            <th>{% trans "Votes" %}</th>
-            <th class="date">{% trans "Deadline for candidacy" %}</th>
-            <th class="date">{% trans "Deadline for votes" %}</th>
+            <th style="text-align: right;">{% trans "Candidates" %}</th>
+            <th style="text-align: right;">{% trans "Votes" %}</th>
+            <th class="date">{% trans "Deadline for candidacies" %}</th>
+            <th class="date">{% trans "Election ends" %}</th>
         </tr>
         {% for election in elections %}
             <tr>
                 <td><a href="/polity/{{ polity.id }}/election/{{ election.id }}/">{{ election.name }}</a></td>
-                <td>{% if election.is_voting %}{% trans "Voting" %}{% else %}{% if election.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
-                <td>{{ election.candidate_count }}</td>
-                <td>{{ election.get_vote_count }}</td>
-                <td class="date">{{ election.deadline_candidacy }}</td>
-                <td class="date">{{ election.deadline_votes }}</td>
+                <td>
+                    {% with election.election_state as state %}
+                        {% if state == 'accepting_candidates' %}
+                            <strong>{% trans 'Accepting candidates' %}</strong>
+                        {% elif state == 'waiting' %}
+                            {% trans 'Candidacy deadline expired' %}
+                        {% elif state == 'voting' %}
+                            <strong>{% trans 'Voting' %}</strong>
+                        {% elif state == 'concluded' %}
+                            {% trans 'Concluded' %}
+                        {% else %}
+                            {% trans 'Unknown state' %}
+                        {% endif %}
+                    {% endwith %}
+                </td>
+                <td style="text-align: right;">{{ election.candidate_count }}</td>
+                <td style="text-align: right;">{{ election.get_vote_count }}</td>
+                <td class="date">{{ election.deadline_candidacy|may_expire }}</td>
+                <td class="date">{{ election.deadline_votes|may_expire }}</td>
             </tr>
         {% endfor %}
     </table>

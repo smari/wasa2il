@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3">&nbsp;</div>
+    <div class="col-md-6">
+        <h1>{% trans 'Welcome!' %}</h1>
+
+        <p>{% blocktrans %}Congratulations on finishing the installation!{% endblocktrans %}</p>
+        <p>{% blocktrans %}The first order of business is creating a so-called polity. A polity is a venue in which users democratically decide on issues and elections. You can create as many as you like, but if you're unsure, you probably only need one.{% endblocktrans %}</p>
+        <p>{% blocktrans %}Please log in with the superuser account, which should have been created during the installation process, and you should immediately be redirected to polity creation.{% endblocktrans %}</p>
+    </div>
+    <div class="col-md-3">&nbsp;</div>
+</div>
+
+{% endblock %}

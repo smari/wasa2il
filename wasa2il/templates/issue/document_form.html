@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>
+    {%trans "New Document"%}
+
+    {% if polity %}
+        <small>{% trans "In polity:" %} <a href="/polity/{{ polity.id }}/">{{ polity.name }}</a></small>
+    {% endif %}
+</h1>
+
+{% crispy form %}
+<span id="cancel-url">{% url 'polity' polity.id %}</span>
+
+{% endblock %}

@@ -1,11 +1,14 @@
 import os
 import markdown2
 
+from datetime import datetime
 from PIL import Image
 from pilkit.processors import SmartResize
 
 from django import template
+from django.conf import settings
 from django.template.defaultfilters import stringfilter
+from django.utils.formats import dateformat
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
@@ -13,6 +16,16 @@ from issue.models import Vote
 
 
 register = template.Library()
+
+
+@register.filter()
+def may_expire(dt):
+    now = datetime.now()
+
+    css_class = 'expired' if dt < now else 'not-expired'
+    formatted_datetime = dateformat.format(dt, settings.DATETIME_FORMAT)
+
+    return mark_safe('<span class="%s">%s</span>' % (css_class, formatted_datetime))
 
 
 @register.filter
@@ -74,6 +87,13 @@ def markdown(value):
 def classname(obj):
     classname = obj.__class__.__name__
     return classname
+
+
+@register.simple_tag
+def repeater(string, count):
+    # Making up for Django's inexplicable lack of ability to iterate from one
+    # number to another in a template.
+    return str(string) * count
 
 @register.simple_tag(takes_context=True)
 def add_breadcrumb(context, name=None, url=False, **kwargs):

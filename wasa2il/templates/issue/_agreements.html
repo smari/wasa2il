@@ -5,18 +5,18 @@
     <th>{% trans "Yes" %} </th>
     <th>{% trans "No" %} </th>
     <th>{% trans "Abstain" %} </th>
-    <th class="right">{% trans "Adopted" %}</th>
+    <th style="text-align: right;">{% trans "Adopted" %}</th>
 </tr>
 {% for documentcontent in agreements %}
 <tr>
     <td><a href="/polity/{{ polity.id }}/document/{{ documentcontent.document.id }}/">{{ documentcontent.document.name }}</a></td>
-    <td class="col-md-1 green">
+    <td class="col-md-1 accepted">
       {{ documentcontent.issue.votecount_yes }}
     </td>
-    <td class="col-md-1 red">
+    <td class="col-md-1 rejected">
       {{ documentcontent.issue.votecount_no }}
     </td>
-    <td class="col-md-1 grey">
+    <td class="col-md-1 abstained">
       {{ documentcontent.issue.votecount_abstain }}
     </td>
     <td class="date">{{ documentcontent.issue.deadline_votes|date }}</td>

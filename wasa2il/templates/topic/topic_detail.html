@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' topic.polity.id as polityurl %}
+{% url 'polity' topic.polity.id as polityurl %}
 {% add_breadcrumb topic.polity.name polityurl %}
 {% add_breadcrumb topic.name %}
 {{ block.super }}
@@ -13,6 +13,9 @@
 {% block content %}
 
 <div style="float:right">
+    {% if user_is_officer %}
+        <a class="btn btn-default" role="button" href="{% url 'topic_edit' polity.id topic.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
     <a class="btn btn-default" role="button" href="/polity/{{topic.polity.id}}/">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{topic.name}}</h1>
@@ -34,10 +37,10 @@
                 <i rel="tooltip" 
                     title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}" 
                     id="issuestar_{{issue.id}}" class="icon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"></i>
-                <a href="/issue/{{issue.id}}/">{{issue.name}}</a>
+                <a href="{% url 'issue' polity.id issue.id %}">{{ issue.name }}</a>
             </td>
             <td>{% if issue.is_voting %}{% trans "Voting" %}{% else %}{% if issue.is_open %}{% trans "Open" %}{% else %}{% trans "Closed" %}{% endif %}{% endif %}</td>
-            <td>{{issue.comment_set.count}}</td>
+            <td>{{ issue.comment_count }}</td>
             <td>{{ issue.votecount }}</td>
         </tr>
         {% endfor %}

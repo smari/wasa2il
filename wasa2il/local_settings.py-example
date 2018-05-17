@@ -6,6 +6,7 @@ ALLOWED_HOSTS = ['example.com']
 
 DEBUG = True
 
+ORGANIZATION_NAME = ''
 INSTANCE_NAME = ''
 INSTANCE_SLUG = ''
 INSTANCE_LOGO = ''

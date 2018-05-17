@@ -1,5 +1,6 @@
 
 from django.conf import settings
+from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 
 from core.models import UserProfile
@@ -32,7 +33,7 @@ class UserSettingsMiddleware(object):
                 last_visit = datetime.strptime(request.session['last_visit'], '%Y-%m-%d %H:%M:%S')
                 if now - last_visit > timedelta(0, settings.AUTO_LOGOUT_DELAY * 60, 0):
                     auth.logout(request)
-                    return
+                    return redirect('/accounts/logout?timeout=1')
 
             request.session['last_visit'] = now.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -40,7 +41,7 @@ class UserSettingsMiddleware(object):
             if not request.user.is_anonymous():
                 # Make sure that the user is not only logged in, but verified
                 profile = request.user.userprofile # This should never fail, see login
-                if (not profile.user_is_verified()
+                if (not profile.verified
                         and request.path_info != '/accounts/verify/'
                         and request.path_info != '/accounts/logout/'):
                     ctx = { 'auth_url': settings.SAML_1['URL'] }

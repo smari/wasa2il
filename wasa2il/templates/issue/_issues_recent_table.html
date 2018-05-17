@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load wasa2il %}
+
+{% for issue in issues_recent %}
+    <tr>
+        <td>
+            <span id="issuestar_{{ issue.id }}"
+                    class="glyphicon glyphicon-pencil {% if issue|issuevoted:user %}{% else %}icon-grey{% endif %}"
+                    title="{% if issue|issuevoted:user %}{% trans "You have voted on this issue" %}{% else %}{% trans "You have not voted on this issue" %}{% endif %}"
+            ></span>
+            <a href="{% url 'issue' issue.polity_id issue.id %}">{{ issue.name }}</a>
+        </td>
+        {% if not polity %}
+            <td>
+                <a href="{% url 'polity' issue.polity_id %}">{{ issue.polity }}</a>
+            </td>
+        {% endif %}
+        <td style="white-space: nowrap;">
+            {% with issue.issue_state as state %}
+                {% if state == 'discussion' %}
+                    <strong>{% trans 'In discussion' %}</strong>
+                {% elif state == 'accepting_proposals' %}
+                    <strong>{% trans 'Accepting proposals' %}</strong>
+                {% elif state == 'voting' %}
+                    <strong>{% trans 'Voting' %}</strong>
+                {% elif state == 'concluded' %}
+                    {% if issue.is_processed %}
+                        {% if issue.majority_reached %}
+                            <span class="accepted">{% trans 'Accepted' %}<span>
+                        {% else %}
+                            <span class="rejected">{% trans 'Rejected' %}</span>
+                        {% endif %}
+                    {% else %}
+                        {% trans 'Concluded' %}
+                    {% endif %}
+                {% endif %}
+            {% endwith %}
+        </td>
+        <td style="text-align: right;">{{ issue.comment_count }}</td>
+        <td style="text-align: right;">{{ issue.votecount }}</td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="{% if polity %}4{% else %}5{% endif %}" style="text-align: center;">
+            {% trans 'There are no new issues at the moment.' %}
+        </td>
+    </tr>
+{% endfor %}
+

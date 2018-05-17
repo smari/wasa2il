@@ -21,14 +21,14 @@ urlpatterns = [
     url(r'^i18n/', include('django.conf.urls.i18n')),
 
     url(r'^', include('election.urls')),
+    url(r'^', include('issue.urls')),
     url(r'^', include('core.urls')),
     url(r'^', include('polity.urls')),
-    url(r'^', include('issue.urls')),
     url(r'^', include('topic.urls')),
     # Gateway
     url(r'^gateway/', include('gateway.urls')),
 
-    url(r'^accounts/profile/(?:(?P<username>.+)/)?$', core_views.profile),
+    url(r'^accounts/profile/(?:(?P<username>.+)/)?$', core_views.profile, name='profile'),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
     url(r'^accounts/login/', core_views.login),
     url(r'^accounts/verify/', core_views.verify),

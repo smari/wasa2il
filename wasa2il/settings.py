@@ -10,7 +10,7 @@ except ImportError:
     from default_settings import *
     print('No local_settings.py found. Setting default values.')
 
-WASA2IL_VERSION = '0.9.12'
+WASA2IL_VERSION = '0.9.14'
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
@@ -46,9 +46,6 @@ except KeyError:
 LANGUAGES = (
   ('is', 'Íslenska'),
   ('en', 'English'),
-  ('es', 'Español'),
-  ('fr', 'Française'),
-  ('nl', 'Nederlands'),
 )
 
 SITE_ID = 1
@@ -118,6 +115,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.template.context_processors.request',
 
     'core.contextprocessors.globals',
+
+    'polity.contextprocessors.polities',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -160,6 +159,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     'diff_match_patch',
     'datetimewidget',
+    'crispy_forms',
 
     'core',
     'polity',
@@ -172,6 +172,9 @@ try:
     INSTALLED_APPS += LOCAL_INSTALLED_APPS
 except:
     pass
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_FAIL_SILENTLY = not DEBUG
 
 # Allow users to attempt log-ins using any of the following:
 # e-mail address, SSN or username.

@@ -6,6 +6,7 @@ from hashlib import md5
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import Http404
 from django.http import HttpResponse
@@ -19,6 +20,8 @@ from core.ajax.utils import jsonize
 from election.models import Candidate
 from election.models import Election
 from election.models import ElectionVote
+
+from polity.models import Polity
 
 
 def _ordered_candidates(user, all_candidates, candidates):
@@ -164,23 +167,33 @@ def election_vote(request):
 def election_showclosed(request):
     ctx = {}
 
-    polity_id = int(request.GET.get("polity_id")) # This should work.
+    polity_id = int(request.GET.get('polity_id', 0))
     showclosed = int(request.GET.get('showclosed', 0)) # 0 = False, 1 = True
 
     try:
-        if showclosed == 1:
-            elections = Election.objects.filter(polity_id=polity_id).order_by('-deadline_votes')
+        if polity_id:
+            elections = Election.objects.filter(polity_id=polity_id)
         else:
-            elections = Election.objects.filter(
-                polity_id=polity_id,
-                deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS)
-            ).order_by('-deadline_votes')
+            elections = Election.objects.order_by('polity__name', '-deadline_votes')
+
+        if not showclosed:
+            elections = elections.recent()
+
+        if polity_id:
+            polity = get_object_or_404(Polity, id=polity_id)
+        else:
+            polity = None
+
+        html_ctx = {
+            'polity': polity,
+            'elections_recent': elections,
+        }
 
         ctx['showclosed'] = showclosed
-        ctx['html'] = render_to_string('election/_election_list_table.html', {'elections': elections })
+        ctx['html'] = render_to_string('election/_elections_recent_table.html', html_ctx)
         ctx['ok'] = True
     except Exception as e:
-        ctx['error'] = e
+        ctx['error'] = e.__str__() if settings.DEBUG else 'Error raised. Turn on DEBUG for details.'
 
     return ctx
 
@@ -213,5 +226,30 @@ def election_stats_download(request, polity_id=None, election_id=None, filename=
             'html': 'text/html; charset=utf-8'
         }.get(filetype, 'application/octet-stream'))
 
+    response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+    return response
+
+
+@login_required
+def election_candidates_details(request, polity_id, election_id):
+    try:
+        election = Election.objects.get(id=election_id, polity_id=polity_id, polity__officers=request.user)
+    except Election.DoesNotExist:
+        raise PermissionDenied()
+
+    candidates = election.candidate_set.select_related('user__userprofile').order_by('user__userprofile__verified_name')
+
+    candidate_list = ['"SSN","Name from registry","Email address","Username"']
+    for user in [c.user for c in candidates]:
+        candidate_list.append(','.join(['"%s"' % item for item in [
+            user.userprofile.verified_ssn,
+            user.userprofile.verified_name,
+            user.email,
+            user.username,
+        ]]))
+
+    filename = u'Candidates - %s.csv' % election.name
+
+    response = HttpResponse('\n'.join(candidate_list), content_type='application/csv; charset=utf-8')
     response['Content-Disposition'] = 'attachment; filename="%s"' % filename
     return response

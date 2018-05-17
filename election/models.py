@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,11 +12,16 @@ from django.utils.translation import ugettext_lazy as _
 from election.utils import BallotCounter
 
 
+class ElectionQuerySet(models.QuerySet):
+    def recent(self):
+        return self.filter(deadline_votes__gt=datetime.now() - timedelta(days=settings.RECENT_ELECTION_DAYS))
+
 class Election(models.Model):
     """
     An election is different from an issue vote; it's a vote
     on people. Users, specifically.
     """
+    objects = ElectionQuerySet.as_manager()
 
     VOTING_SYSTEMS = BallotCounter.VOTING_SYSTEMS
 
@@ -34,9 +40,9 @@ class Election(models.Model):
     # should to be turned into a proper Django model.
     results_are_ordered = models.BooleanField(default=True, verbose_name=_('Results are ordered'))
 
-    deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacy'))
-    starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Start time for votes'))
-    deadline_votes = models.DateTimeField(verbose_name=_('Deadline for votes'))
+    deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacies'))
+    starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Election begins'))
+    deadline_votes = models.DateTimeField(verbose_name=_('Election ends'))
 
     # This allows one polity to host elections for one or more others, in
     # particular allowing access to elections based on geographical polities
@@ -58,6 +64,9 @@ class Election(models.Model):
     stats_publish_ballots_basic = models.BooleanField(default=False, verbose_name=_('Publish basic ballot statistics'))
     stats_publish_ballots_per_candidate = models.BooleanField(default=False, verbose_name=_('Publish ballot statistics for each candidate'))
     stats_publish_files = models.BooleanField(default=False, verbose_name=_('Publish advanced statistics (downloadable)'))
+
+    class Meta:
+        ordering = ['-deadline_votes']
 
     # An election can only be processed once, since votes are deleted during the process
     class AlreadyProcessedException(Exception):
@@ -225,28 +234,33 @@ class Election(models.Model):
             return max(self.starttime_votes, self.deadline_candidacy)
         return self.deadline_candidacy
 
-    def is_waiting(self):
-        if not self.deadline_candidacy or not self.deadline_votes:
-            return False
-
+    def election_state(self):
+        # Short-hands.
         now = datetime.now()
-        return (now <= self.voting_start_time() and now > self.deadline_candidacy)
+        deadline_candidacy = self.deadline_candidacy
+        deadline_votes = self.deadline_votes
+        voting_start_time = self.voting_start_time()
+
+        if deadline_votes < now:
+            return 'concluded'
+        elif voting_start_time < now:
+            return 'voting'
+        elif voting_start_time > now and deadline_candidacy < now:
+            return 'waiting'
+        elif deadline_candidacy > now:
+            return 'accepting_candidates'
+        else:
+            # Should never happen.
+            return 'unknown'
+
+    def is_waiting(self):
+        return self.election_state() == 'waiting'
 
     def is_voting(self):
-        if not self.deadline_candidacy or not self.deadline_votes:
-            return False
-
-        now = datetime.now()
-        return (now > self.voting_start_time() and now < self.deadline_votes)
+        return self.election_state() == 'voting'
 
     def is_closed(self):
-        if not self.deadline_votes:
-            return False
-
-        if datetime.now() > self.deadline_votes:
-            return True
-
-        return False
+        return self.election_state() == 'concluded'
 
     def get_stats(self, user=None, load_users=True, rename_users=False):
         """Load stats from the DB and convert to pythonic format.

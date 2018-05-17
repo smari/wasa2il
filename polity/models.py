@@ -1,11 +1,8 @@
+from django.apps import apps
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
-from core.models import DocumentContent
-
-from issue.models import Issue
 
 
 class Polity(models.Model):
@@ -25,7 +22,6 @@ class Polity(models.Model):
     officers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Officers"), related_name="officers")
 
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
-    is_nonmembers_readable = models.BooleanField(verbose_name=_("Publicly viewable?"), default=True, help_text=_("Whether non-members can view the polity and its activities."))
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
     is_front_polity = models.BooleanField(verbose_name=_("Front polity?"), default=False, help_text=_("If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity."))
 
@@ -57,6 +53,7 @@ class Polity(models.Model):
         return self.members
 
     def agreements(self):
+        DocumentContent = apps.get_model('issue', 'DocumentContent')
         return DocumentContent.objects.select_related(
             'document',
             'issue'
@@ -66,6 +63,7 @@ class Polity(models.Model):
         ).order_by('-issue__deadline_votes')
 
     def update_agreements(self):
+        Issue = apps.get_model('issue', 'Issue')
         issues_to_process = Issue.objects.filter(is_processed=False).filter(deadline_votes__lt=timezone.now())
         for issue in issues_to_process:
             issue.process()

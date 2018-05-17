@@ -4,11 +4,11 @@
 {% load elections %}
 
 {% block facebook_title %}{% trans 'Election:' %} {{ election }}{% endblock %}
-{% block facebook_description %}{% trans 'Voting system:' %} {{ election.get_voting_system_display }} - {% trans 'Deadline for votes:' %} {{ election.deadline_votes }}{% endblock %}
+{% block facebook_description %}{% trans 'Voting system' %}: {{ election.get_voting_system_display }} - {% trans 'Election ends' %}: {{ election.deadline_votes }}{% endblock %}
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' election.polity.id as polityurl %}
+{% url 'polity' election.polity.id as polityurl %}
 {% add_breadcrumb election.polity.name polityurl %}
 {% add_breadcrumb election.name %}
 {{ block.super }}
@@ -41,8 +41,21 @@
 {% endblock %}
 {% block content %}
 
+<div id="ajax-status-messages">
+  <div id="submit-error" class="alert alert-danger" style="display: none;">
+    <p>{% trans "There was an error while processing your vote. Please try again." %}</p>
+  </div>
+  <div id="submit-is-magic" class="alert alert-success" style="display: none;">
+    <p><b>{% trans "Your votes have been submitted!" %}</b><br>
+       {% trans "You can continue adding, removing or reordering candidates until the deadline." %}</p>
+  </div>
+  <div id="submit-working" class="alert" style="display: none;">
+    <p><i>{% trans "Working..." %}</i><br>
+  </div>
+</div>
+
 <div style="float: right;">
-    {% if user_is_officer %}
+    {% if user_is_officer and not election.is_processed %}
         <a class="btn btn-default" role="button" href="{% url 'election_add_edit' polity.id election.id %}">{% trans 'Edit' %}</a>
     {% endif %}
     <a class="btn btn-default" role="button" href="/polity/{{ election.polity.id }}">{% trans "Back to polity" %}</a>
@@ -96,20 +109,20 @@
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <table id="election_details" class="table table-compact">
-            <tr id="vote_starttime"><th>{% trans "Voting begins" %}:</th><td>
-                {{ election.voting_start_time }}
-                <small style="float: right">
-                    ({{ election.voting_start_time|timeuntil }})
-                </small>
-            </td></tr>
-            <tr id="cand_deadline"><th>{% trans "Deadline for candidacy" %}:</th><td>
-                {{ election.deadline_candidacy }}
+            <tr id="cand_deadline"><th>{% trans "Deadline for candidacies" %}:</th><td>
+                {{ election.deadline_candidacy|may_expire }}
                 <small style="float: right">
                     ({{ election.deadline_candidacy|timeuntil }})
                 </small>
             </td></tr>
-            <tr id="vote_deadline"><th>{% trans "Deadline for votes" %}:</th><td>
-                {{ election.deadline_votes }}
+            <tr id="vote_starttime"><th>{% trans "Election begins" %}:</th><td>
+                {{ election.voting_start_time|may_expire }}
+                <small style="float: right">
+                    ({{ election.voting_start_time|timeuntil }})
+                </small>
+            </td></tr>
+            <tr id="vote_deadline"><th>{% trans "Election ends" %}:</th><td>
+                {{ election.deadline_votes|may_expire }}
                 <small style="float: right">
                     ({{ election.deadline_votes|timeuntil }})
                 </small>

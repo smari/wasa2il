@@ -8,7 +8,6 @@ var election_ui_update_is_safe = function() { return true; }
 var discussion_timer;
 var discussion_object;
 var discussion_id;
-var show_closed_elections;
 
 
 function user_logged_out() {
@@ -78,21 +77,6 @@ function topics_showstarred_toggle(polity) {
 }
 
 
-function elections_showclosed_toggle(polity_id) {
-    show_closed_elections = (show_closed_elections ? 0 : 1);
-    $.getJSON("/api/election/showclosed/", {"polity_id": polity_id, "showclosed": show_closed_elections}, function(data) {
-        if (data.ok) {
-            $("#elections_list tbody").html(data.html);
-            if (data.showclosed) {
-                $("#elections_showclosed_toggle span").removeClass("icon-grey");
-            } else {
-                $("#elections_showclosed_toggle span").addClass("icon-grey");
-            }
-        }
-    });
-}
-
-
 function issue_timer_start() {
     issue_timer = window.setInterval(function() { issue_poll(issue_id); }, 5000);
 }
@@ -142,11 +126,20 @@ function issue_render(issue) {
     } else if (issue_object.vote == -1) {
         $("#vote_no").addClass('btn-success');
         $("#vote_no").addClass('active');
-    } else {
+    } else if (issue_object.vote == 0) {
         $("#vote_abstain").addClass('btn-success');
         $("#vote_abstain").addClass('active');
     }
-    $("#issue_votes_count").text(issue_object.votecount);
+
+    $("#votecount_value").text(issue_object.votecount);
+    if (issue_object.votecount_abstain > 0) {
+        $("#votecount_abstain_container").show();
+        $("#votecount_abstain_value").val(issue_object.votecount_abstain);
+    }
+    else {
+        $("#votecount_abstain_container").hide();
+    }
+
     if (issue_object.comments.length > 0) {
         $("#issue-comments-header").show();
     }

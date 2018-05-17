@@ -22,29 +22,6 @@
     <meta property="fb:app_id" content="{{ INSTANCE_FACEBOOK_APP_ID }}" />
 
     <link href="/static/css/application.css" rel="stylesheet" />
-    <style type="text/css">
-      body {
-        padding-top: 80px;
-        padding-bottom: 40px;
-      }
-      .navbar {
-        background-color: #FAFAFA;
-        background-image: url("/static/img/header-bg.png");
-        background-repeat: repeat-x;
-        height: 75px;
-      }
-      .navbar .navbar-brand {
-        margin: 0px;
-        padding: 0px;
-        color: #fff;
-      }
-      .navbar .nav > .li, .navbar .nav > li > a:hover, .navbar .nav > li > a {
-        color: #fff;
-      }
-      .navbar .nav > li > a:hover {
-        color: #eee;
-      }
-    </style>
 
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -77,31 +54,34 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/polities/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
+          <a class="navbar-brand" href="/"><img alt="Píratar" src="/static/img/pplogo.png"/></a>
         </div>
-
-        <div id="ajax-status-messages">
-          <div id="submit-error" class="alert alert-danger" style="display: none;">
-            <p>{% trans "There was an error while processing your vote. Please try again." %}</p>
-          </div>
-          <div id="submit-is-magic" class="alert alert-success" style="display: none;">
-            <p><b>{% trans "Your votes have been submitted!" %}</b><br>
-               {% trans "You can continue adding, removing or reordering candidates until the deadline." %}</p>
-          </div>
-          <div id="submit-working" class="alert" style="display: none;">
-            <p><i>{% trans "Working..." %}</i><br>
-          </div>
-        </div>
-
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse piratepurple" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'All polities' %} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                {% for entry in polity_menulist %}
+                  <li>
+                    <a href="{% url 'polity' entry.polity_id %}">
+                      {% repeater '&dash;' entry.depth %}
+                      {{ entry.name }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
             <li><a href="/help/instructions/">{% trans "Help" %}</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }}<span class="caret"></span>
+                <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }} <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="/accounts/profile/"><span class="glyphicon glyphicon-user"></span> {% trans "My profile" %}</a></li>
@@ -115,7 +95,8 @@
             <li><a href="/accounts/register/">{% trans "Sign up" %}</a></li>
             {% endif %}
           </ul>
-           <form class="navbar-form navbar-right" action="/search">
+
+          <form class="navbar-form navbar-right" action="/search">
             <div class="form-group" style="display:inline;">
               <div class="input-group">
                 <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}">
@@ -123,14 +104,15 @@
               </div>
             </div>
           </form>
+
         </div><!-- /.navbar-collapse -->
     </div> <!-- end container -->
   </nav>
     <div class="container">
     {% block breadcrumbs %}
-    {% add_breadcrumb _('Home') '/' prepend=True %}
     {% render_breadcrumbs %}
     {% endblock %}
+
     {% block content %}{% endblock %}
       <footer class="footer">
         <hr/>

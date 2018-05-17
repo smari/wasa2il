@@ -1,7 +1,10 @@
 {% load i18n %}
-{% trans "Please click the link below to verify your email address." %}
+{% blocktrans %}To activate your account, your email address must be verified by clicking the link below within the next {{ expiration_days }} days:{% endblocktrans %}
 
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
-{% blocktrans %}This link will be active for {{ expiration_days }} days.{% endblocktrans %}
+{% blocktrans with site_name=site.name %}This is a registration verification email from {{ site_name }}. If you have in fact not registered, please ignore this email message and the registration with automatically be removed.{% endblocktrans %}
 
+{% trans 'We thank you for the support and participation.' %}
+
+{{ ORGANIZATION_NAME }}

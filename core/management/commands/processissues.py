@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
         for issue in unprocessed_issues:
 
-            if issue.is_closed():
+            if issue.issue_state() == 'concluded':
 
                 documentcontent = issue.documentcontent
                 issue_name = issue.name.encode('utf-8')

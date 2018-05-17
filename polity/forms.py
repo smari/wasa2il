@@ -1,9 +1,8 @@
-from django.forms import ModelForm
+from wasa2il.forms import Wasa2ilForm
 
 from polity.models import Polity
 
-class PolityForm(ModelForm):
+class PolityForm(Wasa2ilForm):
     class Meta:
         model = Polity
         exclude = ('slug', 'parent', 'members')
-

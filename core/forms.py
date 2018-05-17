@@ -1,18 +1,13 @@
-from django.forms import ModelForm
 from django.forms import EmailField
 from django.forms import ValidationError
 from django.utils.translation import ugettext as _
 
-from core.models import Document, UserProfile
+from wasa2il.forms import Wasa2ilForm
+
+from core.models import UserProfile
 
 
-class DocumentForm(ModelForm):
-    class Meta:
-        model = Document
-        exclude = ('is_adopted', 'is_proposed', 'user', 'polity', 'slug', 'issues')
-
-
-class UserProfileForm(ModelForm):
+class UserProfileForm(Wasa2ilForm):
     email = EmailField(label=_("E-mail"), help_text=_("The email address you'd like to use for the site."))
 
     class Meta:

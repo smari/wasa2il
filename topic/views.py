@@ -1,53 +1,53 @@
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.shortcuts import render
-from django.views.generic import CreateView
-from django.views.generic import DetailView
-from django.views.generic import ListView
+
+from polity.models import Polity
 
 from topic.forms import TopicForm
 from topic.models import Topic
 
 
-class TopicListView(ListView):
-    context_object_name = "topics"
-    template_name = "topic/topic_list.html"
+@login_required
+def topic_add_edit(request, polity_id, topic_id=None):
+    try:
+        polity = Polity.objects.get(id=polity_id, officers=request.user)
+    except Polity.DoesNotExist:
+        raise PermissionDenied()
 
-    def get_queryset(self):
-        polity = get_object_or_404(Polity, polity=self.kwargs["polity"])
-        return Topic.objects.filter(polity=polity)
+    if topic_id:
+        topic = get_object_or_404(Topic, id=topic_id, polity_id=polity_id)
+    else:
+        topic = Topic(polity=polity)
 
+    if request.method == 'POST':
+        form = TopicForm(request.POST, instance=topic)
+        if form.is_valid():
+            topic = form.save()
+            return redirect(reverse('topic', args=(polity_id, topic.id)))
+    else:
+        form = TopicForm(instance=topic)
 
-class TopicCreateView(CreateView):
-    context_object_name = "topic"
-    template_name = "topic/topic_form.html"
-    form_class = TopicForm
-    success_url = "/polity/%(polity)d/topic/%(id)d/"
-
-    def dispatch(self, *args, **kwargs):
-        self.polity = get_object_or_404(Polity, id=kwargs["polity"])
-        self.success_url = "/polity/" + str(self.polity.id) + "/topic/%(id)d/"
-        return super(TopicCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(TopicCreateView, self).get_context_data(*args, **kwargs)
-        context_data.update({'polity': self.polity})
-        context_data['user_is_member'] = self.polity.is_member(self.request.user)
-        return context_data
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.polity = self.polity
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+    ctx = {
+        'polity': polity,
+        'topic': topic,
+        'form': form,
+    }
+    return render(request, 'topic/topic_form.html', ctx)
 
 
-class TopicDetailView(DetailView):
-    model = Topic
-    context_object_name = "topic"
-    template_name = "topic/topic_detail.html"
+def topic_view(request, polity_id, topic_id):
+    polity = get_object_or_404(Polity, id=polity_id)
+    topic = get_object_or_404(Topic, id=topic_id, polity_id=polity_id)
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(TopicDetailView, self).get_context_data(*args, **kwargs)
-        context_data["polity"] = self.object.polity
-        context_data['user_is_member'] = self.object.polity.is_member(self.request.user)
-        return context_data
+    user_is_officer = polity.is_officer(request.user)
 
+    ctx = {
+        'polity': polity,
+        'topic': topic,
+        'user_is_officer': user_is_officer,
+    }
+    return render(request, 'topic/topic_detail.html', ctx)

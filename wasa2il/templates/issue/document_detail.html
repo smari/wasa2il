@@ -7,7 +7,7 @@
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' polity.id as polityurl %}
+{% url 'polity' polity.id as polityurl %}
 {% add_breadcrumb polity.name polityurl %}
 {% add_breadcrumb document.name %}
 {{ block.super }}
@@ -113,7 +113,7 @@
                 <textarea id="predecessor-legal-text" style="display: none;">{{ current_content.predecessor.text }}</textarea>
                 <textarea id="legal-text-editor">{{ current_content.text }}</textarea>
             {% else %}
-                {% include 'core/stub/document_view.html' with documentcontent=current_content %}
+                {% include 'issue/stub/document_view.html' with documentcontent=current_content %}
             {% endif %}
 
             {% if not user.is_anonymous %}
@@ -135,7 +135,7 @@
                         {% if document.get_versions.count > 0 %}
                             <a class="btn btn-default" role="button" href=".">{% trans 'Cancel' %}</a>
                         {% else %}
-                            <a class="btn btn-default" role="button" href="/polity/{{ document.polity_id }}/">{% trans 'Cancel' %}</a>
+                            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/">{% trans 'Cancel' %}</a>
                         {% endif %}
                     </div>
 
@@ -157,7 +157,7 @@
                         {% if buttons.put_to_vote == 'disabled' %}
                             <a class="btn btn-default disabled" role="button">{% trans "Put to vote" %}</a>
                         {% else %}
-                            <a class="btn btn-default" role="button" href="/polity/{{ document.polity_id }}/issue/new/documentcontent/{{ current_content.id }}/">{% trans "Put to vote" %}</a>
+                            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/issue/new/documentcontent/{{ current_content.id }}/">{% trans "Put to vote" %}</a>
                         {% endif %}
                     {% endif %}
 
@@ -171,12 +171,12 @@
     <div class="col-md-6 col-xs-12">
 
         {% if not editor_enabled %}
-            {% include "core/stub/documentcontent_status.html" with documentcontent=current_content %}
+            {% include "issue/stub/documentcontent_status.html" with documentcontent=current_content %}
         {% endif %}
 
         {% if issue %}
             <table class="table table-compact">
-                <tr><th>{% trans "Referenced issue" %}:</th><td><a href="/issue/{{ issue.id }}/">{{ issue.name }}</a></td></tr>
+                <tr><th>{% trans "Referenced issue" %}:</th><td><a href="{% url 'issue' polity.id issue.id %}">{{ issue.name }}</a></td></tr>
             </table>
         {% endif %}
 

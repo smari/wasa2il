@@ -3,30 +3,28 @@
 {% load wasa2il %}
 
 {% block facebook_title %}{% trans 'Issue vote:' %} {{ issue }}{% endblock %}
-{% block facebook_description %}{% trans "Deadline for votes:" %} {{ issue.deadline_votes }}{% endblock %}
+{% block facebook_description %}{% trans "Issue vote ends at" %}: {{ issue.deadline_votes }}{% endblock %}
 
 {% block breadcrumbs %}
 {% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity_detail' issue.polity.id as polityurl %}
+{% url 'polity' issue.polity.id as polityurl %}
 {% add_breadcrumb issue.polity.name polityurl %}
-
-{% with issue.topics.first as topic %}
-{% url 'polity_topic_detail' issue.polity.id topic.id as topicurl %}
-{% add_breadcrumb topic.name topicurl %}
-{% endwith %}
 {% add_breadcrumb issue.name %}
 {{ block.super }}
 {% endblock %}
 
 {% block content %}
 <div style="float: right;">
+    {% if user_is_officer and not issue.is_processed %}
+        <a class="btn btn-default" role="button" href="{% url 'issue_edit' polity.id issue.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
     <a class="btn btn-default" role="button" href="/polity/{{ issue.polity.id }}">{% trans "Back to polity" %}</a>
 </div>
 <h1>{{ issue.name }}</h1>
 
 {% csrf_token %}
 
-{% if issue.is_closed %}
+{% if issue.issue_state == 'concluded' %}
     {% if not issue.is_processed %}
         <div class="alert alert-danger">
             {% trans "This issue is closed and awaits final processing." %}
@@ -52,7 +50,7 @@
     <div class="col-md-6 col-xs-12">
         {% if issue.is_processed %}
             {% if documentcontent %}
-                {% include "core/stub/documentcontent_status.html" %}
+                {% include "issue/stub/documentcontent_status.html" %}
             {% endif %}
         {% endif %}
 
@@ -61,30 +59,38 @@
         <table class="table table-compact">
             {% if documentcontent %}
                 <tr><th>{% trans "Proposal" %}:</th><td><a href="/polity/{{ issue.polity.id }}/document/{{ documentcontent.document_id }}/?v={{ documentcontent.order }}">{{ documentcontent.document.name }}</a></td></tr>
+                <tr><th>{% trans "Author" %}:</th><td><a href="{% url 'profile' documentcontent.user.username %}">{{ documentcontent.user }}</a></td></tr>
             {% endif %}
             <tr><th>{% trans "In topics" %}:</th><td>{% for i in issue.topics.all %}<a href="/polity/{{ issue.polity.id }}/topic/{{ i.id }}/">{{ i.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
 
             {% if not issue.special_process %}
                 <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
                 {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
-                    <tr><th>{% trans "Deadline for discussion" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
+                    <tr><th>{% trans "Discussion ends" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
                 {% endif %}
                 {% if issue.deadline_proposals != issue.created %}
-                    <tr><th>{% trans "Deadline for proposals" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
+                    <tr><th>{% trans "Issue vote begins" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
                 {% endif %}
             {% endif %}
 
-            <tr><th>{% trans "Deadline for votes" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
+            <tr><th>{% trans "Issue vote ends at" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
 
             {% if issue.special_process %}
                 <tr><th>{% trans 'Special process' %}:</th><td>{{ issue.get_special_process_display }}</td></tr>
             {% else %}
-                {% if issue.is_voting or issue.is_closed %}
+                {% if issue.issue_state == 'voting' or issue.issue_state == 'concluded' %}
                     <tr>
                         <th>{% trans "Votes" %}:</th>
-                        <td id="issue_votes_count">{{ issue.votecount }}</td>
+                        <td>
+                            <span id="votecount_value">{{ issue.votecount }}</span>
+                            {% if issue.votecount_abstain %}
+                                <small id="votecount_abstain_container">
+                                (<span id="votecount_abstain_value">{{ issue.votecount_abstain }}</span> {% trans 'abstain' %})
+                                </small>
+                            {% endif %}
+                        </td>
                     </tr>
-                    {% if issue.is_closed %}
+                    {% if issue.issue_state == 'concluded' %}
                         <tr>
                             <th>{% trans "Yes" %}:</th>
                             <td id="issue_votes_yes">
@@ -112,7 +118,7 @@
 
     </div>
 
-    {% if issue.is_voting and can_vote %}
+    {% if issue.issue_state == 'voting' and can_vote %}
         <div class="col-md-6 col-xs-12 well">
             <h2>{% trans "Vote" %} <small>{% trans "for or against this issue" %}</small></h2>
             <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
@@ -126,7 +132,7 @@
 
     <div class="col-md-6 col-xs-12"><a name="documents"></a>
         {% if documentcontent %}
-            {% include 'core/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
+            {% include 'issue/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
         {% endif %}
     </div>
 
