@@ -15,7 +15,8 @@ INSTANCE_FACEBOOK_IMAGE = 'https://example.com/full/url/to/image.png'
 INSTANCE_FACEBOOK_APP_ID = '1234567890'
 
 FEATURES = {
-    'tasks': True
+    'tasks': True,
+    'topic': True,
 }
 
 TIME_ZONE = 'Iceland'
