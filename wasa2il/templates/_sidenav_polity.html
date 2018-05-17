@@ -34,7 +34,7 @@
   </a></li>
   <li{% if request.resolver_match.url_name == "issues" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/issues">
     <i class="fas fa-lightbulb"></i>
-    {% trans "Proposals" %}
+    {% trans "Issues" %}
   </a></li>
   <li{% if request.resolver_match.url_name == "elections" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/elections/">
     <i class="fas fa-check-square"></i>

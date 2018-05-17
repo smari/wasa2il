@@ -3,27 +3,36 @@
 
 {% block content %}
 <section class="content">
-<div style="float:right;">
-    <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/document/new/">{% trans "New document" %}</a>
-</div>
+  <div style="float:right;">
+    <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/document/new/">
+      {% trans "New document" %}
+     </a>
+  </div>
 
-<h1>{% trans "Agreements" %}</h1>
+  <h1>{% trans "Agreements" %}</h1>
 
-<div class="well">
-  <form class="form" method="POST" style="margin-left: auto; margin-right: auto;" action="/polity/{{polity.id}}/agreements/">
-    {% csrf_token %}
-    <div class="form-group">
-      <div class="input-group">
-        <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}" value="{{q}}">
-        <span class="input-group-addon"><span class="fas  fa-search"></span></span>
+  <p class="muted">
+    {% trans 'Agreements are decisions that have been accepted by vote.' %}
+  </p>
+  <p class="muted">
+    {% trans 'Such agreements come in a few different types such as motions, policy decisions and bylaws.' %}
+  </p>
+
+  <div class="well">
+    <form class="form" method="POST" action="/polity/{{ polity.id }}/agreements/">
+      {% csrf_token %}
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" class="form-control" name="q" placeholder="{% trans 'Search agreements' %}" value="{{q}}">
+          <span class="input-group-addon"><span class="fas  fa-search"></span></span>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
 
-  <div>{{agreements.count}} {% trans "agreements found" %}</div>
-</div>
+    <div>{{ agreements.count }} {% trans "agreements found" %}</div>
+  </div>
 
-{% include "issue/_agreements.html" %}
+  {% include "issue/_agreements.html" %}
 
 </section>
 {% endblock %}

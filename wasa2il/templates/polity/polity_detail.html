@@ -43,7 +43,14 @@
                 <h5 class="modal-title">{% trans "Polity officers" %}</h5>
             </div>
             <div class="modal-body" id="modal_subpolities_list">
-                <p>{% blocktrans %}Officers can add issues and start elections. They can promote users to wranglers and manage tasks like wranglers. Officers cannot see personal information, votes, or other database contents.{% endblocktrans %}</p>
+                <p>
+                    {% trans 'Officers can manage issues and manage elections.' %}
+                    {% if FEATURES.tasks %}
+                        {% trans 'They can promote users to wranglers and manage tasks like wranglers.' %}
+                    {% endif %}
+                    {% trans 'These officers have no access beyond other users to personal information, votes, or other database contents.' %}
+                    <strong>{% trans 'Note that system administrators which are not listed here may still have additional access.' %}</strong>
+                </p>
                 <ul>
                 {% for p in polity.officers.all %}
                     <li><a href="{% url 'profile' p.username %}">{{ p }}</a></li>
