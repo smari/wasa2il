@@ -21,7 +21,8 @@ INSTANCE_FACEBOOK_APP_ID = ''
 
 # Feature knobs: features enabled if True, disabled if False
 FEATURES = {
-    'tasks': True
+    'tasks': True,
+    'topic': True,
 }
 
 TIME_ZONE = 'Iceland'
