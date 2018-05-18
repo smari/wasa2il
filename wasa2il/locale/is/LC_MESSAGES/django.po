@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-17 16:46+0000\n"
+"POT-Creation-Date: 2018-05-18 15:12+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,7 @@ msgstr ""
 "Lýsing máls er venjulega afrit af lýsingu tillögunnar, en þú getur sérsniðið "
 "hana hér ef þú vilt."
 
-#: issue/models.py:43 wasa2il/templates/_sidenav_polity.html:45
+#: issue/models.py:43 wasa2il/templates/_sidenav_polity.html:46
 #: wasa2il/templates/issue/_agreements_list.html:12
 #: wasa2il/templates/polity/polity_detail.html:28
 #: wasa2il/templates/polity/polity_list.html:29
@@ -283,7 +283,7 @@ msgstr "Hafnað"
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: issue/views.py:77
+#: issue/views.py:79
 msgid "version"
 msgstr "útgáfa"
 
@@ -524,26 +524,26 @@ msgstr "Mál"
 msgid "Elections"
 msgstr "Kosningar"
 
-#: wasa2il/templates/_sidenav_polity.html:49
+#: wasa2il/templates/_sidenav_polity.html:51
 #: wasa2il/templates/help/is/agreement.html:6
 #: wasa2il/templates/issue/document_list.html:12
 #: wasa2il/templates/polity/polity_detail.html:27
 msgid "Agreements"
 msgstr "Samþykktir"
 
-#: wasa2il/templates/_sidenav_polity.html:55
+#: wasa2il/templates/_sidenav_polity.html:57
 msgid "Volunteer for tasks"
 msgstr ""
 
-#: wasa2il/templates/_sidenav_polity.html:62
+#: wasa2il/templates/_sidenav_polity.html:64
 msgid "You are an officer in this polity."
 msgstr "Þú ert umsjónarmaður þessa þings."
 
-#: wasa2il/templates/_sidenav_polity.html:64
+#: wasa2il/templates/_sidenav_polity.html:66
 msgid "You are a member of this polity."
 msgstr "Þú ert meðlimur þessa þings."
 
-#: wasa2il/templates/_sidenav_polity.html:67
+#: wasa2il/templates/_sidenav_polity.html:69
 #: wasa2il/templates/election/election_view.html:83
 #: wasa2il/templates/election/election_view.html:96
 #: wasa2il/templates/issue/issue_detail.html:32
@@ -629,7 +629,7 @@ msgid "Move to bottom"
 msgstr "Færa neðst"
 
 #: wasa2il/templates/election/_election_candidate_list.html:48
-#: wasa2il/templates/issue/issue_detail.html:121
+#: wasa2il/templates/issue/issue_detail.html:125
 msgid "Vote"
 msgstr "Kjósa"
 
@@ -776,7 +776,7 @@ msgid "Election:"
 msgstr "Kosning:"
 
 #: wasa2il/templates/election/election_view.html:48
-#: wasa2il/templates/issue/issue_detail.html:122
+#: wasa2il/templates/issue/issue_detail.html:126
 msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 "Það kom upp villa við úrvinnslu atkvæðisins þíns. Vinsamlegast reyndu aftur."
@@ -1526,20 +1526,20 @@ msgstr "Skjal"
 #: wasa2il/templates/issue/_agreements.html:6
 #: wasa2il/templates/issue/_agreements_list.html:24
 #: wasa2il/templates/issue/issue_detail.html:93
-#: wasa2il/templates/issue/issue_detail.html:124
+#: wasa2il/templates/issue/issue_detail.html:128
 msgid "Yes"
 msgstr "Já"
 
 #: wasa2il/templates/issue/_agreements.html:7
 #: wasa2il/templates/issue/_agreements_list.html:27
 #: wasa2il/templates/issue/issue_detail.html:100
-#: wasa2il/templates/issue/issue_detail.html:126
+#: wasa2il/templates/issue/issue_detail.html:130
 msgid "No"
 msgstr "Nei"
 
 #: wasa2il/templates/issue/_agreements.html:8
 #: wasa2il/templates/issue/_agreements_list.html:30
-#: wasa2il/templates/issue/issue_detail.html:125
+#: wasa2il/templates/issue/issue_detail.html:129
 msgid "Abstain"
 msgstr "Sitja hjá"
 
@@ -1779,7 +1779,12 @@ msgstr "Meirihlutaþröskuldur"
 msgid "Discussion"
 msgstr "Umræða"
 
-#: wasa2il/templates/issue/issue_detail.html:121
+#: wasa2il/templates/issue/issue_detail.html:116
+msgid ""
+"This issue was concluded a while ago, so you must log in to see comments."
+msgstr "Þessu máli lauk fyrir nokkru síðan og er því krafist innskráningar til að sjá umræðu."
+
+#: wasa2il/templates/issue/issue_detail.html:125
 msgid "for or against this issue"
 msgstr "með eða á móti þessu máli"
 
@@ -1906,7 +1911,7 @@ msgid "No wranglers have been configured for this polity."
 msgstr ""
 
 #: wasa2il/templates/polity/polity_detail.html:76
-#: wasa2il/templates/topic/topic_detail.html:70
+#: wasa2il/templates/topic/topic_detail.html:65
 msgid "Close"
 msgstr "Loka"
 
@@ -2496,11 +2501,7 @@ msgstr "Opið"
 msgid "Closed"
 msgstr "Lokað"
 
-#: wasa2il/templates/topic/topic_detail.html:50
-msgid "New discussions"
-msgstr "Nýjar umræður"
-
-#: wasa2il/templates/topic/topic_detail.html:58
+#: wasa2il/templates/topic/topic_detail.html:53
 msgid "Followers of this topic"
 msgstr "Fylgjendur þessa málaflokks"
 
@@ -2556,6 +2557,9 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
+
+#~ msgid "New discussions"
+#~ msgstr "Nýjar umræður"
 
 #~ msgid "Subpolities"
 #~ msgstr "Undirþing"
