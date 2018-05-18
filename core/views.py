@@ -86,6 +86,7 @@ def help(request, page):
 
 
 @never_cache
+@login_required
 def profile(request, username=None):
     ctx = {}
 

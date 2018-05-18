@@ -1,7 +1,9 @@
 import json
 
 from datetime import datetime
+from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
@@ -122,6 +124,15 @@ def issue_view(request, polity_id, issue_id):
     ctx['issue'] = issue
     ctx['can_vote'] = (request.user is not None and issue.can_vote(request.user))
     ctx['comments_closed'] = not request.user.is_authenticated() or issue.discussions_closed()
+
+    # People say crazy things on the internet. We'd like to keep the record of
+    # conversations about issues well into the future but still we'd like to
+    # protect users from having to answer for something they said a long time
+    # ago. To try and achieve both goals, we require a logged in user to see
+    # comments to older issues.
+    comment_protection_timing = datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
+    if not request.user.is_authenticated() and issue.deadline_votes < comment_protection_timing:
+        ctx['comments_hidden'] = True
 
     return render(request, 'issue/issue_detail.html', ctx)
 
