@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-18 15:12+0000\n"
+"POT-Creation-Date: 2018-05-19 16:26+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "Þing frambjóðenda"
 msgid "Membership deadline"
 msgstr "Skráningarmörk kjósenda"
 
-#: election/models.py:59 wasa2il/templates/base.html:124
+#: election/models.py:59 wasa2il/templates/base.html:126
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -470,7 +470,7 @@ msgstr "Vista"
 #: wasa2il/templates/issue/document_detail.html:148
 #: wasa2il/templates/registration/password_change_form.html:18
 #: wasa2il/templates/registration/password_reset_form.html:21
-#: wasa2il/templates/registration/registration_form.html:28
+#: wasa2il/templates/registration/registration_form.html:33
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -589,36 +589,56 @@ msgstr "Stillingar"
 msgid "Logout"
 msgstr "Útskrá"
 
-#: wasa2il/templates/base.html:87 wasa2il/templates/registration/login.html:6
+#: wasa2il/templates/base.html:87 wasa2il/templates/registration/login.html:11
 #: wasa2il/templates/registration/logout.html:16
 #: wasa2il/templates/registration/password_reset_complete.html:13
 msgid "Log in"
 msgstr "Innskrá"
 
-#: wasa2il/templates/base.html:88 wasa2il/templates/registration/login.html:25
-#: wasa2il/templates/registration/registration_form.html:6
-#: wasa2il/templates/registration/registration_form.html:27
+#: wasa2il/templates/base.html:88 wasa2il/templates/registration/login.html:30
+#: wasa2il/templates/registration/registration_form.html:11
+#: wasa2il/templates/registration/registration_form.html:32
 msgid "Sign up"
 msgstr "Nýskrá"
 
-#: wasa2il/templates/base.html:122
+#: wasa2il/templates/base.html:124
 msgid "About wasa2il"
 msgstr "Um wasa2il"
 
-#: wasa2il/templates/base.html:123
+#: wasa2il/templates/base.html:125
 msgid "License"
 msgstr "Notandaleyfi"
 
-#: wasa2il/templates/base.html:125 wasa2il/templates/help/is/authors.html:6
+#: wasa2il/templates/base.html:127 wasa2il/templates/help/is/authors.html:6
 msgid "Authors"
 msgstr "Höfundar"
 
-#: wasa2il/templates/base.html:126
+#: wasa2il/templates/base.html:128
 #: wasa2il/templates/issue/stub/document_view.html:93
 #: wasa2il/templates/issue/stub/document_view.html:95
 #: wasa2il/templates/profile/proposals.html:30
 msgid "Version"
 msgstr "Útgáfa"
+
+#: wasa2il/templates/cookie_dialog.html:30
+msgid "We use cookies for authentication purposes."
+msgstr "Við notum vafrakökur (e. cookie) til auðkenningar."
+
+#: wasa2il/templates/cookie_dialog.html:33
+msgid "We do <strong>not</strong> use them to track you."
+msgstr "Við notum þær <strong>ekki</strong> til þess að fylgjast með vefnotkun þinni."
+
+#: wasa2il/templates/cookie_dialog.html:38
+msgid "I accept cookies being used for authentication purposes."
+msgstr "Ég samþykki að vafrakökur séu notaðar til auðkenningar."
+
+#: wasa2il/templates/cookie_dialog.html:40
+msgid "Continue"
+msgstr "Halda áfram"
+
+#: wasa2il/templates/cookie_dialog.html:44
+msgid "Cookies are needed to use this website."
+msgstr "Vafrakökur eru nauðsynlegar til að nota þennan vef."
 
 #: wasa2il/templates/election/_election_candidate_list.html:34
 msgid "Move to top"
@@ -1782,7 +1802,9 @@ msgstr "Umræða"
 #: wasa2il/templates/issue/issue_detail.html:116
 msgid ""
 "This issue was concluded a while ago, so you must log in to see comments."
-msgstr "Þessu máli lauk fyrir nokkru síðan og er því krafist innskráningar til að sjá umræðu."
+msgstr ""
+"Þessu máli lauk fyrir nokkru síðan og er því krafist innskráningar til að "
+"sjá umræðu."
 
 #: wasa2il/templates/issue/issue_detail.html:125
 msgid "for or against this issue"
@@ -2000,7 +2022,7 @@ msgid "You may now try to log in!"
 msgstr "Þú getur núna reynt að innskrá þig!"
 
 #: wasa2il/templates/registration/activation_complete.html:11
-#: wasa2il/templates/registration/login.html:23
+#: wasa2il/templates/registration/login.html:28
 msgid "Login"
 msgstr "Innskrá"
 
@@ -2099,12 +2121,12 @@ msgstr ""
 "Ef einhverjar spurningar vakna varðandi persónugögn, vinsamlegast sendið "
 "okkur tölvupóst:"
 
-#: wasa2il/templates/registration/login.html:6
-#: wasa2il/templates/registration/registration_form.html:6
+#: wasa2il/templates/registration/login.html:11
+#: wasa2il/templates/registration/registration_form.html:11
 msgid "and partake in democracy..."
 msgstr "og taktu þátt í lýðræðinu..."
 
-#: wasa2il/templates/registration/login.html:8
+#: wasa2il/templates/registration/login.html:13
 msgid ""
 "If you forgot your username, you can log in or reset your password with your "
 "email address or SSN instead."
@@ -2112,12 +2134,12 @@ msgstr ""
 "Ef þú hefur gleymt notendanafni þínu, þá má einnig nota netfang eða "
 "kennitölu til að skrá sig inn eða panta nýtt lykilorð."
 
-#: wasa2il/templates/registration/login.html:11
+#: wasa2il/templates/registration/login.html:16
 msgid "If problems arise, please send an email to the following email address:"
 msgstr ""
 "Ef vandamál koma upp, vinsamlegast sendið netpóst á eftirfarandi netfang:"
 
-#: wasa2il/templates/registration/login.html:28
+#: wasa2il/templates/registration/login.html:33
 #: wasa2il/templates/registration/password_reset_complete.html:7
 #: wasa2il/templates/registration/password_reset_confirm.html:10
 #: wasa2il/templates/registration/password_reset_done.html:6
