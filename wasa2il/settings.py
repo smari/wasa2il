@@ -103,6 +103,7 @@ STATICFILES_FINDERS = (
 
 
 MIDDLEWARE_CLASSES = (
+    'cookiesdirective.middleware.CookiesDirectiveMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'core.middleware.IgnoreHTTPAcceptLanguageMiddleware',
     'django.middleware.locale.LocaleMiddleware',

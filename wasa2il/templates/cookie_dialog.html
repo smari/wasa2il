@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load static %}
+
+<script language="javascript" type="text/javascript" src="{% static 'js/cookiesdirective-2.1.0-predist/jquery.cookiesdirective.js' %}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    $.cookiesDirective({
+        explicitConsent: true,
+        duration: null,
+        positionOffset: '70px',
+        customDialogSelector: '#cookie-dialog',
+    });
+
+    // Disable form controls until cookies are enabled.
+    if (getCookie('cookiesDirective') != '1') {
+        $('form input, form button, form a').attr('disabled', 'disabled');
+        $('form a').attr('href', '#');
+    }
+
+});
+</script>
+
+<div id="cookie-dialog" style="display: none;">
+<div id="cookiesdirective" class="alert alert-info">
+
+    <h4>
+        {% blocktrans %}We use cookies for authentication purposes.{% endblocktrans %}
+    </h4>
+
+    <p>{% trans 'We do <strong>not</strong> use them to track you.' %}</p>
+
+    <p>
+        <label>
+            <input type="checkbox" id="epdagree" />
+            {% trans 'I accept cookies being used for authentication purposes.' %}
+        </label>
+        <input type="submit" id="explicitsubmit" class="btn btn-primary" value="{% trans 'Continue' %}" />
+    </p>
+
+    <p id="epdnotick">
+        <strong>{% trans 'Cookies are needed to use this website.' %}</strong>
+    </p>
+
+
+</div>
+</div>

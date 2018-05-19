@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load bootstrap %}
+
+{% block dialog %}
+    {% include 'cookie_dialog.html' %}
+{% endblock %}
+
 {% block content %}
 <section class="content">
 <h1>{% trans "Sign up" %} <small>{% trans 'and partake in democracy...' %}</small></h1>
