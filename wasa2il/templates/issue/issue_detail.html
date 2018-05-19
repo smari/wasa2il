@@ -112,7 +112,11 @@
         </table>
 
         <h2 id="issue-comments-header">{% trans "Discussion" %}</h2>
-        {% comments_section "issue" issue.id comments_closed %}
+        {% if comments_hidden %}
+            <p>{% trans 'This issue was concluded a while ago, so you must log in to see comments.' %}</p>
+        {% else %}
+            {% comments_section "issue" issue.id comments_closed %}
+        {% endif %}
 
     </div>
 

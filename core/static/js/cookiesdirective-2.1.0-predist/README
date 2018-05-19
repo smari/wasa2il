@@ -1,0 +1,26 @@
+More information at http://cookiesdirective.com, or check out demo.html
+
+* jquery.cookiesdirective.js - the jQuery plugin
+* demo.html - good place to start, if you're trying to set this up
+* dialog.html - a basic example of a custom dialog (only relevant to the customDialogSelector setting)
+* external.js - a javascript file to grab and load to the DOM, when cookies accepted or implied consent mode running
+
+Version 2.1.0
+=============
+- Support for completely customizing dialog and its content
+
+Version 2.0.1
+=============
+- .live('click'... replaced with .click() as former deprecated 
+- Removed old 1.5.js script from this package
+
+Version 2.0.0 
+=============
+- jQuery is ubiquitous. Script isn't checking/finding/loading it for you anymore
+- Rewritten as a jQuery plugin
+- Options. Lots of them. Configure lots of things
+- Implied consent mode. For the UK. The ICO said it's ok. So less clicking and won't hold back your cookie setting scripts.
+
+Version 1.5
+===========
+- Old javascript version. No longer maintained.
