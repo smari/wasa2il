@@ -20,6 +20,7 @@ django-datetime-widget==0.9.3
 django-debug-toolbar==1.9.1
 django-prosemirror==0.0.12
 django-registration-redux==1.10
+django-termsandconditions==1.2.8
 eight==0.4.2
 enum34==1.1.6
 et-xmlfile==1.0.1

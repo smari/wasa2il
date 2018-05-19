@@ -114,6 +114,7 @@ MIDDLEWARE_CLASSES = (
     'core.middleware.UserSettingsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'core.middleware.GlobalsMiddleware',
+    'termsandconditions.middleware.TermsAndConditionsRedirectMiddleware',
 )
 try:
     MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
@@ -165,6 +166,7 @@ INSTALLED_APPS = (
     'datetimewidget',
     'crispy_forms',
     'prosemirror',
+    'termsandconditions',
 
     'core',
     'polity',
@@ -224,6 +226,14 @@ LOGGING = {
         },
     }
 }
+
+TERMS_EXCLUDE_URL_PREFIX_LIST = (
+    '/admin/',
+    '/help/',
+    '/accounts/register/',
+    '/accounts/login/',
+    '/accounts/logout/',
+)
 
 AUTH_PROFILE_MODULE = "core.UserProfile"
 ACCOUNT_ACTIVATION_DAYS = 7
