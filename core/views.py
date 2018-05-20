@@ -1,5 +1,6 @@
 
 from datetime import datetime, timedelta
+from xml.etree.ElementTree import ParseError
 import os.path
 import json
 
@@ -11,6 +12,7 @@ import urllib
 from urlparse import parse_qs
 # SSO done
 
+from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
@@ -231,6 +233,9 @@ def verify(request):
     except SamlException as e:
         ctx = {'e': e}
         return render(request, 'registration/saml_error.html', ctx)
+    except ParseError:
+        logout(request)
+        return redirect(reverse('auth_login'))
 
     if UserProfile.objects.filter(verified_ssn=auth['ssn']).exists():
         taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user
@@ -239,7 +244,7 @@ def verify(request):
             'taken_user': taken_user,
         }
 
-        auth_logout(request)
+        logout(request)
 
         return render(request, 'registration/verification_duplicate.html', ctx)
 
