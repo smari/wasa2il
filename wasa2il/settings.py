@@ -233,6 +233,7 @@ TERMS_EXCLUDE_URL_PREFIX_LIST = (
     '/accounts/register/',
     '/accounts/login/',
     '/accounts/logout/',
+    '/accounts/verify/',
 )
 
 AUTH_PROFILE_MODULE = "core.UserProfile"
