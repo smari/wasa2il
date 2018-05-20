@@ -35,6 +35,8 @@ from django.contrib.auth.models import User
 from core.models import UserProfile
 from core.forms import UserProfileForm
 from core.saml import authenticate, SamlException
+from core.utils import calculate_age_from_ssn
+from core.utils import is_ssn_human_or_institution
 from election.models import Election
 from issue.forms import DocumentForm
 from issue.models import Document
@@ -236,6 +238,26 @@ def verify(request):
     except ParseError:
         logout(request)
         return redirect(reverse('auth_login'))
+
+    # Make sure that the user is, in fact, human.
+    if is_ssn_human_or_institution(auth['ssn']) != 'human':
+        ctx = {
+            'ssn': auth['ssn'],
+            'name': auth['name'].encode('utf8'),
+        }
+        return render(request, 'registration/verification_invalid_entity.html', ctx)
+
+
+    # Make sure that user has reached the minimum required age, if applicable.
+    if hasattr(settings, 'AGE_LIMIT') and settings.AGE_LIMIT > 0:
+        age = calculate_age_from_ssn(auth['ssn'])
+        if age < settings.AGE_LIMIT:
+            logout(request)
+            ctx = {
+                'age': age,
+                'age_limit': settings.AGE_LIMIT,
+            }
+            return render(request, 'registration/verification_age_limit.html', ctx)
 
     if UserProfile.objects.filter(verified_ssn=auth['ssn']).exists():
         taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user

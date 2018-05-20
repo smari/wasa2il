@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<section class="content">
+
+    <div class="col-md-8">
+
+    <h1>{% trans 'Invalid entity' %}</h1>
+
+    <h3>{% blocktrans %}The entity {{ name }} with the SSN {{ ssn }} is an invalid entity.{% endblocktrans %}</h3>
+
+    <h3>{% blocktrans %}Please try using a valid entity for verifying your account.{% endblocktrans %}</h3>
+
+    <button type="button" class="btn btn-primary" onclick="window.history.go(-1);">{% trans 'Try again' %}</button>
+    <a href="{% url 'home' %}" class="btn btn-default">{% trans 'Logout' %}</a>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
