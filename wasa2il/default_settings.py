@@ -29,6 +29,9 @@ TIME_ZONE = 'Iceland'
 
 ALLOW_LEAVE_POLITY = False
 
+# Age limit for participation. (Currently only works with SAML.)
+AGE_LIMIT = 16
+
 DATE_FORMAT = 'd/m/Y'
 DATETIME_FORMAT = 'd/m/Y H:i:s'
 DATETIME_FORMAT_DJANGO_WIDGET = 'dd/mm/yyyy hh:ii' # django-datetime-widget

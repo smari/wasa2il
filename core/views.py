@@ -1,5 +1,6 @@
 
 from datetime import datetime, timedelta
+from xml.etree.ElementTree import ParseError
 import os.path
 import json
 
@@ -11,6 +12,7 @@ import urllib
 from urlparse import parse_qs
 # SSO done
 
+from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
@@ -33,6 +35,8 @@ from django.contrib.auth.models import User
 from core.models import UserProfile
 from core.forms import UserProfileForm
 from core.saml import authenticate, SamlException
+from core.utils import calculate_age_from_ssn
+from core.utils import is_ssn_human_or_institution
 from election.models import Election
 from issue.forms import DocumentForm
 from issue.models import Document
@@ -231,6 +235,29 @@ def verify(request):
     except SamlException as e:
         ctx = {'e': e}
         return render(request, 'registration/saml_error.html', ctx)
+    except ParseError:
+        logout(request)
+        return redirect(reverse('auth_login'))
+
+    # Make sure that the user is, in fact, human.
+    if is_ssn_human_or_institution(auth['ssn']) != 'human':
+        ctx = {
+            'ssn': auth['ssn'],
+            'name': auth['name'].encode('utf8'),
+        }
+        return render(request, 'registration/verification_invalid_entity.html', ctx)
+
+
+    # Make sure that user has reached the minimum required age, if applicable.
+    if hasattr(settings, 'AGE_LIMIT') and settings.AGE_LIMIT > 0:
+        age = calculate_age_from_ssn(auth['ssn'])
+        if age < settings.AGE_LIMIT:
+            logout(request)
+            ctx = {
+                'age': age,
+                'age_limit': settings.AGE_LIMIT,
+            }
+            return render(request, 'registration/verification_age_limit.html', ctx)
 
     if UserProfile.objects.filter(verified_ssn=auth['ssn']).exists():
         taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user
@@ -239,7 +266,7 @@ def verify(request):
             'taken_user': taken_user,
         }
 
-        auth_logout(request)
+        logout(request)
 
         return render(request, 'registration/verification_duplicate.html', ctx)
 

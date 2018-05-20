@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<section class="content">
+
+    <div class="col-md-6">
+
+    <h1>{% trans 'Age below age limit' %}</h1>
+
+    <h3>{% blocktrans %}We are sorry to inform you that you have not yet reached the minimum required age of {{ age_limit }} years. According to our information, you are {{ age }} years old.{% endblocktrans %}</h3>
+
+    <h3>{% trans 'We will be very happy to provide you with access once you reach the minimum required age.' %}</h3>
+
+    <a href="{% url 'home' %}" class="btn btn-primary">{% trans 'Front page' %}</a>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

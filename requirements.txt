@@ -20,6 +20,7 @@ django-datetime-widget==0.9.3
 django-debug-toolbar==1.9.1
 django-prosemirror==0.0.12
 django-registration-redux==1.10
+django-termsandconditions==1.2.8
 eight==0.4.2
 enum34==1.1.6
 et-xmlfile==1.0.1
@@ -61,6 +62,7 @@ pyflakes==1.6.0
 Pygments==2.2.0
 PyMySQL==0.8.1
 pyOpenSSL==18.0.0
+python-dateutil==2.7.3
 python-memcached==1.59
 python-vote-full==1.0
 pytz==2018.4

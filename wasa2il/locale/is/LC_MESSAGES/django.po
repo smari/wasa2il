@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-19 16:26+0000\n"
+"POT-Creation-Date: 2018-05-20 21:02+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -284,6 +284,7 @@ msgid "Deprecated"
 msgstr "Úrelt"
 
 #: issue/views.py:79
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:20
 msgid "version"
 msgstr "útgáfa"
 
@@ -585,7 +586,9 @@ msgid "My settings"
 msgstr "Stillingar"
 
 #: wasa2il/templates/base.html:83
+#: wasa2il/templates/registration/verification_invalid_entity.html:17
 #: wasa2il/templates/registration/verification_needed.html:12
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:49
 msgid "Logout"
 msgstr "Útskrá"
 
@@ -626,7 +629,8 @@ msgstr "Við notum vafrakökur (e. cookie) til auðkenningar."
 
 #: wasa2il/templates/cookie_dialog.html:33
 msgid "We do <strong>not</strong> use them to track you."
-msgstr "Við notum þær <strong>ekki</strong> til þess að fylgjast með vefnotkun þinni."
+msgstr ""
+"Við notum þær <strong>ekki</strong> til þess að fylgjast með vefnotkun þinni."
 
 #: wasa2il/templates/cookie_dialog.html:38
 msgid "I accept cookies being used for authentication purposes."
@@ -2023,6 +2027,7 @@ msgstr "Þú getur núna reynt að innskrá þig!"
 
 #: wasa2il/templates/registration/activation_complete.html:11
 #: wasa2il/templates/registration/login.html:28
+#: wasa2il/templates/registration/verification_duplicate.html:14
 msgid "Login"
 msgstr "Innskrá"
 
@@ -2284,6 +2289,32 @@ msgstr ""
 "Vinsamlegast reynið aftur og ef villan kemur aftur, hafið samband við "
 "umsjónarmann."
 
+#: wasa2il/templates/registration/verification_age_limit.html:10
+msgid "Age below age limit"
+msgstr "Lágmarksaldri ekki náð"
+
+#: wasa2il/templates/registration/verification_age_limit.html:12
+#, python-format
+msgid ""
+"We are sorry to inform you that you have not yet reached the minimum "
+"required age of %(age_limit)s years. According to our information, you are "
+"%(age)s years old."
+msgstr ""
+"Okkur þykir leitt að tilkynna þér að þú hefur ekki enn náð lágmarksaldri "
+"fyrir aðgang, sem er %(age_limit)s ár. Samkvæmt okkar gögnum ertu %(age)s "
+"ára."
+
+#: wasa2il/templates/registration/verification_age_limit.html:14
+msgid ""
+"We will be very happy to provide you with access once you reach the minimum "
+"required age."
+msgstr ""
+"Við veitum þér aðgang með mikilli gleði þegar þú hefur náð tilsettum aldri."
+
+#: wasa2il/templates/registration/verification_age_limit.html:16
+msgid "Front page"
+msgstr "Forsíða"
+
 #: wasa2il/templates/registration/verification_duplicate.html:6
 msgid "Multiple accounts detected"
 msgstr "Fleiri en einn reikningur til"
@@ -2311,6 +2342,24 @@ msgstr "Notandanafn"
 #: wasa2il/templates/registration/verification_duplicate.html:12
 msgid "Email"
 msgstr "Netfang"
+
+#: wasa2il/templates/registration/verification_invalid_entity.html:10
+msgid "Invalid entity"
+msgstr "Ógildur aðili"
+
+#: wasa2il/templates/registration/verification_invalid_entity.html:12
+#, python-format
+msgid "The entity %(name)s with the SSN %(ssn)s is an invalid entity."
+msgstr "Aðilinn %(name)s með kennitöluna %(ssn)s er ógildur aðili."
+
+#: wasa2il/templates/registration/verification_invalid_entity.html:14
+msgid "Please try using a valid entity for verifying your account."
+msgstr ""
+"Vinsamlegast reyndu aftur með gildum aðila til að staðfesta aðganginn þinn."
+
+#: wasa2il/templates/registration/verification_invalid_entity.html:16
+msgid "Try again"
+msgstr "Reyna aftur"
 
 #: wasa2il/templates/registration/verification_needed.html:6
 msgid "Verification needed"
@@ -2503,6 +2552,29 @@ msgstr ""
 msgid "User currently isn't volunteering for any tasks."
 msgstr ""
 
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:19
+msgid "Terms and Conditions"
+msgstr "Notkunarskilmálar"
+
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:23
+msgid ""
+"In order to use this software, you must accept the following terms and "
+"conditions."
+msgstr ""
+"Til að nota þennan hugbúnað verður þú að samþykkja eftirfarandi skilmála."
+
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:26
+msgid "Information"
+msgstr "Upplýsingar"
+
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:44
+msgid "Accept all"
+msgstr "Samþykkja alla"
+
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:46
+msgid "Accept"
+msgstr "Samþykkja"
+
 #: wasa2il/templates/topic/_topic_list_table.html:19
 msgid "There are no topics in this polity!"
 msgstr "Það eru engir málaflokkar á þessu þingi!"
@@ -2618,9 +2690,6 @@ msgstr ""
 
 #~ msgid "Issues in polity"
 #~ msgstr "Mál í þingi"
-
-#~ msgid "Toggle information"
-#~ msgstr "Sýna/Fela upplýsingar"
 
 #~ msgid "Show all agreements"
 #~ msgstr "Sýna allar samþykktir"
