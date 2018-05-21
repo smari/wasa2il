@@ -20,17 +20,28 @@ class GlobalsMiddleware():
             'polity': None,
             'user_is_member': False,
             'user_is_officer': False,
+            'user_is_wrangler': False,
         }
 
-        match = resolve(request.path)
-        if 'polity_id' in match.kwargs:
-            polity_id = int(match.kwargs['polity_id'])
-            global_vars['polity'] = polity = Polity.objects.get(id=polity_id)
+        try:
+            match = resolve(request.path)
 
-            if not request.user.is_anonymous():
-                global_vars['user_is_member'] = request.user in polity.members.all()
-                global_vars['user_is_officer'] = request.user in polity.officers.all()
-                global_vars['user_is_wrangler'] = request.user in polity.wranglers.all()
+            if 'polity_id' in match.kwargs:
+                polity_id = int(match.kwargs['polity_id'])
+                global_vars['polity'] = polity = Polity.objects.prefetch_related(
+                    'members',
+                    'officers',
+                    'wranglers'
+                ).get(id=polity_id)
+
+                if not request.user.is_anonymous():
+                    global_vars['user_is_member'] = request.user in polity.members.all()
+                    global_vars['user_is_officer'] = request.user in polity.officers.all()
+                    global_vars['user_is_wrangler'] = request.user in polity.wranglers.all()
+        except:
+            # Basically only 404-errors and such cause errors here. Besides,
+            # we'll want to move on with our lives anyway.
+            pass
 
         request.globals = global_vars
 
