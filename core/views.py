@@ -173,8 +173,12 @@ def view_settings(request):
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request=request, instance=UserProfile.objects.get(user=request.user))
         if form.is_valid():
-            request.user.email = form.cleaned_data['email']
-            request.user.save()
+            # FIXME/TODO: When a user changes email addresses, there is
+            # currently no functionality to verify the new email address.
+            # Therefore, the email field is disabled in UserProfileForm until
+            # that functionality has been implemented.
+            #request.user.email = form.cleaned_data['email']
+            #request.user.save()
             form.save()
 
             request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
