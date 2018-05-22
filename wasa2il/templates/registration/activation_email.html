@@ -11,7 +11,7 @@
     {% blocktrans %}To activate your account, your email address must be verified by clicking the link below within the next {{ expiration_days }} days:{% endblocktrans %}
 </p>
 <p>
-    <a href="http://{{site.domain}}{% url 'registration_activate' activation_key %}">
+    <a href="https://{{site.domain}}{% url 'registration_activate' activation_key %}">
         {{ site.domain }}{% url 'registration_activate' activation_key %}
     </a>
 </p>
