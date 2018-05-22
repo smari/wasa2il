@@ -33,7 +33,6 @@ def dummy_function(apps, schema_editor):
 
     for ruleset in PolityRuleset.objects.all():
         for fieldname in fieldnames:
-            # I was here. Trying to get reverse migrations to work.
             field = getattr(ruleset, fieldname)
             setattr(ruleset, fieldname, field.total_seconds())
 
