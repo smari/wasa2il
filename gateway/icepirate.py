@@ -1,6 +1,6 @@
 import json
 import random
-import urllib
+import requests
 from datetime import datetime
 
 from django.conf import settings
@@ -37,19 +37,15 @@ def _password_reset_url(user):
             'token': default_token_generator.make_token(user)})
 
 
-def _icepirate_user_data(user, to_8bit=False):
+def _icepirate_user_data(user):
     info = {
+        'json_api_key': settings.ICEPIRATE['key'],
         'ssn': user.userprofile.verified_ssn,
         'name': user.userprofile.verified_name,
         'email': user.email,
         'username': user.username,
-        'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S')}
-    for f in ('name', 'username'):
-        if info.get(f):
-            if not isinstance(info[f], unicode):
-                info[f] = info[f].decode('utf-8')
-            if to_8bit:
-                info[f] = info[f].encode('utf-8')
+        'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S'),
+    }
     return info
 
 def _make_username(name, email):
@@ -136,13 +132,15 @@ def configure_external_member_db(user, create_if_missing=False):
             pass
 
     url = settings.ICEPIRATE['url']
-    key = settings.ICEPIRATE['key']
 
-    user_post_data = urllib.urlencode(_icepirate_user_data(user, to_8bit=True))
+    user_post_data = _icepirate_user_data(user)
 
-    remote_object = json.loads(urllib.urlopen(
-        '%s/member/api/get/ssn/%s?json_api_key=%s&%s' % (
-            url, user.userprofile.verified_ssn, key, user_post_data)).read())
+    remote_object = json.loads(
+        requests.get(
+            '%s/member/api/get/ssn/%s/' % (url, user.userprofile.verified_ssn),
+            params=user_post_data
+        ).text
+    )
 
     if settings.DEBUG:
         print('Icepirate GET: %s' % remote_object)
@@ -174,9 +172,8 @@ def configure_external_member_db(user, create_if_missing=False):
 
         if error == 'No such member':
             if create_if_missing:
-                remote_object = json.loads(urllib.urlopen(
-                    '%s/member/api/add/?json_api_key=%s&%s' % (
-                        url, key, user_post_data)).read())
+
+                remote_object = json.loads(requests.get('%s/member/api/add/' % url, params=user_post_data).text)
 
                 if settings.DEBUG:
                     print('Icepirate ADD: %s' % remote_object)
