@@ -10,7 +10,7 @@ from core.models import UserProfile
 
 class UserProfileForm(Wasa2ilForm):
     email = EmailField(label=_("E-mail"), help_text=_("The email address you'd like to use for the site."))
-    bio = CharField(widget=ProseMirrorWidget)
+    bio = CharField(label=_('Bio'), widget=ProseMirrorWidget, required=False)
 
     class Meta:
         model = UserProfile
