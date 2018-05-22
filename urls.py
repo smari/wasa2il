@@ -6,6 +6,8 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from django.views import static
 
+from registration.backends.default.views import RegistrationView
+
 from core import views as core_views
 
 from django.contrib import admin
@@ -33,6 +35,7 @@ urlpatterns = [
     url(r'^accounts/login/', core_views.Wasa2ilLoginView.as_view()),
     url(r'^accounts/verify/', core_views.verify),
     url(r'^accounts/sso/', core_views.sso),
+    url(r'^accounts/register/$', core_views.Wasa2ilRegistrationView.as_view(), name='registration_register'),
 
     url(r'^accounts/', include('registration.urls')),
 

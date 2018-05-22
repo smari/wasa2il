@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<p>{% blocktrans %}In order to receive email concerning meetings, notifications and other material regarding our, we need your informed consent to send you such email. Whether you choose to receive such email or not has no effect on your registration or membership in other ways. With each email comes a link for unsubscribing to further emails.{% endblocktrans %}</p>
+
+<p>{% trans 'Do you want to receive such email?' %}</p>
+
+{% for group, options, index in widget.optgroups %}
+    {% for widget in options %}
+        <label>
+            {% if index > 0 %}
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            {% endif %}
+            <input type="radio" name="{{ widget.name }}" value="{{ widget.value|stringformat:'s' }}" />
+            {{ widget.label }}
+        </label>
+    {% endfor %}
+{% endfor %}

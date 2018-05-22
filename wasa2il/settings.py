@@ -145,6 +145,8 @@ TEMPLATES = [
     }
 ]
 
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
 
 LOCALE_PATHS = (
     here('locale'),
@@ -157,6 +159,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
 
     'django.contrib.admin',
 

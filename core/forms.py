@@ -1,11 +1,21 @@
-from django.forms import EmailField, CharField
+# -*- coding: utf-8 -*-
+from django.forms import CharField
+from django.forms import EmailField
+from django.forms import TypedChoiceField
 from django.forms import ValidationError
+from django.forms.widgets import ChoiceWidget
 from django.utils.translation import ugettext as _
+
+from registration.forms import RegistrationForm
 
 from wasa2il.forms import Wasa2ilForm
 from prosemirror.widgets import ProseMirrorWidget
 
 from core.models import UserProfile
+
+
+class EmailWantedField(ChoiceWidget):
+    template_name = 'forms/widgets/email_wanted.html'
 
 
 class UserProfileForm(Wasa2ilForm):
@@ -30,3 +40,11 @@ class UserProfileForm(Wasa2ilForm):
                 raise ValidationError(_('Filename must contain file extension'))
 
         return data
+
+
+class Wasa2ilRegistrationForm(RegistrationForm):
+    email_wanted = TypedChoiceField(
+        choices=((True, _('Yes')), (False, _('No'))),
+        widget=EmailWantedField,
+        label=_('Consent for sending email')
+    )

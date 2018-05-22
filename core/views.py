@@ -34,6 +34,7 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth.models import User
 from core.models import UserProfile
 from core.forms import UserProfileForm
+from core.forms import Wasa2ilRegistrationForm
 from core.saml import authenticate, SamlException
 from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
@@ -51,6 +52,12 @@ from hashlib import sha1
 # BEGIN - Included for Wasa2ilLoginView
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.views import LoginView
+# END
+
+# BEGIN - Included for Wasa2ilRegistrationView
+from django.contrib.sites.shortcuts import get_current_site
+from registration.backends.default.views import RegistrationView
+from registration import signals as registration_signals
 # END
 
 
@@ -225,6 +232,37 @@ class Wasa2ilLoginView(LoginView):
             configure_external_member_db(self.request.user, create_if_missing=False)
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+class Wasa2ilRegistrationView(RegistrationView):
+
+    form_class = Wasa2ilRegistrationForm
+
+    def register(self, form):
+
+        site = get_current_site(self.request)
+
+        new_user_instance = form.save()
+
+        # Create user profile and configure according to registration data.
+        userprofile = UserProfile(user=new_user_instance)
+        userprofile.email_wanted = form['email_wanted'].value() == 'True'
+        userprofile.save()
+
+        new_user = self.registration_profile.objects.create_inactive_user(
+            new_user=new_user_instance,
+            site=site,
+            send_email=self.SEND_ACTIVATION_EMAIL,
+            request=self.request,
+        )
+
+        registration_signals.user_registered.send(
+            sender=self.__class__,
+            user=new_user,
+            request=self.request
+        )
+
+        return new_user
 
 
 @login_required

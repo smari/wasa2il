@@ -159,6 +159,12 @@ def configure_external_member_db(user, create_if_missing=False):
                 polity.members.remove(user)
                 polity.officers.remove(user)
 
+        # Ask the member database if the user has consented to receiving
+        # email and update user database accordingly.
+        if user.userprofile.email_wanted != remote_object['data']['email_wanted']:
+            user.userprofile.email_wanted = remote_object['data']['email_wanted']
+            user.userprofile.save()
+
         # FIXME: Figure out why we don't just trust Icepirate here...?
         added = datetime.strptime(
             remote_object['data']['added'], '%Y-%m-%d %H:%M:%S')
@@ -172,6 +178,13 @@ def configure_external_member_db(user, create_if_missing=False):
 
         if error == 'No such member':
             if create_if_missing:
+
+                # Since we're creating the user in the remote database, we
+                # need to provide the initial value for whether the user has
+                # consented to receiving email. After this, we will trust that
+                # the remote database is always correct and change it on this
+                # side during login.
+                user_post_data['email_wanted'] = 'true' if user.userprofile.email_wanted else 'false'
 
                 remote_object = json.loads(requests.get('%s/member/api/add/' % url, params=user_post_data).text)
 
