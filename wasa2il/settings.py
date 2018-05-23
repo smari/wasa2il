@@ -111,10 +111,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'core.middleware.UserSettingsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'core.middleware.GlobalsMiddleware',
+    'core.middleware.AutoLogoutMiddleware',
     'termsandconditions.middleware.TermsAndConditionsRedirectMiddleware',
+    'core.middleware.SamlMiddleware',
 )
 try:
     MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
@@ -145,6 +146,8 @@ TEMPLATES = [
     }
 ]
 
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
 
 LOCALE_PATHS = (
     here('locale'),
@@ -157,6 +160,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
 
     'django.contrib.admin',
 
@@ -234,6 +238,10 @@ TERMS_EXCLUDE_URL_PREFIX_LIST = (
     '/accounts/login/',
     '/accounts/logout/',
     '/accounts/verify/',
+)
+
+SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST = (
+    '/terms/',
 )
 
 AUTH_PROFILE_MODULE = "core.UserProfile"

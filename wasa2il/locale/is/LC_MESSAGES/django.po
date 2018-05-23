@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-20 21:02+0000\n"
+"POT-Creation-Date: 2018-05-22 23:06+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -9,50 +9,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
-#: core/base_classes.py:8 core/models.py:42 election/models.py:28
+#: core/base_classes.py:8 core/models.py:40 election/models.py:28
 #: issue/models.py:25 issue/models.py:256 issue/models.py:309
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
 #: wasa2il/templates/issue/document_detail.html:118
 msgid "Name"
 msgstr "Nafn"
 
-#: core/forms.py:12
+#: core/forms.py:22
 msgid "E-mail"
 msgstr "Netfang"
 
-#: core/forms.py:12
+#: core/forms.py:22
 msgid "The email address you'd like to use for the site."
 msgstr "Netfangið sem þú vilt nota á vefnum."
 
-#: core/forms.py:30
-msgid "Filename must contain file extension"
-msgstr "Ending skráarnafns verður að tilgreina tegund"
-
-#: core/models.py:42
-msgid "The name to display on the site."
-msgstr "Nafnið sem birtist á vefnum."
-
-#: core/models.py:43
-msgid "E-mail visible"
-msgstr "Netfang sýnilegt"
-
-#: core/models.py:43
-msgid "Whether to display your email address on your profile page."
-msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
-
-#: core/models.py:44
+#: core/forms.py:23 core/models.py:42
 msgid "Bio"
 msgstr "Saga"
 
-#: core/models.py:45
+#: core/forms.py:40
+msgid "Filename must contain file extension"
+msgstr "Ending skráarnafns verður að tilgreina tegund"
+
+#: core/forms.py:47 wasa2il/templates/issue/_agreements.html:6
+#: wasa2il/templates/issue/_agreements_list.html:24
+#: wasa2il/templates/issue/issue_detail.html:93
+#: wasa2il/templates/issue/issue_detail.html:128
+msgid "Yes"
+msgstr "Já"
+
+#: core/forms.py:47 wasa2il/templates/issue/_agreements.html:7
+#: wasa2il/templates/issue/_agreements_list.html:27
+#: wasa2il/templates/issue/issue_detail.html:100
+#: wasa2il/templates/issue/issue_detail.html:130
+msgid "No"
+msgstr "Nei"
+
+#: core/forms.py:49 core/models.py:47
+msgid "Consent for sending email"
+msgstr "Samþykki fyrir póstsendingum"
+
+#: core/models.py:40
+msgid "The name to display on the site."
+msgstr "Nafnið sem birtist á vefnum."
+
+#: core/models.py:41
+msgid "E-mail visible"
+msgstr "Netfang sýnilegt"
+
+#: core/models.py:41
+msgid "Whether to display your email address on your profile page."
+msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
+
+#: core/models.py:43
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:49
+#: core/models.py:47
+msgid "Whether to consent to receiving notifications via email."
+msgstr ""
+
+#: core/models.py:48
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:50
+#: core/models.py:49
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
@@ -471,7 +493,7 @@ msgstr "Vista"
 #: wasa2il/templates/issue/document_detail.html:148
 #: wasa2il/templates/registration/password_change_form.html:18
 #: wasa2il/templates/registration/password_reset_form.html:21
-#: wasa2il/templates/registration/registration_form.html:33
+#: wasa2il/templates/registration/registration_form.html:36
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -600,7 +622,7 @@ msgstr "Innskrá"
 
 #: wasa2il/templates/base.html:88 wasa2il/templates/registration/login.html:30
 #: wasa2il/templates/registration/registration_form.html:11
-#: wasa2il/templates/registration/registration_form.html:32
+#: wasa2il/templates/registration/registration_form.html:35
 msgid "Sign up"
 msgstr "Nýskrá"
 
@@ -1004,6 +1026,24 @@ msgstr "Ertu viss um að draga framboð þitt til baka? Það er óafturkræft."
 #: wasa2il/templates/election/election_view.html:312
 msgid "Withdraw candidacy"
 msgstr "Draga framboð til baka"
+
+#: wasa2il/templates/forms/widgets/email_wanted.html:3
+msgid ""
+"In order to receive email concerning meetings, notifications and other "
+"material regarding our, we need your informed consent to send you such "
+"email. Whether you choose to receive such email or not has no effect on your "
+"registration or membership in other ways. With each email comes a link for "
+"unsubscribing to further emails."
+msgstr ""
+"Til að fá fundarboð, tilkynningar og annað sem varðar starf okkar með "
+"tölvupósti þurfum við upplýst samþykki þitt fyrir slíkum sendingum. Hvort þú "
+"kjósir að fá slíkar sendingar hefur engin áhrif á skráningu þína eða aðild "
+"að öðru leyti. Með hverjum pósti sem við sendum fylgir tengill til að hafna "
+"frekari tölvupóstsendingum."
+
+#: wasa2il/templates/forms/widgets/email_wanted.html:5
+msgid "Do you want to receive such email?"
+msgstr "Viltu fá slíkar sendingar?"
 
 #: wasa2il/templates/help/is/agreement.html:8
 msgid ""
@@ -1546,20 +1586,6 @@ msgstr "Tegund"
 #: wasa2il/templates/issue/_agreements.html:5
 msgid "Document"
 msgstr "Skjal"
-
-#: wasa2il/templates/issue/_agreements.html:6
-#: wasa2il/templates/issue/_agreements_list.html:24
-#: wasa2il/templates/issue/issue_detail.html:93
-#: wasa2il/templates/issue/issue_detail.html:128
-msgid "Yes"
-msgstr "Já"
-
-#: wasa2il/templates/issue/_agreements.html:7
-#: wasa2il/templates/issue/_agreements_list.html:27
-#: wasa2il/templates/issue/issue_detail.html:100
-#: wasa2il/templates/issue/issue_detail.html:130
-msgid "No"
-msgstr "Nei"
 
 #: wasa2il/templates/issue/_agreements.html:8
 #: wasa2il/templates/issue/_agreements_list.html:30

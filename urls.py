@@ -6,6 +6,8 @@ from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
 from django.views import static
 
+from registration.backends.default.views import RegistrationView
+
 from core import views as core_views
 
 from django.contrib import admin
@@ -25,14 +27,15 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('polity.urls')),
     url(r'^', include('topic.urls')),
-    # Gateway
-    url(r'^gateway/', include('gateway.urls')),
 
     url(r'^accounts/profile/(?:(?P<username>[^/]+)/)?$', core_views.profile, name='profile'),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
-    url(r'^accounts/login/', core_views.Wasa2ilLoginView.as_view()),
-    url(r'^accounts/verify/', core_views.verify),
     url(r'^accounts/sso/', core_views.sso),
+    url(r'^accounts/register/$', core_views.Wasa2ilRegistrationView.as_view(), name='registration_register'),
+
+    # SAML-related URLs.
+    url(r'^accounts/verify/', core_views.verify),
+    url(r'^accounts/login-or-saml-redirect/', core_views.login_or_saml_redirect),
 
     url(r'^accounts/', include('registration.urls')),
 

@@ -21,8 +21,6 @@ from diff_match_patch.diff_match_patch import diff_match_patch
 from issue.models import DocumentContent
 from issue.models import Issue
 
-nullblank = {'null': True, 'blank': True}
-
 
 class UserProfile(models.Model):
     """A user's profile data. Contains various informative areas, plus various settings."""
@@ -39,13 +37,14 @@ class UserProfile(models.Model):
     verified = models.BooleanField(default=False)
 
     # User information
-    displayname = models.CharField(max_length=255, verbose_name=_("Name"), help_text=_("The name to display on the site."), **nullblank)
+    displayname = models.CharField(max_length=255, verbose_name=_("Name"), help_text=_("The name to display on the site."), null=True, blank=True)
     email_visible = models.BooleanField(default=False, verbose_name=_("E-mail visible"), help_text=_("Whether to display your email address on your profile page."))
-    bio = models.TextField(verbose_name=_("Bio"), **nullblank)
-    picture = models.ImageField(upload_to="users", verbose_name=_("Picture"), **nullblank)
+    bio = models.TextField(verbose_name=_("Bio"), null=True, blank=True)
+    picture = models.ImageField(upload_to="users", verbose_name=_("Picture"), null=True, blank=True)
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
     # User settings
+    email_wanted = models.BooleanField(default=False, verbose_name=_('Consent for sending email'), help_text=_('Whether to consent to receiving notifications via email.'))
     language = models.CharField(max_length=6, default='en', choices=settings.LANGUAGES, verbose_name=_("Language"))
     topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 

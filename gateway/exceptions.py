@@ -1,0 +1,2 @@
+class IcePirateException(Exception):
+    pass
