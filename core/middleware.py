@@ -101,7 +101,7 @@ class SamlMiddleware(object):
 
     def process_response(self, request, response):
 
-        if hasattr(settings, 'SAML_1'):
+        if hasattr(settings, 'SAML_1') and hasattr(request, 'user'):
             logged_in = request.user.is_authenticated()
             verified = request.user.userprofile.verified if logged_in else False
             just_logged_in = (
@@ -114,3 +114,4 @@ class SamlMiddleware(object):
                 return redirect('/accounts/login-or-saml-redirect/')
 
             return response
+        return response
