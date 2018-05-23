@@ -137,7 +137,7 @@ def configure_external_member_db(user, create_if_missing=False):
 
     remote_object = json.loads(
         requests.get(
-            '%s/member/api/get/ssn/%s' % (url, user.userprofile.verified_ssn),
+            '%s/member/api/get/ssn/%s/' % (url, user.userprofile.verified_ssn),
             params=user_post_data
         ).text
     )
