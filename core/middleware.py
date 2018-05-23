@@ -81,12 +81,10 @@ class SamlMiddleware(object):
 
         if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
 
-            # I was here. exclude_urls doesn't seem to work.
             if hasattr(settings, 'SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST'):
                 exclude_urls = settings.SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST
             else:
                 exclude_urls = []
-            print 'Excludes: %s' % exclude_urls
 
             # Short-hands.
             path_ok = request.path_info in [
