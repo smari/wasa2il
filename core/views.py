@@ -36,6 +36,7 @@ from core.models import UserProfile
 from core.forms import UserProfileForm
 from core.forms import Wasa2ilRegistrationForm
 from core.saml import authenticate, SamlException
+from core.signals import user_verified
 from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
 from election.models import Election
@@ -44,7 +45,6 @@ from issue.models import Document
 from issue.models import DocumentContent
 from issue.models import Issue
 from polity.models import Polity
-from gateway.icepirate import configure_external_member_db
 from topic.models import Topic
 
 from hashlib import sha1
@@ -213,27 +213,6 @@ def view_settings(request):
     return render(request, "settings.html", ctx)
 
 
-class Wasa2ilLoginView(LoginView):
-    def form_valid(self, form):
-        """Security check complete. Log the user in."""
-        auth_login(self.request, form.get_user())
-
-        # Make sure that profile exists
-        try:
-            UserProfile.objects.get(user=self.request.user)
-        except UserProfile.DoesNotExist:
-            profile = UserProfile()
-            profile.user = self.request.user
-            profile.save()
-
-        self.request.session[LANGUAGE_SESSION_KEY] = self.request.user.userprofile.language
-
-        if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
-            configure_external_member_db(self.request.user, create_if_missing=False)
-
-        return HttpResponseRedirect(self.get_success_url())
-
-
 class Wasa2ilRegistrationView(RegistrationView):
 
     form_class = Wasa2ilRegistrationForm
@@ -244,8 +223,7 @@ class Wasa2ilRegistrationView(RegistrationView):
 
         new_user_instance = form.save()
 
-        # Create user profile and configure according to registration data.
-        userprofile = UserProfile(user=new_user_instance)
+        userprofile = new_user_instance.userprofile
         userprofile.email_wanted = form['email_wanted'].value() == 'True'
         userprofile.save()
 
@@ -315,8 +293,7 @@ def verify(request):
     profile.verified_timing = datetime.now()
     profile.save()
 
-    if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
-        configure_external_member_db(request.user, create_if_missing=True)
+    user_verified.send(sender=request.user.__class__, user=request.user, request=request)
 
     return HttpResponseRedirect('/')
 

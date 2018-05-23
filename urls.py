@@ -27,12 +27,9 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('polity.urls')),
     url(r'^', include('topic.urls')),
-    # Gateway
-    url(r'^gateway/', include('gateway.urls')),
 
     url(r'^accounts/profile/(?:(?P<username>[^/]+)/)?$', core_views.profile, name='profile'),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
-    url(r'^accounts/login/', core_views.Wasa2ilLoginView.as_view()),
     url(r'^accounts/sso/', core_views.sso),
     url(r'^accounts/register/$', core_views.Wasa2ilRegistrationView.as_view(), name='registration_register'),
 
