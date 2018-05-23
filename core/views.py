@@ -228,10 +228,6 @@ class Wasa2ilLoginView(LoginView):
 
         self.request.session[LANGUAGE_SESSION_KEY] = self.request.user.userprofile.language
 
-        if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
-            if not self.request.user.userprofile.verified:
-                return HttpResponseRedirect(settings.SAML_1['URL'])
-
         if hasattr(settings, 'ICEPIRATE'): # Is IcePirate support enabled?
             configure_external_member_db(self.request.user, create_if_missing=False)
 
@@ -323,6 +319,23 @@ def verify(request):
         configure_external_member_db(request.user, create_if_missing=True)
 
     return HttpResponseRedirect('/')
+
+
+@login_required
+def login_or_saml_redirect(request):
+    '''
+    Check if user is verified. If so, redirect to the specified login
+    redirection page. Otherwise, redirect to the SAML login page for
+    verification. This is done in a view instead of redirecting straight from
+    SamlMiddleware so that other login-related middleware can be allowed to do
+    their thing before the SAML page, most notably TermsAndConditions, which
+    we want immediately following the login, before verification.
+    '''
+    if request.user.userprofile.verified:
+        return settings.LOGIN_REDIRECT_URL
+    else:
+        return redirect(settings.SAML_1['URL'])
+
 
 @login_required
 def sso(request):

@@ -111,10 +111,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'core.middleware.UserSettingsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'core.middleware.GlobalsMiddleware',
+    'core.middleware.AutoLogoutMiddleware',
     'termsandconditions.middleware.TermsAndConditionsRedirectMiddleware',
+    'core.middleware.SamlMiddleware',
 )
 try:
     MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
@@ -237,6 +238,10 @@ TERMS_EXCLUDE_URL_PREFIX_LIST = (
     '/accounts/login/',
     '/accounts/logout/',
     '/accounts/verify/',
+)
+
+SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST = (
+    '/terms/',
 )
 
 AUTH_PROFILE_MODULE = "core.UserProfile"
