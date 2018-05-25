@@ -212,13 +212,13 @@ def view_settings(request):
         else:
             print "FAIL!"
             ctx["form"] = form
-            return render(request, "settings.html", ctx)
+            return render(request, 'accounts/settings.html', ctx)
 
     else:
         form = UserProfileForm(initial={'email': request.user.email}, instance=UserProfile.objects.get(user=request.user))
 
     ctx["form"] = form
-    return render(request, "settings.html", ctx)
+    return render(request, 'accounts/settings.html', ctx)
 
 
 class Wasa2ilRegistrationView(RegistrationView):
