@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-22 23:06+0000\n"
+"POT-Creation-Date: 2018-05-25 22:28+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -10,43 +10,35 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: core/base_classes.py:8 core/models.py:40 election/models.py:28
-#: issue/models.py:25 issue/models.py:256 issue/models.py:309
+#: issue/models.py:25 issue/models.py:259 issue/models.py:312
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
 #: wasa2il/templates/issue/document_detail.html:118
 msgid "Name"
 msgstr "Nafn"
 
-#: core/forms.py:22
-msgid "E-mail"
-msgstr "Netfang"
-
-#: core/forms.py:22
-msgid "The email address you'd like to use for the site."
-msgstr "Netfangið sem þú vilt nota á vefnum."
-
-#: core/forms.py:23 core/models.py:42
+#: core/forms.py:26 core/models.py:42
 msgid "Bio"
 msgstr "Saga"
 
-#: core/forms.py:40
+#: core/forms.py:44
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/forms.py:47 wasa2il/templates/issue/_agreements.html:6
+#: core/forms.py:51 wasa2il/templates/issue/_agreements.html:6
 #: wasa2il/templates/issue/_agreements_list.html:24
 #: wasa2il/templates/issue/issue_detail.html:93
 #: wasa2il/templates/issue/issue_detail.html:128
 msgid "Yes"
 msgstr "Já"
 
-#: core/forms.py:47 wasa2il/templates/issue/_agreements.html:7
+#: core/forms.py:51 wasa2il/templates/issue/_agreements.html:7
 #: wasa2il/templates/issue/_agreements_list.html:27
 #: wasa2il/templates/issue/issue_detail.html:100
 #: wasa2il/templates/issue/issue_detail.html:130
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:49 core/models.py:47
+#: core/forms.py:53 core/models.py:47
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
@@ -68,7 +60,7 @@ msgstr "Mynd"
 
 #: core/models.py:47
 msgid "Whether to consent to receiving notifications via email."
-msgstr ""
+msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
 #: core/models.py:48
 msgid "Language"
@@ -118,7 +110,7 @@ msgstr "Þing frambjóðenda"
 msgid "Membership deadline"
 msgstr "Skráningarmörk kjósenda"
 
-#: election/models.py:59 wasa2il/templates/base.html:126
+#: election/models.py:59 wasa2il/templates/base.html:127
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
@@ -269,39 +261,39 @@ msgstr "Reglur"
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: issue/models.py:250
+#: issue/models.py:253
 msgid "Policy"
 msgstr "Stefna"
 
-#: issue/models.py:251
+#: issue/models.py:254
 msgid "Bylaw"
 msgstr "Lög"
 
-#: issue/models.py:252
+#: issue/models.py:255
 msgid "Motion"
 msgstr "Ályktun"
 
-#: issue/models.py:253
+#: issue/models.py:256
 msgid "Other"
 msgstr "Annað"
 
-#: issue/models.py:317
+#: issue/models.py:320
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: issue/models.py:318 wasa2il/templates/issue/_issues_recent_table.html:31
+#: issue/models.py:321 wasa2il/templates/issue/_issues_recent_table.html:31
 #: wasa2il/templates/issue/issue_detail.html:106
 #: wasa2il/templates/issue/issues.html:52
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: issue/models.py:319 wasa2il/templates/issue/_issues_recent_table.html:33
+#: issue/models.py:322 wasa2il/templates/issue/_issues_recent_table.html:33
 #: wasa2il/templates/issue/issue_detail.html:106
 #: wasa2il/templates/issue/issues.html:54
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: issue/models.py:320
+#: issue/models.py:323
 msgid "Deprecated"
 msgstr "Úrelt"
 
@@ -493,7 +485,7 @@ msgstr "Vista"
 #: wasa2il/templates/issue/document_detail.html:148
 #: wasa2il/templates/registration/password_change_form.html:18
 #: wasa2il/templates/registration/password_reset_form.html:21
-#: wasa2il/templates/registration/registration_form.html:36
+#: wasa2il/templates/registration/registration_form.html:33
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -581,6 +573,57 @@ msgstr "Mín síða"
 msgid "User's tasks"
 msgstr "Verk notanda"
 
+#: wasa2il/templates/accounts/personal_data.html:11
+#: wasa2il/templates/base.html:82
+msgid "Personal data"
+msgstr "Persónugögn"
+
+#: wasa2il/templates/accounts/personal_data.html:12
+msgid "This page is dedicated to your personal data."
+msgstr "Þessi síða er tileinkuð persónugögnum þínum."
+
+#: wasa2il/templates/accounts/personal_data.html:13
+msgid ""
+"You own your personal data. We are ideologicaly committed to the protection "
+"and responsible use of your personal data. We avoid collecting personal data "
+"unless we see a good reason to. We do not share it with others without your "
+"informed consent, unless forced to by law, and then only after having made "
+"sure that we absolutely need to."
+msgstr ""
+"Þú átt persónugögnin þín. Okkar hugmyndafræði gengur út á að persónugögn séu "
+"vel vernduð og meðhöndluð af ábyrgð. Við forðumst að safna persónugögnum "
+"nema við sjáum góða ástæðu til. Við deilum ekki þeim ekki með öðrum án "
+"upplýsts samþykkis þíns nema landslög krefji og þá einungis eftir að hafa "
+"gengið úr skugga um að við séum algjörlega tilneydd."
+
+#: wasa2il/templates/accounts/personal_data.html:18
+#: wasa2il/templates/accounts/personal_data.html:22
+msgid "Retrieve personal data"
+msgstr "Sækja persónugögn"
+
+#: wasa2il/templates/accounts/personal_data.html:19
+msgid ""
+"This option allows you to download all personal data about you that we have "
+"in our possession, in an open and commonly used format."
+msgstr ""
+"Þessi valmöguleiki gerir þér kleift að niðurhala öllum persónugögnum sem við "
+"höfum um þig í opnu og algengu skráasniði."
+
+#: wasa2il/templates/accounts/settings.html:8
+#: wasa2il/templates/registration/password_change_done.html:6
+#: wasa2il/templates/registration/password_change_form.html:6
+msgid "Change password"
+msgstr "Breyta lykilorði"
+
+#: wasa2il/templates/accounts/settings.html:11
+#: wasa2il/templates/polity/polity_detail.html:18
+msgid "Settings"
+msgstr "Stillingar"
+
+#: wasa2il/templates/accounts/settings.html:12
+msgid "You are signed in as"
+msgstr "Þú ert innskráð(ur) sem"
+
 #: wasa2il/templates/base.html:8
 msgid "Voting System - Pirate Party Iceland"
 msgstr "Kosningakerfi Pírata"
@@ -607,38 +650,38 @@ msgstr "Mín síða"
 msgid "My settings"
 msgstr "Stillingar"
 
-#: wasa2il/templates/base.html:83
+#: wasa2il/templates/base.html:84
 #: wasa2il/templates/registration/verification_invalid_entity.html:17
 #: wasa2il/templates/registration/verification_needed.html:12
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:49
 msgid "Logout"
 msgstr "Útskrá"
 
-#: wasa2il/templates/base.html:87 wasa2il/templates/registration/login.html:11
+#: wasa2il/templates/base.html:88 wasa2il/templates/registration/login.html:11
 #: wasa2il/templates/registration/logout.html:16
 #: wasa2il/templates/registration/password_reset_complete.html:13
 msgid "Log in"
 msgstr "Innskrá"
 
-#: wasa2il/templates/base.html:88 wasa2il/templates/registration/login.html:30
+#: wasa2il/templates/base.html:89 wasa2il/templates/registration/login.html:30
 #: wasa2il/templates/registration/registration_form.html:11
-#: wasa2il/templates/registration/registration_form.html:35
+#: wasa2il/templates/registration/registration_form.html:32
 msgid "Sign up"
 msgstr "Nýskrá"
 
-#: wasa2il/templates/base.html:124
+#: wasa2il/templates/base.html:125
 msgid "About wasa2il"
 msgstr "Um wasa2il"
 
-#: wasa2il/templates/base.html:125
+#: wasa2il/templates/base.html:126
 msgid "License"
 msgstr "Notandaleyfi"
 
-#: wasa2il/templates/base.html:127 wasa2il/templates/help/is/authors.html:6
+#: wasa2il/templates/base.html:128 wasa2il/templates/help/is/authors.html:6
 msgid "Authors"
 msgstr "Höfundar"
 
-#: wasa2il/templates/base.html:128
+#: wasa2il/templates/base.html:129
 #: wasa2il/templates/issue/stub/document_view.html:93
 #: wasa2il/templates/issue/stub/document_view.html:95
 #: wasa2il/templates/profile/proposals.html:30
@@ -1901,11 +1944,6 @@ msgstr "Tillögu þessari hefur verið hafnað með atkvæðagreiðslu."
 msgid "This proposal is deprecated. A newer version has taken effect."
 msgstr "Þessi tillaga er úreld. Nýrri útgáfa hefur tekið gildi."
 
-#: wasa2il/templates/polity/polity_detail.html:18
-#: wasa2il/templates/settings.html:11
-msgid "Settings"
-msgstr "Stillingar"
-
 #: wasa2il/templates/polity/polity_detail.html:24
 msgid "New issues"
 msgstr "Ný mál"
@@ -2194,12 +2232,6 @@ msgstr ""
 msgid "We hope you'll be back soon. It'd be fun!"
 msgstr "Við vonum að þú komir fljótt aftur! Það væri gaman!"
 
-#: wasa2il/templates/registration/password_change_done.html:6
-#: wasa2il/templates/registration/password_change_form.html:6
-#: wasa2il/templates/settings.html:8
-msgid "Change password"
-msgstr "Breyta lykilorði"
-
 #: wasa2il/templates/registration/password_change_done.html:9
 #: wasa2il/templates/registration/password_reset_complete.html:9
 msgid "Success! Your password has been changed."
@@ -2404,10 +2436,6 @@ msgstr "Vinsamlegast veljið einn eftirfarandi valmöguleika"
 #: wasa2il/templates/registration/verification_needed.html:11
 msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
-
-#: wasa2il/templates/settings.html:12
-msgid "You are signed in as"
-msgstr "Þú ert innskráð(ur) sem"
 
 #: wasa2il/templates/tasks/task_add_edit.html:12
 #: wasa2il/templates/tasks/task_list.html:13
@@ -2677,6 +2705,15 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
+
+#~ msgid "Information from member registry."
+#~ msgstr "Upplýsingar úr félagatali."
+
+#~ msgid "E-mail"
+#~ msgstr "Netfang"
+
+#~ msgid "The email address you'd like to use for the site."
+#~ msgstr "Netfangið sem þú vilt nota á vefnum."
 
 #~ msgid "New discussions"
 #~ msgstr "Nýjar umræður"
