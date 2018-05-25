@@ -46,6 +46,8 @@ from issue.models import Issue
 from polity.models import Polity
 from topic.models import Topic
 
+from gateway.utils import update_member
+
 from languagecontrol.utils import set_language
 
 from hashlib import sha1
@@ -200,6 +202,11 @@ def view_settings(request):
                 p = request.user.userprofile
                 p.picture.name = filename
                 p.save()
+
+            if hasattr(settings, 'ICEPIRATE'):
+                # The request.user object doesn't yet reflect recently made
+                # changes, so we need to ask the database explicitly.
+                update_member(User.objects.get(id=request.user.id))
 
             return HttpResponseRedirect("/accounts/profile/")
         else:
