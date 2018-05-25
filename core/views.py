@@ -27,7 +27,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils.translation import ugettext as _
-from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.encoding import force_bytes
 from django.views.decorators.cache import never_cache
 
@@ -46,6 +45,8 @@ from issue.models import DocumentContent
 from issue.models import Issue
 from polity.models import Polity
 from topic.models import Topic
+
+from languagecontrol.utils import set_language
 
 from hashlib import sha1
 
@@ -181,7 +182,7 @@ def view_settings(request):
             #request.user.save()
             form.save()
 
-            request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
+            set_language(request, form.cleaned_data['language'])
 
             if 'picture' in request.FILES:
                 f = request.FILES.get("picture")
