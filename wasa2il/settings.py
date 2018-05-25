@@ -105,7 +105,7 @@ STATICFILES_FINDERS = (
 MIDDLEWARE_CLASSES = (
     'cookiesdirective.middleware.CookiesDirectiveMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'core.middleware.IgnoreHTTPAcceptLanguageMiddleware',
+    'languagecontrol.middleware.LanguageControlMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -171,6 +171,8 @@ INSTALLED_APPS = (
     'crispy_forms',
     'prosemirror',
     'termsandconditions',
+
+    'languagecontrol',
 
     'core',
     'polity',

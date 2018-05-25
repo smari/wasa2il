@@ -89,7 +89,7 @@ def apply_member_locally(member, user):
     # Add user to polities according to remote user's groups, as well as
     # front polity, if one is designated.
     membership_polities = Polity.objects.filter(
-        Q(slug__in=member['groups'])
+        Q(slug__in=member['groups'].keys())
         | Q(is_front_polity=True)
     )
     for polity in membership_polities:
@@ -99,7 +99,7 @@ def apply_member_locally(member, user):
     non_membership_polities = Polity.objects.exclude(
         Q(slug=None)
         | Q(slug='')
-        | Q(slug__in=member['groups'])
+        | Q(slug__in=member['groups'].keys())
         | Q(is_front_polity=True)
     ).filter(members=user)
     for polity in non_membership_polities:

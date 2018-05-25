@@ -1,8 +1,13 @@
 
+
 from datetime import datetime, timedelta
 from xml.etree.ElementTree import ParseError
-import os.path
+import contextlib
 import json
+import os
+import shutil
+import tempfile
+import zipfile
 
 # for Discourse SSO support
 import base64
@@ -16,6 +21,7 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
 from django.http import Http404
@@ -26,8 +32,8 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
+from django.utils import timezone
 from django.utils.translation import ugettext as _
-from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.encoding import force_bytes
 from django.views.decorators.cache import never_cache
 
@@ -46,6 +52,11 @@ from issue.models import DocumentContent
 from issue.models import Issue
 from polity.models import Polity
 from topic.models import Topic
+
+from gateway.utils import get_member
+from gateway.utils import update_member
+
+from languagecontrol.utils import set_language
 
 from hashlib import sha1
 
@@ -181,7 +192,7 @@ def view_settings(request):
             #request.user.save()
             form.save()
 
-            request.session[LANGUAGE_SESSION_KEY] = request.user.userprofile.language
+            set_language(request, form.cleaned_data['language'])
 
             if 'picture' in request.FILES:
                 f = request.FILES.get("picture")
@@ -200,17 +211,243 @@ def view_settings(request):
                 p.picture.name = filename
                 p.save()
 
+            if hasattr(settings, 'ICEPIRATE'):
+                # The request.user object doesn't yet reflect recently made
+                # changes, so we need to ask the database explicitly.
+                update_member(User.objects.get(id=request.user.id))
+
             return HttpResponseRedirect("/accounts/profile/")
         else:
             print "FAIL!"
             ctx["form"] = form
-            return render(request, "settings.html", ctx)
+            return render(request, 'accounts/settings.html', ctx)
 
     else:
         form = UserProfileForm(initial={'email': request.user.email}, instance=UserProfile.objects.get(user=request.user))
 
     ctx["form"] = form
-    return render(request, "settings.html", ctx)
+    return render(request, 'accounts/settings.html', ctx)
+
+
+@login_required
+def personal_data(request):
+    ctx = {
+    }
+    return render(request, 'accounts/personal_data.html', ctx)
+
+
+@login_required
+def personal_data_fetch(request):
+
+    # First... a bunch of functions to make our lives easier.
+
+    @contextlib.contextmanager
+    def cd(newdir, cleanup=lambda: True):
+        prevdir = os.getcwd()
+        os.chdir(os.path.expanduser(newdir))
+        try:
+            yield
+        finally:
+            os.chdir(prevdir)
+            cleanup()
+
+    @contextlib.contextmanager
+    def tempdir():
+        dirpath = tempfile.mkdtemp()
+        def cleanup():
+            shutil.rmtree(dirpath)
+        with cd(dirpath, cleanup):
+            yield dirpath
+
+    # Turns an issue model into JSON in a consistent manner.
+    def jsonize_issue(issue):
+        # It is wise to use .select_related('polity') in the input issue.
+        issue_data = {
+            'name': issue.name,
+            'polity': issue.polity.slug,
+            'polity_name': issue.polity.name,
+            'issue_num': '%d/%d' % (issue.issue_num, issue.issue_year),
+            'state': issue.issue_state(),
+            'created': issue.created.strftime(dt_format),
+            'ended': issue.deadline_votes.strftime(dt_format),
+        }
+
+        # We only include this field if the issue has been processed because
+        # otherwise it's misleading.
+        if issue.is_processed:
+            issue_data['majority_reached'] = issue.majority_reached()
+
+        return issue_data
+
+    # Helper function for writing the JSON in a consistent manner, preferably
+    # in a way that is both machine-readable and human-readable.
+    def write_json(filename, data):
+        with open(filename, 'w') as f:
+
+            output = json.dumps(
+                data,
+                indent=4,
+                sort_keys=True,
+                ensure_ascii=False
+            ).encode('utf-8')
+
+            f.write(output)
+            f.close()
+
+    # A function that imitates "zip -r <zipfile> <directory>".
+    # Provided in an answer from George V. Reilly, here:
+    # https://stackoverflow.com/questions/1855095/how-to-create-a-zip-archive-of-a-directory
+    def make_zipfile(output_filename, source_dir):
+        relroot = os.path.abspath(os.path.join(source_dir, os.pardir))
+        with zipfile.ZipFile(output_filename, 'w', zipfile.ZIP_DEFLATED) as zip:
+            for root, dirs, files in os.walk(source_dir):
+                zip.write(root, os.path.relpath(root, relroot))
+                for file in files:
+                    filename = os.path.join(root, file)
+                    if os.path.isfile(filename):
+                        arcname = os.path.join(os.path.relpath(root, relroot), file)
+                        zip.write(filename, arcname)
+
+    # Short-hands.
+    user = request.user
+    profile = user.userprofile
+
+    # This is what we will eventually return, if everything goes well.
+    package_data = None
+
+    # The format we want for datetime objects. Note that a different format is
+    # used in the resulting file name, because it needs to be filesystem-compatible.
+    dt_format = '%Y-%m-%dT%H:%M:%S'
+
+    # This temporary directory will be destroyed once we're done, even if
+    # something fails, which is important because personal information is
+    # being written to disk that should not stay there indefinitely. It should
+    # only exist for the time needed to package it in a zip file and deliver
+    # it to the user. This is a precaution; the file is still created in an
+    # area that should be safe.
+    with tempdir() as tmp_path:
+        package_name = 'Personal-data.%s.%s' % (
+            user.username,
+            # Not the same datetime format as used in the files themselves,
+            # because this needs to be filesystem-compatible.
+            timezone.now().strftime('%Y-%m-%d.%H-%M-%S')
+        )
+        os.mkdir(package_name)
+        os.chdir(package_name)
+
+        # We are now working within the temporary package directory.
+
+        # Compile information about user's participation in elections.
+        elections = Election.objects.select_related(
+            'polity'
+        ).filter(
+            candidate__user_id=user.id
+        ).order_by(
+            'deadline_candidacy'
+        )
+        election_export = []
+        for election in elections:
+
+            if election.results_are_ordered:
+                user_place = election.result.rows.get(candidate__user_id=user.id).order
+            else:
+                if election.result.rows.filter(candidate__user_id=user.id).exists():
+                    user_place = 'selected'
+                else:
+                    user_place = 'not-selected'
+
+            election_export.append({
+                'name': election.name,
+                'started': election.deadline_candidacy.strftime(dt_format),
+                'ended': election.deadline_votes.strftime(dt_format),
+                'polity_name': election.polity.name,
+                'result_type': 'ordered' if election.results_are_ordered else 'not-ordered',
+                'user_place': user_place,
+            })
+        write_json('elections.json', election_export)
+
+        # Compile user information from Wasa2il itself.
+        person_export = {
+            'username': user.username,
+            'email': user.email,
+            'email_wanted': profile.email_wanted,
+            'last_login': user.last_login.strftime(dt_format),
+            'display_name': profile.displayname,
+            'verified_ssn': profile.verified_ssn,
+            'verified_name': profile.verified_name,
+            'verified_timing': profile.verified_timing.strftime(dt_format),
+            'polities': dict([(p.slug, p.name) for p in user.polities.exclude(is_front_polity=True)]),
+            'date_joined': user.date_joined.strftime(dt_format),
+            'bio': profile.bio,
+        }
+        write_json('voting_system_user.json', person_export)
+
+        # Compile document contents that the user has authorship over. Note
+        # that the content of the document contents are not necessarily from
+        # the user, but is the aggregate result of whatever was before, plus
+        # the work of the user.
+        document_content_export = []
+        for dc in user.documentcontent_set.select_related('document__polity').order_by('created'):
+
+            try:
+                issue = Issue.objects.select_related('polity').get(documentcontent=dc)
+                issue_data = jsonize_issue(issue)
+
+            except Issue.DoesNotExist:
+                issue_data = None
+
+            document_content_export.append({
+                'name': dc.name,
+                'order': dc.order,
+                'author_comment': dc.comments,
+                'status': dc.status,
+                'created': dc.created.strftime(dt_format),
+                'polity': dc.document.polity.slug,
+                'polity_name': dc.document.polity.name,
+                'issue': issue_data,
+                'text': dc.text,
+            })
+        write_json('document_contents.json', document_content_export)
+
+        # Compile comments made by user.
+        comment_export = []
+        for comment in user.comment_created_by.select_related('issue__polity').order_by('created'):
+            comment_export.append({
+                'issue': jsonize_issue(comment.issue),
+                'created': comment.created.strftime(dt_format),
+                'text': comment.comment,
+            })
+        write_json('comments.json', comment_export)
+
+        # Include the user's picture, if available.
+        try:
+            filename = profile.picture.file.name
+            ending = filename.split('.')[-1]
+            shutil.copyfile(filename, 'picture.%s' % ending)
+        except IOError:
+            # File is unavailable for some reason. We'll move on.
+            pass
+
+        # Include data from IcePirate, if enabled.
+        if hasattr(settings, 'ICEPIRATE'):
+            success, member, error = get_member(profile.verified_ssn)
+            write_json('member_registry.json', member)
+
+        # Zip it!
+        os.chdir('..')
+        make_zipfile('%s.zip' % package_name, package_name)
+
+        # Get the content for delivery, before it vanishes.
+        with open('%s.zip' % package_name, 'r') as f:
+            package_data = f.read()
+
+    # At this point, the local temporary files should have been deleted, even
+    # if an error has occurred.
+
+    # Push the content to the user as a zip file for download.
+    response = HttpResponse(package_data, content_type='application/zip')
+    response['Content-Disposition'] = 'attachment; filename=%s.zip' % package_name
+    return response
 
 
 class Wasa2ilRegistrationView(RegistrationView):

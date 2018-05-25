@@ -46,14 +46,6 @@ class GlobalsMiddleware():
         request.globals = global_vars
 
 
-# Put this middleware before LocaleMiddleware to ignore HTTP_ACCEPT_LANGUAGE
-# set by the browser and fall back to settings.LANGUAGE_CODE instead.
-class IgnoreHTTPAcceptLanguageMiddleware(object):
-    def process_request(self, request):
-        if request.META.has_key('HTTP_ACCEPT_LANGUAGE'):
-            del request.META['HTTP_ACCEPT_LANGUAGE']
-
-
 # Middleware for automatically logging out a user once AUTO_LOGOUT_DELAY
 # seconds have been reached without activity.
 class AutoLogoutMiddleware():

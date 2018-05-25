@@ -27,8 +27,8 @@ class UserProfileForm(Wasa2ilForm):
 
     class Meta:
         model = UserProfile
-        #fields = ('displayname', 'email', 'picture', 'bio', 'language')
-        fields = ('displayname', 'picture', 'bio', 'language')
+        #fields = ('displayname', 'email', 'picture', 'bio', 'language', 'email_wanted')
+        fields = ('displayname', 'picture', 'bio', 'language', 'email_wanted')
 
     # We need to keep the 'request' object for certain kinds of validation ('picture' in this case)
     def __init__(self, *args, **kwargs):

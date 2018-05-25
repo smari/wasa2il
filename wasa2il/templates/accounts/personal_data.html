@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<section class="content">
+
+<div class="row">
+<div class="col-md-6">
+
+    <h1>{% trans 'Personal data' %}</h1>
+    <p>{% trans 'This page is dedicated to your personal data.' %}</p>
+    <p>{% trans 'You own your personal data. We are ideologicaly committed to the protection and responsible use of your personal data. We avoid collecting personal data unless we see a good reason to. We do not share it with others without your informed consent, unless forced to by law, and then only after having made sure that we absolutely need to.' %}</p>
+
+</div>
+<div class="col-md-6">
+
+    <h2>{% trans 'Retrieve personal data' %}</h2>
+    <p>{% trans 'This option allows you to download all personal data about you that we have in our possession, in an open and commonly used format.' %}</p>
+    <p>
+        <a href="{% url 'personal_data_fetch' %}" class="btn btn-default" role="button">
+            {% trans 'Retrieve personal data' %}
+        </a>
+    </p>
+
+</div>
+</div>
+
+</section>
+{% endblock %}
+
