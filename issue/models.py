@@ -193,6 +193,9 @@ class Issue(models.Model):
             return []
 
     def majority_reached(self):
+        if not self.issue_state() == 'concluded' or not self.is_processed:
+            return False
+
         result = False
 
         if self.special_process == 'accepted_at_assembly':
