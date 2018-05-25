@@ -30,6 +30,9 @@ urlpatterns = [
 
     url(r'^accounts/profile/(?:(?P<username>[^/]+)/)?$', core_views.profile, name='profile'),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
+    url(r'^accounts/personal-data/fetch/', core_views.personal_data_fetch, name='personal_data_fetch'),
+    url(r'^accounts/personal-data/', core_views.personal_data, name='personal_data'),
+
     url(r'^accounts/sso/', core_views.sso),
     url(r'^accounts/register/$', core_views.Wasa2ilRegistrationView.as_view(), name='registration_register'),
 
