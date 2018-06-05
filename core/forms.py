@@ -42,6 +42,14 @@ class UserProfileForm(Wasa2ilForm):
         if picture:
             if picture.name.find('.') == -1:
                 raise ValidationError(_('Filename must contain file extension'))
+            else:
+                ext = picture.name.split('.')[-1].lower()
+                allowed_exts = ['jpg', 'jpeg', 'png', 'gif']
+                if ext not in allowed_exts:
+                    raise ValidationError(u'%s: %s' % (
+                        _('Only the following file endings are allowed'),
+                        ', '.join(allowed_exts)
+                    ))
 
         return data
 

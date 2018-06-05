@@ -33,6 +33,12 @@ DATABASES = {
     }
 }
 
+# Deal with MySQL weirdness.
+if DATABASE_ENGINE == 'django.db.backends.mysql':
+    if not 'OPTIONS' in DATABASES['default']:
+        DATABASES['default']['OPTIONS'] = {}
+    DATABASES['default']['OPTIONS']['sql_mode'] = 'STRICT_TRANS_TABLES'
+
 try:
     # Check for env var $DATABASE_URL (for Heroku)
     db_url = os.environ['DATABASE_URL']

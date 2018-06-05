@@ -45,6 +45,7 @@ from core.saml import authenticate, SamlException
 from core.signals import user_verified
 from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
+from core.utils import random_word
 from election.models import Election
 from issue.forms import DocumentForm
 from issue.models import Document
@@ -180,9 +181,12 @@ def user_proposals(request, username=None):
 
 @login_required
 def view_settings(request):
-    ctx = {}
+
+    # Short-hands.
+    profile = request.user.userprofile
+
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request=request, instance=UserProfile.objects.get(user=request.user))
+        form = UserProfileForm(request.POST, request=request, instance=profile)
         if form.is_valid():
             # FIXME/TODO: When a user changes email addresses, there is
             # currently no functionality to verify the new email address.
@@ -195,37 +199,99 @@ def view_settings(request):
             set_language(request, form.cleaned_data['language'])
 
             if 'picture' in request.FILES:
-                f = request.FILES.get("picture")
-                m = sha1()
-                m.update(force_bytes(request.user.username))
-                hash = m.hexdigest()
-                ext = f.name.split(".")[1] # UserProfileForm.clean_picture() makes sure this is safe.
-                filename = "userimg_%s.%s" % (hash, ext)
-                path = settings.MEDIA_ROOT + "/" + filename
-                #url = settings.MEDIA_URL + filename
+
+                in_file = request.FILES.get('picture')
+
+                # UserProfileForm makes sure that this works.
+                extension = in_file.name.split('.')[-1]
+
+                # A function for generating a new filename relative to upload
+                # directory, returning both that and a full path as well.
+                def new_full_name(extension):
+                    # Filename relative to the uploads directory.
+                    filename = os.path.join(
+                        UserProfile.picture.field.upload_to,
+                        'userimg_%s.%s' % (random_word(12), extension)
+                    )
+
+                    # Full path of the image on disk.
+                    fullpath = os.path.join(settings.MEDIA_ROOT, filename)
+
+                    return filename, fullpath
+
+                # We'll generate a random filename until we find one that
+                # isn't already in use. (Almost certainly, the first attempt
+                # will do just fine.)
+                filename, path = new_full_name(extension)
+                while os.path.isfile(path):
+                    filename, path = new_full_name(extension)
+
+                # Write the picture to disk.
                 pic = open(path, 'wb+')
-                for chunk in f.chunks():
+                for chunk in in_file.chunks():
                     pic.write(chunk)
                 pic.close()
-                p = request.user.userprofile
-                p.picture.name = filename
-                p.save()
+
+                # Save the picture's name in the profile.
+                profile.picture.name = filename
+                profile.save()
+
+                # Cleanup time!
+
+                # First, find picture files used by any profile.
+                db_pictures = [up['picture'] for up in UserProfile.objects.all().values('picture').distinct()]
+
+                # Paths of profile pictures are denoted relative to the
+                # settings.MEDIA_ROOT directory. The "upload_to" parameter
+                # provided in the "picture" ImageField in the UserProfile
+                # model tells us where exactly, inside settings.MEDIA_ROOT,
+                # the profile pictures can be found. For example, when the
+                # "upload_to" field is "profiles" (as should be the case
+                # here), the filenames denoted in the user profiles should be
+                # something like "profiles/userimg_something.png". This path
+                # is relative to the settings.MEDIA_ROOT directory.
+                upload_to = UserProfile.picture.field.upload_to
+
+                # List the files that are actually in the profile picture
+                # directory and delete them if they are no longer in use.
+                items = os.listdir(os.path.join(settings.MEDIA_ROOT, upload_to))
+                for item in items:
+
+                    # Let's not delete the default image. That would be silly.
+                    if item == 'default.jpg':
+                        continue
+
+                    # We'll use full disk paths for file operations.
+                    item_fullpath = os.path.join(settings.MEDIA_ROOT, upload_to, item)
+
+                    if os.path.isdir(item_fullpath):
+                        # If this is a directory, we are slightly more shy of
+                        # deleting the whole thing, so we'll explicitly check
+                        # if it's a thumbnail directory (ending with
+                        # "-thumbnail"). If it's some random directory of
+                        # unknown origin, we'll leave it alone.
+                        if item[-10:] == '-thumbnail' and os.path.join(upload_to, item[:-10]) not in db_pictures:
+                            shutil.rmtree(item_fullpath)
+                    elif os.path.isfile(item_fullpath):
+                        # If this is a file, and it's not being used in a user
+                        # profile, we'll delete it.
+                        if os.path.join(upload_to, item) not in db_pictures:
+                            os.unlink(item_fullpath)
+
 
             if hasattr(settings, 'ICEPIRATE'):
                 # The request.user object doesn't yet reflect recently made
                 # changes, so we need to ask the database explicitly.
                 update_member(User.objects.get(id=request.user.id))
 
-            return HttpResponseRedirect("/accounts/profile/")
-        else:
-            print "FAIL!"
-            ctx["form"] = form
-            return render(request, 'accounts/settings.html', ctx)
+            return redirect(reverse('profile'))
 
     else:
-        form = UserProfileForm(initial={'email': request.user.email}, instance=UserProfile.objects.get(user=request.user))
+        form = UserProfileForm(initial={'email': request.user.email}, instance=profile)
 
-    ctx["form"] = form
+    ctx = {
+        'form': form,
+    }
     return render(request, 'accounts/settings.html', ctx)
 
 

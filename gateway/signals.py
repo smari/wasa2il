@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 
@@ -17,6 +18,10 @@ def login_sync(sender, user, request, **kwargs):
     When a user logs in, data is retrieved from the remote IcePirate
     membership registry and the local user configured accordingly.
     '''
+
+    # No need for this if IcePirate isn't being used.
+    if not hasattr(settings, 'ICEPIRATE'):
+        return
 
     # No point hitting the API if we don't have an SSN.
     if not user.userprofile.verified_ssn:
@@ -40,6 +45,10 @@ def login_sync(sender, user, request, **kwargs):
 
 @receiver(user_verified)
 def verified_sync(sender, user, request, **kwargs):
+
+    # No need for this if IcePirate isn't being used.
+    if not hasattr(settings, 'ICEPIRATE'):
+        return
 
     success, member, error = get_member(user.userprofile.verified_ssn)
 

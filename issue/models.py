@@ -193,7 +193,7 @@ class Issue(models.Model):
             return []
 
     def majority_reached(self):
-        if not self.issue_state() == 'concluded' or not self.is_processed:
+        if not self.issue_state() == 'concluded':
             return False
 
         result = False

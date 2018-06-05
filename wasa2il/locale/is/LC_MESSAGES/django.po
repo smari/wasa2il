@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-25 22:28+0000\n"
+"POT-Creation-Date: 2018-06-05 09:25+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -9,14 +9,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
-#: core/base_classes.py:8 core/models.py:40 election/models.py:28
+#: core/base_classes.py:8 core/models.py:43 election/models.py:28
 #: issue/models.py:25 issue/models.py:259 issue/models.py:312
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
 #: wasa2il/templates/issue/document_detail.html:118
 msgid "Name"
 msgstr "Nafn"
 
-#: core/forms.py:26 core/models.py:42
+#: core/forms.py:26 core/models.py:45
 msgid "Bio"
 msgstr "Saga"
 
@@ -24,53 +24,57 @@ msgstr "Saga"
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/forms.py:51 wasa2il/templates/issue/_agreements.html:6
+#: core/forms.py:50
+msgid "Only the following file endings are allowed"
+msgstr "Einungis eftirfarandi skráartegundir eru heimilar"
+
+#: core/forms.py:59 wasa2il/templates/issue/_agreements.html:6
 #: wasa2il/templates/issue/_agreements_list.html:24
 #: wasa2il/templates/issue/issue_detail.html:93
 #: wasa2il/templates/issue/issue_detail.html:128
 msgid "Yes"
 msgstr "Já"
 
-#: core/forms.py:51 wasa2il/templates/issue/_agreements.html:7
+#: core/forms.py:59 wasa2il/templates/issue/_agreements.html:7
 #: wasa2il/templates/issue/_agreements_list.html:27
 #: wasa2il/templates/issue/issue_detail.html:100
 #: wasa2il/templates/issue/issue_detail.html:130
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:53 core/models.py:47
+#: core/forms.py:61 core/models.py:50
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
-#: core/models.py:40
+#: core/models.py:43
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:41
+#: core/models.py:44
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:41
+#: core/models.py:44
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:43
+#: core/models.py:46
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:47
+#: core/models.py:50
 msgid "Whether to consent to receiving notifications via email."
 msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
-#: core/models.py:48
+#: core/models.py:51
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:49
+#: core/models.py:52
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
-#: core/templatetags/wasa2il.py:133
+#: core/templatetags/wasa2il.py:143
 msgid "Add comment"
 msgstr "Bæta við ummælum"
 
@@ -535,7 +539,7 @@ msgstr "Mál"
 #: wasa2il/templates/_sidenav_polity.html:41
 #: wasa2il/templates/election/election_list.html:9
 #: wasa2il/templates/election/election_list.html:25
-#: wasa2il/templates/profile/profile.html:68
+#: wasa2il/templates/profile/profile.html:64
 msgid "Elections"
 msgstr "Kosningar"
 
@@ -573,16 +577,16 @@ msgstr "Mín síða"
 msgid "User's tasks"
 msgstr "Verk notanda"
 
-#: wasa2il/templates/accounts/personal_data.html:11
+#: wasa2il/templates/accounts/personal_data.html:10
 #: wasa2il/templates/base.html:82
 msgid "Personal data"
 msgstr "Persónugögn"
 
-#: wasa2il/templates/accounts/personal_data.html:12
+#: wasa2il/templates/accounts/personal_data.html:11
 msgid "This page is dedicated to your personal data."
 msgstr "Þessi síða er tileinkuð persónugögnum þínum."
 
-#: wasa2il/templates/accounts/personal_data.html:13
+#: wasa2il/templates/accounts/personal_data.html:12
 msgid ""
 "You own your personal data. We are ideologicaly committed to the protection "
 "and responsible use of your personal data. We avoid collecting personal data "
@@ -596,12 +600,12 @@ msgstr ""
 "upplýsts samþykkis þíns nema landslög krefji og þá einungis eftir að hafa "
 "gengið úr skugga um að við séum algjörlega tilneydd."
 
-#: wasa2il/templates/accounts/personal_data.html:18
-#: wasa2il/templates/accounts/personal_data.html:22
+#: wasa2il/templates/accounts/personal_data.html:17
+#: wasa2il/templates/accounts/personal_data.html:21
 msgid "Retrieve personal data"
 msgstr "Sækja persónugögn"
 
-#: wasa2il/templates/accounts/personal_data.html:19
+#: wasa2il/templates/accounts/personal_data.html:18
 msgid ""
 "This option allows you to download all personal data about you that we have "
 "in our possession, in an open and commonly used format."
@@ -835,7 +839,7 @@ msgstr "Engar kosningar eru á dagskrá í augnablikinu."
 #: wasa2il/templates/polity/polity_list.html:6
 #: wasa2il/templates/polity/polity_list.html:24
 #: wasa2il/templates/polity/polity_officers_form.html:7
-#: wasa2il/templates/profile/profile.html:45
+#: wasa2il/templates/profile/profile.html:41
 #: wasa2il/templates/topic/topic_detail.html:6
 #: wasa2il/templates/topic/topic_form.html:7
 msgid "Polities"
@@ -1511,7 +1515,7 @@ msgid "What is an agreement?"
 msgstr "Hvað er samþykkt?"
 
 #: wasa2il/templates/help/is/proposal.html:6
-#: wasa2il/templates/profile/profile.html:95
+#: wasa2il/templates/profile/profile.html:91
 msgid "Proposals"
 msgstr "Tillögur"
 
@@ -2029,41 +2033,41 @@ msgstr "Frambjóðandi í:"
 msgid "Biography"
 msgstr "Sjálfslýsing"
 
-#: wasa2il/templates/profile/profile.html:40
+#: wasa2il/templates/profile/profile.html:36
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
-#: wasa2il/templates/profile/profile.html:54
+#: wasa2il/templates/profile/profile.html:50
 msgid "Officer"
 msgstr "Umsjónarmaður"
 
-#: wasa2il/templates/profile/profile.html:56
+#: wasa2il/templates/profile/profile.html:52
 msgid "Volunteer wrangler"
 msgstr ""
 
-#: wasa2il/templates/profile/profile.html:58
+#: wasa2il/templates/profile/profile.html:54
 msgid "Member"
 msgstr "Meðlimur"
 
-#: wasa2il/templates/profile/profile.html:63
+#: wasa2il/templates/profile/profile.html:59
 #, python-format
 msgid "%(user)s is not a member of any polities."
 msgstr "%(user)s er ekki meðlimur neins þings."
 
-#: wasa2il/templates/profile/profile.html:79
+#: wasa2il/templates/profile/profile.html:75
 msgid "Winner"
 msgstr "Sigurvegari"
 
-#: wasa2il/templates/profile/profile.html:81
+#: wasa2il/templates/profile/profile.html:77
 msgid "Lost"
 msgstr "Tapaði"
 
-#: wasa2il/templates/profile/profile.html:90
+#: wasa2il/templates/profile/profile.html:86
 #, python-format
 msgid "%(user)s has not run in any elections."
 msgstr "%(user)s hefur ekki boðið sig fram í neinum kosningum."
 
-#: wasa2il/templates/profile/profile.html:110
+#: wasa2il/templates/profile/profile.html:106
 #, python-format
 msgid "%(user)s has not proposed anything."
 msgstr ""

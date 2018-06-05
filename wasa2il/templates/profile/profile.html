@@ -28,11 +28,7 @@
     <div class="profile-bio">
       <h1>{% trans "Biography" %}</h1>
         <div class="profile-picture">
-          {% if profile.picture %}
           <img class="img-thumbnail" src="{{ profile.picture.url }}" />
-          {% else %}
-          <img class="img-thumbnail" src="http://thecatapi.com/api/images/get?format=src" />
-          {% endif %}
         </div>
         {% if profile.bio %}
             {{profile.bio|markdown}}
