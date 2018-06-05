@@ -12,7 +12,10 @@ class Command(BaseCommand):
 
         now = datetime.now()
 
-        unprocessed_issues = Issue.objects.filter(is_processed=False).order_by('deadline_votes', 'id')
+        unprocessed_issues = Issue.objects.filter(
+            deadline_votes__lte=now,
+            is_processed=False
+        ).order_by('deadline_votes', 'id')
 
         for issue in unprocessed_issues:
             issue_name = issue.name.encode('utf-8')
