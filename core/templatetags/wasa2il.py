@@ -48,30 +48,40 @@ def issuevoted(issue, user):
 @register.filter(name="thumbnail")
 def thumbnail(file, size='104x104'):
     try:
-        # defining the size
-        x, y = [int(x) for x in size.split('x')]
-        # defining the filename and the miniature filename
-        filehead, filetail = os.path.split(file.path)
-        basename, format = os.path.splitext(filetail)
-        miniature = basename + '_' + size + '.png'
-        filename = file.path
-        miniature_filename = os.path.join(filehead, miniature)
-        filehead, filetail = os.path.split(file.url)
-        miniature_url = filehead + '/' + miniature
-        if os.path.exists(miniature_filename) and os.path.getmtime(filename) > os.path.getmtime(miniature_filename):
-            os.unlink(miniature_filename)
-        # if the image wasn't already resized, resize it
-        if not os.path.exists(miniature_filename):
-            image = Image.open(filename)
-            processor = SmartResize(width=x, height=y)
-            image = processor.process(image)
-            try:
-                image.save(miniature_filename, 'png', quality=90, optimize=1)
-            except Exception as e:
-                print 'Error: %s' % e
-                image.save(miniature_filename, 'png', quality=90)
 
-        return miniature_url
+        # We will place the thumbnails in a directory alongside the image,
+        # which will be named the same as the image except with "-thumbnail"
+        # appended to it. Within that directory, there will be other images
+        # named according to the requested size, for example "30x30.png" and
+        # so forth. This way, the profile image names are entirely predictable
+        # from the image names alone.
+        thumb_dir = file.path + '-thumbnail'
+
+        # Make sure that the thumbnail directory exists.
+        if not os.path.isdir(thumb_dir):
+            os.mkdir(thumb_dir)
+
+        # Figure out the stand-alone filename ("30x30.png", for example) and
+        # subsequently define the full local path name to the thumbnail and
+        # its corresponding URL.
+        thumb_filename = size + '.png'
+        thumb_fullpath = os.path.join(thumb_dir, thumb_filename)
+        thumb_url = file.url + '-thumbnail/' + thumb_filename
+
+        # Check if the image is newer than the requested thumbnail, and if so,
+        # remove the thumbnail so that it will be regenerated.
+        if os.path.exists(thumb_fullpath) and os.path.getmtime(file.path) > os.path.getmtime(thumb_fullpath):
+            os.unlink(thumb_fullpath)
+
+        # Create the thumbnail if it does not already exist.
+        if not os.path.exists(thumb_fullpath):
+            width, height = [int(dimension) for dimension in size.split('x')]
+            processor = SmartResize(width=width, height=height)
+            image = processor.process(Image.open(file.path))
+            image.save(thumb_fullpath, 'png', quality=90, optimize=True)
+
+        return thumb_url
+
     except Exception as e:
         print 'Error: %s' % e
         return ""

@@ -1,3 +1,6 @@
+import random
+import string
+
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
@@ -38,3 +41,6 @@ def is_ssn_human_or_institution(ssn):
         raise AttributeError('SSN must be numeric and exactly 10 digits long')
 
     return 'institution' if int(ssn[0:2]) > 31 else 'human'
+
+def random_word(length):
+    return ''.join(random.choice(string.lowercase) for i in range(length))
