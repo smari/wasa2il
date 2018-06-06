@@ -9,13 +9,16 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 
-class IssueQuerySet(models.QuerySet):
+class IssueManager(models.Manager):
+    def get_queryset(self):
+        return super(IssueManager, self).get_queryset().filter(archived=False)
+
     def recent(self):
         return self.filter(deadline_votes__gt=timezone.now() - timezone.timedelta(days=settings.RECENT_ISSUE_DAYS))
 
 
 class Issue(models.Model):
-    objects = IssueQuerySet.as_manager()
+    objects = IssueManager()
 
     SPECIAL_PROCESS_CHOICES = (
         ('accepted_at_assembly', _('Accepted at assembly')),
@@ -28,8 +31,8 @@ class Issue(models.Model):
     ))
     slug = models.SlugField(max_length=128, blank=True)
 
-    issue_num = models.IntegerField()
-    issue_year = models.IntegerField()
+    issue_num = models.IntegerField(null=True)
+    issue_year = models.IntegerField(null=True)
 
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True, help_text=_(
         'An issue description is usually just a copy of the proposal\'s description, but you can customize it here if you so wish.'
@@ -77,6 +80,9 @@ class Issue(models.Model):
 
     comment_count = models.IntegerField(default=0)
 
+    # Soft deletion. Recovery of archived items must be done via SQL.
+    archived = models.BooleanField(default=False)
+
     class Meta:
         ordering = ["-deadline_votes"]
         unique_together = ['polity', 'issue_year', 'issue_num']
@@ -102,6 +108,15 @@ class Issue(models.Model):
         else:
             # No transaction needed
             super(Issue, self).save(*args, **kwargs)
+
+    # Soft deletion. Recovery of archived items must be done via SQL.
+    def archive(self):
+        # These need to be None so we don't run into unique-constraints.
+        self.issue_year = None
+        self.issue_num = None
+
+        self.archived = True
+        self.save()
 
     def apply_ruleset(self, now=None):
         now = now or timezone.now()
