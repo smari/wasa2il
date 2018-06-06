@@ -1,13 +1,17 @@
 import markdown2
 
 from django.conf import settings
+from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.timesince import timesince
 
 from diff_match_patch.diff_match_patch import diff_match_patch
 
+from core.ajax.utils import error
 from core.ajax.utils import jsonize
 from core.templatetags.wasa2il import thumbnail
 
@@ -221,4 +225,52 @@ def documentcontent_render_diff(request):
     ctx['target_id'] = target_id
     ctx['diff'] = target.diff(source_id)
 
+    return ctx
+
+
+@login_required
+@jsonize
+def documentcontent_retract(request, documentcontent_id):
+    # Only polity officers and the documentcontent's author are allowed to do this.
+    try:
+        documentcontent = DocumentContent.objects.select_related('issue').distinct().exclude(issue=None).get(
+            Q(user_id=request.user.id) | Q(document__polity__officers__id=request.user.id),
+            id=documentcontent_id
+        )
+    except DocumentContent.DoesNotExist:
+        return error('Access denied')
+
+    # Short-hands.
+    issue = documentcontent.issue
+    now = timezone.now()
+
+    # Issues that have already been processed cannot be retracted, since that
+    # would give proposers and officers the power to remove accepted policy at
+    # their leisure.
+    if issue.is_processed or issue.issue_state() == 'concluded':
+        return error('Access denied')
+
+    # Set the issue's special process and who's responsible for it.
+    issue.special_process = 'retracted'
+    issue.special_process_set_by = request.user
+
+    # Let timings make sense.
+    if issue.deadline_discussions > now:
+        issue.deadline_discussions = now
+    if issue.deadline_proposals > now:
+        issue.deadline_proposals = now
+    if issue.deadline_votes > now:
+        issue.deadline_votes = now
+
+    # Set the documencontent's status.
+    documentcontent.status = 'retracted'
+
+    # Save the state.
+    with transaction.atomic():
+        documentcontent.save()
+        issue.save()
+
+    ctx = {
+        'ok': True,
+    }
     return ctx

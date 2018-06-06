@@ -10,6 +10,7 @@ from issue.dataviews import issue_showclosed
 #from issue.dataviews import document_propose
 from issue.dataviews import document_propose_change
 from issue.dataviews import documentcontent_render_diff
+from issue.dataviews import documentcontent_retract
 from issue.dataviews import render_markdown
 from issue.models import Issue
 from issue.views import document_add
@@ -39,4 +40,5 @@ urlpatterns = [
     url(r'^api/document/render-markdown/$', render_markdown),
 
     url(r'^api/documentcontent/render-diff/$', documentcontent_render_diff),
+    url(r'^api/documentcontent/(?P<documentcontent_id>\d+)/retract/$', documentcontent_retract),
 ]

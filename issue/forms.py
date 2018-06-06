@@ -20,6 +20,7 @@ class IssueForm(Wasa2ilForm):
             'deadline_votes',
             'majority_percentage',
             'is_processed',
+            'special_process_set_by',
             'votecount',
             'votecount_yes',
             'votecount_abstain',

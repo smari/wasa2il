@@ -59,6 +59,7 @@ def issue_add_edit(request, polity_id, issue_id=None, documentcontent_id=None):
             issue = form.save(commit=False)
             issue.apply_ruleset()
             issue.documentcontent = current_content
+            issue.special_process_set_by = request.user if issue.special_process else None
             issue.save()
 
             issue.topics.clear()
@@ -225,9 +226,17 @@ def document_view(request, polity_id, document_id):
         'propose_change': False,
         'put_to_vote': False,
         'edit_proposal': False,
+        'retract_proposal': False,
     }
     if ((not issue or issue.issue_state() != 'voting')
             and current_content is not None):
+
+        # Check if the user should be allowed to retract the issue, which is
+        # at any point in which an issue has been founded but not concluded.
+        # Officers are also allowed to retract on the behalf of users.
+        if issue and issue.issue_state() != 'concluded':
+            buttons['retract_proposal'] = 'enabled'
+
         if current_content.status == 'accepted':
             if request.globals['user_is_member']:
                 buttons['propose_change'] = 'enabled'
