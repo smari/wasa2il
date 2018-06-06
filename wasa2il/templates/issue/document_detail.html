@@ -25,7 +25,10 @@
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {
 
-            var original_text = $('#predecessor-legal-text').val().trim();
+            var original_text = $('#predecessor-legal-text').val()
+            if (original_text) {
+                original_text = original_text.trim();
+            }
 
             $('.document #propose-change').submit(function (e) {
                 input_name = $('#documentcontent-name').val().trim();
