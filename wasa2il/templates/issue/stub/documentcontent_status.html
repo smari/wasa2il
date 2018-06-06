@@ -13,5 +13,7 @@
     <div class="alert alert-danger">{% trans 'This proposal has been rejected by vote.' %}</div>
 {% elif documentcontent.status == 'deprecated' %}
     <div class="alert alert-danger">{% trans 'This proposal is deprecated. A newer version has taken effect.' %}</div>
+{% elif documentcontent.status == 'retracted' %}
+    <div class="alert alert-danger">{% trans 'This proposal has been retracted by its proposer or an officer.' %}</div>
 {% endif %}
 

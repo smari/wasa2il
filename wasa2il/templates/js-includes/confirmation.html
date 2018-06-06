@@ -1,0 +1,15 @@
+{% load static %}
+<script language="javascript" type="text/javascript" src="{% static 'js/bootstrap-confirmation-2.4.1/bootstrap-confirmation.min.js' %}"></script>
+
+<script language="javascript" type="text/javascript">
+
+$(document).ready(function() {
+
+    $('[data-toggle="confirmation"]').confirmation({
+        rootSelector: '[data-toggle="confirmation"]',
+    });
+
+});
+
+</script>
+

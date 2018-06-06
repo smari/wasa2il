@@ -20,6 +20,7 @@ class Issue(models.Model):
     SPECIAL_PROCESS_CHOICES = (
         ('accepted_at_assembly', _('Accepted at assembly')),
         ('rejected_at_assembly', _('Rejected at assembly')),
+        ('retracted', _('Retracted')),
     )
 
     name = models.CharField(max_length=128, verbose_name=_('Name'), help_text=_(
@@ -55,8 +56,24 @@ class Issue(models.Model):
     votecount_abstain = models.IntegerField(default=0)
     votecount_no = models.IntegerField(default=0)
 
-    special_process = models.CharField(max_length=32, verbose_name=_("Special process"), choices=SPECIAL_PROCESS_CHOICES, default='', null=True, blank=True)
-
+    # A special process is one where the result is given without votes being
+    # counted by the system. Examples are when an issue is accepted or
+    # rejected at a meeting instead of using the voting system, or when an
+    # issue is retracted by its proposer or an officer.
+    special_process = models.CharField(
+        max_length=32,
+        verbose_name=_('Special process'),
+        choices=SPECIAL_PROCESS_CHOICES,
+        default='',
+        null=True,
+        blank=True
+    )
+    special_process_set_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        related_name='special_process_issues'
+    )
 
     comment_count = models.IntegerField(default=0)
 
@@ -145,8 +162,11 @@ class Issue(models.Model):
             # See function for details.
             documentcontent.predecessor = document.preferred_version()
 
-            # Figure out if issue was accepted or rejected.
-            if self.majority_reached():
+            # Figure out if issue was retracted, accepted or rejected.
+            if self.special_process == 'retracted':
+                documentcontent.status = 'retracted'
+
+            elif self.majority_reached():
                 documentcontent.status = 'accepted'
 
                 # Since the new version has been accepted, deprecate
@@ -321,6 +341,7 @@ class DocumentContent(models.Model):
         ('accepted', _('Accepted')),
         ('rejected', _('Rejected')),
         ('deprecated', _('Deprecated')),
+        ('retracted', _('Retracted')),
     )
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='proposed')
     predecessor = models.ForeignKey('issue.DocumentContent', null=True, blank=True)

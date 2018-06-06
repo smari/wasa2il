@@ -14,6 +14,9 @@
 {% endblock %}
 
 {% block javascript %}
+
+    {% include 'js-includes/confirmation.html' %}
+
     <script src="/static/js/jquery.autosize-min.js"></script>
     <script>
         var DOCUMENT_ID = {{ document.id }};
@@ -25,7 +28,10 @@
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {
 
-            var original_text = $('#predecessor-legal-text').val().trim();
+            var original_text = $('#predecessor-legal-text').val()
+            if (original_text) {
+                original_text = original_text.trim();
+            }
 
             $('.document #propose-change').submit(function (e) {
                 input_name = $('#documentcontent-name').val().trim();
@@ -80,6 +86,26 @@
                 ).fail(function(data) {
                     alert('Fail:' + data);
                 });
+            });
+
+            $('#retract-proposal').click(function() {
+
+                $.post(
+                    '/api/documentcontent/' + DOCUMENTCONTENT_ID + '/retract/',
+                    null,
+                    function(data) {
+                        if (data.ok) {
+                            location.reload();
+                        }
+                        else {
+                            alert('Error: ' + data.error);
+                        }
+                    },
+                    'json'
+                ).fail(function(data) {
+                    alert('Error: ' + data.error);
+                });
+
             });
 
         });
@@ -153,6 +179,22 @@
 
                     {% if buttons.propose_change %}
                         <a class="btn btn-default" role="button" href="?action=new">{% trans "Propose change" %}</a>
+                    {% endif %}
+
+                    {% if buttons.retract_proposal %}
+                        <button class="btn btn-default"
+                                id="retract-proposal"
+                                role="button"
+                                data-toggle="confirmation"
+                                data-title="{% trans 'Retract proposal' %}"
+                                data-content="{% trans 'Are you sure you want to retract this issue?' %} {% trans 'Note that this will only cancel its vote, but will not delete the proposal itself.' %}"
+                                data-btn-ok-label="{% trans 'Yes' %}"
+                                data-btn-cancel-label="{% trans 'No' %}"
+                                data-btn-ok-class="btn-success"
+                                data-btn-cancel-class="btn-default"
+                                type="button">
+                            {% trans "Retract proposal" %}
+                        </button>
                     {% endif %}
 
                     {% if buttons.edit_proposal %}

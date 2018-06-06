@@ -27,7 +27,9 @@
                     <strong>{% trans 'Voting' %}</strong>
                 {% elif state == 'concluded' %}
                     {% if issue.is_processed %}
-                        {% if issue.majority_reached %}
+                        {% if issue.special_process == 'retracted' %}
+                            <span class="retracted">{% trans 'Retracted' %}<span>
+                        {% elif issue.majority_reached %}
                             <span class="accepted">{% trans 'Accepted' %}<span>
                         {% else %}
                             <span class="rejected">{% trans 'Rejected' %}</span>
