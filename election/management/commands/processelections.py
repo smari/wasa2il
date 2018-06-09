@@ -30,7 +30,7 @@ class Command(BaseCommand):
                     print
                     return
 
-            elections = Election.objects.all()
+            elections = Election.objects.filter(is_processed=False)
 
             for election in elections:
                 if (options.get('election_id') and
@@ -48,9 +48,7 @@ class Command(BaseCommand):
                 except Election.ElectionInProgressException:
                     stdout.write(' still in progress\n')
                 except:
-                    import traceback
-                    traceback.print_exc()
-                    stdout.write(' failed\n')
+                    stdout.write(' failed for unknown reasons\n')
 
         except KeyboardInterrupt:
             print
