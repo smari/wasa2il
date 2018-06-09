@@ -130,7 +130,7 @@ class Issue(models.Model):
             self.deadline_proposals = self.deadline_discussions + self.ruleset.issue_proposal_time
             self.deadline_votes = self.deadline_proposals + self.ruleset.issue_vote_time
 
-        self.majority_percentage = self.ruleset.issue_majority # Doesn't mechanically matter but should be official.
+        self.majority_percentage = self.ruleset.issue_majority
 
     def issue_state(self):
         # Short-hands.
