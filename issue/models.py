@@ -336,7 +336,12 @@ class Document(models.Model):
     # Returns true if a documentcontent in this document already has an issue in progress.
     def has_open_issue(self):
         documentcontent_ids = [dc.id for dc in self.documentcontent_set.all()]
-        count = Issue.objects.filter(is_processed=False, documentcontent_id__in=documentcontent_ids).count()
+        count = Issue.objects.filter(
+            is_processed=False,
+            documentcontent_id__in=documentcontent_ids
+        ).exclude(
+            special_process='retracted'
+        ).count()
         return count > 0
 
     def __unicode__(self):
