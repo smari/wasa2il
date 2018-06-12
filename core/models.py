@@ -44,8 +44,17 @@ class UserProfile(models.Model):
     picture = models.ImageField(upload_to='profiles', verbose_name=_("Picture"), null=True, blank=True)
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 
-    # User settings
-    email_wanted = models.BooleanField(default=False, verbose_name=_('Consent for sending email'), help_text=_('Whether to consent to receiving notifications via email.'))
+    # When this is null (None), it means that the user has not consented to,
+    # nor specifically rejected receiving email. This is a left-over state
+    # from when implied consent sufficed, but should gradually be decreased
+    # until all users have either consented or not. No new members should have
+    # this field as null (None).
+    email_wanted = models.NullBooleanField(
+        default=False,
+        verbose_name=_('Consent for sending email'),
+        help_text=_('Whether to consent to receiving notifications via email.')
+    )
+
     language = models.CharField(max_length=6, default='en', choices=settings.LANGUAGES, verbose_name=_("Language"))
     topics_showall = models.BooleanField(default=True, help_text=_("Whether to show all topics in a polity, or only starred."))
 
