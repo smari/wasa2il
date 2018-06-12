@@ -127,8 +127,8 @@ class Issue(models.Model):
             self.deadline_votes = now
         else:
             self.deadline_discussions = now + self.ruleset.issue_discussion_time
-            self.deadline_proposals = self.deadline_discussions + self.ruleset.issue_proposal_time
-            self.deadline_votes = self.deadline_proposals + self.ruleset.issue_vote_time
+            self.deadline_proposals = now + self.ruleset.issue_proposal_time
+            self.deadline_votes = now + self.ruleset.issue_vote_time
 
         self.majority_percentage = self.ruleset.issue_majority
 
