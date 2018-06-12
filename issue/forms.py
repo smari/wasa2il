@@ -26,6 +26,7 @@ class IssueForm(Wasa2ilForm):
             'votecount_abstain',
             'votecount_no',
             'comment_count',
+            'archived',
         )
 
 

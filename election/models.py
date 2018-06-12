@@ -111,7 +111,17 @@ class Election(models.Model):
         if self.election_state() != 'concluded':
             raise Election.ElectionInProgressException('Election %s is still in progress!' % self)
 
-        if not self.is_processed:
+        if self.is_processed:
+            raise Election.AlreadyProcessedException('Election %s has already been processed!' % self)
+
+        if self.candidate_set.count() == 0:
+            # If there are no candidates, there's no need to calculate
+            # anything. We're pretty confident in these being the results.
+            ordered_candidates = []
+            vote_count = 0
+            save_failed = False
+
+        else:
             ordered_candidates, ballot_counter = self.process_votes()
             vote_count = self.electionvote_set.values('user').distinct().count()
 
@@ -122,37 +132,27 @@ class Election(models.Model):
             # analyze the voters as well as the ballots.
             self.generate_stats()
 
-            try:
-                election_result = ElectionResult.objects.get(election=self)
-            except ElectionResult.DoesNotExist:
-                election_result = ElectionResult.objects.create(election=self, vote_count=vote_count)
+        try:
+            election_result = ElectionResult.objects.get(election=self)
+        except ElectionResult.DoesNotExist:
+            election_result = ElectionResult.objects.create(election=self, vote_count=vote_count)
 
-            election_result.rows.all().delete()
-            order = 0
-            for candidate in ordered_candidates:
-                order = order + 1
-                election_result_row = ElectionResultRow()
-                election_result_row.election_result = election_result
-                election_result_row.candidate = candidate
-                election_result_row.order = order
-                election_result_row.save()
+        election_result.rows.all().delete()
+        order = 0
+        for candidate in ordered_candidates:
+            order = order + 1
+            election_result_row = ElectionResultRow()
+            election_result_row.election_result = election_result
+            election_result_row.candidate = candidate
+            election_result_row.order = order
+            election_result_row.save()
 
-            # Delete the original votes (for anonymity), we have the ballots elsewhere
-            if not save_failed:
-                self.electionvote_set.all().delete()
+        # Delete the original votes (for anonymity), we have the ballots elsewhere
+        if not save_failed:
+            self.electionvote_set.all().delete()
 
-            self.is_processed = True
-            self.save()
-            return
-
-        if not self.stats:
-            # If there are no stats, we may be updating old code; see if
-            # we can load JSON from disk and calculate things anyway.
-            if self.generate_stats():
-                self.save()
-                return
-
-        raise Election.AlreadyProcessedException('Election %s has already been processed!' % self)
+        self.is_processed = True
+        self.save()
 
     def generate_stats(self):
         ballot_counter = self.load_archived_ballots()
