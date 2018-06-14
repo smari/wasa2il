@@ -9,12 +9,23 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 
-class IssueManager(models.Manager):
-    def get_queryset(self):
-        return super(IssueManager, self).get_queryset().filter(archived=False)
-
+# A mixin for containing methods that need to be in both the queryset and the
+# manager. We need IssueManager.get_queryset to filter out archived issues
+# automatically, and since a corresponding default-queryset function does not
+# seem to exist in QuerySet, we cannot simply use IssueQuerySet.as_manager()
+# as is commonly recommended. Instead, this class is used as an extra
+# constructor for both IssueManager and IssueQuerySet.
+class IssueMixin():
     def recent(self):
         return self.filter(deadline_votes__gt=timezone.now() - timezone.timedelta(days=settings.RECENT_ISSUE_DAYS))
+
+class IssueManager(models.Manager, IssueMixin):
+    def get_queryset(self):
+        return IssueQuerySet(self.model, using=self._db).filter(archived=False)
+
+# Inherits from IssueMixin.
+class IssueQuerySet(models.QuerySet, IssueMixin):
+    pass
 
 
 class Issue(models.Model):
