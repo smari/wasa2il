@@ -146,6 +146,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
                 'core.contextprocessors.globals',
+                'core.contextprocessors.auto_logged_out',
                 'polity.contextprocessors.polities',
             ],
         },

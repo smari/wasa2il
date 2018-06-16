@@ -1,0 +1,23 @@
+{% load i18n %}
+
+{% if splash_message %}
+
+    <script language="javascript" type="text/javascript">
+
+    var SPLASH_MESSAGE_SECONDS = 10;
+
+    function slideup_splash_message() {
+        $('#splash-message').slideUp();
+    }
+
+    $(document).ready(function() {
+        setTimeout(slideup_splash_message, SPLASH_MESSAGE_SECONDS * 1000);
+    });
+
+    </script>
+
+    <div id="splash-message" class="alert alert-warning" style="margin: 0px;">
+        <strong>{{ splash_message }}</strong>
+    </div>
+
+{% endif %}
