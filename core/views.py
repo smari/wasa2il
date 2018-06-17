@@ -608,7 +608,7 @@ def login_or_saml_redirect(request):
     we want immediately following the login, before verification.
     '''
     if request.user.userprofile.verified:
-        return settings.LOGIN_REDIRECT_URL
+        return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         return redirect(settings.SAML_1['URL'])
 
