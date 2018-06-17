@@ -332,10 +332,11 @@ def personal_data_fetch(request):
             'name': issue.name,
             'polity': issue.polity.slug,
             'polity_name': issue.polity.name,
-            'issue_num': '%d/%d' % (issue.issue_num, issue.issue_year),
+            'issue_num': ('%d/%d' % (issue.issue_num, issue.issue_year)) if issue.issue_num else None,
             'state': issue.issue_state(),
             'created': issue.created.strftime(dt_format),
             'ended': issue.deadline_votes.strftime(dt_format),
+            'archived': issue.archived,
         }
 
         # We only include this field if the issue has been processed because

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.translation import ugettext as _
 
 
 def globals(request):
@@ -17,3 +18,12 @@ def globals(request):
     ctx.update(request.globals)
 
     return ctx
+
+
+def auto_logged_out(request):
+    if hasattr(request, 'auto_logged_out') and request.auto_logged_out:
+        return {
+            'splash_message': _('For security reasons, you have been automatically logged out due to inactivity.')
+        }
+
+    return {}
