@@ -61,11 +61,6 @@ from languagecontrol.utils import set_language
 
 from hashlib import sha1
 
-# BEGIN - Included for Wasa2ilLoginView
-from django.contrib.auth import login as auth_login
-from django.contrib.auth.views import LoginView
-# END
-
 # BEGIN - Included for Wasa2ilRegistrationView
 from django.contrib.sites.shortcuts import get_current_site
 from registration.backends.default.views import RegistrationView
