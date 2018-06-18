@@ -10,15 +10,13 @@
 <section class="content">
 <h1>{% trans "Sign up" %} <small>{% trans 'and partake in democracy...' %}</small></h1>
 
-{% if not request.GET.email %}
-<div>
-{% include "registration/data_disclaimer.html" %}
-</div>
-<hr>
-{% endif %}
-
 <div class="row">
     <div class="col-md-6 col-xs-12">
+
+        <p class="alert alert-info">
+            {% trans "Please be advised that by registering and verifying your account, you become a member of the Pirate Party of Iceland." %}
+        </p>
+
         {% if request.GET.email_sig and request.GET.email %}
             <form action="/gateway/register/?{{ request.GET.urlencode }}" method="POST">
         {% else %}
@@ -46,13 +44,6 @@
     </div>
 
 </div>
-
-{% if request.GET.email %}
-    <hr>
-    <div>
-        {% include 'registration/data_disclaimer.html' %}
-    </div>
-{% endif %}
 
 </section>
 {% endblock %}
