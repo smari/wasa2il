@@ -114,6 +114,27 @@ class Election(models.Model):
         if self.is_processed:
             raise Election.AlreadyProcessedException('Election %s has already been processed!' % self)
 
+        # "Flatten" the values of votes in an election. A candidate may be
+        # removed from an election when voting has already started. When that
+        # happens, ballots with that candidate may have a gap in their values,
+        # for example [0, 1, 2, 4] , because the person with value 3 was
+        # removed from the election. Here the ballot is "flattened" so that
+        # gaps are eliminated and the values are made sequential, i.e.
+        # [0, 1, 2, 3] and not [0, 1, 2, 4].
+        votes = self.electionvote_set.order_by('user_id', 'value')
+        last_user_id = 0
+        for vote in votes:
+            # Reset correct value every time we start processing a new user.
+            if last_user_id != vote.user_id:
+                correct_value = 0
+
+            if vote.value != correct_value:
+                vote.value = correct_value
+                vote.save()
+
+            correct_value += 1
+            last_user_id = vote.user_id
+
         if self.candidate_set.count() == 0:
             # If there are no candidates, there's no need to calculate
             # anything. We're pretty confident in these being the results.
