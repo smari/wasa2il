@@ -17,7 +17,6 @@ section.content {
   padding-bottom: 30px; }
 
 footer {
-  margin-left: -250px;
   z-index: 2000;
   position: fixed;
   bottom: 0px;
@@ -31,9 +30,6 @@ footer {
   color: #fff; }
   footer a {
     color: #fff; }
-  @media (max-width: 768px) {
-    footer {
-      margin-left: 0px; } }
 
 .navbar {
   background-color: #503087;
@@ -174,9 +170,6 @@ div.prosemirror-editor {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease; }
 
-#wrapper.toggled {
-  padding-left: 0px; }
-
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
@@ -193,15 +186,6 @@ div.prosemirror-editor {
 
 #wrapper.toggled #sidebar-wrapper {
   width: 250px; }
-
-#page-content-wrapper {
-  width: 100%;
-  position: absolute;
-  padding: 15px; }
-
-#wrapper.toggled #page-content-wrapper {
-  position: absolute;
-  margin-right: -250px; }
 
 .sidebar-nav {
   position: absolute;
@@ -235,18 +219,6 @@ div.prosemirror-editor {
   color: #000;
   background: #ddd; }
 
-.sidebar-nav > .sidebar-brand {
-  height: 65px;
-  font-size: 18px;
-  line-height: 60px; }
-
-.sidebar-nav > .sidebar-brand a {
-  color: #999999; }
-
-.sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
-  background: none; }
-
 .navbar-toggle {
   float: left;
   margin-left: 12px;
@@ -266,15 +238,7 @@ div.prosemirror-editor {
     width: 250px; }
 
   #wrapper.toggled #sidebar-wrapper {
-    width: 250px; }
-
-  #page-content-wrapper {
-    padding: 20px;
-    position: relative; }
-
-  #wrapper.toggled #page-content-wrapper {
-    position: relative;
-    margin-right: 0; } }
+    width: 250px; } }
 .list-item:first-of-type {
   margin-top: 25px;
   border-top: 1px solid #62388d; }

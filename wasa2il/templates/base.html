@@ -94,7 +94,6 @@
       </div> <!-- end container -->
     </nav>
 
-
     <div class="container-fluid" id="wrapper">
 
       <div id="sidebar-wrapper" role="navigation">
@@ -119,14 +118,16 @@
         {% block content %}{% endblock %}
       </div>
 
-      <footer class="footer">
-        <a href="/help/wasa2il/">{% trans "About wasa2il" %}</a> ·
-        <a href="/help/copyright/">{% trans "License" %}</a> ·
-        <a href="/help/instructions/">{% trans "Instructions" %}</a> ·
-        <a href="/help/authors/">{% trans "Authors" %}</a> ·
-        {% trans "Version" %} {{ INSTANCE_VERSION }}
-      </footer>
     </div>
+
+    <footer class="footer">
+      <a href="/help/wasa2il/">{% trans "About wasa2il" %}</a> ·
+      <a href="/help/copyright/">{% trans "License" %}</a> ·
+      <a href="/help/instructions/">{% trans "Instructions" %}</a> ·
+      <a href="/help/authors/">{% trans "Authors" %}</a> ·
+      {% trans "Version" %} {{ INSTANCE_VERSION }}
+    </footer>
+
     {% block extrascripts %}
     {% endblock %}
 
