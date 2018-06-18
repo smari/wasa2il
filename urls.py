@@ -35,10 +35,15 @@ urlpatterns = [
 
     url(r'^accounts/sso/', core_views.sso),
     url(r'^accounts/register/$', core_views.Wasa2ilRegistrationView.as_view(), name='registration_register'),
+    url(
+        r'^accounts/activate/(?P<activation_key>\w+)/$',
+        core_views.Wasa2ilActivationView.as_view(),
+        name='registration_activate'
+    ),
 
     # SAML-related URLs.
     url(r'^accounts/verify/', core_views.verify),
-    url(r'^accounts/login-or-saml-redirect/', core_views.login_or_saml_redirect),
+    url(r'^accounts/login-or-saml-redirect/', core_views.login_or_saml_redirect, name='login_or_saml_redirect'),
 
     url(r'^accounts/', include('registration.urls')),
 

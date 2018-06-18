@@ -4,6 +4,9 @@
 import os
 from utils import here
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 try:
     from local_settings import *
 except ImportError:
@@ -11,7 +14,7 @@ except ImportError:
     print('No local_settings.py found. Setting default values.')
 
 # Get Wasa2il version.
-with open('VERSION', 'r') as f:
+with open(os.path.join(BASE_DIR, 'VERSION'), 'r') as f:
     WASA2IL_VERSION = f.readlines().pop(0).strip()
     f.close()
 

@@ -61,13 +61,10 @@ from languagecontrol.utils import set_language
 
 from hashlib import sha1
 
-# BEGIN - Included for Wasa2ilLoginView
-from django.contrib.auth import login as auth_login
-from django.contrib.auth.views import LoginView
-# END
-
-# BEGIN - Included for Wasa2ilRegistrationView
+# BEGIN - Included for Wasa2ilRegistrationView and Wasa2ilActivationView
+from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
+from registration.backends.default.views import ActivationView
 from registration.backends.default.views import RegistrationView
 from registration import signals as registration_signals
 # END
@@ -547,6 +544,31 @@ class Wasa2ilRegistrationView(RegistrationView):
         return new_user
 
 
+class Wasa2ilActivationView(ActivationView):
+
+    def activate(self, *args, **kwargs):
+        activation_key = kwargs.get('activation_key', '')
+        site = get_current_site(self.request)
+        user, activated = self.registration_profile.objects.activate_user(
+            activation_key,
+            site
+        )
+
+        if activated:
+            registration_signals.user_activated.send(
+                sender=self.__class__,
+                user=user,
+                request=self.request
+            )
+
+            login(self.request, user, 'django.contrib.auth.backends.ModelBackend')
+
+        return user
+
+    def get_success_url(self, user):
+        return '%s?returnTo=%s' % (reverse('tc_accept_page'), reverse('login_or_saml_redirect'))
+
+
 @login_required
 def verify(request):
 
@@ -613,7 +635,7 @@ def login_or_saml_redirect(request):
     we want immediately following the login, before verification.
     '''
     if request.user.userprofile.verified:
-        return settings.LOGIN_REDIRECT_URL
+        return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         return redirect(settings.SAML_1['URL'])
 
