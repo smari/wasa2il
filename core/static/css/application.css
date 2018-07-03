@@ -174,10 +174,10 @@ div.prosemirror-editor {
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  left: 250px;
+  left: 290px;
   width: 0;
   height: 100%;
-  margin-left: -250px;
+  margin-left: -290px;
   overflow-y: auto;
   background: #eee;
   -webkit-transition: all 0.5s ease;
@@ -186,18 +186,29 @@ div.prosemirror-editor {
   transition: all 0.5s ease; }
 
 #wrapper.toggled #sidebar-wrapper {
-  width: 250px; }
+  width: 290px; }
 
 .sidebar-nav {
   position: absolute;
   top: 0;
-  width: 250px;
+  width: 290px;
   margin: 0;
   padding: 0;
   list-style: none; }
 
+.sidebar-nav .dropdown-menu {
+  width: 290px; }
+
+.sidebar-nav .dropdown-menu li {
+  text-indent: 0px;
+  border-bottom: 1px solid #eee; }
+
+.sidebar-nav .dropdown-menu li > a {
+  white-space: normal;
+  padding-left: 10px; }
+
 .sidebar-nav li {
-  text-indent: 20px;
+  text-indent: 10px;
   line-height: 40px; }
 
 .sidebar-nav li a {
@@ -211,14 +222,13 @@ div.prosemirror-editor {
     margin-right: 7px; }
 
 .sidebar-nav li a:hover, .sidebar-nav li.active a {
-  text-decoration: none;
-  color: #000;
   background: #ddd; }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
-  text-decoration: none;
-  color: #000;
   background: #ddd; }
+
+.sidebar-nav li > span.label {
+  margin-left: 10px; }
 
 .navbar-toggle {
   float: left;
@@ -230,16 +240,16 @@ div.prosemirror-editor {
     box-shadow: 1px 0px 4px #ccc; } }
 @media (min-width: 768px) {
   #wrapper {
-    padding-left: 250px; }
+    padding-left: 290px; }
 
   #wrapper.toggled {
-    padding-left: 250px; }
+    padding-left: 290px; }
 
   #sidebar-wrapper {
-    width: 250px; }
+    width: 290px; }
 
   #wrapper.toggled #sidebar-wrapper {
-    width: 250px; } }
+    width: 290px; } }
 .list-item:first-of-type {
   margin-top: 25px;
   border-top: 1px solid #62388d; }

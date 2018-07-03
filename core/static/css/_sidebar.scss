@@ -9,10 +9,10 @@
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  left: 250px;
+  left: $sidebar-width;
   width: 0;
   height: 100%;
-  margin-left: -250px;
+  margin-left: -$sidebar-width;
   overflow-y: auto;
   background: $background-lightgray;
   -webkit-transition: all 0.5s ease;
@@ -22,20 +22,34 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-  width: 250px;
+  width: $sidebar-width;
 }
 
 .sidebar-nav {
   position: absolute;
   top: 0;
-  width: 250px;
+  width: $sidebar-width;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.sidebar-nav .dropdown-menu {
+  width: $sidebar-width;
+}
+
+.sidebar-nav .dropdown-menu li {
+  text-indent: 0px;
+  border-bottom: 1px solid $background-lightgray;
+}
+
+.sidebar-nav .dropdown-menu li > a {
+  white-space: normal;
+  padding-left: 10px;
+}
+
 .sidebar-nav li {
-  text-indent: 20px;
+  text-indent: 10px;
   line-height: 40px;
 }
 
@@ -59,6 +73,10 @@
   background: #ddd;
 }
 
+.sidebar-nav li > span.label {
+  margin-left: 10px;
+}
+
 .navbar-toggle {
   float: left;
   margin-left: 12px;
@@ -73,15 +91,15 @@
 
 @media(min-width:768px) {
   #wrapper {
-    padding-left: 250px;
+    padding-left: $sidebar-width;
   }
   #wrapper.toggled {
-    padding-left: 250px;
+    padding-left: $sidebar-width;
   }
   #sidebar-wrapper {
-    width: 250px;
+    width: $sidebar-width;
   }
   #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    width: $sidebar-width;
   }
 }
