@@ -136,46 +136,6 @@ def profile(request, username=None):
     return render(request, 'profile/profile.html', ctx)
 
 
-@never_cache
-def user_proposals(request, username=None):
-    ctx = {}
-
-    # Determine if we're looking up the currently logged in user or someone else.
-    if username:
-        profile_user = get_object_or_404(User, username=username)
-    elif request.user.is_authenticated():
-        profile_user = request.user
-    else:
-        return HttpResponseRedirect(settings.LOGIN_URL)
-
-    polities = profile_user.polities.all()
-    profile = UserProfile.objects.get(user_id=profile_user.id)
-
-    # # Get documents and documentcontents which user has made
-    # documentdata = []
-    # contents = profile_user.documentcontent_set.select_related('document').order_by('document__name', 'order')
-    # last_doc_id = 0
-    # for c in contents:
-    #     if c.document_id != last_doc_id:
-    #         documentdata.append(c.document) # Template will detect the type as Document and show as heading
-    #         last_doc_id = c.document_id
-    #
-    #     documentdata.append(c)
-
-    # Get running elections in which the user is currently a candidate
-    now = datetime.now()
-    current_elections = Election.objects.filter(candidate__user=profile_user, deadline_votes__gte=now)
-
-    ctx = {
-        'polities': polities,
-        # 'documentdata': documentdata,
-        'profile_user': profile_user,
-        'profile': profile,
-    }
-    return render(request, 'profile/proposals.html', ctx)
-
-
-
 @login_required
 def view_settings(request):
 

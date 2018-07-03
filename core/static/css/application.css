@@ -17,7 +17,6 @@ section.content {
   padding-bottom: 30px; }
 
 footer {
-  margin-left: -250px;
   z-index: 2000;
   position: fixed;
   bottom: 0px;
@@ -31,9 +30,6 @@ footer {
   color: #fff; }
   footer a {
     color: #fff; }
-  @media (max-width: 768px) {
-    footer {
-      margin-left: 0px; } }
 
 .navbar {
   background-color: #503087;
@@ -49,6 +45,7 @@ footer {
   .navbar .navbar-brand img {
     max-height: 70px; }
   .navbar .nav > .li, .navbar .navbar .nav > li > a:hover, .navbar .navbar-nav li > a {
+    background: transparent;
     color: #fff;
     font-family: "Montserrat";
     font-size: 18px;
@@ -174,16 +171,13 @@ div.prosemirror-editor {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease; }
 
-#wrapper.toggled {
-  padding-left: 0px; }
-
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  left: 250px;
+  left: 290px;
   width: 0;
   height: 100%;
-  margin-left: -250px;
+  margin-left: -290px;
   overflow-y: auto;
   background: #eee;
   -webkit-transition: all 0.5s ease;
@@ -192,27 +186,29 @@ div.prosemirror-editor {
   transition: all 0.5s ease; }
 
 #wrapper.toggled #sidebar-wrapper {
-  width: 250px; }
-
-#page-content-wrapper {
-  width: 100%;
-  position: absolute;
-  padding: 15px; }
-
-#wrapper.toggled #page-content-wrapper {
-  position: absolute;
-  margin-right: -250px; }
+  width: 290px; }
 
 .sidebar-nav {
   position: absolute;
   top: 0;
-  width: 250px;
+  width: 290px;
   margin: 0;
   padding: 0;
   list-style: none; }
 
+.sidebar-nav .dropdown-menu {
+  width: 290px; }
+
+.sidebar-nav .dropdown-menu li {
+  text-indent: 0px;
+  border-bottom: 1px solid #eee; }
+
+.sidebar-nav .dropdown-menu li > a {
+  white-space: normal;
+  padding-left: 10px; }
+
 .sidebar-nav li {
-  text-indent: 20px;
+  text-indent: 10px;
   line-height: 40px; }
 
 .sidebar-nav li a {
@@ -226,26 +222,13 @@ div.prosemirror-editor {
     margin-right: 7px; }
 
 .sidebar-nav li a:hover, .sidebar-nav li.active a {
-  text-decoration: none;
-  color: #000;
   background: #ddd; }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
-  text-decoration: none;
-  color: #000;
   background: #ddd; }
 
-.sidebar-nav > .sidebar-brand {
-  height: 65px;
-  font-size: 18px;
-  line-height: 60px; }
-
-.sidebar-nav > .sidebar-brand a {
-  color: #999999; }
-
-.sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
-  background: none; }
+.sidebar-nav li > span.label {
+  margin-left: 10px; }
 
 .navbar-toggle {
   float: left;
@@ -257,24 +240,16 @@ div.prosemirror-editor {
     box-shadow: 1px 0px 4px #ccc; } }
 @media (min-width: 768px) {
   #wrapper {
-    padding-left: 250px; }
+    padding-left: 290px; }
 
   #wrapper.toggled {
-    padding-left: 250px; }
+    padding-left: 290px; }
 
   #sidebar-wrapper {
-    width: 250px; }
+    width: 290px; }
 
   #wrapper.toggled #sidebar-wrapper {
-    width: 250px; }
-
-  #page-content-wrapper {
-    padding: 20px;
-    position: relative; }
-
-  #wrapper.toggled #page-content-wrapper {
-    position: relative;
-    margin-right: 0; } }
+    width: 290px; } }
 .list-item:first-of-type {
   margin-top: 25px;
   border-top: 1px solid #62388d; }

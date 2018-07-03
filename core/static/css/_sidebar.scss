@@ -6,17 +6,13 @@
   transition: all 0.5s ease;
 }
 
-#wrapper.toggled {
-  padding-left: 0px;
-}
-
 #sidebar-wrapper {
   z-index: 1000;
   position: fixed;
-  left: 250px;
+  left: $sidebar-width;
   width: 0;
   height: 100%;
-  margin-left: -250px;
+  margin-left: -$sidebar-width;
   overflow-y: auto;
   background: $background-lightgray;
   -webkit-transition: all 0.5s ease;
@@ -26,32 +22,34 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-  width: 250px;
+  width: $sidebar-width;
 }
-
-#page-content-wrapper {
-  width: 100%;
-  position: absolute;
-  padding: 15px;
-}
-
-#wrapper.toggled #page-content-wrapper {
-  position: absolute;
-  margin-right: -250px;
-}
-
 
 .sidebar-nav {
   position: absolute;
   top: 0;
-  width: 250px;
+  width: $sidebar-width;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.sidebar-nav .dropdown-menu {
+  width: $sidebar-width;
+}
+
+.sidebar-nav .dropdown-menu li {
+  text-indent: 0px;
+  border-bottom: 1px solid $background-lightgray;
+}
+
+.sidebar-nav .dropdown-menu li > a {
+  white-space: normal;
+  padding-left: 10px;
+}
+
 .sidebar-nav li {
-  text-indent: 20px;
+  text-indent: 10px;
   line-height: 40px;
 }
 
@@ -68,30 +66,15 @@
 }
 
 .sidebar-nav li a:hover, .sidebar-nav li.active a {
-  text-decoration: none;
-  color: #000;
   background: #ddd;
 }
 
 .sidebar-nav li a:active, .sidebar-nav li a:focus {
-  text-decoration: none;
-  color: #000;
   background: #ddd;
 }
 
-.sidebar-nav>.sidebar-brand {
-  height: 65px;
-  font-size: 18px;
-  line-height: 60px;
-}
-
-.sidebar-nav>.sidebar-brand a {
-  color: #999999;
-}
-
-.sidebar-nav>.sidebar-brand a:hover {
-  color: #fff;
-  background: none;
+.sidebar-nav li > span.label {
+  margin-left: 10px;
 }
 
 .navbar-toggle {
@@ -108,23 +91,15 @@
 
 @media(min-width:768px) {
   #wrapper {
-    padding-left: 250px;
+    padding-left: $sidebar-width;
   }
   #wrapper.toggled {
-    padding-left: 250px;
+    padding-left: $sidebar-width;
   }
   #sidebar-wrapper {
-    width: 250px;
+    width: $sidebar-width;
   }
   #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
-  }
-  #page-content-wrapper {
-    padding: 20px;
-    position: relative;
-  }
-  #wrapper.toggled #page-content-wrapper {
-    position: relative;
-    margin-right: 0;
+    width: $sidebar-width;
   }
 }

@@ -30,8 +30,15 @@ def polities(request):
             add_to_menulist(polity_menulist, subpolity, depth + 1)
 
     # Add "root" polities with a depth of 0.
-    for polity in Polity.objects.filter(parent_id=None):
-        add_to_menulist(polity_menulist, polity, 0)
+    root_polities = Polity.objects.filter(parent_id=None)
+    if len(root_polities) == 1:
+        # If there is only one root polity, we'll only want to add its
+        # children, and not the root polity itself.
+        for subpolity in parent_children_map[root_polities[0].id]:
+            add_to_menulist(polity_menulist, subpolity, 0)
+    else:
+        for root_polity in root_polities:
+            add_to_menulist(polity_menulist, root_polity, 0)
 
     ctx = {
         'polity_menulist': polity_menulist,

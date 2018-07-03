@@ -19,7 +19,6 @@ section.content {
 }
 
 footer {
-  margin-left: -250px;
   z-index: 2000;
   position: fixed;
   bottom: 0px;
@@ -33,9 +32,6 @@ footer {
   color: $font-color-light;
   a {
     color: $font-color-light;
-  }
-  @media (max-width: 768px) {
-    margin-left: 0px;
   }
 }
 
