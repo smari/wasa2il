@@ -11,6 +11,7 @@
    .navbar-brand { margin: 0px; padding: 0px; color: #fff; }
    .navbar-brand img { max-height: 70px; }
    .nav > .li, .navbar .nav > li > a:hover, .navbar-nav li > a {
+     background: transparent;
      color: #fff;
      font-family: $font-heading;
      font-size: 18px;

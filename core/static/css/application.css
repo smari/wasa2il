@@ -45,6 +45,7 @@ footer {
   .navbar .navbar-brand img {
     max-height: 70px; }
   .navbar .nav > .li, .navbar .navbar .nav > li > a:hover, .navbar .navbar-nav li > a {
+    background: transparent;
     color: #fff;
     font-family: "Montserrat";
     font-size: 18px;
