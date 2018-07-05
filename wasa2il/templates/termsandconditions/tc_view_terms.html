@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'termsandconditions/css/view_accept.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <section class="content">
+
+    <a href="{% url 'personal_data' %}" class="btn btn-default">{% trans 'Back to: Personal data' %}</a>
+
+    {% for terms in terms_list %}
+        <h1>
+            {% trans 'Terms and Conditions' %}
+            <small>({% trans 'version' %} {{ terms.version_number|safe }})</small>
+        </h1>
+
+        <p>{% trans 'In order to use this software, you must accept the following terms and conditions.' %}</p>
+
+        {% if terms.info %}
+            <h4>{% trans 'Information' %}:</h4>
+            <div class="toc-container">
+                <p>{{ terms.info|markdown }}</p>
+            </div>
+        {% endif %}
+
+        <hr />
+        {{ terms.text|safe|markdown }}
+
+    {% endfor %}
+
+    </section>
+{% endblock %}

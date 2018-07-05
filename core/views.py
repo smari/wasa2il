@@ -36,6 +36,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_bytes
 from django.views.decorators.cache import never_cache
+from termsandconditions.models import TermsAndConditions
 
 from django.contrib.auth.models import User
 from core.models import UserProfile
@@ -254,7 +255,15 @@ def view_settings(request):
 
 @login_required
 def personal_data(request):
+
+    terms = TermsAndConditions.objects.filter(
+        userterms__user=request.user
+    ).order_by(
+        '-userterms__date_accepted'
+    ).first()
+
     ctx = {
+        'terms': terms,
     }
     return render(request, 'accounts/personal_data.html', ctx)
 

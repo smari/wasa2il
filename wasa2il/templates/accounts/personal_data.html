@@ -15,6 +15,17 @@
   </div>
 
   <div class="col-md-6">
+    <h2>{% trans 'Terms and Conditions' %}</h2>
+    <p>{% trans 'Here you can retrieve the latest version of our terms and conditions to which you have provided your consent. There you should find anything you might need regarding to your personal data, including why and how we process it. If not, please let us know!' %}</p>
+
+    <p>
+      <a href="{% url 'tc_view_specific_version_page' terms.slug terms.version_number %}" class="btn btn-default" role="button">
+        {% trans 'Show terms and conditions' %}
+      </a>
+    </p>
+  </div>
+
+  <div class="col-md-6">
 
     <h2>{% trans 'Retrieve personal data' %}</h2>
     <p>{% trans 'This option allows you to download all personal data about you that we have in our possession, in an open and commonly used format.' %}</p>
