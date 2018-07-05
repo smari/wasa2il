@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-06 04:21+0000\n"
+"POT-Creation-Date: 2018-07-05 19:09+0000\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
@@ -10,11 +10,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: core/base_classes.py:8 core/models.py:41 election/models.py:28
-#: issue/models.py:26 issue/models.py:279 issue/models.py:332
+#: issue/models.py:40 issue/models.py:305 issue/models.py:363
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
 #: wasa2il/templates/issue/document_detail.html:144
 msgid "Name"
 msgstr "Nafn"
+
+#: core/contextprocessors.py:26
+msgid ""
+"For security reasons, you have been automatically logged out due to "
+"inactivity."
+msgstr ""
+"Af öryggisástæðum hefurðu verið sjálfkrafa útskráð(ur) vegna langs tíma frá "
+"síðustu virkni."
 
 #: core/forms.py:26 core/models.py:43
 msgid "Bio"
@@ -44,7 +52,7 @@ msgstr "Já"
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:61 core/models.py:48
+#: core/forms.py:61 core/models.py:54
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
@@ -64,15 +72,15 @@ msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:48
+#: core/models.py:55
 msgid "Whether to consent to receiving notifications via email."
 msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
-#: core/models.py:49
+#: core/models.py:58
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:50
+#: core/models.py:59
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
@@ -140,7 +148,7 @@ msgstr "Gefa út tölfræði um atkvæði til hvers frambjóðanda"
 msgid "Publish advanced statistics (downloadable)"
 msgstr "Gefa út ítarlega tölfræði (niðurhalanlega)"
 
-#: election/models.py:232
+#: election/models.py:253
 #: wasa2il/templates/election/_elections_recent_table.html:29
 #: wasa2il/templates/election/election_list.html:55
 #: wasa2il/templates/issue/_issues_recent_table.html:38
@@ -148,7 +156,7 @@ msgstr "Gefa út ítarlega tölfræði (niðurhalanlega)"
 msgid "Concluded"
 msgstr "Lokið"
 
-#: election/models.py:233
+#: election/models.py:254
 #: wasa2il/templates/election/_elections_recent_table.html:27
 #: wasa2il/templates/election/election_list.html:53
 #: wasa2il/templates/issue/_issues_recent_table.html:27
@@ -157,11 +165,11 @@ msgstr "Lokið"
 msgid "Voting"
 msgstr "Í kosningu"
 
-#: election/models.py:234
+#: election/models.py:255
 msgid "Waiting"
 msgstr "Í bið"
 
-#: election/models.py:235
+#: election/models.py:256
 #: wasa2il/templates/election/_elections_recent_table.html:23
 #: wasa2il/templates/election/election_list.html:49
 msgid "Accepting candidates"
@@ -223,32 +231,32 @@ msgstr "STV, tíu sigurvegarar"
 msgid "STV partition with Schulze ranking"
 msgstr "STV deiling með Schulze forgangsröðun"
 
-#: issue/models.py:21
+#: issue/models.py:35
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
 
-#: issue/models.py:22
+#: issue/models.py:36
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: issue/models.py:23 issue/models.py:344
+#: issue/models.py:37 issue/models.py:375
 #: wasa2il/templates/issue/_issues_recent_table.html:31
 #: wasa2il/templates/issue/issues.html:52
 msgid "Retracted"
 msgstr "Dregin til baka"
 
-#: issue/models.py:27
+#: issue/models.py:41
 msgid ""
 "A great issue name expresses the essence of a proposal as briefly as "
 "possible."
 msgstr ""
 "Frábært málsnafn lýsir kjarna tillögunnar eins stuttlega og mögulegt er."
 
-#: issue/models.py:34 polity/models.py:14 tasks/models.py:51 topic/models.py:77
+#: issue/models.py:48 polity/models.py:14 tasks/models.py:51 topic/models.py:77
 msgid "Description"
 msgstr "Lýsing"
 
-#: issue/models.py:35
+#: issue/models.py:49
 msgid ""
 "An issue description is usually just a copy of the proposal's description, "
 "but you can customize it here if you so wish."
@@ -256,7 +264,7 @@ msgstr ""
 "Lýsing máls er venjulega afrit af lýsingu tillögunnar, en þú getur sérsniðið "
 "hana hér ef þú vilt."
 
-#: issue/models.py:44 wasa2il/templates/_sidenav_polity.html:46
+#: issue/models.py:58 wasa2il/templates/_sidenav_polity.html:46
 #: wasa2il/templates/issue/_agreements_list.html:12
 #: wasa2il/templates/polity/polity_detail.html:28
 #: wasa2il/templates/polity/polity_list.html:29
@@ -265,52 +273,53 @@ msgstr ""
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: issue/models.py:51
+#: issue/models.py:65
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: issue/models.py:65 wasa2il/templates/issue/issue_detail.html:77
+#: issue/models.py:79 wasa2il/templates/issue/issue_detail.html:77
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: issue/models.py:273
+#: issue/models.py:299
 msgid "Policy"
 msgstr "Stefna"
 
-#: issue/models.py:274
+#: issue/models.py:300
 msgid "Bylaw"
 msgstr "Lög"
 
-#: issue/models.py:275
+#: issue/models.py:301
 msgid "Motion"
 msgstr "Ályktun"
 
-#: issue/models.py:276
+#: issue/models.py:302
 msgid "Other"
 msgstr "Annað"
 
-#: issue/models.py:340
+#: issue/models.py:371
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: issue/models.py:341 wasa2il/templates/issue/_issues_recent_table.html:33
+#: issue/models.py:372 wasa2il/templates/issue/_issues_recent_table.html:33
 #: wasa2il/templates/issue/issue_detail.html:106
 #: wasa2il/templates/issue/issues.html:54
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: issue/models.py:342 wasa2il/templates/issue/_issues_recent_table.html:35
+#: issue/models.py:373 wasa2il/templates/issue/_issues_recent_table.html:35
 #: wasa2il/templates/issue/issue_detail.html:106
 #: wasa2il/templates/issue/issues.html:56
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: issue/models.py:343
+#: issue/models.py:374
 msgid "Deprecated"
 msgstr "Úrelt"
 
 #: issue/views.py:80
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:20
+#: wasa2il/templates/termsandconditions/tc_view_terms.html:20
 msgid "version"
 msgstr "útgáfa"
 
@@ -497,7 +506,7 @@ msgstr "Vista"
 #: wasa2il/templates/issue/document_detail.html:174
 #: wasa2il/templates/registration/password_change_form.html:18
 #: wasa2il/templates/registration/password_reset_form.html:21
-#: wasa2il/templates/registration/registration_form.html:33
+#: wasa2il/templates/registration/registration_form.html:31
 msgid "Cancel"
 msgstr "Hætta við"
 
@@ -585,16 +594,16 @@ msgstr "Mín síða"
 msgid "User's tasks"
 msgstr "Verk notanda"
 
-#: wasa2il/templates/accounts/personal_data.html:10
+#: wasa2il/templates/accounts/personal_data.html:11
 #: wasa2il/templates/base.html:82
 msgid "Personal data"
 msgstr "Persónugögn"
 
-#: wasa2il/templates/accounts/personal_data.html:11
+#: wasa2il/templates/accounts/personal_data.html:12
 msgid "This page is dedicated to your personal data."
 msgstr "Þessi síða er tileinkuð persónugögnum þínum."
 
-#: wasa2il/templates/accounts/personal_data.html:12
+#: wasa2il/templates/accounts/personal_data.html:13
 msgid ""
 "You own your personal data. We are ideologicaly committed to the protection "
 "and responsible use of your personal data. We avoid collecting personal data "
@@ -608,12 +617,33 @@ msgstr ""
 "upplýsts samþykkis þíns nema landslög krefji og þá einungis eftir að hafa "
 "gengið úr skugga um að við séum algjörlega tilneydd."
 
-#: wasa2il/templates/accounts/personal_data.html:17
-#: wasa2il/templates/accounts/personal_data.html:21
+#: wasa2il/templates/accounts/personal_data.html:18
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:19
+#: wasa2il/templates/termsandconditions/tc_view_terms.html:19
+msgid "Terms and Conditions"
+msgstr "Notkunarskilmálar"
+
+#: wasa2il/templates/accounts/personal_data.html:19
+msgid ""
+"Here you can retrieve the latest version of our terms and conditions to "
+"which you have provided your consent. There you should find anything you "
+"might need regarding to your personal data, including why and how we process "
+"it. If not, please let us know!"
+msgstr ""
+"Hér finnurðu nýjustu útgáfu notkunarskilmálanna sem þú hefur samþykkt. Í "
+"þeim ættirðu að finna allt varðandi persónugögnin þín, þar á meðal hvers "
+"vegna og hvernig við meðhöndlum þau. Ef ekki, endilega láttu okkur vita!"
+
+#: wasa2il/templates/accounts/personal_data.html:23
+msgid "Show terms and conditions"
+msgstr "Sýna notkunarskilmála"
+
+#: wasa2il/templates/accounts/personal_data.html:30
+#: wasa2il/templates/accounts/personal_data.html:34
 msgid "Retrieve personal data"
 msgstr "Sækja persónugögn"
 
-#: wasa2il/templates/accounts/personal_data.html:18
+#: wasa2il/templates/accounts/personal_data.html:31
 msgid ""
 "This option allows you to download all personal data about you that we have "
 "in our possession, in an open and commonly used format."
@@ -670,14 +700,14 @@ msgid "Logout"
 msgstr "Útskrá"
 
 #: wasa2il/templates/base.html:88 wasa2il/templates/registration/login.html:11
-#: wasa2il/templates/registration/logout.html:16
+#: wasa2il/templates/registration/logout.html:12
 #: wasa2il/templates/registration/password_reset_complete.html:13
 msgid "Log in"
 msgstr "Innskrá"
 
 #: wasa2il/templates/base.html:89 wasa2il/templates/registration/login.html:30
 #: wasa2il/templates/registration/registration_form.html:11
-#: wasa2il/templates/registration/registration_form.html:32
+#: wasa2il/templates/registration/registration_form.html:30
 msgid "Sign up"
 msgstr "Nýskrá"
 
@@ -2166,65 +2196,6 @@ msgstr "Við þökkum kærlega fyrir stuðninginn og þátttökuna."
 msgid "Email verification"
 msgstr "Staðfesting netfangs"
 
-#: wasa2il/templates/registration/data_disclaimer.html:3
-msgid ""
-"As of February 12th 2014, we require the verification of all user accounts "
-"via the so-called Icekey."
-msgstr ""
-"Frá og með 12. febrúar 2014 krefjumst við staðfestingar allra innskráðra "
-"notenda með hinum svokallaða Íslykli."
-
-#: wasa2il/templates/registration/data_disclaimer.html:5
-msgid ""
-"Please be advised that by registering and verifying your account, you become "
-"a member of the Pirate Party of Iceland."
-msgstr ""
-"Vinsamlegast athugið að með því að nýskrá og staðfesta aðgang gerist þú "
-"meðlimur að Pírötum."
-
-#: wasa2il/templates/registration/data_disclaimer.html:7
-msgid ""
-"Membership of political organizations is considered sensitive information by "
-"law."
-msgstr ""
-"Félagatöl stjórnmálaafla teljast til persónulegra gagna samkvæmt lögum."
-
-#: wasa2il/templates/registration/data_disclaimer.html:8
-msgid ""
-"Therefore, you should keep the following in mind when becoming a member and "
-"using our system:"
-msgstr "Því ættirðu að hafa eftirfarandi í huga þegar þú notar kerfin okkar:"
-
-#: wasa2il/templates/registration/data_disclaimer.html:10
-msgid ""
-"Your username is publicly visible. If you don't want to be recognized, use a "
-"different one than what you use elsewhere."
-msgstr ""
-"Notandanafnið þitt er sýnilegt öllum. Ef þú vilt fela auðkenni þitt, notaðu "
-"annað en þau sem þú notar annars staðar."
-
-#: wasa2il/templates/registration/data_disclaimer.html:11
-msgid ""
-"Your profile settings <strong>are mostly public</strong>, including your "
-"display name, image and description. We don't fill that out for you, though."
-msgstr ""
-"Prófíllinn þinn <strong>er að mestu sýnilegur opinberlega</strong>, þar á "
-"meðal nafn þitt, mynd og lýsing. Við fyllum prófílinn þó ekki út fyrir þig."
-
-#: wasa2il/templates/registration/data_disclaimer.html:12
-msgid "Don't put anything in there that you don't want visible to the public."
-msgstr "Ekki setja neitt í prófílinn þinn sem þú vilt ekki að sjáist út á við."
-
-#: wasa2il/templates/registration/data_disclaimer.html:13
-msgid "We do <strong>not</strong> display your email address in public."
-msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
-
-#: wasa2il/templates/registration/data_disclaimer.html:14
-msgid "If you have questions or concerns regarding privacy, please email us:"
-msgstr ""
-"Ef einhverjar spurningar vakna varðandi persónugögn, vinsamlegast sendið "
-"okkur tölvupóst:"
-
 #: wasa2il/templates/registration/login.html:11
 #: wasa2il/templates/registration/registration_form.html:11
 msgid "and partake in democracy..."
@@ -2255,15 +2226,7 @@ msgstr "Stilla Lykilorð"
 msgid "Logged out"
 msgstr "Skráð út"
 
-#: wasa2il/templates/registration/logout.html:11
-msgid ""
-"For security reasons, you have been automatically logged out due to "
-"inactivity."
-msgstr ""
-"Af öryggisástæðum hefurðu verið sjálfkrafa útskráð(ur) vegna langs tíma frá "
-"síðustu virkni."
-
-#: wasa2il/templates/registration/logout.html:14
+#: wasa2il/templates/registration/logout.html:10
 msgid "We hope you'll be back soon. It'd be fun!"
 msgstr "Við vonum að þú komir fljótt aftur! Það væri gaman!"
 
@@ -2365,6 +2328,14 @@ msgstr ""
 "Í tölvupósti þínum ættirðu að finna skilaboð frá okkur til staðfestingar á "
 "netfanginu þínu. Vinsamlegast finndu þann póst og smelltu á viðeigandi "
 "tengil."
+
+#: wasa2il/templates/registration/registration_form.html:17
+msgid ""
+"Please be advised that by registering and verifying your account, you become "
+"a member of the Pirate Party of Iceland."
+msgstr ""
+"Vinsamlegast athugið að með því að nýskrá og staðfesta aðgang gerist þú "
+"meðlimur að Pírötum."
 
 #: wasa2il/templates/registration/saml_error.html:6
 msgid "Verification error"
@@ -2641,11 +2612,8 @@ msgstr ""
 msgid "User currently isn't volunteering for any tasks."
 msgstr ""
 
-#: wasa2il/templates/termsandconditions/tc_accept_terms.html:19
-msgid "Terms and Conditions"
-msgstr "Notkunarskilmálar"
-
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:23
+#: wasa2il/templates/termsandconditions/tc_view_terms.html:23
 msgid ""
 "In order to use this software, you must accept the following terms and "
 "conditions."
@@ -2653,6 +2621,7 @@ msgstr ""
 "Til að nota þennan hugbúnað verður þú að samþykkja eftirfarandi skilmála."
 
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:26
+#: wasa2il/templates/termsandconditions/tc_view_terms.html:26
 msgid "Information"
 msgstr "Upplýsingar"
 
@@ -2663,6 +2632,10 @@ msgstr "Samþykkja alla"
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:46
 msgid "Accept"
 msgstr "Samþykkja"
+
+#: wasa2il/templates/termsandconditions/tc_view_terms.html:15
+msgid "Back to: Personal data"
+msgstr "Til baka: Persónugögn"
 
 #: wasa2il/templates/topic/_topic_list_table.html:19
 msgid "There are no topics in this polity!"
@@ -2740,9 +2713,6 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
-
-#~ msgid "Information from member registry."
-#~ msgstr "Upplýsingar úr félagatali."
 
 #~ msgid "E-mail"
 #~ msgstr "Netfang"
