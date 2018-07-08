@@ -51,6 +51,16 @@ The 3rd step will populate the database with a small amount of random data, incl
 
 That should be it!
 
+#### Docker Compose
+
+If you have `docker-compose` installed you should only need these 1-2 commands:
+
+Start web + db containers:
+`docker-compose up`
+
+Run database migrations (if needed):
+`docker-compose run wasaweb python manage.py migrate`
+
 ### Manual installation using pip
 
 If you run into errors manually installing with `pip` (or get error output from `pip` wile running `initial_setup.py`), more often than not it's due to you not having MySQL installed. Try commenting those lines out of the `requirements.txt` file and running pip again.
