@@ -40,6 +40,15 @@ class Election(models.Model):
     # should to be turned into a proper Django model.
     results_are_ordered = models.BooleanField(default=True, verbose_name=_('Results are ordered'))
 
+    # How many candidates will be publicly listed in the results of an
+    # election. Officers still see entire list. Individual candidates can also
+    # see where they ended up in the results.
+    results_limit = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('How many candidates will be publicly listed in the results of an election')
+    )
+
     deadline_candidacy = models.DateTimeField(verbose_name=_('Deadline for candidacies'))
     starttime_votes = models.DateTimeField(null=True, blank=True, verbose_name=_('Election begins'))
     deadline_votes = models.DateTimeField(verbose_name=_('Election ends'))
@@ -60,7 +69,6 @@ class Election(models.Model):
 
     # These are election statistics;
     stats = models.TextField(null=True, blank=True, verbose_name=_('Statistics as JSON'))
-    stats_limit = models.IntegerField(null=True, blank=True, verbose_name=_('Limit how many candidates we publish stats for'))
     stats_publish_ballots_basic = models.BooleanField(default=False, verbose_name=_('Publish basic ballot statistics'))
     stats_publish_ballots_per_candidate = models.BooleanField(default=False, verbose_name=_('Publish ballot statistics for each candidate'))
     stats_publish_files = models.BooleanField(default=False, verbose_name=_('Publish advanced statistics (downloadable)'))
@@ -309,11 +317,11 @@ class Election(models.Model):
 
         # Censor the statistics, if we only want to publish details about
         # the top N candidates.
-        if self.stats_limit:
+        if self.results_limit:
             excluded = set([])
             if not user or not user.is_staff:
                 excluded |= set(cand.user.username for cand in
-                                self.get_winners()[self.stats_limit:])
+                                self.get_winners()[self.results_limit:])
             if user and user.username in excluded:
                 excluded.remove(user.username)
             stats = BallotCounter.exclude_candidate_stats(stats, excluded)

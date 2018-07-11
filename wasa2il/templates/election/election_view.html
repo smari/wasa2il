@@ -211,8 +211,8 @@
             <div id="election_candidates_winners" style="margin-top: 1em;">
                 <ol class="candidates" id="candidates_winners" {% if not election.results_are_ordered %}style="list-style: none; padding-left: 0px;"{% endif %}>
                 {% for candidate in ordered_candidates %}
-                    {% if not election.stats_limit or forloop.counter <= election.stats_limit or candidate.user == user or user.is_staff %}
-                    <li data-seqid="{{ candidate.id }}"{% if election.stats_limit and forloop.counter > election.stats_limit %} style="background: #efe;"{% endif %}>
+                    {% if not election.results_limit or forloop.counter <= election.results_limit or candidate.user == user or user.is_staff %}
+                    <li data-seqid="{{ candidate.id }}"{% if election.results_limit and forloop.counter > election.results_limit %} style="background: #efe;"{% endif %}>
                         <div style="position: relative;">
                             <img src="{{ candidate.user.userprofile.picture|thumbnail:'50x50' }}" class="img-rounded vote-image" />
                             <a href="/accounts/profile/{{ candidate.user.username }}/">{{ candidate.user.get_name }}</a>
@@ -226,7 +226,7 @@
                             {% endwith %}
                             </div>
                       {% endif %}
-                      {% if election.stats_limit and forloop.counter > election.stats_limit %}
+                      {% if election.results_limit and forloop.counter > election.results_limit %}
                             <tt style="font-size: 0.5em; position: absolute; right: 2px; bottom: 1px;">{% trans "for your eyes only" %}</tt>
                       {% endif %}
                         </div>
@@ -260,7 +260,7 @@
         <a href="stats-dl/election-{{ election.id }}-stats.xlsx">XLS</a><br>
         <small style="display: inline-block; width: 50%;">
             {% trans "Downloads include rankings, pairwise victories and ballot counts." %}
-            {% if election.stats_limit %}{% with election.stats_limit as limit %}{% blocktrans %}
+            {% if election.results_limit %}{% with election.results_limit as limit %}{% blocktrans %}
                  Details below {{limit}}. place are omitted except for
                  the candidates themselves and members of staff.
             {% endblocktrans %}{% endwith %}{% endif %}
