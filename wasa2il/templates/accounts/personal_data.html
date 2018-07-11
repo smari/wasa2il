@@ -19,9 +19,13 @@
     <p>{% trans 'Here you can retrieve the latest version of our terms and conditions to which you have provided your consent. There you should find anything you might need regarding to your personal data, including why and how we process it. If not, please let us know!' %}</p>
 
     <p>
-      <a href="{% url 'tc_view_specific_version_page' terms.slug terms.version_number %}" class="btn btn-default" role="button">
-        {% trans 'Show terms and conditions' %}
-      </a>
+      {% if terms %}
+        <a href="{% url 'tc_view_specific_version_page' terms.slug terms.version_number %}" class="btn btn-default" role="button">
+          {% trans 'Show terms and conditions' %}
+        </a>
+      {% else %}
+        <span class="label label-warning">{% trans 'No terms and conditions provided yet.' %}</span>
+      {% endif %}
     </p>
   </div>
 
