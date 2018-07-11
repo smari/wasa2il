@@ -4,21 +4,25 @@
 # docker-compose up
 # Then migrate the database: (you might need to run it twice)
 # docker-compose run wasaweb python manage.py migrate
+version: '2'
 
-wasaweb:
-  build: .
-  volumes:
-    - .:/usr/src/app
-  ports:
-    - "8000:8000"
-  links:
-    - "db"
-  environment:
-    - DOCKER_DB_HOST=db
-db:
-  image: mysql
-  environment:
-    - MYSQL_ROOT_PASSWORD=docker
-    - MYSQL_DATABASE=docker
-    - MYSQL_USER=docker
-    - MYSQL_PASSWORD=docker
+services:
+  wasaweb:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    links:
+      - "db"
+    environment:
+      - DOCKER_DB_HOST=db
+    depends_on:
+      - db
+  db:
+    image: mysql:5
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=docker
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
