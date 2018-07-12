@@ -49,11 +49,11 @@ class Migration(migrations.Migration):
         migrations.RunSQL([
             ("""
                 DELETE FROM
-                    `django_migrations`
+                    django_migrations
                 WHERE
-                    `app` = '%s'
+                    app = '%s'
                 AND
-                    `name` != '0001_initial'""" % app
+                    name != '0001_initial'""" % app
             ) for app in ['core', 'polity', 'issue', 'tasks', 'topic', 'election']]
         )
     ]
