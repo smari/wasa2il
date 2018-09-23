@@ -48,6 +48,7 @@ from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
 from core.utils import random_word
 from election.models import Election
+from election.models import ElectionResult
 from issue.forms import DocumentForm
 from issue.models import Document
 from issue.models import DocumentContent
@@ -382,7 +383,10 @@ def personal_data_fetch(request):
         for election in elections:
 
             if election.results_are_ordered:
-                user_place = election.result.rows.get(candidate__user_id=user.id).order
+                try:
+                    user_place = election.result.rows.get(candidate__user_id=user.id).order
+                except ElectionResult.DoesNotExist:
+                    user_place = 'not-yet-determined'
             else:
                 if election.result.rows.filter(candidate__user_id=user.id).exists():
                     user_place = 'selected'

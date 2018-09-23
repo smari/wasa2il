@@ -275,24 +275,27 @@ function election_render(election) {
     }
 
     if (election_ui_update_is_safe()) {
-        if (election_state == 'concluded') {
-            $("#election_button_withdraw").hide();
-            $("#election_button_announce").hide();
-        }
-        else if (election_state == 'voting') {
-            if (election_object.user_is_candidate) {
+        // By default, no one can do anything.
+        $("#election_button_withdraw").hide();
+        $("#election_button_announce").hide();
+
+        // If the user is already a candidate, they can withdraw their
+        // candidacy at any time, unless the election is already concluded. If
+        // the user is not a candidate, they may announce their candidacy if
+        // the election is accepting candidates.
+        //
+        // Note that the if-statements here are separated for readability and
+        // to avoid convoluting the logic involved. Please do not optimize for
+        // performance or line count.
+        if (election_object.user_is_candidate) {
+            if (election_state != 'concluded') {
                 $("#election_button_withdraw").show();
+                $("#election_button_announce").hide();
             }
-            else {
-                $("#election_button_withdraw").hide();
-            }
-            $("#election_button_announce").hide();
         }
         else {
-            $("#election_button_withdraw").hide();
-            if (election_state == 'voting' || election_state == 'waiting') {
-                $("#election_button_announce").hide();
-            } else {
+            if (election_state == 'accepting_candidates') {
+                $("#election_button_withdraw").hide();
                 $("#election_button_announce").show();
             }
         }
