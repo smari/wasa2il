@@ -382,16 +382,16 @@ def personal_data_fetch(request):
         election_export = []
         for election in elections:
 
-            if election.results_are_ordered:
-                try:
+            try:
+                if election.results_are_ordered:
                     user_place = election.result.rows.get(candidate__user_id=user.id).order
-                except ElectionResult.DoesNotExist:
-                    user_place = 'not-yet-determined'
-            else:
-                if election.result.rows.filter(candidate__user_id=user.id).exists():
-                    user_place = 'selected'
                 else:
-                    user_place = 'not-selected'
+                    if election.result.rows.filter(candidate__user_id=user.id).exists():
+                        user_place = 'selected'
+                    else:
+                        user_place = 'not-selected'
+            except ElectionResult.DoesNotExist:
+                user_place = 'not-yet-determined'
 
             election_export.append({
                 'name': election.name,
