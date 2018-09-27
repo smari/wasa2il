@@ -192,10 +192,13 @@ def election_showclosed(request):
 
 
 def election_stats_download(request, polity_id=None, election_id=None, filename=None):
-    election = get_object_or_404(Election, id=election_id, polity_id=polity_id)
-
-    if not election.stats_publish_files:
-        raise Http404
+    election = get_object_or_404(
+        Election,
+        id=election_id,
+        polity_id=polity_id,
+        is_processed=True,
+        stats_publish_files=True
+    )
 
     filetype = filename.split('.')[-1].lower()
     assert(filetype in ('json', 'xlsx', 'ods', 'html'))
