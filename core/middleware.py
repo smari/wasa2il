@@ -51,11 +51,19 @@ class GlobalsMiddleware():
 class AutoLogoutMiddleware():
     def process_request(self, request):
         if hasattr(settings, 'AUTO_LOGOUT_DELAY'):
-            if not request.user.is_authenticated() :
-                # Can't log out if not logged in
-                return
 
             now = datetime.now()
+
+            if not request.user.is_authenticated() :
+                # Set the last visit to now when attempting to log in, so that
+                # auto-logout feature doesn't immediately log the user out
+                # when the user is already logged out but the session is still
+                # active.
+                if request.path_info == '/accounts/login/' and request.method == 'POST':
+                    request.session['last_visit'] = now.strftime('%Y-%m-%d %H:%M:%S')
+
+                # Can't log out if not logged in
+                return
 
             if 'last_visit' in request.session:
                 last_visit = datetime.strptime(request.session['last_visit'], '%Y-%m-%d %H:%M:%S')
