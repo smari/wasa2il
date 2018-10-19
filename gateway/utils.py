@@ -19,10 +19,15 @@ def user_to_member_args(user):
         'name': user.userprofile.verified_name,
         'email': user.email,
         'username': user.username,
-        'email_wanted': 'true' if user.userprofile.email_wanted else 'false',
         'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S'),
         'groups': [p.slug for p in user.polities.all()],
     }
+
+    # If email_wanted is None, then we still don't know the user's preference,
+    # so we'll say nothing about it.
+    if user.userprofile.email_wanted is not None:
+        info.update({'email_wanted': 'true' if user.userprofile.email_wanted else 'false'})
+
     return info
 
 
