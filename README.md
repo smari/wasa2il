@@ -33,19 +33,22 @@ Wasa2il must be set up on a web server capable of running Django. Instructions o
 
 ### For development use
 
-**Recommended**: You can read about **virtualenv** or **docker** setup here:
+**We recommend** the use of `virtualenv`
 
-https://github.com/piratar/wasa2il/wiki/Installation
+More details: https://github.com/piratar/wasa2il/wiki/Installation
 
-Normal setup:
+1. Clone the project
 
-1. Install Python. You will need **pip** installed which is included by default in Python versions 2.7.9 and newer but can be downloaded separately for older versions. (URL: https://www.python.org/)
+2. Create a virtual environment 
+   `virtualenv venv`
 
-2. Clone the Wasa2il Git project (URL: https://gitlab.com/piratar/wasa2il.git)
-
-3. In a command line, run the script **initial_setup.py**, which should guide you through the rest of the process.
+3. Install dependencies
+   `pip install -r requirements.txt`
 
 4. Optional: Run **manage.py load_fake_data --full --reset**, which will reset the database and populate with a large volume of test data.
+
+5. Start server
+   `python manage.py runserver`
 
 The 3rd step will populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password). The fourth (optional) step will do the same thing, only with much more data.
 
@@ -61,11 +64,6 @@ Start web + db containers:
 Run database migrations (if needed):
 `docker-compose run wasaweb python manage.py migrate`
 
-### Manual installation using pip
-
-If you run into errors manually installing with `pip` (or get error output from `pip` wile running `initial_setup.py`), more often than not it's due to you not having MySQL installed. Try commenting those lines out of the `requirements.txt` file and running pip again.
-
-If you want to run Wasa2il with MySQL, make sure MySQL and the relevant development headers are installed before running `pip` again.
 
 ## Contributing
 
