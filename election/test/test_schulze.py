@@ -4,6 +4,17 @@ import random
 
 
 class SchulzeTest(TestCase):
+    # The following 2 tests should likely be in another module
+    def test_endpoints(self):
+        print "Testing if basic endpoints work"
+        response = self.client.get('/', follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_non_endpoints(self):
+        print "Testing if none-endpoints return a 404"
+        response = self.client.get('/this-is-not-an-endpoint', follow=True)
+        self.assertEqual(response.status_code, 404)
+
     def test_6_candidates_45_votes(self):
         # Candidate 'x' is someone no-one voted for but was eligible.
         # Otherwise, this test reflects the example on
