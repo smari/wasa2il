@@ -646,7 +646,7 @@ def sso(request):
         'email': request.user.email,
         'external_id': request.user.id,
         'username': request.user.username,
-        'name': request.user.userprofile.displayname,
+        'name': request.user.userprofile.displayname.encode('utf-8'),
     }
 
     out_payload = base64.encodestring(urllib.urlencode(outbound))
