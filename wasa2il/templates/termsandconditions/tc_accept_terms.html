@@ -25,12 +25,12 @@
         {% if terms.info %}
             <h4>{% trans 'Information' %}:</h4>
             <div class="toc-container">
-                <p>{{ terms.info|markdown }}</p>
+                <p>{{ terms.info|markdown|urlize }}</p>
             </div>
         {% endif %}
 
         <hr />
-        {{ terms.text|safe|markdown }}
+        {{ terms.text|safe|markdown|urlize }}
 
     {% endfor %}
 
