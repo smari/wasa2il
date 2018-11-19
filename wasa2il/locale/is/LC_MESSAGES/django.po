@@ -366,7 +366,7 @@ msgstr ""
 
 #: tasks/models.py:8
 msgid "Equality"
-msgstr ""
+msgstr "Jafnrétti"
 
 #: tasks/models.py:9
 msgid "Education"
@@ -374,35 +374,35 @@ msgstr "Menntun"
 
 #: tasks/models.py:10
 msgid "Justice and Law Enforcement"
-msgstr ""
+msgstr "Réttarfar og löggæsla"
 
 #: tasks/models.py:11
 msgid "Economy"
-msgstr ""
+msgstr "Efnahagsmál"
 
 #: tasks/models.py:12
 msgid "Healthcare"
-msgstr ""
+msgstr "Heilbrigðismál"
 
 #: tasks/models.py:13
 msgid "Housing"
-msgstr ""
+msgstr "Húsnæðismál"
 
 #: tasks/models.py:14
 msgid "Welfare"
-msgstr ""
+msgstr "Velferð"
 
 #: tasks/models.py:15
 msgid "Culture"
-msgstr ""
+msgstr "Menning"
 
 #: tasks/models.py:16
 msgid "Industry"
-msgstr ""
+msgstr "Iðnaður"
 
 #: tasks/models.py:17
 msgid "Public finances"
-msgstr ""
+msgstr "Opinber fjármál"
 
 #: tasks/models.py:18
 msgid "Transportation"
@@ -410,55 +410,55 @@ msgstr "Samgöngur"
 
 #: tasks/models.py:19
 msgid "Governance"
-msgstr ""
+msgstr "Stjórnun"
 
 #: tasks/models.py:20
 msgid "Municipal affairs"
-msgstr ""
+msgstr "Sveitarstjórnarmál"
 
 #: tasks/models.py:21
 msgid "Environment"
-msgstr ""
+msgstr "Umhverfið"
 
 #: tasks/models.py:22
 msgid "Foreign affairs"
-msgstr ""
+msgstr "Utanríkismál"
 
 #: tasks/models.py:23
 msgid "Defence"
-msgstr ""
+msgstr "Varnarmál"
 
 #: tasks/models.py:27
 msgid "Physical work"
-msgstr ""
+msgstr "Líkamleg vinna"
 
 #: tasks/models.py:28
 msgid "Training"
-msgstr ""
+msgstr "Þjálfun"
 
 #: tasks/models.py:29
 msgid "Design"
-msgstr ""
+msgstr "Hönnun"
 
 #: tasks/models.py:30
 msgid "Research"
-msgstr ""
+msgstr "Rannsóknir"
 
 #: tasks/models.py:31
 msgid "Volunteer coordination"
-msgstr ""
+msgstr "Verkstjórn sjálfboðaliða"
 
 #: tasks/models.py:32
 msgid "Grassroots organizing"
-msgstr ""
+msgstr "Grasrótarskipulag"
 
 #: tasks/models.py:33
 msgid "Legal writing"
-msgstr ""
+msgstr "Lagatextasmíði"
 
 #: tasks/models.py:34
 msgid "Writing and editing"
-msgstr ""
+msgstr "Skrif og ritstýring"
 
 #: tasks/models.py:35
 msgid "Policy drafting"
