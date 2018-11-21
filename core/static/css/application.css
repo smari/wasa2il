@@ -687,6 +687,11 @@ div#submit-working {
 .dropdown-menu {
   cursor: pointer; }
 
+.nav-tabs > li.active > a {
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-top-width: 2px; }
+
 /* Helpful color classes. */
 .icon-grey {
   color: #c0d0c0; }
@@ -737,8 +742,7 @@ div#submit-working {
   overflow: overlay;
   margin-bottom: 10px;
   padding: 12px 24px 12px 24px;
-  text-align: justify;
-  border: 1px #e0e0e0 solid; }
+  text-align: justify; }
 
 #legal-text h1 {
   font-weight: bold;
