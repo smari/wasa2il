@@ -12,8 +12,8 @@ ALLOWED_HOSTS = ['localhost', 'wasa2il-development.herokuapp.com', 'wasa2il-stag
 DEBUG = True
 
 ORGANIZATION_NAME = ''
-INSTANCE_NAME = ''
-INSTANCE_SLUG = ''
+INSTANCE_NAME = 'Unconfigured Wasa2il'
+INSTANCE_SLUG = 'unconfiguredwasa2il'
 INSTANCE_LOGO = ''
 INSTANCE_URL = '' # Base URL for application, for example https://wasa2il.example.com/
 INSTANCE_FACEBOOK_IMAGE = 'https://example.com/full/url/to/image.png'
