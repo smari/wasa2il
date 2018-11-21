@@ -21,6 +21,7 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
@@ -94,6 +95,28 @@ def home(request):
         # polity listing.
         return HttpResponseRedirect(reverse('polities'))
 
+def manifest(request):
+    manifest = {
+      "name": "%s" % (settings.INSTANCE_NAME),
+      "short_name": "%s" % (settings.INSTANCE_NAME),
+      "icons": [
+        {
+          "src": "/static/img/favicon.svg",
+          "sizes": "32x32 100x100 101x101 192x192 256x256",
+          "type": "image/svg+xml"
+        },
+      ],
+      "start_url": "/",
+      "background_color": "#ffffff",
+      "theme_color": "#e9e9e9",
+      "display": "standalone",
+      "serviceworker": {
+        "src": "/static/js/service-worker.js?ts=%s" % (settings.WASA2IL_VERSION),
+        "scope": "/",
+        "use_cache": False
+      }
+    }
+    return JsonResponse(manifest)
 
 def help(request, page):
     ctx = {
