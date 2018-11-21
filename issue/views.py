@@ -142,7 +142,6 @@ def issues(request, polity_id):
     ctx = {
         'polity': polity,
         'issues': issues,
-        'myissues': myissues,
     }
     return render(request, 'issue/issues.html', ctx)
 
