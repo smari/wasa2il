@@ -1,10 +1,11 @@
 from django import forms
-
+from django.forms import CharField
 from wasa2il.forms import Wasa2ilForm
+from prosemirror.widgets import ProseMirrorWidget
 
-from issue.models import Comment
-from issue.models import Document
-from issue.models import Issue
+from issue.models import Comment, Document, DocumentContent, Issue
+
+from django.utils.translation import ugettext as _
 
 class IssueForm(Wasa2ilForm):
     class Meta:
@@ -35,6 +36,14 @@ class DocumentForm(Wasa2ilForm):
         model = Document
         exclude = ('user', 'polity', 'slug', 'issues')
 
+
+class DocumentContentForm(Wasa2ilForm):
+    text = CharField(label=_('Proposal'), widget=ProseMirrorWidget, required=True)
+    comments = CharField(label=_('Explanation'), widget=ProseMirrorWidget, required=False)
+
+    class Meta:
+        model = DocumentContent
+        exclude = ('user', 'document', 'order', 'predecessor', 'status')
 
 class CommentForm(forms.ModelForm):
     class Meta:

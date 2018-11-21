@@ -37,110 +37,68 @@
     </div>
 {% endif %}
 
+{% if issue.is_processed %}
+    {% if documentcontent %}
+        {% include "issue/stub/documentcontent_status.html" %}
+    {% endif %}
+{% endif %}
 
-<div class="row">
-    <div class="col-md-6 col-xs-12">
-        {% if issue.is_processed %}
-            {% if documentcontent %}
-                {% include "issue/stub/documentcontent_status.html" %}
-            {% endif %}
+{% if issue.issue_state == 'voting' and can_vote %}
+<div class="col-md-12 col-xs-12 well">
+    <h2>{% trans "Vote" %} <small>{% trans "for or against this issue" %}</small></h2>
+    <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
+    <div data-toggle="buttons-radio" style="text-align: center;">
+        <button onclick="issue_vote(1);" id="vote_yes" type="button" class="btn btn-default btn-lg">{% trans "Yes" %}</button>
+        <button onclick="issue_vote(0);" id="vote_abstain" type="button" class="btn btn-default btn-lg">{% trans "Abstain" %}</button>
+        <button onclick="issue_vote(-1);" id="vote_no" type="button" class="btn btn-default btn-lg">{% trans "No" %}</button>
+    </div>
+</div>
+{% endif %}
+
+<div>
+  <ul class="nav nav-tabs" id="issue-view-tabs" role="tablist">
+    <li class="nav-item active">
+      <a role="tab" href="#proposal" data-toggle="tab">Tillaga</a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" data-toggle="tab" href="#explanation">Greinargerð</a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" data-toggle="tab" href="#discussion">{% trans "Discussion" %}</a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" data-toggle="tab" href="#metadata">Lýsigögn</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+      <div class="tab-pane active" role="tabpanel" id="proposal">
+        {% if documentcontent %}
+            {% include 'issue/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
         {% endif %}
+      </div>
 
+      <div class="tab-pane" role="tabpanel" id="explanation">
         <div class="issue-description">
           {{ issue.description|markdown|urlize }}
         </div>
+      </div>
 
-        <table class="table">
-
-            <tr>
-                <th>{% trans 'Issue number' %}:</th>
-                <td>{{ issue.issue_num }}/{{ issue.issue_year }}</td>
-            </tr>
-
-            {% if documentcontent %}
-                <tr><th>{% trans "Proposal" %}:</th><td><a href="/polity/{{ issue.polity.id }}/document/{{ documentcontent.document_id }}/?v={{ documentcontent.order }}">{{ documentcontent.document.name }}</a></td></tr>
-                <tr><th>{% trans "Author" %}:</th><td><a href="{% url 'profile' documentcontent.user.username %}">{{ documentcontent.user }}</a></td></tr>
-            {% endif %}
-            <tr><th>{% trans "In topics" %}:</th><td>{% for i in issue.topics.all %}<a href="/polity/{{ issue.polity.id }}/topic/{{ i.id }}/">{{ i.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
-
-            {% if not issue.special_process %}
-                <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
-                {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
-                    <tr><th>{% trans "Discussion ends" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
-                {% endif %}
-                {% if issue.deadline_proposals != issue.created %}
-                    <tr><th>{% trans "Issue vote begins" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
-                {% endif %}
-            {% endif %}
-
-            <tr><th>{% trans "Issue vote ends at" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
-
-            {% if issue.special_process %}
-                <tr><th>{% trans 'Special process' %}:</th><td>{{ issue.get_special_process_display }}</td></tr>
-            {% else %}
-                {% if issue.issue_state == 'voting' or issue.issue_state == 'concluded' %}
-                    <tr>
-                        <th>{% trans "Votes" %}:</th>
-                        <td>
-                            <span id="votecount_value">{{ issue.votecount }}</span>
-                            {% if issue.votecount_abstain %}
-                                <small id="votecount_abstain_container">
-                                (<span id="votecount_abstain_value">{{ issue.votecount_abstain }}</span> {% trans 'abstain' %})
-                                </small>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% if issue.issue_state == 'concluded' %}
-                        <tr>
-                            <th>{% trans "Yes" %}:</th>
-                            <td id="issue_votes_yes">
-                                {{ issue.votecount_yes }}
-                                <small>({{ issue.percentage_reached|floatformat:2 }}%)</small>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>{% trans "No" %}:</th>
-                            <td id="issue_votes_no">{{ issue.votecount_no }}</td>
-                        </tr>
-                    {% endif %}
-                {% endif %}
-                {% if issue.is_processed %}
-                    <tr><th>{% trans "Result" %}:</th><td>{% if issue.majority_reached %}{% trans "Accepted" %}{% else %}{% trans "Rejected" %}{% endif %}</td></th></tr>
-                {% endif %}
-            {% endif %}
-
-            <tr><th>{% trans 'Majority threshold' %}:</th><td>{{ issue.majority_percentage|floatformat:2 }}%</td></tr>
-
-        </table>
-
-        <h2 id="issue-comments-header">{% trans "Discussion" %}</h2>
+      <div class="tab-pane" role="tabpanel" id="discussion">
         {% if comments_hidden %}
             <p>{% trans 'This issue was concluded a while ago, so you must log in to see comments.' %}</p>
         {% else %}
             {% comments_section "issue" issue.id comments_closed %}
         {% endif %}
+      </div>
 
-    </div>
+      <div class="tab-pane" role="tabpanel" id="metadata">
+        {% include "issue/_issue_detail_metadata.html" %}
+      </div>
 
-    {% if issue.issue_state == 'voting' and can_vote %}
-        <div class="col-md-6 col-xs-12 well">
-            <h2>{% trans "Vote" %} <small>{% trans "for or against this issue" %}</small></h2>
-            <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
-            <div data-toggle="buttons-radio" style="text-align: center;">
-                <button onclick="issue_vote(1);" id="vote_yes" type="button" class="btn btn-default btn-lg">{% trans "Yes" %}</button>
-                <button onclick="issue_vote(0);" id="vote_abstain" type="button" class="btn btn-default btn-lg">{% trans "Abstain" %}</button>
-                <button onclick="issue_vote(-1);" id="vote_no" type="button" class="btn btn-default btn-lg">{% trans "No" %}</button>
-            </div>
-        </div>
-    {% endif %}
-
-    <div class="col-md-6 col-xs-12"><a name="documents"></a>
-        {% if documentcontent %}
-            {% include 'issue/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
-        {% endif %}
-    </div>
-
+  </div>
 </div>
+
 </section>
 {% endblock %}
 

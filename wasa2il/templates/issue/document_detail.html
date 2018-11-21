@@ -18,20 +18,10 @@
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {
 
-            var original_text = $('#predecessor-legal-text').val()
-            if (original_text) {
-                original_text = original_text.trim();
-            }
-
             $('.document #propose-change').submit(function (e) {
-                input_name = $('#documentcontent-name').val().trim();
-                input_text = $('#legal-text-editor').val().trim();
-
-                if (input_text == original_text) {
-                    alert(ERROR_CHANGE_PROPOSAL_IDENTICAL);
-                    e.preventDefault();
-                    return false;
-                }
+                input_name = $('#id_name').val().trim();
+                input_text = $('#id_text').val();
+                input_expl = $('#id_comment').val();
 
                 var inputs = $(this).find('input,textarea');
                 inputs.attr('disabled', 'disabled');
@@ -42,7 +32,7 @@
                         v: $('input[name="v"]').val(),
                         name: input_name,
                         text: input_text,
-                        comments: $(this).find('#comments').val(),
+                        comments: input_expl,
                         patch: '',
                         diff: ''
                     },
@@ -56,26 +46,6 @@
                 });
                 e.preventDefault();
                 return false;
-            });
-
-            $('.document #propose-change #btn-preview').click(function(e) {
-                input_text = $('#legal-text-editor').val().trim();
-                $.post(
-                    '/api/document/render-markdown/',
-                    {
-                        text: input_text
-                    },
-                    function(data) {
-                        $('#legal-text').html(data.content);
-                        $('#legal-text-container').show();
-                        $('#btn-save').removeAttr('disabled');
-                        $('#preview-note').hide();
-                        $('#comments').focus();
-                    },
-                    'json'
-                ).fail(function(data) {
-                    alert('Fail:' + data);
-                });
             });
 
             $('#retract-proposal').click(function() {
@@ -104,7 +74,6 @@
 {% endblock %}
 
 
-
 {% block content %}
 <section class="content">
 <h1>
@@ -122,22 +91,15 @@
 </h1>
 
 <div class="row">
-    <div class="col-md-6 col-xs-12 document">
+    <div class="col-md-12 col-xs-12 document">
         <form id="propose-change" action="." method="post">
             {% csrf_token %}
-
+            <link href="/static/prosemirror/widget.min.css" type="text/css" media="all" rel="stylesheet">
+            <script type="text/javascript" src="/static/prosemirror/widget.min.js"></script>
             <input type="hidden" name="v" value="{{ current_content.order }}" />
 
             {% if editor_enabled %}
-                <textarea id="predecessor-legal-text" style="display: none;">{{ current_content.predecessor.text }}</textarea>
-                <p>
-                    <label for="documentcontent-name">{% trans 'Name' %}</label>
-                    <input class="form-control" type="text" id="documentcontent-name" value="{{ current_content.name }}" />
-                </p>
-                <p>
-                    <label for="legal-text-editor">{% trans 'Content' %}</label>
-                    <textarea id="legal-text-editor">{{ current_content.text }}</textarea>
-                </p>
+                {{form|bootstrap}}
             {% else %}
                 {% include 'issue/stub/document_view.html' with documentcontent=current_content %}
             {% endif %}
@@ -146,24 +108,14 @@
 
                 {% if editor_enabled %}
 
-                    <div class="comments">
-                        <label for="comments">{% trans 'Comments' %} <small>({% trans 'optional' %})</small>:</label>
-                        <textarea id="comments">{{ current_content.comments }}</textarea>
-                    </div>
-
-                    <div class="btn-group">
-                        <input type="button" class="btn btn-default" id="btn-preview" value="{% trans "Preview" %}" />
-                        <input type="submit" class="btn btn-default" id="btn-save" disabled="disabled" value="{% trans "Save" %}" />
-                    </div>
-                    <small id="preview-note">({% trans 'Preview is required before saving' %})</small>
-
-                    <div class="btn-group pull-right">
-                        {% if document.get_versions.count > 0 %}
-                            <a class="btn btn-default" role="button" href=".">{% trans 'Cancel' %}</a>
-                        {% else %}
-                            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/">{% trans 'Cancel' %}</a>
-                        {% endif %}
-                    </div>
+                <div class="pull-right">
+                    <input type="submit" class="btn btn-primary" id="btn-save" value="{% trans "Save" %}" />
+                    {% if document.get_versions.count > 0 %}
+                        <a class="btn btn-default" role="button" href=".">{% trans 'Cancel' %}</a>
+                    {% else %}
+                        <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/">{% trans 'Cancel' %}</a>
+                    {% endif %}
+                </div>
 
                 {% else %}
 
@@ -207,11 +159,10 @@
 
             {% endif %}
         </form>
-
     </div>
-
+</div>
+<div class="row">
     <div class="col-md-6 col-xs-12">
-
         {% if not editor_enabled %}
             {% include "issue/stub/documentcontent_status.html" with documentcontent=current_content %}
         {% endif %}
@@ -222,14 +173,6 @@
             </table>
         {% endif %}
 
-    </div>
-
-
-    <div class="col-md-6 col-xs-12">
-        <!-- Preview area -->
-        <div id="legal-text-container" style="display: none;">
-            <div id="legal-text"></div>
-        </div>
     </div>
 
     {% if document.get_versions.count > 0 %}

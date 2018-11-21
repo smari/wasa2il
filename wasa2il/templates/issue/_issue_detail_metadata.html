@@ -1,0 +1,63 @@
+{% load i18n %}
+<table class="table">
+
+    <tr>
+        <th>{% trans 'Issue number' %}:</th>
+        <td>{{ issue.issue_num }}/{{ issue.issue_year }}</td>
+    </tr>
+
+    {% if documentcontent %}
+        <tr><th>{% trans "Proposal" %}:</th><td><a href="/polity/{{ issue.polity.id }}/document/{{ documentcontent.document_id }}/?v={{ documentcontent.order }}">{{ documentcontent.document.name }}</a></td></tr>
+        <tr><th>{% trans "Author" %}:</th><td><a href="{% url 'profile' documentcontent.user.username %}">{{ documentcontent.user }}</a></td></tr>
+    {% endif %}
+    <tr><th>{% trans "In topics" %}:</th><td>{% for i in issue.topics.all %}<a href="/polity/{{ issue.polity.id }}/topic/{{ i.id }}/">{{ i.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td></tr>
+
+    {% if not issue.special_process %}
+        <tr><th>{% trans "Start time" %}:</th><td>{{ issue.created }}</td></tr>
+        {% if issue.deadline_discussions != issue.created and issue.deadline_discussions != issue.deadline_proposals %}
+            <tr><th>{% trans "Discussion ends" %}:</th><td>{{ issue.deadline_discussions }} ({{ issue.deadline_discussions|timeuntil }})</td></tr>
+        {% endif %}
+        {% if issue.deadline_proposals != issue.created %}
+            <tr><th>{% trans "Issue vote begins" %}:</th><td>{{ issue.deadline_proposals }} ({{ issue.deadline_proposals|timeuntil }})</td></tr>
+        {% endif %}
+    {% endif %}
+
+    <tr><th>{% trans "Issue vote ends at" %}:</th><td>{{ issue.deadline_votes }} ({{ issue.deadline_votes|timeuntil }})</td></tr>
+
+    {% if issue.special_process %}
+        <tr><th>{% trans 'Special process' %}:</th><td>{{ issue.get_special_process_display }}</td></tr>
+    {% else %}
+        {% if issue.issue_state == 'voting' or issue.issue_state == 'concluded' %}
+            <tr>
+                <th>{% trans "Votes" %}:</th>
+                <td>
+                    <span id="votecount_value">{{ issue.votecount }}</span>
+                    {% if issue.votecount_abstain %}
+                        <small id="votecount_abstain_container">
+                        (<span id="votecount_abstain_value">{{ issue.votecount_abstain }}</span> {% trans 'abstain' %})
+                        </small>
+                    {% endif %}
+                </td>
+            </tr>
+            {% if issue.issue_state == 'concluded' %}
+                <tr>
+                    <th>{% trans "Yes" %}:</th>
+                    <td id="issue_votes_yes">
+                        {{ issue.votecount_yes }}
+                        <small>({{ issue.percentage_reached|floatformat:2 }}%)</small>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{% trans "No" %}:</th>
+                    <td id="issue_votes_no">{{ issue.votecount_no }}</td>
+                </tr>
+            {% endif %}
+        {% endif %}
+        {% if issue.is_processed %}
+            <tr><th>{% trans "Result" %}:</th><td>{% if issue.majority_reached %}{% trans "Accepted" %}{% else %}{% trans "Rejected" %}{% endif %}</td></th></tr>
+        {% endif %}
+    {% endif %}
+
+    <tr><th>{% trans 'Majority threshold' %}:</th><td>{{ issue.majority_percentage|floatformat:2 }}%</td></tr>
+
+</table>

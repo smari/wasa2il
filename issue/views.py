@@ -17,14 +17,10 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
-from issue.forms import DocumentForm
-from issue.forms import IssueForm
-from issue.models import Document
-from issue.models import DocumentContent
-from issue.models import Issue
+from issue.forms import DocumentForm, DocumentContentForm, IssueForm
+from issue.models import Document, DocumentContent, Issue
 
 from polity.models import Polity
-
 from topic.models import Topic
 
 
@@ -146,6 +142,7 @@ def issues(request, polity_id):
     ctx = {
         'polity': polity,
         'issues': issues,
+        'myissues': myissues,
     }
     return render(request, 'issue/issues.html', ctx)
 
@@ -204,7 +201,9 @@ def document_view(request, polity_id, document_id):
 
     ctx = {}
 
+
     if action == 'new':
+        ctx['form'] = DocumentContentForm()
         ctx['editor_enabled'] = True
 
         current_content = DocumentContent()
@@ -218,6 +217,8 @@ def document_view(request, polity_id, document_id):
             current_content.name = document.name
 
     elif action == 'edit':
+        ctx['form'] = DocumentContentForm()
+
         if current_content.user.id == request.user.id and current_content.status == 'proposed' and issue is None:
             ctx['editor_enabled'] = True
 
