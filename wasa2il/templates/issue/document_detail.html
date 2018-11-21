@@ -1,22 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load wasa2il %}
+{% load bootstrap %}
 
 {% block facebook_title %}{% trans 'Document:' %} {{ document.name }} ({{ current_content.order }}){% endblock %}
 {% block facebook_description %}{% trans 'Status:' %} {{ current_content.get_status_display }}{% endblock %}
 
-{% block breadcrumbs %}
-{% add_breadcrumb _('Polities') '/polities/' %}
-{% url 'polity' polity.id as polityurl %}
-{% add_breadcrumb polity.name polityurl %}
-{% add_breadcrumb document.name %}
-{{ block.super }}
-{% endblock %}
-
 {% block javascript %}
-
-    {% include 'js-includes/confirmation.html' %}
-
     <script src="/static/js/jquery.autosize-min.js"></script>
     <script>
         var DOCUMENT_ID = {{ document.id }};
