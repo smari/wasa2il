@@ -5,6 +5,7 @@
 body {
   margin-top: 70px;
   padding-bottom: 40px;
+  font-size: $font-size;
 }
 
 #content-wrapper {
@@ -82,19 +83,19 @@ footer {
 /* Headers */
 h1 {
   font-family: $font-heading;
-  font-size: 300%;
+  font-size: 200%;
   font-weight: 700;
   color: $piratepurple;
 }
 h2 {
   font-family: $font-heading;
-  font-size: 200%;
+  font-size: 170%;
   font-weight: 500;
   color: #000;
 }
 h3 {
   font-family: $font-heading;
-  font-size: 180%;
+  font-size: 150%;
   font-weight: 400;
   color: #000;
 }
@@ -148,9 +149,9 @@ div#submit-working { background: #bbb; }
 .vote-tip { font-size: 15px; padding: 15px 5px; border-bottom: 1px solid #ccc; }
 
 /* Displaying of document contents, differences between them and such. */
-#legal-text { font-family: serif; font-size: 12px; overflow: overlay; margin-bottom: 10px; padding: 12px 24px 12px 24px; text-align: justify; border: 1px #e0e0e0 solid; }
-#legal-text h1 { font-family: inherit; font-size: 28px; font-weight: bold; margin: 4px 0 4px 4px; }
-#legal-text h2 { font-family: inherit; font-size: 18px; font-weight: bold; margin: 4px 0 4px 4px; }
+#legal-text { overflow: overlay; margin-bottom: 10px; padding: 12px 24px 12px 24px; text-align: justify; border: 1px #e0e0e0 solid; }
+#legal-text h1 { font-weight: bold; margin: 4px 0 4px 4px; }
+#legal-text h2 { font-weight: bold; margin: 4px 0 4px 4px; }
 #legal-text ol { margin: 12px 0 0 24px; }
 #legal-text li { margin: 0 0 18px 0; padding: 0 0 0 0; }
 #legal-text-editor { font-family: Courier New; width: 100%; height: 400px; }

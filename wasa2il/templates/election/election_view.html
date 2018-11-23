@@ -195,7 +195,7 @@
             {% if not voting_interface_enabled or election.election_state != 'voting' or started_voting or step == "vote" %}
                 <div class="alert alert-success">
                     <h3>{% trans "About This Election" %}</h3>
-                    <p>{{ election.instructions|safe|linebreaks }}</p>
+                    <p>{{ election.instructions|markdown|urlize }}</p>
                 </div>
             {% endif %}
         {% endif %}
@@ -282,7 +282,7 @@
         {% else %}
             {% if election.instructions %}
             <h2>{% trans "About This Election" %}</h2>
-            <p>{{ election.instructions|safe|linebreaks }}</p>
+            <p>{{ election.instructions|markdown|urlize }}</p>
             {% endif %}
         <h2>{% trans "How To Vote" %}</h2>
         <ul>

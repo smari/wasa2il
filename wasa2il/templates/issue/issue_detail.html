@@ -46,9 +46,11 @@
             {% endif %}
         {% endif %}
 
-        {{ issue.description|linebreaks }}
+        <div class="issue-description">
+          {{ issue.description|markdown|urlize }}
+        </div>
 
-        <table class="table table-compact">
+        <table class="table">
 
             <tr>
                 <th>{% trans 'Issue number' %}:</th>

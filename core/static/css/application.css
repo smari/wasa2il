@@ -5,7 +5,8 @@
 @import url(downloads/fonts.googleapis.com-Montserrat.css);
 body {
   margin-top: 70px;
-  padding-bottom: 40px; }
+  padding-bottom: 40px;
+  font-size: 14pt; }
 
 #content-wrapper {
   padding: 0px; }
@@ -570,7 +571,8 @@ div.prosemirror-editor {
       width: 50%;
       text-align: justify; }
     .profile-thingsdone {
-      width: 50%; }
+      width: 50%;
+      padding-left: 20px; }
     .profile-candidacies {
       width: 100%; } }
 /* Global search field */
@@ -629,19 +631,19 @@ div.prosemirror-editor {
 /* Headers */
 h1 {
   font-family: "Montserrat";
-  font-size: 300%;
+  font-size: 200%;
   font-weight: 700;
   color: #503087; }
 
 h2 {
   font-family: "Montserrat";
-  font-size: 200%;
+  font-size: 170%;
   font-weight: 500;
   color: #000; }
 
 h3 {
   font-family: "Montserrat";
-  font-size: 180%;
+  font-size: 150%;
   font-weight: 400;
   color: #000; }
 
@@ -732,8 +734,6 @@ div#submit-working {
 
 /* Displaying of document contents, differences between them and such. */
 #legal-text {
-  font-family: serif;
-  font-size: 12px;
   overflow: overlay;
   margin-bottom: 10px;
   padding: 12px 24px 12px 24px;
@@ -741,14 +741,10 @@ div#submit-working {
   border: 1px #e0e0e0 solid; }
 
 #legal-text h1 {
-  font-family: inherit;
-  font-size: 28px;
   font-weight: bold;
   margin: 4px 0 4px 4px; }
 
 #legal-text h2 {
-  font-family: inherit;
-  font-size: 18px;
   font-weight: bold;
   margin: 4px 0 4px 4px; }
 

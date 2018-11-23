@@ -39,12 +39,12 @@ More details: https://github.com/piratar/wasa2il/wiki/Installation
 
 1. Clone the project
 
-2. Create a virtual environment 
+2. Create a virtual environment
    `virtualenv venv`
 
-3. Load the virtual environmennt in your current shell:
+3. Load the virtual environment in your current shell:
    `source venv/bin/activate`
-   
+
 3. Install dependencies
    `pip install -r requirements.txt`
 

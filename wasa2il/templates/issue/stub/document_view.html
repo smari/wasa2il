@@ -101,6 +101,6 @@
         </div>
     {% endif %}
     <div id="legal-text" {% if tab == 'diff' %}style="display: none;"{% endif %}>
-    {{ documentcontent.text|markdown }}
+    {{ documentcontent.text|markdown|urlize }}
     </div>
 </div>
