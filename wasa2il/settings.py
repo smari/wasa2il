@@ -123,7 +123,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.cache.FetchFromCacheMiddleware',
     'core.middleware.GlobalsMiddleware',
     'core.middleware.AutoLogoutMiddleware',
-    'termsandconditions.middleware.TermsAndConditionsRedirectMiddleware',
+    'core.middleware.CustomTermsAndConditionsRedirectMiddleware',
     'core.middleware.SamlMiddleware',
 )
 try:

@@ -115,3 +115,87 @@ class SamlMiddleware(object):
 
             return response
         return response
+
+
+# This middleware is hopefully temporary. The vanilla
+# TermsAndConditionsRedirectMiddleware currently does not support passing the
+# URL's querystring onward. This means that an external service, using Django
+# as an authentication mechanism, will not receive its token back from the
+# login process if the terms and service need to be agreed to by the user.
+# This custom replacement, which is hopefully temporary, is a self-contained
+# and slightly refactored version of the vanilla
+# TermsAndConditionsRedirectMiddleware from django-termsandconditions version
+# 1.2.8.
+#
+# The fix we needed is adding the querystring in the "for term in
+# TermsAndConditions..." loop. The same change has already been proposed as a
+# pull request to its author:
+#     https://github.com/cyface/django-termsandconditions/pull/75
+#
+# TODO: Once the problem has been fixed in the official version of
+# django-termsandconditions, this entire class and its preceding import lines
+# should be removed, its mention in settings.py should be set to the official
+# package's edition. No further changes should be necessary to deprecate it.
+from termsandconditions.models import TermsAndConditions
+from termsandconditions.pipeline import redirect_to_terms_accept
+class CustomTermsAndConditionsRedirectMiddleware():
+    """
+    This middleware checks to see if the user is logged in, and if so,
+    if they have accepted all the active terms.
+    """
+
+    def process_request(self, request):
+        """Process each request to app to ensure terms have been accepted"""
+
+        current_path = request.META['PATH_INFO']
+
+        user_authenticated = request.user.is_authenticated()
+
+        if user_authenticated and self.is_path_protected(current_path):
+            for term in TermsAndConditions.get_active_terms_not_agreed_to(request.user):
+                # Check for querystring and include it if there is one
+                qs = request.META['QUERY_STRING']
+                current_path += '?' + qs if qs else ''
+                return redirect_to_terms_accept(current_path, term.slug)
+
+        return None
+
+    def is_path_protected(self, path):
+        """
+        returns True if given path is to be protected, otherwise False
+
+        The path is not to be protected when it appears on:
+        TERMS_EXCLUDE_URL_PREFIX_LIST, TERMS_EXCLUDE_URL_LIST or as
+        ACCEPT_TERMS_PATH
+        """
+        protected = True
+
+        ACCEPT_TERMS_PATH = getattr(
+            settings,
+            'ACCEPT_TERMS_PATH',
+            '/terms/accept/'
+        )
+
+        TERMS_EXCLUDE_URL_PREFIX_LIST = getattr(
+            settings,
+            'TERMS_EXCLUDE_URL_PREFIX_LIST',
+            {'/admin', '/terms'}
+        )
+
+        TERMS_EXCLUDE_URL_LIST = getattr(
+            settings,
+            'TERMS_EXCLUDE_URL_LIST',
+            {'/', '/termsrequired/', '/logout/', '/securetoo/'}
+        )
+
+        for exclude_path in TERMS_EXCLUDE_URL_PREFIX_LIST:
+            if path.startswith(exclude_path):
+                protected = False
+
+        if path in TERMS_EXCLUDE_URL_LIST:
+            protected = False
+
+        if path.startswith(ACCEPT_TERMS_PATH):
+            protected = False
+
+        return protected
