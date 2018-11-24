@@ -70,6 +70,10 @@ class Issue(models.Model):
     votecount_abstain = models.IntegerField(default=0)
     votecount_no = models.IntegerField(default=0)
 
+    #
+    #
+    # proponents = models.ManyToManyField('core.User')
+
     # A special process is one where the result is given without votes being
     # counted by the system. Examples are when an issue is accepted or
     # rejected at a meeting instead of using the voting system, or when an

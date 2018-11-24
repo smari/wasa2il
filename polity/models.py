@@ -110,5 +110,8 @@ class PolityRuleset(models.Model):
     issue_proposal_time = models.DurationField()
     issue_vote_time = models.DurationField()
 
+    #issue_proponents_required = models.IntegerField(help_text='The minimum number of people who must explicitly state support before the issue progresses. If zero, no automatic progression will occur.')
+    #issue_voter_quorum = models.IntegerField()
+
     def __unicode__(self):
         return u'%s' % self.name
