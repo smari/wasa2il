@@ -53,7 +53,7 @@
                 </p>
                 <ul>
                 {% for p in polity.officers.all %}
-                    <li><a href="{% url 'profile' p.username %}">{{ p }}</a></li>
+                    <li><a href="{% url 'profile' p.username %}">{{ p.get_name }}</a></li>
                 {% empty %}
                     {% trans 'No officers have been designated for this polity.' %}
                 {% endfor %}
@@ -65,7 +65,7 @@
                     <p>{% blocktrans %}Wranglers can create tasks, assign users to tasks they have applied to, unassign users from tasks, and mark tasks as done.{% endblocktrans %}</p>
                     <ul>
                     {% for p in polity.wranglers.all %}
-                        <li><a href="{% url 'profile' p.username %}">{{ p }}</a></li>
+                        <li><a href="{% url 'profile' p.username %}">{{ p.get_name }}</a></li>
                     {% empty %}
                         {% trans 'No wranglers have been configured for this polity.' %}
                     {% endfor %}
