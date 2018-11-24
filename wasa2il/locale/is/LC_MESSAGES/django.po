@@ -574,7 +574,7 @@ msgstr "Samþykktir"
 
 #: wasa2il/templates/_sidenav_polity.html:57
 msgid "Volunteer for tasks"
-msgstr "Bjóða sig fram í verkefni"
+msgstr "Grasrótarinn"
 
 #: wasa2il/templates/_sidenav_polity.html:64
 msgid "You are an officer in this polity."
@@ -2567,11 +2567,11 @@ msgstr "%(number)s verkefni í boði"
 
 #: wasa2il/templates/tasks/task_list.html:9
 msgid "Check out the tasks"
-msgstr "Kíkja á verkin"
+msgstr "Kíkja á verkefnin sem eru í boði"
 
 #: wasa2il/templates/tasks/task_list.html:10
 msgid "View your tasks"
-msgstr "Skoða verkefni"
+msgstr "Skoða verkefnin þín"
 
 #: wasa2il/templates/tasks/task_list.html:14
 msgid "Review applications"
