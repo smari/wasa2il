@@ -101,9 +101,29 @@ def manifest(request):
       "short_name": "%s" % (settings.INSTANCE_NAME),
       "icons": [
         {
-          "src": "/static/img/favicon.svg",
-          "sizes": "32x32 100x100 101x101 192x192 256x256",
-          "type": "image/svg+xml"
+          "src": "/static/img/logo-32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-100.png",
+          "sizes": "100x100",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-101.png",
+          "sizes": "101x101",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-256.png",
+          "sizes": "256x256",
+          "type": "image/png"
         },
       ],
       "start_url": "/",
