@@ -9,44 +9,11 @@
 {% block javascript %}
     <script src="/static/js/jquery.autosize-min.js"></script>
     <script>
-        var DOCUMENT_ID = {{ document.id }};
         var DOCUMENTCONTENT_ID = {% if current_content.id %}{{ current_content.id }}{% else %}0{% endif %};
-        var EDITOR_ENABLED = {% if editor_enabled %}true{% else %}false{% endif %};
-        var ERROR_CHANGE_PROPOSAL_IDENTICAL = "{% trans 'Change proposal must differ from its predecessor.' %}";
     </script>
 
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {
-
-            $('.document #propose-change').submit(function (e) {
-                input_name = $('#id_name').val().trim();
-                input_text = $('#id_text').val();
-                input_expl = $('#id_comment').val();
-
-                var inputs = $(this).find('input,textarea');
-                inputs.attr('disabled', 'disabled');
-                $.post(
-                    '/api/document/propose-change/',
-                    {
-                        document_id: DOCUMENT_ID,
-                        v: $('input[name="v"]').val(),
-                        name: input_name,
-                        text: input_text,
-                        comments: input_expl,
-                        patch: '',
-                        diff: ''
-                    },
-                    function (data) {
-                        window.location.replace(window.location.pathname + '?v=' + data.order);
-                    },
-                    'json'
-                ).fail(function(request, error_msg, error_thrown) {
-                    alert("Error: " + error_thrown);
-                    inputs.removeAttr('disabled');
-                });
-                e.preventDefault();
-                return false;
-            });
 
             $('#retract-proposal').click(function() {
 
@@ -91,81 +58,69 @@
 </h1>
 
 <div class="row">
-    <div class="col-md-12 col-xs-12 document">
+    <div class="col-md-6 col-xs-12 document">
+
+        {% include 'issue/stub/document_view.html' with documentcontent=current_content %}
+
+    </div>
+
+    <div class="col-md-6 col-xs-12">
+        {% include "issue/stub/documentcontent_status.html" with documentcontent=current_content %}
+
         <form id="propose-change" action="." method="post">
             {% csrf_token %}
             <link href="/static/prosemirror/widget.min.css" type="text/css" media="all" rel="stylesheet">
             <script type="text/javascript" src="/static/prosemirror/widget.min.js"></script>
             <input type="hidden" name="v" value="{{ current_content.order }}" />
 
-            {% if editor_enabled %}
-                {{form|bootstrap}}
-            {% else %}
-                {% include 'issue/stub/document_view.html' with documentcontent=current_content %}
-            {% endif %}
+            {% if not user.is_anonymous and buttons_enabled %}
 
-            {% if not user.is_anonymous %}
+                <div class="panel panel-default">
+                <div class="panel-body">
 
-                {% if editor_enabled %}
-
-                <div class="pull-right">
-                    <input type="submit" class="btn btn-primary" id="btn-save" value="{% trans "Save" %}" />
-                    {% if document.get_versions.count > 0 %}
-                        <a class="btn btn-default" role="button" href=".">{% trans 'Cancel' %}</a>
-                    {% else %}
-                        <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/">{% trans 'Cancel' %}</a>
-                    {% endif %}
-                </div>
-
-                {% else %}
-
-                    {% if buttons.propose_change %}
-                        <a class="btn btn-default" role="button" href="?action=new">{% trans "Propose change" %}</a>
-                    {% endif %}
-
-                    {% if buttons.retract_proposal %}
-                        <button class="btn btn-default"
-                                id="retract-proposal"
-                                role="button"
-                                data-toggle="confirmation"
-                                data-title="{% trans 'Retract proposal' %}"
-                                data-content="{% trans 'Are you sure you want to retract this issue?' %} {% trans 'Note that this will only cancel its vote, but will not delete the proposal itself.' %}"
-                                data-btn-ok-label="{% trans 'Yes' %}"
-                                data-btn-cancel-label="{% trans 'No' %}"
-                                data-btn-ok-class="btn-success"
-                                data-btn-cancel-class="btn-default"
-                                type="button">
-                            {% trans "Retract proposal" %}
-                        </button>
-                    {% endif %}
-
-                    {% if buttons.edit_proposal %}
-                        {% if buttons.edit_proposal == 'disabled' %}
-                            <a class="btn btn-default disabled" role="button">{% trans "Edit proposal" %}</a>
-                        {% else %}
-                            <a class="btn btn-default" role="button" href="?v={{ current_content.order }}&amp;action=edit">{% trans "Edit proposal" %}</a>
-                        {% endif %}
-                    {% endif %}
-
-                    {% if buttons.put_to_vote %}
-                        {% if buttons.put_to_vote == 'disabled' %}
-                            <a class="btn btn-default disabled" role="button">{% trans "Put to vote" %}</a>
-                        {% else %}
-                            <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/issue/new/documentcontent/{{ current_content.id }}/">{% trans "Put to vote" %}</a>
-                        {% endif %}
-                    {% endif %}
-
+                {% if buttons.propose_change %}
+                    <a class="btn btn-default" role="button" href="{% url 'documentcontent_add' polity.id document.id %}">{% trans "Propose change" %}</a>
                 {% endif %}
 
+                {% if buttons.retract_proposal %}
+                    <button class="btn btn-default"
+                            id="retract-proposal"
+                            role="button"
+                            data-toggle="confirmation"
+                            data-title="{% trans 'Retract proposal' %}"
+                            data-content="{% trans 'Are you sure you want to retract this issue?' %} {% trans 'Note that this will only cancel its vote, but will not delete the proposal itself.' %}"
+                            data-btn-ok-label="{% trans 'Yes' %}"
+                            data-btn-cancel-label="{% trans 'No' %}"
+                            data-btn-ok-class="btn-success"
+                            data-btn-cancel-class="btn-default"
+                            type="button">
+                        {% trans "Retract proposal" %}
+                    </button>
+                {% endif %}
+
+                {% if buttons.edit_proposal %}
+                    {% if buttons.edit_proposal == 'disabled' %}
+                        <a class="btn btn-default disabled" role="button">{% trans "Edit proposal" %}</a>
+                    {% else %}
+                        <a class="btn btn-default" role="button" href="{% url 'documentcontent_edit' polity.id document.id current_content.order %}">{% trans "Edit proposal" %}</a>
+                    {% endif %}
+                {% endif %}
+
+                {% if buttons.put_to_vote %}
+                    {% if buttons.put_to_vote == 'disabled' %}
+                        <a class="btn btn-default disabled" role="button">{% trans "Put to vote" %}</a>
+                    {% else %}
+                        <a class="btn btn-default" role="button" href="/polity/{{ polity.id }}/issue/new/documentcontent/{{ current_content.id }}/">{% trans "Put to vote" %}</a>
+                    {% endif %}
+                {% endif %}
+
+                </div>
+                </div>
+
             {% endif %}
+
         </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6 col-xs-12">
-        {% if not editor_enabled %}
-            {% include "issue/stub/documentcontent_status.html" with documentcontent=current_content %}
-        {% endif %}
+
 
         {% if issue %}
             <table class="table table-compact">
@@ -188,8 +143,8 @@
             {% for content in document.get_versions %}
             <tr class="change {% if content.order == current_content.order %}current{% endif %}" data-id="{{ content.id }}" data-patch="{{ content.patch }}">
                 {% if content.order != current_content.order %}
-                    <td><a href="?v={{ content.order }}">{{ content.order }}</a></td>
-                    <td style="white-space: nowrap;"><a href="?v={{ content.order }}">{{ content.get_status_display }}</a></td>
+                    <td><a href="{% url 'document_view' polity.id document.id content.order %}">{{ content.order }}</a></td>
+                    <td style="white-space: nowrap;"><a href="{% url 'document_view' polity.id document.id content.order %}">{{ content.get_status_display }}</a></td>
                 {% else %}
                     <td><strong>{{ content.order }}</strong></td>
                     <td style="white-space: nowrap;"><strong>{{ content.get_status_display }}</strong></td>

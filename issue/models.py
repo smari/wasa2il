@@ -439,3 +439,14 @@ class DocumentContent(models.Model):
 
     def __unicode__(self):
         return u"DocumentContent (ID: %d)" % self.id
+
+    def save(self, *args, **kwargs):
+
+        # Keep a strict standard on line-endings of textx and comments. We
+        # will stick to the simple Unix-variant of a single newline character
+        # to denote a newline. (This may become important for comparing
+        # things, for example.)
+        self.text = self.text.replace('\r\n', '\n')
+        self.comments = self.comments.replace('\r\n', '\n')
+
+        super(DocumentContent, self).save(*args, **kwargs)

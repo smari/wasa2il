@@ -93,7 +93,7 @@
             {% for e in profile_user.documentcontent_set.all %}
             <tr>
                 <td>
-                    <a href="{% url 'document' e.document.polity.id e.document.id %}?v={{e.order}}">{{e.document.name}}</a>
+                    <a href="{% url 'document_view' e.document.polity.id e.document.id e.order %}">{{e.document.name}}</a>
                 </td>
                 <td>
                     {{e.get_status_display}}

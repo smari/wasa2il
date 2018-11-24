@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+{% load crispy_forms_tags %}
+
+{% block javascript %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+<section class="content">
+
+<h1>{% trans 'Add proposal' %}</h1>
+{% if documentcontent %}
+    <h2>{{ documentcontent.name }} <small>({% trans 'version' %} {{ documentcontent.order }})</small></h2>
+{% endif %}
+
+{% crispy form %}
+<span id="cancel-url">{% url 'document' polity.id document.id %}</span>
+
+</section>
+{% endblock %}
