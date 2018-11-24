@@ -179,8 +179,6 @@ INSTALLED_APPS = (
 
     'django.contrib.admin',
 
-    'sslserver',
-
     'registration',
     'bootstrapform',
     'diff_match_patch',
