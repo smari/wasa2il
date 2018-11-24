@@ -381,6 +381,8 @@ class DocumentContent(models.Model):
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='proposed')
     predecessor = models.ForeignKey('issue.DocumentContent', null=True, blank=True)
 
+    class Meta:
+        unique_together = ['document', 'order']
 
     # Attempt to inherit earlier issue's topic selection
     def previous_topics(self):
