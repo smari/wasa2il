@@ -21,6 +21,8 @@ class GlobalsMiddleware():
             'user_is_member': False,
             'user_is_officer': False,
             'user_is_wrangler': False,
+            'WASA2IL_VERSION': settings.WASA2IL_VERSION,
+            'WASA2IL_HASH': settings.WASA2IL_HASH,
         }
 
         try:
