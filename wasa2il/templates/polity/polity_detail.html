@@ -18,6 +18,9 @@
         <a class="btn btn-default" role="button" href="{% url 'polity_edit' polity.id %}">{% trans 'Settings' %}</a>
         <a class="btn btn-default" role="button" href="{% url 'polity_officers' polity.id %}">{% trans 'Officers' %}</a>
     {% endif %}
+    {% if user.is_superuser %}
+        <a class="btn btn-default" role="button" href="{% url 'admin_tools' %}">{% trans 'Admin tools' %}</a>
+    {% endif %}
 </h1>
 
 <div id="polity-info">
