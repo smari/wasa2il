@@ -58,9 +58,14 @@ footer {
  #polity-info { display: none; }
 }
 
+@media (max-width: 1024px) {
+  footer { display: none; }
+}
+
 @media (min-width: 768px) {
  form.navbar-form { padding: 0px; max-width: 220px; }
  #polity-info-toggle { display: none; }
+ .mobile-nav { display: none; }
 }
 
 .img-negpad { margin-top: -5px; margin-bottom: -5px; }
