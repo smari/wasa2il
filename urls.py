@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admintools/', core_views.view_admintools, name='admin_tools'),
 
     # Enabling i18n language changes per
     # https://docs.djangoproject.com/en/1.4/topics/i18n/translation/#the-set-language-redirect-view
