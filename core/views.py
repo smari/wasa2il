@@ -131,7 +131,7 @@ def manifest(request):
       "theme_color": "#e9e9e9",
       "display": "standalone",
       "serviceworker": {
-        "src": "/static/js/service-worker.js?ts=%s" % (settings.WASA2IL_VERSION),
+        "src": "/service-worker.js?ts=%s" % (settings.WASA2IL_HASH),
         "scope": "/",
         "use_cache": False
       }
