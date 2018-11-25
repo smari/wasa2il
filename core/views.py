@@ -26,11 +26,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
 from django.http import Http404
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from django.template import RequestContext
-from django.db.models import Q
-from django.db.models import Count
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils import timezone
@@ -149,6 +145,9 @@ def help(request, page):
 
     raise Http404
 
+@user_passes_test(lambda u: u.is_superuser)
+def view_admintools(request):
+    return render(request, 'admintools.html')
 
 @never_cache
 @login_required
