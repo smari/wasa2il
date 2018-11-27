@@ -9,11 +9,41 @@ from hashlib import sha256
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-try:
-    from local_settings import *
-except ImportError:
-    from default_settings import *
-    print('No local_settings.py found. Setting default values.')
+ADMINS=os.environ.get('ADMINS')
+AGE_LIMIT=os.environ.get('AGE_LIMIT')
+#ALLOWED_HOSTS=os.environ.get('ALLOWED_HOSTS')
+ALLOW_LEAVE_POLITY=os.environ.get('ALLOW_LEAVE_POLITY')
+AUTO_LOGOUT_DELAY=os.environ.get('AUTO_LOGOUT_DELAY')
+BALLOT_SAVEFILE_FORMAT=os.environ.get('BALLOT_SAVEFILE_FORMAT')
+DATABASE_ENGINE=os.environ.get('DATABASE_ENGINE')
+DATABASE_HOST=os.environ.get('DATABASE_HOST')
+DATABASE_NAME=os.environ.get('DATABASE_NAME')
+DATABASE_PASSWORD=os.environ.get('DATABASE_PASSWORD')
+DATABASE_PORT=os.environ.get('DATABASE_PORT')
+DATABASE_USER=os.environ.get('DATABASE_USER')
+DATE_FORMAT=os.environ.get('DATE_FORMAT')
+DATETIME_FORMAT_DJANGO_WIDGET=os.environ.get('DATETIME_FORMAT_DJANGO_WIDGET')
+DATE_FORMAT=os.environ.get('DATE_FORMAT')
+DEBUG=os.environ.get('DEBUG')
+EMAIL_BACKEND=os.environ.get('EMAIL_BACKEND')
+INSTANCE_FACEBOOK_APP_ID=os.environ.get('INSTANCE_FACEBOOK_APP_ID')
+INSTANCE_FACEBOOK_IMAGE=os.environ.get('INSTANCE_FACEBOOK_IMAGE')
+INSTANCE_LOGO=os.environ.get('INSTANCE_LOGO')
+INSTANCE_NAME=os.environ.get('INSTANCE_NAME')
+INSTANCE_SLUG=os.environ.get('INSTANCE_SLUG')
+INSTANCE_URL=os.environ.get('INSTANCE_URL')
+LANGUAGE_CODE=os.environ.get('LANGUAGE_CODE')
+ORGANIZATION_NAME=os.environ.get('ORGANIZATION_NAME')
+RECENT_ELECTION_DAYS=os.environ.get('RECENT_ELECTION_DAYS')
+RECENT_ISSUE_DAYS=os.environ.get('RECENT_ISSUE_DAYS')
+SECRET_KEY=os.environ.get('SECRET_KEY')
+SERVER_EMAIL=os.environ.get('SERVER_EMAIL')
+TIME_ZONE=os.environ.get('TIME_ZONE')
+
+FEATURES = {
+    'tasks': True,
+    'topic': True,
+}
 
 # Get Wasa2il version.
 with open(os.path.join(BASE_DIR, 'VERSION'), 'r') as f:
@@ -26,6 +56,7 @@ with open(os.path.join(BASE_DIR, 'VERSION'), 'r') as f:
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
+
 
 
 MANAGERS = ADMINS
