@@ -61,10 +61,13 @@ That should be it!
 
 If you have `docker-compose` installed you should only need these 1-2 commands:
 
-Start web + db containers:
+1. Create your personal .env file
+  `cp env.example .env`
+
+2. Start web + db containers:
 `docker-compose up`
 
-Run database migrations (if needed):
+3. Run database migrations (if needed):
 `docker-compose run wasaweb python manage.py migrate`
 
 

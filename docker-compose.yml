@@ -8,6 +8,7 @@ version: '2'
 
 services:
   wasaweb:
+    env_file: .env
     build: .
     volumes:
       - .:/usr/src/app
@@ -16,7 +17,11 @@ services:
     links:
       - "db"
     environment:
-      - DOCKER_DB_HOST=db
+      - DATABASE_ENGINE=mysql
+      - DATABASE_HOST=db
+      - DATABASE_USER=docker
+      - DATABASE_PASSWORD=docker
+      - DATABASE_PORT=3306
     depends_on:
       - db
   db:
