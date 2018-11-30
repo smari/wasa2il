@@ -3,8 +3,11 @@ python:
 - '2.7'
 env:
 - DATABASE_USER=root
+- DATABASE_PASSWORD=
 before_install:
 - printenv DATABASE_USER
+- printenv DATABASE_PASSWORD
+- cat /etc/os-release
 install: pip install -r requirements.txt
 script:
 - coverage run --source=. manage.py test -v 2
