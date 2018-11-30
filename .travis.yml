@@ -1,11 +1,10 @@
 language: python
 python:
 - '2.7'
+env:
+- DATABASE_USER=root
 before_install:
-- mysql -e 'CREATE DATABASE IF NOT EXISTS test_docker;'
-- sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('docker') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
-- sudo mysql_upgrade -u root -pdocker
-- sudo service mysql restart
+- printenv DATABASE_USER
 install: pip install -r requirements.txt
 script:
 - coverage run --source=. manage.py test -v 2
