@@ -61,7 +61,7 @@ That should be it!
 
 If you have `docker-compose` installed you should only need these 1-2 commands:
 
-1. Create your personal .env file
+1. Create your personal .env file so you can easily override some ENV vars like language etc.
   `cp env.example .env`
 
 2. Start web + db containers:
@@ -69,6 +69,9 @@ If you have `docker-compose` installed you should only need these 1-2 commands:
 
 3. Run database migrations (if needed):
 `docker-compose run wasaweb python manage.py migrate`
+
+4. If the db container is not started before the web container tries to access it, resulting in a Django error, restart the web container:
+`docker-compose restart wasaweb`
 
 
 ## Contributing
