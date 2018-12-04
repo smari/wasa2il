@@ -23,7 +23,12 @@ INSTANCE_FACEBOOK_APP_ID = ''
 FEATURES = {
     'tasks': True,
     'topic': True,
+    'push_notifications': False, # Set up GCM settings below.
 }
+
+GCM_APP_ID = ""
+GCM_SENDER_ID = ""
+GCM_REST_API_KEY = ""
 
 TIME_ZONE = 'Iceland'
 
