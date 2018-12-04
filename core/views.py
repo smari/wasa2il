@@ -130,7 +130,8 @@ def manifest(request):
         "src": "/service-worker.js?ts=%s" % (settings.WASA2IL_HASH),
         "scope": "/",
         "use_cache": False
-      }
+      },
+      "gcm_sender_id": "%d" % (settings.GCM_SENDER_ID),
     }
     return JsonResponse(manifest)
 
