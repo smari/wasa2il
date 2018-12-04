@@ -43,8 +43,42 @@
     <script src="/static/bootstrap/js/bootstrap.js"></script>
     <script src="/static/js/wasa2il.js?v={{WASA2IL_HASH}}"></script>
     <script src="/static/js/csrf.js"></script>
+    <link rel="manifest" href="/manifest.json" />
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
     var django = { jQuery: $ };
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "{{GCM_APP_ID}}",
+        autoRegister: false,
+        notifyButton: {
+          enable: false,
+        },
+        promptOptions: {
+          customlink: {
+            enabled: true,
+            style: "button",
+            size: "medium",
+            color: {
+              button: '#E12D30',
+              text: '#FFFFFF',
+            },
+            text: {
+              subscribe: "{% trans "Subscribe to push notifications" %}",
+              unsubscribe: "{% trans "Unsubscribe from push notifications" %}",
+              explanation: "{% trans "Get updates from all sorts of things that matter to you" %}",
+            },
+            unsubscribeEnabled: true,
+          }
+        }
+      });
+    });
+    OneSignal.push(["sendTags", {
+      lang: "{{LANGUAGE_CODE}}",
+      {% for x in user.userprofile.get_polity_ids %}polity{{x}}: "true",
+      {% endfor %}
+    }]);
     </script>
     {% block javascript %}
     {% endblock %}
