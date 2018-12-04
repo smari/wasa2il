@@ -1,8 +1,13 @@
 import random
 import string
+import requests
+import json
+from wasa2il import settings
+
+from django.utils import translation
+from django.utils.translation import ugettext_lazy as _
 
 from datetime import datetime
-
 from dateutil.relativedelta import relativedelta
 
 def ssn_is_formatted_correctly(ssn):
@@ -44,3 +49,80 @@ def is_ssn_human_or_institution(ssn):
 
 def random_word(length):
     return ''.join(random.choice(string.lowercase) for i in range(length))
+
+
+## Push notifications tools
+
+def push_server_post(action, payload):
+    if not settings.FEATURES['push_notifications']:
+        return False
+
+    header = {"Content-Type": "application/json; charset=utf-8",
+              "Authorization": "Basic %s" % settings.GCM_REST_API_KEY }
+    req = requests.post("https://onesignal.com/api/v1/%s" % action, headers=header, data=json.dumps(payload))
+
+    return req
+
+def push_server_get(action, payload):
+    if not settings.FEATURES['push_notifications']:
+        return False
+
+    header = {"Content-Type": "application/json; charset=utf-8",
+              "Authorization": "Basic %s" % settings.GCM_REST_API_KEY }
+    req = requests.get("https://onesignal.com/api/v1/%s" % action, headers=header, params=payload)
+
+    return req
+
+def push_send_notification(messages, segments, filters=None, buttons=None):
+    payload = {"app_id": settings.GCM_APP_ID,
+               "included_segments": segments,
+               "contents": messages}
+
+    # Example buttons:
+    #
+    # [{"id": "like-button", "text": "Like", "icon": "http://i.imgur.com/N8SN8ZS.png", "url": "https://yoursite.com"},
+    # {"id": "read-more-button", "text": "Read more", "icon": "http://i.imgur.com/MIxJp1L.png", "url": "https://yoursite.com"}]
+    #
+
+    if buttons:
+        payload['web_buttons'] = buttons
+
+    if filters:
+        payload['filters'] = filters
+
+    return push_server_post('notifications', payload)
+
+def push_send_notification_to_all_users(message, filters=None, buttons=None):
+    # TODO: This needs to be updated to support i18n the way
+    #       push_send_notification_to_polity_users does.
+    #
+    messages = {"en": message, "is": message}
+    return push_send_notification(messages, ["All"], filters=filters, buttons=buttons)
+
+def push_send_notification_to_polity_users(polity, message, msgargs=(), buttons=None):
+    #   NOTE: Because it's hard to control user's language code as
+    #         the push service understands it, we are instead using
+    #         a tag named 'lang' to store the user's language preference.
+    #         To accommodate translations, we send out push notifications
+    #         to users in groups segmented by their 'lang' value, running
+    #         each of these through i18n in the appropriate language.
+    #
+    old_lang = translations.get_language()
+
+    for lang in ["is", "en"]:   # TODO: This should not be hard-coded.
+        translation.activate(lang)
+        messages = {"en": _(message) % msgargs}
+        polityfilters = [
+            {"field": "tag", "key": "lang", "relation": "=", "value": lang},
+            {"operator": "and"},
+            {"field": "tag", "key": "polity%d" % polity, "relation": "=", "value": "true"}
+        ]
+        return push_send_notification(messages, ["All"], polityfilters, buttons)
+
+    translation.activate(old_lang)
+
+def push_get_all_users():
+    res = push_server_get('players', {"app_id": settings.GCM_APP_ID})
+    if res.status_code == 200:
+        return res.json()
+    return False
