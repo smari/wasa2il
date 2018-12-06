@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.forms import Form
 from django.forms import CharField
 from django.forms import EmailField
 from django.forms import TypedChoiceField
@@ -60,3 +61,6 @@ class Wasa2ilRegistrationForm(RegistrationForm):
         widget=EmailWantedField,
         label=_('Consent for sending email')
     )
+
+class PushNotificationForm(Form):
+    text = CharField(label=_('Message'))
