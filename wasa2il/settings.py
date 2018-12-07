@@ -9,9 +9,9 @@ from hashlib import sha256
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ADMINS=os.environ.get('ADMINS', ['username','user@example.com']).split(',')
+ADMINS=os.environ.get('ADMINS', 'username,user@example.com').split(',')
 AGE_LIMIT=os.environ.get('AGE_LIMIT', 16)
-ALLOWED_HOSTS=os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS=os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 ALLOW_LEAVE_POLITY=os.environ.get('ALLOW_LEAVE_POLITY', False)
 AUTO_LOGOUT_DELAY=os.environ.get('AUTO_LOGOUT_DELAY', 30)
 BALLOT_SAVEFILE_FORMAT=os.environ.get('BALLOT_SAVEFILE_FORMAT', 'elections/ballots-%(voting_system)s-%(election_id)s.json')
