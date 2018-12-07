@@ -8,6 +8,7 @@ version: '2'
 
 services:
   wasaweb:
+    env_file: .env
     build: .
     volumes:
       - .:/usr/src/app
@@ -15,8 +16,6 @@ services:
       - "8000:8000"
     links:
       - "db"
-    environment:
-      - DOCKER_DB_HOST=db
     depends_on:
       - db
   db:

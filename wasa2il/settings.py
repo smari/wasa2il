@@ -9,11 +9,45 @@ from hashlib import sha256
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-try:
-    from local_settings import *
-except ImportError:
-    from default_settings import *
-    print('No local_settings.py found. Setting default values.')
+ADMINS=os.environ.get('ADMINS', 'username,user@example.com')
+AGE_LIMIT=os.environ.get('AGE_LIMIT', 16)
+#ALLOWED_HOSTS=os.environ.get('ALLOWED_HOSTS', 'localhost')
+ALLOW_LEAVE_POLITY=os.environ.get('ALLOW_LEAVE_POLITY', False)
+AUTO_LOGOUT_DELAY=os.environ.get('AUTO_LOGOUT_DELAY', 30)
+BALLOT_SAVEFILE_FORMAT=os.environ.get('BALLOT_SAVEFILE_FORMAT', 'elections/ballots-%(voting_system)s-%(election_id)s.json')
+DATABASE_ENGINE=os.environ.get('DATABASE_ENGINE', 'django.db.backends.mysql')
+DATABASE_HOST=os.environ.get('DATABASE_HOST', '127.0.0.1')
+DATABASE_NAME=os.environ.get('DATABASE_NAME', 'docker')
+DATABASE_PASSWORD=os.environ.get('DATABASE_PASSWORD', 'docker')
+DATABASE_PORT=os.environ.get('DATABASE_PORT', '3306')
+DATABASE_USER=os.environ.get('DATABASE_USER', 'docker')
+DATETIME_FORMAT=os.environ.get('DATETIME_FORMAT', 'd/m/Y H:i:s')
+DATETIME_FORMAT_DJANGO_WIDGET=os.environ.get('DATETIME_FORMAT_DJANGO_WIDGET', 'dd/mm/yyyy hh:ii')
+DATE_FORMAT=os.environ.get('DATE_FORMAT', 'd/m/Y')
+DEBUG=os.environ.get('DEBUG', True)
+EMAIL_BACKEND=os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+GCM_APP_ID=os.environ.get('GCM_APP_ID', '')
+GCM_SENDER_ID=os.environ.get('GCM_SENDER_ID', '')
+GCM_REST_API_KEY=os.environ.get('GCM_REST_API_KEY', '')
+INSTANCE_FACEBOOK_APP_ID=os.environ.get('INSTANCE_FACEBOOK_APP_ID', '')
+INSTANCE_FACEBOOK_IMAGE=os.environ.get('INSTANCE_FACEBOOK_IMAGE', 'https://example.com/full/url/to/image.png')
+INSTANCE_LOGO=os.environ.get('INSTANCE_LOGO', '')
+INSTANCE_NAME=os.environ.get('INSTANCE_NAME', 'Unconfigured Wasa2il')
+INSTANCE_SLUG=os.environ.get('INSTANCE_SLUG', 'unconfiguredwasa2il')
+INSTANCE_URL=os.environ.get('INSTANCE_URL', '')
+LANGUAGE_CODE=os.environ.get('LANGUAGE_CODE', 'en-US')
+ORGANIZATION_NAME=os.environ.get('ORGANIZATION_NAME', 'orgName')
+RECENT_ELECTION_DAYS=os.environ.get('RECENT_ELECTION_DAYS', 7)
+RECENT_ISSUE_DAYS=os.environ.get('RECENT_ISSUE_DAYS', 7)
+SECRET_KEY=os.environ.get('SECRET_KEY', 'defaultSecretKeyThatNeedsReplacing')
+SERVER_EMAIL=os.environ.get('SERVER_EMAIL', '')
+TIME_ZONE=os.environ.get('TIME_ZONE', 'Iceland')
+
+
+FEATURES = {
+    'tasks': True,
+    'topic': True,
+}
 
 # Get Wasa2il version.
 with open(os.path.join(BASE_DIR, 'VERSION'), 'r') as f:
@@ -26,6 +60,7 @@ with open(os.path.join(BASE_DIR, 'VERSION'), 'r') as f:
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
+
 
 
 MANAGERS = ADMINS

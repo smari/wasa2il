@@ -1,11 +1,21 @@
 language: python
 python:
 - '2.7'
+env:
+  global:
+  - DATABASE_USER=root
+  - DATABASE_PASSWORD=
+before_install:
+- printenv DATABASE_USER
+- printenv DATABASE_PASSWORD
+- cat /etc/os-release
 install: pip install -r requirements.txt
 script:
 - coverage run --source=. manage.py test -v 2
 - coverage xml
 - if [ "$CODACY_PROJECT_TOKEN" ]; then python-codacy-coverage -r coverage.xml; fi
+services:
+- mysql
 deploy:
   provider: heroku
   api_key:

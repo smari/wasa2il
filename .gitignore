@@ -19,3 +19,4 @@ reports/*
 !reports/index.html
 .coverage
 .sass-cache
+.env
