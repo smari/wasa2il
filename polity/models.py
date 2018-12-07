@@ -27,6 +27,21 @@ class Polity(models.Model):
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
     is_front_polity = models.BooleanField(verbose_name=_("Front polity?"), default=False, help_text=_("If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity."))
 
+    push_on_debate_start = models.BooleanField(default=False,
+        verbose_name=_("Send notification when debate starts?"))
+    push_on_vote_start = models.BooleanField(default=False,
+        verbose_name=_("Send notification when issue goes to vote?"))
+    push_before_vote_end = models.BooleanField(default=False,
+        verbose_name=_("Send notification an hour before voting ends?"))
+    push_on_vote_end = models.BooleanField(default=False,
+        verbose_name=_("Send notification when voting ends?"))
+    push_on_election_start = models.BooleanField(default=False,
+        verbose_name=_("Send notification when an election starts?"))
+    push_before_election_end = models.BooleanField(default=False,
+        verbose_name=_("Send notification an hour before election ends?"))
+    push_on_election_end = models.BooleanField(default=False,
+        verbose_name=_("Send notification when an election ends?"))
+
     d = dict(
         editable=False,
         null=True,
