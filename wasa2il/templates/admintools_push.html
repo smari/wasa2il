@@ -7,16 +7,16 @@
   <h1>{% trans "Push users" %}</h1>
 
   {% if settings.FEATURES.push_notifications %}
-    <p><b>Total signed up devices:</b> {{push_users.total_count}}</p>
+    <p><b>{% trans "Total signed up devices:" %}</b> {{push_users.total_count}}</p>
 
     <table class="table">
     <thead>
       <tr>
-        <th>Device type</th>
-        <th>Language</th>
-        <th>Created at</th>
-        <th>Last active</th>
-        <th>Sessions</th>
+        <th>{% trans "Device type" %}</th>
+        <th>{% trans "Language" %}</th>
+        <th>{% trans "Created at" %}</th>
+        <th>{% trans "Last active" %}</th>
+        <th>{% trans "Sessions" %}</th>
       </tr>
     </thead>
     {% for player in push_users.players %}
