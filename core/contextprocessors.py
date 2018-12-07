@@ -11,7 +11,9 @@ def globals(request):
         'INSTANCE_FACEBOOK_IMAGE': settings.INSTANCE_FACEBOOK_IMAGE,
         'INSTANCE_FACEBOOK_APP_ID': settings.INSTANCE_FACEBOOK_APP_ID,
         'INSTANCE_VERSION': settings.WASA2IL_VERSION,
-        'FEATURES': settings.FEATURES
+        'FEATURES': settings.FEATURES,
+        'GCM_APP_ID': settings.GCM_APP_ID,
+        'settings': settings
     }
 
     # Get global variables from GlobalsMiddleWare.

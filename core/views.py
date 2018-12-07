@@ -39,11 +39,13 @@ from django.contrib.auth.models import User
 from core.models import UserProfile
 from core.forms import UserProfileForm
 from core.forms import Wasa2ilRegistrationForm
+from core.forms import PushNotificationForm
 from core.saml import authenticate, SamlException
 from core.signals import user_verified
 from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
 from core.utils import random_word
+from core.utils import push_get_all_users
 from election.models import Election
 from election.models import ElectionResult
 from issue.forms import DocumentForm
@@ -130,7 +132,8 @@ def manifest(request):
         "src": "/service-worker.js?ts=%s" % (settings.WASA2IL_HASH),
         "scope": "/",
         "use_cache": False
-      }
+      },
+      "gcm_sender_id": "%d" % (settings.GCM_SENDER_ID),
     }
     return JsonResponse(manifest)
 
@@ -147,7 +150,13 @@ def help(request, page):
 
 @user_passes_test(lambda u: u.is_superuser)
 def view_admintools(request):
-    return render(request, 'admintools.html')
+    push_form = PushNotificationForm()
+    return render(request, 'admintools.html', {'push_form': push_form})
+
+@user_passes_test(lambda u: u.is_superuser)
+def view_admintools_push(request):
+    push_info = push_get_all_users()
+    return render(request, 'admintools_push.html', {'push_users': push_info})
 
 @never_cache
 @login_required

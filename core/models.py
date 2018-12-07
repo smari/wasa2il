@@ -83,6 +83,9 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 
+    def get_polity_ids(self):
+        return [x.id for x in self.user.polities.all()]
+
 # Make sure registration creates profiles
 def _create_user_profile(**kwargs):
     UserProfile.objects.get_or_create(user=kwargs['user'])

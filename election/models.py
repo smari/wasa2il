@@ -183,6 +183,10 @@ class Election(models.Model):
         self.is_processed = True
         self.save()
 
+        # Doing this just to force the translation string creation:
+        __ = _("Election results in election '%s' have been calculated.")
+        push_send_notification_to_polity_users(election.polity.id, "Election results in election '%s' have been calculated.", [election.name])
+
     def generate_stats(self):
         ballot_counter = self.load_archived_ballots()
         if ballot_counter.ballots:

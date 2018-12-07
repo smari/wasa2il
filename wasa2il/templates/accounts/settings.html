@@ -11,7 +11,10 @@
 <h1>{% trans "Settings" %}</h1>
 <p>{% trans "You are signed in as" %} {{ user.get_name }}.</p>
 
+<div class='onesignal-customlink-container'></div>
+
 {% crispy form %}
+
 <span id="cancel-url">{% url 'profile' %}</span>
 </section>
 {% endblock %}

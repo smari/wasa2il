@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 <section class="content">
-  <h1>Admin tools</h1>
+  <h1>{% trans "Admin tools" %}</h1>
 
-  <h2>Notifications / Web app</h2>
-  <a class="btn btn-default" onclick="test_notification()">
-    Test Notification
-  </a>
+  <h2>{% trans "Push notifications" %}</h2>
+  {% if settings.FEATURES.push_notifications %}
+    <p>Send a notification to <b>all</b> users.</p>
+    <form method="POST">
+    {% csrf_token %}
+    {{push_form}}
+    <button type="submit" class="btn btn-default">Notify ALL users.</button>
+    </form>
+
+    <div>
+      <a class="btn btn-default" href="/admintools/push/">See push users</a>
+    </div>
+  {% else %}
+    {% trans "Push notifications disabled systemwide." %}
+  {% endif %}
+
+
 </section>
 {% endblock %}

@@ -86,7 +86,7 @@ def thumbnail(file, size='104x104'):
         print 'Error: %s' % e
         return ""
 
- 
+
 @register.filter(is_safe=True)
 @stringfilter
 def markdown(value):
@@ -142,3 +142,8 @@ def comments_section(obj_key, obj_id, closed=False):
         'closed': closed,
         'btntext': _('Add comment')
     }
+
+
+@register.filter(name='fromunixts')
+def fromunixts(value):
+    return datetime.fromtimestamp(int(value))

@@ -14,6 +14,11 @@
     <link href="/static/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet"/>
     <link rel="shortcut icon" type="image/png" href="{% static 'img/pirateparty-16x16-is.png' %}"/>
 
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="/static/img/logo-192.png">
+    <link rel="icon" sizes="128x128" href="/static/img/logo-128.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="/static/img/logo-128.png">
+    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/static/img/logo-128.png">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{% block facebook_title %}{{ INSTANCE_NAME }}{% endblock %}" />
     <meta property="og:description" content="{% block facebook_description %}{% trans 'An online platform for holding elections and voting on issues.' %}{% endblock %}" />
@@ -38,22 +43,51 @@
     <script src="/static/bootstrap/js/bootstrap.js"></script>
     <script src="/static/js/wasa2il.js?v={{WASA2IL_HASH}}"></script>
     <script src="/static/js/csrf.js"></script>
+    <link rel="manifest" href="/manifest.json" />
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
     var django = { jQuery: $ };
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "{{GCM_APP_ID}}",
+        autoRegister: false,
+        notifyButton: {
+          enable: false,
+        },
+        promptOptions: {
+          customlink: {
+            enabled: true,
+            style: "button",
+            size: "medium",
+            color: {
+              button: '#E12D30',
+              text: '#FFFFFF',
+            },
+            text: {
+              subscribe: "{% trans "Subscribe to push notifications" %}",
+              unsubscribe: "{% trans "Unsubscribe from push notifications" %}",
+              explanation: "{% trans "Get updates from all sorts of things that matter to you" %}",
+            },
+            unsubscribeEnabled: true,
+          }
+        }
+      });
+    });
+    OneSignal.push(["sendTags", {
+      lang: "{{LANGUAGE_CODE}}",
+      {% for x in user.userprofile.get_polity_ids %}polity{{x}}: "true",
+      {% endfor %}
+    }]);
     </script>
     {% block javascript %}
     {% endblock %}
 
 
     <link rel="shortcut icon" href="/static/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
-
     {% block head_extra %}{% endblock %}
   </head>
   <body>
-
     <nav class="navbar navbar-fixed-top" role="navigation">
       <div class="headerbar">
       </div>
