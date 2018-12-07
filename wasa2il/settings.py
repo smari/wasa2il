@@ -9,7 +9,7 @@ from hashlib import sha256
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ADMINS=os.environ.get('ADMINS', 'username,user@example.com')
+ADMINS=os.environ.get('ADMINS', ['username','user@example.com']).split(',')
 AGE_LIMIT=os.environ.get('AGE_LIMIT', 16)
 ALLOWED_HOSTS=os.environ.get('ALLOWED_HOSTS', '*').split(',')
 ALLOW_LEAVE_POLITY=os.environ.get('ALLOW_LEAVE_POLITY', False)
