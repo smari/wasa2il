@@ -58,7 +58,7 @@ SERVER_EMAIL=os.environ.get('W2_SERVER_EMAIL', '')
 
 ## Push notifications
 GCM_APP_ID=os.environ.get('W2_GCM_APP_ID', '')
-GCM_SENDER_ID=os.environ.get('W2_GCM_SENDER_ID', 0)
+GCM_SENDER_ID=int(os.environ.get('W2_GCM_SENDER_ID', 0))
 GCM_REST_API_KEY=os.environ.get('W2_GCM_REST_API_KEY', '')
 
 ## Facebook integration
