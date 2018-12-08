@@ -32,10 +32,10 @@ INSTANCE_URL=os.environ.get('W2_INSTANCE_URL', '')
 ORGANIZATION_NAME=os.environ.get('W2_ORGANIZATION_NAME', 'orgName')
 
 ## Overall instance rules
-AGE_LIMIT=os.environ.get('W2_AGE_LIMIT', 16)
+AGE_LIMIT=int(os.environ.get('W2_AGE_LIMIT', 16))
 ALLOW_LEAVE_POLITY=os.environ.get('W2_ALLOW_LEAVE_POLITY', False)
-RECENT_ELECTION_DAYS=os.environ.get('W2_RECENT_ELECTION_DAYS', 7)
-RECENT_ISSUE_DAYS=os.environ.get('W2_RECENT_ISSUE_DAYS', 7)
+RECENT_ELECTION_DAYS=int(os.environ.get('W2_RECENT_ELECTION_DAYS', 7))
+RECENT_ISSUE_DAYS=int(os.environ.get('W2_RECENT_ISSUE_DAYS', 7))
 
 ## Database configuration
 DATABASE_ENGINE=os.environ.get('W2_DATABASE_ENGINE', 'django.db.backends.mysql')
