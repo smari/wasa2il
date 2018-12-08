@@ -20,3 +20,4 @@ reports/*
 .coverage
 .sass-cache
 .env
+*.sqlite
