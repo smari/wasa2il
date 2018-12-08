@@ -18,6 +18,7 @@ django-bootstrap-form==3.4
 django-crispy-forms==1.7.2
 django-datetime-widget==0.9.3
 django-debug-toolbar==1.10.1
+django-dotenv==1.4.2
 django-prosemirror==0.0.12
 django-registration-redux==1.10
 django-termsandconditions==1.2.8

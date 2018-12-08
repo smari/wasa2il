@@ -18,6 +18,12 @@ services:
       - "db"
     depends_on:
       - db
+    environment:
+      - W2_DATABASE_HOST=db
+      - W2_DATABASE_NAME=docker
+      - W2_DATABASE_PASSWORD=docker
+      - W2_DATABASE_PORT=5432
+      - W2_DATABASE_USER=docker
   db:
     image: mysql:5
     environment:
