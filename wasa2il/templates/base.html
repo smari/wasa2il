@@ -44,9 +44,12 @@
     <script src="/static/js/wasa2il.js?v={{WASA2IL_HASH}}"></script>
     <script src="/static/js/csrf.js"></script>
     <link rel="manifest" href="/manifest.json" />
+    {% if settings.FEATURES.push_notifications %}
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    {% endif %}
     <script>
     var django = { jQuery: $ };
+    {% if settings.FEATURES.push_notifications %}
     var OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
       OneSignal.init({
@@ -79,6 +82,7 @@
       {% for x in user.userprofile.get_polity_ids %}polity{{x}}: "true",
       {% endfor %}
     }]);
+    {% endif %}
     </script>
     {% block javascript %}
     {% endblock %}
