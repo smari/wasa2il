@@ -21,6 +21,15 @@
     {% trans "Push notifications disabled systemwide." %}
   {% endif %}
 
+  <h2>User review</h2>
+
+  <table>
+      <tr><th>Total users:</th><td>{{users.total_count}}</td></tr>
+      <tr><th>Verified users:</th><td>{{users.verified_count}}</td></tr>
+      <tr><th>Recent users (last 30 days):</th><td>{{users.last30_count}}</td></tr>
+      <tr><th>Recent users (last year):</th><td>{{users.last365_count}}</td></tr>
+  </table>
+
 
 </section>
 {% endblock %}

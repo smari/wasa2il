@@ -151,7 +151,13 @@ def help(request, page):
 @user_passes_test(lambda u: u.is_superuser)
 def view_admintools(request):
     push_form = PushNotificationForm()
-    return render(request, 'admintools.html', {'push_form': push_form})
+    users = {
+        'total_count': User.objects.count(),
+        'verified_count': User.objects.filter(is_active=True).count(),
+        'last30_count': User.objects.filter(last_login__gte=datetime.now()-timedelta(days=30)).count(),
+        'last365_count': User.objects.filter(last_login__gte=datetime.now()-timedelta(days=365)).count(),
+    }
+    return render(request, 'admintools.html', {'push_form': push_form, 'users': users})
 
 @user_passes_test(lambda u: u.is_superuser)
 def view_admintools_push(request):
