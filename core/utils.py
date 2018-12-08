@@ -10,6 +10,9 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
+import issue
+import election
+
 def ssn_is_formatted_correctly(ssn):
     # We don't need any hard-core checksumming here, since we're only making
     # sure that the data format is correct, so that we can safely retrieve
@@ -50,6 +53,18 @@ def is_ssn_human_or_institution(ssn):
 def random_word(length):
     return ''.join(random.choice(string.lowercase) for i in range(length))
 
+
+## Heartbeat command. Intended to be run either as a command
+##   (see core.management.commands.heartbeat) or as a daemon thread.
+
+def heartbeat():
+    # Do all sorts of things that
+    #   a) are due at this point in time.
+    #   b) take a short amount of time to do.
+    now = datetime.now()
+
+    issue.heartbeat(now)
+    election.heartbeat(now)
 
 ## Push notifications tools
 
