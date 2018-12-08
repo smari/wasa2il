@@ -22,7 +22,7 @@ if not os.environ.get('W2_SECRET_KEY'):
     print("To generate one, try running 'head /dev/urandom | sha256sum'.")
     exit()
 SECRET_KEY=os.environ.get('W2_SECRET_KEY')
-AUTO_LOGOUT_DELAY=os.environ.get('W2_AUTO_LOGOUT_DELAY', 30)
+AUTO_LOGOUT_DELAY=int(os.environ.get('W2_AUTO_LOGOUT_DELAY', 30))
 
 ## Instance identity
 INSTANCE_LOGO=os.environ.get('W2_INSTANCE_LOGO', '')
