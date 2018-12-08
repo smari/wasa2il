@@ -343,3 +343,9 @@ if DEBUG:
     except ImportError:
         # Silently continue if django-debug-toolbar isn't installed
         pass
+
+if DEBUG:
+    print("============ Wasa2il Features ============")
+    for feature, enabled in FEATURES.iteritems():
+        print(" - %-25s      %8s" % (feature, ["DISABLED", "ENABLED"][enabled]))
+    print("==========================================")
