@@ -36,7 +36,7 @@ from django.views.decorators.cache import never_cache
 from termsandconditions.models import TermsAndConditions
 
 from django.contrib.auth.models import User
-from core.models import UserProfile
+from core.models import UserProfile, event_register
 from core.forms import UserProfileForm
 from core.forms import Wasa2ilRegistrationForm
 from core.forms import PushNotificationForm
@@ -648,6 +648,7 @@ def verify(request):
     profile.verified_token = request.GET['token']
     profile.verified_timing = datetime.now()
     profile.save()
+    event_register('user_verified', user=request.user)
 
     user_verified.send(sender=request.user.__class__, user=request.user, request=request)
 
@@ -709,6 +710,8 @@ def sso(request):
     out_payload = base64.encodestring(urllib.urlencode(outbound))
     out_signature = hmac.new(key, out_payload, digestmod=hashlib.sha256).hexdigest()
     out_query = urllib.urlencode({'sso': out_payload, 'sig' : out_signature})
+
+    event_register('sso_signin', event={'client': 'discourse'}, user=request.user)
 
     return HttpResponseRedirect('%s?%s' % (return_url, out_query))
 

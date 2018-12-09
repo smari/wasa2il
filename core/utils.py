@@ -6,8 +6,10 @@ from wasa2il import settings
 
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
+from core.models import event_register, event_time_since_last
+from core.models import User
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 import issue
@@ -65,6 +67,18 @@ def heartbeat():
 
     issue.heartbeat(now)
     election.heartbeat(now)
+    event_register('heartbeat')
+
+    # User review once per day max
+    if event_time_since_last('core.utils', 'user_review') > timedelta(days=1):
+        users = {
+            'total_count': User.objects.count(),
+            'verified_count': User.objects.filter(is_active=True).count(),
+            'last30_count': User.objects.filter(last_login__gte=datetime.now()-timedelta(days=30)).count(),
+            'last365_count': User.objects.filter(last_login__gte=datetime.now()-timedelta(days=365)).count(),
+        }
+        event_register('user_review', category='statistics', event=users)
+
 
 ## Push notifications tools
 
@@ -104,7 +118,9 @@ def push_send_notification(messages, segments, filters=None, buttons=None):
 
     if filters:
         payload['filters'] = filters
+        payload.remove('included_segments')
 
+    event_register('push_notification_sent', event=payload)
     return push_server_post('notifications', payload)
 
 def push_send_notification_to_all_users(message, filters=None, buttons=None):

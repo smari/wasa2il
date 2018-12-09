@@ -1,6 +1,7 @@
 #coding:utf-8
 import os
 import re
+import json
 
 from base_classes import NameSlugBase
 from datetime import datetime, timedelta
@@ -22,6 +23,7 @@ from diff_match_patch.diff_match_patch import diff_match_patch
 from issue.models import DocumentContent
 from issue.models import Issue
 
+import inspect
 
 class UserProfile(models.Model):
     """A user's profile data. Contains various informative areas, plus various settings."""
@@ -135,3 +137,34 @@ User.tasks_applied = tasks_applied
 User.tasks_accepted = tasks_accepted
 User.tasks_completed = tasks_completed
 User.tasks_percent = tasks_percent
+
+
+
+class Event(models.Model):
+    timestamp       = models.DateTimeField(auto_now=True)
+    user            = models.ForeignKey(User, blank=True, null=True)
+    module          = models.CharField(max_length=32, blank=False)
+    action          = models.CharField(max_length=32, blank=False)
+    category        = models.CharField(max_length=64, blank=True)
+    event           = models.CharField(max_length=1024, blank=True)
+
+    def __str__(self):
+        return "[%s][%s.%s/%s@%s] %s" % (self.timestamp, self.module, self.action, self.category, self.user, self.event)
+
+def event_register(action, category="", event={}, user=None):
+    e = Event()
+    e.user = user
+    frm = inspect.stack()[1]
+    mod = inspect.getmodule(frm[0])
+    e.module = mod.__name__
+    e.action = action
+    e.category = category
+    e.event = json.dumps(event)
+    e.save()
+
+def event_time_since_last(module, action):
+    e = Event.objects.filter(module=module, action=action).order_by('-timestamp')
+    if len(e) == 0:
+        return timedelta(100000000)
+    else:
+        return datetime.now() - e[0].timestamp
