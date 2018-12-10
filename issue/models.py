@@ -224,7 +224,7 @@ class Issue(models.Model):
 
             self.save()
 
-            if issue.polity.push_on_vote_end:
+            if self.polity.push_on_vote_end:
                 # Forcing translation string creation.
                 __ = _("Voting closed on issue '%s'.")
                 push_send_notification_to_polity_users(issue.polity.id, "Voting closed on issue '%s'.", [issue.name])
