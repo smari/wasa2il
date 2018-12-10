@@ -673,11 +673,11 @@ def login_or_saml_redirect(request):
 
 @login_required
 def sso(request):
-    if not hasattr(settings, 'DISCOURSE'):
+    if not hasattr(settings, 'DISCOURSE_URL'):
         raise Http404
 
-    key = str(settings.DISCOURSE['secret'])
-    return_url = '%s/session/sso_login' % settings.DISCOURSE['url']
+    key = str(settings.DISCOURSE_SECRET)
+    return_url = '%s/session/sso_login' % settings.DISCOURSE_URL
 
     payload = request.GET.get('sso')
     their_signature = request.GET.get('sig')

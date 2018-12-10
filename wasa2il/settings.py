@@ -65,6 +65,9 @@ GCM_REST_API_KEY=os.environ.get('W2_GCM_REST_API_KEY', '')
 INSTANCE_FACEBOOK_APP_ID=os.environ.get('W2_INSTANCE_FACEBOOK_APP_ID', '')
 INSTANCE_FACEBOOK_IMAGE=os.environ.get('W2_INSTANCE_FACEBOOK_IMAGE', 'https://example.com/full/url/to/image.png')
 
+## Discourse integration
+DISCOURSE_URL=os.environ.get('W2_DISCOURSE_URL', '')
+DISCOURSE_SECRET=os.environ.get('W2_DISCOURSE_SECRET', '')
 
 
 FEATURES = {
