@@ -698,13 +698,18 @@ def sso(request):
     if our_signature != their_signature:
         return HttpResponseBadRequest('Malformed payload.')
 
+    if request.user.userprofile.displayname:
+        name = request.user.userprofile.displayname.encode('utf-8')
+    else:
+        name = request.user.username
+
     nonce = parse_qs(decoded)['nonce'][0]
     outbound = {
         'nonce': nonce,
         'email': request.user.email,
         'external_id': request.user.id,
         'username': request.user.username,
-        'name': request.user.userprofile.displayname.encode('utf-8'),
+        'name': name,
     }
 
     out_payload = base64.encodestring(urllib.urlencode(outbound))
