@@ -100,7 +100,7 @@ SAML_1 = {
 }
 
 FEATURES = {
-    'tasks': True,
+    'tasks': False,
     'topic': True,
     'push_notifications': True,
 }
