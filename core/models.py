@@ -72,7 +72,7 @@ class UserProfile(models.Model):
                 'default.jpg'
             )
 
-        if hasattr(settings, 'SAML_1'):
+        if settings.SAML_1['URL']:
             self.verified = all((
                 self.verified_ssn is not None and len(self.verified_ssn) > 0,
                 self.verified_name is not None and len(self.verified_name) > 0

@@ -20,7 +20,7 @@ def login_sync(sender, user, request, **kwargs):
     '''
 
     # No need for this if IcePirate isn't being used.
-    if not hasattr(settings, 'ICEPIRATE'):
+    if not settings.ICEPIRATE['url']:
         return
 
     # No point hitting the API if we don't have an SSN.
@@ -47,7 +47,7 @@ def login_sync(sender, user, request, **kwargs):
 def verified_sync(sender, user, request, **kwargs):
 
     # No need for this if IcePirate isn't being used.
-    if not hasattr(settings, 'ICEPIRATE'):
+    if not settings.ICEPIRATE['url']:
         return
 
     success, member, error = get_member(user.userprofile.verified_ssn)

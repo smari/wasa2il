@@ -69,6 +69,21 @@ INSTANCE_FACEBOOK_IMAGE=os.environ.get('W2_INSTANCE_FACEBOOK_IMAGE', 'https://ex
 DISCOURSE_URL=os.environ.get('W2_DISCOURSE_URL', '')
 DISCOURSE_SECRET=os.environ.get('W2_DISCOURSE_SECRET', '')
 
+## IcePirate integration
+ICEPIRATE = {
+    'url': os.environ.get('W2_ICEPIRATE_URL', ''),
+    'key': os.environ.get('W2_ICEPIRATE_KEY', '')
+}
+
+## SAML 1 support
+SAML_1 = {
+    'URL': os.environ.get('W2_SAML1_URL', ''),
+    'AUTH': {
+        'wsdl': os.environ.get('W2_SAML1_WSDL', ''),
+        'login': os.environ.get('W2_SAML1_LOGIN', ''),
+        'password': os.environ.get('W2_SAML1_PSASWORD', ''),
+    }
+}
 
 FEATURES = {
     'tasks': True,

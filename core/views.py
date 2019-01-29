@@ -295,7 +295,7 @@ def view_settings(request):
                             os.unlink(item_fullpath)
 
 
-            if hasattr(settings, 'ICEPIRATE'):
+            if settings.ICEPIRATE['url']:
                 # The request.user object doesn't yet reflect recently made
                 # changes, so we need to ask the database explicitly.
                 update_member(User.objects.get(id=request.user.id))
@@ -523,7 +523,7 @@ def personal_data_fetch(request):
             pass
 
         # Include data from IcePirate, if enabled.
-        if hasattr(settings, 'ICEPIRATE'):
+        if settings.ICEPIRATE['url']:
             success, member, error = get_member(profile.verified_ssn)
             write_json('member_registry.json', member)
 
