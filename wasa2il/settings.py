@@ -51,6 +51,20 @@ DATETIME_FORMAT_DJANGO_WIDGET=os.environ.get('W2_DATETIME_FORMAT_DJANGO_WIDGET',
 DATE_FORMAT=os.environ.get('W2_DATE_FORMAT', 'd/m/Y')
 LANGUAGE_CODE=os.environ.get('W2_LANGUAGE_CODE', 'en-US')
 TIME_ZONE=os.environ.get('W2_TIME_ZONE', 'Iceland')
+DATETIME_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S',
+    '%Y-%m-%d %H:%M:%S.%f',
+    '%Y-%m-%d %H:%M',
+    '%Y-%m-%d',
+    '%d/%m/%Y %H:%M:%S',
+    '%d/%m/%Y %H:%M:%S.%f',
+    '%d/%m/%Y %H:%M',
+    '%d/%m/%Y',
+    '%d/%m/%y %H:%M:%S',
+    '%d/%m/%y %H:%M:%S.%f',
+    '%d/%m/%y %H:%M',
+    '%d/%m/%y'
+)
 
 ## Email settings
 EMAIL_BACKEND=os.environ.get('W2_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
