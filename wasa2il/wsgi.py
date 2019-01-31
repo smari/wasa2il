@@ -14,6 +14,7 @@ framework.
 
 """
 import os
+import dotenv
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wasa2il.settings")
 
@@ -21,6 +22,10 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wasa2il.settings")
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 from django.core.wsgi import get_wsgi_application
+
+dotenv.read_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "wasa2il.settings")
+
 application = get_wsgi_application()
 
 # Apply WSGI middleware here.
