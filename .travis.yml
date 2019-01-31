@@ -1,23 +1,29 @@
 language: python
 python:
 - '2.7'
+env:
+  global:
+  - DATABASE_USER=root
+  - DATABASE_PASSWORD=
+before_install:
+- printenv DATABASE_USER
+- printenv DATABASE_PASSWORD
+- cat /etc/os-release
 install: pip install -r requirements.txt
-
 script:
-  - coverage run --source=. manage.py test -v 2
-  - coverage xml
-  - 'if [ "$CODACY_PROJECT_TOKEN" ]; then python-codacy-coverage -r coverage.xml; fi'
-
+- coverage run --source=. manage.py test -v 2
+- coverage xml
+- if [ "$CODACY_PROJECT_TOKEN" ]; then python-codacy-coverage -r coverage.xml; fi
+services:
+- mysql
 deploy:
   provider: heroku
   api_key:
-    secure: bK5Wp0bTkv5LceRzIJjZntTKHbed70oLoMNaRv4sr8pkCKZQtVUmqmXMNsvihm49tU0nM9sVJCmb6HwcEX+1Nl9aeE0dJOi1zQC8ppNALNaHza77yGYW5aABQk9zq+xUW0w1BxxnN/6ysUzCsqQjvE2dIMDXt5Y01Cy3494AjJ8=
+    secure: LRuBdelPHheZTzy275pa2Bhn/gYg5C91rIOAQz26yVyfIfU5aaMbNjROK2m2EpPN+yuMCtVQk/NkQqj4xNUdnqSXBwkmrt1NUbCSL5PJREqNlzqDJYRg445IP47OCWGOIZR5TxGaKNQFSgF7S8Z0dKuG9cipVtvTXqQBf3kFp4s=
   app:
     development: wasa2il-development
     master: wasa2il-staging
-
   run:
-    - "python manage.py compilemessages"
+  - python manage.py compilemessages
 after_success:
-  - ./tag.sh
-
+- "./tag.sh"

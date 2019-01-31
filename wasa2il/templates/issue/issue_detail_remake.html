@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block facebook_title %}{% trans 'Issue vote:' %} {{ issue }}{% endblock %}
+{% block facebook_description %}{% trans "Issue vote ends at" %}: {{ issue.deadline_votes }}{% endblock %}
+
+{% block content %}
+<section class="content">
+<div style="float: right;">
+    {% if user_is_officer and not issue.is_processed %}
+        <a class="btn btn-default" role="button" href="{% url 'issue_edit' polity.id issue.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
+</div>
+<h1>{{ issue.name }}</h1>
+
+{% csrf_token %}
+
+{% if issue.issue_state == 'concluded' %}
+    {% if not issue.is_processed %}
+        <div class="alert alert-danger">
+            {% trans "This issue is closed and awaits final processing." %}
+        </div>
+    {% endif %}
+{% elif not can_vote %}
+    <div class="alert alert-warning">
+        {% trans "You cannot vote on this issue:" %}
+        <b>
+        {% if not user.is_authenticated %}
+            <a href="/accounts/login/?next={{ request.get_full_path }}">{% trans "Please log in." %}</a>
+        {% elif not user_is_member %}
+            {% trans "You are not a member of this polity." %}
+        {% else %}
+            {% trans "You do not meet the requirements." %}
+        {% endif %}
+        </b>
+    </div>
+{% endif %}
+
+{% if issue.is_processed %}
+    {% if documentcontent %}
+        {% include "issue/stub/documentcontent_status.html" %}
+    {% endif %}
+{% endif %}
+
+{% if issue.issue_state == 'voting' and can_vote %}
+<div class="col-md-12 col-xs-12 well">
+    <h2>{% trans "Vote" %} <small>{% trans "for or against this issue" %}</small></h2>
+    <div class="alert alert-danger hidden">{% trans "There was an error while processing your vote. Please try again." %}</div>
+    <div data-toggle="buttons-radio" style="text-align: center;">
+        <button onclick="issue_vote(1);" id="vote_yes" type="button" class="btn btn-default btn-lg">{% trans "Yes" %}</button>
+        <button onclick="issue_vote(0);" id="vote_abstain" type="button" class="btn btn-default btn-lg">{% trans "Abstain" %}</button>
+        <button onclick="issue_vote(-1);" id="vote_no" type="button" class="btn btn-default btn-lg">{% trans "No" %}</button>
+    </div>
+</div>
+{% endif %}
+
+<div>
+  <ul class="nav nav-tabs" id="issue-view-tabs" role="tablist">
+    <li class="nav-item active">
+      <a role="tab" href="#proposal" data-toggle="tab">Tillaga</a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" data-toggle="tab" href="#explanation">Greinargerð</a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" data-toggle="tab" href="#discussion">{% trans "Discussion" %}</a>
+    </li>
+    <li class="nav-item">
+      <a role="tab" data-toggle="tab" href="#metadata">Lýsigögn</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+      <div class="tab-pane active" role="tabpanel" id="proposal">
+        {% if documentcontent %}
+            {% include 'issue/stub/document_view.html' with documentcontent=documentcontent tab=tab %}
+        {% endif %}
+      </div>
+
+      <div class="tab-pane" role="tabpanel" id="explanation">
+        <div class="issue-description">
+          {{ issue.description|markdown|urlize }}
+        </div>
+      </div>
+
+      <div class="tab-pane" role="tabpanel" id="discussion">
+        {% if comments_hidden %}
+            <p>{% trans 'This issue was concluded a while ago, so you must log in to see comments.' %}</p>
+        {% else %}
+            {% comments_section "issue" issue.id comments_closed %}
+        {% endif %}
+      </div>
+
+      <div class="tab-pane" role="tabpanel" id="metadata">
+        {% include "issue/_issue_detail_metadata.html" %}
+      </div>
+
+  </div>
+</div>
+
+</section>
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+        issue_id = {{ issue.id }};
+        $(function() {
+            issue_poll(issue_id);
+            issue_timer_start();
+        });
+    </script>
+{% endblock %}

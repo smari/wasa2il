@@ -17,14 +17,10 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
-from issue.forms import DocumentForm
-from issue.forms import IssueForm
-from issue.models import Document
-from issue.models import DocumentContent
-from issue.models import Issue
+from issue.forms import DocumentForm, DocumentContentForm, IssueForm
+from issue.models import Document, DocumentContent, Issue
 
 from polity.models import Polity
-
 from topic.models import Topic
 
 
@@ -166,7 +162,7 @@ def document_add(request, polity_id):
             document.polity = polity
             document.user = request.user
             document.save()
-            return redirect('%s?action=new' % reverse('document', args=(polity_id, document.id)))
+            return redirect(reverse('documentcontent_add', args=(polity_id, document.id)))
     else:
         form = DocumentForm()
 
@@ -177,50 +173,19 @@ def document_add(request, polity_id):
     return render(request, 'issue/document_form.html', ctx)
 
 
-def document_view(request, polity_id, document_id):
+def document_view(request, polity_id, document_id, version=None):
     polity = get_object_or_404(Polity, id=polity_id)
     document = get_object_or_404(Document, id=document_id, polity__id=polity_id)
 
-    # Request variables taken together
-    action = request.GET.get('action', '')
-    try:
-        version_num = int(request.GET.get('v', 0))
-    except ValueError:
-        raise Exception('Bad "v(ersion)" parameter')
-
-    # If version_num is not specified, we want the "preferred" version
-    if version_num > 0:
-        current_content = get_object_or_404(DocumentContent, document=document, order=version_num)
+    # If version is not specified, we want the "preferred" version
+    if version is not None:
+        current_content = get_object_or_404(DocumentContent, document=document, order=version)
     else:
         current_content = document.preferred_version()
 
     issue = None
     if current_content is not None and hasattr(current_content, 'issue'):
         issue = current_content.issue
-
-    # If current_content is None here, that means the document has no
-    # content at all, which is a bit weird unless we're creating a new
-    # one...
-
-    ctx = {}
-
-    if action == 'new':
-        ctx['editor_enabled'] = True
-
-        current_content = DocumentContent()
-        current_content.order = 0
-        current_content.predecessor = document.preferred_version()
-
-        if current_content.predecessor:
-            current_content.name = current_content.predecessor.name
-            current_content.text = current_content.predecessor.text
-        else:
-            current_content.name = document.name
-
-    elif action == 'edit':
-        if current_content.user.id == request.user.id and current_content.status == 'proposed' and issue is None:
-            ctx['editor_enabled'] = True
-
 
     buttons = {
         'propose_change': False,
@@ -246,15 +211,102 @@ def document_view(request, polity_id, document_id):
             if current_content.user_id == request.user.id:
                 buttons['edit_proposal'] = 'disabled' if issue is not None else 'enabled'
 
-    ctx['action'] = action
-    ctx['polity'] = polity
-    ctx['document'] = document
-    ctx['current_content'] = current_content
-    ctx['selected_diff_documentcontent'] = document.preferred_version
-    ctx['issue'] = issue
-    ctx['buttons'] = buttons
+    ctx = {
+        'polity': polity,
+        'document': document,
+        'current_content': current_content,
+        'selected_diff_documentcontent': document.preferred_version,
+        'issue': issue,
+        'buttons': buttons,
+        'buttons_enabled': any([b != False for b in buttons.values()]),
+    }
 
     return render(request, 'issue/document_detail.html', ctx)
+
+
+@login_required
+def documentcontent_edit(request, polity_id, document_id, version):
+
+    dc = get_object_or_404(
+        DocumentContent,
+        document_id=document_id,
+        document__polity_id=polity_id,
+        order=version
+    )
+
+    # Editing of documentcontents should only be allowed by its author or the
+    # polity's officers.
+    if dc.user_id != request.user.id:
+        raise PermissionDenied
+
+    # Editing of documentcontents is only allowed before an issue has been
+    # created. This is kept separate from the logic above both for reasons of
+    # clarity, and because this is likely to change in the future and so
+    # should remain in its own place. We may very well want to allow the user
+    # to change documentcontents in the future, as long as the issue hasn't
+    # reached a particular state, such as "voting" or "concluded".
+    if hasattr(dc, 'issue'):
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = DocumentContentForm(request.POST, instance=dc)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('document_view', args=(polity_id, document_id, version)))
+    else:
+        form = DocumentContentForm(instance=dc)
+
+    ctx = {
+        'form': form,
+        'polity': request.globals['polity'],
+        'documentcontent': dc,
+    }
+    return render(request, 'issue/documentcontent_edit.html', ctx)
+
+
+@login_required
+def documentcontent_add(request, polity_id, document_id):
+
+    # Only members of the polity are allowed to create proposals.
+    if not request.globals['user_is_member']:
+        raise PermissionDenied
+
+    doc = Document.objects.get(id=document_id, polity_id=polity_id)
+
+    if request.method == 'POST':
+        form = DocumentContentForm(request.POST)
+
+        form.instance.document = doc
+        form.instance.user = request.user
+
+        if form.is_valid():
+
+            # The order of the new documentcontent shall be the count of those
+            # already existing, plus one.
+            form.instance.order = doc.documentcontent_set.count() + 1
+
+            form.save()
+            return redirect(reverse(
+                'document_view',
+                args=(polity_id, document_id, form.instance.order)
+            ))
+    else:
+        form = DocumentContentForm()
+
+        # Inherit the name and text from the previously active version if one
+        # exists, otherwise from the document.
+        pred = doc.preferred_version()
+        if pred is not None:
+            form.fields['name'].initial = pred.name
+            form.fields['text'].initial = pred.text
+        else:
+            form.fields['name'].initial = doc.name
+
+    ctx = {
+        'form': form,
+        'document': doc,
+    }
+    return render(request, 'issue/documentcontent_add.html', ctx)
 
 
 def document_agreements(request, polity_id):

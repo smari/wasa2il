@@ -10,7 +10,7 @@
 {% if issue.id %}
     <span id="cancel-url">{% url 'issue' issue.polity_id issue.id %}</span>
 {% else %}
-    <span id="cancel-url">{% url 'document' issue.polity_id documentcontent.document_id %}?v={{ documentcontent.order }}</span>
+    <span id="cancel-url">{% url 'document_view' issue.polity_id documentcontent.document_id documentcontent.order %}</span>
 {% endif %}
 
 <hr />

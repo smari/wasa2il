@@ -8,11 +8,17 @@
     <title>{% trans "Voting System - Pirate Party Iceland" %}{% if polity %} - {{ polity }}{% endif %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="manifest" href="/gen/manifest.json"/>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
     <link href="/static/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet"/>
     <link rel="shortcut icon" type="image/png" href="{% static 'img/pirateparty-16x16-is.png' %}"/>
 
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="/static/img/logo-192.png">
+    <link rel="icon" sizes="128x128" href="/static/img/logo-128.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="/static/img/logo-128.png">
+    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="/static/img/logo-128.png">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{% block facebook_title %}{{ INSTANCE_NAME }}{% endblock %}" />
     <meta property="og:description" content="{% block facebook_description %}{% trans 'An online platform for holding elections and voting on issues.' %}{% endblock %}" />
@@ -21,7 +27,7 @@
     <meta property="og:image" content="{% block facebook_image_url %}{{ INSTANCE_FACEBOOK_IMAGE }}{% endblock %}" />
     <meta property="fb:app_id" content="{{ INSTANCE_FACEBOOK_APP_ID }}" />
 
-    <link href="/static/css/application.css" rel="stylesheet" />
+    <link href="/static/css/application.css?v={{WASA2IL_HASH}}" rel="stylesheet" />
 
     <!-- Font Awesome -->
     <link href="/static/fontawesome/css/fontawesome.css" rel="stylesheet">
@@ -35,24 +41,57 @@
     <script src="/static/js/jquery-3.2.1.min.js"></script>
     <script src="/static/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.js"></script>
-    <script src="/static/js/wasa2il.js"></script>
+    <script src="/static/js/wasa2il.js?v={{WASA2IL_HASH}}"></script>
     <script src="/static/js/csrf.js"></script>
+    <link rel="manifest" href="/manifest.json" />
+    {% if settings.FEATURES.push_notifications %}
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    {% endif %}
     <script>
     var django = { jQuery: $ };
+    {% if settings.FEATURES.push_notifications %}
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "{{GCM_APP_ID}}",
+        autoRegister: false,
+        notifyButton: {
+          enable: false,
+        },
+        promptOptions: {
+          customlink: {
+            enabled: true,
+            style: "button",
+            size: "medium",
+            color: {
+              button: '#E12D30',
+              text: '#FFFFFF',
+            },
+            text: {
+              subscribe: "{% trans "Subscribe to push notifications" %}",
+              unsubscribe: "{% trans "Unsubscribe from push notifications" %}",
+              explanation: "{% trans "Get updates from all sorts of things that matter to you" %}",
+            },
+            unsubscribeEnabled: true,
+          }
+        }
+      });
+    });
+    OneSignal.push(["sendTags", {
+      lang: "{{LANGUAGE_CODE}}",
+      {% for x in user.userprofile.get_polity_ids %}polity{{x}}: "true",
+      {% endfor %}
+    }]);
+    {% endif %}
     </script>
     {% block javascript %}
     {% endblock %}
 
 
     <link rel="shortcut icon" href="/static/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
-
     {% block head_extra %}{% endblock %}
   </head>
   <body>
-
     <nav class="navbar navbar-fixed-top" role="navigation">
       <div class="headerbar">
       </div>
@@ -70,24 +109,7 @@
           <div class="collapse navbar-collapse piratepurple" >
 
             <ul class="nav navbar-nav navbar-right">
-              {% if user.is_authenticated %}
-              <li><a href="/help/instructions/"><i class="fas fa-question-circle"></i> {% trans "Help" %}</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                  <img src="{{ user.userprofile.picture|thumbnail:'30x30' }}" class="img-rounded img-negpad"/> {{ user.get_name }} <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="/accounts/profile/"><i class="fas fa-user"></i> {% trans "My profile" %}</a></li>
-                  <li><a href="/accounts/settings/"><i class="fa fa-cog"></i> {% trans "My settings" %}</a></li>
-                  <li><a href="{% url 'personal_data' %}"><i class="fa fa-key"></i> {% trans 'Personal data' %}</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a href="/accounts/logout/"><i class="fas  fa-sign-out-alt"></i> {% trans "Logout" %}</a></li>
-                </ul>
-              </li>
-              {% else %}
-              <li><a href="/accounts/login/{% if '/accounts/' not in request.get_full_path %}?next={{ request.get_full_path }}{% endif %}"><i class="fas fa-sign-in-alt"></i> {% trans "Log in" %}</a></li>
-              <li><a href="/accounts/register/"><i class="fas fa-user-plus"></i> {% trans "Sign up" %}</a></li>
-              {% endif %}
+              {% include "_user_actions.html" %}
             </ul>
 
           </div><!-- /.navbar-collapse -->
@@ -97,11 +119,16 @@
     <div class="container-fluid" id="wrapper">
 
       <div id="sidebar-wrapper" role="navigation">
+        <ul class="sidebar-nav">
         {% if polity %}
           {% include "_sidenav_polity.html" %}
         {% elif profile %}
           {% include "_sidenav_profile.html" %}
         {% endif %}
+          <div class="mobile-nav">
+            {% include "_user_actions.html" %}
+          </div>
+        </ul>
       </div>
 
       {% block dialog %}{% endblock %}

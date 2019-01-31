@@ -58,9 +58,14 @@ footer {
  #polity-info { display: none; }
 }
 
+@media (max-width: 1024px) {
+  footer { display: none; }
+}
+
 @media (min-width: 768px) {
  form.navbar-form { padding: 0px; max-width: 220px; }
  #polity-info-toggle { display: none; }
+ .mobile-nav { display: none; }
 }
 
 .img-negpad { margin-top: -5px; margin-bottom: -5px; }
@@ -130,6 +135,12 @@ div#submit-working { background: #bbb; }
 
 .dropdown-menu { cursor: pointer; }
 
+.nav-tabs>li.active>a {
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-top-width: 2px;
+}
+
 /* Helpful color classes. */
 .icon-grey { color: #c0d0c0; }
 
@@ -149,7 +160,7 @@ div#submit-working { background: #bbb; }
 .vote-tip { font-size: 15px; padding: 15px 5px; border-bottom: 1px solid #ccc; }
 
 /* Displaying of document contents, differences between them and such. */
-#legal-text { overflow: overlay; margin-bottom: 10px; padding: 12px 24px 12px 24px; text-align: justify; border: 1px #e0e0e0 solid; }
+#legal-text { overflow: overlay; margin-bottom: 10px; padding: 12px 24px 12px 24px; text-align: justify; }
 #legal-text h1 { font-weight: bold; margin: 4px 0 4px 4px; }
 #legal-text h2 { font-weight: bold; margin: 4px 0 4px 4px; }
 #legal-text ol { margin: 12px 0 0 24px; }

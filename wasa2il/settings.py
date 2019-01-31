@@ -3,24 +3,123 @@
 
 import os
 from utils import here
+from datetime import datetime
+from hashlib import sha256
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-try:
-    from local_settings import *
-except ImportError:
-    from default_settings import *
-    print('No local_settings.py found. Setting default values.')
+## Base configuration
+DEBUG=os.environ.get('W2_DEBUG', True)
+ALLOWED_HOSTS=os.environ.get('W2_ALLOWED_HOSTS', 'localhost').split(',')
+
+ADMINS=os.environ.get('W2_ADMINS', 'username,user@example.com').split(',')
+BALLOT_SAVEFILE_FORMAT=os.environ.get('W2_BALLOT_SAVEFILE_FORMAT', 'elections/ballots-%(voting_system)s-%(election_id)s.json')
+
+## Security settings
+if not os.environ.get('W2_SECRET_KEY'):
+    print("You must configure the environment variable $W2_SECRET_KEY. It must be a long, hard to guess string.")
+    print("To generate one, try running 'head /dev/urandom | sha256sum'.")
+    exit()
+SECRET_KEY=os.environ.get('W2_SECRET_KEY')
+AUTO_LOGOUT_DELAY=int(os.environ.get('W2_AUTO_LOGOUT_DELAY', 30))
+
+## Instance identity
+INSTANCE_LOGO=os.environ.get('W2_INSTANCE_LOGO', '')
+INSTANCE_NAME=os.environ.get('W2_INSTANCE_NAME', 'Unconfigured Wasa2il')
+INSTANCE_SLUG=os.environ.get('W2_INSTANCE_SLUG', 'unconfiguredwasa2il')
+INSTANCE_URL=os.environ.get('W2_INSTANCE_URL', '')
+ORGANIZATION_NAME=os.environ.get('W2_ORGANIZATION_NAME', 'orgName')
+
+## Overall instance rules
+AGE_LIMIT=int(os.environ.get('W2_AGE_LIMIT', 16))
+ALLOW_LEAVE_POLITY=os.environ.get('W2_ALLOW_LEAVE_POLITY', False)
+RECENT_ELECTION_DAYS=int(os.environ.get('W2_RECENT_ELECTION_DAYS', 7))
+RECENT_ISSUE_DAYS=int(os.environ.get('W2_RECENT_ISSUE_DAYS', 7))
+
+## Database configuration
+DATABASE_ENGINE=os.environ.get('W2_DATABASE_ENGINE', 'django.db.backends.mysql')
+DATABASE_HOST=os.environ.get('W2_DATABASE_HOST', '127.0.0.1')
+DATABASE_NAME=os.environ.get('W2_DATABASE_NAME', 'docker')
+DATABASE_PASSWORD=os.environ.get('W2_DATABASE_PASSWORD', 'docker')
+DATABASE_PORT=os.environ.get('W2_DATABASE_PORT', '3306')
+DATABASE_USER=os.environ.get('W2_DATABASE_USER', 'docker')
+
+## Locale settings
+DATETIME_FORMAT=os.environ.get('W2_DATETIME_FORMAT', 'd/m/Y H:i:s')
+DATETIME_FORMAT_DJANGO_WIDGET=os.environ.get('W2_DATETIME_FORMAT_DJANGO_WIDGET', 'dd/mm/yyyy hh:ii')
+DATE_FORMAT=os.environ.get('W2_DATE_FORMAT', 'd/m/Y')
+LANGUAGE_CODE=os.environ.get('W2_LANGUAGE_CODE', 'en-US')
+TIME_ZONE=os.environ.get('W2_TIME_ZONE', 'Iceland')
+DATETIME_INPUT_FORMATS = (
+    '%Y-%m-%d %H:%M:%S',
+    '%Y-%m-%d %H:%M:%S.%f',
+    '%Y-%m-%d %H:%M',
+    '%Y-%m-%d',
+    '%d/%m/%Y %H:%M:%S',
+    '%d/%m/%Y %H:%M:%S.%f',
+    '%d/%m/%Y %H:%M',
+    '%d/%m/%Y',
+    '%d/%m/%y %H:%M:%S',
+    '%d/%m/%y %H:%M:%S.%f',
+    '%d/%m/%y %H:%M',
+    '%d/%m/%y'
+)
+
+## Email settings
+EMAIL_BACKEND=os.environ.get('W2_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+SERVER_EMAIL=os.environ.get('W2_SERVER_EMAIL', '')
+
+## Push notifications
+GCM_APP_ID=os.environ.get('W2_GCM_APP_ID', '')
+GCM_SENDER_ID=os.environ.get('W2_GCM_SENDER_ID', 0)
+GCM_REST_API_KEY=os.environ.get('W2_GCM_REST_API_KEY', '')
+
+## Facebook integration
+INSTANCE_FACEBOOK_APP_ID=os.environ.get('W2_INSTANCE_FACEBOOK_APP_ID', '')
+INSTANCE_FACEBOOK_IMAGE=os.environ.get('W2_INSTANCE_FACEBOOK_IMAGE', 'https://example.com/full/url/to/image.png')
+
+## Discourse integration
+DISCOURSE_URL=os.environ.get('W2_DISCOURSE_URL', '')
+DISCOURSE_SECRET=os.environ.get('W2_DISCOURSE_SECRET', '')
+
+## IcePirate integration
+ICEPIRATE = {
+    'url': os.environ.get('W2_ICEPIRATE_URL', ''),
+    'key': os.environ.get('W2_ICEPIRATE_KEY', '')
+}
+
+## SAML 1 support
+SAML_1 = {
+    'URL': os.environ.get('W2_SAML1_URL', ''),
+    'AUTH': {
+        'wsdl': os.environ.get('W2_SAML1_WSDL', ''),
+        'login': os.environ.get('W2_SAML1_LOGIN', ''),
+        'password': os.environ.get('W2_SAML1_PSASWORD', ''),
+    }
+}
+
+FEATURES = {
+    'tasks': False,
+    'topic': True,
+    'push_notifications': True,
+}
+
+if not GCM_APP_ID:  # We cannot have push notifications without a registered app ID.
+    FEATURES['push_notifications'] = False
 
 # Get Wasa2il version.
 with open(os.path.join(BASE_DIR, 'VERSION'), 'r') as f:
     WASA2IL_VERSION = f.readlines().pop(0).strip()
-    f.close()
+    h = sha256()
+    h.update("%s:%s" % (WASA2IL_VERSION, datetime.now()))
+    WASA2IL_HASH = h.hexdigest()[:7]
+
 
 # Some error checking for local_settings
 if not SECRET_KEY:
     raise Exception('You need to specify Django SECRET_KEY in the local_settings!')
+
 
 
 MANAGERS = ADMINS
@@ -276,3 +375,9 @@ if DEBUG:
     except ImportError:
         # Silently continue if django-debug-toolbar isn't installed
         pass
+
+if DEBUG:
+    print("============ Wasa2il Features ============")
+    for feature, enabled in FEATURES.iteritems():
+        print(" - %-25s      %8s" % (feature, ["DISABLED", "ENABLED"][enabled]))
+    print("==========================================")

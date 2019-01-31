@@ -21,15 +21,12 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
 from django.http import Http404
-from django.views.generic import ListView, CreateView, UpdateView, DetailView
-from django.template import RequestContext
-from django.db.models import Q
-from django.db.models import Count
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.utils import timezone
@@ -39,14 +36,16 @@ from django.views.decorators.cache import never_cache
 from termsandconditions.models import TermsAndConditions
 
 from django.contrib.auth.models import User
-from core.models import UserProfile
+from core.models import UserProfile, event_register
 from core.forms import UserProfileForm
 from core.forms import Wasa2ilRegistrationForm
+from core.forms import PushNotificationForm
 from core.saml import authenticate, SamlException
 from core.signals import user_verified
 from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
 from core.utils import random_word
+from core.utils import push_get_all_users
 from election.models import Election
 from election.models import ElectionResult
 from issue.forms import DocumentForm
@@ -94,6 +93,49 @@ def home(request):
         # polity listing.
         return HttpResponseRedirect(reverse('polities'))
 
+def manifest(request):
+    manifest = {
+      "name": "%s" % (settings.INSTANCE_NAME),
+      "short_name": "%s" % (settings.INSTANCE_NAME),
+      "icons": [
+        {
+          "src": "/static/img/logo-32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-100.png",
+          "sizes": "100x100",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-101.png",
+          "sizes": "101x101",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/static/img/logo-256.png",
+          "sizes": "256x256",
+          "type": "image/png"
+        },
+      ],
+      "start_url": "/",
+      "background_color": "#ffffff",
+      "theme_color": "#e9e9e9",
+      "display": "standalone",
+      "serviceworker": {
+        "src": "/service-worker.js?ts=%s" % (settings.WASA2IL_HASH),
+        "scope": "/",
+        "use_cache": False
+      },
+      "gcm_sender_id": "%d" % (settings.GCM_SENDER_ID),
+    }
+    return JsonResponse(manifest)
 
 def help(request, page):
     ctx = {
@@ -106,6 +148,21 @@ def help(request, page):
 
     raise Http404
 
+@user_passes_test(lambda u: u.is_superuser)
+def view_admintools(request):
+    push_form = PushNotificationForm()
+    users = {
+        'total_count': User.objects.count(),
+        'verified_count': User.objects.filter(is_active=True).count(),
+        'last30_count': User.objects.filter(last_login__gte=datetime.now()-timedelta(days=30)).count(),
+        'last365_count': User.objects.filter(last_login__gte=datetime.now()-timedelta(days=365)).count(),
+    }
+    return render(request, 'admintools.html', {'push_form': push_form, 'users': users})
+
+@user_passes_test(lambda u: u.is_superuser)
+def view_admintools_push(request):
+    push_info = push_get_all_users()
+    return render(request, 'admintools_push.html', {'push_users': push_info})
 
 @never_cache
 @login_required
@@ -238,7 +295,7 @@ def view_settings(request):
                             os.unlink(item_fullpath)
 
 
-            if hasattr(settings, 'ICEPIRATE'):
+            if settings.ICEPIRATE['url']:
                 # The request.user object doesn't yet reflect recently made
                 # changes, so we need to ask the database explicitly.
                 update_member(User.objects.get(id=request.user.id))
@@ -466,7 +523,7 @@ def personal_data_fetch(request):
             pass
 
         # Include data from IcePirate, if enabled.
-        if hasattr(settings, 'ICEPIRATE'):
+        if settings.ICEPIRATE['url']:
             success, member, error = get_member(profile.verified_ssn)
             write_json('member_registry.json', member)
 
@@ -591,6 +648,7 @@ def verify(request):
     profile.verified_token = request.GET['token']
     profile.verified_timing = datetime.now()
     profile.save()
+    event_register('user_verified', user=request.user)
 
     user_verified.send(sender=request.user.__class__, user=request.user, request=request)
 
@@ -615,11 +673,11 @@ def login_or_saml_redirect(request):
 
 @login_required
 def sso(request):
-    if not hasattr(settings, 'DISCOURSE'):
+    if not hasattr(settings, 'DISCOURSE_URL'):
         raise Http404
 
-    key = str(settings.DISCOURSE['secret'])
-    return_url = '%s/session/sso_login' % settings.DISCOURSE['url']
+    key = str(settings.DISCOURSE_SECRET)
+    return_url = '%s/session/sso_login' % settings.DISCOURSE_URL
 
     payload = request.GET.get('sso')
     their_signature = request.GET.get('sig')
@@ -640,18 +698,25 @@ def sso(request):
     if our_signature != their_signature:
         return HttpResponseBadRequest('Malformed payload.')
 
+    if request.user.userprofile.displayname:
+        name = request.user.userprofile.displayname.encode('utf-8')
+    else:
+        name = request.user.username
+
     nonce = parse_qs(decoded)['nonce'][0]
     outbound = {
         'nonce': nonce,
         'email': request.user.email,
         'external_id': request.user.id,
         'username': request.user.username,
-        'name': request.user.userprofile.displayname.encode('utf-8'),
+        'name': name,
     }
 
     out_payload = base64.encodestring(urllib.urlencode(outbound))
     out_signature = hmac.new(key, out_payload, digestmod=hashlib.sha256).hexdigest()
     out_query = urllib.urlencode({'sso': out_payload, 'sig' : out_signature})
+
+    event_register('sso_signin', event={'client': 'discourse'}, user=request.user)
 
     return HttpResponseRedirect('%s?%s' % (return_url, out_query))
 

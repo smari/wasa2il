@@ -21,6 +21,8 @@ class GlobalsMiddleware():
             'user_is_member': False,
             'user_is_officer': False,
             'user_is_wrangler': False,
+            'WASA2IL_VERSION': settings.WASA2IL_VERSION,
+            'WASA2IL_HASH': settings.WASA2IL_HASH,
         }
 
         try:
@@ -79,7 +81,7 @@ class AutoLogoutMiddleware():
 class SamlMiddleware(object):
     def process_request(self, request):
 
-        if hasattr(settings, 'SAML_1'): # Is SAML 1.2 support enabled?
+        if settings.SAML_1['URL']: # Is SAML 1.2 support enabled?
 
             if hasattr(settings, 'SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST'):
                 exclude_urls = settings.SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST
@@ -101,7 +103,7 @@ class SamlMiddleware(object):
 
     def process_response(self, request, response):
 
-        if hasattr(settings, 'SAML_1') and hasattr(request, 'user'):
+        if settings.SAML_1['URL'] and hasattr(request, 'user'):
             logged_in = request.user.is_authenticated()
             verified = request.user.userprofile.verified if logged_in else False
             just_logged_in = (

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section class="content">
+  <h1>{% trans "Admin tools" %}</h1>
+
+  <h2>{% trans "Push notifications" %}</h2>
+  {% if settings.FEATURES.push_notifications %}
+    <p>Send a notification to <b>all</b> users.</p>
+    <form method="POST">
+    {% csrf_token %}
+    {{push_form}}
+    <button type="submit" class="btn btn-default">Notify ALL users.</button>
+    </form>
+
+    <div>
+      <a class="btn btn-default" href="/admintools/push/">See push users</a>
+    </div>
+  {% else %}
+    {% trans "Push notifications disabled systemwide." %}
+  {% endif %}
+
+  <h2>User review</h2>
+
+  <table>
+      <tr><th>Total users:</th><td>{{users.total_count}}</td></tr>
+      <tr><th>Verified users:</th><td>{{users.verified_count}}</td></tr>
+      <tr><th>Recent users (last 30 days):</th><td>{{users.last30_count}}</td></tr>
+      <tr><th>Recent users (last year):</th><td>{{users.last365_count}}</td></tr>
+  </table>
+
+
+</section>
+{% endblock %}

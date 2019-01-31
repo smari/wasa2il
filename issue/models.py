@@ -70,6 +70,10 @@ class Issue(models.Model):
     votecount_abstain = models.IntegerField(default=0)
     votecount_no = models.IntegerField(default=0)
 
+    #
+    #
+    # proponents = models.ManyToManyField('core.User')
+
     # A special process is one where the result is given without votes being
     # counted by the system. Examples are when an issue is accepted or
     # rejected at a meeting instead of using the voting system, or when an
@@ -219,6 +223,11 @@ class Issue(models.Model):
             documentcontent.save()
 
             self.save()
+
+            if self.polity.push_on_vote_end:
+                # Forcing translation string creation.
+                __ = _("Voting closed on issue '%s'.")
+                push_send_notification_to_polity_users(issue.polity.id, "Voting closed on issue '%s'.", [issue.name])
 
         return True
 
@@ -377,6 +386,8 @@ class DocumentContent(models.Model):
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='proposed')
     predecessor = models.ForeignKey('issue.DocumentContent', null=True, blank=True)
 
+    class Meta:
+        unique_together = ['document', 'order']
 
     # Attempt to inherit earlier issue's topic selection
     def previous_topics(self):
@@ -433,3 +444,14 @@ class DocumentContent(models.Model):
 
     def __unicode__(self):
         return u"DocumentContent (ID: %d)" % self.id
+
+    def save(self, *args, **kwargs):
+
+        # Keep a strict standard on line-endings of textx and comments. We
+        # will stick to the simple Unix-variant of a single newline character
+        # to denote a newline. (This may become important for comparing
+        # things, for example.)
+        self.text = self.text.replace('\r\n', '\n')
+        self.comments = self.comments.replace('\r\n', '\n')
+
+        super(DocumentContent, self).save(*args, **kwargs)

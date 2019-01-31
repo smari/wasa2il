@@ -315,7 +315,45 @@ $(document).ready(function() {
 
     // Disable untranslatable and generally failure-prone HTML5 validation.
     $('form').attr('novalidate', '1');
+
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      console.log('Service Worker and Push is supported');
+
+      navigator.serviceWorker.register('/service-worker.js')
+      .then(function(swReg) {
+        console.log('Service Worker is registered', swReg);
+
+        swRegistration = swReg;
+      })
+      .catch(function(error) {
+        console.error('Service Worker Error', error);
+      });
+    } else {
+      console.warn('Push messaging is not supported');
+      pushButton.textContent = 'Push Not Supported';
+    }
+
 });
+
+
+function test_notification() {
+  Notification.requestPermission(function(result) {
+    if (result === 'granted') {
+      navigator.serviceWorker.ready.then(function(registration) {
+        var options = {
+          body: 'Voting on issue 43/2018 open until Tuesday.',
+          icon: '/static/img/logo-100.png',
+          vibrate: [100, 50, 100],
+          data: {
+            dateOfArrival: Date.now(),
+            primaryKey: 1
+          }
+        };
+        registration.showNotification('Issue just went to vote!', options);
+      });
+    }
+  });
+}
 
 // function start_introjs(){
 //     introJs().start();
@@ -326,4 +364,3 @@ $(function() {
     $("i[rel='tooltip'],a[rel='tooltip']").tooltip({'placement': 'top'});
 
 });
-

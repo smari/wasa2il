@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load wasa2il %}
+
+{% block content %}
+<section class="content">
+  <h1>{% trans "Push users" %}</h1>
+
+  {% if settings.FEATURES.push_notifications %}
+    <p><b>{% trans "Total signed up devices:" %}</b> {{push_users.total_count}}</p>
+
+    <table class="table">
+    <thead>
+      <tr>
+        <th>{% trans "Device type" %}</th>
+        <th>{% trans "Language" %}</th>
+        <th>{% trans "Created at" %}</th>
+        <th>{% trans "Last active" %}</th>
+        <th>{% trans "Sessions" %}</th>
+      </tr>
+    </thead>
+    {% for player in push_users.players %}
+    <tbody>
+      <tr>
+        <td>{{player.device_model}}</td>
+        <td>{{player.tags.lang}}</td>
+        <td>{{player.created_at|fromunixts|date:"d/m/Y H:i"}}</td>
+        <td>{{player.last_active|fromunixts|date:"d/m/Y H:i"}}</td>
+        <td>{{player.session_count}}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+    </table>
+  {% else %}
+    {% trans "Push notifications disabled systemwide." %}
+  {% endif %}
+
+
+</section>
+{% endblock %}
