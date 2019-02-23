@@ -708,7 +708,7 @@ def sso(request):
         'nonce': nonce,
         'email': request.user.email,
         'external_id': request.user.id,
-        'username': request.user.username,
+        'username': request.user.username.encode('utf-8'),
         'name': name,
     }
 
