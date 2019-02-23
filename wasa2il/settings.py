@@ -100,9 +100,9 @@ SAML_1 = {
 }
 
 FEATURES = {
-    'tasks': False,
-    'topic': True,
-    'push_notifications': True,
+    'tasks': os.environ.get('W2_FEATURE_TASKS', False) == '1',
+    'topic': os.environ.get('W2_FEATURE_TOPIC', False) == '1',
+    'push_notifications': os.environ.get('W2_FEATURE_PUSH_NOTIFICATIONS', False) == '1',
 }
 
 if not GCM_APP_ID:  # We cannot have push notifications without a registered app ID.
