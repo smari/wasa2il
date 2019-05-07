@@ -11,7 +11,16 @@ class TaskForm(Wasa2ilForm):
 
     class Meta:
         model = Task
-        exclude = ('polity', 'is_done', 'created_by', 'modified_by', 'created',
-                   'modified', 'slug')
+        exclude = (
+            'polity',
+            'is_done',
+            'created_by',
+            'modified_by',
+            'created',
+            'modified',
+            'slug',
+            'categories',
+            'skills',
+        )
 
 

@@ -29,19 +29,24 @@
 
         <div class="task__request">
             <h2>{% trans "Details" %}</h2>
+
+            {% if task.categories.all %}
             <div class="task__line">
               <p class="task__request-title">{% trans "Categories" %}:&nbsp; </p>
               <p class="task__needs-answer">
                   {% for i in task.categories.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}
               </p>
             </div>
+            {% endif %}
 
+            {% if task.skills.all %}
             <div class="task__line">
                 <p class="task__request-title">{% trans "Skills" %}:&nbsp; </p>
                 <p class="task__needs-answer">
                     {% for i in task.skills.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}
                 </p>
             </div>
+            {% endif %}
         </div>
 
         <div class="task__request">
