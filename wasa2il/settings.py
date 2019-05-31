@@ -69,6 +69,7 @@ DATETIME_INPUT_FORMATS = (
 ## Email settings
 EMAIL_BACKEND=os.environ.get('W2_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 SERVER_EMAIL=os.environ.get('W2_SERVER_EMAIL', '')
+DEFAULT_FROM_EMAIL=os.environ.get('W2_DEFAULT_FROM_EMAIL', '')
 
 ## Push notifications
 GCM_APP_ID=os.environ.get('W2_GCM_APP_ID', '')
