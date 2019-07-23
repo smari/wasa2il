@@ -43,6 +43,7 @@ class UserProfile(models.Model):
     displayname = models.CharField(max_length=255, verbose_name=_("Name"), help_text=_("The name to display on the site."), null=True, blank=True)
     email_visible = models.BooleanField(default=False, verbose_name=_("E-mail visible"), help_text=_("Whether to display your email address on your profile page."))
     bio = models.TextField(verbose_name=_("Bio"), null=True, blank=True)
+    declaration_of_interests = models.TextField(verbose_name=_('Declaration of interests'), null=True, blank=True)
     picture = models.ImageField(upload_to='profiles', verbose_name=_("Picture"), null=True, blank=True)
     joined_org = models.DateTimeField(null=True, blank=True) # Time when user joined organization, as opposed to registered in the system
 

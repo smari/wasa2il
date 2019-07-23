@@ -1,26 +1,25 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-05 19:09+0000\n"
+"POT-Creation-Date: 2019-07-23 13:26+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"Project-Id-Version: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
 "X-Generator: Poedit 2.0.4\n"
 
-#: core/base_classes.py:8 core/models.py:41 election/models.py:28
-#: issue/models.py:40 issue/models.py:305 issue/models.py:363
+#: core/base_classes.py:8 core/models.py:43 election/models.py:28
+#: issue/models.py:40 issue/models.py:314 issue/models.py:372
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
-#: wasa2il/templates/issue/document_detail.html:144
 msgid "Name"
 msgstr "Nafn"
 
-#: core/contextprocessors.py:26
+#: core/contextprocessors.py:28
 msgid ""
 "For security reasons, you have been automatically logged out due to "
 "inactivity."
@@ -28,63 +27,75 @@ msgstr ""
 "Af öryggisástæðum hefurðu verið sjálfkrafa útskráð(ur) vegna langs tíma frá "
 "síðustu virkni."
 
-#: core/forms.py:26 core/models.py:43
+#: core/forms.py:27 core/models.py:45
 msgid "Bio"
 msgstr "Saga"
 
-#: core/forms.py:44
+#: core/forms.py:29 core/models.py:46
+msgid "Declaration of interests"
+msgstr "Hagsmunaskráning"
+
+#: core/forms.py:50
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/forms.py:50
+#: core/forms.py:56
 msgid "Only the following file endings are allowed"
 msgstr "Einungis eftirfarandi skráartegundir eru heimilar"
 
-#: core/forms.py:59 wasa2il/templates/issue/_agreements.html:6
+#: core/forms.py:65 wasa2il/templates/issue/_agreements.html:6
 #: wasa2il/templates/issue/_agreements_list.html:24
-#: wasa2il/templates/issue/document_detail.html:191
-#: wasa2il/templates/issue/issue_detail.html:93
-#: wasa2il/templates/issue/issue_detail.html:128
+#: wasa2il/templates/issue/_issue_detail_metadata.html:44
+#: wasa2il/templates/issue/document_detail.html:92
+#: wasa2il/templates/issue/issue_detail.html:95
+#: wasa2il/templates/issue/issue_detail.html:130
+#: wasa2il/templates/issue/issue_detail_remake.html:51
 msgid "Yes"
 msgstr "Já"
 
-#: core/forms.py:59 wasa2il/templates/issue/_agreements.html:7
+#: core/forms.py:65 wasa2il/templates/issue/_agreements.html:7
 #: wasa2il/templates/issue/_agreements_list.html:27
-#: wasa2il/templates/issue/document_detail.html:192
-#: wasa2il/templates/issue/issue_detail.html:100
-#: wasa2il/templates/issue/issue_detail.html:130
+#: wasa2il/templates/issue/_issue_detail_metadata.html:51
+#: wasa2il/templates/issue/document_detail.html:93
+#: wasa2il/templates/issue/issue_detail.html:102
+#: wasa2il/templates/issue/issue_detail.html:132
+#: wasa2il/templates/issue/issue_detail_remake.html:53
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:61 core/models.py:54
+#: core/forms.py:67 core/models.py:57
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
-#: core/models.py:41
+#: core/forms.py:71
+msgid "Message"
+msgstr ""
+
+#: core/models.py:43
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:42
+#: core/models.py:44
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:42
+#: core/models.py:44
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:44
+#: core/models.py:47
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:55
+#: core/models.py:58
 msgid "Whether to consent to receiving notifications via email."
 msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
-#: core/models.py:58
+#: core/models.py:61 wasa2il/templates/admintools_push.html:16
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:59
+#: core/models.py:62
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
@@ -101,79 +112,87 @@ msgstr "Talningarkerfi"
 msgid "Results are ordered"
 msgstr "Niðurstöður eru raðaðar"
 
-#: election/models.py:43 wasa2il/templates/election/election_list.html:40
+#: election/models.py:49
+#, fuzzy
+#| msgid "Limit how many candidates we publish stats for"
+msgid ""
+"How many candidates will be publicly listed in the results of an election"
+msgstr "Takmarka fjölda frambjóðenda til að birta tölfræði um"
+
+#: election/models.py:52 wasa2il/templates/election/election_list.html:40
 #: wasa2il/templates/election/election_view.html:113
 msgid "Deadline for candidacies"
 msgstr "Framboðsfrestur"
 
-#: election/models.py:44 wasa2il/templates/election/election_view.html:119
+#: election/models.py:53 wasa2il/templates/election/election_view.html:119
 msgid "Election begins"
 msgstr "Kosning hefst"
 
-#: election/models.py:45 wasa2il/templates/election/election_list.html:41
+#: election/models.py:54 wasa2il/templates/election/election_list.html:41
 #: wasa2il/templates/election/election_view.html:7
 #: wasa2il/templates/election/election_view.html:125
 msgid "Election ends"
 msgstr "Kosningu lýkur"
 
-#: election/models.py:51 wasa2il/templates/election/election_view.html:140
+#: election/models.py:60 wasa2il/templates/election/election_view.html:140
 msgid "Voting polities"
 msgstr "Þing kjósenda"
 
-#: election/models.py:52 wasa2il/templates/election/election_view.html:135
+#: election/models.py:61 wasa2il/templates/election/election_view.html:135
 msgid "Candidate polities"
 msgstr "Þing frambjóðenda"
 
-#: election/models.py:56 wasa2il/templates/election/election_view.html:132
+#: election/models.py:65 wasa2il/templates/election/election_view.html:132
 msgid "Membership deadline"
 msgstr "Skráningarmörk kjósenda"
 
-#: election/models.py:59 wasa2il/templates/base.html:127
+#: election/models.py:68 wasa2il/templates/base.html:154
 msgid "Instructions"
 msgstr "Leiðbeiningar"
 
-#: election/models.py:62
+#: election/models.py:71
 msgid "Statistics as JSON"
 msgstr "Tölfræði sem JSON"
 
-#: election/models.py:63
-msgid "Limit how many candidates we publish stats for"
-msgstr "Takmarka fjölda frambjóðenda til að birta tölfræði um"
-
-#: election/models.py:64
+#: election/models.py:72
 msgid "Publish basic ballot statistics"
 msgstr "Gefa út grunntölfræði um atkvæði"
 
-#: election/models.py:65
+#: election/models.py:73
 msgid "Publish ballot statistics for each candidate"
 msgstr "Gefa út tölfræði um atkvæði til hvers frambjóðanda"
 
-#: election/models.py:66
+#: election/models.py:74
 msgid "Publish advanced statistics (downloadable)"
 msgstr "Gefa út ítarlega tölfræði (niðurhalanlega)"
 
-#: election/models.py:253
+#: election/models.py:188
+#, python-format
+msgid "Election results in election '%s' have been calculated."
+msgstr ""
+
+#: election/models.py:266
 #: wasa2il/templates/election/_elections_recent_table.html:29
 #: wasa2il/templates/election/election_list.html:55
 #: wasa2il/templates/issue/_issues_recent_table.html:38
-#: wasa2il/templates/issue/issues.html:59
+#: wasa2il/templates/issue/issues.html:64
 msgid "Concluded"
 msgstr "Lokið"
 
-#: election/models.py:254
+#: election/models.py:267
 #: wasa2il/templates/election/_elections_recent_table.html:27
 #: wasa2il/templates/election/election_list.html:53
 #: wasa2il/templates/issue/_issues_recent_table.html:27
-#: wasa2il/templates/issue/issues.html:48
+#: wasa2il/templates/issue/issues.html:53
 #: wasa2il/templates/topic/topic_detail.html:41
 msgid "Voting"
 msgstr "Í kosningu"
 
-#: election/models.py:255
+#: election/models.py:268
 msgid "Waiting"
 msgstr "Í bið"
 
-#: election/models.py:256
+#: election/models.py:269
 #: wasa2il/templates/election/_elections_recent_table.html:23
 #: wasa2il/templates/election/election_list.html:49
 msgid "Accepting candidates"
@@ -235,6 +254,24 @@ msgstr "STV, tíu sigurvegarar"
 msgid "STV partition with Schulze ranking"
 msgstr "STV deiling með Schulze forgangsröðun"
 
+#: issue/forms.py:42 wasa2il/templates/issue/_issue_detail_metadata.html:10
+#: wasa2il/templates/issue/document_detail.html:51
+#: wasa2il/templates/issue/issue_detail.html:61
+msgid "Proposal"
+msgstr "Tillaga"
+
+#: issue/forms.py:43
+#, fuzzy
+#| msgid "Election"
+msgid "Explanation"
+msgstr "Kosning"
+
+#: issue/forms.py:57
+#, fuzzy
+#| msgid "Change proposal must differ from its predecessor."
+msgid "Content must differ from previous version"
+msgstr "Breytingatillaga verður að vera öðruvísi en upprunatexti."
+
 #: issue/models.py:35
 msgid "Accepted at assembly"
 msgstr "Samþykkt á samkomu"
@@ -243,9 +280,9 @@ msgstr "Samþykkt á samkomu"
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: issue/models.py:37 issue/models.py:375
+#: issue/models.py:37 issue/models.py:384
 #: wasa2il/templates/issue/_issues_recent_table.html:31
-#: wasa2il/templates/issue/issues.html:52
+#: wasa2il/templates/issue/issues.html:57
 msgid "Retracted"
 msgstr "Dregin til baka"
 
@@ -268,9 +305,9 @@ msgstr ""
 "Lýsing máls er venjulega afrit af lýsingu tillögunnar, en þú getur sérsniðið "
 "hana hér ef þú vilt."
 
-#: issue/models.py:58 wasa2il/templates/_sidenav_polity.html:46
+#: issue/models.py:58 wasa2il/templates/_sidenav_polity.html:45
 #: wasa2il/templates/issue/_agreements_list.html:12
-#: wasa2il/templates/polity/polity_detail.html:28
+#: wasa2il/templates/polity/polity_detail.html:31
 #: wasa2il/templates/polity/polity_list.html:29
 #: wasa2il/templates/topic/topic_list.html:17
 #: wasa2il/templates/topic/topic_list.html:24
@@ -281,58 +318,68 @@ msgstr "Málaflokkar"
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: issue/models.py:79 wasa2il/templates/issue/issue_detail.html:77
+#: issue/models.py:83 wasa2il/templates/issue/_issue_detail_metadata.html:28
+#: wasa2il/templates/issue/issue_detail.html:79
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: issue/models.py:299
+#: issue/models.py:229
+#, fuzzy, python-format
+#| msgid "Show closed issues"
+msgid "Voting closed on issue '%s'."
+msgstr "Sýna lokuð mál"
+
+#: issue/models.py:308
 msgid "Policy"
 msgstr "Stefna"
 
-#: issue/models.py:300
+#: issue/models.py:309
 msgid "Bylaw"
 msgstr "Lög"
 
-#: issue/models.py:301
+#: issue/models.py:310
 msgid "Motion"
 msgstr "Ályktun"
 
-#: issue/models.py:302
+#: issue/models.py:311
 msgid "Other"
 msgstr "Annað"
 
-#: issue/models.py:371
+#: issue/models.py:380
 msgid "Proposed"
 msgstr "Tillaga"
 
-#: issue/models.py:372 wasa2il/templates/issue/_issues_recent_table.html:33
-#: wasa2il/templates/issue/issue_detail.html:106
-#: wasa2il/templates/issue/issues.html:54
+#: issue/models.py:381 wasa2il/templates/issue/_issue_detail_metadata.html:57
+#: wasa2il/templates/issue/_issues_recent_table.html:33
+#: wasa2il/templates/issue/issue_detail.html:108
+#: wasa2il/templates/issue/issues.html:59
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: issue/models.py:373 wasa2il/templates/issue/_issues_recent_table.html:35
-#: wasa2il/templates/issue/issue_detail.html:106
-#: wasa2il/templates/issue/issues.html:56
+#: issue/models.py:382 wasa2il/templates/issue/_issue_detail_metadata.html:57
+#: wasa2il/templates/issue/_issues_recent_table.html:35
+#: wasa2il/templates/issue/issue_detail.html:108
+#: wasa2il/templates/issue/issues.html:61
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: issue/models.py:374
+#: issue/models.py:383
 msgid "Deprecated"
 msgstr "Úrelt"
 
-#: issue/views.py:80
+#: issue/views.py:76 wasa2il/templates/issue/documentcontent_add.html:15
+#: wasa2il/templates/issue/documentcontent_edit.html:14
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:20
 #: wasa2il/templates/termsandconditions/tc_view_terms.html:20
 msgid "version"
 msgstr "útgáfa"
 
 #: polity/models.py:23 wasa2il/templates/polity/polity_detail.html:19
-#: wasa2il/templates/polity/polity_detail.html:29
+#: wasa2il/templates/polity/polity_detail.html:32
 msgid "Officers"
 msgstr "Umsjónarmenn"
 
-#: polity/models.py:24 wasa2il/templates/polity/polity_detail.html:64
+#: polity/models.py:24 wasa2il/templates/polity/polity_detail.html:67
 msgid "Volunteer wranglers"
 msgstr "Umsjónarmenn sjálfboðaliða"
 
@@ -367,6 +414,34 @@ msgid ""
 msgstr ""
 "Ef hakað er við þetta verður þetta þing sýnt á forsíðunni. Fyrsta þingið sem "
 "búið er til verður sjálfkrafa að aðalþingi."
+
+#: polity/models.py:31
+msgid "Send notification when debate starts?"
+msgstr ""
+
+#: polity/models.py:33
+msgid "Send notification when issue goes to vote?"
+msgstr ""
+
+#: polity/models.py:35
+msgid "Send notification an hour before voting ends?"
+msgstr ""
+
+#: polity/models.py:37
+msgid "Send notification when voting ends?"
+msgstr ""
+
+#: polity/models.py:39
+msgid "Send notification when an election starts?"
+msgstr ""
+
+#: polity/models.py:41
+msgid "Send notification an hour before election ends?"
+msgstr ""
+
+#: polity/models.py:43
+msgid "Send notification when an election ends?"
+msgstr ""
 
 #: tasks/models.py:8
 msgid "Equality"
@@ -497,18 +572,17 @@ msgstr "Markmið"
 msgid "Requirements"
 msgstr "Kröfur"
 
-#: tasks/models.py:91 wasa2il/templates/tasks/task_detail.html:71
+#: tasks/models.py:91 wasa2il/templates/tasks/task_detail.html:76
 msgid "Why me?"
 msgstr "Af hverju ég?"
 
-#: wasa2il/forms.py:38 wasa2il/templates/issue/document_detail.html:166
+#: wasa2il/forms.py:38
 #: wasa2il/templates/registration/password_change_form.html:19
 #: wasa2il/templates/registration/password_reset_confirm.html:20
 msgid "Save"
 msgstr "Vista"
 
-#: wasa2il/forms.py:41 wasa2il/templates/issue/document_detail.html:172
-#: wasa2il/templates/issue/document_detail.html:174
+#: wasa2il/forms.py:41
 #: wasa2il/templates/registration/password_change_form.html:18
 #: wasa2il/templates/registration/password_reset_form.html:21
 #: wasa2il/templates/registration/registration_form.html:31
@@ -547,62 +621,103 @@ msgstr ""
 msgid "Otherwise, please email us at"
 msgstr "Ef ekki, vinsamlegast sendið okkur póst á netfangið"
 
-#: wasa2il/templates/_sidenav_polity.html:33
+#: wasa2il/templates/_sidenav_polity.html:32
 msgid "Overview"
 msgstr "Yfirlit"
 
-#: wasa2il/templates/_sidenav_polity.html:37
-#: wasa2il/templates/issue/issues.html:15
+#: wasa2il/templates/_sidenav_polity.html:36
+#: wasa2il/templates/issue/issues.html:20
 #: wasa2il/templates/topic/topic_detail.html:28
 #: wasa2il/templates/topic/topic_list.html:25
 msgid "Issues"
 msgstr "Mál"
 
-#: wasa2il/templates/_sidenav_polity.html:41
+#: wasa2il/templates/_sidenav_polity.html:40
 #: wasa2il/templates/election/election_list.html:9
 #: wasa2il/templates/election/election_list.html:25
 #: wasa2il/templates/profile/profile.html:64
 msgid "Elections"
 msgstr "Kosningar"
 
-#: wasa2il/templates/_sidenav_polity.html:51
+#: wasa2il/templates/_sidenav_polity.html:50
 #: wasa2il/templates/help/is/agreement.html:6
 #: wasa2il/templates/issue/document_list.html:12
-#: wasa2il/templates/polity/polity_detail.html:27
+#: wasa2il/templates/polity/polity_detail.html:30
 msgid "Agreements"
 msgstr "Samþykktir"
 
-#: wasa2il/templates/_sidenav_polity.html:57
+#: wasa2il/templates/_sidenav_polity.html:56
 msgid "Volunteer for tasks"
 msgstr "Grasrótarinn"
 
-#: wasa2il/templates/_sidenav_polity.html:64
+#: wasa2il/templates/_sidenav_polity.html:63
 msgid "You are an officer in this polity."
 msgstr "Þú ert umsjónarmaður þessa þings."
 
-#: wasa2il/templates/_sidenav_polity.html:66
+#: wasa2il/templates/_sidenav_polity.html:65
 msgid "You are a member of this polity."
 msgstr "Þú ert meðlimur þessa þings."
 
-#: wasa2il/templates/_sidenav_polity.html:69
+#: wasa2il/templates/_sidenav_polity.html:68
 #: wasa2il/templates/election/election_view.html:83
 #: wasa2il/templates/election/election_view.html:96
 #: wasa2il/templates/issue/issue_detail.html:32
+#: wasa2il/templates/issue/issue_detail_remake.html:32
 msgid "You are not a member of this polity."
 msgstr "Þú ert ekki meðlimur þessa þings."
 
-#: wasa2il/templates/_sidenav_profile.html:8
+#: wasa2il/templates/_sidenav_profile.html:7
 msgid "Profile"
 msgstr "Mín síða"
 
-#: wasa2il/templates/_sidenav_profile.html:14
+#: wasa2il/templates/_sidenav_profile.html:13
 msgid "User's tasks"
 msgstr "Verk notanda"
 
+#: wasa2il/templates/_user_actions.html:5
+#: wasa2il/templates/help/is/agreement.html:6
+#: wasa2il/templates/help/is/authors.html:6
+#: wasa2il/templates/help/is/copyright.html:6
+#: wasa2il/templates/help/is/index.html:6
+#: wasa2il/templates/help/is/polity.html:6
+#: wasa2il/templates/help/is/proposal.html:6
+#: wasa2il/templates/help/is/wasa2il.html:6
+msgid "Help"
+msgstr "Hjálp"
+
+#: wasa2il/templates/_user_actions.html:11
+msgid "My profile"
+msgstr "Mín síða"
+
+#: wasa2il/templates/_user_actions.html:12
+msgid "My settings"
+msgstr "Stillingar"
+
+#: wasa2il/templates/_user_actions.html:13
 #: wasa2il/templates/accounts/personal_data.html:11
-#: wasa2il/templates/base.html:82
 msgid "Personal data"
 msgstr "Persónugögn"
+
+#: wasa2il/templates/_user_actions.html:15
+#: wasa2il/templates/registration/verification_invalid_entity.html:17
+#: wasa2il/templates/registration/verification_needed.html:12
+#: wasa2il/templates/termsandconditions/tc_accept_terms.html:49
+msgid "Logout"
+msgstr "Útskrá"
+
+#: wasa2il/templates/_user_actions.html:19
+#: wasa2il/templates/registration/login.html:11
+#: wasa2il/templates/registration/logout.html:12
+#: wasa2il/templates/registration/password_reset_complete.html:13
+msgid "Log in"
+msgstr "Innskrá"
+
+#: wasa2il/templates/_user_actions.html:20
+#: wasa2il/templates/registration/login.html:30
+#: wasa2il/templates/registration/registration_form.html:11
+#: wasa2il/templates/registration/registration_form.html:30
+msgid "Sign up"
+msgstr "Nýskrá"
 
 #: wasa2il/templates/accounts/personal_data.html:12
 msgid "This page is dedicated to your personal data."
@@ -639,16 +754,22 @@ msgstr ""
 "þeim ættirðu að finna allt varðandi persónugögnin þín, þar á meðal hvers "
 "vegna og hvernig við meðhöndlum þau. Ef ekki, endilega láttu okkur vita!"
 
-#: wasa2il/templates/accounts/personal_data.html:23
+#: wasa2il/templates/accounts/personal_data.html:24
 msgid "Show terms and conditions"
 msgstr "Sýna notkunarskilmála"
 
-#: wasa2il/templates/accounts/personal_data.html:30
+#: wasa2il/templates/accounts/personal_data.html:27
+#, fuzzy
+#| msgid "Show terms and conditions"
+msgid "No terms and conditions provided yet."
+msgstr "Sýna notkunarskilmála"
+
 #: wasa2il/templates/accounts/personal_data.html:34
+#: wasa2il/templates/accounts/personal_data.html:38
 msgid "Retrieve personal data"
 msgstr "Sækja persónugögn"
 
-#: wasa2il/templates/accounts/personal_data.html:31
+#: wasa2il/templates/accounts/personal_data.html:35
 msgid ""
 "This option allows you to download all personal data about you that we have "
 "in our possession, in an open and commonly used format."
@@ -671,67 +792,85 @@ msgstr "Stillingar"
 msgid "You are signed in as"
 msgstr "Þú ert innskráð(ur) sem"
 
+#: wasa2il/templates/admintools.html:6
+#: wasa2il/templates/polity/polity_detail.html:22
+msgid "Admin tools"
+msgstr ""
+
+#: wasa2il/templates/admintools.html:8
+msgid "Push notifications"
+msgstr ""
+
+#: wasa2il/templates/admintools.html:21
+#: wasa2il/templates/admintools_push.html:35
+msgid "Push notifications disabled systemwide."
+msgstr ""
+
+#: wasa2il/templates/admintools_push.html:7
+msgid "Push users"
+msgstr ""
+
+#: wasa2il/templates/admintools_push.html:10
+msgid "Total signed up devices:"
+msgstr ""
+
+#: wasa2il/templates/admintools_push.html:15
+msgid "Device type"
+msgstr ""
+
+#: wasa2il/templates/admintools_push.html:17
+#, fuzzy
+#| msgid "Deprecated"
+msgid "Created at"
+msgstr "Úrelt"
+
+#: wasa2il/templates/admintools_push.html:18
+#, fuzzy
+#| msgid "Task objectives"
+msgid "Last active"
+msgstr "Markmið verkefnis"
+
+#: wasa2il/templates/admintools_push.html:19
+#, fuzzy
+#| msgid "Versions"
+msgid "Sessions"
+msgstr "Útgáfur"
+
 #: wasa2il/templates/base.html:8
 msgid "Voting System - Pirate Party Iceland"
 msgstr "Kosningakerfi Pírata"
 
-#: wasa2il/templates/base.html:18
+#: wasa2il/templates/base.html:24
 msgid "An online platform for holding elections and voting on issues."
 msgstr "Vefkerfi fyrir kosningar og atkvæðagreiðslur um mál."
 
-#: wasa2il/templates/base.html:74 wasa2il/templates/help/is/agreement.html:6
-#: wasa2il/templates/help/is/authors.html:6
-#: wasa2il/templates/help/is/copyright.html:6
-#: wasa2il/templates/help/is/index.html:6
-#: wasa2il/templates/help/is/polity.html:6
-#: wasa2il/templates/help/is/proposal.html:6
-#: wasa2il/templates/help/is/wasa2il.html:6
-msgid "Help"
-msgstr "Hjálp"
+#: wasa2il/templates/base.html:71
+msgid "Subscribe to push notifications"
+msgstr ""
 
-#: wasa2il/templates/base.html:80
-msgid "My profile"
-msgstr "Mín síða"
+#: wasa2il/templates/base.html:72
+msgid "Unsubscribe from push notifications"
+msgstr ""
 
-#: wasa2il/templates/base.html:81
-msgid "My settings"
-msgstr "Stillingar"
+#: wasa2il/templates/base.html:73
+msgid "Get updates from all sorts of things that matter to you"
+msgstr ""
 
-#: wasa2il/templates/base.html:84
-#: wasa2il/templates/registration/verification_invalid_entity.html:17
-#: wasa2il/templates/registration/verification_needed.html:12
-#: wasa2il/templates/termsandconditions/tc_accept_terms.html:49
-msgid "Logout"
-msgstr "Útskrá"
-
-#: wasa2il/templates/base.html:88 wasa2il/templates/registration/login.html:11
-#: wasa2il/templates/registration/logout.html:12
-#: wasa2il/templates/registration/password_reset_complete.html:13
-msgid "Log in"
-msgstr "Innskrá"
-
-#: wasa2il/templates/base.html:89 wasa2il/templates/registration/login.html:30
-#: wasa2il/templates/registration/registration_form.html:11
-#: wasa2il/templates/registration/registration_form.html:30
-msgid "Sign up"
-msgstr "Nýskrá"
-
-#: wasa2il/templates/base.html:125
+#: wasa2il/templates/base.html:152
 msgid "About wasa2il"
 msgstr "Um wasa2il"
 
-#: wasa2il/templates/base.html:126
+#: wasa2il/templates/base.html:153
 msgid "License"
 msgstr "Notandaleyfi"
 
-#: wasa2il/templates/base.html:128 wasa2il/templates/help/is/authors.html:6
+#: wasa2il/templates/base.html:155 wasa2il/templates/help/is/authors.html:6
 msgid "Authors"
 msgstr "Höfundar"
 
-#: wasa2il/templates/base.html:129
+#: wasa2il/templates/base.html:156
 #: wasa2il/templates/issue/stub/document_view.html:93
 #: wasa2il/templates/issue/stub/document_view.html:95
-#: wasa2il/templates/profile/proposals.html:30
 msgid "Version"
 msgstr "Útgáfa"
 
@@ -765,7 +904,8 @@ msgid "Move to bottom"
 msgstr "Færa neðst"
 
 #: wasa2il/templates/election/_election_candidate_list.html:48
-#: wasa2il/templates/issue/issue_detail.html:125
+#: wasa2il/templates/issue/issue_detail.html:127
+#: wasa2il/templates/issue/issue_detail_remake.html:48
 msgid "Vote"
 msgstr "Kjósa"
 
@@ -826,7 +966,7 @@ msgstr "Þing"
 #: wasa2il/templates/election/_elections_recent.html:71
 #: wasa2il/templates/election/election_list.html:37
 #: wasa2il/templates/issue/_issues_recent.html:66
-#: wasa2il/templates/issue/issues.html:28
+#: wasa2il/templates/issue/issues.html:33
 #: wasa2il/templates/topic/topic_detail.html:29
 msgid "State"
 msgstr "Ástand"
@@ -842,9 +982,10 @@ msgstr "Frambjóðendur"
 #: wasa2il/templates/election/election_list.html:39
 #: wasa2il/templates/election/election_view.html:150
 #: wasa2il/templates/election/election_view.html:278
+#: wasa2il/templates/issue/_issue_detail_metadata.html:32
 #: wasa2il/templates/issue/_issues_recent.html:71
-#: wasa2il/templates/issue/issue_detail.html:81
-#: wasa2il/templates/issue/issues.html:30
+#: wasa2il/templates/issue/issue_detail.html:83
+#: wasa2il/templates/issue/issues.html:35
 #: wasa2il/templates/topic/topic_detail.html:31
 msgid "Votes"
 msgstr "Atkvæði"
@@ -875,7 +1016,6 @@ msgstr "Engar kosningar eru á dagskrá í augnablikinu."
 #: wasa2il/templates/election/election_list.html:6
 #: wasa2il/templates/election/election_view.html:10
 #: wasa2il/templates/help/is/polity.html:6
-#: wasa2il/templates/issue/document_detail.html:9
 #: wasa2il/templates/issue/issues.html:6
 #: wasa2il/templates/polity/polity_detail.html:8
 #: wasa2il/templates/polity/polity_form.html:7
@@ -912,7 +1052,8 @@ msgid "Election:"
 msgstr "Kosning:"
 
 #: wasa2il/templates/election/election_view.html:48
-#: wasa2il/templates/issue/issue_detail.html:126
+#: wasa2il/templates/issue/issue_detail.html:128
+#: wasa2il/templates/issue/issue_detail_remake.html:49
 msgid "There was an error while processing your vote. Please try again."
 msgstr ""
 "Það kom upp villa við úrvinnslu atkvæðisins þíns. Vinsamlegast reyndu aftur."
@@ -936,6 +1077,7 @@ msgstr "Sendi gögn..."
 
 #: wasa2il/templates/election/election_view.html:61
 #: wasa2il/templates/issue/issue_detail.html:12
+#: wasa2il/templates/issue/issue_detail_remake.html:12
 #: wasa2il/templates/topic/topic_detail.html:17
 msgid "Edit"
 msgstr "Breyta"
@@ -956,6 +1098,7 @@ msgstr "Þú getur ekki kosið í þessum kosningum:"
 #: wasa2il/templates/election/election_view.html:79
 #: wasa2il/templates/election/election_view.html:94
 #: wasa2il/templates/issue/issue_detail.html:30
+#: wasa2il/templates/issue/issue_detail_remake.html:30
 msgid "Please log in."
 msgstr "Vinsamlegast skráðu þig inn."
 
@@ -966,6 +1109,7 @@ msgstr "Það er of stutt síðan þú gekkst í félagið."
 #: wasa2il/templates/election/election_view.html:85
 #: wasa2il/templates/election/election_view.html:98
 #: wasa2il/templates/issue/issue_detail.html:34
+#: wasa2il/templates/issue/issue_detail_remake.html:34
 msgid "You do not meet the requirements."
 msgstr "Þú uppfyllir ekki skilyrðin."
 
@@ -1682,7 +1826,8 @@ msgstr "Skjal"
 
 #: wasa2il/templates/issue/_agreements.html:8
 #: wasa2il/templates/issue/_agreements_list.html:30
-#: wasa2il/templates/issue/issue_detail.html:129
+#: wasa2il/templates/issue/issue_detail.html:131
+#: wasa2il/templates/issue/issue_detail_remake.html:52
 msgid "Abstain"
 msgstr "Sitja hjá"
 
@@ -1696,16 +1841,16 @@ msgid "This polity has no agreements."
 msgstr "Þetta þing hefur engar samþykktir."
 
 #: wasa2il/templates/issue/_agreements_list.html:18
-#: wasa2il/templates/issue/document_detail.html:252
-#: wasa2il/templates/issue/issue_detail.html:60
+#: wasa2il/templates/issue/_issue_detail_metadata.html:11
+#: wasa2il/templates/issue/document_detail.html:140
+#: wasa2il/templates/issue/issue_detail.html:62
 msgid "Author"
 msgstr "Höfundur"
 
 #: wasa2il/templates/issue/_agreements_list.html:33
 #: wasa2il/templates/issue/_issues_recent.html:68
-#: wasa2il/templates/issue/document_detail.html:160
-#: wasa2il/templates/issue/document_detail.html:253
-#: wasa2il/templates/issue/issues.html:29
+#: wasa2il/templates/issue/document_detail.html:141
+#: wasa2il/templates/issue/issues.html:34
 #: wasa2il/templates/topic/topic_detail.html:30
 msgid "Comments"
 msgstr "Ummæli"
@@ -1718,6 +1863,53 @@ msgstr "Nánar"
 #: wasa2il/templates/issue/_agreements_list.html:47
 msgid "Your search returned no results"
 msgstr "Leitin skilaði engum niðurstöðum"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:5
+#: wasa2il/templates/issue/issue_detail.html:56
+msgid "Issue number"
+msgstr "Málsnúmer"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:13
+#: wasa2il/templates/issue/issue_detail.html:64
+msgid "In topics"
+msgstr "Í málaflokkum"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:16
+#: wasa2il/templates/issue/issue_detail.html:67
+msgid "Start time"
+msgstr "Upphafstími"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:18
+#: wasa2il/templates/issue/issue_detail.html:69
+msgid "Discussion ends"
+msgstr "Umræðum lýkur"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:21
+#: wasa2il/templates/issue/issue_detail.html:72
+msgid "Issue vote begins"
+msgstr "Atkvæðagreiðsla hefst"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:25
+#: wasa2il/templates/issue/issue_detail.html:6
+#: wasa2il/templates/issue/issue_detail.html:76
+#: wasa2il/templates/issue/issue_detail_remake.html:6
+msgid "Issue vote ends at"
+msgstr "Atkvæðagreiðslu lýkur"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:37
+#: wasa2il/templates/issue/issue_detail.html:88
+msgid "abstain"
+msgstr "sitja hjá"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:57
+#: wasa2il/templates/issue/issue_detail.html:108
+msgid "Result"
+msgstr "Niðurstaða"
+
+#: wasa2il/templates/issue/_issue_detail_metadata.html:61
+#: wasa2il/templates/issue/issue_detail.html:112
+msgid "Majority threshold"
+msgstr "Meirihlutaþröskuldur"
 
 #: wasa2il/templates/issue/_issues_recent.html:41
 msgid "New and recent issues"
@@ -1738,7 +1930,7 @@ msgid "Show all issues in polity"
 msgstr "Sýna öll mál í þingi"
 
 #: wasa2il/templates/issue/_issues_recent.html:62
-#: wasa2il/templates/issue/issues.html:9 wasa2il/templates/issue/issues.html:27
+#: wasa2il/templates/issue/issues.html:9 wasa2il/templates/issue/issues.html:32
 msgid "Issue"
 msgstr "Málefni"
 
@@ -1753,12 +1945,12 @@ msgid "You have not voted on this issue"
 msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
 
 #: wasa2il/templates/issue/_issues_recent_table.html:23
-#: wasa2il/templates/issue/issues.html:44
+#: wasa2il/templates/issue/issues.html:49
 msgid "In discussion"
 msgstr "Í umræðu"
 
 #: wasa2il/templates/issue/_issues_recent_table.html:25
-#: wasa2il/templates/issue/issues.html:46
+#: wasa2il/templates/issue/issues.html:51
 msgid "Accepting proposals"
 msgstr "Opið fyrir tillögur"
 
@@ -1766,61 +1958,36 @@ msgstr "Opið fyrir tillögur"
 msgid "There are no new issues at the moment."
 msgstr "Engin nýleg mál eru til umræðu í augnabliknu."
 
-#: wasa2il/templates/issue/document_detail.html:5
+#: wasa2il/templates/issue/document_detail.html:6
 msgid "Document:"
 msgstr "Skjal:"
 
-#: wasa2il/templates/issue/document_detail.html:6
+#: wasa2il/templates/issue/document_detail.html:7
 msgid "Status:"
 msgstr "Staða:"
 
-#: wasa2il/templates/issue/document_detail.html:25
-msgid "Change proposal must differ from its predecessor."
-msgstr "Breytingatillaga verður að vera öðruvísi en upprunatexti."
-
-#: wasa2il/templates/issue/document_detail.html:123
+#: wasa2il/templates/issue/document_detail.html:49
 msgid "Agreement"
 msgstr "Samþykkt"
 
-#: wasa2il/templates/issue/document_detail.html:125
-#: wasa2il/templates/issue/issue_detail.html:59
-msgid "Proposal"
-msgstr "Tillaga"
-
-#: wasa2il/templates/issue/document_detail.html:130
+#: wasa2il/templates/issue/document_detail.html:56
 msgid "Name change"
 msgstr "Nafnbreyting"
 
-#: wasa2il/templates/issue/document_detail.html:148
-msgid "Content"
-msgstr "Efni"
-
-#: wasa2il/templates/issue/document_detail.html:160
-msgid "optional"
-msgstr "valkvæmt"
-
-#: wasa2il/templates/issue/document_detail.html:165
-msgid "Preview"
-msgstr "Forskoða"
-
-#: wasa2il/templates/issue/document_detail.html:168
-msgid "Preview is required before saving"
-msgstr "Forskoða þarf skjal áður en það er vistað"
-
-#: wasa2il/templates/issue/document_detail.html:181
+#: wasa2il/templates/issue/document_detail.html:82
 msgid "Propose change"
 msgstr "Stinga upp á breytingu"
 
-#: wasa2il/templates/issue/document_detail.html:189
-#: wasa2il/templates/issue/document_detail.html:196
+#: wasa2il/templates/issue/document_detail.html:90
+#: wasa2il/templates/issue/document_detail.html:97
 msgid "Retract proposal"
 msgstr "Draga tillögu til baka"
 
-#: wasa2il/templates/issue/document_detail.html:190
+#: wasa2il/templates/issue/document_detail.html:91
 msgid "Are you sure you want to retract this issue?"
 msgstr "Ertu viss um að þú viljir draga þessa tillögu til baka?"
 
-#: wasa2il/templates/issue/document_detail.html:190
+#: wasa2il/templates/issue/document_detail.html:91
 msgid ""
 "Note that this will only cancel its vote, but will not delete the proposal "
 "itself."
@@ -1828,29 +1995,30 @@ msgstr ""
 "Athugaðu að þá verður einungis horfið frá atkvæðagreiðslu, en tillagan sjálf "
 "verður ennþá til staðar."
 
-#: wasa2il/templates/issue/document_detail.html:202
-#: wasa2il/templates/issue/document_detail.html:204
+#: wasa2il/templates/issue/document_detail.html:103
+#: wasa2il/templates/issue/document_detail.html:105
+#: wasa2il/templates/issue/documentcontent_edit.html:13
 msgid "Edit proposal"
 msgstr "Breyta tillögu"
 
-#: wasa2il/templates/issue/document_detail.html:210
-#: wasa2il/templates/issue/document_detail.html:212
+#: wasa2il/templates/issue/document_detail.html:111
+#: wasa2il/templates/issue/document_detail.html:113
 msgid "Put to vote"
 msgstr "Setja í kosningu"
 
-#: wasa2il/templates/issue/document_detail.html:231
+#: wasa2il/templates/issue/document_detail.html:127
 msgid "Referenced issue"
 msgstr "Tilheyrandi mál"
 
-#: wasa2il/templates/issue/document_detail.html:247
+#: wasa2il/templates/issue/document_detail.html:135
 msgid "Versions"
 msgstr "Útgáfur"
 
-#: wasa2il/templates/issue/document_detail.html:251
+#: wasa2il/templates/issue/document_detail.html:139
 msgid "Status"
 msgstr "Staða"
 
-#: wasa2il/templates/issue/document_detail.html:271
+#: wasa2il/templates/issue/document_detail.html:159
 msgid "New draft"
 msgstr "Ný drög"
 
@@ -1871,7 +2039,7 @@ msgid "Agreements are decisions that have been accepted by vote."
 msgstr "Samþykktir eru ákvarðanir sem hafa verið teknar með atkvæðagreiðslu."
 
 #: wasa2il/templates/issue/document_list.html:18
-#: wasa2il/templates/issue/issues.html:21
+#: wasa2il/templates/issue/issues.html:26
 msgid ""
 "Such agreements come in a few different types such as motions, policy "
 "decisions and bylaws."
@@ -1886,71 +2054,47 @@ msgstr "Leita í samþykktum"
 msgid "agreements found"
 msgstr "samþykktir fundnar"
 
+#: wasa2il/templates/issue/documentcontent_add.html:13
+#, fuzzy
+#| msgid "Edit proposal"
+msgid "Add proposal"
+msgstr "Breyta tillögu"
+
 #: wasa2il/templates/issue/issue_detail.html:5
+#: wasa2il/templates/issue/issue_detail_remake.html:5
 msgid "Issue vote:"
 msgstr "Atkvæðagreiðsla:"
 
-#: wasa2il/templates/issue/issue_detail.html:6
-#: wasa2il/templates/issue/issue_detail.html:74
-msgid "Issue vote ends at"
-msgstr "Atkvæðagreiðslu lýkur"
-
 #: wasa2il/templates/issue/issue_detail.html:22
+#: wasa2il/templates/issue/issue_detail_remake.html:22
 msgid "This issue is closed and awaits final processing."
 msgstr "Þessu máli er lokið og bíður það lokaúrvinnslu."
 
 #: wasa2il/templates/issue/issue_detail.html:27
+#: wasa2il/templates/issue/issue_detail_remake.html:27
 msgid "You cannot vote on this issue:"
 msgstr "Þú getur ekki greitt atkvæði í þessari atkvæðagreiðslu:"
 
-#: wasa2il/templates/issue/issue_detail.html:54
-msgid "Issue number"
-msgstr "Málsnúmer"
-
-#: wasa2il/templates/issue/issue_detail.html:62
-msgid "In topics"
-msgstr "Í málaflokkum"
-
-#: wasa2il/templates/issue/issue_detail.html:65
-msgid "Start time"
-msgstr "Upphafstími"
-
-#: wasa2il/templates/issue/issue_detail.html:67
-msgid "Discussion ends"
-msgstr "Umræðum lýkur"
-
-#: wasa2il/templates/issue/issue_detail.html:70
-msgid "Issue vote begins"
-msgstr "Atkvæðagreiðsla hefst"
-
-#: wasa2il/templates/issue/issue_detail.html:86
-msgid "abstain"
-msgstr "sitja hjá"
-
-#: wasa2il/templates/issue/issue_detail.html:106
-msgid "Result"
-msgstr "Niðurstaða"
-
-#: wasa2il/templates/issue/issue_detail.html:110
-msgid "Majority threshold"
-msgstr "Meirihlutaþröskuldur"
-
-#: wasa2il/templates/issue/issue_detail.html:114
+#: wasa2il/templates/issue/issue_detail.html:116
+#: wasa2il/templates/issue/issue_detail_remake.html:67
 msgid "Discussion"
 msgstr "Umræða"
 
-#: wasa2il/templates/issue/issue_detail.html:116
+#: wasa2il/templates/issue/issue_detail.html:118
+#: wasa2il/templates/issue/issue_detail_remake.html:89
 msgid ""
 "This issue was concluded a while ago, so you must log in to see comments."
 msgstr ""
 "Þessu máli lauk fyrir nokkru síðan og er því krafist innskráningar til að "
 "sjá umræðu."
 
-#: wasa2il/templates/issue/issue_detail.html:125
+#: wasa2il/templates/issue/issue_detail.html:127
+#: wasa2il/templates/issue/issue_detail_remake.html:48
 msgid "for or against this issue"
 msgstr "með eða á móti þessu máli"
 
 #: wasa2il/templates/issue/issue_form.html:7
+#: wasa2il/templates/issue/issues.html:17
 msgid "New issue"
 msgstr "Nýtt mál"
 
@@ -1960,7 +2104,7 @@ msgstr "Nýtt mál"
 msgid "Comparison"
 msgstr "Samanburður"
 
-#: wasa2il/templates/issue/issues.html:18
+#: wasa2il/templates/issue/issues.html:23
 msgid ""
 "Issues are proposals that are voted on. If accepted by a majority vote "
 "according to the applied rules, issues become accepted decisions known as "
@@ -1969,7 +2113,7 @@ msgstr ""
 "Mál er tillaga sem greitt er atkvæði um. Ef mál er samþykkt af meirihluta "
 "samkvæmt gefnum reglum verður það að samþykkt."
 
-#: wasa2il/templates/issue/issues.html:26
+#: wasa2il/templates/issue/issues.html:31
 msgid "Issue nr."
 msgstr "Málsnr."
 
@@ -2017,33 +2161,33 @@ msgstr ""
 "Þessi tillaga hefur verið dregin til baka af flutningsmanni eða "
 "umsjónarmanni."
 
-#: wasa2il/templates/polity/polity_detail.html:24
+#: wasa2il/templates/polity/polity_detail.html:27
 msgid "New issues"
 msgstr "Ný mál"
 
-#: wasa2il/templates/polity/polity_detail.html:25
+#: wasa2il/templates/polity/polity_detail.html:28
 msgid "New elections"
 msgstr "Nýjar kosningar"
 
-#: wasa2il/templates/polity/polity_detail.html:26
+#: wasa2il/templates/polity/polity_detail.html:29
 msgid "Verified Users"
 msgstr "Staðfestir notendur"
 
-#: wasa2il/templates/polity/polity_detail.html:43
+#: wasa2il/templates/polity/polity_detail.html:46
 #: wasa2il/templates/polity/polity_officers_form.html:14
 msgid "Polity officers"
 msgstr "Umsjónarmenn þings"
 
-#: wasa2il/templates/polity/polity_detail.html:47
+#: wasa2il/templates/polity/polity_detail.html:50
 msgid "Officers can manage issues and manage elections."
 msgstr "Umsjónarmenn hafa umsjón með málum og kosningum."
 
-#: wasa2il/templates/polity/polity_detail.html:49
+#: wasa2il/templates/polity/polity_detail.html:52
 msgid "They can promote users to wranglers and manage tasks like wranglers."
 msgstr ""
 "Þeir geta gert aðra notendur að verkefnastjórum og stýrt verkum sem slíkir."
 
-#: wasa2il/templates/polity/polity_detail.html:51
+#: wasa2il/templates/polity/polity_detail.html:54
 msgid ""
 "These officers have no access beyond other users to personal information, "
 "votes, or other database contents."
@@ -2051,7 +2195,7 @@ msgstr ""
 "Þessir umsjónarmenn hafa engan aðgang umfram aðra notendur að persónugögnum, "
 "atkvæðum eða öðru efni í gagnagrunni."
 
-#: wasa2il/templates/polity/polity_detail.html:52
+#: wasa2il/templates/polity/polity_detail.html:55
 msgid ""
 "Note that system administrators which are not listed here may still have "
 "additional access."
@@ -2059,11 +2203,11 @@ msgstr ""
 "Athugið að kerfisstjórar sem ekki eru listaðir hér geta samt sem áður haft "
 "víðtækari aðgang."
 
-#: wasa2il/templates/polity/polity_detail.html:58
+#: wasa2il/templates/polity/polity_detail.html:61
 msgid "No officers have been designated for this polity."
 msgstr "Enginn umsjónarmaður hefur verið útnefndur fyrir þetta þing."
 
-#: wasa2il/templates/polity/polity_detail.html:65
+#: wasa2il/templates/polity/polity_detail.html:68
 msgid ""
 "Wranglers can create tasks, assign users to tasks they have applied to, "
 "unassign users from tasks, and mark tasks as done."
@@ -2071,11 +2215,11 @@ msgstr ""
 "Umsjónarmenn sjálfboðaliða geta búið til verkefni, úthlutað verkefnum til "
 "umsækjenda, afskráð fólk úr verkefnum og skráð verkefni sem búin."
 
-#: wasa2il/templates/polity/polity_detail.html:70
+#: wasa2il/templates/polity/polity_detail.html:73
 msgid "No wranglers have been configured for this polity."
 msgstr "Engir umsjónarmenn sjálfboðaliða hafa verið skráðir í þetta þing."
 
-#: wasa2il/templates/polity/polity_detail.html:76
+#: wasa2il/templates/polity/polity_detail.html:79
 #: wasa2il/templates/topic/topic_detail.html:65
 msgid "Close"
 msgstr "Loka"
@@ -2092,7 +2236,6 @@ msgid "Polity settings"
 msgstr "Stillingar þings"
 
 #: wasa2il/templates/profile/profile.html:5
-#: wasa2il/templates/profile/proposals.html:5
 msgid "User"
 msgstr "Notandi"
 
@@ -2512,31 +2655,31 @@ msgstr "Markmið verkefnis"
 msgid "Required skills"
 msgstr "Nauðsynlegir hæfileikar"
 
-#: wasa2il/templates/tasks/task_detail.html:33
+#: wasa2il/templates/tasks/task_detail.html:35
 msgid "Categories"
 msgstr "Málaflokkar"
 
-#: wasa2il/templates/tasks/task_detail.html:40
+#: wasa2il/templates/tasks/task_detail.html:44
 msgid "Skills"
 msgstr "Hæfileikar"
 
-#: wasa2il/templates/tasks/task_detail.html:49
+#: wasa2il/templates/tasks/task_detail.html:54
 msgid "Number of volunteers needed"
 msgstr "Nauðsynlegur fjöldi sjálfboðaliða"
 
-#: wasa2il/templates/tasks/task_detail.html:53
+#: wasa2il/templates/tasks/task_detail.html:58
 msgid "Estimated hours per week"
 msgstr "Áætlaður tímafjöldi í viku"
 
-#: wasa2il/templates/tasks/task_detail.html:57
+#: wasa2il/templates/tasks/task_detail.html:62
 msgid "Estimated number of weeks"
 msgstr "Áætlaður fjöldi vikna"
 
-#: wasa2il/templates/tasks/task_detail.html:64
+#: wasa2il/templates/tasks/task_detail.html:69
 msgid "Apply for task"
 msgstr "Sækja um í verkefnið"
 
-#: wasa2il/templates/tasks/task_detail.html:68
+#: wasa2il/templates/tasks/task_detail.html:73
 msgid ""
 "Thank you! You successfully applied for this task. You will be contacted by "
 "the wrangler of this task."
@@ -2544,15 +2687,15 @@ msgstr ""
 "Takk! Þú hefur sent inn umsókn fyrir þetta verkefni. Umsjónarmaður "
 "verkefnisins mun hafa samband við þig."
 
-#: wasa2il/templates/tasks/task_detail.html:78
+#: wasa2il/templates/tasks/task_detail.html:83
 msgid "Apply"
 msgstr "Sækja um"
 
-#: wasa2il/templates/tasks/task_detail.html:81
+#: wasa2il/templates/tasks/task_detail.html:86
 msgid "This task has been completed already."
 msgstr "Þessu verki er þegar lokið."
 
-#: wasa2il/templates/tasks/task_detail.html:83
+#: wasa2il/templates/tasks/task_detail.html:88
 msgid "This task doesn't need more volunteers just now."
 msgstr "Þetta verkefni þarfnast ekki fleiri sjálfboðaliða eins og er."
 
@@ -2608,12 +2751,12 @@ msgid "Clear filter"
 msgstr "Hreinsa síu"
 
 #: wasa2il/templates/tasks/task_list.html:56
-#: wasa2il/templates/tasks/task_user_tasks.html:19
+#: wasa2il/templates/tasks/task_user_tasks.html:20
 msgid "hours per week"
 msgstr "klukkustundir á viku"
 
 #: wasa2il/templates/tasks/task_list.html:59
-#: wasa2il/templates/tasks/task_user_tasks.html:22
+#: wasa2il/templates/tasks/task_user_tasks.html:23
 msgid "vikur"
 msgstr "vikur"
 
@@ -2625,7 +2768,7 @@ msgstr "Eins og er eru engin verkefni sem þurfa sjálfboðaliða."
 msgid "User tasks"
 msgstr "Verkefni notanda"
 
-#: wasa2il/templates/tasks/task_user_tasks.html:31
+#: wasa2il/templates/tasks/task_user_tasks.html:33
 msgid "User currently isn't volunteering for any tasks."
 msgstr "Notandinn er ekki sjálfboðaliði í neinum verkefnum í augnablikinu."
 
@@ -2730,6 +2873,18 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
+
+#~ msgid "Content"
+#~ msgstr "Efni"
+
+#~ msgid "optional"
+#~ msgstr "valkvæmt"
+
+#~ msgid "Preview"
+#~ msgstr "Forskoða"
+
+#~ msgid "Preview is required before saving"
+#~ msgstr "Forskoða þarf skjal áður en það er vistað"
 
 #~ msgid "E-mail"
 #~ msgstr "Netfang"
