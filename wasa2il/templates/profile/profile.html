@@ -35,6 +35,12 @@
         {% else %}
             {% trans "This user hasn't provided a biography." %}
         {% endif %}
+
+        {% if profile.declaration_of_interests %}
+          <h1>{% trans "Declaration of interests" %}</h1>
+          {{ profile.declaration_of_interests|markdown|urlize }}
+        {% endif %}
+
     </div>
     <div class="profile-thingsdone">
         <div class="profile-polities">
