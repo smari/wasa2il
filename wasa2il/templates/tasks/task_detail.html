@@ -80,24 +80,28 @@
           {% csrf_token %}
           <h2>{% trans "Apply for task" %}</h2>
 
-          {% if has_applied %}
-          <div class="thank-you-message js-thank-you-message">
-            {% trans "Thank you! You successfully applied for this task. You will be contacted by the wrangler of this task." %}
-          </div>
-          {% elif task.is_recruiting %}
-          <h2 class="task__why-me-title">{% trans "Why me?" %}</h2>
-          <div class="js-apply-error hidden"></div>
-          <div class="loading-popup loading-popup--success js-loading-success">
-              <div class="loading-popup__success js-popup-success"></div>
-          </div>
-          <div class="task__form-fields js-form-fields">
-              <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10"></textarea>
-              <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}">
-          </div>
-          {% elif task.is_done %}
-            {% trans "This task has been completed already." %}
+          {% if user.is_authenticated %}
+            {% if has_applied %}
+              <div class="thank-you-message js-thank-you-message">
+                {% trans "Thank you! You successfully applied for this task. You will be contacted by the wrangler of this task." %}
+              </div>
+            {% elif task.is_recruiting %}
+              <h2 class="task__why-me-title">{% trans "Why me?" %}</h2>
+              <div class="js-apply-error hidden"></div>
+              <div class="loading-popup loading-popup--success js-loading-success">
+                  <div class="loading-popup__success js-popup-success"></div>
+              </div>
+              <div class="task__form-fields js-form-fields">
+                  <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10"></textarea>
+                  <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}">
+              </div>
+            {% elif task.is_done %}
+              {% trans "This task has been completed already." %}
+            {% else %}
+              {% trans "This task doesn't need more volunteers just now." %}
+            {% endif %}
           {% else %}
-            {% trans "This task doesn't need more volunteers just now." %}
+            <p>{% trans 'Please login to apply for this task.' %}</p>
           {% endif %}
         </form>
     </div>
