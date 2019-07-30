@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load wasa2il %}
 {% block content %}
 
 {% include 'tasks/dialog_task_delete.html' %}
@@ -21,19 +22,19 @@
         <div class="task__description content">
             <h2 class="task__info-title">{% trans "Task description" %}</h2>
             <div class="content">
-                {{task.description}}
+                {{ task.description|markdown|urlize }}
             </div>
         </div>
         <div class="task__objective">
             <h2 class="task__info-title">{% trans "Task objectives" %}</h2>
             <div class="content">
-                {{task.objectives}}
+                {{ task.objectives|markdown|urlize }}
             </div>
         </div>
         <div class="task__requirement">
             <h2 class="task__info-title">{% trans "Required skills" %}</h2>
             <div class="content">
-            {{task.requirements}}
+            {{ task.requirements|markdown|urlize }}
             </div>
         </div>
     </div>
