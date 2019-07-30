@@ -17,7 +17,7 @@
   {% for task in tasks %}
     <div class="task-item">
       <div class="toolbar toolbar-small">
-        <h2>{{task.name}}</h2>
+        <h2><a href="{% url 'task_detail' task.polity_id task.id %}">{{ task.name }}</a></h2>
         <div class="tools">
           {% if task.is_done %}
           <form action="" method="POST">
