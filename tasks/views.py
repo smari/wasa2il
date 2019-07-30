@@ -91,7 +91,11 @@ def task_delete(request, polity_id, task_id):
 def task_detail(request, polity_id, task_id):
     polity = get_object_or_404(Polity, id=polity_id)
     task = get_object_or_404(Task, id=task_id, polity=polity)
-    has_applied = TaskRequest.objects.filter(task=task, user=request.user).first() or False
+
+    if request.user.is_authenticated():
+        has_applied = task.taskrequest_set.filter(user=request.user).count() > 0
+    else:
+        has_applied = False
 
     if request.method == 'POST' and not has_applied:
         whyme = request.POST.get('whyme')
