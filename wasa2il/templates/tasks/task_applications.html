@@ -17,7 +17,7 @@
   {% for task in tasks %}
     <div class="task-item">
       <div class="toolbar toolbar-small">
-        <h2>{{task.name}}</h2>
+        <h2><a href="{% url 'task_detail' task.polity_id task.id %}">{{ task.name }}</a></h2>
         <div class="tools">
           {% if task.is_done %}
           <form action="" method="POST">
@@ -49,9 +49,9 @@
         </div>
       </div>
       <div class="task-stats">
-        Applications: <b>{{task.taskrequest_set.count}}</b> |
-        Needed: <b>{{task.volunteers_needed}}</b> |
-        Accepted: <b>{{task.accepted_volunteers.count}}</b>
+        {% trans 'Applications' %}: <b>{{task.taskrequest_set.count}}</b> |
+        {% trans 'Needed' context 'applications' %}: <b>{{task.volunteers_needed}}</b> |
+        {% trans 'Accepted' context 'applications' %}: <b>{{task.accepted_volunteers.count}}</b>
       </div>
 
       <div class="task-applications-list">
@@ -63,7 +63,7 @@
               <div title="Total applications: {{app.user.tasks_applied.count}}" class="user-application-bar__yellow" style="width: {{app.user.tasks_percent.applied}}%"></div>
               <div title="Unfinished tasks: {{app.user.tasks_accepted.count}}" class="user-application-bar__red" style="width: {{app.user.tasks_percent.accepted}}%"></div>
             </div>
-            <h4>Reason for applying:</h4>
+            <h4>{% trans 'Reason for applying' %}:</h4>
             <p>{{app.whyme}}</p>
             <div class="pull-right">
             {% if task.is_recruiting %}

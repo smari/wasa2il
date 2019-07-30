@@ -39,7 +39,11 @@ class GlobalsMiddleware():
                 if not request.user.is_anonymous():
                     global_vars['user_is_member'] = request.user in polity.members.all()
                     global_vars['user_is_officer'] = request.user in polity.officers.all()
-                    global_vars['user_is_wrangler'] = request.user in polity.wranglers.all()
+                    # Officers are automatically wranglers.
+                    if global_vars['user_is_officer']:
+                        global_vars['user_is_wrangler'] = True
+                    else:
+                        global_vars['user_is_wrangler'] = request.user in polity.wranglers.all()
         except:
             # Basically only 404-errors and such cause errors here. Besides,
             # we'll want to move on with our lives anyway.

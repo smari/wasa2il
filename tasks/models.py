@@ -57,12 +57,12 @@ class Task(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    volunteers_needed = models.IntegerField(default=1)
-    estimated_hours_per_week = models.IntegerField(default=1)
-    estimated_duration_weeks = models.IntegerField(default=1)
+    volunteers_needed = models.IntegerField(default=1, verbose_name=_('Number of volunteers needed'))
+    estimated_hours_per_week = models.IntegerField(default=1, verbose_name=_('Estimated hours per week'))
+    estimated_duration_weeks = models.IntegerField(default=1, verbose_name=_('Estimated number of weeks'))
 
     is_done = models.BooleanField(default=False)
-    is_recruiting = models.BooleanField(default=True)
+    is_recruiting = models.BooleanField(default=True, verbose_name=_('Is recruiting'))
 
     def accepted_volunteers(self):
         return self.taskrequest_set.filter(is_accepted=True).select_related('user')

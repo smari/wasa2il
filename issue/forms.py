@@ -40,7 +40,7 @@ class DocumentForm(Wasa2ilForm):
 
 class DocumentContentForm(Wasa2ilForm):
     text = CharField(label=_('Proposal'), widget=ProseMirrorWidget, required=True)
-    comments = CharField(label=_('Explanation'), widget=ProseMirrorWidget, required=False)
+    comments = CharField(label=_('Description'), widget=ProseMirrorWidget, required=False)
 
     class Meta:
         model = DocumentContent

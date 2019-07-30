@@ -138,7 +138,7 @@
                 <th>#</th>
                 <th>{% trans "Status" %}</th>
                 <th>{% trans "Author" %}</th>
-                <th>{% trans "Comments" %}</th>
+                <th>{% trans "Description" %}</th>
             </tr>
             {% for content in document.get_versions %}
             <tr class="change {% if content.order == current_content.order %}current{% endif %}" data-id="{{ content.id }}" data-patch="{{ content.patch }}">

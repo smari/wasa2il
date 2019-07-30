@@ -7,8 +7,8 @@
   <h1>{% trans "Pitch in, help out" %}</h1>
   <h2>{% blocktrans with number=tasks.count %}{{number}} tasks need your help{% endblocktrans %}</h2>
   <a href="#verkefni" role="button" class="btn btn-primary btn-lg">{% trans "Check out the tasks" %}</a>
-  {% if user.taskrequest_set.count > 0 %}<a href="{% url 'profile_tasks' user.username %}" role="button" class="btn btn-primary btn-lg">{% trans "View your tasks" %}</a>{% endif %}
-  {% if user_is_officer or user_is_wrangler %}
+  {% if user.taskrequest_set.count > 0 %}<a href="{% url 'task_user_tasks' user.username %}" role="button" class="btn btn-primary btn-lg">{% trans "View your tasks" %}</a>{% endif %}
+  {% if user_is_wrangler %}
   <div class="actions">
     <a class="btn btn-default btn-lg" href="/polity/{{polity.id}}/tasks/new/"><i class="fas fa-plus"></i> {% trans "New task" %}</a>
     <a class="btn btn-default btn-lg" href="/polity/{{polity.id}}/tasks/applications/"><i class="far fa-address-book"></i> {% trans "Review applications" %}</a>

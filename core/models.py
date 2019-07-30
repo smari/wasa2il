@@ -142,12 +142,12 @@ User.tasks_percent = tasks_percent
 
 
 class Event(models.Model):
-    timestamp       = models.DateTimeField(auto_now=True)
-    user            = models.ForeignKey(User, blank=True, null=True)
-    module          = models.CharField(max_length=32, blank=False)
-    action          = models.CharField(max_length=32, blank=False)
-    category        = models.CharField(max_length=64, blank=True)
-    event           = models.CharField(max_length=1024, blank=True)
+    timestamp = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    module = models.CharField(max_length=32, blank=False)
+    action = models.CharField(max_length=32, blank=False)
+    category = models.CharField(max_length=64, blank=True)
+    event = models.CharField(max_length=1024, blank=True)
 
     def __str__(self):
         return "[%s][%s.%s/%s@%s] %s" % (self.timestamp, self.module, self.action, self.category, self.user, self.event)

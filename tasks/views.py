@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -21,11 +22,26 @@ def task_list(request, polity_id):
     return render(request, 'tasks/task_list.html', ctx)
 
 
+@login_required
 def task_user_tasks(request, username):
-    user = get_object_or_404(User, username=username)
+    # Username is an optional parameter in anticipation of a future feature
+    # where a user can, at least under some circumstances (having gained
+    # permission, for example, or if a user chooses to make his/her
+    # participation public) can view the tasks of another user. It is
+    # currently not used but still required to make sure that links are
+    # created with this specification in mind.
+
+    taskrequests = TaskRequest.objects.select_related(
+        'task'
+    ).prefetch_related(
+        'task__skills',
+        'task__categories'
+    ).filter(
+        user_id=request.user.id
+    )
+
     ctx = {
-        'profile': user.userprofile,
-        'profile_user': user,
+        'taskrequests': taskrequests,
     }
     return render(request, 'tasks/task_user_tasks.html', ctx)
 
@@ -57,6 +73,19 @@ def task_add_edit(request, polity_id, task_id=None):
         'form': form,
     }
     return render(request, 'tasks/task_add_edit.html', ctx)
+
+
+@login_required
+def task_delete(request, polity_id, task_id):
+    if not request.globals['user_is_wrangler']:
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        task = Task.objects.get(polity_id=polity_id, id=task_id)
+        task.delete()
+        return redirect(reverse('tasks', args=(polity_id,)))
+    else:
+        raise Http404
 
 
 def task_detail(request, polity_id, task_id):
