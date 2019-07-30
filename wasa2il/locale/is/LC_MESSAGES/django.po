@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-30 20:48+0000\n"
+"POT-Creation-Date: 2019-07-30 21:07+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -262,6 +262,7 @@ msgstr "Tillaga"
 
 #: issue/forms.py:43 issue/models.py:48 polity/models.py:14 tasks/forms.py:9
 #: tasks/models.py:51 topic/models.py:77
+#: wasa2il/templates/issue/document_detail.html:141
 msgid "Description"
 msgstr "Lýsing"
 
@@ -583,7 +584,7 @@ msgstr "Áætlaður fjöldi vikna"
 msgid "Is recruiting"
 msgstr "Opið fyrir umsóknir"
 
-#: tasks/models.py:91 wasa2il/templates/tasks/task_detail.html:88
+#: tasks/models.py:91 wasa2il/templates/tasks/task_detail.html:89
 msgid "Why me?"
 msgstr "Af hverju ég?"
 
@@ -1862,7 +1863,6 @@ msgstr "Höfundur"
 
 #: wasa2il/templates/issue/_agreements_list.html:33
 #: wasa2il/templates/issue/_issues_recent.html:68
-#: wasa2il/templates/issue/document_detail.html:141
 #: wasa2il/templates/issue/issues.html:34
 #: wasa2il/templates/topic/topic_detail.html:30
 msgid "Comments"
@@ -2724,7 +2724,7 @@ msgstr "Hæfileikar"
 msgid "Apply for task"
 msgstr "Sækja um í verkefnið"
 
-#: wasa2il/templates/tasks/task_detail.html:85
+#: wasa2il/templates/tasks/task_detail.html:86
 msgid ""
 "Thank you! You successfully applied for this task. You will be contacted by "
 "the wrangler of this task."
@@ -2732,17 +2732,21 @@ msgstr ""
 "Takk! Þú hefur sent inn umsókn fyrir þetta verkefni. Umsjónarmaður "
 "verkefnisins mun hafa samband við þig."
 
-#: wasa2il/templates/tasks/task_detail.html:95
+#: wasa2il/templates/tasks/task_detail.html:96
 msgid "Apply"
 msgstr "Sækja um"
 
-#: wasa2il/templates/tasks/task_detail.html:98
+#: wasa2il/templates/tasks/task_detail.html:99
 msgid "This task has been completed already."
 msgstr "Þessu verki er þegar lokið."
 
-#: wasa2il/templates/tasks/task_detail.html:100
+#: wasa2il/templates/tasks/task_detail.html:101
 msgid "This task doesn't need more volunteers just now."
 msgstr "Þetta verkefni þarfnast ekki fleiri sjálfboðaliða eins og er."
+
+#: wasa2il/templates/tasks/task_detail.html:104
+msgid "Please login to apply for this task."
+msgstr "Vinsamlegast innskráðu þig til að sækja um þetta verkefni."
 
 #: wasa2il/templates/tasks/task_list.html:7
 msgid "Pitch in, help out"
