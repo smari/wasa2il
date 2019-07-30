@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-30 20:38+0000\n"
+"POT-Creation-Date: 2019-07-30 20:48+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -260,11 +260,10 @@ msgstr "STV deiling með Schulze forgangsröðun"
 msgid "Proposal"
 msgstr "Tillaga"
 
-#: issue/forms.py:43
-#, fuzzy
-#| msgid "Election"
-msgid "Explanation"
-msgstr "Kosning"
+#: issue/forms.py:43 issue/models.py:48 polity/models.py:14 tasks/forms.py:9
+#: tasks/models.py:51 topic/models.py:77
+msgid "Description"
+msgstr "Lýsing"
 
 #: issue/forms.py:57
 #, fuzzy
@@ -292,11 +291,6 @@ msgid ""
 "possible."
 msgstr ""
 "Frábært málsnafn lýsir kjarna tillögunnar eins stuttlega og mögulegt er."
-
-#: issue/models.py:48 polity/models.py:14 tasks/forms.py:9 tasks/models.py:51
-#: topic/models.py:77
-msgid "Description"
-msgstr "Lýsing"
 
 #: issue/models.py:49
 msgid ""
@@ -2924,6 +2918,11 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
+
+#, fuzzy
+#~| msgid "Election"
+#~ msgid "Explanation"
+#~ msgstr "Kosning"
 
 #~ msgid "Volunteers needed"
 #~ msgstr "Nauðsynlegur fjöldi sjálfboðaliða"
