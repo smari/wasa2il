@@ -63,8 +63,13 @@
               <div title="Total applications: {{app.user.tasks_applied.count}}" class="user-application-bar__yellow" style="width: {{app.user.tasks_percent.applied}}%"></div>
               <div title="Unfinished tasks: {{app.user.tasks_accepted.count}}" class="user-application-bar__red" style="width: {{app.user.tasks_percent.accepted}}%"></div>
             </div>
-            <h4>{% trans 'Reason for applying' %}:</h4>
-            <p>{{app.whyme}}</p>
+
+            <h4><strong>{% trans 'Reason for applying' %}:</strong></h4>
+            <p>{{ app.whyme }}</p>
+
+            <h4><strong>{% trans 'Available time' %}:</strong></h4>
+            <p>{{ app.available_time }}</p>
+
             <div class="pull-right">
             {% if task.is_recruiting %}
               {% if app.is_accepted %}

@@ -89,3 +89,4 @@ class TaskRequest(models.Model):
     date_offered = models.DateTimeField(auto_now_add=True)
     is_accepted = models.BooleanField(default=False)
     whyme = models.TextField(verbose_name=_("Why me?"))
+    available_time = models.TextField(verbose_name=_('What available time do I have?'))

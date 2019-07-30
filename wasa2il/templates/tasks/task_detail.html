@@ -88,12 +88,12 @@
               </div>
             {% elif task.is_recruiting %}
               <h2 class="task__why-me-title">{% trans "Why me?" %}</h2>
-              <div class="js-apply-error hidden"></div>
-              <div class="loading-popup loading-popup--success js-loading-success">
-                  <div class="loading-popup__success js-popup-success"></div>
-              </div>
               <div class="task__form-fields js-form-fields">
                   <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10"></textarea>
+              </div>
+              <h2 class="task__why-me-title">{% trans "What available time do I have?" %}</h2>
+              <div class="task__form-fields js-form-fields">
+                  <textarea class="task__why-me-textarea" name="available_time" id="" cols="30" rows="10"></textarea>
                   <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}">
               </div>
             {% elif task.is_done %}

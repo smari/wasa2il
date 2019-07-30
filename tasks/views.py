@@ -99,11 +99,13 @@ def task_detail(request, polity_id, task_id):
 
     if request.method == 'POST' and not has_applied:
         whyme = request.POST.get('whyme')
+        available_time = request.POST.get('available_time')
         if whyme.strip() != '':
             tr = TaskRequest()
             tr.task = task
             tr.user = request.user
             tr.whyme = whyme
+            tr.available_time = available_time
             tr.save()
             has_applied = True
 
