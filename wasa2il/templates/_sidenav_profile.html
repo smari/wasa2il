@@ -8,7 +8,7 @@
 </a></li>
 
 {% if FEATURES.tasks %}
-<li{% if request.resolver_match.url_name == "profile_tasks" %} class="active"{% endif %}><a href="/accounts/profile/{{user.username}}/tasks/">
+<li{% if request.resolver_match.url_name == "task_user_tasks" %} class="active"{% endif %}><a href="/accounts/profile/{{user.username}}/tasks/">
   <i class="fas fa-hand-paper"></i>
   {% trans "User's tasks" %}
 </a></li>

@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^polity/(?P<polity_id>\d+)/tasks/(?P<task_id>\d+)/$', task_detail, name='task_detail'),
     url(r'^polity/(?P<polity_id>\d+)/tasks/applications/$', task_applications, name='task_applications'),
 
-    url(r'^accounts/profile/(?:(?P<username>[^/]+)/tasks/)?$', task_user_tasks, name='profile_tasks'),
+    url(r'^accounts/profile/(?:(?P<username>[^/]+)/tasks/)?$', task_user_tasks, name='task_user_tasks'),
 ]

@@ -21,11 +21,26 @@ def task_list(request, polity_id):
     return render(request, 'tasks/task_list.html', ctx)
 
 
+@login_required
 def task_user_tasks(request, username):
-    user = get_object_or_404(User, username=username)
+    # Username is an optional parameter in anticipation of a future feature
+    # where a user can, at least under some circumstances (having gained
+    # permission, for example, or if a user chooses to make his/her
+    # participation public) can view the tasks of another user. It is
+    # currently not used but still required to make sure that links are
+    # created with this specification in mind.
+
+    taskrequests = TaskRequest.objects.select_related(
+        'task'
+    ).prefetch_related(
+        'task__skills',
+        'task__categories'
+    ).filter(
+        user_id=request.user.id
+    )
+
     ctx = {
-        'profile': user.userprofile,
-        'profile_user': user,
+        'taskrequests': taskrequests,
     }
     return render(request, 'tasks/task_user_tasks.html', ctx)
 
