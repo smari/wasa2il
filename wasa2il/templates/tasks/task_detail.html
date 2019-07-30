@@ -3,6 +3,12 @@
 {% block content %}
 <section class="content">
 
+<div style="float: right;">
+    {% if user_is_wrangler %}
+        <a class="btn btn-default" role="button" href="{% url 'task_edit' task.polity_id task.id %}">{% trans 'Edit' %}</a>
+    {% endif %}
+</div>
+
 <div class="task">
     <div class="task__info">
         <h1>{{task.name}}</h1>
