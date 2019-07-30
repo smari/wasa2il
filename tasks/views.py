@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -72,6 +73,19 @@ def task_add_edit(request, polity_id, task_id=None):
         'form': form,
     }
     return render(request, 'tasks/task_add_edit.html', ctx)
+
+
+@login_required
+def task_delete(request, polity_id, task_id):
+    if not request.globals['user_is_wrangler']:
+        raise PermissionDenied()
+
+    if request.method == 'POST':
+        task = Task.objects.get(polity_id=polity_id, id=task_id)
+        task.delete()
+        return redirect(reverse('tasks', args=(polity_id,)))
+    else:
+        raise Http404
 
 
 def task_detail(request, polity_id, task_id):

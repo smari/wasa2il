@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
+
+{% include 'tasks/dialog_task_delete.html' %}
+
 <section class="content">
 
 <div style="float: right;">
@@ -8,6 +11,7 @@
         {% if not task.is_done %}
             <a class="btn btn-default" role="button" href="{% url 'task_edit' task.polity_id task.id %}">{% trans 'Edit' %}</a>
         {% endif %}
+        <a class="btn btn-default" role="button" onclick="$('#dialog-task-delete').modal('show');">{% trans 'Delete' %}</a>
     {% endif %}
 </div>
 

@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="modal fade" id="dialog-task-delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans 'Delete task' %}</h5>
+            </div>
+            <div class="modal-body" id="modal_subpolities_list">
+                <p><strong>{% trans 'Are you absolutely certain that you want to delete this task?' %}</strong></p>
+                <p><strong class="text-danger">{% trans 'This action cannot be undone.' %}</strong></p>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'task_delete' task.polity_id task.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        {% trans 'OK' %}
+                    </button>
+                    <button type="button" onclick="$('#dialog-task-delete').modal('hide');" class="btn btn-primary">
+                        {% trans 'Cancel' %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
