@@ -6,5 +6,5 @@
 
 [{% trans 'Reset password' %}]({{ protocol }}://{{ domain }}{% url 'auth_password_reset_confirm' uid token %})
 
-{% blocktrans %}**Your username**, in case you've forgotten:{% endblocktrans %} `{{ user.username }}`
+{% blocktrans %}Your username, in case you've forgotten:{% endblocktrans %} `{{ user.username }}`
 
