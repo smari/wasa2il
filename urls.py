@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls import handler500
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
+from django.core.urlresolvers import reverse_lazy
 from django.views import static
 
 from registration.backends.default.views import RegistrationView
@@ -40,6 +41,16 @@ urlpatterns = [
         r'^accounts/activate/(?P<activation_key>\w+)/$',
         core_views.Wasa2ilActivationView.as_view(),
         name='registration_activate'
+    ),
+    url(
+        r'^accounts/password/reset/$',
+        auth_views.password_reset,
+        {
+            'post_reset_redirect': reverse_lazy('auth_password_reset_done'),
+            'email_template_name': 'registration/password_reset_email.txt',
+            'html_email_template_name': 'registration/password_reset_email.html',
+        },
+        name='auth_password_reset'
     ),
 
     # SAML-related URLs.
