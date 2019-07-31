@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-30 23:53+0000\n"
+"POT-Creation-Date: 2019-07-31 16:07+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -35,7 +35,8 @@ msgstr "Saga"
 msgid "Declaration of interests"
 msgstr "Hagsmunaskráning"
 
-#: core/forms.py:50
+#: core/forms.py:50 wasa2il/templates/mail/testmessage.html:92
+#: wasa2il/templates/mail/testmessage.txt:9
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
@@ -2455,7 +2456,8 @@ msgstr ""
 msgid "Still nothing? Try creating a new account."
 msgstr "Enn ekkert? Kannski þarftu að nýskrá þig."
 
-#: wasa2il/templates/registration/password_reset_email.html:11
+#: wasa2il/templates/registration/password_reset_email.html:78
+#: wasa2il/templates/registration/password_reset_email.txt:5
 #, python-format
 msgid ""
 "You are receiving this email because you (or someone pretending to be you) "
@@ -2466,7 +2468,8 @@ msgstr ""
 "baðst um að lykilorð þitt yrði endurstillt á vefnum %(domain)s. Ef þú vilt "
 "ekki endurstilla lykilorðið þitt, vinsamlegast hunsaðu þennan tölvupóst."
 
-#: wasa2il/templates/registration/password_reset_email.html:14
+#: wasa2il/templates/registration/password_reset_email.html:81
+#: wasa2il/templates/registration/password_reset_email.txt:7
 msgid ""
 "To reset your password, please click the following link, or copy and paste "
 "it into your web browser:"
@@ -2474,17 +2477,20 @@ msgstr ""
 "Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil eða "
 "afrita hann inn í vafrann þinn:"
 
-#: wasa2il/templates/registration/password_reset_email.html:22
+#: wasa2il/templates/registration/password_reset_email.html:85
+#: wasa2il/templates/registration/password_reset_email.txt:9
+#: wasa2il/templates/registration/password_reset_form.html:20
+msgid "Reset password"
+msgstr "Endurstilla lykilorð"
+
+#: wasa2il/templates/registration/password_reset_email.html:89
+#: wasa2il/templates/registration/password_reset_email.txt:11
 msgid "Your username, in case you've forgotten:"
 msgstr "Notandanafnið þitt er, ef ske kynni að þú hefðir gleymt því:"
 
 #: wasa2il/templates/registration/password_reset_form.html:10
 msgid "Not sure which email you used? Try them all!"
 msgstr "Ekki viss hvaða netfang þú notaðir? Prófaðu þau öll!"
-
-#: wasa2il/templates/registration/password_reset_form.html:20
-msgid "Send password"
-msgstr "Endurstilla lykilorð"
 
 #: wasa2il/templates/registration/password_reset_subject.txt:2
 msgid "Password reset requested"
