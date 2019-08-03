@@ -70,6 +70,12 @@ DATETIME_INPUT_FORMATS = (
 EMAIL_BACKEND=os.environ.get('W2_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 SERVER_EMAIL=os.environ.get('W2_SERVER_EMAIL', '')
 DEFAULT_FROM_EMAIL=os.environ.get('W2_DEFAULT_FROM_EMAIL', '')
+EMAIL_HOST = os.environ.get('W2_EMAIL_HOST', 'localhost')
+EMAIL_PORT = int(os.environ.get('W2_EMAIL_PORT', 25))
+EMAIL_USE_TLS = os.environ.get('W2_EMAIL_USE_TLS', False) == '1'
+EMAIL_USE_SSL = os.environ.get('W2_EMAIL_USE_SSL', False) == '1'
+EMAIL_HOST_USER = os.environ.get('W2_EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('W2_EMAIL_HOST_PASSWORD', '')
 
 ## Push notifications
 GCM_APP_ID=os.environ.get('W2_GCM_APP_ID', '')
