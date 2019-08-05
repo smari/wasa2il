@@ -290,6 +290,7 @@ INSTALLED_APPS = (
     'termsandconditions',
 
     'languagecontrol',
+    'emailconfirmation',
 
     'core',
     'polity',

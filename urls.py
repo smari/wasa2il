@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('polity.urls')),
     url(r'^', include('topic.urls')),
+    url(r'^', include('emailconfirmation.urls')),
 
     url(r'^accounts/profile/(?:(?P<username>[^/]+)/)?$', core_views.profile, name='profile'),
     url(r'^accounts/settings/', core_views.view_settings, name='account_settings'),
