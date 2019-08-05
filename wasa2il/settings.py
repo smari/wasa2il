@@ -76,6 +76,7 @@ EMAIL_USE_TLS = os.environ.get('W2_EMAIL_USE_TLS', False) == '1'
 EMAIL_USE_SSL = os.environ.get('W2_EMAIL_USE_SSL', False) == '1'
 EMAIL_HOST_USER = os.environ.get('W2_EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('W2_EMAIL_HOST_PASSWORD', '')
+EMAIL_SUBJECT_PREFIX = os.environ.get('W2_EMAIL_SUBJECT_PREFIX', '[Wasa2il] ')
 
 ## Push notifications
 GCM_APP_ID=os.environ.get('W2_GCM_APP_ID', '')
