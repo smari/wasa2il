@@ -44,6 +44,7 @@ DATABASE_NAME=os.environ.get('W2_DATABASE_NAME', 'docker')
 DATABASE_PASSWORD=os.environ.get('W2_DATABASE_PASSWORD', 'docker')
 DATABASE_PORT=os.environ.get('W2_DATABASE_PORT', '3306')
 DATABASE_USER=os.environ.get('W2_DATABASE_USER', 'docker')
+DATABASE_EXPORT_DB_NAME=os.environ.get('W2_DATABASE_EXPORT_DB_NAME', '')
 
 ## Locale settings
 DATETIME_FORMAT=os.environ.get('W2_DATETIME_FORMAT', 'd/m/Y H:i:s')
@@ -142,6 +143,19 @@ DATABASES = {
         'PORT': DATABASE_PORT,                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+if DATABASE_EXPORT_DB_NAME:
+    DATABASES['export'] = {
+        'ENGINE': DATABASE_ENGINE,
+        'NAME': '%s_export' % DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': DATABASE_HOST,
+        'PORT': DATABASE_PORT,
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        },
+    }
 
 # Deal with MySQL weirdness.
 if DATABASE_ENGINE == 'django.db.backends.mysql':
