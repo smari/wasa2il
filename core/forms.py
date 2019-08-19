@@ -14,16 +14,13 @@ from prosemirror.widgets import ProseMirrorWidget
 
 from core.models import UserProfile
 
-# FIXME/TODO: When a user changes email addresses, there is currently no
-# functionality to verify the new email address. Therefore, the email field is
-# disabled in UserProfileForm until that functionality has been implemented.
 
 class EmailWantedField(ChoiceWidget):
     template_name = 'forms/widgets/email_wanted.html'
 
 
 class UserProfileForm(Wasa2ilForm):
-    #email = EmailField(label=_("E-mail"), help_text=_("The email address you'd like to use for the site."))
+    email = EmailField(label=_("E-mail"), help_text=_("Your email address."))
     bio = CharField(label=_('Bio'), widget=ProseMirrorWidget, required=False)
     declaration_of_interests = CharField(
         label=_('Declaration of interests'),
@@ -33,8 +30,7 @@ class UserProfileForm(Wasa2ilForm):
 
     class Meta:
         model = UserProfile
-        #fields = ('displayname', 'email', 'picture', 'bio', 'declaration_of_interests', 'language', 'email_wanted')
-        fields = ('displayname', 'picture', 'bio', 'declaration_of_interests', 'language', 'email_wanted')
+        fields = ('displayname', 'email', 'picture', 'bio', 'declaration_of_interests', 'language', 'email_wanted')
 
     # We need to keep the 'request' object for certain kinds of validation ('picture' in this case)
     def __init__(self, *args, **kwargs):

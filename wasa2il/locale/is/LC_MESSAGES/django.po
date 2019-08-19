@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-30 23:53+0000\n"
+"POT-Creation-Date: 2019-08-05 15:44+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 2.0.4\n"
 
-#: core/base_classes.py:8 core/models.py:43 election/models.py:28
+#: core/base_classes.py:8 core/models.py:50 election/models.py:28
 #: issue/models.py:40 issue/models.py:314 issue/models.py:372
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
 msgid "Name"
@@ -27,23 +27,32 @@ msgstr ""
 "Af öryggisástæðum hefurðu verið sjálfkrafa útskráð(ur) vegna langs tíma frá "
 "síðustu virkni."
 
-#: core/forms.py:27 core/models.py:45
+#: core/forms.py:23
+msgid "E-mail"
+msgstr "Netfang"
+
+#: core/forms.py:23
+msgid "Your email address."
+msgstr ""
+
+#: core/forms.py:24 core/models.py:52
 msgid "Bio"
 msgstr "Saga"
 
-#: core/forms.py:29 core/models.py:46 wasa2il/templates/profile/profile.html:40
+#: core/forms.py:26 core/models.py:53 wasa2il/templates/profile/profile.html:40
 msgid "Declaration of interests"
 msgstr "Hagsmunaskráning"
 
-#: core/forms.py:50
+#: core/forms.py:46 wasa2il/templates/mail/testmessage.html:92
+#: wasa2il/templates/mail/testmessage.txt:9
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/forms.py:56
+#: core/forms.py:52
 msgid "Only the following file endings are allowed"
 msgstr "Einungis eftirfarandi skráartegundir eru heimilar"
 
-#: core/forms.py:65 wasa2il/templates/issue/_agreements.html:6
+#: core/forms.py:61 wasa2il/templates/issue/_agreements.html:6
 #: wasa2il/templates/issue/_agreements_list.html:24
 #: wasa2il/templates/issue/_issue_detail_metadata.html:44
 #: wasa2il/templates/issue/document_detail.html:92
@@ -53,7 +62,7 @@ msgstr "Einungis eftirfarandi skráartegundir eru heimilar"
 msgid "Yes"
 msgstr "Já"
 
-#: core/forms.py:65 wasa2il/templates/issue/_agreements.html:7
+#: core/forms.py:61 wasa2il/templates/issue/_agreements.html:7
 #: wasa2il/templates/issue/_agreements_list.html:27
 #: wasa2il/templates/issue/_issue_detail_metadata.html:51
 #: wasa2il/templates/issue/document_detail.html:93
@@ -63,45 +72,57 @@ msgstr "Já"
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:67 core/models.py:57
+#: core/forms.py:63 core/models.py:64
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
-#: core/forms.py:71
+#: core/forms.py:67
 msgid "Message"
 msgstr ""
 
-#: core/models.py:43
+#: core/models.py:50
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:44
+#: core/models.py:51
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:44
+#: core/models.py:51
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:47
+#: core/models.py:54
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:58
+#: core/models.py:65
 msgid "Whether to consent to receiving notifications via email."
 msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
-#: core/models.py:61 wasa2il/templates/admintools_push.html:16
+#: core/models.py:68 wasa2il/templates/admintools_push.html:16
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:62
+#: core/models.py:69
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
+
+#: core/models.py:153
+msgid "Email change"
+msgstr "Netfangsbreyting"
 
 #: core/templatetags/wasa2il.py:143
 msgid "Add comment"
 msgstr "Bæta við ummælum"
+
+#: core/views.py:216
+msgid "Your new email address is"
+msgstr "Nýja netfangið þitt er"
+
+#: core/views.py:218
+msgid "Main page"
+msgstr "Forsíða"
 
 #: election/models.py:32 wasa2il/templates/election/election_view.html:7
 #: wasa2il/templates/election/election_view.html:144
@@ -736,6 +757,29 @@ msgstr "Innskrá"
 msgid "Sign up"
 msgstr "Nýskrá"
 
+#: wasa2il/templates/accounts/dialog_email_change.html:15
+msgid "Email change pending"
+msgstr "Netfangsbreyting krefst staðfestingar"
+
+#: wasa2il/templates/accounts/dialog_email_change.html:18
+msgid ""
+"Your new email address must be confirmed. When you close this dialog, we "
+"will send you a confirmation email to your newly designated address."
+msgstr ""
+"Staðfesta þarf nýja netfangið þitt. Þegar þú lokar þessum glugga munum við "
+"senda þér staðfestingarpóst á nýja netfangið."
+
+#: wasa2il/templates/accounts/dialog_email_change.html:19
+msgid ""
+"If you do not complete the process within 24 hours, you will have to try "
+"again."
+msgstr "If ferlið er ekki klárað innan 24 tíma muntu þurfa að reyna aftur."
+
+#: wasa2il/templates/accounts/dialog_email_change.html:23
+#: wasa2il/templates/tasks/dialog_task_delete.html:16
+msgid "OK"
+msgstr "Í lagi"
+
 #: wasa2il/templates/accounts/personal_data.html:12
 msgid "This page is dedicated to your personal data."
 msgstr "Þessi síða er tileinkuð persónugögnum þínum."
@@ -794,18 +838,18 @@ msgstr ""
 "Þessi valmöguleiki gerir þér kleift að niðurhala öllum persónugögnum sem við "
 "höfum um þig í opnu og algengu skráasniði."
 
-#: wasa2il/templates/accounts/settings.html:8
+#: wasa2il/templates/accounts/settings.html:35
 #: wasa2il/templates/registration/password_change_done.html:6
 #: wasa2il/templates/registration/password_change_form.html:6
 msgid "Change password"
 msgstr "Breyta lykilorði"
 
-#: wasa2il/templates/accounts/settings.html:11
+#: wasa2il/templates/accounts/settings.html:38
 #: wasa2il/templates/polity/polity_detail.html:18
 msgid "Settings"
 msgstr "Stillingar"
 
-#: wasa2il/templates/accounts/settings.html:12
+#: wasa2il/templates/accounts/settings.html:39
 msgid "You are signed in as"
 msgstr "Þú ert innskráð(ur) sem"
 
@@ -1278,6 +1322,30 @@ msgstr "Ertu viss um að draga framboð þitt til baka? Það er óafturkræft."
 #: wasa2il/templates/election/election_view.html:312
 msgid "Withdraw candidacy"
 msgstr "Draga framboð til baka"
+
+#: wasa2il/templates/emailconfirmation/confirmed.html:8
+msgid "Action confirmed"
+msgstr "Aðgerð staðfest"
+
+#: wasa2il/templates/emailconfirmation/confirmed.html:13
+msgid "Please click here to continue"
+msgstr "Vinsamlegast smelltu hér til að halda áfram"
+
+#: wasa2il/templates/emailconfirmation/emailconfirmation.html:81
+#: wasa2il/templates/emailconfirmation/emailconfirmation.txt:7
+msgid "In order to complete the action, please click the following link:"
+msgstr ""
+"Til þess að klára aðgerðina máttu vinsamlegast smella á eftirfarandi tengil:"
+
+#: wasa2il/templates/emailconfirmation/emailconfirmation.html:83
+#: wasa2il/templates/emailconfirmation/emailconfirmation.txt:7
+msgid "Confirm"
+msgstr "Staðfesta"
+
+#: wasa2il/templates/emailconfirmation/emailconfirmation.html:87
+#: wasa2il/templates/emailconfirmation/emailconfirmation.txt:9
+msgid "If you did not request this action, you can safely ignore this email."
+msgstr "Ef þú baðst ekki um þessa breytingu geturðu hunsað þennan póst."
 
 #: wasa2il/templates/forms/widgets/email_wanted.html:3
 msgid ""
@@ -2455,7 +2523,8 @@ msgstr ""
 msgid "Still nothing? Try creating a new account."
 msgstr "Enn ekkert? Kannski þarftu að nýskrá þig."
 
-#: wasa2il/templates/registration/password_reset_email.html:11
+#: wasa2il/templates/registration/password_reset_email.html:78
+#: wasa2il/templates/registration/password_reset_email.txt:5
 #, python-format
 msgid ""
 "You are receiving this email because you (or someone pretending to be you) "
@@ -2466,7 +2535,8 @@ msgstr ""
 "baðst um að lykilorð þitt yrði endurstillt á vefnum %(domain)s. Ef þú vilt "
 "ekki endurstilla lykilorðið þitt, vinsamlegast hunsaðu þennan tölvupóst."
 
-#: wasa2il/templates/registration/password_reset_email.html:14
+#: wasa2il/templates/registration/password_reset_email.html:81
+#: wasa2il/templates/registration/password_reset_email.txt:7
 msgid ""
 "To reset your password, please click the following link, or copy and paste "
 "it into your web browser:"
@@ -2474,17 +2544,20 @@ msgstr ""
 "Til að endurstilla lykilorðið þitt skaltu smella á eftirfarandi tengil eða "
 "afrita hann inn í vafrann þinn:"
 
-#: wasa2il/templates/registration/password_reset_email.html:22
+#: wasa2il/templates/registration/password_reset_email.html:85
+#: wasa2il/templates/registration/password_reset_email.txt:9
+#: wasa2il/templates/registration/password_reset_form.html:20
+msgid "Reset password"
+msgstr "Endurstilla lykilorð"
+
+#: wasa2il/templates/registration/password_reset_email.html:89
+#: wasa2il/templates/registration/password_reset_email.txt:11
 msgid "Your username, in case you've forgotten:"
 msgstr "Notandanafnið þitt er, ef ske kynni að þú hefðir gleymt því:"
 
 #: wasa2il/templates/registration/password_reset_form.html:10
 msgid "Not sure which email you used? Try them all!"
 msgstr "Ekki viss hvaða netfang þú notaðir? Prófaðu þau öll!"
-
-#: wasa2il/templates/registration/password_reset_form.html:20
-msgid "Send password"
-msgstr "Endurstilla lykilorð"
 
 #: wasa2il/templates/registration/password_reset_subject.txt:2
 msgid "Password reset requested"
@@ -2630,10 +2703,6 @@ msgstr "Ertu viss um að þú viljir draga þessa tillögu til baka?"
 #| msgid "This election is closed."
 msgid "This action cannot be undone."
 msgstr "Þessu máli er lokið."
-
-#: wasa2il/templates/tasks/dialog_task_delete.html:16
-msgid "OK"
-msgstr ""
 
 #: wasa2il/templates/tasks/task_add_edit.html:12
 #: wasa2il/templates/tasks/task_list.html:13
@@ -2950,9 +3019,6 @@ msgstr ""
 
 #~ msgid "Preview is required before saving"
 #~ msgstr "Forskoða þarf skjal áður en það er vistað"
-
-#~ msgid "E-mail"
-#~ msgstr "Netfang"
 
 #~ msgid "The email address you'd like to use for the site."
 #~ msgstr "Netfangið sem þú vilt nota á vefnum."

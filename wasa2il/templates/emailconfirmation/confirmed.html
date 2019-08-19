@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<section class="content">
+
+<h1>{% trans 'Action confirmed' %}: {{ action_msg }}</h1>
+
+<p>{{ action_detail }}</p>
+
+<p>
+    {% trans 'Please click here to continue' %}:
+    <a href="{{ return_url }}">{{ return_name }}</a>
+</p>
+
+</section>
+
+{% endblock %}

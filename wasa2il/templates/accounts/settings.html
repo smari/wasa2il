@@ -2,7 +2,34 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
+{% block javascript %}
+<script language="javascript" type="text/javascript">
+
+var ORIGINAL_EMAIL = '{{ form.email.value }}';
+// Dialog needs to be read before form is submitted. Here we keep track of
+// whether it has been shown or not. If it has been shown, the form will work
+// as usual. If it hasn't been shown, it needs to be shown first and then the
+// form can be submitted.
+var EMAIL_CHANGE_DIALOG_SHOWN = false;
+
+$(document).ready(function() {
+    $('input[type="submit"]').on('click', function(evt) {
+
+        if ($('#id_email').val() != ORIGINAL_EMAIL && !EMAIL_CHANGE_DIALOG_SHOWN) {
+            $('#dialog-email-change').modal();
+            evt.preventDefault();
+        }
+
+    });
+});
+
+</script>
+{% endblock %}
+
 {% block content %}
+
+{% include 'accounts/dialog_email_change.html' %}
+
 <section class="content">
 <div class="pull-right">
     <a class="btn btn-default" href="/accounts/password/change/">{% trans "Change password" %}</a>

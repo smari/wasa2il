@@ -48,6 +48,7 @@ from core.utils import random_word
 from core.utils import push_get_all_users
 from election.models import Election
 from election.models import ElectionResult
+from emailconfirmation.models import EmailConfirmation
 from issue.forms import DocumentForm
 from issue.models import Document
 from issue.models import DocumentContent
@@ -204,13 +205,19 @@ def view_settings(request):
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request=request, instance=profile)
         if form.is_valid():
-            # FIXME/TODO: When a user changes email addresses, there is
-            # currently no functionality to verify the new email address.
-            # Therefore, the email field is disabled in UserProfileForm until
-            # that functionality has been implemented.
-            #request.user.email = form.cleaned_data['email']
-            #request.user.save()
+
             form.save()
+
+            # Handle email address change. A confirmation email will be sent
+            # to the new address so that we know that it's valid.
+            if form.cleaned_data['email'] != request.user.email:
+                con = EmailConfirmation(
+                    user=request.user,
+                    action='email_change',
+                    data=form.cleaned_data['email']
+                )
+                con.save()
+                con.send(request)
 
             set_language(request, form.cleaned_data['language'])
 
