@@ -288,7 +288,7 @@ class Election(models.Model):
             # Should never happen.
             return 'unknown'
 
-    def readable_election_state(self):
+    def get_election_state_display(self):
         return dict(self.ELECTION_STATES)[self.election_state()]
 
     def get_stats(self, user=None, load_users=True, rename_users=False):
@@ -369,9 +369,6 @@ class Election(models.Model):
     def get_winners(self):
         return [r.candidate for r in self.result.rows.select_related('candidate__user__userprofile').order_by('order')]
 
-    def get_winners_users(self):
-        return [r.candidate.user for r in self.result.rows.select_related('candidate__user__userprofile').order_by('order')]
-
     def get_candidates(self):
         ctx = {}
         ctx["count"] = self.candidate_set.count()
@@ -450,7 +447,7 @@ class ElectionResult(models.Model):
 
 class ElectionResultRow(models.Model):
     election_result = models.ForeignKey('ElectionResult', related_name='rows')
-    candidate = models.ForeignKey('Candidate')
+    candidate = models.OneToOneField('Candidate', related_name='result_row')
     order = models.IntegerField()
 
     class Meta:

@@ -128,7 +128,7 @@ div#submit-working { background: #bbb; }
 .document { position: relative; }
 
 /* Date fields, typically in a table. */
-.date { text-align: right !important; }
+.date { text-align: right !important; white-space: nowrap; }
 
 /* Container for cancel URL, for use with cancel-buttons. */
 #cancel-url { display: none; }

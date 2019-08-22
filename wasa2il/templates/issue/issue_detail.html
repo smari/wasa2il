@@ -83,7 +83,7 @@
                         <th>{% trans "Votes" %}:</th>
                         <td>
                             <span id="votecount_value">{{ issue.votecount }}</span>
-                            {% if issue.votecount_abstain %}
+                            {% if issue.votecount_abstain and issue.issue_state == 'concluded' %}
                                 <small id="votecount_abstain_container">
                                 (<span id="votecount_abstain_value">{{ issue.votecount_abstain }}</span> {% trans 'abstain' %})
                                 </small>
