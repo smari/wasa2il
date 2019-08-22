@@ -691,7 +691,8 @@ div#submit-working {
 
 /* Date fields, typically in a table. */
 .date {
-  text-align: right !important; }
+  text-align: right !important;
+  white-space: nowrap; }
 
 /* Container for cancel URL, for use with cancel-buttons. */
 #cancel-url {
