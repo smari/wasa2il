@@ -46,6 +46,7 @@ from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
 from core.utils import random_word
 from core.utils import push_get_all_users
+from election.models import Candidate
 from election.models import Election
 from election.models import ElectionResult
 from emailconfirmation.models import EmailConfirmation
@@ -182,14 +183,24 @@ def profile(request, username=None):
     profile = UserProfile.objects.get(user_id=profile_user.id)
 
     # Get running elections in which the user is currently a candidate
-    now = datetime.now()
-    elections = Election.objects.filter(candidate__user=profile_user)
-    current_elections = elections.filter(deadline_votes__gte=now)
+    current_elections = Election.objects.filter(
+        candidate__user=profile_user,
+        deadline_votes__gte=timezone.now()
+    )
+
+    candidacies = Candidate.objects.select_related(
+        'result_row',
+        'election'
+    ).filter(
+        user=profile_user
+    ).order_by(
+        '-election__deadline_votes'
+    )
 
     ctx = {
         'polities': polities,
         'current_elections': current_elections,
-        'elections': elections,
+        'candidacies': candidacies,
         'profile_user': profile_user,
         'profile': profile,
     }

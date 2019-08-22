@@ -69,25 +69,43 @@
         <div class="profile-candidacies">
             <h1>{% trans "Elections" %}</h1>
             <table class="table">
-            {% for e in elections %}
+            {% for candidate in candidacies %}
+            {% with candidate.election as e %}
             <tr>
                 <td>
-                    <a href="{% url 'election' e.polity_id e.id %}">{{e}}</a>
+                    <a href="{% url 'election' e.polity_id e.id %}">{{ e }}</a>
                 </td>
-                <td>{{e.readable_election_state}}</td>
-                <td>
-                  {% if e.is_processed %}
-                      {% if profile.user in e.get_winners_users %}
-                        {% trans "Winner" %}
-                      {% else %}
-                        {% trans "Lost" %}
-                      {% endif %}
-                  {% endif %}
+                <td style="white-space: nowrap; text-align: center;">
+                    {% if e.election_state == 'concluded' %}
+                        {% if e.is_processed %}
+                            {% if e.results_are_ordered %}
+                                {% comment %}
+                                Certain broken elections can mean that there
+                                still is no order defined, so we check if the
+                                order is there.
+
+                                We also hide the seat number if the election
+                                has been configured to only show the top N
+                                places and the candidate's seat is below that.
+                                {% endcomment %}
+                                {% if candidate.result_row.order %}
+                                    {% if not e.results_limit or e.results_limit > candidate.result_row.order %}
+                                        {{ candidate.result_row.order }}. {% trans 'seat' %}
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                {% if candidate.result_row %}{% trans 'Elected' %}{% else %}{% trans 'Not elected' %}{% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <strong>{{ e.get_election_state_display }}</strong>
+                    {% endif %}
                 </td>
-                <td>
-                    {{e.deadline_votes|date:'d/m/Y'}}
+                <td class="date">
+                    {{ e.deadline_votes|date }}
                 </td>
             </tr>
+            {% endwith %}
             {% empty %}
             <tr><td>{% blocktrans with user=profile_user.username %}{{user}} has not run in any elections.{% endblocktrans %}</td></tr>
             {% endfor %}
