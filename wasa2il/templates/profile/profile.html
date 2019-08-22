@@ -43,6 +43,8 @@
 
     </div>
     <div class="profile-thingsdone">
+
+        {% if user.id == profile_user.id %}
         <div class="profile-polities">
           <h1>{% trans "Polities" %}</h1>
           <table class="table">
@@ -66,6 +68,8 @@
           {% endfor %}
           </table>
         </div>
+        {% endif %}
+
         <div class="profile-candidacies">
             <h1>{% trans "Elections" %}</h1>
             <table class="table">
