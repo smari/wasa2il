@@ -1,5 +1,4 @@
-
-
+from base64 import b64decode
 from datetime import datetime, timedelta
 from xml.etree.ElementTree import ParseError
 import contextlib
@@ -33,6 +32,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_bytes
 from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
 from termsandconditions.models import TermsAndConditions
 
 from django.contrib.auth.models import User
@@ -40,7 +40,8 @@ from core.models import UserProfile, event_register
 from core.forms import UserProfileForm
 from core.forms import Wasa2ilRegistrationForm
 from core.forms import PushNotificationForm
-from core.saml import authenticate, SamlException
+from core.saml import authenticate
+from core.saml import SamlException
 from core.signals import user_verified
 from core.utils import calculate_age_from_ssn
 from core.utils import is_ssn_human_or_institution
@@ -618,29 +619,34 @@ class Wasa2ilActivationView(ActivationView):
 
 
 @login_required
+@csrf_exempt
 def verify(request):
+    token = request.POST.get('token')
+
+    if not token:
+        return HttpResponseRedirect(settings.SAML['URL'])
+
+    # XML is received as a base64-encoded string.
+    input_xml = b64decode(token)
 
     try:
-        auth = authenticate(request, settings.SAML_1['URL'])
+        assertion_id, auth = authenticate(input_xml, settings.SAML['CERT'])
     except SamlException as e:
         ctx = {'e': e}
         return render(request, 'registration/saml_error.html', ctx)
-    except ParseError:
-        logout(request)
-        return redirect(reverse('auth_login'))
 
     # Make sure that the user is, in fact, human.
-    if is_ssn_human_or_institution(auth['ssn']) != 'human':
+    if is_ssn_human_or_institution(auth['UserSSN']) != 'human':
         ctx = {
-            'ssn': auth['ssn'],
-            'name': auth['name'].encode('utf8'),
+            'ssn': auth['UserSSN'],
+            'name': auth['Name'].encode('utf8'),
         }
         return render(request, 'registration/verification_invalid_entity.html', ctx)
 
 
     # Make sure that user has reached the minimum required age, if applicable.
     if hasattr(settings, 'AGE_LIMIT') and settings.AGE_LIMIT > 0:
-        age = calculate_age_from_ssn(auth['ssn'])
+        age = calculate_age_from_ssn(auth['UserSSN'])
         if age < settings.AGE_LIMIT:
             logout(request)
             ctx = {
@@ -649,10 +655,9 @@ def verify(request):
             }
             return render(request, 'registration/verification_age_limit.html', ctx)
 
-    if UserProfile.objects.filter(verified_ssn=auth['ssn']).exists():
-        taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['ssn']).user
+    if UserProfile.objects.filter(verified_ssn=auth['UserSSN']).exists():
+        taken_user = UserProfile.objects.select_related('user').get(verified_ssn=auth['UserSSN']).user
         ctx = {
-            'auth': auth,
             'taken_user': taken_user,
         }
 
@@ -661,9 +666,9 @@ def verify(request):
         return render(request, 'registration/verification_duplicate.html', ctx)
 
     profile = request.user.userprofile  # It shall exist at this point
-    profile.verified_ssn = auth['ssn']
-    profile.verified_name = auth['name'].encode('utf8')
-    profile.verified_token = request.GET['token']
+    profile.verified_ssn = auth['UserSSN']
+    profile.verified_name = auth['Name'].encode('utf8')
+    profile.verified_assertion_id = assertion_id
     profile.verified_timing = datetime.now()
     profile.save()
     event_register('user_verified', user=request.user)
@@ -686,7 +691,7 @@ def login_or_saml_redirect(request):
     if request.user.userprofile.verified:
         return redirect(settings.LOGIN_REDIRECT_URL)
     else:
-        return redirect(settings.SAML_1['URL'])
+        return redirect(settings.SAML['URL'])
 
 
 @login_required
