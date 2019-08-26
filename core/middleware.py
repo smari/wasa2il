@@ -85,7 +85,7 @@ class AutoLogoutMiddleware():
 class SamlMiddleware(object):
     def process_request(self, request):
 
-        if settings.SAML_1['URL']: # Is SAML 1.2 support enabled?
+        if settings.SAML['URL']: # Is SAML support enabled?
 
             if hasattr(settings, 'SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST'):
                 exclude_urls = settings.SAML_VERIFICATION_EXCLUDE_URL_PREFIX_LIST
@@ -102,12 +102,12 @@ class SamlMiddleware(object):
             verified = request.user.userprofile.verified if logged_in else False
 
             if logged_in and not verified and not path_ok:
-                ctx = { 'auth_url': settings.SAML_1['URL'] }
+                ctx = { 'auth_url': settings.SAML['URL'] }
                 return render_to_response('registration/verification_needed.html', ctx)
 
     def process_response(self, request, response):
 
-        if settings.SAML_1['URL'] and hasattr(request, 'user'):
+        if settings.SAML['URL'] and hasattr(request, 'user'):
             logged_in = request.user.is_authenticated()
             verified = request.user.userprofile.verified if logged_in else False
             just_logged_in = (

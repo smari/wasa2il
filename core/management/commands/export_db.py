@@ -89,6 +89,7 @@ class Command(BaseCommand):
                 user.userprofile.verified_ssn = ran(10, digits=True)
                 user.userprofile.verified_name = '%s %s' % (random_name(), random_name())
                 user.userprofile.verified_token = ran(30, lc=True, uc=True, digits=True)
+                user.userprofile.verified_assertion_id = ran(30, lc=True, uc=True, digits=True)
                 user.userprofile.verified_timing = random_time()
                 user.userprofile.bio = 'The entire bio has been replaced with this mysterious text.'
                 user.userprofile.declaration_of_interests = 'The interest rate is currently around 470%.'
