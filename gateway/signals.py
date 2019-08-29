@@ -40,11 +40,6 @@ def login_sync(sender, user, request, **kwargs):
         # end according to the IcePirate registry.
         if member['email'] != user.email:
             update_member(user)
-
-    elif error == 'No such member' and user.userprofile.verified:
-        # This means that something has gone wrong when registering the user
-        # as a member on IcePirate's side. We'll try again here.
-        success, member, error = add_member(user)
     else:
         # If something went wrong, we'll be on the safe side of things and
         # remove membership from polities until we have confirmation from
