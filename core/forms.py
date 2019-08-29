@@ -20,7 +20,7 @@ class EmailWantedField(ChoiceWidget):
 
 
 class UserProfileForm(Wasa2ilForm):
-    email = EmailField(label=_("E-mail"), help_text=_("Your email address."))
+    email = EmailField(label=_("E-mail"), help_text=_("You can change your email address, but will then need to verify it."))
     bio = CharField(label=_('Bio'), widget=ProseMirrorWidget, required=False)
     declaration_of_interests = CharField(
         label=_('Declaration of interests'),
