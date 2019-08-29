@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-22 15:23+0000\n"
+"POT-Creation-Date: 2019-08-29 18:05+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 2.0.4\n"
 
-#: core/base_classes.py:8 core/models.py:43 election/models.py:28
+#: core/base_classes.py:8 core/models.py:46 election/models.py:28
 #: issue/models.py:40 issue/models.py:314 issue/models.py:372
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
 msgid "Name"
@@ -32,14 +32,14 @@ msgid "E-mail"
 msgstr "Netfang"
 
 #: core/forms.py:23
-msgid "Your email address."
-msgstr ""
+msgid "You can change your email address, but will then need to verify it."
+msgstr "Þú getur breytt netfangi þínu, en þarft þá að staðfesta það."
 
-#: core/forms.py:24 core/models.py:45
+#: core/forms.py:24 core/models.py:49
 msgid "Bio"
 msgstr "Saga"
 
-#: core/forms.py:26 core/models.py:46 wasa2il/templates/profile/profile.html:40
+#: core/forms.py:26 core/models.py:50 wasa2il/templates/profile/profile.html:40
 msgid "Declaration of interests"
 msgstr "Hagsmunaskráning"
 
@@ -71,7 +71,7 @@ msgstr "Já"
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:63 core/models.py:57
+#: core/forms.py:63 core/models.py:61
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
@@ -79,31 +79,40 @@ msgstr "Samþykki fyrir póstsendingum"
 msgid "Message"
 msgstr ""
 
-#: core/models.py:43
+#: core/models.py:46
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:44
+#: core/models.py:47
+msgid "Phone"
+msgstr "Sími"
+
+#: core/models.py:47
+msgid ""
+"Mostly intended for active participants such as volunteers and candidates."
+msgstr "Fyrst og fremst fyrir virka þátttakendur, t.d. sjálfboðaliða og frambjóðendur."
+
+#: core/models.py:48
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:44
+#: core/models.py:48
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:47
+#: core/models.py:51
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:58
+#: core/models.py:62
 msgid "Whether to consent to receiving notifications via email."
 msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
-#: core/models.py:61 wasa2il/templates/admintools_push.html:16
+#: core/models.py:65 wasa2il/templates/admintools_push.html:16
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:62
+#: core/models.py:66
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
@@ -672,7 +681,7 @@ msgstr "Mál"
 #: wasa2il/templates/_sidenav_polity.html:40
 #: wasa2il/templates/election/election_list.html:9
 #: wasa2il/templates/election/election_list.html:25
-#: wasa2il/templates/profile/profile.html:70
+#: wasa2il/templates/profile/profile.html:74
 msgid "Elections"
 msgstr "Kosningar"
 
@@ -1082,7 +1091,7 @@ msgstr "Engar kosningar eru á dagskrá í augnablikinu."
 #: wasa2il/templates/polity/polity_list.html:6
 #: wasa2il/templates/polity/polity_list.html:24
 #: wasa2il/templates/polity/polity_officers_form.html:7
-#: wasa2il/templates/profile/profile.html:47
+#: wasa2il/templates/profile/profile.html:49
 #: wasa2il/templates/topic/topic_detail.html:6
 #: wasa2il/templates/topic/topic_form.html:7
 msgid "Polities"
@@ -1790,7 +1799,7 @@ msgid "What is an agreement?"
 msgstr "Hvað er samþykkt?"
 
 #: wasa2il/templates/help/is/proposal.html:6
-#: wasa2il/templates/profile/profile.html:114
+#: wasa2il/templates/profile/profile.html:120
 msgid "Proposals"
 msgstr "Tillögur"
 
@@ -2335,41 +2344,41 @@ msgstr "Sjálfslýsing"
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
-#: wasa2il/templates/profile/profile.html:56
+#: wasa2il/templates/profile/profile.html:58
 msgid "Officer"
 msgstr "Umsjónarmaður"
 
-#: wasa2il/templates/profile/profile.html:58
+#: wasa2il/templates/profile/profile.html:60
 msgid "Volunteer wrangler"
 msgstr "Umsjónarmaður sjálfboðaliða"
 
-#: wasa2il/templates/profile/profile.html:60
+#: wasa2il/templates/profile/profile.html:62
 msgid "Member"
 msgstr "Meðlimur"
 
-#: wasa2il/templates/profile/profile.html:65
+#: wasa2il/templates/profile/profile.html:67
 #, python-format
 msgid "%(user)s is not a member of any polities."
 msgstr "%(user)s er ekki meðlimur neins þings."
 
-#: wasa2il/templates/profile/profile.html:92
+#: wasa2il/templates/profile/profile.html:98
 msgid "seat"
 msgstr "sæti"
 
-#: wasa2il/templates/profile/profile.html:96
+#: wasa2il/templates/profile/profile.html:102
 msgid "Elected"
 msgstr "Kosinn"
 
-#: wasa2il/templates/profile/profile.html:96
+#: wasa2il/templates/profile/profile.html:102
 msgid "Not elected"
 msgstr "Ekki kosinn"
 
-#: wasa2il/templates/profile/profile.html:109
+#: wasa2il/templates/profile/profile.html:115
 #, python-format
 msgid "%(user)s has not run in any elections."
 msgstr "%(user)s hefur ekki boðið sig fram í neinum kosningum."
 
-#: wasa2il/templates/profile/profile.html:129
+#: wasa2il/templates/profile/profile.html:135
 #, python-format
 msgid "%(user)s has not proposed anything."
 msgstr "%(user)s hefur ekki lagt neitt til."
@@ -3002,6 +3011,13 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
+
+#~ msgid ""
+#~ "Only needed if you activately participate in some way, for example by "
+#~ "volunteering."
+#~ msgstr ""
+#~ "Einungis notað ef þú tekur þátt með einhverjum hætti, t.d. með "
+#~ "sjálfboðaliðastarfi."
 
 #~ msgid "Volunteers needed"
 #~ msgstr "Nauðsynlegur fjöldi sjálfboðaliða"
