@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-29 18:05+0000\n"
+"POT-Creation-Date: 2019-08-31 16:04+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -90,7 +90,9 @@ msgstr "Sími"
 #: core/models.py:47
 msgid ""
 "Mostly intended for active participants such as volunteers and candidates."
-msgstr "Fyrst og fremst fyrir virka þátttakendur, t.d. sjálfboðaliða og frambjóðendur."
+msgstr ""
+"Fyrst og fremst fyrir virka þátttakendur, t.d. sjálfboðaliða og "
+"frambjóðendur."
 
 #: core/models.py:48
 msgid "E-mail visible"
@@ -289,8 +291,8 @@ msgstr "Forsíða"
 msgid "Proposal"
 msgstr "Tillaga"
 
-#: issue/forms.py:43 issue/models.py:48 polity/models.py:14 tasks/forms.py:9
-#: tasks/models.py:51 topic/models.py:77
+#: issue/forms.py:43 issue/models.py:48 polity/models.py:14 tasks/forms.py:11
+#: tasks/models.py:52 topic/models.py:77
 #: wasa2il/templates/issue/document_detail.html:141
 msgid "Description"
 msgstr "Lýsing"
@@ -468,11 +470,11 @@ msgstr ""
 msgid "Send notification when an election ends?"
 msgstr ""
 
-#: tasks/forms.py:10 tasks/models.py:52
-msgid "Objectives"
-msgstr "Markmið"
+#: tasks/forms.py:10
+msgid "Maximum 200 letters."
+msgstr "200 stafa hámark."
 
-#: tasks/forms.py:11 tasks/models.py:53
+#: tasks/forms.py:12 tasks/models.py:53
 msgid "Requirements"
 msgstr "Kröfur"
 
@@ -596,6 +598,10 @@ msgstr "Skipulagning og framkvæmdir"
 #: tasks/models.py:40
 msgid "Translating"
 msgstr "Þýðingar"
+
+#: tasks/models.py:51 wasa2il/templates/tasks/stub/list.html:9
+msgid "Objectives"
+msgstr "Markmið"
 
 #: tasks/models.py:60 wasa2il/templates/tasks/task_detail.html:67
 msgid "Number of volunteers needed"
@@ -2699,25 +2705,33 @@ msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
 
 #: wasa2il/templates/tasks/dialog_task_delete.html:6
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Delete task"
-msgstr "Fela kláruð verkefni"
+msgstr "Eyða verkefni"
 
 #: wasa2il/templates/tasks/dialog_task_delete.html:9
-#, fuzzy
-#| msgid "Are you sure you want to retract this issue?"
 msgid "Are you absolutely certain that you want to delete this task?"
-msgstr "Ertu viss um að þú viljir draga þessa tillögu til baka?"
+msgstr "Ertu algjörlega viss um að þú viljir eyða þessu verkefni?"
 
 #: wasa2il/templates/tasks/dialog_task_delete.html:10
-#, fuzzy
-#| msgid "This election is closed."
 msgid "This action cannot be undone."
-msgstr "Þessu máli er lokið."
+msgstr "Ekki er hægt að taka þessa aðgerð til baka."
+
+#: wasa2il/templates/tasks/stub/list.html:15
+#: wasa2il/templates/tasks/task_user_tasks.html:20
+msgid "hours per week"
+msgstr "klukkustundir á viku"
+
+#: wasa2il/templates/tasks/stub/list.html:19
+#: wasa2il/templates/tasks/task_user_tasks.html:23
+msgid "vikur"
+msgstr "vikur"
+
+#: wasa2il/templates/tasks/stub/list.html:24
+msgid "Currently there are no tasks that need help."
+msgstr "Eins og er eru engin verkefni sem þurfa sjálfboðaliða."
 
 #: wasa2il/templates/tasks/task_add_edit.html:12
-#: wasa2il/templates/tasks/task_list.html:13
+#: wasa2il/templates/tasks/task_main.html:13
 msgid "New task"
 msgstr "Nýtt verkefni"
 
@@ -2837,70 +2851,38 @@ msgstr "Þetta verkefni þarfnast ekki fleiri sjálfboðaliða eins og er."
 msgid "Please login to apply for this task."
 msgstr "Vinsamlegast innskráðu þig til að sækja um þetta verkefni."
 
-#: wasa2il/templates/tasks/task_list.html:7
+#: wasa2il/templates/tasks/task_main.html:7
 msgid "Pitch in, help out"
 msgstr "Leggðu þitt af mörkum"
 
-#: wasa2il/templates/tasks/task_list.html:8
+#: wasa2il/templates/tasks/task_main.html:8
 #, python-format
 msgid "%(number)s tasks need your help"
 msgstr "%(number)s verkefni í boði"
 
-#: wasa2il/templates/tasks/task_list.html:9
+#: wasa2il/templates/tasks/task_main.html:9
 msgid "Check out the tasks"
 msgstr "Kíkja á verkefnin sem eru í boði"
 
-#: wasa2il/templates/tasks/task_list.html:10
+#: wasa2il/templates/tasks/task_main.html:10
 msgid "View your tasks"
 msgstr "Skoða verkefnin þín"
 
-#: wasa2il/templates/tasks/task_list.html:14
+#: wasa2il/templates/tasks/task_main.html:14
 msgid "Review applications"
 msgstr "Yfirfara umsóknir"
 
-#: wasa2il/templates/tasks/task_list.html:23
-msgid "Your chance to shine"
-msgstr "Tækifæri til að taka þátt"
-
-#: wasa2il/templates/tasks/task_list.html:24
-msgid "Here you may find an opportunity to help that fits your talents"
-msgstr "Hér finnur þú tækifæri sem henta þínum hæfileikum og áhugasviði."
-
-#: wasa2il/templates/tasks/task_list.html:25
-msgid ""
-"Our volunteering system matches projects that need doing with people who "
-"want to do them. It's a perfect way to put your skills and talents to good "
-"use. Check the outstanding projects below!"
-msgstr ""
-"Grasrótarinn er staður þar sem þú getur fundið ýmsar leiðir til að taka þátt "
-"í starfi Pírata og auðvelt er að leita eftir verkefnum eftir mismunandi "
-"flokkum og áhugasviðum."
-
-#: wasa2il/templates/tasks/task_list.html:32
+#: wasa2il/templates/tasks/task_main.html:35
 msgid "Volunteer tasks"
 msgstr "Sjálfboðaliðastörf"
 
-#: wasa2il/templates/tasks/task_list.html:35
+#: wasa2il/templates/tasks/task_main.html:38
 msgid "Hide filter"
 msgstr "Fela síu"
 
-#: wasa2il/templates/tasks/task_list.html:36
+#: wasa2il/templates/tasks/task_main.html:39
 msgid "Clear filter"
 msgstr "Hreinsa síu"
-
-#: wasa2il/templates/tasks/task_list.html:56
-#: wasa2il/templates/tasks/task_user_tasks.html:20
-msgid "hours per week"
-msgstr "klukkustundir á viku"
-
-#: wasa2il/templates/tasks/task_list.html:59
-#: wasa2il/templates/tasks/task_user_tasks.html:23
-msgid "vikur"
-msgstr "vikur"
-
-#: wasa2il/templates/tasks/task_list.html:68
-msgid "Currently there are no tasks that need help."
-msgstr "Eins og er eru engin verkefni sem þurfa sjálfboðaliða."
 
 #: wasa2il/templates/tasks/task_user_tasks.html:6
 msgid "User tasks"
@@ -3011,6 +2993,21 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
+
+#~ msgid "Your chance to shine"
+#~ msgstr "Tækifæri til að taka þátt"
+
+#~ msgid "Here you may find an opportunity to help that fits your talents"
+#~ msgstr "Hér finnur þú tækifæri sem henta þínum hæfileikum og áhugasviði."
+
+#~ msgid ""
+#~ "Our volunteering system matches projects that need doing with people who "
+#~ "want to do them. It's a perfect way to put your skills and talents to "
+#~ "good use. Check the outstanding projects below!"
+#~ msgstr ""
+#~ "Grasrótarinn er staður þar sem þú getur fundið ýmsar leiðir til að taka "
+#~ "þátt í starfi Pírata og auðvelt er að leita eftir verkefnum eftir "
+#~ "mismunandi flokkum og áhugasviðum."
 
 #~ msgid ""
 #~ "Only needed if you activately participate in some way, for example by "
