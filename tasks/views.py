@@ -69,7 +69,7 @@ def task_add_edit(request, polity_id, task_id=None):
         form = TaskForm(instance=task)
 
     ctx = {
-        'polity': polity,
+        'task': task,
         'form': form,
     }
     return render(request, 'tasks/task_add_edit.html', ctx)
@@ -83,7 +83,7 @@ def task_delete(request, polity_id, task_id):
     if request.method == 'POST':
         task = Task.objects.get(polity_id=polity_id, id=task_id)
         task.delete()
-        return redirect(reverse('tasks', args=(polity_id,)))
+        return redirect(reverse('task_main', args=(polity_id,)))
     else:
         raise Http404
 
