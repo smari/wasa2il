@@ -48,8 +48,8 @@ class Task(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
+    objectives = models.CharField(max_length=200, verbose_name=_("Objectives"))
     description = models.TextField(verbose_name=_("Description"))
-    objectives = models.TextField(verbose_name=_("Objectives"))
     requirements = models.TextField(verbose_name=_("Requirements"))
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='task_created_by')

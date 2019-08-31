@@ -11,7 +11,7 @@
         flex-flow: row wrap;
         justify-content: space-between;
         padding: 40px 0px 0px;
-
+        align-items: flex-start;
     }
 }
 @include desktop() {

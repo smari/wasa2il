@@ -17,7 +17,7 @@
         height: 100%;
     }
 
-    &__skill {
+    &__title {
         height: 52px;
         display: flex;
         justify-content: flex-start;
@@ -31,7 +31,7 @@
     }
 
     &__info-wrapper {
-        height: 230px;
+        flex-basis: 230px;
         display: flex;
         flex-flow: column;
         justify-content: space-between;
@@ -45,58 +45,19 @@
     &__main-info {
         display: flex;
         flex-flow: column;
-
     }
 
-    &__division {
-        width: 100%;
-        font-size: 16px;
-        margin-bottom: 16px;
-
-    }
-
-    &__title {
-        width: 100%;
-        font-size: 16px;
-        font-weight: bold;
-
-    }
-
-    &__description {
-        display: flex;
-        flex-flow: column;
-        width: 100%;
-        font-size: 16px;
-
-    }
-
-    &__category-icon {
-        display: block;
-        width: 24px;
-        height: 24px;
-        margin-right: 30px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-    }
-
-    &__category {
+    &__footer {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         height: 52px;
-        padding-left: 20px;
+        padding: 0px 20px 0px 20px;
         font-size: 16px;
         background-color: $task-grey;
         color: $black;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
-
-    }
-
-    &__bold-text {
-        display: inline-flex;
-        font-weight: bold;
-
     }
 }
 

@@ -19,16 +19,16 @@
 <div class="task">
     <div class="task__info">
         <h1>{{task.name}}</h1>
-        <div class="task__description content">
-            <h2 class="task__info-title">{% trans "Task description" %}</h2>
-            <div class="content">
-                {{ task.description|markdown|urlize }}
-            </div>
-        </div>
         <div class="task__objective">
             <h2 class="task__info-title">{% trans "Task objectives" %}</h2>
             <div class="content">
                 {{ task.objectives|markdown|urlize }}
+            </div>
+        </div>
+        <div class="task__description content">
+            <h2 class="task__info-title">{% trans "Task description" %}</h2>
+            <div class="content">
+                {{ task.description|markdown|urlize }}
             </div>
         </div>
         <div class="task__requirement">

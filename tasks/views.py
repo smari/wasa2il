@@ -11,15 +11,13 @@ from tasks.models import Task, TaskRequest
 from polity.models import Polity
 from tasks.forms import TaskForm
 
-def task_list(request, polity_id):
-    polity = get_object_or_404(Polity, id=polity_id)
-    tasks = polity.task_set.order_by('-created')
+def task_main(request, polity_id):
+    tasks = Task.objects.filter(polity_id=polity_id).order_by('-created')
 
     ctx = {
-        'polity': polity,
         'tasks': tasks,
     }
-    return render(request, 'tasks/task_list.html', ctx)
+    return render(request, 'tasks/task_main.html', ctx)
 
 
 @login_required
@@ -40,8 +38,10 @@ def task_user_tasks(request, username):
         user_id=request.user.id
     )
 
+    tasks = [req.task for req in taskrequests]
+
     ctx = {
-        'taskrequests': taskrequests,
+        'tasks': tasks,
     }
     return render(request, 'tasks/task_user_tasks.html', ctx)
 
