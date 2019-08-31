@@ -39,7 +39,7 @@ Wasa2il must be set up on a web server capable of running Django. Instructions o
 
 1. Create your personal `.env` file so you can easily override `ENV` vars like language, `W2_SECRET_KEY` etc.
 
-  `cp env.example .env`
+   `cp env.example .env`
 
 
 #### Using virtualenv
@@ -75,13 +75,13 @@ Wasa2il must be set up on a web server capable of running Django. Instructions o
 
 If you have `docker-compose` installed, you need to:
 
-1. Start web + db containers:
+1. Start web + db containers:  
 `docker-compose up`
 
-1. Run database migrations (if needed):
+1. Run database migrations (if needed):  
 `docker-compose run wasaweb python manage.py migrate`
 
-1. If the db container is not started before the web container tries to access it, resulting in a Django error, restart the web container:
+1. If the db container is not started before the web container tries to access it, resulting in a Django error, restart the web container:  
 `docker-compose restart wasaweb`
 
 
