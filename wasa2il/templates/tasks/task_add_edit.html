@@ -12,6 +12,6 @@
 <h1>{% trans "New task" %}</h1>
 
 {% crispy form %}
-<span id="cancel-url">{% url 'polity' polity.id %}</span>
+<span id="cancel-url">{% if task.id %}{% url 'task_detail' task.polity_id task.id %}{% else %}{% url 'task_main' polity.id %}{% endif %}</span>
 </section>
 {% endblock %}
