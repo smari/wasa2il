@@ -23,6 +23,8 @@ class Polity(models.Model):
     officers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Officers"), related_name="officers")
     wranglers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Volunteer wranglers"), related_name="wranglers")
 
+    require_phone_for_volunteering = models.BooleanField(default=True, verbose_name=_('Require phone for volunteering'), help_text=_('Make users provide their phone numbers in the profiles to partake in tasks that need volunteers.'))
+
     is_listed = models.BooleanField(verbose_name=_("Publicly listed?"), default=True, help_text=_("Whether the polity is publicly listed or not."))
     is_newissue_only_officers = models.BooleanField(verbose_name=_("Can only officers make new issues?"), default=False, help_text=_("If this is checked, only officers can create new issues. If it's unchecked, any member can start a new issue."))
     is_front_polity = models.BooleanField(verbose_name=_("Front polity?"), default=False, help_text=_("If checked, this polity will be displayed on the front page. The first created polity automatically becomes the front polity."))

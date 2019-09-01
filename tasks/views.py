@@ -89,30 +89,36 @@ def task_delete(request, polity_id, task_id):
 
 
 def task_detail(request, polity_id, task_id):
-    polity = get_object_or_404(Polity, id=polity_id)
-    task = get_object_or_404(Task, id=task_id, polity=polity)
+    task = get_object_or_404(Task, id=task_id, polity_id=polity_id)
+    user = request.user
 
-    if request.user.is_authenticated():
-        has_applied = task.taskrequest_set.filter(user=request.user).count() > 0
-    else:
-        has_applied = False
+    # Defaults. Altered if logged in.
+    has_applied = False
+    phone_required = False
 
-    if request.method == 'POST' and not has_applied:
-        whyme = request.POST.get('whyme')
-        available_time = request.POST.get('available_time')
-        if whyme.strip() != '':
-            tr = TaskRequest()
-            tr.task = task
-            tr.user = request.user
-            tr.whyme = whyme
-            tr.available_time = available_time
-            tr.save()
-            has_applied = True
+    if user.is_authenticated():
+
+        polity = get_object_or_404(Polity, id=polity_id)
+
+        has_applied = task.taskrequest_set.filter(user=user).count() > 0
+        phone_required = polity.require_phone_for_volunteering and not user.userprofile.phone
+
+        if request.method == 'POST' and not has_applied and not phone_required:
+            whyme = request.POST.get('whyme')
+            available_time = request.POST.get('available_time')
+            if whyme.strip() != '':
+                tr = TaskRequest()
+                tr.task = task
+                tr.user = request.user
+                tr.whyme = whyme
+                tr.available_time = available_time
+                tr.save()
+                has_applied = True
 
     ctx = {
-        'polity': polity,
         'task': task,
         'has_applied': has_applied,
+        'phone_required': phone_required,
     }
     return render(request, 'tasks/task_detail.html', ctx)
 

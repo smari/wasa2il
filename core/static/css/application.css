@@ -480,6 +480,8 @@ div.prosemirror-editor {
     margin: 52px 0px 26px;
     font-size: 18px;
     font-weight: bold; }
+  .task__why-me-messages {
+    margin-bottom: 20px; }
   .task__why-me-textarea {
     width: 100%;
     height: 250px;

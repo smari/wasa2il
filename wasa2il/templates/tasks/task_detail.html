@@ -97,26 +97,33 @@
         <h2>{% trans "Apply for task" %}</h2>
         {% if user.is_authenticated %}
             {% if has_applied %}
-            <div class="thank-you-message js-thank-you-message">
-            {% trans "Thank you! You successfully applied for this task. You will be contacted by the wrangler of this task." %}
-            </div>
-        {% elif task.is_recruiting %}
-            <h2 class="task__why-me-title">{% trans "Why me?" %}</h2>
-            <div class="task__form-fields js-form-fields">
-                <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10"></textarea>
-            </div>
-            <h2 class="task__why-me-title">{% trans "What available time do I have?" %}</h2>
-            <div class="task__form-fields js-form-fields">
-                <textarea class="task__why-me-textarea" name="available_time" id="" cols="30" rows="10"></textarea>
-                <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}">
-            </div>
+                <div class="task__why-me-messages">
+                {% trans "Thank you! You successfully applied for this task. You will be contacted by the wrangler of this task." %}
+                </div>
+            {% elif task.is_recruiting %}
+                <h2 class="task__why-me-title">{% trans "Why me?" %}</h2>
+                <div class="task__form-fields js-form-fields">
+                    <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10" {% if phone_required %}disabled="disabled"{% endif %}></textarea>
+                </div>
+                <h2 class="task__why-me-title">{% trans "What available time do I have?" %}</h2>
+                <div class="task__form-fields js-form-fields">
+                    <textarea class="task__why-me-textarea" name="available_time" id="" cols="30" rows="10" {% if phone_required %}disabled="disabled"{% endif %}></textarea>
+                </div>
+                {% if phone_required %}
+                    <div class="task__why-me-messages">
+                    {% trans 'In order to volunteer, you must provide your phone number in your user profile, so that we can contact you regarding the task.' %}
+                    </div>
+                {% endif %}
+                <div class="task__form-fields js-form-fields">
+                    <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}" {% if phone_required %}disabled="disabled"{% endif %}>
+                </div>
             {% elif task.is_done %}
-                {% trans "This task has been completed already." %}
+                {% trans 'This task has been completed already.' %}
             {% else %}
-                {% trans "This task doesn't need more volunteers just now." %}
+                {% trans 'This task doesn\'t need more volunteers just now.' %}
             {% endif %}
         {% else %}
-            <p>{% trans 'Please login to apply for this task.' %}</p>
+            % trans 'Please login to apply for this task.' %}
         {% endif %}
         </form>
     </div>
