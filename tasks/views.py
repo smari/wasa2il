@@ -12,7 +12,7 @@ from polity.models import Polity
 from tasks.forms import TaskForm
 
 def task_main(request, polity_id):
-    tasks = Task.objects.filter(polity_id=polity_id).order_by('-created')
+    tasks = Task.objects.filter(polity_id=polity_id, is_recruiting=True, is_done=False).order_by('-created')
 
     ctx = {
         'tasks': tasks,

@@ -7,14 +7,14 @@ from prosemirror.widgets import ProseMirrorWidget
 from tasks.models import Task
 
 class TaskForm(Wasa2ilForm):
-    objectives = CharField(
+    short_description = CharField(
         widget=Textarea(attrs={'rows': 2}),
-        label=_('Objectives'),
+        label=_('Short description'),
         max_length=200,
-        help_text=_('Maximum 200 letters.')
+        help_text=_('Clearly state the objective of the task. Maximum 200 letters.')
     )
-    description = CharField(widget=ProseMirrorWidget, label=_('Description'))
-    requirements = CharField(widget=ProseMirrorWidget, label=_('Requirements'))
+    detailed_description = CharField(widget=ProseMirrorWidget, label=_('Detailed description'), required=False)
+    requirements = CharField(widget=ProseMirrorWidget, label=_('Requirements'), required=False)
 
     class Meta:
         model = Task
