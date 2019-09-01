@@ -27,6 +27,7 @@ deploy:
     development: wasa2il-development
     master: wasa2il-staging
   run:
+  - python manage.py migrate
   - python manage.py compilemessages
 after_success:
 - "./tag.sh"
