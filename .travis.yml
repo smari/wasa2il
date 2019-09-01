@@ -5,8 +5,8 @@ env:
   global:
   - DATABASE_USER=root
   - DATABASE_PASSWORD=
+  - W2_SECRET_KEY=`head /dev/urandom | sha256sum`
 before_install:
-- cp env.example .env
 - printenv DATABASE_USER
 - printenv DATABASE_PASSWORD
 - cat /etc/os-release
