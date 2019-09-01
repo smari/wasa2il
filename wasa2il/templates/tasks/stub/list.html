@@ -6,17 +6,21 @@
       <div class="task-preview__title">{{ task.name }}</div>
       <div class="task-preview__info-wrapper">
         <div class="task-preview__description">
-          <strong>{% trans 'Objectives' %}</strong>: {{ task.objectives }}
+          {{ task.short_description }}
         </div>
       </div>
       <div class="task-preview__footer">
         <div class="task-preview__hrs-per-week">
-          <strong>{{ task.estimated_hours_per_week }}</strong>
-          {% trans "hours per week" %}
+          {% if task.estimated_hours_per_week %}
+            <strong>{{ task.estimated_hours_per_week }}</strong>
+            {% trans "hours per week" %}
+          {% endif %}
         </div>
         <div class="task-preview__est-duration">
-          <strong>{{ task.estimated_duration_weeks }}</strong>
-          {% trans "vikur" %}
+          {% if task.estimated_duration_weeks %}
+            <strong>{{ task.estimated_duration_weeks }}</strong>
+            {% trans "vikur" %}
+          {% endif %}
         </div>
       </div>
     </div>
