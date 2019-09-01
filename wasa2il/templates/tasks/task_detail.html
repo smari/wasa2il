@@ -118,12 +118,18 @@
                     <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}" {% if phone_required %}disabled="disabled"{% endif %}>
                 </div>
             {% elif task.is_done %}
+                <div class="task__why-me-messages">
                 {% trans 'This task has been completed already.' %}
+                </div>
             {% else %}
+                <div class="task__why-me-messages">
                 {% trans 'This task doesn\'t need more volunteers just now.' %}
+                </div>
             {% endif %}
         {% else %}
+            <div class="task__why-me-messages">
             {% trans 'Please login to apply for this task.' %}
+            </div>
         {% endif %}
         </form>
     </div>
