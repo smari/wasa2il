@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-01 13:37+0000\n"
+"POT-Creation-Date: 2019-09-01 14:33+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -410,30 +410,18 @@ msgid "Volunteer wranglers"
 msgstr "Umsjónarmenn sjálfboðaliða"
 
 #: polity/models.py:26
-msgid "Require phone for volunteering"
-msgstr "Krefjast síma fyrir sjálfboðaliðastarf"
-
-#: polity/models.py:26
-msgid ""
-"Make users provide their phone numbers in the profiles to partake in tasks "
-"that need volunteers."
-msgstr ""
-"Láta notendur veita símanúmer sitt í notendastillingum til þess að taka þátt "
-"í verkefnum sem krefjast sjálfboðaliða."
-
-#: polity/models.py:28
 msgid "Publicly listed?"
 msgstr "Listað opinberlega?"
 
-#: polity/models.py:28
+#: polity/models.py:26
 msgid "Whether the polity is publicly listed or not."
 msgstr "Hvort þingið sé listað opinberlega eður ei."
 
-#: polity/models.py:29
+#: polity/models.py:27
 msgid "Can only officers make new issues?"
 msgstr "Geta einungis umsjónarmenn búið til ný mál?"
 
-#: polity/models.py:29
+#: polity/models.py:27
 msgid ""
 "If this is checked, only officers can create new issues. If it's unchecked, "
 "any member can start a new issue."
@@ -441,11 +429,11 @@ msgstr ""
 "Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
 "allir meðlimir búið til ný mál."
 
-#: polity/models.py:30
+#: polity/models.py:28
 msgid "Front polity?"
 msgstr "Aðalþing?"
 
-#: polity/models.py:30
+#: polity/models.py:28
 msgid ""
 "If checked, this polity will be displayed on the front page. The first "
 "created polity automatically becomes the front polity."
@@ -453,31 +441,31 @@ msgstr ""
 "Ef hakað er við þetta verður þetta þing sýnt á forsíðunni. Fyrsta þingið sem "
 "búið er til verður sjálfkrafa að aðalþingi."
 
-#: polity/models.py:33
+#: polity/models.py:31
 msgid "Send notification when debate starts?"
 msgstr ""
 
-#: polity/models.py:35
+#: polity/models.py:33
 msgid "Send notification when issue goes to vote?"
 msgstr ""
 
-#: polity/models.py:37
+#: polity/models.py:35
 msgid "Send notification an hour before voting ends?"
 msgstr ""
 
-#: polity/models.py:39
+#: polity/models.py:37
 msgid "Send notification when voting ends?"
 msgstr ""
 
-#: polity/models.py:41
+#: polity/models.py:39
 msgid "Send notification when an election starts?"
 msgstr ""
 
-#: polity/models.py:43
+#: polity/models.py:41
 msgid "Send notification an hour before election ends?"
 msgstr ""
 
-#: polity/models.py:45
+#: polity/models.py:43
 msgid "Send notification when an election ends?"
 msgstr ""
 
@@ -636,15 +624,25 @@ msgstr "Áætlaður tímafjöldi í viku"
 msgid "Estimated number of weeks"
 msgstr "Áætlaður fjöldi vikna"
 
-#: tasks/models.py:65
+#: tasks/models.py:64
+msgid "Require phone number from volunteers"
+msgstr "Krefst símanúmers frá sjálfboðaliðum"
+
+#: tasks/models.py:64
+msgid ""
+"Make users provide their phone numbers in the profiles to partake in the "
+"task."
+msgstr "Notendur þurfi að setja inn símanúmer sín í notendastillingar til þess að geta gerst sjálfboðaliðar í verkefninu."
+
+#: tasks/models.py:67
 msgid "Is recruiting"
 msgstr "Opið fyrir umsóknir"
 
-#: tasks/models.py:91 wasa2il/templates/tasks/task_detail.html:105
+#: tasks/models.py:93 wasa2il/templates/tasks/task_detail.html:105
 msgid "Why me?"
 msgstr "Af hverju ég?"
 
-#: tasks/models.py:92 wasa2il/templates/tasks/task_detail.html:109
+#: tasks/models.py:94 wasa2il/templates/tasks/task_detail.html:109
 msgid "What available time do I have?"
 msgstr "Hvaða tíma hef ég aflögu?"
 
@@ -2851,15 +2849,15 @@ msgstr ""
 msgid "Apply"
 msgstr "Sækja um"
 
-#: wasa2il/templates/tasks/task_detail.html:122
+#: wasa2il/templates/tasks/task_detail.html:123
 msgid "This task has been completed already."
 msgstr "Þessu verki er þegar lokið."
 
-#: wasa2il/templates/tasks/task_detail.html:124
+#: wasa2il/templates/tasks/task_detail.html:127
 msgid "This task doesn\\"
 msgstr ""
 
-#: wasa2il/templates/tasks/task_detail.html:127
+#: wasa2il/templates/tasks/task_detail.html:132
 msgid "Please login to apply for this task."
 msgstr "Vinsamlegast innskráðu þig til að sækja um þetta verkefni."
 
