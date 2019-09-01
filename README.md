@@ -85,6 +85,10 @@ If you have `docker-compose` installed, you need to:
 `docker-compose restart wasaweb`
 
 
+### SASS / SCSS / CSS
+To watch and compile `.scss` automatically:  
+`cd core/static/css` and `scss --watch application.scss`
+
 ## Contributing
 
 Pull requests are welcome. Update translations by running **manage.py
