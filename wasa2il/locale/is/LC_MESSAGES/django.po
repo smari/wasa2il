@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-01 12:18+0000\n"
+"POT-Creation-Date: 2019-09-01 13:37+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -417,7 +417,9 @@ msgstr "Krefjast síma fyrir sjálfboðaliðastarf"
 msgid ""
 "Make users provide their phone numbers in the profiles to partake in tasks "
 "that need volunteers."
-msgstr "Láta notendur veita símanúmer sitt í notendastillingum til þess að taka þátt í verkefnum sem krefjast sjálfboðaliða."
+msgstr ""
+"Láta notendur veita símanúmer sitt í notendastillingum til þess að taka þátt "
+"í verkefnum sem krefjast sjálfboðaliða."
 
 #: polity/models.py:28
 msgid "Publicly listed?"
@@ -2840,7 +2842,10 @@ msgstr ""
 msgid ""
 "In order to volunteer, you must provide your phone number in your user "
 "profile, so that we can contact you regarding the task."
-msgstr "Til að bjóða þig fram til þessa verkefnis þarftu að veita símanúmer þitt í notendastillingunum þínum, þannig að við getum haft samband við þig um verkefnið."
+msgstr ""
+"Til að bjóða þig fram til þessa verkefnis þarftu að veita símanúmer þitt í "
+"notendastillingunum þínum, þannig að við getum haft samband við þig um "
+"verkefnið."
 
 #: wasa2il/templates/tasks/task_detail.html:119
 msgid "Apply"
@@ -2853,6 +2858,10 @@ msgstr "Þessu verki er þegar lokið."
 #: wasa2il/templates/tasks/task_detail.html:124
 msgid "This task doesn\\"
 msgstr ""
+
+#: wasa2il/templates/tasks/task_detail.html:127
+msgid "Please login to apply for this task."
+msgstr "Vinsamlegast innskráðu þig til að sækja um þetta verkefni."
 
 #: wasa2il/templates/tasks/task_main.html:7
 msgid "Pitch in, help out"
@@ -3001,9 +3010,6 @@ msgstr ""
 
 #~ msgid "This task doesn't need more volunteers just now."
 #~ msgstr "Þetta verkefni þarfnast ekki fleiri sjálfboðaliða eins og er."
-
-#~ msgid "Please login to apply for this task."
-#~ msgstr "Vinsamlegast innskráðu þig til að sækja um þetta verkefni."
 
 #~ msgid "Categories"
 #~ msgstr "Málaflokkar"
