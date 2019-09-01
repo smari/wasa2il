@@ -3,12 +3,14 @@ python:
 - '2.7'
 env:
   global:
-  - DATABASE_USER=root
-  - DATABASE_PASSWORD=
+  - W2_DATABASE_HOST=127.0.0.1
+  - W2_DATABASE_PASSWORD=
+  - W2_DATABASE_USER=root
   - W2_SECRET_KEY=`head /dev/urandom | sha256sum`
 before_install:
-- printenv DATABASE_USER
-- printenv DATABASE_PASSWORD
+- printenv W2_DATABASE_HOST
+- printenv W2_DATABASE_PASSWORD
+- printenv W2_DATABASE_USER
 - cat /etc/os-release
 install: pip install -r requirements.txt
 script:

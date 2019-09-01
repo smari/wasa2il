@@ -40,10 +40,10 @@ RECENT_ISSUE_DAYS=int(os.environ.get('W2_RECENT_ISSUE_DAYS', 7))
 ## Database configuration
 DATABASE_ENGINE=os.environ.get('W2_DATABASE_ENGINE', 'django.db.backends.mysql')
 DATABASE_HOST=os.environ.get('W2_DATABASE_HOST', '127.0.0.1')
-DATABASE_NAME=os.environ.get('W2_DATABASE_NAME', 'docker')
-DATABASE_PASSWORD=os.environ.get('W2_DATABASE_PASSWORD', 'docker')
+DATABASE_NAME=os.environ.get('W2_DATABASE_NAME', 'wasa2il')
+DATABASE_PASSWORD=os.environ.get('W2_DATABASE_PASSWORD', 'wasa2il')
 DATABASE_PORT=os.environ.get('W2_DATABASE_PORT', '3306')
-DATABASE_USER=os.environ.get('W2_DATABASE_USER', 'docker')
+DATABASE_USER=os.environ.get('W2_DATABASE_USER', 'wasa2il')
 DATABASE_EXPORT_DB_NAME=os.environ.get('W2_DATABASE_EXPORT_DB_NAME', '')
 
 ## Locale settings

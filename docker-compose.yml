@@ -18,17 +18,17 @@ services:
       - db
     environment:
       - W2_DATABASE_HOST=db
-      - W2_DATABASE_NAME=docker
-      - W2_DATABASE_PASSWORD=docker
+      - W2_DATABASE_NAME=wasa2il
+      - W2_DATABASE_PASSWORD=wasa2il
       - W2_DATABASE_PORT=3306
-      - W2_DATABASE_USER=docker
+      - W2_DATABASE_USER=wasa2il
   db:
     image: mysql:5
     environment:
-      - MYSQL_ROOT_PASSWORD=docker
-      - MYSQL_DATABASE=docker
-      - MYSQL_USER=docker
-      - MYSQL_PASSWORD=docker
+      - MYSQL_ROOT_PASSWORD=wasa2il
+      - MYSQL_DATABASE=wasa2il
+      - MYSQL_USER=wasa2il
+      - MYSQL_PASSWORD=wasa2il
     # This makes the port OPEN on the server.
     # Disable in production!
     ports:
