@@ -61,6 +61,8 @@ class Task(models.Model):
     estimated_hours_per_week = models.IntegerField(default=1, verbose_name=_('Estimated hours per week'), help_text=_('Select 0 if not applicable.'))
     estimated_duration_weeks = models.IntegerField(default=1, verbose_name=_('Estimated number of weeks'), help_text=_('Select 0 if not applicable.'))
 
+    require_phone = models.BooleanField(default=True, verbose_name=_('Require phone number from volunteers'), help_text=_('Make users provide their phone numbers in the profiles to partake in the task.'))
+
     is_done = models.BooleanField(default=False)
     is_recruiting = models.BooleanField(default=True, verbose_name=_('Is recruiting'))
 

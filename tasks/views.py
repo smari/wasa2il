@@ -101,7 +101,7 @@ def task_detail(request, polity_id, task_id):
         polity = get_object_or_404(Polity, id=polity_id)
 
         has_applied = task.taskrequest_set.filter(user=user).count() > 0
-        phone_required = polity.require_phone_for_volunteering and not user.userprofile.phone
+        phone_required = task.require_phone and not user.userprofile.phone
 
         if request.method == 'POST' and not has_applied and not phone_required:
             whyme = request.POST.get('whyme')
