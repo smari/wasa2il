@@ -1,0 +1,31 @@
+{% load i18n %}
+<div class="task-list">
+  {% for task in tasks %}
+    <div class="task-preview">
+      <a class="task-preview__link" href="{% url 'task_detail' task.polity_id task.id %}"></a>
+      <div class="task-preview__title">{{ task.name }}</div>
+      <div class="task-preview__info-wrapper">
+        <div class="task-preview__description">
+          {{ task.short_description }}
+        </div>
+      </div>
+      <div class="task-preview__footer">
+        <div class="task-preview__hrs-per-week">
+          {% if task.estimated_hours_per_week %}
+            <strong>{{ task.estimated_hours_per_week }}</strong>
+            {% trans "hours per week" %}
+          {% endif %}
+        </div>
+        <div class="task-preview__est-duration">
+          {% if task.estimated_duration_weeks %}
+            <strong>{{ task.estimated_duration_weeks }}</strong>
+            {% trans "vikur" %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="alert alert-info">{% trans "Currently there are no tasks that need help." %}</div>
+  {% endfor %}
+</div>
+  

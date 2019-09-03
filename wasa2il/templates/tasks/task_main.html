@@ -15,6 +15,8 @@
   </div>
   {%endif%}
 </section>
+
+{% comment %}
 <section class="lesser-hero">
   <div class="left">
     <img src="http://dev1.webmo.is/wp-content/uploads/2017/09/hands-image.svg"/>
@@ -25,6 +27,7 @@
     <div class="content">{% blocktrans %}Our volunteering system matches projects that need doing with people who want to do them. It's a perfect way to put your skills and talents to good use. Check the outstanding projects below!{% endblocktrans %}</div>
   </div>
 </section>
+{% endcomment %}
 
 <section class="content">
   <div class="toolbar">
@@ -38,36 +41,7 @@
     </div>
   </div>
 
-  <div class="task-filter">
-
-  </div>
-
-  <div class="task-list">
-  {% for task in tasks %}
-    <div class="task-preview">
-      <a class="task-preview__link" href="/polity/{{polity.id}}/tasks/{{task.id}}/"></a>
-      <div class="task-preview__skill">{% for i in task.skills.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-      <div class="task-preview__info-wrapper">
-        <div class="task-preview__main-info">
-          <div class="task-preview__title">{{task.name}}</div>
-        </div>
-        <div class="task-preview__description">
-          <div class="task-preview__hrs-per-week">
-            <p class="task-preview__bold-text">{{task.estimated_hours_per_week}}</p> {% trans "hours per week" %}
-          </div>
-          <div class="task-preview__est-duration">
-            <p class="task-preview__bold-text">{{task.estimated_duration_weeks}}</p> {% trans "vikur" %}
-          </div>
-        </div>
-      </div>
-      <div class="task-preview__category">
-        <div class="task-preview__category-text">{% for i in task.categories.all %}{{i}}{% if not forloop.last %}, {% endif %}{% endfor %}</div>
-      </div>
-    </div>
-  {% empty %}
-    <div class="alert alert-info">{% trans "Currently there are no tasks that need help." %}</div>
-  {% endfor %}
-  </div>
+  {% include 'tasks/stub/list.html' %}
 
 </section>
 

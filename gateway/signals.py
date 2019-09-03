@@ -31,10 +31,15 @@ def login_sync(sender, user, request, **kwargs):
 
     if success:
         apply_member_locally(member, user)
-    elif error == 'No such member' and user.userprofile.verified:
-        # This means that something has gone wrong when registering the user
-        # as a member on IcePirate's side. We'll try again here.
-        success, member, error = add_member(user)
+
+        # If the email address of the user and IcePirate registry member
+        # doesn't match, we'll correct the IcePirate registry email address,
+        # since we know for a fact that the one on Wasa2il's side has been
+        # verified and that's where the user can change it. For the same
+        # reason, Wasa2il never updates the user's email address on its own
+        # end according to the IcePirate registry.
+        if member['email'] != user.email:
+            update_member(user)
     else:
         # If something went wrong, we'll be on the safe side of things and
         # remove membership from polities until we have confirmation from

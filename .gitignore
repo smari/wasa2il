@@ -21,3 +21,4 @@ reports/*
 .sass-cache
 .env
 *.sqlite
+coverage.xml

@@ -11,15 +11,13 @@ from tasks.models import Task, TaskRequest
 from polity.models import Polity
 from tasks.forms import TaskForm
 
-def task_list(request, polity_id):
-    polity = get_object_or_404(Polity, id=polity_id)
-    tasks = polity.task_set.order_by('-created')
+def task_main(request, polity_id):
+    tasks = Task.objects.filter(polity_id=polity_id, is_recruiting=True, is_done=False).order_by('-created')
 
     ctx = {
-        'polity': polity,
         'tasks': tasks,
     }
-    return render(request, 'tasks/task_list.html', ctx)
+    return render(request, 'tasks/task_main.html', ctx)
 
 
 @login_required
@@ -40,8 +38,10 @@ def task_user_tasks(request, username):
         user_id=request.user.id
     )
 
+    tasks = [req.task for req in taskrequests]
+
     ctx = {
-        'taskrequests': taskrequests,
+        'tasks': tasks,
     }
     return render(request, 'tasks/task_user_tasks.html', ctx)
 
@@ -69,7 +69,7 @@ def task_add_edit(request, polity_id, task_id=None):
         form = TaskForm(instance=task)
 
     ctx = {
-        'polity': polity,
+        'task': task,
         'form': form,
     }
     return render(request, 'tasks/task_add_edit.html', ctx)
@@ -83,36 +83,42 @@ def task_delete(request, polity_id, task_id):
     if request.method == 'POST':
         task = Task.objects.get(polity_id=polity_id, id=task_id)
         task.delete()
-        return redirect(reverse('tasks', args=(polity_id,)))
+        return redirect(reverse('task_main', args=(polity_id,)))
     else:
         raise Http404
 
 
 def task_detail(request, polity_id, task_id):
-    polity = get_object_or_404(Polity, id=polity_id)
-    task = get_object_or_404(Task, id=task_id, polity=polity)
+    task = get_object_or_404(Task, id=task_id, polity_id=polity_id)
+    user = request.user
 
-    if request.user.is_authenticated():
-        has_applied = task.taskrequest_set.filter(user=request.user).count() > 0
-    else:
-        has_applied = False
+    # Defaults. Altered if logged in.
+    has_applied = False
+    phone_required = False
 
-    if request.method == 'POST' and not has_applied:
-        whyme = request.POST.get('whyme')
-        available_time = request.POST.get('available_time')
-        if whyme.strip() != '':
-            tr = TaskRequest()
-            tr.task = task
-            tr.user = request.user
-            tr.whyme = whyme
-            tr.available_time = available_time
-            tr.save()
-            has_applied = True
+    if user.is_authenticated():
+
+        polity = get_object_or_404(Polity, id=polity_id)
+
+        has_applied = task.taskrequest_set.filter(user=user).count() > 0
+        phone_required = task.require_phone and not user.userprofile.phone
+
+        if request.method == 'POST' and not has_applied and not phone_required:
+            whyme = request.POST.get('whyme')
+            available_time = request.POST.get('available_time')
+            if whyme.strip() != '':
+                tr = TaskRequest()
+                tr.task = task
+                tr.user = request.user
+                tr.whyme = whyme
+                tr.available_time = available_time
+                tr.save()
+                has_applied = True
 
     ctx = {
-        'polity': polity,
         'task': task,
         'has_applied': has_applied,
+        'phone_required': phone_required,
     }
     return render(request, 'tasks/task_detail.html', ctx)
 

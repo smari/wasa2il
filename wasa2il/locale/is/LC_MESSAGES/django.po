@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-22 15:23+0000\n"
+"POT-Creation-Date: 2019-09-01 14:33+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 2.0.4\n"
 
-#: core/base_classes.py:8 core/models.py:43 election/models.py:28
+#: core/base_classes.py:8 core/models.py:46 election/models.py:28
 #: issue/models.py:40 issue/models.py:314 issue/models.py:372
 #: polity/models.py:11 tasks/models.py:48 topic/models.py:74
 msgid "Name"
@@ -32,14 +32,14 @@ msgid "E-mail"
 msgstr "Netfang"
 
 #: core/forms.py:23
-msgid "Your email address."
-msgstr ""
+msgid "You can change your email address, but will then need to verify it."
+msgstr "Þú getur breytt netfangi þínu, en þarft þá að staðfesta það."
 
-#: core/forms.py:24 core/models.py:45
+#: core/forms.py:24 core/models.py:49
 msgid "Bio"
 msgstr "Saga"
 
-#: core/forms.py:26 core/models.py:46 wasa2il/templates/profile/profile.html:40
+#: core/forms.py:26 core/models.py:50 wasa2il/templates/profile/profile.html:40
 msgid "Declaration of interests"
 msgstr "Hagsmunaskráning"
 
@@ -71,7 +71,7 @@ msgstr "Já"
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:63 core/models.py:57
+#: core/forms.py:63 core/models.py:61
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
@@ -79,31 +79,42 @@ msgstr "Samþykki fyrir póstsendingum"
 msgid "Message"
 msgstr ""
 
-#: core/models.py:43
+#: core/models.py:46
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:44
+#: core/models.py:47
+msgid "Phone"
+msgstr "Sími"
+
+#: core/models.py:47
+msgid ""
+"Mostly intended for active participants such as volunteers and candidates."
+msgstr ""
+"Fyrst og fremst fyrir virka þátttakendur, t.d. sjálfboðaliða og "
+"frambjóðendur."
+
+#: core/models.py:48
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:44
+#: core/models.py:48
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:47
+#: core/models.py:51
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:58
+#: core/models.py:62
 msgid "Whether to consent to receiving notifications via email."
 msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
-#: core/models.py:61 wasa2il/templates/admintools_push.html:16
+#: core/models.py:65 wasa2il/templates/admintools_push.html:16
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:62
+#: core/models.py:66
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
@@ -280,8 +291,7 @@ msgstr "Forsíða"
 msgid "Proposal"
 msgstr "Tillaga"
 
-#: issue/forms.py:43 issue/models.py:48 polity/models.py:14 tasks/forms.py:9
-#: tasks/models.py:51 topic/models.py:77
+#: issue/forms.py:43 issue/models.py:48 polity/models.py:14 topic/models.py:77
 #: wasa2il/templates/issue/document_detail.html:141
 msgid "Description"
 msgstr "Lýsing"
@@ -459,11 +469,21 @@ msgstr ""
 msgid "Send notification when an election ends?"
 msgstr ""
 
-#: tasks/forms.py:10 tasks/models.py:52
-msgid "Objectives"
-msgstr "Markmið"
+#: tasks/forms.py:12 tasks/models.py:51
+#: wasa2il/templates/tasks/task_detail.html:23
+msgid "Short description"
+msgstr "Stutt lýsing"
 
-#: tasks/forms.py:11 tasks/models.py:53
+#: tasks/forms.py:14
+msgid "Clearly state the objective of the task. Maximum 200 letters."
+msgstr "Skýrt orðað markmið verkefnisins. 200 stafa hámark."
+
+#: tasks/forms.py:16 tasks/models.py:52
+#: wasa2il/templates/tasks/task_detail.html:30
+msgid "Detailed description"
+msgstr "Nánari lýsing"
+
+#: tasks/forms.py:17 tasks/models.py:53
 msgid "Requirements"
 msgstr "Kröfur"
 
@@ -588,27 +608,41 @@ msgstr "Skipulagning og framkvæmdir"
 msgid "Translating"
 msgstr "Þýðingar"
 
-#: tasks/models.py:60 wasa2il/templates/tasks/task_detail.html:67
+#: tasks/models.py:60 wasa2il/templates/tasks/task_detail.html:77
 msgid "Number of volunteers needed"
 msgstr "Nauðsynlegur fjöldi sjálfboðaliða"
 
-#: tasks/models.py:61 wasa2il/templates/tasks/task_detail.html:71
+#: tasks/models.py:60 tasks/models.py:61 tasks/models.py:62
+msgid "Select 0 if not applicable."
+msgstr "Veljið 0 ef gildið ekki á við."
+
+#: tasks/models.py:61 wasa2il/templates/tasks/task_detail.html:83
 msgid "Estimated hours per week"
 msgstr "Áætlaður tímafjöldi í viku"
 
-#: tasks/models.py:62 wasa2il/templates/tasks/task_detail.html:75
+#: tasks/models.py:62 wasa2il/templates/tasks/task_detail.html:89
 msgid "Estimated number of weeks"
 msgstr "Áætlaður fjöldi vikna"
 
-#: tasks/models.py:65
+#: tasks/models.py:64
+msgid "Require phone number from volunteers"
+msgstr "Krefst símanúmers frá sjálfboðaliðum"
+
+#: tasks/models.py:64
+msgid ""
+"Make users provide their phone numbers in the profiles to partake in the "
+"task."
+msgstr "Notendur þurfi að setja inn símanúmer sín í notendastillingar til þess að geta gerst sjálfboðaliðar í verkefninu."
+
+#: tasks/models.py:67
 msgid "Is recruiting"
 msgstr "Opið fyrir umsóknir"
 
-#: tasks/models.py:91 wasa2il/templates/tasks/task_detail.html:90
+#: tasks/models.py:93 wasa2il/templates/tasks/task_detail.html:105
 msgid "Why me?"
 msgstr "Af hverju ég?"
 
-#: tasks/models.py:92 wasa2il/templates/tasks/task_detail.html:94
+#: tasks/models.py:94 wasa2il/templates/tasks/task_detail.html:109
 msgid "What available time do I have?"
 msgstr "Hvaða tíma hef ég aflögu?"
 
@@ -672,7 +706,7 @@ msgstr "Mál"
 #: wasa2il/templates/_sidenav_polity.html:40
 #: wasa2il/templates/election/election_list.html:9
 #: wasa2il/templates/election/election_list.html:25
-#: wasa2il/templates/profile/profile.html:70
+#: wasa2il/templates/profile/profile.html:74
 msgid "Elections"
 msgstr "Kosningar"
 
@@ -1082,7 +1116,7 @@ msgstr "Engar kosningar eru á dagskrá í augnablikinu."
 #: wasa2il/templates/polity/polity_list.html:6
 #: wasa2il/templates/polity/polity_list.html:24
 #: wasa2il/templates/polity/polity_officers_form.html:7
-#: wasa2il/templates/profile/profile.html:47
+#: wasa2il/templates/profile/profile.html:49
 #: wasa2il/templates/topic/topic_detail.html:6
 #: wasa2il/templates/topic/topic_form.html:7
 msgid "Polities"
@@ -1790,7 +1824,7 @@ msgid "What is an agreement?"
 msgstr "Hvað er samþykkt?"
 
 #: wasa2il/templates/help/is/proposal.html:6
-#: wasa2il/templates/profile/profile.html:114
+#: wasa2il/templates/profile/profile.html:120
 msgid "Proposals"
 msgstr "Tillögur"
 
@@ -1940,7 +1974,7 @@ msgid "Comments"
 msgstr "Ummæli"
 
 #: wasa2il/templates/issue/_agreements_list.html:37
-#: wasa2il/templates/tasks/task_detail.html:44
+#: wasa2il/templates/tasks/task_detail.html:74
 msgid "Details"
 msgstr "Nánar"
 
@@ -2335,41 +2369,41 @@ msgstr "Sjálfslýsing"
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
-#: wasa2il/templates/profile/profile.html:56
+#: wasa2il/templates/profile/profile.html:58
 msgid "Officer"
 msgstr "Umsjónarmaður"
 
-#: wasa2il/templates/profile/profile.html:58
+#: wasa2il/templates/profile/profile.html:60
 msgid "Volunteer wrangler"
 msgstr "Umsjónarmaður sjálfboðaliða"
 
-#: wasa2il/templates/profile/profile.html:60
+#: wasa2il/templates/profile/profile.html:62
 msgid "Member"
 msgstr "Meðlimur"
 
-#: wasa2il/templates/profile/profile.html:65
+#: wasa2il/templates/profile/profile.html:67
 #, python-format
 msgid "%(user)s is not a member of any polities."
 msgstr "%(user)s er ekki meðlimur neins þings."
 
-#: wasa2il/templates/profile/profile.html:92
+#: wasa2il/templates/profile/profile.html:98
 msgid "seat"
 msgstr "sæti"
 
-#: wasa2il/templates/profile/profile.html:96
+#: wasa2il/templates/profile/profile.html:102
 msgid "Elected"
 msgstr "Kosinn"
 
-#: wasa2il/templates/profile/profile.html:96
+#: wasa2il/templates/profile/profile.html:102
 msgid "Not elected"
 msgstr "Ekki kosinn"
 
-#: wasa2il/templates/profile/profile.html:109
+#: wasa2il/templates/profile/profile.html:115
 #, python-format
 msgid "%(user)s has not run in any elections."
 msgstr "%(user)s hefur ekki boðið sig fram í neinum kosningum."
 
-#: wasa2il/templates/profile/profile.html:129
+#: wasa2il/templates/profile/profile.html:135
 #, python-format
 msgid "%(user)s has not proposed anything."
 msgstr "%(user)s hefur ekki lagt neitt til."
@@ -2690,25 +2724,31 @@ msgid "Verify identity"
 msgstr "Staðfesta auðkenni"
 
 #: wasa2il/templates/tasks/dialog_task_delete.html:6
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Delete task"
-msgstr "Fela kláruð verkefni"
+msgstr "Eyða verkefni"
 
 #: wasa2il/templates/tasks/dialog_task_delete.html:9
-#, fuzzy
-#| msgid "Are you sure you want to retract this issue?"
 msgid "Are you absolutely certain that you want to delete this task?"
-msgstr "Ertu viss um að þú viljir draga þessa tillögu til baka?"
+msgstr "Ertu algjörlega viss um að þú viljir eyða þessu verkefni?"
 
 #: wasa2il/templates/tasks/dialog_task_delete.html:10
-#, fuzzy
-#| msgid "This election is closed."
 msgid "This action cannot be undone."
-msgstr "Þessu máli er lokið."
+msgstr "Ekki er hægt að taka þessa aðgerð til baka."
+
+#: wasa2il/templates/tasks/stub/list.html:16
+msgid "hours per week"
+msgstr "klukkustundir á viku"
+
+#: wasa2il/templates/tasks/stub/list.html:22
+msgid "vikur"
+msgstr "vikur"
+
+#: wasa2il/templates/tasks/stub/list.html:28
+msgid "Currently there are no tasks that need help."
+msgstr "Eins og er eru engin verkefni sem þurfa sjálfboðaliða."
 
 #: wasa2il/templates/tasks/task_add_edit.html:12
-#: wasa2il/templates/tasks/task_list.html:13
+#: wasa2il/templates/tasks/task_main.html:13
 msgid "New task"
 msgstr "Nýtt verkefni"
 
@@ -2780,31 +2820,15 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: wasa2il/templates/tasks/task_detail.html:23
-msgid "Task description"
-msgstr "Verklýsing"
-
-#: wasa2il/templates/tasks/task_detail.html:29
-msgid "Task objectives"
-msgstr "Markmið verkefnis"
-
-#: wasa2il/templates/tasks/task_detail.html:35
+#: wasa2il/templates/tasks/task_detail.html:38
 msgid "Required skills"
 msgstr "Nauðsynlegir hæfileikar"
 
-#: wasa2il/templates/tasks/task_detail.html:48
-msgid "Categories"
-msgstr "Málaflokkar"
-
-#: wasa2il/templates/tasks/task_detail.html:57
-msgid "Skills"
-msgstr "Hæfileikar"
-
-#: wasa2il/templates/tasks/task_detail.html:82
+#: wasa2il/templates/tasks/task_detail.html:98
 msgid "Apply for task"
 msgstr "Sækja um í verkefnið"
 
-#: wasa2il/templates/tasks/task_detail.html:87
+#: wasa2il/templates/tasks/task_detail.html:102
 msgid ""
 "Thank you! You successfully applied for this task. You will be contacted by "
 "the wrangler of this task."
@@ -2812,94 +2836,67 @@ msgstr ""
 "Takk! Þú hefur sent inn umsókn fyrir þetta verkefni. Umsjónarmaður "
 "verkefnisins mun hafa samband við þig."
 
-#: wasa2il/templates/tasks/task_detail.html:97
+#: wasa2il/templates/tasks/task_detail.html:115
+msgid ""
+"In order to volunteer, you must provide your phone number in your user "
+"profile, so that we can contact you regarding the task."
+msgstr ""
+"Til að bjóða þig fram til þessa verkefnis þarftu að veita símanúmer þitt í "
+"notendastillingunum þínum, þannig að við getum haft samband við þig um "
+"verkefnið."
+
+#: wasa2il/templates/tasks/task_detail.html:119
 msgid "Apply"
 msgstr "Sækja um"
 
-#: wasa2il/templates/tasks/task_detail.html:100
+#: wasa2il/templates/tasks/task_detail.html:123
 msgid "This task has been completed already."
 msgstr "Þessu verki er þegar lokið."
 
-#: wasa2il/templates/tasks/task_detail.html:102
-msgid "This task doesn't need more volunteers just now."
-msgstr "Þetta verkefni þarfnast ekki fleiri sjálfboðaliða eins og er."
+#: wasa2il/templates/tasks/task_detail.html:127
+msgid "This task doesn\\"
+msgstr ""
 
-#: wasa2il/templates/tasks/task_detail.html:105
+#: wasa2il/templates/tasks/task_detail.html:132
 msgid "Please login to apply for this task."
 msgstr "Vinsamlegast innskráðu þig til að sækja um þetta verkefni."
 
-#: wasa2il/templates/tasks/task_list.html:7
+#: wasa2il/templates/tasks/task_main.html:7
 msgid "Pitch in, help out"
 msgstr "Leggðu þitt af mörkum"
 
-#: wasa2il/templates/tasks/task_list.html:8
+#: wasa2il/templates/tasks/task_main.html:8
 #, python-format
 msgid "%(number)s tasks need your help"
 msgstr "%(number)s verkefni í boði"
 
-#: wasa2il/templates/tasks/task_list.html:9
+#: wasa2il/templates/tasks/task_main.html:9
 msgid "Check out the tasks"
 msgstr "Kíkja á verkefnin sem eru í boði"
 
-#: wasa2il/templates/tasks/task_list.html:10
+#: wasa2il/templates/tasks/task_main.html:10
 msgid "View your tasks"
 msgstr "Skoða verkefnin þín"
 
-#: wasa2il/templates/tasks/task_list.html:14
+#: wasa2il/templates/tasks/task_main.html:14
 msgid "Review applications"
 msgstr "Yfirfara umsóknir"
 
-#: wasa2il/templates/tasks/task_list.html:23
-msgid "Your chance to shine"
-msgstr "Tækifæri til að taka þátt"
-
-#: wasa2il/templates/tasks/task_list.html:24
-msgid "Here you may find an opportunity to help that fits your talents"
-msgstr "Hér finnur þú tækifæri sem henta þínum hæfileikum og áhugasviði."
-
-#: wasa2il/templates/tasks/task_list.html:25
-msgid ""
-"Our volunteering system matches projects that need doing with people who "
-"want to do them. It's a perfect way to put your skills and talents to good "
-"use. Check the outstanding projects below!"
-msgstr ""
-"Grasrótarinn er staður þar sem þú getur fundið ýmsar leiðir til að taka þátt "
-"í starfi Pírata og auðvelt er að leita eftir verkefnum eftir mismunandi "
-"flokkum og áhugasviðum."
-
-#: wasa2il/templates/tasks/task_list.html:32
+#: wasa2il/templates/tasks/task_main.html:35
 msgid "Volunteer tasks"
 msgstr "Sjálfboðaliðastörf"
 
-#: wasa2il/templates/tasks/task_list.html:35
+#: wasa2il/templates/tasks/task_main.html:38
 msgid "Hide filter"
 msgstr "Fela síu"
 
-#: wasa2il/templates/tasks/task_list.html:36
+#: wasa2il/templates/tasks/task_main.html:39
 msgid "Clear filter"
 msgstr "Hreinsa síu"
-
-#: wasa2il/templates/tasks/task_list.html:56
-#: wasa2il/templates/tasks/task_user_tasks.html:20
-msgid "hours per week"
-msgstr "klukkustundir á viku"
-
-#: wasa2il/templates/tasks/task_list.html:59
-#: wasa2il/templates/tasks/task_user_tasks.html:23
-msgid "vikur"
-msgstr "vikur"
-
-#: wasa2il/templates/tasks/task_list.html:68
-msgid "Currently there are no tasks that need help."
-msgstr "Eins og er eru engin verkefni sem þurfa sjálfboðaliða."
 
 #: wasa2il/templates/tasks/task_user_tasks.html:6
 msgid "User tasks"
 msgstr "Verkefni notanda"
-
-#: wasa2il/templates/tasks/task_user_tasks.html:33
-msgid "User currently isn't volunteering for any tasks."
-msgstr "Notandinn er ekki sjálfboðaliði í neinum verkefnum í augnablikinu."
 
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:23
 #: wasa2il/templates/termsandconditions/tc_view_terms.html:23
@@ -3002,6 +2999,52 @@ msgid ""
 msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
+
+#~ msgid "Task objectives"
+#~ msgstr "Markmið verkefnis"
+
+#~ msgid "Task description"
+#~ msgstr "Verklýsing"
+
+#~ msgid "This task doesn't need more volunteers just now."
+#~ msgstr "Þetta verkefni þarfnast ekki fleiri sjálfboðaliða eins og er."
+
+#~ msgid "Categories"
+#~ msgstr "Málaflokkar"
+
+#~ msgid "Skills"
+#~ msgstr "Hæfileikar"
+
+#~ msgid "Maximum 200 letters."
+#~ msgstr "200 stafa hámark."
+
+#~ msgid "Objectives"
+#~ msgstr "Markmið"
+
+#~ msgid "User currently isn't volunteering for any tasks."
+#~ msgstr "Notandinn er ekki sjálfboðaliði í neinum verkefnum í augnablikinu."
+
+#~ msgid "Your chance to shine"
+#~ msgstr "Tækifæri til að taka þátt"
+
+#~ msgid "Here you may find an opportunity to help that fits your talents"
+#~ msgstr "Hér finnur þú tækifæri sem henta þínum hæfileikum og áhugasviði."
+
+#~ msgid ""
+#~ "Our volunteering system matches projects that need doing with people who "
+#~ "want to do them. It's a perfect way to put your skills and talents to "
+#~ "good use. Check the outstanding projects below!"
+#~ msgstr ""
+#~ "Grasrótarinn er staður þar sem þú getur fundið ýmsar leiðir til að taka "
+#~ "þátt í starfi Pírata og auðvelt er að leita eftir verkefnum eftir "
+#~ "mismunandi flokkum og áhugasviðum."
+
+#~ msgid ""
+#~ "Only needed if you activately participate in some way, for example by "
+#~ "volunteering."
+#~ msgstr ""
+#~ "Einungis notað ef þú tekur þátt með einhverjum hætti, t.d. með "
+#~ "sjálfboðaliðastarfi."
 
 #~ msgid "Volunteers needed"
 #~ msgstr "Nauðsynlegur fjöldi sjálfboðaliða"

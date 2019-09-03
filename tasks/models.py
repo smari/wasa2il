@@ -48,18 +48,20 @@ class Task(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
-    description = models.TextField(verbose_name=_("Description"))
-    objectives = models.TextField(verbose_name=_("Objectives"))
-    requirements = models.TextField(verbose_name=_("Requirements"))
+    short_description = models.CharField(max_length=200, verbose_name=_("Short description"))
+    detailed_description = models.TextField(verbose_name=_("Detailed description"), null=True, blank=True)
+    requirements = models.TextField(verbose_name=_("Requirements"), null=True, blank=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='task_created_by')
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='task_modified_by')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    volunteers_needed = models.IntegerField(default=1, verbose_name=_('Number of volunteers needed'))
-    estimated_hours_per_week = models.IntegerField(default=1, verbose_name=_('Estimated hours per week'))
-    estimated_duration_weeks = models.IntegerField(default=1, verbose_name=_('Estimated number of weeks'))
+    volunteers_needed = models.IntegerField(default=1, verbose_name=_('Number of volunteers needed'), help_text=_('Select 0 if not applicable.'))
+    estimated_hours_per_week = models.IntegerField(default=1, verbose_name=_('Estimated hours per week'), help_text=_('Select 0 if not applicable.'))
+    estimated_duration_weeks = models.IntegerField(default=1, verbose_name=_('Estimated number of weeks'), help_text=_('Select 0 if not applicable.'))
+
+    require_phone = models.BooleanField(default=True, verbose_name=_('Require phone number from volunteers'), help_text=_('Make users provide their phone numbers in the profiles to partake in the task.'))
 
     is_done = models.BooleanField(default=False)
     is_recruiting = models.BooleanField(default=True, verbose_name=_('Is recruiting'))

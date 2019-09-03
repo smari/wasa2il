@@ -33,46 +33,61 @@ Wasa2il must be set up on a web server capable of running Django. Instructions o
 
 ### For development use
 
-**We recommend** the use of `virtualenv`
-
-More details: https://github.com/piratar/wasa2il/wiki/Installation
+**We recommend** the use of `virtualenv`, but we also try to support `docker-compose` below.
 
 1. Clone the project
 
-2. Create a virtual environment
+1. Create your personal `.env` file so you can easily override `ENV` vars like language, `W2_SECRET_KEY` etc.
+
+   `cp env.example .env`
+
+
+#### Using virtualenv
+
+1. Create a virtual environment
+
    `virtualenv venv`
 
-3. Load the virtual environment in your current shell:
+1. Load the virtual environment in your current shell:
+
    `source venv/bin/activate`
 
-3. Install dependencies
+1. Install dependencies
+
    `pip install -r requirements.txt`
 
-4. Optional: Run **manage.py load_fake_data --full --reset**, which will reset the database and populate with a large volume of test data.
+1. Create the database by running migrations (Only the first time)
 
-5. Start server
+   `python manage.py migrate`
+
+1. **Optional:** Reset the database and populate with a large volume of test data.
+   This should populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password).
+   **TODO:** Not working atm
+
+   `manage.py load_fake_data --full --reset`
+
+1. Start server
+
    `python manage.py runserver`
 
-The 3rd step will populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password). The fourth (optional) step will do the same thing, only with much more data.
-
-That should be it!
 
 #### Docker Compose
 
-If you have `docker-compose` installed you should only need these 1-2 commands:
+If you have `docker-compose` installed, you need to:
 
-1. Create your personal .env file so you can easily override some ENV vars like language etc.
-  `cp env.example .env`
-
-2. Start web + db containers:
+1. Start web + db containers:  
 `docker-compose up`
 
-3. Run database migrations (if needed):
+1. Run database migrations (if needed):  
 `docker-compose run wasaweb python manage.py migrate`
 
-4. If the db container is not started before the web container tries to access it, resulting in a Django error, restart the web container:
+1. If the db container is not started before the web container tries to access it, resulting in a Django error, restart the web container:  
 `docker-compose restart wasaweb`
 
+
+### SASS / SCSS / CSS
+To watch and compile `.scss` automatically:  
+`cd core/static/css` and `scss --watch application.scss`
 
 ## Contributing
 

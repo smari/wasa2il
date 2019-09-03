@@ -18,6 +18,7 @@ def user_to_member_args(user):
         'ssn': user.userprofile.verified_ssn,
         'name': user.userprofile.verified_name,
         'email': user.email,
+        'phone': user.userprofile.phone,
         'username': user.username,
         'added': user.date_joined.strftime('%Y-%m-%d %H:%M:%S'),
         'groups': [p.slug for p in user.polities.all()],
@@ -88,7 +89,9 @@ def get_member(ssn):
 def apply_member_locally(member, user):
     '''
     Takes an IcePirate member in the form of a dict and a regular local user
-    and applies the data in the member to the local user.
+    and applies the data in the member to the local user. Email address is
+    specifically excempt because its reliability is far greater in Wasa2il
+    than IcePirate, and is rather updated on IcePirate's side.
     '''
 
     # Add user to polities according to remote user's groups, as well as
@@ -111,15 +114,27 @@ def apply_member_locally(member, user):
         polity.members.remove(user)
         polity.officers.remove(user)
 
+    # Keep track of whether we need to save the profile.
+    profile_changed = False
+
     # Ask the member database if the user has consented to receiving
     # email and update user database accordingly.
     if user.userprofile.email_wanted != member['email_wanted']:
         user.userprofile.email_wanted = member['email_wanted']
-        user.userprofile.save()
+        profile_changed = True
+
+    # Update local phone number accordin to member registry.
+    if user.userprofile.phone != member['phone']:
+        user.userprofile.phone = member['phone']
+        profile_changed = True
 
     # Ask the member database when the user registered, since this may impact
     # the user's right to vote.
     added = datetime.strptime(member['added'], '%Y-%m-%d %H:%M:%S')
     if user.userprofile.joined_org != added:
         user.userprofile.joined_org = added
+        profile_changed = True
+
+    # Save the profile if it has been changed.
+    if profile_changed:
         user.userprofile.save()

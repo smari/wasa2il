@@ -19,27 +19,32 @@
 <div class="task">
     <div class="task__info">
         <h1>{{task.name}}</h1>
-        <div class="task__description content">
-            <h2 class="task__info-title">{% trans "Task description" %}</h2>
+        <div class="task__short_description">
+            <h2 class="task__info-title">{% trans 'Short description' %}</h2>
             <div class="content">
-                {{ task.description|markdown|urlize }}
+                {{ task.short_description|markdown|urlize }}
             </div>
         </div>
-        <div class="task__objective">
-            <h2 class="task__info-title">{% trans "Task objectives" %}</h2>
+        {% if task.detailed_description %}
+        <div class="task__detailed_description content">
+            <h2 class="task__info-title">{% trans 'Detailed description' %}</h2>
             <div class="content">
-                {{ task.objectives|markdown|urlize }}
+                {{ task.detailed_description|markdown|urlize }}
             </div>
         </div>
+        {% endif %}
+        {% if task.requirements %}
         <div class="task__requirement">
-            <h2 class="task__info-title">{% trans "Required skills" %}</h2>
+            <h2 class="task__info-title">{% trans 'Required skills' %}</h2>
             <div class="content">
             {{ task.requirements|markdown|urlize }}
             </div>
         </div>
+        {% endif %}
     </div>
     <div class="task__needs">
 
+        {% comment %}
         <div class="task__request">
             <h2>{% trans "Details" %}</h2>
 
@@ -61,49 +66,71 @@
             </div>
             {% endif %}
         </div>
+        {% endcomment %}
 
+        {% if task.volunteers_needed or task.estimated_hours_per_week or task.estimated_duration_weeks %}
         <div class="task__request">
+            <h2>{% trans 'Details' %}</h2>
+            {% if task.volunteers_needed %}
             <div class="task__line">
-                <p class="task__request-title">{% trans "Number of volunteers needed" %}:&nbsp; </p>
-                <p class="task__needs-answer">{{task.volunteers_needed}}</p>
+                <p class="task__request-title">{% trans 'Number of volunteers needed' %}:&nbsp; </p>
+                <p class="task__needs-answer">{{ task.volunteers_needed }}</p>
             </div>
+            {% endif %}
+            {% if task.estimated_hours_per_week %}
             <div class="task__line">
-                <p class="task__request-title">{% trans "Estimated hours per week" %}:&nbsp; </p>
-                <p class="task__needs-answer">{{task.estimated_hours_per_week}}</p>
+                <p class="task__request-title">{% trans 'Estimated hours per week' %}:&nbsp; </p>
+                <p class="task__needs-answer">{{ task.estimated_hours_per_week }}</p>
             </div>
+            {% endif %}
+            {% if task.estimated_duration_weeks %}
             <div class="task__line">
-                <p class="task__request-title">{% trans "Estimated number of weeks" %}:&nbsp; </p>
-                <p class="task__needs-answer">{{task.estimated_duration_weeks}}</p>
+                <p class="task__request-title">{% trans 'Estimated number of weeks' %}:&nbsp; </p>
+                <p class="task__needs-answer">{{ task.estimated_duration_weeks }}</p>
             </div>
+            {% endif %}
         </div>
+        {% endif %}
 
         <form class="task__why-me" action="" method="POST" id="apply-form" data-taskid="{{task.id}}">
-          {% csrf_token %}
-          <h2>{% trans "Apply for task" %}</h2>
-
-          {% if user.is_authenticated %}
+        {% csrf_token %}
+        <h2>{% trans "Apply for task" %}</h2>
+        {% if user.is_authenticated %}
             {% if has_applied %}
-              <div class="thank-you-message js-thank-you-message">
+                <div class="task__why-me-messages">
                 {% trans "Thank you! You successfully applied for this task. You will be contacted by the wrangler of this task." %}
-              </div>
+                </div>
             {% elif task.is_recruiting %}
-              <h2 class="task__why-me-title">{% trans "Why me?" %}</h2>
-              <div class="task__form-fields js-form-fields">
-                  <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10"></textarea>
-              </div>
-              <h2 class="task__why-me-title">{% trans "What available time do I have?" %}</h2>
-              <div class="task__form-fields js-form-fields">
-                  <textarea class="task__why-me-textarea" name="available_time" id="" cols="30" rows="10"></textarea>
-                  <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}">
-              </div>
+                <h2 class="task__why-me-title">{% trans "Why me?" %}</h2>
+                <div class="task__form-fields js-form-fields">
+                    <textarea class="task__why-me-textarea" name="whyme" id="" cols="30" rows="10" {% if phone_required %}disabled="disabled"{% endif %}></textarea>
+                </div>
+                <h2 class="task__why-me-title">{% trans "What available time do I have?" %}</h2>
+                <div class="task__form-fields js-form-fields">
+                    <textarea class="task__why-me-textarea" name="available_time" id="" cols="30" rows="10" {% if phone_required %}disabled="disabled"{% endif %}></textarea>
+                </div>
+                {% if phone_required %}
+                    <div class="task__why-me-messages">
+                    {% trans 'In order to volunteer, you must provide your phone number in your user profile, so that we can contact you regarding the task.' %}
+                    </div>
+                {% endif %}
+                <div class="task__form-fields js-form-fields">
+                    <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}" {% if phone_required %}disabled="disabled"{% endif %}>
+                </div>
             {% elif task.is_done %}
-              {% trans "This task has been completed already." %}
+                <div class="task__why-me-messages">
+                {% trans 'This task has been completed already.' %}
+                </div>
             {% else %}
-              {% trans "This task doesn't need more volunteers just now." %}
+                <div class="task__why-me-messages">
+                {% trans 'This task doesn\'t need more volunteers just now.' %}
+                </div>
             {% endif %}
-          {% else %}
-            <p>{% trans 'Please login to apply for this task.' %}</p>
-          {% endif %}
+        {% else %}
+            <div class="task__why-me-messages">
+            {% trans 'Please login to apply for this task.' %}
+            </div>
+        {% endif %}
         </form>
     </div>
 </div>

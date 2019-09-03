@@ -20,7 +20,7 @@ class EmailWantedField(ChoiceWidget):
 
 
 class UserProfileForm(Wasa2ilForm):
-    email = EmailField(label=_("E-mail"), help_text=_("Your email address."))
+    email = EmailField(label=_("E-mail"), help_text=_("You can change your email address, but will then need to verify it."))
     bio = CharField(label=_('Bio'), widget=ProseMirrorWidget, required=False)
     declaration_of_interests = CharField(
         label=_('Declaration of interests'),
@@ -30,7 +30,7 @@ class UserProfileForm(Wasa2ilForm):
 
     class Meta:
         model = UserProfile
-        fields = ('displayname', 'email', 'picture', 'bio', 'declaration_of_interests', 'language', 'email_wanted')
+        fields = ('displayname', 'email', 'phone', 'picture', 'bio', 'declaration_of_interests', 'language', 'email_wanted')
 
     # We need to keep the 'request' object for certain kinds of validation ('picture' in this case)
     def __init__(self, *args, **kwargs):
