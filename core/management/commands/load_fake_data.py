@@ -97,7 +97,7 @@ class Command(BaseCommand):
                     # Update the user's UserProfile with demo data.
                     # (UserProfile is automatically created when User is
                     # saved, via signal.
-                    up = users[u]
+                    up = users[u].userprofile
                     up.verified_ssn = '%10.10d' % serial_ssn,
                     up.joined_org = now - timedelta(hours=random.randint(0, 24 * 5))
                     up.save()
