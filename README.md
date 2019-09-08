@@ -61,8 +61,7 @@ Wasa2il must be set up on a web server capable of running Django. Instructions o
    `python manage.py migrate`
 
 1. **Optional:** Reset the database and populate with a large volume of test data.
-   This should populate the database with a small amount of random data, including four users with varying levels of access (users a, b, c and d - each with their own username as a password).
-   **TODO:** Not working atm
+   This should populate the database with a small amount of random data, including four users with varying levels of access (users `a`, `b`, `c` and `d` - each with their own username as a password).
 
    `manage.py load_fake_data --full --reset`
 
