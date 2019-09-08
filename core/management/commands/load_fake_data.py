@@ -136,9 +136,10 @@ class Command(BaseCommand):
                     polity=p,
                     name='Silly rules',
                     issue_majority=50,
-                    issue_discussion_time=24*3600,
-                    issue_proposal_time=24*3600,
-                    issue_vote_time=24*3600).save()
+                    issue_discussion_time=timedelta(hours=24),
+                    issue_proposal_time=timedelta(hours=24),
+                    issue_vote_time=timedelta(hours=24)
+                ).save()
                 new = True
             polities[u] = (p, size)
 
