@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-01 14:33+0000\n"
+"POT-Creation-Date: 2019-10-19 19:11+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -470,7 +470,7 @@ msgid "Send notification when an election ends?"
 msgstr ""
 
 #: tasks/forms.py:12 tasks/models.py:51
-#: wasa2il/templates/tasks/task_detail.html:23
+#: wasa2il/templates/tasks/task_detail.html:34
 msgid "Short description"
 msgstr "Stutt lýsing"
 
@@ -479,7 +479,7 @@ msgid "Clearly state the objective of the task. Maximum 200 letters."
 msgstr "Skýrt orðað markmið verkefnisins. 200 stafa hámark."
 
 #: tasks/forms.py:16 tasks/models.py:52
-#: wasa2il/templates/tasks/task_detail.html:30
+#: wasa2il/templates/tasks/task_detail.html:41
 msgid "Detailed description"
 msgstr "Nánari lýsing"
 
@@ -608,7 +608,7 @@ msgstr "Skipulagning og framkvæmdir"
 msgid "Translating"
 msgstr "Þýðingar"
 
-#: tasks/models.py:60 wasa2il/templates/tasks/task_detail.html:77
+#: tasks/models.py:60 wasa2il/templates/tasks/task_detail.html:88
 msgid "Number of volunteers needed"
 msgstr "Nauðsynlegur fjöldi sjálfboðaliða"
 
@@ -616,11 +616,11 @@ msgstr "Nauðsynlegur fjöldi sjálfboðaliða"
 msgid "Select 0 if not applicable."
 msgstr "Veljið 0 ef gildið ekki á við."
 
-#: tasks/models.py:61 wasa2il/templates/tasks/task_detail.html:83
+#: tasks/models.py:61 wasa2il/templates/tasks/task_detail.html:94
 msgid "Estimated hours per week"
 msgstr "Áætlaður tímafjöldi í viku"
 
-#: tasks/models.py:62 wasa2il/templates/tasks/task_detail.html:89
+#: tasks/models.py:62 wasa2il/templates/tasks/task_detail.html:100
 msgid "Estimated number of weeks"
 msgstr "Áætlaður fjöldi vikna"
 
@@ -632,17 +632,19 @@ msgstr "Krefst símanúmers frá sjálfboðaliðum"
 msgid ""
 "Make users provide their phone numbers in the profiles to partake in the "
 "task."
-msgstr "Notendur þurfi að setja inn símanúmer sín í notendastillingar til þess að geta gerst sjálfboðaliðar í verkefninu."
+msgstr ""
+"Notendur þurfi að setja inn símanúmer sín í notendastillingar til þess að "
+"geta gerst sjálfboðaliðar í verkefninu."
 
 #: tasks/models.py:67
 msgid "Is recruiting"
 msgstr "Opið fyrir umsóknir"
 
-#: tasks/models.py:93 wasa2il/templates/tasks/task_detail.html:105
+#: tasks/models.py:93 wasa2il/templates/tasks/task_detail.html:116
 msgid "Why me?"
 msgstr "Af hverju ég?"
 
-#: tasks/models.py:94 wasa2il/templates/tasks/task_detail.html:109
+#: tasks/models.py:94 wasa2il/templates/tasks/task_detail.html:120
 msgid "What available time do I have?"
 msgstr "Hvaða tíma hef ég aflögu?"
 
@@ -879,6 +881,7 @@ msgstr "Breyta lykilorði"
 
 #: wasa2il/templates/accounts/settings.html:38
 #: wasa2il/templates/polity/polity_detail.html:18
+#: wasa2il/templates/tasks/task_detail.html:127
 msgid "Settings"
 msgstr "Stillingar"
 
@@ -1172,7 +1175,7 @@ msgstr "Sendi gögn..."
 #: wasa2il/templates/election/election_view.html:61
 #: wasa2il/templates/issue/issue_detail.html:12
 #: wasa2il/templates/issue/issue_detail_remake.html:12
-#: wasa2il/templates/tasks/task_detail.html:13
+#: wasa2il/templates/tasks/task_detail.html:24
 #: wasa2il/templates/topic/topic_detail.html:17
 msgid "Edit"
 msgstr "Breyta"
@@ -1974,7 +1977,7 @@ msgid "Comments"
 msgstr "Ummæli"
 
 #: wasa2il/templates/issue/_agreements_list.html:37
-#: wasa2il/templates/tasks/task_detail.html:74
+#: wasa2il/templates/tasks/task_detail.html:85
 msgid "Details"
 msgstr "Nánar"
 
@@ -2816,19 +2819,19 @@ msgstr ""
 "Engar umsóknir komnar. Kannski myndi hjálpa að vekja athygli á verkefninu "
 "einhvernvegin?"
 
-#: wasa2il/templates/tasks/task_detail.html:15
+#: wasa2il/templates/tasks/task_detail.html:26
 msgid "Delete"
 msgstr ""
 
-#: wasa2il/templates/tasks/task_detail.html:38
+#: wasa2il/templates/tasks/task_detail.html:49
 msgid "Required skills"
 msgstr "Nauðsynlegir hæfileikar"
 
-#: wasa2il/templates/tasks/task_detail.html:98
+#: wasa2il/templates/tasks/task_detail.html:109
 msgid "Apply for task"
 msgstr "Sækja um í verkefnið"
 
-#: wasa2il/templates/tasks/task_detail.html:102
+#: wasa2il/templates/tasks/task_detail.html:113
 msgid ""
 "Thank you! You successfully applied for this task. You will be contacted by "
 "the wrangler of this task."
@@ -2836,7 +2839,7 @@ msgstr ""
 "Takk! Þú hefur sent inn umsókn fyrir þetta verkefni. Umsjónarmaður "
 "verkefnisins mun hafa samband við þig."
 
-#: wasa2il/templates/tasks/task_detail.html:115
+#: wasa2il/templates/tasks/task_detail.html:126
 msgid ""
 "In order to volunteer, you must provide your phone number in your user "
 "profile, so that we can contact you regarding the task."
@@ -2845,19 +2848,27 @@ msgstr ""
 "notendastillingunum þínum, þannig að við getum haft samband við þig um "
 "verkefnið."
 
-#: wasa2il/templates/tasks/task_detail.html:119
+#: wasa2il/templates/tasks/task_detail.html:128
+msgid "(You will be redirected back to this task.)"
+msgstr "(Þér verður sjálfkrafa beint aftur í þetta verkefni.)"
+
+#: wasa2il/templates/tasks/task_detail.html:134
+msgid "I accept that the task's wrangler will have access to my contact data."
+msgstr "Ég samþykki aðgang verkefnisstjóra að upplýsingum til að hafa samband."
+
+#: wasa2il/templates/tasks/task_detail.html:137
 msgid "Apply"
 msgstr "Sækja um"
 
-#: wasa2il/templates/tasks/task_detail.html:123
+#: wasa2il/templates/tasks/task_detail.html:141
 msgid "This task has been completed already."
 msgstr "Þessu verki er þegar lokið."
 
-#: wasa2il/templates/tasks/task_detail.html:127
+#: wasa2il/templates/tasks/task_detail.html:145
 msgid "This task doesn\\"
 msgstr ""
 
-#: wasa2il/templates/tasks/task_detail.html:132
+#: wasa2il/templates/tasks/task_detail.html:150
 msgid "Please login to apply for this task."
 msgstr "Vinsamlegast innskráðu þig til að sækja um þetta verkefni."
 
