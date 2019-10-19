@@ -319,7 +319,14 @@ def view_settings(request):
                 # changes, so we need to ask the database explicitly.
                 update_member(User.objects.get(id=request.user.id))
 
-            return redirect(reverse('profile'))
+            # Certain features in the project may require particular settings
+            # (like having entered a phone number) to be set, in which case
+            # the user will be sent to the settings page but should be
+            # redirected back to what they were doing before.
+            if 'redirect' in request.GET:
+                return redirect(request.GET.get('redirect'))
+            else:
+                return redirect(reverse('profile'))
 
     else:
         form = UserProfileForm(initial={'email': request.user.email}, instance=profile)
