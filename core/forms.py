@@ -10,7 +10,6 @@ from django.utils.translation import ugettext as _
 from registration.forms import RegistrationForm
 
 from wasa2il.forms import Wasa2ilForm
-from prosemirror.widgets import ProseMirrorWidget
 
 from core.models import UserProfile
 
@@ -21,12 +20,6 @@ class EmailWantedField(ChoiceWidget):
 
 class UserProfileForm(Wasa2ilForm):
     email = EmailField(label=_("E-mail"), help_text=_("You can change your email address, but will then need to verify it."))
-    bio = CharField(label=_('Bio'), widget=ProseMirrorWidget, required=False)
-    declaration_of_interests = CharField(
-        label=_('Declaration of interests'),
-        widget=ProseMirrorWidget,
-        required=False
-    )
 
     class Meta:
         model = UserProfile

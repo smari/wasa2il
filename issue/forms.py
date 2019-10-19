@@ -2,7 +2,6 @@ from django import forms
 from django.forms import CharField
 from django.forms import ValidationError
 from wasa2il.forms import Wasa2ilForm
-from prosemirror.widgets import ProseMirrorWidget
 
 from issue.models import Comment, Document, DocumentContent, Issue
 
@@ -39,9 +38,6 @@ class DocumentForm(Wasa2ilForm):
 
 
 class DocumentContentForm(Wasa2ilForm):
-    text = CharField(label=_('Proposal'), widget=ProseMirrorWidget, required=True)
-    comments = CharField(label=_('Description'), widget=ProseMirrorWidget, required=False)
-
     class Meta:
         model = DocumentContent
         exclude = ('user', 'document', 'order', 'predecessor', 'status')
