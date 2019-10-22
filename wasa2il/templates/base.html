@@ -49,6 +49,7 @@
     {% endif %}
     <script>
     var django = { jQuery: $ };
+    var FEATURES_PUSH_NOTIFICATIONS = {% if settings.FEATURES.push_notifications %}true{% else %}false{% endif %};
     {% if settings.FEATURES.push_notifications %}
     var OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
