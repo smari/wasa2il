@@ -316,7 +316,7 @@ $(document).ready(function() {
     // Disable untranslatable and generally failure-prone HTML5 validation.
     $('form').attr('novalidate', '1');
 
-    if (FEATURES_PUSH_NOTIFICATIONS):
+    if (FEATURES_PUSH_NOTIFICATIONS) {
         if ('serviceWorker' in navigator && 'PushManager' in window) {
             console.log('Service Worker and Push is supported');
 
