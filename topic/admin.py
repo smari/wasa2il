@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from models import Topic
+from topic.models import Topic
 
 class TopicAdmin(admin.ModelAdmin):
     fieldsets = None

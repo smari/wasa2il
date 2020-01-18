@@ -8,7 +8,7 @@ def polities(request):
     # The parent/children map is only to reduce database calls.
     parent_children_map = {}
     for polity in polities:
-        if not parent_children_map.has_key(polity.id):
+        if not polity.id in parent_children_map:
             parent_children_map[polity.id] = []
 
         if polity.parent_id:

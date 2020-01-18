@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.db.models import CASCADE
+from django.db.models import SET_NULL
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -41,7 +43,7 @@ TASK_SKILLS = (
 )
 
 class Task(models.Model):
-    polity = models.ForeignKey('polity.Polity')
+    polity = models.ForeignKey('polity.Polity', on_delete=CASCADE)
     categories = models.ManyToManyField('tasks.TaskCategory')
     skills = models.ManyToManyField('tasks.TaskSkill')
 
@@ -52,8 +54,22 @@ class Task(models.Model):
     detailed_description = models.TextField(verbose_name=_("Detailed description"), null=True, blank=True)
     requirements = models.TextField(verbose_name=_("Requirements"), null=True, blank=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='task_created_by')
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='task_modified_by')
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='task_created_by',
+        on_delete=SET_NULL
+    )
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='task_modified_by',
+        on_delete=SET_NULL
+    )
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -76,18 +92,18 @@ class Task(models.Model):
 class TaskCategory(models.Model):
     name = models.CharField(max_length=128)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class TaskSkill(models.Model):
     name = models.CharField(max_length=128)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 class TaskRequest(models.Model):
-    task = models.ForeignKey('tasks.Task')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    task = models.ForeignKey('tasks.Task', on_delete=CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
     date_offered = models.DateTimeField(auto_now_add=True)
     is_accepted = models.BooleanField(default=False)
     whyme = models.TextField(verbose_name=_("Why me?"))

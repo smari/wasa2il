@@ -1,5 +1,5 @@
 # django_mdmail
-# Version: 0.3
+# Version: 0.4
 # Authors: Helgi Hrafn Gunnarsson <helgi@binary.is>
 # Repository: https://github.com/binary-is/django_mdmail
 # License: MIT
@@ -41,13 +41,16 @@
 #
 # Limitations:
 # * No inline images in email templates created by `convert_md_templates`.
+import os
+import sys
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from email.MIMEImage import MIMEImage
+if sys.version_info[0] == 3:
+    from email.mime.image import MIMEImage
+else:
+    from email.MIMEImage import MIMEImage
 from mdmail import EmailContent
-
-import os
 
 
 # Warning to be placed in generated text and HTML files.

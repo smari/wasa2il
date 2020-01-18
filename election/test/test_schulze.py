@@ -96,7 +96,7 @@ class SchulzeTest(TestCase):
         self.assertEqual(len(results), 3)
 
         # All path strengths should be equal, this is a tied vote!
-        for sp in strongest_paths.itervalues():
+        for sp in strongest_paths.values():
             self.assertEqual(sum(sp.values()), 4)
 
 

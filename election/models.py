@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.db import transaction
+from django.db.models import CASCADE
 from django.utils.translation import ugettext_lazy as _
 
 from election.utils import BallotCounter
@@ -28,7 +29,7 @@ class Election(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     slug = models.SlugField(max_length=128, blank=True)
 
-    polity = models.ForeignKey('polity.Polity')
+    polity = models.ForeignKey('polity.Polity', on_delete=CASCADE)
     voting_system = models.CharField(max_length=30, verbose_name=_('Voting system'), choices=VOTING_SYSTEMS)
 
     # Tells whether the election results page should show the winning
@@ -239,7 +240,7 @@ class Election(models.Model):
 
         votemap = {}
         for vote in votes:
-            if not votemap.has_key(vote.user_id):
+            if not vote.user_id in votemap:
                 votemap[vote.user_id] = []
             votemap[vote.user_id].append(vote)
 
@@ -254,7 +255,7 @@ class Election(models.Model):
     def get_ordered_candidates_from_votes(self):
         return self.process_votes()[0]
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.name
 
     def voting_start_time(self):
@@ -316,9 +317,11 @@ class Election(models.Model):
             pass
 
         # Convert ballot_lengths keys (back) to ints
+        new_ballot_lengths = {}
         for k in stats['ballot_lengths'].keys():
-            stats['ballot_lengths'][int(k)] = stats['ballot_lengths'][k]
-            del stats['ballot_lengths'][k]
+            new_ballot_lengths[int(k)] = stats['ballot_lengths'][k]
+        stats['ballot_lengths'] = new_ballot_lengths
+        del new_ballot_lengths
 
         # Censor the statistics, if we only want to publish details about
         # the top N candidates.
@@ -376,7 +379,7 @@ class Election(models.Model):
         return ctx
 
     def get_unchosen_candidates(self, user):
-        if not user.is_authenticated() or self.election_state() != 'voting':
+        if not user.is_authenticated or self.election_state() != 'voting':
             return Candidate.objects.filter(election=self)
         # votes = []
         votes = ElectionVote.objects.filter(election=self, user=user)
@@ -395,14 +398,14 @@ class Election(models.Model):
             return self.electionvote_set.values("user").distinct().count()
 
     def has_voted(self, user, **constraints):
-        if user.is_anonymous():
+        if user.is_anonymous:
             return False
         return ElectionVote.objects.filter(
             election=self, user=user, **constraints).exists()
 
     def get_vote(self, user):
         votes = []
-        if not user.is_anonymous():
+        if not user.is_anonymous:
             votes = ElectionVote.objects.filter(election=self, user=user).order_by("value")
         return [x.candidate for x in votes]
 
@@ -419,35 +422,35 @@ class Election(models.Model):
 
 
 class Candidate(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    election = models.ForeignKey(Election)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    election = models.ForeignKey(Election, on_delete=CASCADE)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.user.username
 
 
 class ElectionVote(models.Model):
-    election = models.ForeignKey(Election)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    candidate = models.ForeignKey(Candidate)
+    election = models.ForeignKey(Election, on_delete=CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    candidate = models.ForeignKey(Candidate, on_delete=CASCADE)
     value = models.IntegerField()
 
     class Meta:
         unique_together = (('election', 'user', 'candidate'),
                     ('election', 'user', 'value'))
 
-    def __unicode__(self):
+    def __str__(self):
         return u'User %s has voted in election %s' % (self.user, self.election)
 
 
 class ElectionResult(models.Model):
-    election = models.OneToOneField('Election', related_name='result')
+    election = models.OneToOneField('Election', related_name='result', on_delete=CASCADE)
     vote_count = models.IntegerField()
 
 
 class ElectionResultRow(models.Model):
-    election_result = models.ForeignKey('ElectionResult', related_name='rows')
-    candidate = models.OneToOneField('Candidate', related_name='result_row')
+    election_result = models.ForeignKey('ElectionResult', related_name='rows', on_delete=CASCADE)
+    candidate = models.OneToOneField('Candidate', related_name='result_row', on_delete=CASCADE)
     order = models.IntegerField()
 
     class Meta:

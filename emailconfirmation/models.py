@@ -8,6 +8,7 @@ from core.django_mdmail import send_mail
 
 from django.conf import settings
 from django.db import models
+from django.db.models import CASCADE
 from django.utils.crypto import get_random_string
 from django.shortcuts import reverse
 from django.template.loader import render_to_string
@@ -20,7 +21,7 @@ class EmailConfirmation(models.Model):
         ('email_change', _('Email change')),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='email_confirmations')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='email_confirmations', on_delete=CASCADE)
 
     key = models.CharField(max_length=40)
     timing_created = models.DateTimeField(auto_now=True)

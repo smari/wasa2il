@@ -5,6 +5,9 @@ from diff_match_patch.diff_match_patch import diff_match_patch
 from django.conf import settings
 from django.db import models
 from django.db import transaction
+from django.db.models import CASCADE
+from django.db.models import PROTECT
+from django.db.models import SET_NULL
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
@@ -49,20 +52,40 @@ class Issue(models.Model):
         'An issue description is usually just a copy of the proposal\'s description, but you can customize it here if you so wish.'
     ))
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='issue_created_by')
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='issue_modified_by')
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='issue_created_by',
+        on_delete=PROTECT
+    )
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='issue_modified_by',
+        on_delete=PROTECT
+    )
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    polity = models.ForeignKey('polity.Polity')
+    polity = models.ForeignKey('polity.Polity', on_delete=CASCADE)
     topics = models.ManyToManyField('topic.Topic', verbose_name=_('Topics'))
 
-    documentcontent = models.OneToOneField('issue.DocumentContent', related_name='issue', null=True, blank=True)
+    documentcontent = models.OneToOneField(
+        'issue.DocumentContent',
+        related_name='issue',
+        null=True,
+        blank=True,
+        on_delete=PROTECT
+    )
     deadline_discussions = models.DateTimeField(null=True, blank=True)
     deadline_proposals = models.DateTimeField(null=True, blank=True)
     deadline_votes = models.DateTimeField(null=True, blank=True)
     majority_percentage = models.DecimalField(max_digits=5, decimal_places=2)
-    ruleset = models.ForeignKey('polity.PolityRuleset', verbose_name=_("Ruleset"), editable=True)
+    ruleset = models.ForeignKey('polity.PolityRuleset', verbose_name=_("Ruleset"), editable=True, on_delete=PROTECT)
 
     is_processed = models.BooleanField(default=False)
     votecount = models.IntegerField(default=0)
@@ -90,7 +113,8 @@ class Issue(models.Model):
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
-        related_name='special_process_issues'
+        related_name='special_process_issues',
+        on_delete=PROTECT
     )
 
     comment_count = models.IntegerField(default=0)
@@ -102,7 +126,7 @@ class Issue(models.Model):
         ordering = ["-deadline_votes"]
         unique_together = ['polity', 'issue_year', 'issue_num']
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % self.name
 
     def save(self, *args, **kwargs):
@@ -265,13 +289,13 @@ class Issue(models.Model):
         self.comment_count = self.comment_set.count()
         self.save()
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.name)
 
 
 class Vote(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    issue = models.ForeignKey('issue.Issue')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    issue = models.ForeignKey('issue.Issue', on_delete=CASCADE)
     value = models.IntegerField()
     cast = models.DateTimeField(auto_now_add=True)
 
@@ -280,13 +304,27 @@ class Vote(models.Model):
 
 
 class Comment(models.Model):
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='comment_created_by')
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='comment_modified_by')
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='comment_created_by',
+        on_delete=SET_NULL
+    )
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='comment_modified_by',
+        on_delete=SET_NULL
+    )
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     comment = models.TextField()
-    issue = models.ForeignKey('issue.Issue')
+    issue = models.ForeignKey('issue.Issue', on_delete=CASCADE)
 
     def save(self, *args, **kwargs):
         is_new = self.id is None
@@ -316,8 +354,8 @@ class Document(models.Model):
 
     document_type = models.IntegerField(choices=DOCUMENT_TYPE_CHOICES, default=1)
 
-    polity = models.ForeignKey('polity.Polity')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    polity = models.ForeignKey('polity.Polity', on_delete=CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=PROTECT)
 
     class Meta:
         ordering = ["-id"]
@@ -364,14 +402,14 @@ class Document(models.Model):
         ).count()
         return count > 0
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.name)
 
 
 class DocumentContent(models.Model):
     name = models.CharField(max_length=128, verbose_name=_('Name'))
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    document = models.ForeignKey('issue.Document')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=PROTECT)
+    document = models.ForeignKey('issue.Document', on_delete=CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
     order = models.IntegerField(default=1)
@@ -384,7 +422,7 @@ class DocumentContent(models.Model):
         ('retracted', _('Retracted')),
     )
     status = models.CharField(max_length=32, choices=STATUS_CHOICES, default='proposed')
-    predecessor = models.ForeignKey('issue.DocumentContent', null=True, blank=True)
+    predecessor = models.ForeignKey('issue.DocumentContent', null=True, blank=True, on_delete=SET_NULL)
 
     class Meta:
         unique_together = ['document', 'order']
@@ -442,7 +480,7 @@ class DocumentContent(models.Model):
 
         return result
 
-    def __unicode__(self):
+    def __str__(self):
         return u"DocumentContent (ID: %d)" % self.id
 
     def save(self, *args, **kwargs):

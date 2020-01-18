@@ -6,12 +6,12 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView
 from django.views.generic import DetailView
@@ -120,7 +120,7 @@ def issue_view(request, polity_id, issue_id):
     ctx['polity'] = polity
     ctx['issue'] = issue
     ctx['can_vote'] = (request.user is not None and issue.can_vote(request.user))
-    ctx['comments_closed'] = not request.user.is_authenticated() or issue.discussions_closed()
+    ctx['comments_closed'] = not request.user.is_authenticated or issue.discussions_closed()
 
     # People say crazy things on the internet. We'd like to keep the record of
     # conversations about issues well into the future but still we'd like to
@@ -128,7 +128,7 @@ def issue_view(request, polity_id, issue_id):
     # ago. To try and achieve both goals, we require a logged in user to see
     # comments to older issues.
     comment_protection_timing = datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
-    if not request.user.is_authenticated() and issue.deadline_votes < comment_protection_timing:
+    if not request.user.is_authenticated and issue.deadline_votes < comment_protection_timing:
         ctx['comments_hidden'] = True
 
     return render(request, 'issue/issue_detail.html', ctx)

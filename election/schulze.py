@@ -50,8 +50,8 @@ def get_ordered_voting_results(strongest_paths):
     # For all candidates, compare their path strengths in both directions, the candidate that has stronger path
     # wins the other candidate. Order them from the candidate that wins all others, to the one that wins none.
     wins = defaultdict(list)
-    for ci in strongest_paths.iterkeys():
-        for cj in strongest_paths.iterkeys():
+    for ci in strongest_paths.keys():
+        for cj in strongest_paths.keys():
 
             if ci == cj:
                 continue

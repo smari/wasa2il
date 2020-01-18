@@ -56,7 +56,7 @@ def topic_showstarred(request):
             polity = Polity.objects.get(id=polity)
             topics = polity.topic_set.listing_info(request.user)
             ctx["html"] = render_to_string("topic/_topic_list_table.html", {"topics": topics, "user": request.user, "polity": polity})
-        except Exception, e:
+        except Exception as e:
             ctx["error"] = e
 
     ctx["ok"] = True

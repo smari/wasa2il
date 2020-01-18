@@ -11,14 +11,14 @@ if __name__ != "__main__":
 else:
     _ = lambda x: x
 
-from pyvotecore.schulze_method import SchulzeMethod as Condorcet
-from pyvotecore.schulze_npr import SchulzeNPR as Schulze
-from pyvotecore.schulze_stv import SchulzeSTV
-from pyvotecore.stv import STV
+from py3votecore.schulze_method import SchulzeMethod as Condorcet
+from py3votecore.schulze_npr import SchulzeNPR as Schulze
+from py3votecore.schulze_stv import SchulzeSTV
+from py3votecore.stv import STV
 
 # This is the old custom Schulze code. For now we continue to use it by
 # default, silently comparing with results from pyvotecore (canarying).
-import schulze
+from election import schulze
 
 logger = logging.getLogger(__name__)
 
@@ -356,13 +356,16 @@ class BallotCounter(BallotAnalyzer):
     This class contains the results of an election, making it easy to
     tally up the results using a few different methods.
     """
+
+    # Voting systems that don't work after Python 3 / Django 2 upgrade, are
+    # commented out. In fact, they should be considered for removal.
     VOTING_SYSTEMS = (
         ('condorcet', _('Condorcet')),
         ('schulze', _('Schulze, ordered list')),
-        ('schulze_old', _('Schulze, ordered list (old)')),
-        ('schulze_new', _('Schulze, ordered list (new)')),
-        ('schulze_both', _('Schulze, ordered list (both)')),
-        ('stcom', _('Steering Committee Election')),
+        #('schulze_old', _('Schulze, ordered list (old)')),
+        #('schulze_new', _('Schulze, ordered list (new)')),
+        #('schulze_both', _('Schulze, ordered list (both)')),
+        #('stcom', _('Steering Committee Election')),
         ('stv1', _('STV, single winner')),
         ('stv2', _('STV, two winners')),
         ('stv3', _('STV, three winners')),
@@ -370,7 +373,7 @@ class BallotCounter(BallotAnalyzer):
         ('stv5', _('STV, five winners')),
         ('stv8', _('STV, eight winners')),
         ('stv10', _('STV, ten winners')),
-        ('stonethor', _('STV partition with Schulze ranking'))
+        #('stonethor', _('STV partition with Schulze ranking'))
     )
 
     def system_name(self, system):

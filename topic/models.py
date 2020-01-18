@@ -3,10 +3,12 @@ from datetime import datetime
 from django.conf import settings
 from django.db import models
 from django.db.models import BooleanField
+from django.db.models import CASCADE
 from django.db.models import Case
 from django.db.models import Count
 from django.db.models import IntegerField
 from django.db.models import Q
+from django.db.models import SET_NULL
 from django.db.models import When
 from django.utils.translation import ugettext_lazy as _
 
@@ -22,14 +24,14 @@ class TopicQuerySet(models.QuerySet):
         topics = self
         now = datetime.now()
 
-        if not user.is_anonymous():
+        if not user.is_anonymous:
             if not UserProfile.objects.get(user=user).topics_showall:
                 topics = topics.filter(usertopic__user=user)
 
             # Annotate the user's favoriteness of topics. Note that even though
             # it's intended as a boolean, it is actually produced as an integer.
             # So it's 1/0, not True/False.
-            if not user.is_anonymous():
+            if not user.is_anonymous:
                 topics = topics.annotate(
                     favorited=Count(
                         Case(
@@ -76,12 +78,26 @@ class Topic(models.Model):
 
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
 
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='topic_created_by')
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, editable=False, null=True, blank=True, related_name='topic_modified_by')
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='topic_created_by',
+        on_delete=SET_NULL
+    )
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        editable=False,
+        null=True,
+        blank=True,
+        related_name='topic_modified_by',
+        on_delete=SET_NULL
+    )
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    polity = models.ForeignKey('polity.Polity')
+    polity = models.ForeignKey('polity.Polity', on_delete=CASCADE)
 
     class Meta:
         ordering = ["name"]
@@ -89,14 +105,14 @@ class Topic(models.Model):
     def new_comments(self):
         return Comment.objects.filter(issue__topics=self).order_by("-created")[:10]
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s' % (self.name)
 
 
 class UserTopic(models.Model):
     """Whether a user likes a topic."""
-    topic = models.ForeignKey('topic.Topic')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    topic = models.ForeignKey('topic.Topic', on_delete=CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
 
     class Meta:
         unique_together = (("topic", "user"),)

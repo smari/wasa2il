@@ -2,7 +2,7 @@
 # Django settings for wasa2il project.
 
 import os
-from utils import here
+from wasa2il.utils import here
 from datetime import datetime
 from hashlib import sha256
 
@@ -117,7 +117,7 @@ if not GCM_APP_ID:  # We cannot have push notifications without a registered app
 with open(os.path.join(BASE_DIR, 'VERSION'), 'r') as f:
     WASA2IL_VERSION = f.readlines().pop(0).strip()
     h = sha256()
-    h.update("%s:%s" % (WASA2IL_VERSION, datetime.now()))
+    h.update(("%s:%s" % (WASA2IL_VERSION, datetime.now())).encode('utf-8'))
     WASA2IL_HASH = h.hexdigest()[:7]
 
 
@@ -228,7 +228,7 @@ STATICFILES_FINDERS = (
 
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'cookiesdirective.middleware.CookiesDirectiveMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'languagecontrol.middleware.LanguageControlMiddleware',
@@ -238,10 +238,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'core.middleware.GlobalsMiddleware',
     'core.middleware.AutoLogoutMiddleware',
     'termsandconditions.middleware.TermsAndConditionsRedirectMiddleware',
     'core.middleware.SamlMiddleware',
+    'core.middleware.GlobalsMiddleware',
 )
 try:
     MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
@@ -265,9 +265,9 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'core.contextprocessors.globals',
                 'core.contextprocessors.auto_logged_out',
                 'polity.contextprocessors.polities',
+                'core.contextprocessors.globals',
             ],
         },
     }
@@ -396,6 +396,6 @@ if DEBUG:
 
 if DEBUG:
     print("============ Wasa2il Features ============")
-    for feature, enabled in FEATURES.iteritems():
+    for feature, enabled in FEATURES.items():
         print(" - %-25s      %8s" % (feature, ["DISABLED", "ENABLED"][enabled]))
     print("==========================================")

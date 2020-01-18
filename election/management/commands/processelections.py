@@ -16,18 +16,18 @@ class Command(BaseCommand):
 
         try:
             if not settings.BALLOT_SAVEFILE_FORMAT:
-                print
-                print 'WARNING! This command will permanently delete EVERY ballot of EVERY election!'
-                print 'Only do this if you know what you\'re doing. You have been warned.'
-                print
+                print()
+                print('WARNING! This command will permanently delete EVERY ballot of EVERY election!')
+                print('Only do this if you know what you\'re doing. You have been warned.')
+                print()
                 response = ''
                 while response != 'yes' and response != 'no':
                     response = raw_input('Are you REALLY certain that you wish to proceed? (yes/no) ').lower()
 
                 if response == 'no':
-                    print
-                    print 'Chicken.'
-                    print
+                    print()
+                    print('Chicken.')
+                    print()
                     return
 
             elections = Election.objects.filter(is_processed=False)
