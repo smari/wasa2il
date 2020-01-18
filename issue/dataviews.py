@@ -95,7 +95,7 @@ def issue_poll(request):
     if issue.issue_state() == 'concluded':
         ctx["issue"]["votecount_abstain"] = issue.votecount_abstain
     ctx["ok"] = True
-    if not request.user.is_anonymous():
+    if not request.user.is_anonymous:
         try:
             v = Vote.objects.get(user=request.user, issue=issue)
             ctx["issue"]["vote"] = v.value

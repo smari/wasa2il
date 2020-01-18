@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls import handler500
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.views import static
 
 from registration.backends.default.views import RegistrationView
@@ -17,7 +17,7 @@ urlpatterns = [
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^admintools/$', core_views.view_admintools, name='admin_tools'),
     url(r'^admintools/push/$', core_views.view_admintools_push, name='admin_tools_push'),
     # Enabling i18n language changes per
@@ -45,9 +45,8 @@ urlpatterns = [
     ),
     url(
         r'^accounts/password/reset/$',
-        auth_views.password_reset,
+        auth_views.PasswordResetView.as_view(),
         {
-            'post_reset_redirect': reverse_lazy('auth_password_reset_done'),
             'email_template_name': 'registration/password_reset_email.txt',
             'html_email_template_name': 'registration/password_reset_email.html',
         },
@@ -58,7 +57,7 @@ urlpatterns = [
     url(r'^accounts/verify/', core_views.verify),
     url(r'^accounts/login-or-saml-redirect/', core_views.login_or_saml_redirect, name='login_or_saml_redirect'),
 
-    url(r'^accounts/', include('registration.urls')),
+    url(r'^accounts/', include('registration.backends.default.urls')),
 
     url(r'^help/$', TemplateView.as_view(template_name='help/is/index.html')),
     url(r'^help/(?P<page>.*)/$', core_views.help),

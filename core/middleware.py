@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.urls import resolve
+from django.utils.deprecation import MiddlewareMixin
 
 from core.models import UserProfile
 
@@ -13,7 +14,7 @@ from django.contrib import auth
 from datetime import datetime, timedelta
 
 # A middleware to make certain variables available to both templates and views.
-class GlobalsMiddleware():
+class GlobalsMiddleware(MiddlewareMixin):
     def process_request(self, request):
 
         global_vars = {
@@ -36,7 +37,7 @@ class GlobalsMiddleware():
                     'wranglers'
                 ).get(id=polity_id)
 
-                if not request.user.is_anonymous():
+                if not request.user.is_anonymous:
                     global_vars['user_is_member'] = request.user in polity.members.all()
                     global_vars['user_is_officer'] = request.user in polity.officers.all()
                     # Officers are automatically wranglers.
@@ -54,13 +55,13 @@ class GlobalsMiddleware():
 
 # Middleware for automatically logging out a user once AUTO_LOGOUT_DELAY
 # seconds have been reached without activity.
-class AutoLogoutMiddleware():
+class AutoLogoutMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if hasattr(settings, 'AUTO_LOGOUT_DELAY'):
 
             now = datetime.now()
 
-            if not request.user.is_authenticated() :
+            if not request.user.is_authenticated :
                 # Set the last visit to now when attempting to log in, so that
                 # auto-logout feature doesn't immediately log the user out
                 # when the user is already logged out but the session is still
@@ -82,7 +83,7 @@ class AutoLogoutMiddleware():
 
 # Middleware for requiring SAML verification before allowing a logged in user
 # to do anything else.
-class SamlMiddleware(object):
+class SamlMiddleware(MiddlewareMixin):
     def process_request(self, request):
 
         if settings.SAML['URL']: # Is SAML support enabled?
@@ -98,7 +99,7 @@ class SamlMiddleware(object):
                 '/accounts/logout/',
                 '/accounts/login-or-saml-redirect/'
             ] or any([request.path_info.find(p) == 0 for p in exclude_urls])
-            logged_in = request.user.is_authenticated()
+            logged_in = request.user.is_authenticated
             verified = request.user.userprofile.verified if logged_in else False
 
             if logged_in and not verified and not path_ok:
@@ -108,7 +109,7 @@ class SamlMiddleware(object):
     def process_response(self, request, response):
 
         if settings.SAML['URL'] and hasattr(request, 'user'):
-            logged_in = request.user.is_authenticated()
+            logged_in = request.user.is_authenticated
             verified = request.user.userprofile.verified if logged_in else False
             just_logged_in = (
                 request.path == '/accounts/login/'

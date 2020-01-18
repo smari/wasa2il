@@ -41,7 +41,7 @@ def issuevoted(issue, user):
             return False
 
         return True
-    except Exception, e:
+    except Exception:
         return False
 
 
@@ -83,7 +83,7 @@ def thumbnail(file, size='104x104'):
         return thumb_url
 
     except Exception as e:
-        print 'Error: %s' % e
+        print('Error: %s' % e)
         return ""
 
 

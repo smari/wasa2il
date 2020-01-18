@@ -20,7 +20,7 @@ This installation guide assumes familiarity with how Django apps work, how to co
 
 Start by copying the app in its entirety into your project, right alongside your other apps.
 
-Add `languagecontrol.middleware.LanguageControlMiddleware` to your `MIDDLEWARE_CLASSES` setting, before `LocaleMiddleware` but after `SessionMiddleware`.
+Add `languagecontrol.middleware.LanguageControlMiddleware` to your `MIDDLEWARE` setting, before `LocaleMiddleware` but after `SessionMiddleware`.
 
 Then add `languagecontrol` to the `INSTALLED_APPS` setting.
 

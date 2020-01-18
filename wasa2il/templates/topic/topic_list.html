@@ -25,7 +25,13 @@
         <th>{% trans "Issues" %}</th>
         <th>{% trans "Open Issues" %}</th>
         <th>{% trans "Voting Issues" %}</th>
-        <th><span class="fas fa-star"></span></th>
+        <th>
+          <a class="" id="topics_showstarred_toggle" onclick="topics_showstarred_toggle({{ polity.id }});">
+            <label class="form-check-label" for="defaultCheck1">
+              <span class="fas fa-star {% if user.userprofile.topics_showall %}icon-grey{% endif %}"></span>
+            </label>
+          </a>
+        </th>
     </tr>
     </thead>
     <tbody>

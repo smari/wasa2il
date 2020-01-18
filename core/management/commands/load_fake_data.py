@@ -83,7 +83,7 @@ class Command(BaseCommand):
             if reset:
                 User.objects.all().delete()
             for u, email, name in userlist:
-                try:
+                if User.objects.filter(username=u).first() is None:
                     if len(u) == 1:
                         users[u] = User.objects.create_user(u, password=u)
                         users[u].is_staff = True
@@ -93,15 +93,19 @@ class Command(BaseCommand):
                         users[u] = User.objects.create_user(u)
                     users[u].email = email
                     users[u].save()
-                    UserProfile(
-                        user=users[u],
-                        verified_ssn='%10.10d' % serial_ssn,
-                        joined_org=now - timedelta(hours=random.randint(0, 24 * 5))
-                        ).save()
+
+                    # Update the user's UserProfile with demo data.
+                    # (UserProfile is automatically created when User is
+                    # saved, via signal.
+                    up = users[u].userprofile
+                    up.verified_ssn = '%10.10d' % serial_ssn,
+                    up.joined_org = now - timedelta(hours=random.randint(0, 24 * 5))
+                    up.save()
+
                     serial_ssn += 1
-                except IntegrityError:
+                else:
                     # User already exists
-                    users[u] = User.objects.get(email=email)
+                    users[u] = User.objects.get(username=u)
 
         print 'Generating/updating 4 polities of varying sizes ...'
         pollist = [
@@ -136,9 +140,10 @@ class Command(BaseCommand):
                     polity=p,
                     name='Silly rules',
                     issue_majority=50,
-                    issue_discussion_time=24*3600,
-                    issue_proposal_time=24*3600,
-                    issue_vote_time=24*3600).save()
+                    issue_discussion_time=timedelta(hours=24),
+                    issue_proposal_time=timedelta(hours=24),
+                    issue_vote_time=timedelta(hours=24)
+                ).save()
                 new = True
             polities[u] = (p, size)
 

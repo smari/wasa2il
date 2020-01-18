@@ -3,15 +3,16 @@ import os
 import re
 import json
 
-from base_classes import NameSlugBase
 from datetime import datetime, timedelta
 from django.conf import settings
 from django.db import models
 from django.db.models import BooleanField
+from django.db.models import CASCADE
 from django.db.models import Case
 from django.db.models import Count
 from django.db.models import IntegerField
 from django.db.models import Q
+from django.db.models import SET_NULL
 from django.db.models import When
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -27,7 +28,7 @@ import inspect
 
 class UserProfile(models.Model):
     """A user's profile data. Contains various informative areas, plus various settings."""
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
 
     # Verification
     # Field `verified_token` was used with SAML 1.2 whereas
@@ -87,7 +88,7 @@ class UserProfile(models.Model):
 
         super(UserProfile, self).save(*largs, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
 
     def get_polity_ids(self):
@@ -107,7 +108,7 @@ def get_name(user):
         try:
             name = user.userprofile.displayname
         except AttributeError:
-            print 'User with id %d missing profile?' % user.id
+            print('User with id %d missing profile?' % user.id)
             pass
 
     if not name:
@@ -147,7 +148,7 @@ User.tasks_percent = tasks_percent
 
 class Event(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=SET_NULL)
     module = models.CharField(max_length=32, blank=False)
     action = models.CharField(max_length=32, blank=False)
     category = models.CharField(max_length=64, blank=True)

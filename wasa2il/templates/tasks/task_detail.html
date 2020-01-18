@@ -3,6 +3,17 @@
 {% load wasa2il %}
 {% block content %}
 
+<script>
+
+$(document).ready(function() {
+    $('#checkbox-share-contact').click(function() {
+        var enabled = $(this).prop('checked');
+        $('#apply-form input[type="submit"]').prop('disabled', enabled ? '' : 'disabled');
+    });
+});
+
+</script>>
+
 {% include 'tasks/dialog_task_delete.html' %}
 
 <section class="content">
@@ -111,11 +122,18 @@
                 </div>
                 {% if phone_required %}
                     <div class="task__why-me-messages">
-                    {% trans 'In order to volunteer, you must provide your phone number in your user profile, so that we can contact you regarding the task.' %}
+                    <p>{% trans 'In order to volunteer, you must provide your phone number in your user profile, so that we can contact you regarding the task.' %}</p>
+                    <a href="{% url 'account_settings' %}?redirect={{ request.get_full_path }}" class="btn btn-default">{% trans 'Settings' %}</a>
+                    <small>{% trans '(You will be redirected back to this task.)' %}</small>
                     </div>
                 {% endif %}
                 <div class="task__form-fields js-form-fields">
-                    <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans "Apply" %}" {% if phone_required %}disabled="disabled"{% endif %}>
+
+                    {% if not phone_required %}
+                        <label><input type="checkbox" id="checkbox-share-contact" /> {% blocktrans %}I accept that the task's wrangler will have access to my contact data.{% endblocktrans %}</label>
+                    {% endif %}
+
+                    <input class="btn btn-primary btn-lg pull-right" type="submit" value="{% trans 'Apply' %}" disabled="disabled">
                 </div>
             {% elif task.is_done %}
                 <div class="task__why-me-messages">

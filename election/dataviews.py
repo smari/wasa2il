@@ -32,8 +32,8 @@ def _ordered_candidates(user, all_candidates, candidates):
     if len(all_candidates) < 1:
         return []
 
-    if user.is_authenticated():
-        randish = int(md5(repr(user) + str(user.id)).hexdigest()[:8], 16)
+    if user.is_authenticated:
+        randish = int(md5((repr(user) + str(user.id)).encode('utf-8')).hexdigest()[:8], 16)
     else:
         randish = random.randint(0, 0xffffff)
 
@@ -64,7 +64,7 @@ def election_poll(request, **kwargs):
     all_candidates = election.get_candidates()
 
     ctx = {
-        "logged_out": not request.user.is_authenticated(),
+        "logged_out": not request.user.is_authenticated,
         "election": {
             "user_is_candidate":
                 (request.user in [x.user for x in election.candidate_set.all()]),
@@ -92,7 +92,7 @@ def election_poll(request, **kwargs):
             "candidates": election.get_vote(request.user),
             "candidate_selected": True})
 
-    for k, v in kwargs.iteritems():
+    for k, v in kwargs.items():
         ctx["election"][k] = v
 
     ctx["ok"] = kwargs.get("ok", True)
@@ -136,7 +136,7 @@ def election_vote(request):
     ctx = {}
     ctx["ok"] = True
 
-    logged_in = request.user.is_authenticated()
+    logged_in = request.user.is_authenticated
     can_vote = logged_in and election.can_vote(request.user)
     if not (logged_in and can_vote and election.election_state() == 'voting'):
         ctx["please_login"] = not logged_in

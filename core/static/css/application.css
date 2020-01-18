@@ -156,10 +156,6 @@ footer {
     justify-content: flex-end;
     align-content: flex-start; }
 
-div.prosemirror-editor {
-  margin-left: 0px !important;
-  margin-top: 0px !important; }
-
 #wrapper {
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;

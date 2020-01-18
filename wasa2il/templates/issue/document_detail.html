@@ -69,8 +69,6 @@
 
         <form id="propose-change" action="." method="post">
             {% csrf_token %}
-            <link href="/static/prosemirror/widget.min.css" type="text/css" media="all" rel="stylesheet">
-            <script type="text/javascript" src="/static/prosemirror/widget.min.js"></script>
             <input type="hidden" name="v" value="{{ current_content.order }}" />
 
             {% if not user.is_anonymous and buttons_enabled %}

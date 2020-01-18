@@ -13,11 +13,11 @@ import base64
 import hmac
 import hashlib
 import urllib
-from urlparse import parse_qs
+from urllib.parse import parse_qs
 # SSO done
 
 from django.contrib.auth import logout
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render
 from django.shortcuts import redirect, get_object_or_404
 from django.http import JsonResponse
@@ -85,7 +85,7 @@ def home(request):
     # If no polities have been created yet...
     if Polity.objects.count() == 0:
         # ...create one, if we have the access.
-        if request.user.is_authenticated() and request.user.is_staff:
+        if request.user.is_authenticated and request.user.is_staff:
             return HttpResponseRedirect(reverse('polity_add'))
 
         # If we're logged out or don't have staff access, display welcome page.
@@ -175,7 +175,7 @@ def profile(request, username=None):
     # Determine if we're looking up the currently logged in user or someone else.
     if username:
         profile_user = get_object_or_404(User, username=username)
-    elif request.user.is_authenticated():
+    elif request.user.is_authenticated:
         profile_user = request.user
     else:
         return HttpResponseRedirect(settings.LOGIN_URL)
@@ -319,7 +319,14 @@ def view_settings(request):
                 # changes, so we need to ask the database explicitly.
                 update_member(User.objects.get(id=request.user.id))
 
-            return redirect(reverse('profile'))
+            # Certain features in the project may require particular settings
+            # (like having entered a phone number) to be set, in which case
+            # the user will be sent to the settings page but should be
+            # redirected back to what they were doing before.
+            if 'redirect' in request.GET:
+                return redirect(request.GET.get('redirect'))
+            else:
+                return redirect(reverse('profile'))
 
     else:
         form = UserProfileForm(initial={'email': request.user.email}, instance=profile)
@@ -399,7 +406,7 @@ def personal_data_fetch(request):
                 indent=4,
                 sort_keys=True,
                 ensure_ascii=False
-            ).encode('utf-8')
+            )
 
             f.write(output)
             f.close()
@@ -551,7 +558,7 @@ def personal_data_fetch(request):
         make_zipfile('%s.zip' % package_name, package_name)
 
         # Get the content for delivery, before it vanishes.
-        with open('%s.zip' % package_name, 'r') as f:
+        with open('%s.zip' % package_name, 'rb') as f:
             package_data = f.read()
 
     # At this point, the local temporary files should have been deleted, even

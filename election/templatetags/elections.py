@@ -21,7 +21,7 @@ def sparkline(variable, skip_last=False):
     if not variable:
         return ''
     if isinstance(variable, dict):
-        pairs = sorted([(k, v) for k, v in variable.iteritems()])
+        pairs = sorted([(k, v) for k, v in variable.items()])
         sparkline = [0] * (pairs[-1][0] + 1)
         for i, v in pairs:
             sparkline[i] = v

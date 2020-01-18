@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from core.models import User
 from tasks.models import Task, TaskRequest
@@ -96,7 +96,7 @@ def task_detail(request, polity_id, task_id):
     has_applied = False
     phone_required = False
 
-    if user.is_authenticated():
+    if user.is_authenticated:
 
         polity = get_object_or_404(Polity, id=polity_id)
 

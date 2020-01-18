@@ -6,10 +6,10 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from election.forms import ElectionForm
 from election.models import Election
@@ -59,7 +59,7 @@ def election_view(request, polity_id, election_id):
     # candidacy. To try and attain both goals, we require a login for older
     # elections.
     election_protection_timing = datetime.now() - timedelta(days=settings.RECENT_ISSUE_DAYS)
-    if not request.user.is_authenticated() and election.deadline_votes < election_protection_timing:
+    if not request.user.is_authenticated and election.deadline_votes < election_protection_timing:
         return redirect_to_login(request.path)
 
     voting_interface_enabled = election.election_state() == 'voting' and election.can_vote(request.user)

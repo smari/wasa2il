@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib import auth
 
-from models import UserProfile
+from core.models import UserProfile
 
 
 def getDerivedAdmin(base_admin, **kwargs):
