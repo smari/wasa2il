@@ -52,6 +52,7 @@ urlpatterns = [
         },
         name='auth_password_reset'
     ),
+    url(r'^accounts/reset-password/done/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
 
     # SAML-related URLs.
     url(r'^accounts/verify/', core_views.verify),
