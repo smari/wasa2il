@@ -89,7 +89,7 @@ class UserProfile(models.Model):
         super(UserProfile, self).save(*largs, **kwargs)
 
     def __str__(self):
-        return u'Profile for %s (%d)' % (unicode(self.user), self.user.id)
+        return u'Profile for %s (%d)' % (self.user, self.user.id)
 
     def get_polity_ids(self):
         return [x.id for x in self.user.polities.all()]
