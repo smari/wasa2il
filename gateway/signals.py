@@ -7,7 +7,6 @@ from core.signals import user_verified
 from gateway.utils import add_member
 from gateway.utils import apply_member_locally
 from gateway.utils import get_member
-from gateway.utils import response_to_results
 from gateway.utils import update_member
 from gateway.utils import user_to_member_args
 
