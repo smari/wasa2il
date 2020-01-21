@@ -625,13 +625,31 @@ class Wasa2ilActivationView(ActivationView):
         return '%s?returnTo=%s' % (reverse('tc_accept_page'), reverse('login_or_saml_redirect'))
 
 
-@login_required
 @csrf_exempt
 def verify(request):
-    token = request.POST.get('token')
 
+    if request.method != 'POST':
+        raise Http404
+
+    token = request.POST.get('token')
     if not token:
         return HttpResponseRedirect(settings.SAML['URL'])
+
+    if not request.user.is_authenticated:
+        # This means that we have received (or should have received) a SAML
+        # XML file via the form variable "token", POST-ed from the IceKey
+        # website. In order to figure out which user that SAML document
+        # belongs to, the user must be already logged in. However, since at
+        # least Django 2.1, session cookies are set with the SameSite property
+        # set to "Lax", which means that the session is not initialized on
+        # POST page loads if the POST originates from another website, which
+        # is exactly what the IceKey website does. Thus, on the page load that
+        # receives the SAML XML file, the user is not logged in and thus we
+        # cannot determine which user the SAML XML file belongs to. To remedy
+        # this, we will grab the token if the user is not logged in (because
+        # of the SameSite restriction), place it in an HTML form and
+        # automatically submit it to the same page again.
+        return render(request, 'registration/verification_autopost.html', {'token': token})
 
     # XML is received as a base64-encoded string.
     input_xml = b64decode(token)
@@ -649,7 +667,6 @@ def verify(request):
             'name': auth['Name'].encode('utf8'),
         }
         return render(request, 'registration/verification_invalid_entity.html', ctx)
-
 
     # Make sure that user has reached the minimum required age, if applicable.
     if hasattr(settings, 'AGE_LIMIT') and settings.AGE_LIMIT > 0:
@@ -674,7 +691,7 @@ def verify(request):
 
     profile = request.user.userprofile  # It shall exist at this point
     profile.verified_ssn = auth['UserSSN']
-    profile.verified_name = auth['Name'].encode('utf8')
+    profile.verified_name = auth['Name']
     profile.verified_assertion_id = assertion_id
     profile.verified_timing = datetime.now()
     profile.save()
