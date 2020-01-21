@@ -723,7 +723,7 @@ def sso(request):
     if not hasattr(settings, 'DISCOURSE_URL'):
         raise Http404
 
-    key = str(settings.DISCOURSE_SECRET)
+    key = str(settings.DISCOURSE_SECRET).encode('utf-8')
     return_url = '%s/session/sso_login' % settings.DISCOURSE_URL
 
     payload = request.GET.get('sso')
@@ -733,10 +733,10 @@ def sso(request):
         return HttpResponseBadRequest('Required parameters missing.')
 
     try:
-        payload = urllib.unquote(payload)
-        decoded = base64.decodestring(payload)
-        assert 'nonce' in decoded
-        assert len(payload) > 0
+        payload = urllib.parse.unquote(payload).encode('utf-8')
+        decoded = base64.b64decode(payload).decode('utf-8')
+        if 'nonce' not in decoded or len(payload) == 0:
+            return HttpResponseBadRequest('Malformed payload.')
     except:
         return HttpResponseBadRequest('Malformed payload.')
 
@@ -759,9 +759,9 @@ def sso(request):
         'name': name,
     }
 
-    out_payload = base64.encodestring(urllib.urlencode(outbound))
+    out_payload = base64.b64encode(urllib.parse.urlencode(outbound).encode('utf-8'))
     out_signature = hmac.new(key, out_payload, digestmod=hashlib.sha256).hexdigest()
-    out_query = urllib.urlencode({'sso': out_payload, 'sig' : out_signature})
+    out_query = urllib.parse.urlencode({'sso': out_payload, 'sig' : out_signature})
 
     event_register('sso_signin', event={'client': 'discourse'}, user=request.user)
 
