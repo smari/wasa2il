@@ -45,11 +45,10 @@ urlpatterns = [
     ),
     url(
         r'^accounts/password/reset/$',
-        auth_views.PasswordResetView.as_view(),
-        {
-            'email_template_name': 'registration/password_reset_email.txt',
-            'html_email_template_name': 'registration/password_reset_email.html',
-        },
+        auth_views.PasswordResetView.as_view(
+            email_template_name='registration/password_reset_email.txt',
+            html_email_template_name='registration/password_reset_email.html'
+        ),
         name='auth_password_reset'
     ),
     url(r'^accounts/reset-password/done/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
