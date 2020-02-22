@@ -14,6 +14,10 @@ DEBUG=os.environ.get('W2_DEBUG', True)
 ALLOWED_HOSTS=os.environ.get('W2_ALLOWED_HOSTS', 'localhost').split(',')
 
 ADMINS=os.environ.get('W2_ADMINS', 'username,user@example.com').split(',')
+
+# Contact email address
+CONTACT_EMAIL=os.environ.get('W2_CONTACT_EMAIL', 'contact@example.com')
+
 BALLOT_SAVEFILE_FORMAT=os.environ.get('W2_BALLOT_SAVEFILE_FORMAT', 'elections/ballots-%(voting_system)s-%(election_id)s.json')
 
 ## Security settings

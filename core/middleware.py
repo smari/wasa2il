@@ -24,6 +24,7 @@ class GlobalsMiddleware(MiddlewareMixin):
             'user_is_wrangler': False,
             'WASA2IL_VERSION': settings.WASA2IL_VERSION,
             'WASA2IL_HASH': settings.WASA2IL_HASH,
+            'CONTACT_EMAIL': settings.CONTACT_EMAIL,
         }
 
         try:
