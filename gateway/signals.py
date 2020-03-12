@@ -4,6 +4,7 @@ from django.dispatch import receiver
 
 from core.signals import user_verified
 
+from gateway.exceptions import IcePirateException
 from gateway.utils import add_member
 from gateway.utils import apply_member_locally
 from gateway.utils import get_member
@@ -26,9 +27,9 @@ def login_sync(sender, user, request, **kwargs):
     if not user.userprofile.verified_ssn:
         return
 
-    success, member, error = get_member(user.userprofile.verified_ssn)
+    try:
+        success, member, error = get_member(user.userprofile.verified_ssn)
 
-    if success:
         apply_member_locally(member, user)
 
         # If the email address of the user and IcePirate registry member
@@ -39,7 +40,7 @@ def login_sync(sender, user, request, **kwargs):
         # end according to the IcePirate registry.
         if member['email'] != user.email:
             update_member(user)
-    else:
+    except:
         # If something went wrong, we'll be on the safe side of things and
         # remove membership from polities until we have confirmation from
         # IcePirate on which polities the user should have access to.
@@ -54,10 +55,8 @@ def verified_sync(sender, user, request, **kwargs):
     if not settings.ICEPIRATE['url']:
         return
 
-    success, member, error = get_member(user.userprofile.verified_ssn)
-
-    # Was the member already registered in the membership registry?
-    if success:
+    try:
+        success, member, error = get_member(user.userprofile.verified_ssn)
 
         # Have any of these values changed?
         changed = any([
@@ -74,7 +73,8 @@ def verified_sync(sender, user, request, **kwargs):
         if success: # Success may have changed since last time we asked.
             apply_member_locally(member, user)
 
-    elif error == 'No such member':
-        success, member, error = add_member(user)
-        if success:
-            apply_member_locally(member, user)
+    except IcePirateException as e:
+        if e.sub_msg == 'No such member':
+            success, member, error = add_member(user)
+            if success:
+                apply_member_locally(member, user)

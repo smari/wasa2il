@@ -45,7 +45,7 @@ def response_to_results(response):
     error = remote_data['error'] if 'error' in remote_data else None
 
     if error is not None:
-        raise IcePirateException('Error in communication with member database: %s' % error)
+        raise IcePirateException('Error in communication with member database: %s' % error, error)
 
     # TODO: The success-indicator and error are redundant because we are now
     # throwing an exception when something goes wrong.
