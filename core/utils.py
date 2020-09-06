@@ -53,7 +53,7 @@ def is_ssn_human_or_institution(ssn):
     return 'institution' if int(ssn[0:2]) > 31 else 'human'
 
 def random_word(length):
-    return ''.join(random.choice(string.lowercase) for i in range(length))
+    return ''.join(random.choice(string.ascii_lowercase) for i in range(length))
 
 
 ## Heartbeat command. Intended to be run either as a command
