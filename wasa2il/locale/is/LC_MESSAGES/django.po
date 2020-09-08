@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-22 12:14+0000\n"
+"POT-Creation-Date: 2020-09-08 15:02+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -246,10 +246,14 @@ msgid "STV, five winners"
 msgstr "STV, fimm sigurvegarar"
 
 #: election/utils.py:374
+msgid "STV, six winners"
+msgstr "STV, sex sigurvegarar"
+
+#: election/utils.py:375
 msgid "STV, eight winners"
 msgstr "STV, átta sigurvegarar"
 
-#: election/utils.py:375
+#: election/utils.py:376
 msgid "STV, ten winners"
 msgstr "STV, tíu sigurvegarar"
 
@@ -2463,7 +2467,8 @@ msgid ""
 "If you forgot your username, you can log in with your email address or SSN "
 "instead."
 msgstr ""
-"Ef þú hefur gleymt notendanafni þínu, þá má einnig nota netfang eða kennitölu til innskráningar."
+"Ef þú hefur gleymt notendanafni þínu, þá má einnig nota netfang eða "
+"kennitölu til innskráningar."
 
 #: wasa2il/templates/registration/login.html:16
 msgid "If problems arise, please send an email to the following email address:"

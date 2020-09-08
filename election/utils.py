@@ -371,6 +371,7 @@ class BallotCounter(BallotAnalyzer):
         ('stv3', _('STV, three winners')),
         ('stv4', _('STV, four winners')),
         ('stv5', _('STV, five winners')),
+        ('stv6', _('STV, six winners')),
         ('stv8', _('STV, eight winners')),
         ('stv10', _('STV, ten winners')),
         #('stonethor', _('STV partition with Schulze ranking'))
