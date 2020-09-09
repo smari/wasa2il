@@ -12,6 +12,9 @@ def polities(request):
             parent_children_map[polity.id] = []
 
         if polity.parent_id:
+            if polity.parent_id not in parent_children_map:
+                parent_children_map[polity.parent_id] = []
+
             parent_children_map[polity.parent_id].append(polity)
 
     # Result variable.
