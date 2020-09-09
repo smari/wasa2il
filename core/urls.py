@@ -1,7 +1,9 @@
 from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib.staticfiles.views import serve
+from django.urls import path
 
+from core import dataviews
 from core import views as core_views
 
 from django.views.generic.base import TemplateView
@@ -18,4 +20,6 @@ urlpatterns = [
     url(r'^OneSignalSDKUpdaterWorker.js', serve, kwargs={
             'path': 'js/OneSignalSDKWorker.js'}),
     url(r'^terms/', include('termsandconditions.urls')),
+
+    path('api/recent-activity/', dataviews.recent_activity),
 ]
