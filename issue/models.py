@@ -40,6 +40,15 @@ class Issue(models.Model):
         ('retracted', _('Retracted')),
     )
 
+    # Note: Not used as a set of options for a database field, but rather by
+    # the get_issue_state_display function below.
+    ISSUE_STATES = (
+        ('concluded', _('Concluded')),
+        ('voting', _('Voting')),
+        ('accepting_proposals', _('Accepting proposals')),
+        ('discussion', _('In discussion')),
+    )
+
     name = models.CharField(max_length=128, verbose_name=_('Name'), help_text=_(
         'A great issue name expresses the essence of a proposal as briefly as possible.'
     ))
@@ -187,6 +196,10 @@ class Issue(models.Model):
         else:
             return 'discussion'
 
+    # For displaying the issue state in human-readable form.
+    def get_issue_state_display(self):
+        return dict(self.ISSUE_STATES)[self.issue_state()].__str__()
+
     def discussions_closed(self):
         return timezone.now() > self.deadline_discussions
 
@@ -284,6 +297,9 @@ class Issue(models.Model):
                 result = float(self.votecount_yes) / self.votecount > float(self.majority_percentage) / 100
 
         return result
+
+    def get_majority_reached_display(self):
+        return _('Accepted').__str__() if self.majority_reached() else _('Rejected').__str__()
 
     def update_comment_count(self):
         self.comment_count = self.comment_set.count()

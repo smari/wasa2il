@@ -24,6 +24,15 @@ class Election(models.Model):
     """
     objects = ElectionQuerySet.as_manager()
 
+    # Note: Not used for model field options (at least not yet), but rather
+    # the get_election_state_display function below.
+    ELECTION_STATES = (
+        ('concluded', _('Concluded')),
+        ('voting', _('Voting')),
+        ('waiting', _('Waiting')),
+        ('accepting_candidates', _('Accepting candidates')),
+    )
+
     VOTING_SYSTEMS = BallotCounter.VOTING_SYSTEMS
 
     name = models.CharField(max_length=128, verbose_name=_('Name'))
@@ -263,13 +272,6 @@ class Election(models.Model):
             return max(self.starttime_votes, self.deadline_candidacy)
         return self.deadline_candidacy
 
-    ELECTION_STATES = (
-        ('concluded', _('Concluded')),
-        ('voting', _('Voting')),
-        ('waiting', _('Waiting')),
-        ('accepting_candidates', _('Accepting candidates')),
-    )
-
     def election_state(self):
         # Short-hands.
         now = datetime.now()
@@ -290,7 +292,7 @@ class Election(models.Model):
             return 'unknown'
 
     def get_election_state_display(self):
-        return dict(self.ELECTION_STATES)[self.election_state()]
+        return dict(self.ELECTION_STATES)[self.election_state()].__str__()
 
     def get_stats(self, user=None, load_users=True, rename_users=False):
         """Load stats from the DB and convert to pythonic format.
