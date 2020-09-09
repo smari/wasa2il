@@ -3,7 +3,7 @@ from polity.models import Polity
 # Context processor for showing menu list with polities.
 def polities(request):
 
-    polities = Polity.objects.all()
+    polities = Polity.objects.filter(is_listed=True)
 
     # The parent/children map is only to reduce database calls.
     parent_children_map = {}
@@ -30,7 +30,7 @@ def polities(request):
             add_to_menulist(polity_menulist, subpolity, depth + 1)
 
     # Add "root" polities with a depth of 0.
-    root_polities = Polity.objects.filter(parent_id=None)
+    root_polities = polities.filter(parent_id=None)
     if len(root_polities) == 1:
         # If there is only one root polity, we'll only want to add its
         # children, and not the root polity itself.
