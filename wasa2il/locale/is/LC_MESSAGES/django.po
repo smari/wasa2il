@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-08 15:02+0000\n"
+"POT-Creation-Date: 2020-09-09 20:21+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -65,8 +65,8 @@ msgstr "Samþykki fyrir póstsendingum"
 msgid "Message"
 msgstr ""
 
-#: core/models.py:47 election/models.py:29 issue/models.py:43
-#: issue/models.py:352 issue/models.py:410 polity/models.py:12
+#: core/models.py:47 election/models.py:38 issue/models.py:52
+#: issue/models.py:368 issue/models.py:426 polity/models.py:12
 #: tasks/models.py:50 topic/models.py:76
 msgid "Name"
 msgstr "Nafn"
@@ -122,75 +122,7 @@ msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 msgid "Add comment"
 msgstr "Bæta við ummælum"
 
-#: election/models.py:33 wasa2il/templates/election/election_view.html:7
-#: wasa2il/templates/election/election_view.html:144
-msgid "Voting system"
-msgstr "Talningarkerfi"
-
-#: election/models.py:42
-msgid "Results are ordered"
-msgstr "Niðurstöður eru raðaðar"
-
-#: election/models.py:50
-#, fuzzy
-#| msgid "Limit how many candidates we publish stats for"
-msgid ""
-"How many candidates will be publicly listed in the results of an election"
-msgstr "Takmarka fjölda frambjóðenda til að birta tölfræði um"
-
-#: election/models.py:53 wasa2il/templates/election/election_list.html:40
-#: wasa2il/templates/election/election_view.html:113
-msgid "Deadline for candidacies"
-msgstr "Framboðsfrestur"
-
-#: election/models.py:54 wasa2il/templates/election/election_view.html:119
-msgid "Election begins"
-msgstr "Kosning hefst"
-
-#: election/models.py:55 wasa2il/templates/election/election_list.html:41
-#: wasa2il/templates/election/election_view.html:7
-#: wasa2il/templates/election/election_view.html:125
-msgid "Election ends"
-msgstr "Kosningu lýkur"
-
-#: election/models.py:61 wasa2il/templates/election/election_view.html:140
-msgid "Voting polities"
-msgstr "Þing kjósenda"
-
-#: election/models.py:62 wasa2il/templates/election/election_view.html:135
-msgid "Candidate polities"
-msgstr "Þing frambjóðenda"
-
-#: election/models.py:66 wasa2il/templates/election/election_view.html:132
-msgid "Membership deadline"
-msgstr "Skráningarmörk kjósenda"
-
-#: election/models.py:69 wasa2il/templates/base.html:155
-msgid "Instructions"
-msgstr "Leiðbeiningar"
-
-#: election/models.py:72
-msgid "Statistics as JSON"
-msgstr "Tölfræði sem JSON"
-
-#: election/models.py:73
-msgid "Publish basic ballot statistics"
-msgstr "Gefa út grunntölfræði um atkvæði"
-
-#: election/models.py:74
-msgid "Publish ballot statistics for each candidate"
-msgstr "Gefa út tölfræði um atkvæði til hvers frambjóðanda"
-
-#: election/models.py:75
-msgid "Publish advanced statistics (downloadable)"
-msgstr "Gefa út ítarlega tölfræði (niðurhalanlega)"
-
-#: election/models.py:189
-#, python-format
-msgid "Election results in election '%s' have been calculated."
-msgstr ""
-
-#: election/models.py:267
+#: election/models.py:30 issue/models.py:46
 #: wasa2il/templates/election/_elections_recent_table.html:29
 #: wasa2il/templates/election/election_list.html:55
 #: wasa2il/templates/issue/_issues_recent_table.html:38
@@ -198,7 +130,7 @@ msgstr ""
 msgid "Concluded"
 msgstr "Lokið"
 
-#: election/models.py:268
+#: election/models.py:31 issue/models.py:47
 #: wasa2il/templates/election/_elections_recent_table.html:27
 #: wasa2il/templates/election/election_list.html:53
 #: wasa2il/templates/issue/_issues_recent_table.html:27
@@ -207,15 +139,83 @@ msgstr "Lokið"
 msgid "Voting"
 msgstr "Í kosningu"
 
-#: election/models.py:269
+#: election/models.py:32
 msgid "Waiting"
 msgstr "Í bið"
 
-#: election/models.py:270
+#: election/models.py:33
 #: wasa2il/templates/election/_elections_recent_table.html:23
 #: wasa2il/templates/election/election_list.html:49
 msgid "Accepting candidates"
 msgstr "Opið fyrir framboð"
+
+#: election/models.py:42 wasa2il/templates/election/election_view.html:7
+#: wasa2il/templates/election/election_view.html:144
+msgid "Voting system"
+msgstr "Talningarkerfi"
+
+#: election/models.py:51
+msgid "Results are ordered"
+msgstr "Niðurstöður eru raðaðar"
+
+#: election/models.py:59
+#, fuzzy
+#| msgid "Limit how many candidates we publish stats for"
+msgid ""
+"How many candidates will be publicly listed in the results of an election"
+msgstr "Takmarka fjölda frambjóðenda til að birta tölfræði um"
+
+#: election/models.py:62 wasa2il/templates/election/election_list.html:40
+#: wasa2il/templates/election/election_view.html:113
+msgid "Deadline for candidacies"
+msgstr "Framboðsfrestur"
+
+#: election/models.py:63 wasa2il/templates/election/election_view.html:119
+msgid "Election begins"
+msgstr "Kosning hefst"
+
+#: election/models.py:64 wasa2il/templates/election/election_list.html:41
+#: wasa2il/templates/election/election_view.html:7
+#: wasa2il/templates/election/election_view.html:125
+msgid "Election ends"
+msgstr "Kosningu lýkur"
+
+#: election/models.py:70 wasa2il/templates/election/election_view.html:140
+msgid "Voting polities"
+msgstr "Þing kjósenda"
+
+#: election/models.py:71 wasa2il/templates/election/election_view.html:135
+msgid "Candidate polities"
+msgstr "Þing frambjóðenda"
+
+#: election/models.py:75 wasa2il/templates/election/election_view.html:132
+msgid "Membership deadline"
+msgstr "Skráningarmörk kjósenda"
+
+#: election/models.py:78 wasa2il/templates/base.html:155
+msgid "Instructions"
+msgstr "Leiðbeiningar"
+
+#: election/models.py:81
+msgid "Statistics as JSON"
+msgstr "Tölfræði sem JSON"
+
+#: election/models.py:82
+msgid "Publish basic ballot statistics"
+msgstr "Gefa út grunntölfræði um atkvæði"
+
+#: election/models.py:83
+msgid "Publish ballot statistics for each candidate"
+msgstr "Gefa út tölfræði um atkvæði til hvers frambjóðanda"
+
+#: election/models.py:84
+msgid "Publish advanced statistics (downloadable)"
+msgstr "Gefa út ítarlega tölfræði (niðurhalanlega)"
+
+#: election/models.py:198
+#, python-format
+msgid "Election results in election '%s' have been calculated."
+msgstr ""
 
 #: election/utils.py:363
 msgid "Condorcet"
@@ -283,25 +283,35 @@ msgstr "Samþykkt á samkomu"
 msgid "Rejected at assembly"
 msgstr "Hafnað á samkomu"
 
-#: issue/models.py:40 issue/models.py:422
+#: issue/models.py:40 issue/models.py:438
 #: wasa2il/templates/issue/_issues_recent_table.html:31
 #: wasa2il/templates/issue/issues.html:57
 msgid "Retracted"
 msgstr "Dregin til baka"
 
-#: issue/models.py:44
+#: issue/models.py:48 wasa2il/templates/issue/_issues_recent_table.html:25
+#: wasa2il/templates/issue/issues.html:51
+msgid "Accepting proposals"
+msgstr "Opið fyrir tillögur"
+
+#: issue/models.py:49 wasa2il/templates/issue/_issues_recent_table.html:23
+#: wasa2il/templates/issue/issues.html:49
+msgid "In discussion"
+msgstr "Í umræðu"
+
+#: issue/models.py:53
 msgid ""
 "A great issue name expresses the essence of a proposal as briefly as "
 "possible."
 msgstr ""
 "Frábært málsnafn lýsir kjarna tillögunnar eins stuttlega og mögulegt er."
 
-#: issue/models.py:51 polity/models.py:15 topic/models.py:79
+#: issue/models.py:60 polity/models.py:15 topic/models.py:79
 #: wasa2il/templates/issue/document_detail.html:139
 msgid "Description"
 msgstr "Lýsing"
 
-#: issue/models.py:52
+#: issue/models.py:61
 msgid ""
 "An issue description is usually just a copy of the proposal's description, "
 "but you can customize it here if you so wish."
@@ -309,7 +319,7 @@ msgstr ""
 "Lýsing máls er venjulega afrit af lýsingu tillögunnar, en þú getur sérsniðið "
 "hana hér ef þú vilt."
 
-#: issue/models.py:75 wasa2il/templates/_sidenav_polity.html:45
+#: issue/models.py:84 wasa2il/templates/_sidenav_polity.html:45
 #: wasa2il/templates/issue/_agreements_list.html:12
 #: wasa2il/templates/polity/polity_detail.html:31
 #: wasa2il/templates/polity/polity_list.html:29
@@ -318,56 +328,58 @@ msgstr ""
 msgid "Topics"
 msgstr "Málaflokkar"
 
-#: issue/models.py:88
+#: issue/models.py:97
 msgid "Ruleset"
 msgstr "Reglur"
 
-#: issue/models.py:106 wasa2il/templates/issue/_issue_detail_metadata.html:28
+#: issue/models.py:115 wasa2il/templates/issue/_issue_detail_metadata.html:28
 #: wasa2il/templates/issue/issue_detail.html:79
 msgid "Special process"
 msgstr "Sérstakur ferill"
 
-#: issue/models.py:253
+#: issue/models.py:266
 #, fuzzy, python-format
 #| msgid "Show closed issues"
 msgid "Voting closed on issue '%s'."
 msgstr "Sýna lokuð mál"
 
-#: issue/models.py:346
-msgid "Policy"
-msgstr "Stefna"
-
-#: issue/models.py:347
-msgid "Bylaw"
-msgstr "Lög"
-
-#: issue/models.py:348
-msgid "Motion"
-msgstr "Ályktun"
-
-#: issue/models.py:349
-msgid "Other"
-msgstr "Annað"
-
-#: issue/models.py:418
-msgid "Proposed"
-msgstr "Tillaga"
-
-#: issue/models.py:419 wasa2il/templates/issue/_issue_detail_metadata.html:57
+#: issue/models.py:302 issue/models.py:435
+#: wasa2il/templates/issue/_issue_detail_metadata.html:57
 #: wasa2il/templates/issue/_issues_recent_table.html:33
 #: wasa2il/templates/issue/issue_detail.html:108
 #: wasa2il/templates/issue/issues.html:59
 msgid "Accepted"
 msgstr "Samþykkt"
 
-#: issue/models.py:420 wasa2il/templates/issue/_issue_detail_metadata.html:57
+#: issue/models.py:302 issue/models.py:436
+#: wasa2il/templates/issue/_issue_detail_metadata.html:57
 #: wasa2il/templates/issue/_issues_recent_table.html:35
 #: wasa2il/templates/issue/issue_detail.html:108
 #: wasa2il/templates/issue/issues.html:61
 msgid "Rejected"
 msgstr "Hafnað"
 
-#: issue/models.py:421
+#: issue/models.py:362
+msgid "Policy"
+msgstr "Stefna"
+
+#: issue/models.py:363
+msgid "Bylaw"
+msgstr "Lög"
+
+#: issue/models.py:364
+msgid "Motion"
+msgstr "Ályktun"
+
+#: issue/models.py:365
+msgid "Other"
+msgstr "Annað"
+
+#: issue/models.py:434
+msgid "Proposed"
+msgstr "Tillaga"
+
+#: issue/models.py:437
 msgid "Deprecated"
 msgstr "Úrelt"
 
@@ -378,28 +390,38 @@ msgstr "Úrelt"
 msgid "version"
 msgstr "útgáfa"
 
-#: polity/models.py:38 wasa2il/templates/polity/polity_detail.html:19
+#: polity/models.py:17
+msgid "Order"
+msgstr "Röðun"
+
+#: polity/models.py:17
+msgid ""
+"Optional, custom sort order. Polities with the same order are ordered by "
+"name."
+msgstr "Valkvæm, sérstillt röðun. Þingum með sömu tölu er raðað eftir nafni."
+
+#: polity/models.py:40 wasa2il/templates/polity/polity_detail.html:19
 #: wasa2il/templates/polity/polity_detail.html:32
 msgid "Officers"
 msgstr "Umsjónarmenn"
 
-#: polity/models.py:39 wasa2il/templates/polity/polity_detail.html:67
+#: polity/models.py:41 wasa2il/templates/polity/polity_detail.html:67
 msgid "Volunteer wranglers"
 msgstr "Umsjónarmenn sjálfboðaliða"
 
-#: polity/models.py:41
+#: polity/models.py:43
 msgid "Publicly listed?"
 msgstr "Listað opinberlega?"
 
-#: polity/models.py:41
+#: polity/models.py:43
 msgid "Whether the polity is publicly listed or not."
 msgstr "Hvort þingið sé listað opinberlega eður ei."
 
-#: polity/models.py:42
+#: polity/models.py:44
 msgid "Can only officers make new issues?"
 msgstr "Geta einungis umsjónarmenn búið til ný mál?"
 
-#: polity/models.py:42
+#: polity/models.py:44
 msgid ""
 "If this is checked, only officers can create new issues. If it's unchecked, "
 "any member can start a new issue."
@@ -407,11 +429,11 @@ msgstr ""
 "Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
 "allir meðlimir búið til ný mál."
 
-#: polity/models.py:43
+#: polity/models.py:45
 msgid "Front polity?"
 msgstr "Aðalþing?"
 
-#: polity/models.py:43
+#: polity/models.py:45
 msgid ""
 "If checked, this polity will be displayed on the front page. The first "
 "created polity automatically becomes the front polity."
@@ -419,31 +441,31 @@ msgstr ""
 "Ef hakað er við þetta verður þetta þing sýnt á forsíðunni. Fyrsta þingið sem "
 "búið er til verður sjálfkrafa að aðalþingi."
 
-#: polity/models.py:46
+#: polity/models.py:48
 msgid "Send notification when debate starts?"
 msgstr ""
 
-#: polity/models.py:48
+#: polity/models.py:50
 msgid "Send notification when issue goes to vote?"
 msgstr ""
 
-#: polity/models.py:50
+#: polity/models.py:52
 msgid "Send notification an hour before voting ends?"
 msgstr ""
 
-#: polity/models.py:52
+#: polity/models.py:54
 msgid "Send notification when voting ends?"
 msgstr ""
 
-#: polity/models.py:54
+#: polity/models.py:56
 msgid "Send notification when an election starts?"
 msgstr ""
 
-#: polity/models.py:56
+#: polity/models.py:58
 msgid "Send notification an hour before election ends?"
 msgstr ""
 
-#: polity/models.py:58
+#: polity/models.py:60
 msgid "Send notification when an election ends?"
 msgstr ""
 
@@ -2047,16 +2069,6 @@ msgstr "Þú hefur greitt atkvæði í þessu máli"
 #: wasa2il/templates/topic/topic_detail.html:37
 msgid "You have not voted on this issue"
 msgstr "Þú hefur ekki greitt atkvæði í þessu máli"
-
-#: wasa2il/templates/issue/_issues_recent_table.html:23
-#: wasa2il/templates/issue/issues.html:49
-msgid "In discussion"
-msgstr "Í umræðu"
-
-#: wasa2il/templates/issue/_issues_recent_table.html:25
-#: wasa2il/templates/issue/issues.html:51
-msgid "Accepting proposals"
-msgstr "Opið fyrir tillögur"
 
 #: wasa2il/templates/issue/_issues_recent_table.html:55
 msgid "There are no new issues at the moment."
