@@ -14,6 +14,8 @@ class Polity(models.Model):
 
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
 
+    order = models.IntegerField(default=1, verbose_name=_('Order'), help_text=_('Optional, custom sort order. Polities with the same order are ordered by name.'))
+
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         editable=False,
@@ -114,6 +116,9 @@ class Polity(models.Model):
 
     def __str__(self):
         return u'%s' % (self.name)
+
+    class Meta:
+        ordering = ['order', 'name']
 
 
 class PolityRuleset(models.Model):

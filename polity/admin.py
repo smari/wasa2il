@@ -6,7 +6,7 @@ from polity.models import PolityRuleset
 
 class PolityAdmin(admin.ModelAdmin):
     fieldsets = None
-    list_display = ['name', 'slug', 'description', 'parent']
+    list_display = ['name', 'slug', 'order', 'description', 'parent']
 
 
 register = admin.site.register
