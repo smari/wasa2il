@@ -427,9 +427,9 @@ class DocumentContent(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=PROTECT)
     document = models.ForeignKey('issue.Document', on_delete=CASCADE)
     created = models.DateTimeField(auto_now_add=True)
-    text = models.TextField()
+    text = models.TextField(verbose_name=_('Text'))
     order = models.IntegerField(default=1)
-    comments = models.TextField(blank=True)
+    comments = models.TextField(verbose_name=_('Description'), blank=True)
     STATUS_CHOICES = (
         ('proposed', _('Proposed')),
         ('accepted', _('Accepted')),
