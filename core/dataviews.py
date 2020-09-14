@@ -76,7 +76,7 @@ def recent_activity(request):
         # applicable to this section as well.
         elections.append({
             'url': request.build_absolute_uri(reverse('election', args=(q_election.polity_id, q_election.id))),
-            'polity': q_issue.polity.name,
+            'polity': q_election.polity.name,
             'name': q_election.name,
             'state': q_election.election_state(),
             'state_human_readable': q_election.get_election_state_display(),
