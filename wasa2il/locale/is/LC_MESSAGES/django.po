@@ -270,10 +270,8 @@ msgid "Main page"
 msgstr "Forsíða"
 
 #: issue/forms.py:53
-#, fuzzy
-#| msgid "Change proposal must differ from its predecessor."
 msgid "Content must differ from previous version"
-msgstr "Breytingatillaga verður að vera öðruvísi en upprunatexti."
+msgstr "Texti verður að vera frábrugðinn fyrri útgáfu."
 
 #: issue/models.py:38
 msgid "Accepted at assembly"
@@ -2120,7 +2118,7 @@ msgstr "Breyta tillögu"
 #: wasa2il/templates/issue/document_detail.html:109
 #: wasa2il/templates/issue/document_detail.html:111
 msgid "Put to vote"
-msgstr "Setja í kosningu"
+msgstr "Setja í atkvæðagreiðslu"
 
 #: wasa2il/templates/issue/document_detail.html:125
 msgid "Referenced issue"
@@ -2171,10 +2169,8 @@ msgid "agreements found"
 msgstr "samþykktir fundnar"
 
 #: wasa2il/templates/issue/documentcontent_add.html:13
-#, fuzzy
-#| msgid "Edit proposal"
 msgid "Add proposal"
-msgstr "Breyta tillögu"
+msgstr "Bæta við tillögu"
 
 #: wasa2il/templates/issue/issue_detail.html:5
 #: wasa2il/templates/issue/issue_detail_remake.html:5
