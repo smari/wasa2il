@@ -28,6 +28,9 @@ def recent_activity(request):
             # The polity to which this issue belongs.
             'polity': q_issue.polity.name,
 
+            # The polity's short name, if available.
+            'polity_shortname': q_issue.polity.name_short,
+
             # A unique identifier for formal reference. Example: 6/2019
             'log_number': '%d/%d' % (q_issue.issue_num, q_issue.issue_year),
 
@@ -77,6 +80,7 @@ def recent_activity(request):
         elections.append({
             'url': request.build_absolute_uri(reverse('election', args=(q_election.polity_id, q_election.id))),
             'polity': q_election.polity.name,
+            'polity_shortname': q_election.polity.name_short,
             'name': q_election.name,
             'state': q_election.election_state(),
             'state_human_readable': q_election.get_election_state_display(),

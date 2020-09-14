@@ -10,6 +10,7 @@ from django.db.models import SET_NULL
 class Polity(models.Model):
     """A political entity. See the manual."""
     name = models.CharField(max_length=128, verbose_name=_('Name'))
+    name_short = models.CharField(max_length=30, verbose_name=_('Short name'), help_text=_('Optional. Could be an abbreviation or acronym, for example.'), default='')
     slug = models.SlugField(max_length=128, blank=True)
 
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
