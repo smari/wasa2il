@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-09 20:21+0000\n"
+"POT-Creation-Date: 2020-09-14 16:29+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -304,8 +304,8 @@ msgid ""
 msgstr ""
 "Frábært málsnafn lýsir kjarna tillögunnar eins stuttlega og mögulegt er."
 
-#: issue/models.py:60 polity/models.py:15 topic/models.py:79
-#: wasa2il/templates/issue/document_detail.html:139
+#: issue/models.py:60 issue/models.py:432 polity/models.py:16
+#: topic/models.py:79 wasa2il/templates/issue/document_detail.html:139
 msgid "Description"
 msgstr "Lýsing"
 
@@ -373,6 +373,11 @@ msgstr "Ályktun"
 msgid "Other"
 msgstr "Annað"
 
+#: issue/models.py:430 wasa2il/templates/election/election_view.html:257
+#: wasa2il/templates/issue/stub/document_view.html:84
+msgid "Text"
+msgstr "Texti"
+
 #: issue/models.py:434
 msgid "Proposed"
 msgstr "Tillaga"
@@ -388,38 +393,46 @@ msgstr "Úrelt"
 msgid "version"
 msgstr "útgáfa"
 
-#: polity/models.py:17
+#: polity/models.py:13
+msgid "Short name"
+msgstr "Stuttnefni"
+
+#: polity/models.py:13
+msgid "Optional. Could be an abbreviation or acronym, for example."
+msgstr "Valkvæmt. Gæti verið stytt útgáfa af nafninu eða skammstöfun, til dæmis."
+
+#: polity/models.py:18
 msgid "Order"
 msgstr "Röðun"
 
-#: polity/models.py:17
+#: polity/models.py:18
 msgid ""
 "Optional, custom sort order. Polities with the same order are ordered by "
 "name."
 msgstr "Valkvæm, sérstillt röðun. Þingum með sömu tölu er raðað eftir nafni."
 
-#: polity/models.py:40 wasa2il/templates/polity/polity_detail.html:19
+#: polity/models.py:41 wasa2il/templates/polity/polity_detail.html:19
 #: wasa2il/templates/polity/polity_detail.html:32
 msgid "Officers"
 msgstr "Umsjónarmenn"
 
-#: polity/models.py:41 wasa2il/templates/polity/polity_detail.html:67
+#: polity/models.py:42 wasa2il/templates/polity/polity_detail.html:67
 msgid "Volunteer wranglers"
 msgstr "Umsjónarmenn sjálfboðaliða"
 
-#: polity/models.py:43
+#: polity/models.py:44
 msgid "Publicly listed?"
 msgstr "Listað opinberlega?"
 
-#: polity/models.py:43
+#: polity/models.py:44
 msgid "Whether the polity is publicly listed or not."
 msgstr "Hvort þingið sé listað opinberlega eður ei."
 
-#: polity/models.py:44
+#: polity/models.py:45
 msgid "Can only officers make new issues?"
 msgstr "Geta einungis umsjónarmenn búið til ný mál?"
 
-#: polity/models.py:44
+#: polity/models.py:45
 msgid ""
 "If this is checked, only officers can create new issues. If it's unchecked, "
 "any member can start a new issue."
@@ -427,11 +440,11 @@ msgstr ""
 "Ef þetta er valið geta einungis umsjónarmenn búið til ný mál. Ellegar geta "
 "allir meðlimir búið til ný mál."
 
-#: polity/models.py:45
+#: polity/models.py:46
 msgid "Front polity?"
 msgstr "Aðalþing?"
 
-#: polity/models.py:45
+#: polity/models.py:46
 msgid ""
 "If checked, this polity will be displayed on the front page. The first "
 "created polity automatically becomes the front polity."
@@ -439,31 +452,31 @@ msgstr ""
 "Ef hakað er við þetta verður þetta þing sýnt á forsíðunni. Fyrsta þingið sem "
 "búið er til verður sjálfkrafa að aðalþingi."
 
-#: polity/models.py:48
+#: polity/models.py:49
 msgid "Send notification when debate starts?"
 msgstr ""
 
-#: polity/models.py:50
+#: polity/models.py:51
 msgid "Send notification when issue goes to vote?"
 msgstr ""
 
-#: polity/models.py:52
+#: polity/models.py:53
 msgid "Send notification an hour before voting ends?"
 msgstr ""
 
-#: polity/models.py:54
+#: polity/models.py:55
 msgid "Send notification when voting ends?"
 msgstr ""
 
-#: polity/models.py:56
+#: polity/models.py:57
 msgid "Send notification when an election starts?"
 msgstr ""
 
-#: polity/models.py:58
+#: polity/models.py:59
 msgid "Send notification an hour before election ends?"
 msgstr ""
 
-#: polity/models.py:60
+#: polity/models.py:61
 msgid "Send notification when an election ends?"
 msgstr ""
 
@@ -1290,11 +1303,6 @@ msgstr "Enn er verið að telja atkvæðin."
 #: wasa2il/templates/election/election_view.html:256
 msgid "Download detailed statistics as:"
 msgstr "Hala niður tölfræði sem:"
-
-#: wasa2il/templates/election/election_view.html:257
-#: wasa2il/templates/issue/stub/document_view.html:84
-msgid "Text"
-msgstr "Texti"
 
 #: wasa2il/templates/election/election_view.html:262
 msgid "Downloads include rankings, pairwise victories and ballot counts."
