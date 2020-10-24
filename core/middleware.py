@@ -25,6 +25,7 @@ class GlobalsMiddleware(MiddlewareMixin):
             'WASA2IL_VERSION': settings.WASA2IL_VERSION,
             'WASA2IL_HASH': settings.WASA2IL_HASH,
             'CONTACT_EMAIL': settings.CONTACT_EMAIL,
+            'ORGANIZATION_NEWS_URL': settings.ORGANIZATION_NEWS_URL,
         }
 
         try:

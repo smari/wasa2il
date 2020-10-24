@@ -34,6 +34,7 @@ INSTANCE_NAME=os.environ.get('W2_INSTANCE_NAME', 'Unconfigured Wasa2il')
 INSTANCE_SLUG=os.environ.get('W2_INSTANCE_SLUG', 'unconfiguredwasa2il')
 INSTANCE_URL=os.environ.get('W2_INSTANCE_URL', '')
 ORGANIZATION_NAME=os.environ.get('W2_ORGANIZATION_NAME', 'orgName')
+ORGANIZATION_NEWS_URL=os.environ.get('W2_ORGANIZATION_NEWS_URL', '')
 
 ## Overall instance rules
 AGE_LIMIT=int(os.environ.get('W2_AGE_LIMIT', 16))
