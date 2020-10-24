@@ -1,6 +1,9 @@
 {% load i18n %}
 {% load wasa2il %}
 {% load static %}
+{% if ORGANIZATION_NEWS_URL %}
+  <li><a href="{{ ORGANIZATION_NEWS_URL }}"><i class="fas fa-newspaper"></i> {% trans 'News Site' %}</a></li>
+{% endif %}
 {% if user.is_authenticated %}
 <li><a href="/help/instructions/"><i class="fas fa-question-circle"></i> {% trans "Help" %}</a></li>
 <li class="dropdown">
