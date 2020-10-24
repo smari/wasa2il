@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.forms import UsernameField
 from django.forms import Form
 from django.forms import CharField
 from django.forms import EmailField
+from django.forms import TextInput
 from django.forms import TypedChoiceField
 from django.forms import ValidationError
 from django.forms.widgets import ChoiceWidget
@@ -50,6 +52,11 @@ class UserProfileForm(Wasa2ilForm):
 
 
 class Wasa2ilRegistrationForm(RegistrationForm):
+    username = UsernameField(
+        widget=TextInput(attrs={'autofocus': True}),
+        label=_('Username'),
+        help_text=_('Only letters, numbers and the symbols @/./+/-/_ are allowed.') #_('Aðeins er leyfilegt að nota bókstafi, tölustafi og táknin @/./+/-/_')
+    )
     email_wanted = TypedChoiceField(
         choices=((True, _('Yes')), (False, _('No'))),
         widget=EmailWantedField,
