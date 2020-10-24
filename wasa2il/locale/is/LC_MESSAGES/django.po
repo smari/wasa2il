@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-24 18:12+0000\n"
+"POT-Creation-Date: 2020-10-24 18:23+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -21,23 +21,32 @@ msgstr ""
 "Af öryggisástæðum hefurðu verið sjálfkrafa útskráð(ur) vegna langs tíma frá "
 "síðustu virkni."
 
-#: core/forms.py:22
+#: core/forms.py:24
 msgid "E-mail"
 msgstr "Netfang"
 
-#: core/forms.py:22
+#: core/forms.py:24
 msgid "You can change your email address, but will then need to verify it."
 msgstr "Þú getur breytt netfangi þínu, en þarft þá að staðfesta það."
 
-#: core/forms.py:39
+#: core/forms.py:41
 msgid "Filename must contain file extension"
 msgstr "Ending skráarnafns verður að tilgreina tegund"
 
-#: core/forms.py:45
+#: core/forms.py:47
 msgid "Only the following file endings are allowed"
 msgstr "Einungis eftirfarandi skráartegundir eru heimilar"
 
-#: core/forms.py:54 wasa2il/templates/issue/_agreements.html:6
+#: core/forms.py:57
+#: wasa2il/templates/registration/verification_duplicate.html:11
+msgid "Username"
+msgstr "Notandanafn"
+
+#: core/forms.py:58
+msgid "Only letters, numbers and the symbols @/./+/-/_ are allowed."
+msgstr "Aðeins er leyfilegt að nota bókstafi, tölustafi og táknin @/./+/-/_."
+
+#: core/forms.py:61 wasa2il/templates/issue/_agreements.html:6
 #: wasa2il/templates/issue/_agreements_list.html:24
 #: wasa2il/templates/issue/_issue_detail_metadata.html:44
 #: wasa2il/templates/issue/document_detail.html:90
@@ -47,7 +56,7 @@ msgstr "Einungis eftirfarandi skráartegundir eru heimilar"
 msgid "Yes"
 msgstr "Já"
 
-#: core/forms.py:54 wasa2il/templates/issue/_agreements.html:7
+#: core/forms.py:61 wasa2il/templates/issue/_agreements.html:7
 #: wasa2il/templates/issue/_agreements_list.html:27
 #: wasa2il/templates/issue/_issue_detail_metadata.html:51
 #: wasa2il/templates/issue/document_detail.html:91
@@ -57,11 +66,11 @@ msgstr "Já"
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:56 core/models.py:62
+#: core/forms.py:63 core/models.py:62
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
-#: core/forms.py:60
+#: core/forms.py:67
 msgid "Message"
 msgstr ""
 
@@ -2494,7 +2503,7 @@ msgstr ""
 #: wasa2il/templates/registration/login.html:16
 msgid "If problems arise, please send an email to the following email address:"
 msgstr ""
-"Ef vandamál koma upp, vinsamlegast sendið netpóst á eftirfarandi netfang:"
+"Ef vandamál koma upp, vinsamlegast sendið tölvupóst á eftirfarandi netfang:"
 
 #: wasa2il/templates/registration/login.html:33
 #: wasa2il/templates/registration/password_reset_complete.html:7
@@ -2685,10 +2694,6 @@ msgid "If you have any further problems, please contact an administrator."
 msgstr ""
 "Ef þú rekst á einhver frekari vandamál, vinsamlegast hafðu samband við "
 "umsjónarmann."
-
-#: wasa2il/templates/registration/verification_duplicate.html:11
-msgid "Username"
-msgstr "Notandanafn"
 
 #: wasa2il/templates/registration/verification_duplicate.html:12
 msgid "Email"
