@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-14 16:29+0000\n"
+"POT-Creation-Date: 2020-10-24 18:12+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -399,7 +399,8 @@ msgstr "Stuttnefni"
 
 #: polity/models.py:13
 msgid "Optional. Could be an abbreviation or acronym, for example."
-msgstr "Valkvæmt. Gæti verið stytt útgáfa af nafninu eða skammstöfun, til dæmis."
+msgstr ""
+"Valkvæmt. Gæti verið stytt útgáfa af nafninu eða skammstöfun, til dæmis."
 
 #: polity/models.py:18
 msgid "Order"
@@ -758,6 +759,10 @@ msgid "User's tasks"
 msgstr "Verk notanda"
 
 #: wasa2il/templates/_user_actions.html:5
+msgid "News Site"
+msgstr "Fréttavefur"
+
+#: wasa2il/templates/_user_actions.html:8
 #: wasa2il/templates/help/is/agreement.html:6
 #: wasa2il/templates/help/is/authors.html:6
 #: wasa2il/templates/help/is/copyright.html:6
@@ -768,34 +773,34 @@ msgstr "Verk notanda"
 msgid "Help"
 msgstr "Hjálp"
 
-#: wasa2il/templates/_user_actions.html:11
+#: wasa2il/templates/_user_actions.html:14
 msgid "My profile"
 msgstr "Mín síða"
 
-#: wasa2il/templates/_user_actions.html:12
+#: wasa2il/templates/_user_actions.html:15
 msgid "My settings"
 msgstr "Stillingar"
 
-#: wasa2il/templates/_user_actions.html:13
+#: wasa2il/templates/_user_actions.html:16
 #: wasa2il/templates/accounts/personal_data.html:11
 msgid "Personal data"
 msgstr "Persónugögn"
 
-#: wasa2il/templates/_user_actions.html:15
+#: wasa2il/templates/_user_actions.html:18
 #: wasa2il/templates/registration/verification_invalid_entity.html:17
 #: wasa2il/templates/registration/verification_needed.html:12
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:49
 msgid "Logout"
 msgstr "Útskrá"
 
-#: wasa2il/templates/_user_actions.html:19
+#: wasa2il/templates/_user_actions.html:22
 #: wasa2il/templates/registration/login.html:11
 #: wasa2il/templates/registration/logout.html:12
 #: wasa2il/templates/registration/password_reset_complete.html:13
 msgid "Log in"
 msgstr "Innskrá"
 
-#: wasa2il/templates/_user_actions.html:20
+#: wasa2il/templates/_user_actions.html:23
 #: wasa2il/templates/registration/login.html:30
 #: wasa2il/templates/registration/registration_form.html:11
 #: wasa2il/templates/registration/registration_form.html:30
