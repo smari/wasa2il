@@ -48,7 +48,9 @@ class Command(BaseCommand):
                 except Election.ElectionInProgressException:
                     stdout.write(' still in progress\n')
                 except:
+                    import traceback
                     stdout.write(' failed for unknown reasons\n')
+                    traceback.print_exc()
 
         except KeyboardInterrupt:
             print
