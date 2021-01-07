@@ -427,6 +427,10 @@ class Candidate(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
     election = models.ForeignKey(Election, on_delete=CASCADE)
 
+    def __lt__(self, other):
+        # Make it possible to sort Candidates
+        return str(self) < str(other)
+
     def __str__(self):
         return u'%s' % self.user.username
 
