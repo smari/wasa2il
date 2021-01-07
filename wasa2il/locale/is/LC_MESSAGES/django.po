@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-24 18:23+0000\n"
+"POT-Creation-Date: 2021-01-07 18:50+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -728,7 +728,7 @@ msgstr "Mál"
 #: wasa2il/templates/_sidenav_polity.html:40
 #: wasa2il/templates/election/election_list.html:9
 #: wasa2il/templates/election/election_list.html:25
-#: wasa2il/templates/profile/profile.html:74
+#: wasa2il/templates/profile/profile.html:77
 msgid "Elections"
 msgstr "Kosningar"
 
@@ -1846,7 +1846,7 @@ msgid "What is an agreement?"
 msgstr "Hvað er samþykkt?"
 
 #: wasa2il/templates/help/is/proposal.html:6
-#: wasa2il/templates/profile/profile.html:120
+#: wasa2il/templates/profile/profile.html:123
 msgid "Proposals"
 msgstr "Tillögur"
 
@@ -2385,41 +2385,48 @@ msgstr "Sjálfslýsing"
 msgid "This user hasn't provided a biography."
 msgstr "Þessi notandi hefur ekki skrifað lýsingu á sjálfum sér."
 
-#: wasa2il/templates/profile/profile.html:58
+#: wasa2il/templates/profile/profile.html:51
+#, python-format
+msgid ""
+"If your wish to change or correct your membership details, please send an "
+"email to %(CONTACT_EMAIL)s and we will help you as soon as possible."
+msgstr "Ef þú vilt leiðrétta eða breyta aðild þinni að aðildarfélögum, vinsamlegast sendu póst á %(CONTACT_EMAIL)s og við hjálpum þér eins fljótt og við getum."
+
+#: wasa2il/templates/profile/profile.html:61
 msgid "Officer"
 msgstr "Umsjónarmaður"
 
-#: wasa2il/templates/profile/profile.html:60
+#: wasa2il/templates/profile/profile.html:63
 msgid "Volunteer wrangler"
 msgstr "Umsjónarmaður sjálfboðaliða"
 
-#: wasa2il/templates/profile/profile.html:62
+#: wasa2il/templates/profile/profile.html:65
 msgid "Member"
 msgstr "Meðlimur"
 
-#: wasa2il/templates/profile/profile.html:67
+#: wasa2il/templates/profile/profile.html:70
 #, python-format
 msgid "%(user)s is not a member of any polities."
 msgstr "%(user)s er ekki meðlimur neins þings."
 
-#: wasa2il/templates/profile/profile.html:98
+#: wasa2il/templates/profile/profile.html:101
 msgid "seat"
 msgstr "sæti"
 
-#: wasa2il/templates/profile/profile.html:102
+#: wasa2il/templates/profile/profile.html:105
 msgid "Elected"
 msgstr "Kosinn"
 
-#: wasa2il/templates/profile/profile.html:102
+#: wasa2il/templates/profile/profile.html:105
 msgid "Not elected"
 msgstr "Ekki kosinn"
 
-#: wasa2il/templates/profile/profile.html:115
+#: wasa2il/templates/profile/profile.html:118
 #, python-format
 msgid "%(user)s has not run in any elections."
 msgstr "%(user)s hefur ekki boðið sig fram í neinum kosningum."
 
-#: wasa2il/templates/profile/profile.html:135
+#: wasa2il/templates/profile/profile.html:138
 #, python-format
 msgid "%(user)s has not proposed anything."
 msgstr "%(user)s hefur ekki lagt neitt til."

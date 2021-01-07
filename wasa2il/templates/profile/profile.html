@@ -47,6 +47,9 @@
         {% if user.id == profile_user.id %}
         <div class="profile-polities">
           <h1>{% trans "Polities" %}</h1>
+          <div class="alert alert-info">
+            {% blocktrans %}If your wish to change or correct your membership details, please send an email to {{ CONTACT_EMAIL }} and we will help you as soon as possible.{% endblocktrans %}
+          </div>
           <table class="table">
           {% for e in profile_user.polities.all %}
           <tr>

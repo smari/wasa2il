@@ -199,6 +199,7 @@ def profile(request, username=None):
     )
 
     ctx = {
+        'CONTACT_EMAIL': settings.CONTACT_EMAIL,
         'polities': polities,
         'current_elections': current_elections,
         'candidacies': candidacies,
