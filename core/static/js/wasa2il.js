@@ -220,16 +220,14 @@ function election_timer_restart() {
 
 
 function election_candidacy_announce() {
-    $('#election_button_announce').hide();
-    $('#election_announce_working').show();
+    $('#election_button_announce').prop('disabled', true);
     return election_candidacy(1);
 }
 
 function election_candidacy_withdraw() {
     var confirm_msg = $('#election_button_withdraw').data("confirm");
     if (!confirm_msg || confirm(confirm_msg)) {
-        $('#election_button_withdraw').hide();
-        $('#election_announce_working').show();
+        $('#election_button_withdraw').prop('disabled', true);;
         return election_candidacy(0);
     }
 }
@@ -249,7 +247,6 @@ function election_candidacy(val) {
         election_render();
         election_timer_start();
     }, "json").always(function() {
-        $('#election_announce_working').hide();
     });
 }
 
@@ -289,6 +286,7 @@ function election_render(election) {
         // performance or line count.
         if (election_object.user_is_candidate) {
             if (election_state != 'concluded') {
+                $('#election_button_withdraw').prop('disabled', false);
                 $("#election_button_withdraw").show();
                 $("#election_button_announce").hide();
             }
@@ -296,6 +294,7 @@ function election_render(election) {
         else {
             if (election_state == 'accepting_candidates') {
                 $("#election_button_withdraw").hide();
+                $('#election_button_announce').prop('disabled', false);
                 $("#election_button_announce").show();
             }
         }
