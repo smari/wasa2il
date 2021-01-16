@@ -62,22 +62,28 @@ footer {
       color: #000;
       margin-left: 0; }
 
-.nav .subpolity-list-nav {
+@media (min-width: 1200px) {
+  .subpolity-list-menu {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400%; } }
+.nav .subpolity-list-nav, .row .subpolity-list-nav {
   list-style: none;
   padding-left: 0px; }
-  .nav .subpolity-list-nav li {
+  .nav .subpolity-list-nav li, .row .subpolity-list-nav li {
     text-indent: 20px;
     line-height: 40px; }
-    .nav .subpolity-list-nav li a {
+    .nav .subpolity-list-nav li a, .row .subpolity-list-nav li a {
       display: block;
       text-decoration: none;
       color: #000;
       font-family: "Montserrat";
       font-size: 18px; }
-      .nav .subpolity-list-nav li a i, .nav .subpolity-list-nav li a svg {
+      .nav .subpolity-list-nav li a i, .nav .subpolity-list-nav li a svg, .row .subpolity-list-nav li a i, .row .subpolity-list-nav li a svg {
         color: #503087;
         margin-right: 7px; }
-    .nav .subpolity-list-nav li a:hover, .nav .subpolity-list-nav li a:active, .nav .subpolity-list-nav li a:focus {
+    .nav .subpolity-list-nav li a:hover, .nav .subpolity-list-nav li a:active, .nav .subpolity-list-nav li a:focus, .row .subpolity-list-nav li a:hover, .row .subpolity-list-nav li a:active, .row .subpolity-list-nav li a:focus {
       text-decoration: none;
       color: #000;
       background: #ddd; }
