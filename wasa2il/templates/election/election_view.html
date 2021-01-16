@@ -18,8 +18,7 @@
     <style type="text/css">
         .hidebuttons button {display: none}
         #submit-is-magic {transition: all 200ms; display: hidden;}
-        #submit-working, .start-voting, #election_announce_working {text-align: center;}
-        #election_button_withdraw {float: right;}
+        #submit-working, .start-voting {text-align: center;}
         .start-voting {font-size: 1.5em; margin-top: 1em;}
         .user_can_vote, .user_can_run {display: inline-block; float: right;}
         {% with election_state as election.election_state %}
@@ -301,15 +300,14 @@
     <div class="col-md-5 col-xs-12 well"><a name="candidates"></a>
         <h2>{% trans "Candidates" %} <small>{% trans "running in this election" %}</small></h2>
         {% if can_run %}
-        <div id="election_announce_working" class="alert" style="display: none;">
-            <p><i>{% trans "Working..." %}</i><br>
+        <div class="text-center">
+            <a class="btn btn-primary btn-lg" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
+            <a class="btn btn-primary btn-lg" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();"
+                 {% if election.election_state == 'voting' or election.election_state == 'waiting' %}
+                 data-confirm="{% trans "Are you sure you want to withdraw? This can not be undone." %}"
+                 {% endif %}
+                 >{% trans 'Withdraw candidacy' %}</a>
         </div>
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_announce" onclick="election_candidacy_announce();">{% trans 'Announce candidacy' %}</a>
-        <a class="btn btn-default btn-large" role="button" style="display: none;" id="election_button_withdraw" onclick="election_candidacy_withdraw();"
-             {% if election.election_state == 'voting' or election.election_state == 'waiting' %}
-             data-confirm="{% trans "Are you sure you want to withdraw? This can not be undone." %}"
-             {% endif %}
-             >{% trans 'Withdraw candidacy' %}</a>
         <br clear="both">
         {% endif %}
 
