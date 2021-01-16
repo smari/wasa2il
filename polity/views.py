@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.db.models import Q
 
 from core.models import UserProfile
 
@@ -43,12 +44,14 @@ def polity_view(request, polity_id):
 
     sub_polities = polity.polity_set.all()
 
+    election_set = Election.objects.recent().filter(Q(polity=polity) | Q(polity__parent=polity))
+
     ctx = {
         'sub_polities': sub_polities,
         'politytopics': polity.topic_set.listing_info(request.user).all(),
         'agreements': polity.agreements(),
         'issues_recent': polity.issue_set.recent(),
-        'elections_recent': polity.election_set.recent(),
+        'elections_recent': election_set,
         'RECENT_ISSUE_DAYS': settings.RECENT_ISSUE_DAYS,
         'RECENT_ELECTION_DAYS': settings.RECENT_ELECTION_DAYS,
         'verified_user_count': polity.members.filter(userprofile__verified=True).count(),
