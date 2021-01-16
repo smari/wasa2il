@@ -7,7 +7,21 @@ from django.db.models import CASCADE
 from django.db.models import Q
 from django.db.models import SET_NULL
 
+
+class PolityQuerySet(models.QuerySet):
+    def visible(self):
+        return self.filter(is_listed=True)
+
 class Polity(models.Model):
+
+    class PolityTypes(models.TextChoices):
+        unspecified             = 'U', _('Unspecified')
+        regional_group          = 'R', _('Regional group')
+        constituency_group      = 'C', _('Constituency group')
+        special_interest_group  = 'I', _('Special Interest Group')
+
+    objects = PolityQuerySet.as_manager()
+
     """A political entity. See the manual."""
     name = models.CharField(max_length=128, verbose_name=_('Name'))
     name_short = models.CharField(max_length=30, verbose_name=_('Short name'), help_text=_('Optional. Could be an abbreviation or acronym, for example.'), default='')
@@ -16,6 +30,8 @@ class Polity(models.Model):
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
 
     order = models.IntegerField(default=1, verbose_name=_('Order'), help_text=_('Optional, custom sort order. Polities with the same order are ordered by name.'))
+
+    polity_type = models.CharField(max_length=1, choices=PolityTypes.choices, default=PolityTypes.unspecified)
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
