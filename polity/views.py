@@ -14,6 +14,9 @@ from core.models import UserProfile
 
 from election.models import Election
 
+from gateway.utils import add_member_to_membergroup
+from gateway.utils import apply_member_locally
+
 from issue.models import Issue
 
 from polity.forms import PolityForm
@@ -117,3 +120,28 @@ def polity_officers(request, polity_id):
         'form': form,
     }
     return render(request, 'polity/polity_officers_form.html', ctx)
+
+
+@login_required
+def polity_apply(request, polity_id):
+
+    try:
+        polity = request.user.polities_eligible.get(id=polity_id)
+    except Polity.DoesNotExist:
+        raise PermissionDenied()
+
+    # Communicate the addition to IcePirate, get the resulting member object
+    # from IcePirate again and apply the new version locally. This will place
+    # the user in the local polity.
+    try:
+        success, member, error = add_member_to_membergroup(request.user, polity)
+        if success:
+            apply_member_locally(member, request.user)
+    except:
+        # Just being safe. If anything goes wrong here, the user is expected
+        # to speak with an administrator of some sort.
+        polity.members.remove(request.user)
+
+    # If everything went fine, we'll reload the page from which the user
+    # originated. We don't care where they're from.
+    return redirect(request.META['HTTP_REFERER'])

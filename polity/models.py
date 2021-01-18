@@ -24,7 +24,14 @@ class Polity(models.Model):
 
     """A political entity. See the manual."""
     name = models.CharField(max_length=128, verbose_name=_('Name'))
-    name_short = models.CharField(max_length=30, verbose_name=_('Short name'), help_text=_('Optional. Could be an abbreviation or acronym, for example.'), default='')
+    name_short = models.CharField(
+        max_length=30,
+        verbose_name=_('Short name'),
+        help_text=_('Optional. Could be an abbreviation or acronym, for example.'),
+        default='',
+        null=True,
+        blank=True
+    )
     slug = models.SlugField(max_length=128, blank=True)
 
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
@@ -54,6 +61,7 @@ class Polity(models.Model):
 
     parent = models.ForeignKey('Polity', help_text="Parent polity", null=True, blank=True, on_delete=SET_NULL)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='polities')
+    eligibles = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='polities_eligible', blank=True)
     officers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Officers"), related_name="officers")
     wranglers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Volunteer wranglers"), related_name="wranglers")
 

@@ -12,6 +12,9 @@
 
 {% block content %}
 <section class="content">
+
+{% include 'polity/stub/eligibility_polity.html' %}
+
 <h1>
     {{ polity.name }}
     {% if user.is_staff %}

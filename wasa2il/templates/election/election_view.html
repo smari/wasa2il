@@ -62,6 +62,8 @@
 </div>
 <h1><small>{% trans "Election:" %}</small> {{ election.name }}</h1>
 
+{% include 'polity/stub/eligibility_polity.html' with polity=election.polity %}
+
 {% if election.election_state == 'concluded' %}
     <div class="alert alert-danger">
         {% trans "This election is closed." %}
