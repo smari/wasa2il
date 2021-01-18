@@ -54,6 +54,7 @@ class Polity(models.Model):
 
     parent = models.ForeignKey('Polity', help_text="Parent polity", null=True, blank=True, on_delete=SET_NULL)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='polities')
+    eligibles = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='polities_eligible')
     officers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Officers"), related_name="officers")
     wranglers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Volunteer wranglers"), related_name="wranglers")
 

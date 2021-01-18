@@ -92,6 +92,25 @@ def get_member(ssn):
     return response_to_results(response)
 
 
+def add_member_to_membergroup(user, polity):
+
+    try:
+        response = requests.post(
+            '%s/member/api/add-to-membergroup/%s/' % (
+                settings.ICEPIRATE['url'],
+                user.userprofile.verified_ssn
+            ),
+            data={
+                'json_api_key': settings.ICEPIRATE['key'],
+                'membergroup_techname': polity.slug,
+            }
+        )
+    except:
+        raise IcePirateException('Failed getting member from remote member registry')
+
+    return response_to_results(response)
+
+
 def apply_member_locally(member, user):
     '''
     Takes an IcePirate member in the form of a dict and a regular local user
@@ -119,6 +138,13 @@ def apply_member_locally(member, user):
     for polity in non_membership_polities:
         polity.members.remove(user)
         polity.officers.remove(user)
+
+    # Sync info on polity eligibility of user.
+    polities_eligible = Polity.objects.filter(slug__in=member['eligible_groups'])
+    for polity in polities_eligible:
+        polity.eligibles.add(user)
+    for polity in user.polities_eligible.exclude(id__in=[p.id for p in polities_eligible]):
+        polity.eligibles.remove(user)
 
     # Keep track of whether we need to save the profile.
     profile_changed = False

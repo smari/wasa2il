@@ -1,0 +1,10 @@
+{% load i18n %}
+{% if polity in user.polities_eligible.all %}
+<div class="alert alert-info">
+    <p>{% trans 'You are eligible for membership to this polity although you are still not a member.' %}</p>
+    <p>
+        {% trans 'Click here to become a member' %}:
+        <a class="btn btn-default" href="{% url 'polity_apply' polity.id %}">{% trans 'Become a member' %}</a>
+    </p>
+</div>
+{% endif %}
