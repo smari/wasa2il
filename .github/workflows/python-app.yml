@@ -39,4 +39,4 @@ jobs:
         W2_DATABASE_HOST: 127.0.0.1
         W2_DATABASE_PASSWORD:
         W2_DATABASE_USER: root
-        W2_SECRET_KEY: `head /dev/urandom | sha256sum`
+        W2_SECRET_KEY: supersecretkey-only-used-for-testing
