@@ -47,6 +47,7 @@ jobs:
         coverage xml
       env:
         W2_DATABASE_HOST: 127.0.0.1
+        W2_DATABASE_PORT: ${{ job.services.mysql.ports[3306] }}
         W2_DATABASE_PASSWORD:
         W2_DATABASE_USER: root
         W2_SECRET_KEY: supersecretkey-only-used-for-testing
