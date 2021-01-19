@@ -13,14 +13,14 @@ class PolityQuerySet(models.QuerySet):
         return self.filter(is_listed=True)
 
 class Polity(models.Model):
-
-    class PolityTypes(models.TextChoices):
-        unspecified             = 'U', _('Unspecified')
-        regional_group          = 'R', _('Regional group')
-        constituency_group      = 'C', _('Constituency group')
-        special_interest_group  = 'I', _('Special Interest Group')
-
     objects = PolityQuerySet.as_manager()
+
+    POLITY_TYPES = (
+        ('unspecified', _('Unspecified')),
+        ('regional', _('Regional Group')),
+        ('constituency', _('Constituency Group')),
+        ('special_interest', _('Special Interest Group')),
+    )
 
     """A political entity. See the manual."""
     name = models.CharField(max_length=128, verbose_name=_('Name'))
@@ -38,7 +38,7 @@ class Polity(models.Model):
 
     order = models.IntegerField(default=1, verbose_name=_('Order'), help_text=_('Optional, custom sort order. Polities with the same order are ordered by name.'))
 
-    polity_type = models.CharField(max_length=1, choices=PolityTypes.choices, default=PolityTypes.unspecified)
+    polity_type = models.CharField(max_length=20, choices=POLITY_TYPES, default='unspecified')
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,

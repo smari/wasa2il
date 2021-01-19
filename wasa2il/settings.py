@@ -272,6 +272,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'core.contextprocessors.auto_logged_out',
                 'core.contextprocessors.globals',
+                'polity.contextprocessors.navigation',
             ],
         },
     }

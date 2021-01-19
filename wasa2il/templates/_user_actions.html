@@ -7,7 +7,7 @@
 {% if user.is_authenticated %}
 <li><a href="/help/instructions/"><i class="fas fa-question-circle"></i> {% trans "Help" %}</a></li>
 {% endif %}
-{% if polity and polity.polity_set.count > 0 %}
+
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
     <i class="fas fa-users"></i> {% trans "Sub-polities" %} <span class="caret"></span>
@@ -15,25 +15,21 @@
   <ul class="dropdown-menu subpolity-list-menu">
     <li><div class="container-fluid mb-2">
       <div class="row">
-        {% for choice,name in polity.PolityTypes.choices %}
-        {% if choice != 'U' %}
+        {% for key, nav_entry in polity_nav.items %}
         <div class="col-lg-4 col-sm-12">
-          <h3>{{name}}</h3>
+          <h3>{{ nav_entry.polity_type_name }}</h3>
           <ul class="subpolity-list-nav">
-            {% for p in polity.polity_set.visible %}
-            {% if p.polity_type == choice %}
-            <li><a href="{% url 'polity' p.id %}">{{p}}</a></li>
-            {% endif %}
+            {% for p in nav_entry.polities %}
+            <li><a href="{% url 'polity' p.id %}">{{ p }}</a></li>
             {% endfor %}
           </ul>
         </div>
-        {% endif %}
         {% endfor %}
       </div>
-    </div></li>
+    </div></li> 
   </ul>
-</li>  
-{% endif %}
+</li>
+
 {% if user.is_authenticated %}
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
