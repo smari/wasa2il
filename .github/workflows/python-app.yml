@@ -44,7 +44,6 @@ jobs:
     - name: Test / coverage
       run: |
         coverage run --source=. manage.py test -v 2
-        coverage xml
       env:
         W2_DATABASE_HOST: 127.0.0.1
         W2_DATABASE_PORT: ${{ job.services.mysql.ports[3306] }}
