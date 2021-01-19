@@ -35,3 +35,8 @@ jobs:
       run: |
         coverage run --source=. manage.py test -v 2
         coverage xml
+      env:
+        W2_DATABASE_HOST: 127.0.0.1
+        W2_DATABASE_PASSWORD:
+        W2_DATABASE_USER: root
+        W2_SECRET_KEY: `head /dev/urandom | sha256sum`
