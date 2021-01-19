@@ -49,9 +49,9 @@ class Command(BaseCommand):
         now = datetime.now()
 
         if not options.get('full'):
-            print
-            print 'NOTE: Creating small test data set, use --full for MOAR DATA.'
-            print
+            print()
+            print('NOTE: Creating small test data set, use --full for MOAR DATA.')
+            print()
 
         reset = False
         if options.get('reset'):
@@ -78,7 +78,7 @@ class Command(BaseCommand):
         if options.get('users') or create_all:
             if not options.get('full'):
                 userlist = userlist[:20]
-            print 'Generating %d users ...' % len(userlist)
+            print('Generating %d users ...' % len(userlist))
             users = {}
             if reset:
                 User.objects.all().delete()
@@ -88,7 +88,7 @@ class Command(BaseCommand):
                         users[u] = User.objects.create_user(u, password=u)
                         users[u].is_staff = True
                         users[u].is_superuser = True
-                        print '   * Creating user "%s" with password "%s"' % (u, u)
+                        print('   * Creating user "%s" with password "%s"' % (u, u))
                     else:
                         users[u] = User.objects.create_user(u)
                     users[u].email = email
@@ -107,7 +107,7 @@ class Command(BaseCommand):
                     # User already exists
                     users[u] = User.objects.get(username=u)
 
-        print 'Generating/updating 4 polities of varying sizes ...'
+        print('Generating/updating 4 polities of varying sizes ...')
         pollist = [
             ('d', 'The Big Polity',    'abc',  1000),
             ('c', 'The Medium Polity', 'abc',  100),
@@ -123,7 +123,7 @@ class Command(BaseCommand):
         polities = {}
         documents = {}
         for u, name, members, size in pollist:
-            print '   + %s (size=%d)' % (name, size)
+            print('   + %s (size=%d)' % (name, size))
             usr = User.objects.get(username=u)
             try:
                 p = Polity.objects.get(name=name)
@@ -149,7 +149,7 @@ class Command(BaseCommand):
 
             if new or options.get('topics') or create_all:
                 n = 1 + min(size//5, len(topiclist))
-                print '       - Creating %d topics' % n
+                print('       - Creating %d topics' % n)
                 if reset:
                     Topic.objects.filter(polity=p).delete()
                 for topic in random.sample(topiclist, n):
@@ -158,7 +158,7 @@ class Command(BaseCommand):
                           created_by=usr).save()
 
             if new or options.get('users') or create_all:
-                print '       - Adding ~%d users' % size
+                print('       - Adding ~%d users' % size)
                 for m in set([m for m in members] +
                              random.sample(users.keys(), size)):
                     try:
@@ -171,7 +171,7 @@ class Command(BaseCommand):
             if options.get('elections') or create_all:
                 # Create 3 elections per polity:
                 #    one soliciting candidates, one voting, one finished
-                print '       - Creating 3 elections'
+                print('       - Creating 3 elections')
                 if reset:
                     Election.objects.filter(polity=p).delete()
                 for dc, dv in ((1, 2), (-1, 1), (-2, -1)):
@@ -192,11 +192,11 @@ class Command(BaseCommand):
                         voterc = min(p.members.count(), 5)
 
                     candidates = []
-                    for cand in random.sample(p.members.all(), candidatec):
+                    for cand in random.sample(list(p.members.all()), candidatec):
                         c = Candidate(election=e, user=cand)
                         c.save()
                         candidates.append(c)
-                    for voter in random.sample(p.members.all(), voterc):
+                    for voter in random.sample(list(p.members.all()), voterc):
                         random.shuffle(candidates)
                         for rank, cand in enumerate(candidates):
                              ElectionVote(
@@ -210,7 +210,7 @@ class Command(BaseCommand):
                             e.process()
                         except:
                             traceback.print_exc()
-                            print 'Votes cast on %s: %s' % (e, ElectionVote.objects.filter(election=e).count())
+                            print('Votes cast on %s: %s' % (e, ElectionVote.objects.filter(election=e).count()))
 
             if new or options.get('documents') or create_all:
                 # We create a list of authors biased towards the first
@@ -224,7 +224,7 @@ class Command(BaseCommand):
                 # Get a list of topics...
                 topics = Topic.objects.filter(polity=p)
 
-                print '       - Creating %d documents' % size
+                print('       - Creating %d documents' % size)
                 if reset:
                     Document.objects.filter(polity=p).delete()
                 for docn in range(0, size):
@@ -253,7 +253,7 @@ class Command(BaseCommand):
         if options.get('documents') or create_all:
             # Put max(3, 10%) of all the documents up for election
             howmany = min(max(3, len(documents) // 10), len(documents))
-            print 'Creating issues for %d documents.' % howmany
+            print('Creating issues for %d documents.' % howmany)
             j = 1
             for dk in random.sample(documents.keys(), howmany):
                 topic, doc = documents[dk]
