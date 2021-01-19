@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import Q
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -164,7 +165,7 @@ def election_showclosed(request):
 
     try:
         if polity_id:
-            elections = Election.objects.filter(polity_id=polity_id)
+            elections = Election.objects.filter(Q(polity_id=polity_id) | Q(polity__parent_id=polity_id))
         else:
             elections = Election.objects.order_by('polity__name', '-deadline_votes')
 

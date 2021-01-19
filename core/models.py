@@ -57,8 +57,9 @@ class UserProfile(models.Model):
     # from when implied consent sufficed, but should gradually be decreased
     # until all users have either consented or not. No new members should have
     # this field as null (None).
-    email_wanted = models.NullBooleanField(
+    email_wanted = models.BooleanField(
         default=False,
+        null=True,
         verbose_name=_('Consent for sending email'),
         help_text=_('Whether to consent to receiving notifications via email.')
     )

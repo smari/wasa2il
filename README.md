@@ -46,7 +46,7 @@ Wasa2il must be set up on a web server capable of running Django. Instructions o
 
 1. Create a virtual environment
 
-   `virtualenv venv`
+   `python3 -m venv venv`
 
 1. Load the virtual environment in your current shell:
 

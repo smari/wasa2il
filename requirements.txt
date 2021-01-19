@@ -1,4 +1,5 @@
 commonmark==0.8.0
+coverage
 django-dotenv
 django
 django-registration-redux
@@ -7,6 +8,7 @@ diff_match_patch
 django-crispy-forms
 django-prosemirror
 django-termsandconditions
+django-utils-six
 python-graph-core
 requests
 lxml

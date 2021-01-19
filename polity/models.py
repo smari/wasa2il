@@ -7,15 +7,38 @@ from django.db.models import CASCADE
 from django.db.models import Q
 from django.db.models import SET_NULL
 
+
+class PolityQuerySet(models.QuerySet):
+    def visible(self):
+        return self.filter(is_listed=True)
+
 class Polity(models.Model):
+    objects = PolityQuerySet.as_manager()
+
+    POLITY_TYPES = (
+        ('unspecified', _('Unspecified')),
+        ('regional', _('Regional Group')),
+        ('constituency', _('Constituency Group')),
+        ('special_interest', _('Special Interest Group')),
+    )
+
     """A political entity. See the manual."""
     name = models.CharField(max_length=128, verbose_name=_('Name'))
-    name_short = models.CharField(max_length=30, verbose_name=_('Short name'), help_text=_('Optional. Could be an abbreviation or acronym, for example.'), default='')
+    name_short = models.CharField(
+        max_length=30,
+        verbose_name=_('Short name'),
+        help_text=_('Optional. Could be an abbreviation or acronym, for example.'),
+        default='',
+        null=True,
+        blank=True
+    )
     slug = models.SlugField(max_length=128, blank=True)
 
     description = models.TextField(verbose_name=_("Description"), null=True, blank=True)
 
     order = models.IntegerField(default=1, verbose_name=_('Order'), help_text=_('Optional, custom sort order. Polities with the same order are ordered by name.'))
+
+    polity_type = models.CharField(max_length=20, choices=POLITY_TYPES, default='unspecified')
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -38,6 +61,7 @@ class Polity(models.Model):
 
     parent = models.ForeignKey('Polity', help_text="Parent polity", null=True, blank=True, on_delete=SET_NULL)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='polities')
+    eligibles = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='polities_eligible', blank=True)
     officers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Officers"), related_name="officers")
     wranglers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Volunteer wranglers"), related_name="wranglers")
 

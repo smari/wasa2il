@@ -8,10 +8,14 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.db.models import Q
 
 from core.models import UserProfile
 
 from election.models import Election
+
+from gateway.utils import add_member_to_membergroup
+from gateway.utils import apply_member_locally
 
 from issue.models import Issue
 
@@ -43,12 +47,14 @@ def polity_view(request, polity_id):
 
     sub_polities = polity.polity_set.all()
 
+    election_set = Election.objects.recent().filter(Q(polity=polity) | Q(polity__parent=polity))
+
     ctx = {
         'sub_polities': sub_polities,
         'politytopics': polity.topic_set.listing_info(request.user).all(),
         'agreements': polity.agreements(),
         'issues_recent': polity.issue_set.recent(),
-        'elections_recent': polity.election_set.recent(),
+        'elections_recent': election_set,
         'RECENT_ISSUE_DAYS': settings.RECENT_ISSUE_DAYS,
         'RECENT_ELECTION_DAYS': settings.RECENT_ELECTION_DAYS,
         'verified_user_count': polity.members.filter(userprofile__verified=True).count(),
@@ -114,3 +120,28 @@ def polity_officers(request, polity_id):
         'form': form,
     }
     return render(request, 'polity/polity_officers_form.html', ctx)
+
+
+@login_required
+def polity_apply(request, polity_id):
+
+    try:
+        polity = request.user.polities_eligible.get(id=polity_id)
+    except Polity.DoesNotExist:
+        raise PermissionDenied()
+
+    # Communicate the addition to IcePirate, get the resulting member object
+    # from IcePirate again and apply the new version locally. This will place
+    # the user in the local polity.
+    try:
+        success, member, error = add_member_to_membergroup(request.user, polity)
+        if success:
+            apply_member_locally(member, request.user)
+    except:
+        # Just being safe. If anything goes wrong here, the user is expected
+        # to speak with an administrator of some sort.
+        polity.members.remove(request.user)
+
+    # If everything went fine, we'll reload the page from which the user
+    # originated. We don't care where they're from.
+    return redirect(request.META['HTTP_REFERER'])

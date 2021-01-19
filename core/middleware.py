@@ -1,7 +1,6 @@
 
 from django.conf import settings
-from django.shortcuts import redirect
-from django.shortcuts import render_to_response
+from django.shortcuts import redirect, render
 from django.urls import resolve
 from django.utils.deprecation import MiddlewareMixin
 
@@ -106,7 +105,7 @@ class SamlMiddleware(MiddlewareMixin):
 
             if logged_in and not verified and not path_ok:
                 ctx = { 'auth_url': settings.SAML['URL'] }
-                return render_to_response('registration/verification_needed.html', ctx)
+                return render(request, 'registration/verification_needed.html', ctx)
 
     def process_response(self, request, response):
 
