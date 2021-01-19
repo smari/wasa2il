@@ -12,7 +12,7 @@ before_install:
 - printenv W2_DATABASE_PASSWORD
 - printenv W2_DATABASE_USER
 - cat /etc/os-release
-install: pip install -r requirements.txt
+install: pip install -r requirements.txt && pip install -r requirements-mysql.txt
 script:
 - coverage run --source=. manage.py test -v 2
 - coverage xml
