@@ -52,8 +52,9 @@ jobs:
         W2_SECRET_KEY: supersecretkey-only-used-for-testing
 
     - name: Deploy to heroku
-      env:
-        HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
-        HEROKU_APP_NAME: 'wasa2il-development'
-      if: job.status == 'success'
-      run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin development
+    - uses: akhileshns/heroku-deploy@v3.8.9 # This is the action
+      with:
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: 'wasa2il-development'
+        heroku_email: ${{ secrets.MY_EMAIL }}
+        branch: 'development'
