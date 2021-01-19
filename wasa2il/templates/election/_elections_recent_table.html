@@ -10,13 +10,16 @@
                         title="{% if election|electionvoted:user %}{% trans "You have voted in this election" %}{% else %}{% trans "You have not voted in this election" %}{% endif %}"
                 ></i>
             {% endif %}
+            {% if election.polity_id != polity.id %}
+                {% comment %}
+                The expectation here is that a short-name is preferable, and
+                a long name may screw up the UI, but that's why short-names
+                should be configured.
+                {% endcomment %}
+                <small><strong>{% if election.polity.name_short %}{{ election.polity.name_short }}{% else %}{{ election.polity.name }}{% endif %}</strong>:</small>
+            {% endif %}
             <a href="/polity/{{ election.polity_id }}/election/{{ election.id }}/">{{ election.name }}</a>
         </td>
-        {% if not polity %}
-            <td>
-                <a href="{% url 'polity' election.polity_id %}">{{ election.polity }}</a>
-            </td>
-        {% endif %}
         <td class="minimize">
             {% with election.election_state as state %}
                 {% if state == 'accepting_candidates' %}
