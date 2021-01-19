@@ -50,3 +50,10 @@ jobs:
         W2_DATABASE_PASSWORD:
         W2_DATABASE_USER: root
         W2_SECRET_KEY: supersecretkey-only-used-for-testing
+
+    - name: Deploy to heroku
+      env:
+        HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
+        HEROKU_APP_NAME: 'wasa2il-development'
+      if: job.status == 'success'
+      run: git push https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git origin/master:master --force
