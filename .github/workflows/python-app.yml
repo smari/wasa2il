@@ -35,9 +35,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest mysqlclient
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test / coverage
+    - name: Run tests
       run: |
-        coverage run --source=. manage.py test -v 2
+        manage.py test -v 2
       env:
         W2_DATABASE_HOST: 127.0.0.1
         W2_DATABASE_PORT: ${{ job.services.mysql.ports[3306] }}
