@@ -1,5 +1,5 @@
 commonmark==0.8.0
-coverage
+gunicorn
 django-dotenv
 django
 django-registration-redux
