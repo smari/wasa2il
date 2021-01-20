@@ -37,7 +37,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run tests
       run: |
-        manage.py test -v 2
+        python manage.py test -v 2
       env:
         W2_DATABASE_HOST: 127.0.0.1
         W2_DATABASE_PORT: ${{ job.services.mysql.ports[3306] }}
