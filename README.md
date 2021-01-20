@@ -78,10 +78,10 @@ If you have `docker-compose` installed, you need to:
 `docker-compose up`
 
 1. Run database migrations (if needed):  
-`docker-compose run wasaweb python manage.py migrate`
+`docker-compose run app python manage.py migrate`
 
 1. If the db container is not started before the web container tries to access it, resulting in a Django error, restart the web container:  
-`docker-compose restart wasaweb`
+`docker-compose restart app`
 
 
 #### SASS / SCSS / CSS

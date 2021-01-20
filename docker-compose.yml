@@ -1,11 +1,7 @@
-# Usage:
-# docker-compose up
-# Then migrate the database: (you might need to run it twice)
-# docker-compose run wasaweb python manage.py migrate
 version: '2'
 
 services:
-  wasaweb:
+  app:
     env_file: .env
     build: .
     volumes:
