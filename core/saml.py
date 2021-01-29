@@ -23,12 +23,12 @@ def authenticate(input_xml, ca_pem_file):
 
     # @process: Obtain the assertion.
     assertion = signed_xml.find('./{urn:oasis:names:tc:SAML:2.0:assertion}Assertion')
-    if !assertion:
+    if not assertion:
         raise SamlException('Could not find valid assertion')
 
     # @process: Obtain the conditions.
     conds_xml = assertion.find('./{urn:oasis:names:tc:SAML:2.0:assertion}Conditions')
-    if !conds_xml:
+    if not conds_xml:
         raise SamlException('Could not find valid conditions statement. This is required.')
 
     # @test: Verify audience.
