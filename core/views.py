@@ -630,7 +630,7 @@ class Wasa2ilActivationView(ActivationView):
 def verify(request):
 
     if request.method != 'POST':
-        raise Http404
+        raise HttpResponseBadRequest("Bad request")
 
     token = request.POST.get('token')
     if not token:
