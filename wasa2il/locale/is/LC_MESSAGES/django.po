@@ -1299,7 +1299,7 @@ msgstr "Lengd kjörseðla"
 #: wasa2il/templates/election/election_view.html:198
 #: wasa2il/templates/election/election_view.html:285
 msgid "About This Election"
-msgstr "Um Þessar Kosningar"
+msgstr "Um þessar kosningar"
 
 #: wasa2il/templates/election/election_view.html:207
 msgid "Election results"
