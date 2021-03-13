@@ -80,13 +80,13 @@ class BallotContainer(object):
         unicode_ballots = []
         for ballot in self.ballots:
             unicode_ballots.append(
-               [(rank, unicode(cand)) for rank, cand in ballot])
+               [(rank, str(cand)) for rank, cand in ballot])
         random.shuffle(unicode_ballots)
         if filename == '-':
-            json.dump(unicode_ballots, sys.stdout, encoding='utf-8', indent=1)
+            json.dump(unicode_ballots, sys.stdout, indent=1)
         else:
             with open(filename, 'w') as fd:
-                json.dump(unicode_ballots, fd, encoding='utf-8', indent=1)
+                json.dump(unicode_ballots, fd, indent=1)
 
     def get_candidates(self):
         candidates = {}
@@ -148,7 +148,7 @@ class BallotAnalyzer(BallotContainer):
             lengths[l] = lengths.get(l, 0) + 1
         stats['ballot_lengths'] = lengths
         stats['ballot_length_average'] = float(sum(
-            (k * v) for k, v in lengths.iteritems())) / len(self.ballots)
+            (k * v) for k, v in iter(lengths.items()))) / len(self.ballots)
 
         def ls(l):
             return {
@@ -156,7 +156,7 @@ class BallotAnalyzer(BallotContainer):
                 "count": lengths[l],
                 "pct": float(100 * lengths[l]) / len(self.ballots)}
         stats['ballot_length_most_common'] = ls(max(
-            (v, k) for k, v in lengths.iteritems())[1])
+            (v, k) for k, v in iter(lengths.items()))[1])
         stats['ballot_length_longest'] = ls(max(lengths.keys()))
         stats['ballot_length_shortest'] = ls(min(lengths.keys()))
 
