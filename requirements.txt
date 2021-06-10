@@ -1,5 +1,5 @@
 pillow
-Django==1.8.7
+Django==2.2.24
 django-registration-redux
 django-bootstrap-form
 pymysql
