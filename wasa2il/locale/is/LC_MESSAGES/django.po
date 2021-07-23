@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-19 01:45+0000\n"
+"POT-Creation-Date: 2021-07-23 13:20+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -787,49 +787,38 @@ msgstr "Verk notanda"
 msgid "News Site"
 msgstr "Fréttavefur"
 
-#: wasa2il/templates/_user_actions.html:8
-#: wasa2il/templates/help/is/agreement.html:6
-#: wasa2il/templates/help/is/authors.html:6
-#: wasa2il/templates/help/is/copyright.html:6
-#: wasa2il/templates/help/is/index.html:6
-#: wasa2il/templates/help/is/polity.html:6
-#: wasa2il/templates/help/is/proposal.html:6
-#: wasa2il/templates/help/is/wasa2il.html:6
-msgid "Help"
-msgstr "Hjálp"
-
-#: wasa2il/templates/_user_actions.html:13
+#: wasa2il/templates/_user_actions.html:18
 msgid "Sub-polities"
 msgstr "Aðildarfélög"
 
-#: wasa2il/templates/_user_actions.html:39
+#: wasa2il/templates/_user_actions.html:44
 msgid "My profile"
 msgstr "Mín síða"
 
-#: wasa2il/templates/_user_actions.html:40
+#: wasa2il/templates/_user_actions.html:45
 msgid "My settings"
 msgstr "Stillingar"
 
-#: wasa2il/templates/_user_actions.html:41
+#: wasa2il/templates/_user_actions.html:46
 #: wasa2il/templates/accounts/personal_data.html:11
 msgid "Personal data"
 msgstr "Persónugögn"
 
-#: wasa2il/templates/_user_actions.html:43
+#: wasa2il/templates/_user_actions.html:48
 #: wasa2il/templates/registration/verification_invalid_entity.html:17
 #: wasa2il/templates/registration/verification_needed.html:12
 #: wasa2il/templates/termsandconditions/tc_accept_terms.html:49
 msgid "Logout"
 msgstr "Útskrá"
 
-#: wasa2il/templates/_user_actions.html:47
+#: wasa2il/templates/_user_actions.html:52
 #: wasa2il/templates/registration/login.html:11
 #: wasa2il/templates/registration/logout.html:12
 #: wasa2il/templates/registration/password_reset_complete.html:13
 msgid "Log in"
 msgstr "Innskrá"
 
-#: wasa2il/templates/_user_actions.html:48
+#: wasa2il/templates/_user_actions.html:53
 #: wasa2il/templates/registration/login.html:30
 #: wasa2il/templates/registration/registration_form.html:11
 #: wasa2il/templates/registration/registration_form.html:30
@@ -1438,6 +1427,16 @@ msgstr ""
 #: wasa2il/templates/forms/widgets/email_wanted.html:5
 msgid "Do you want to receive such email?"
 msgstr "Viltu fá slíkar sendingar?"
+
+#: wasa2il/templates/help/is/agreement.html:6
+#: wasa2il/templates/help/is/authors.html:6
+#: wasa2il/templates/help/is/copyright.html:6
+#: wasa2il/templates/help/is/index.html:6
+#: wasa2il/templates/help/is/polity.html:6
+#: wasa2il/templates/help/is/proposal.html:6
+#: wasa2il/templates/help/is/wasa2il.html:6
+msgid "Help"
+msgstr "Hjálp"
 
 #: wasa2il/templates/help/is/agreement.html:8
 msgid ""
@@ -2392,7 +2391,9 @@ msgstr "Stillingar þings"
 msgid ""
 "You are eligible for membership to this polity although you are still not a "
 "member."
-msgstr "Þú uppfyllir skilyrðin til að gerast meðlimur í þessu aðildarfélagi, en hefur ekki aðild eins og er."
+msgstr ""
+"Þú uppfyllir skilyrðin til að gerast meðlimur í þessu aðildarfélagi, en "
+"hefur ekki aðild eins og er."
 
 #: wasa2il/templates/polity/stub/eligibility_polity.html:6
 msgid "Click here to become a member"
@@ -2554,6 +2555,14 @@ msgstr ""
 #: wasa2il/templates/registration/password_reset_form.html:8
 msgid "Password reset"
 msgstr "Stilla Lykilorð"
+
+#: wasa2il/templates/registration/login.html:49
+msgid "Attention"
+msgstr "Athugið"
+
+#: wasa2il/templates/registration/login.html:49
+msgid "You may need to verify your account via island.is in the next step."
+msgstr "Hugsanlega þarf að staðfesta auðkenningu á island.is í næsta skrefi."
 
 #: wasa2il/templates/registration/logout.html:8
 msgid "Logged out"
