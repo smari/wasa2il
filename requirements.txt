@@ -1,6 +1,8 @@
 commonmark==0.8.0
-coverage
+gunicorn
 django-dotenv
+psycopg2
+dj_database_url
 django
 django-registration-redux
 django-bootstrap-form

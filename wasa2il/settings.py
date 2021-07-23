@@ -245,8 +245,8 @@ MIDDLEWARE = (
     'django.middleware.cache.FetchFromCacheMiddleware',
     'core.middleware.AutoLogoutMiddleware',
     'termsandconditions.middleware.TermsAndConditionsRedirectMiddleware',
-    'core.middleware.SamlMiddleware',
     'core.middleware.GlobalsMiddleware',
+    'core.middleware.SamlMiddleware',
 )
 try:
     MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
