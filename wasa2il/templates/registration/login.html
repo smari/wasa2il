@@ -45,5 +45,11 @@
     </div>
 </div>
 
+{% if using_saml %}
+<p>
+    <b>{% trans 'Attention' %}:</b> {% trans 'You may need to verify your account via island.is in the next step.' %}
+</p>
+{% endif %}
+
 </section>
 {% endblock %}

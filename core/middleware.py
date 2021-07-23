@@ -25,6 +25,7 @@ class GlobalsMiddleware(MiddlewareMixin):
             'WASA2IL_HASH': settings.WASA2IL_HASH,
             'CONTACT_EMAIL': settings.CONTACT_EMAIL,
             'ORGANIZATION_NEWS_URL': settings.ORGANIZATION_NEWS_URL,
+            'using_saml': len(settings.SAML['URL']) > 0,
         }
 
         try:
