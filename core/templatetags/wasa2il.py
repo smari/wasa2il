@@ -90,7 +90,7 @@ def thumbnail(file, size='104x104'):
 @register.filter(is_safe=True)
 @stringfilter
 def markdown(value):
-    return mark_safe(markdown2.markdown(value, safe_mode='escape', extras=['break-on-newline']).replace('\\', ''))
+    return mark_safe(markdown2.markdown(value, extras=['break-on-newline']).replace('\\', ''))
 
 
 @register.filter

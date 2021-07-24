@@ -47,7 +47,7 @@
         {% endif %}
 
         <div class="issue-description">
-          {{ issue.description|markdown|urlize }}
+          {{ issue.description|urlize|markdown }}
         </div>
 
         <table class="table">

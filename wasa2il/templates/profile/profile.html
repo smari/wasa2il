@@ -31,14 +31,14 @@
           <img class="img-thumbnail" src="{{ profile.picture.url }}" />
         </div>
         {% if profile.bio %}
-            {{ profile.bio|markdown|urlize }}
+            {{ profile.bio|urlize|markdown }}
         {% else %}
             {% trans "This user hasn't provided a biography." %}
         {% endif %}
 
         {% if profile.declaration_of_interests %}
           <h1>{% trans "Declaration of interests" %}</h1>
-          {{ profile.declaration_of_interests|markdown|urlize }}
+          {{ profile.declaration_of_interests|urlize|markdown }}
         {% endif %}
 
     </div>

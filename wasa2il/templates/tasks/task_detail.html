@@ -33,14 +33,14 @@ $(document).ready(function() {
         <div class="task__short_description">
             <h2 class="task__info-title">{% trans 'Short description' %}</h2>
             <div class="content">
-                {{ task.short_description|markdown|urlize }}
+                {{ task.short_description|urlize|markdown }}
             </div>
         </div>
         {% if task.detailed_description %}
         <div class="task__detailed_description content">
             <h2 class="task__info-title">{% trans 'Detailed description' %}</h2>
             <div class="content">
-                {{ task.detailed_description|markdown|urlize }}
+                {{ task.detailed_description|urlize|markdown }}
             </div>
         </div>
         {% endif %}
@@ -48,7 +48,7 @@ $(document).ready(function() {
         <div class="task__requirement">
             <h2 class="task__info-title">{% trans 'Required skills' %}</h2>
             <div class="content">
-            {{ task.requirements|markdown|urlize }}
+            {{ task.requirements|urlize|markdown }}
             </div>
         </div>
         {% endif %}

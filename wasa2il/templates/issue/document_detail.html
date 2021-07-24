@@ -148,7 +148,7 @@
                     <td style="white-space: nowrap;"><strong>{{ content.get_status_display }}</strong></td>
                 {% endif %}
                 <td><a href="/accounts/profile/{{ content.user }}"> {{ content.user.get_full_name|default:content.user.username }}</a></td>
-                <td>{{ content.comments|markdown|urlize }}</td>
+                <td>{{ content.comments|urlize|markdown }}</td>
             </tr>
             {% endfor %}
             {% if action == 'new' %}
