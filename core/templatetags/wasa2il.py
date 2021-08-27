@@ -147,3 +147,17 @@ def comments_section(obj_key, obj_id, closed=False):
 @register.filter(name='fromunixts')
 def fromunixts(value):
     return datetime.fromtimestamp(int(value))
+
+
+@register.filter(name='phoneformat')
+def phoneformat(phone):
+
+    # No whitespace, thank you.
+    phone = phone.replace(' ', '').strip()
+
+    # This is the only format we know so far. Feel free to add!
+    if len(phone) == 7 and phone.isdigit():
+        return '%s-%s' % (phone[0:3], phone[3:])
+
+    # If we haven't figured out the format, leave as is.
+    return phone

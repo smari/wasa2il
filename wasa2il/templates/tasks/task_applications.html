@@ -58,6 +58,12 @@
         {% for app in task.taskrequest_set.all %}
           <div class="task-application">
             <h3><a href="/accounts/profile/{{app.user.username}}/">{{app.user.get_name}}</a></h3>
+            <div>
+              <p>{% trans 'Email' %}: <a href="mailto:{{ app.user.email }}">{{ app.user.email }}</a></p>
+              {% if app.user.userprofile.phone %}
+                <p>{% trans 'Phone' %}: <a href="tel:{{ app.user.userprofile.phone|phoneformat }}">{{ app.user.userprofile.phone|phoneformat }}</a></p>
+              {% endif %}
+            </div>
             <div class="user-application-bar">
               <div title="Completed tasks: {{app.user.tasks_completed.count}}" class="user-application-bar__green" style="width: {{app.user.tasks_percent.completed}}%"></div>
               <div title="Total applications: {{app.user.tasks_applied.count}}" class="user-application-bar__yellow" style="width: {{app.user.tasks_percent.applied}}%"></div>
