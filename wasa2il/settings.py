@@ -249,7 +249,7 @@ MIDDLEWARE = (
     'core.middleware.SamlMiddleware',
 )
 try:
-    MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES
+    MIDDLEWARE += LOCAL_MIDDLEWARE
 except:
     pass
 
@@ -383,7 +383,7 @@ if DEBUG:
         imp.find_module('debug_toolbar')
 
         INSTALLED_APPS += ('debug_toolbar.apps.DebugToolbarConfig',)
-        MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+        MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
         INTERNAL_IPS = ('127.0.0.1',)
         DEBUG_TOOLBAR_CONFIG = {
             'JQUERY_URL': ''
