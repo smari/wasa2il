@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Prefetch
+from django.db.models import Count
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
@@ -167,7 +170,14 @@ def task_applications(request, polity_id):
 
     show_done = bool(int(request.GET.get('showdone', 0)))
 
-    tasks = polity.task_set.order_by('-created')
+    tasks = polity.task_set.prefetch_related(
+        # Prefetch the data for the User model that we need to determine statistics and such.
+        Prefetch(
+            'taskrequest_set__user',
+            queryset=User.objects.annotate_task_stats()
+        ),
+        'taskrequest_set__user__userprofile'
+    ).order_by('-created')
     if not show_done:
         tasks = tasks.filter(is_done=False)
 

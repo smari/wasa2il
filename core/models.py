@@ -14,7 +14,7 @@ from django.db.models import IntegerField
 from django.db.models import Q
 from django.db.models import SET_NULL
 from django.db.models import When
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as BaseUser
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from registration.signals import user_registered
@@ -25,6 +25,48 @@ from issue.models import DocumentContent
 from issue.models import Issue
 
 import inspect
+
+
+# See: https://docs.djangoproject.com/en/3.2/topics/db/managers/#custom-managers
+class UserManager(models.Manager):
+    # Annotates basic task statistics.
+    def annotate_task_stats(self):
+        return self.annotate(
+            tasks_applied_count=Count('taskrequest'),
+            tasks_completed_count=Count('taskrequest', filter=Q(taskrequest__task__is_done=True)),
+            tasks_accepted_count=Count('taskrequest', filter=Q(taskrequest__is_accepted=True))
+        )
+
+
+# A proxy model only so that we can add our own model manager and functions
+# for dealing with project-specific things.
+# See: https://docs.djangoproject.com/en/3.2/topics/db/models/#proxy-models
+class User(BaseUser):
+    objects = UserManager()
+
+    # Produces percentages out of task statistics produced through the
+    # `annotate_task_stats()` function in our model manager.
+    def tasks_percent(self):
+        # Make sure that we instruct the programmer properly if they're using
+        # this function without using the proper annotation function that
+        # produces the required data.
+        needed_attrs = ['tasks_applied_count', 'tasks_accepted_count', 'tasks_completed_count']
+        if not all(hasattr(self, a) for a in needed_attrs):
+            raise Exception('User.tasks_percent() function can only be called when User.objects.annotate_task_stats() has been applied')
+
+        # Let's not bother calculating things if everything is zero anyway.
+        if self.tasks_applied_count == 0:
+            return {'applied': 0, 'accepted': 0, 'completed': 100}
+
+        return {
+            'applied': 100*(self.tasks_applied_count - self.tasks_accepted_count - self.tasks_completed_count) / float(self.tasks_applied_count),
+            'accepted': 100*(self.tasks_accepted_count - self.tasks_completed_count) / float(self.tasks_applied_count),
+            'completed': 100*(self.tasks_completed_count) / float(self.tasks_applied_count)
+        }
+
+    class Meta:
+        proxy = True
+
 
 class UserProfile(models.Model):
     """A user's profile data. Contains various informative areas, plus various settings."""
@@ -102,7 +144,12 @@ def _create_user_profile(**kwargs):
 user_registered.connect(_create_user_profile)
 
 
-# Monkey-patch the User.get_name() method
+# TODO: Deprecate this function.
+# This function should be deprecated in favor of calling
+# `.userprofile.displayname` directly, the reason being that this
+# function hides the need for using `select_related()`, but also because
+# a `UserProfile` is now automatically created so it accounts for a
+# scenario that no longer occurs.
 def get_name(user):
     name = ""
     if user:
@@ -117,34 +164,11 @@ def get_name(user):
 
     return name
 
-def tasks_applied(user):
-    return user.taskrequest_set.all()
-
-def tasks_accepted(user):
-    return tasks_applied(user).filter(is_accepted=True)
-
-def tasks_completed(user):
-    return tasks_accepted(user).filter(task__is_done=True)
-
-def tasks_percent(user):
-    applied_cnt = tasks_applied(user).count()
-    if applied_cnt == 0:
-        return {'applied': 0, 'accepted': 0, 'completed': 100}
-    accepted_cnt = tasks_accepted(user).count()
-    completed_cnt = tasks_completed(user).count()
-    ret = {
-        'applied': 100*(applied_cnt - accepted_cnt - completed_cnt) / float(applied_cnt),
-        'accepted': 100*(accepted_cnt - completed_cnt) / float(applied_cnt),
-        'completed': 100*(completed_cnt) / float(applied_cnt)
-    }
-    return ret
-
+# We need to monkey-patch both `BaseUser` and `User` because we've added
+# `User` as a proxy model. Both monkey-patches should removed when
+# `get_name` gets refactored out.
+BaseUser.get_name = get_name
 User.get_name = get_name
-User.tasks_applied = tasks_applied
-User.tasks_accepted = tasks_accepted
-User.tasks_completed = tasks_completed
-User.tasks_percent = tasks_percent
-
 
 
 class Event(models.Model):

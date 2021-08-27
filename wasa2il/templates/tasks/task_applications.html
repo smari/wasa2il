@@ -65,9 +65,9 @@
               {% endif %}
             </div>
             <div class="user-application-bar">
-              <div title="Completed tasks: {{app.user.tasks_completed.count}}" class="user-application-bar__green" style="width: {{app.user.tasks_percent.completed}}%"></div>
-              <div title="Total applications: {{app.user.tasks_applied.count}}" class="user-application-bar__yellow" style="width: {{app.user.tasks_percent.applied}}%"></div>
-              <div title="Unfinished tasks: {{app.user.tasks_accepted.count}}" class="user-application-bar__red" style="width: {{app.user.tasks_percent.accepted}}%"></div>
+              <div title="Completed tasks: {{ app.user.tasks_completed_count }}" class="user-application-bar__green" style="width: {{ app.user.tasks_percent.completed }}%"></div>
+              <div title="Total applications: {{ app.user.tasks_applied_count }}" class="user-application-bar__yellow" style="width: {{ app.user.tasks_percent.applied }}%"></div>
+              <div title="Unfinished tasks: {{ app.user.tasks_accepted_count }}" class="user-application-bar__red" style="width: {{ app.user.tasks_percent.accepted }}%"></div>
             </div>
 
             <h4><strong>{% trans 'Reason for applying' %}:</strong></h4>
