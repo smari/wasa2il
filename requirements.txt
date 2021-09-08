@@ -1,7 +1,6 @@
 commonmark==0.8.0
 gunicorn
 django-dotenv
-psycopg2
 dj_database_url
 django
 django-registration-redux
