@@ -40,7 +40,26 @@
     </style>
     <script type="text/javascript" src="/static/js/jquery.sparkline.min.js"></script>
 {% endblock %}
+
 {% block content %}
+
+<div class="modal fade" id="conditions-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                {% trans 'Conditions' %}
+            </div>
+            <div class="modal-body">
+                <span id="conditions-content">{{ election.conditions|urlize|markdown }}</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="conditions-agree">{% trans 'Agree' %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section class="content">
 <div id="ajax-status-messages">
   <div id="submit-error" class="alert alert-danger" style="display: none;">

@@ -220,8 +220,21 @@ function election_timer_restart() {
 
 
 function election_candidacy_announce() {
-    $('#election_button_announce').prop('disabled', true);
-    return election_candidacy(1);
+    var $dialog = $('#conditions-dialog');
+    var conditions = $dialog.find('#conditions-content').text().trim();
+
+    // If conditions for candidates have been defined, we will show them, and
+    // bind the appropriate function to the confirmation button on that
+    // modal, instead of calling the appropriate function directly.
+    if (conditions.length > 0) {
+        $dialog.find('#conditions-agree:not(.bound)').addClass('bound').on('click', function() {
+            return election_candidacy(1);
+        });
+        $dialog.modal('show');
+    }
+    else {
+        return election_candidacy(1);
+    }
 }
 
 function election_candidacy_withdraw() {

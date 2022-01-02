@@ -75,7 +75,8 @@ class Election(models.Model):
     deadline_joined_org = models.DateTimeField(null=True, blank=True, verbose_name=_('Membership deadline'))
     is_processed = models.BooleanField(default=False)
 
-    instructions = models.TextField(null=True, blank=True, verbose_name=_('Instructions'))
+    instructions = models.TextField(null=True, blank=True, verbose_name=_('Instructions for voters'), help_text=_('Instructions or other information that might be of importance to those casting their votes.'))
+    conditions = models.TextField(null=True, blank=True, verbose_name=_('Conditions for candidates'), help_text=_('Candidates must accept these conditions to be allowed to run in the election. Anything binding for the candidates should be placed here, for example if candidates are expected to abide by certain rules, to volunteer their time in a some way or provide particular information.'))
 
     # These are election statistics;
     stats = models.TextField(null=True, blank=True, verbose_name=_('Statistics as JSON'))
@@ -433,6 +434,9 @@ class Candidate(models.Model):
 
     def __str__(self):
         return u'%s' % self.user.username
+
+    class Meta:
+        unique_together = ['user', 'election']
 
 
 class ElectionVote(models.Model):
