@@ -9,6 +9,7 @@ from django import template
 from django.conf import settings
 from django.template.defaultfilters import stringfilter
 from django.utils.formats import dateformat
+from django.utils.html import urlize as urlize_impl
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
@@ -91,6 +92,22 @@ def thumbnail(file, size='104x104'):
 @stringfilter
 def markdown(value):
     return mark_safe(markdown2.markdown(value, extras=['break-on-newline']).replace('\\', ''))
+
+
+@register.filter(is_safe=True, needs_autoescape=True)
+@stringfilter
+def urlize(value, trim_url_limit=None, autoescape=None):
+    return mark_safe(
+        urlize_impl(
+            value,
+            trim_url_limit=trim_url_limit,
+            nofollow=True,
+            autoescape=autoescape
+        ).replace(
+            '<a',
+            '<a target="_blank"'
+        )
+    )
 
 
 @register.filter
