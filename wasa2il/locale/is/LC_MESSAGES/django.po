@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-23 13:20+0000\n"
+"POT-Creation-Date: 2022-01-02 17:30+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -66,7 +66,7 @@ msgstr "Já"
 msgid "No"
 msgstr "Nei"
 
-#: core/forms.py:63 core/models.py:63
+#: core/forms.py:63 core/models.py:105
 msgid "Consent for sending email"
 msgstr "Samþykki fyrir póstsendingum"
 
@@ -74,56 +74,56 @@ msgstr "Samþykki fyrir póstsendingum"
 msgid "Message"
 msgstr ""
 
-#: core/models.py:47 election/models.py:38 issue/models.py:52
+#: core/models.py:89 election/models.py:38 issue/models.py:52
 #: issue/models.py:368 issue/models.py:426 polity/models.py:26
 #: tasks/models.py:50 topic/models.py:76
 msgid "Name"
 msgstr "Nafn"
 
-#: core/models.py:47
+#: core/models.py:89
 msgid "The name to display on the site."
 msgstr "Nafnið sem birtist á vefnum."
 
-#: core/models.py:48
+#: core/models.py:90 wasa2il/templates/tasks/task_applications.html:64
 msgid "Phone"
 msgstr "Sími"
 
-#: core/models.py:48
+#: core/models.py:90
 msgid ""
 "Mostly intended for active participants such as volunteers and candidates."
 msgstr ""
 "Fyrst og fremst fyrir virka þátttakendur, t.d. sjálfboðaliða og "
 "frambjóðendur."
 
-#: core/models.py:49
+#: core/models.py:91
 msgid "E-mail visible"
 msgstr "Netfang sýnilegt"
 
-#: core/models.py:49
+#: core/models.py:91
 msgid "Whether to display your email address on your profile page."
 msgstr "Við sýnum <strong>ekki</strong> netföng notenda okkar opinberlega."
 
-#: core/models.py:50
+#: core/models.py:92
 msgid "Bio"
 msgstr "Saga"
 
-#: core/models.py:51 wasa2il/templates/profile/profile.html:40
+#: core/models.py:93 wasa2il/templates/profile/profile.html:40
 msgid "Declaration of interests"
 msgstr "Hagsmunaskráning"
 
-#: core/models.py:52
+#: core/models.py:94
 msgid "Picture"
 msgstr "Mynd"
 
-#: core/models.py:64
+#: core/models.py:106
 msgid "Whether to consent to receiving notifications via email."
 msgstr "Samþykki fyrir því að fá tilkynningar með tölvupósti."
 
-#: core/models.py:67 wasa2il/templates/admintools_push.html:16
+#: core/models.py:109 wasa2il/templates/admintools_push.html:16
 msgid "Language"
 msgstr "Tungumál"
 
-#: core/models.py:68
+#: core/models.py:110
 msgid "Whether to show all topics in a polity, or only starred."
 msgstr "Hvort eigi að sýna mál þings, eða einungis stjörnumerkt."
 
@@ -201,27 +201,50 @@ msgstr "Þing frambjóðenda"
 msgid "Membership deadline"
 msgstr "Skráningarmörk kjósenda"
 
-#: election/models.py:78 wasa2il/templates/base.html:155
-msgid "Instructions"
-msgstr "Leiðbeiningar"
+#: election/models.py:78
+msgid "Instructions for voters"
+msgstr "Leiðbeiningar til kjósenda"
 
-#: election/models.py:81
+#: election/models.py:78
+msgid ""
+"Instructions or other information that might be of importance to those "
+"casting their votes."
+msgstr ""
+"Leiðbeiningar eða upplýsingar sem gætu verið mikilvægar fyrir kjósendur."
+
+#: election/models.py:79
+msgid "Conditions for candidates"
+msgstr "Skilyrði fyrir framboði"
+
+#: election/models.py:79
+msgid ""
+"Candidates must accept these conditions to be allowed to run in the "
+"election. Anything binding for the candidates should be placed here, for "
+"example if candidates are expected to abide by certain rules, to volunteer "
+"their time in a some way or provide particular information."
+msgstr ""
+"Frambjóðendur verða að samþykkja þennan texta til að geta boðið sig fram í "
+"kosningunni. Hér ætti allt að vera sem er bindandi fyrir frambjóðendur, til "
+"dæmis ef ætlast er til þess að frambjóðendur fylgi ákveðnum reglum, leggi "
+"til einhverja sjálfboðaliðavinnu eða veiti tilteknar upplýsingar."
+
+#: election/models.py:82
 msgid "Statistics as JSON"
 msgstr "Tölfræði sem JSON"
 
-#: election/models.py:82
+#: election/models.py:83
 msgid "Publish basic ballot statistics"
 msgstr "Gefa út grunntölfræði um atkvæði"
 
-#: election/models.py:83
+#: election/models.py:84
 msgid "Publish ballot statistics for each candidate"
 msgstr "Gefa út tölfræði um atkvæði til hvers frambjóðanda"
 
-#: election/models.py:84
+#: election/models.py:85
 msgid "Publish advanced statistics (downloadable)"
 msgstr "Gefa út ítarlega tölfræði (niðurhalanlega)"
 
-#: election/models.py:198
+#: election/models.py:199
 #, python-format
 msgid "Election results in election '%s' have been calculated."
 msgstr ""
@@ -993,6 +1016,10 @@ msgstr "Um wasa2il"
 #: wasa2il/templates/base.html:154
 msgid "License"
 msgstr "Notandaleyfi"
+
+#: wasa2il/templates/base.html:155
+msgid "Instructions"
+msgstr "Leiðbeiningar"
 
 #: wasa2il/templates/base.html:156 wasa2il/templates/help/is/authors.html:6
 msgid "Authors"
@@ -2556,11 +2583,11 @@ msgstr ""
 msgid "Password reset"
 msgstr "Stilla Lykilorð"
 
-#: wasa2il/templates/registration/login.html:49
+#: wasa2il/templates/registration/login.html:50
 msgid "Attention"
 msgstr "Athugið"
 
-#: wasa2il/templates/registration/login.html:49
+#: wasa2il/templates/registration/login.html:50
 msgid "You may need to verify your account via island.is in the next step."
 msgstr "Hugsanlega þarf að staðfesta auðkenningu á island.is í næsta skrefi."
 
@@ -2747,6 +2774,7 @@ msgstr ""
 "umsjónarmann."
 
 #: wasa2il/templates/registration/verification_duplicate.html:12
+#: wasa2il/templates/tasks/task_applications.html:62
 msgid "Email"
 msgstr "Netfang"
 
@@ -2857,23 +2885,23 @@ msgctxt "applications"
 msgid "Accepted"
 msgstr "Samþykktar"
 
-#: wasa2il/templates/tasks/task_applications.html:67
+#: wasa2il/templates/tasks/task_applications.html:73
 msgid "Reason for applying"
 msgstr "Rökstuðningur umsóknar"
 
-#: wasa2il/templates/tasks/task_applications.html:70
+#: wasa2il/templates/tasks/task_applications.html:76
 msgid "Available time"
 msgstr "Tími aflögu"
 
-#: wasa2il/templates/tasks/task_applications.html:79
+#: wasa2il/templates/tasks/task_applications.html:85
 msgid "Unassign user"
 msgstr "Afskrá notanda"
 
-#: wasa2il/templates/tasks/task_applications.html:85
+#: wasa2il/templates/tasks/task_applications.html:91
 msgid "Accept application"
 msgstr "Samþykkja umsókn"
 
-#: wasa2il/templates/tasks/task_applications.html:92
+#: wasa2il/templates/tasks/task_applications.html:98
 msgid "No applications yet. Perhaps try drawing attention to the task somehow?"
 msgstr ""
 "Engar umsóknir komnar. Kannski myndi hjálpa að vekja athygli á verkefninu "
