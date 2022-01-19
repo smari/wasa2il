@@ -1209,10 +1209,8 @@ msgid "Election:"
 msgstr "Kosning:"
 
 #: wasa2il/templates/election/election_view.html:50
-#, fuzzy
-#| msgid "Terms and Conditions"
 msgid "Conditions"
-msgstr "Notkunarskilmálar"
+msgstr "Skilmálar"
 
 #: wasa2il/templates/election/election_view.html:57
 msgid "Agree"
