@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-17 09:52+0000\n"
+"POT-Creation-Date: 2022-02-17 10:07+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -2846,7 +2846,11 @@ msgstr "vikur"
 msgid "Currently there are no tasks that need help."
 msgstr "Eins og er eru engin verkefni sem þurfa sjálfboðaliða."
 
-#: wasa2il/templates/tasks/task_add_edit.html:12
+#: wasa2il/templates/tasks/task_add_edit.html:14
+msgid "Edit task"
+msgstr "Breyta verkefni"
+
+#: wasa2il/templates/tasks/task_add_edit.html:16
 #: wasa2il/templates/tasks/task_main.html:13
 msgid "New task"
 msgstr "Nýtt verkefni"
