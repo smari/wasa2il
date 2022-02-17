@@ -88,6 +88,9 @@ class Task(models.Model):
     def applied_volunteers(self):
         return self.taskrequest_set.select_related('user')
 
+    class Meta:
+        ordering = ['-created']
+
 
 class TaskCategory(models.Model):
     name = models.CharField(max_length=128)

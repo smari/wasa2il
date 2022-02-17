@@ -15,10 +15,28 @@ from polity.models import Polity
 from tasks.forms import TaskForm
 
 def task_main(request, polity_id):
-    tasks = Task.objects.filter(polity_id=polity_id, is_recruiting=True, is_done=False).order_by('-created')
+    polity = get_object_or_404(Polity, id=polity_id)
+
+    # Basic attributes of tasks we're interested in.
+    tasks = Task.objects.filter(is_recruiting=True, is_done=False)
+
+    # Front polity's tasks are always shown.
+    front_tasks = tasks.filter(
+        polity__is_front_polity=True
+    )
+
+    # Sub-polity's tasks are only shown if they exist.
+    sub_polity_tasks = tasks.filter(
+        polity_id=polity_id,
+        polity__is_front_polity=False
+    )
+
+    total_task_count = len(front_tasks) + len(sub_polity_tasks)
 
     ctx = {
-        'tasks': tasks,
+        'front_tasks': front_tasks,
+        'sub_polity_tasks': sub_polity_tasks,
+        'total_task_count': total_task_count,
     }
     return render(request, 'tasks/task_main.html', ctx)
 

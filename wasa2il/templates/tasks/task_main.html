@@ -5,8 +5,8 @@
 {% block content %}
 <section class="hero" style="background-image: url('/static/img/heroes/fistbump.jpg')">
   <h1>{% trans "Pitch in, help out" %}</h1>
-  <h2>{% blocktrans with number=tasks.count %}{{number}} tasks need your help{% endblocktrans %}</h2>
-  <a href="#verkefni" role="button" class="btn btn-primary btn-lg">{% trans "Check out the tasks" %}</a>
+  <h2>{% blocktrans %}{{ total_task_count }} tasks need your help{% endblocktrans %}</h2>
+  <a href="#tasks" role="button" class="btn btn-primary btn-lg">{% trans "Check out the tasks" %}</a>
   {% if user.taskrequest_set.count > 0 %}<a href="{% url 'task_user_tasks' user.username %}" role="button" class="btn btn-primary btn-lg">{% trans "View your tasks" %}</a>{% endif %}
   {% if user_is_wrangler %}
   <div class="actions">
@@ -16,33 +16,22 @@
   {%endif%}
 </section>
 
-{% comment %}
-<section class="lesser-hero">
-  <div class="left">
-    <img src="http://dev1.webmo.is/wp-content/uploads/2017/09/hands-image.svg"/>
-  </div>
-  <div class="right">
-    <h1>{% trans "Your chance to shine" %}</h1>
-    <h2>{% trans "Here you may find an opportunity to help that fits your talents" %}</h2>
-    <div class="content">{% blocktrans %}Our volunteering system matches projects that need doing with people who want to do them. It's a perfect way to put your skills and talents to good use. Check the outstanding projects below!{% endblocktrans %}</div>
-  </div>
-</section>
-{% endcomment %}
-
 <section class="content">
   <div class="toolbar">
-    <a name="verkefni"></a>
+    <a name="tasks"></a>
     <h1>{% trans "Volunteer tasks" %}</h1>
-    <div class="tools">
-      {% if tasks.count > 6 %}
-      <button class="btn btn-default btn-lg">{% trans "Hide filter" %} <i class="fas fa-chevron-up"></i></button>
-      <button class="btn btn-default btn-lg" disabled>{% trans "Clear filter" %}</button>
-      {% endif %}
-    </div>
   </div>
-
-  {% include 'tasks/stub/list.html' %}
-
+  {% include 'tasks/stub/list.html' with tasks=front_tasks %}
 </section>
+
+{% if sub_polity_tasks %}
+<section class="content">
+  <div class="toolbar">
+    <a name="tasks"></a>
+    <h1>{% blocktrans %}Volunteer tasks in polity {{ polity }}{% endblocktrans %}</h1>
+  </div>
+  {% include 'tasks/stub/list.html' with tasks=sub_polity_tasks %}
+</section>
+{% endif %}
 
 {% endblock %}
