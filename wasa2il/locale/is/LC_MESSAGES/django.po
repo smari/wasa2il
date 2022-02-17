@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-19 19:04+0000\n"
+"POT-Creation-Date: 2022-02-17 09:52+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Icelandic\n"
@@ -699,11 +699,11 @@ msgstr ""
 msgid "Is recruiting"
 msgstr "Opið fyrir umsóknir"
 
-#: tasks/models.py:109 wasa2il/templates/tasks/task_detail.html:116
+#: tasks/models.py:112 wasa2il/templates/tasks/task_detail.html:116
 msgid "Why me?"
 msgstr "Af hverju ég?"
 
-#: tasks/models.py:110 wasa2il/templates/tasks/task_detail.html:120
+#: tasks/models.py:113 wasa2il/templates/tasks/task_detail.html:120
 msgid "What available time do I have?"
 msgstr "Hvaða tíma hef ég aflögu?"
 
@@ -802,7 +802,7 @@ msgstr "Þú ert ekki meðlimur þessa þings."
 msgid "Profile"
 msgstr "Mín síða"
 
-#: wasa2il/templates/_sidenav_profile.html:13
+#: wasa2il/templates/_sidenav_profile.html:16
 msgid "User's tasks"
 msgstr "Verk notanda"
 
@@ -2974,8 +2974,8 @@ msgstr "Leggðu þitt af mörkum"
 
 #: wasa2il/templates/tasks/task_main.html:8
 #, python-format
-msgid "%(number)s tasks need your help"
-msgstr "%(number)s verkefni í boði"
+msgid "%(total_task_count)s tasks need your help"
+msgstr "%(total_task_count)s verkefni í boði"
 
 #: wasa2il/templates/tasks/task_main.html:9
 msgid "Check out the tasks"
@@ -2989,17 +2989,14 @@ msgstr "Skoða verkefnin þín"
 msgid "Review applications"
 msgstr "Yfirfara umsóknir"
 
-#: wasa2il/templates/tasks/task_main.html:35
+#: wasa2il/templates/tasks/task_main.html:22
 msgid "Volunteer tasks"
 msgstr "Sjálfboðaliðastörf"
 
-#: wasa2il/templates/tasks/task_main.html:38
-msgid "Hide filter"
-msgstr "Fela síu"
-
-#: wasa2il/templates/tasks/task_main.html:39
-msgid "Clear filter"
-msgstr "Hreinsa síu"
+#: wasa2il/templates/tasks/task_main.html:31
+#, python-format
+msgid "Volunteer tasks in polity %(polity)s"
+msgstr "Sjálfboðaliðastörf í þinginu %(polity)s"
 
 #: wasa2il/templates/tasks/task_user_tasks.html:6
 msgid "User tasks"
@@ -3107,6 +3104,15 @@ msgstr ""
 "Endilega skráðu þig inn með aðgangi ofurnotanda, sem á að hafa verið búinn "
 "til í innsetningarferlinu, til þess að búa til nýtt þing."
 
+#~ msgid "In polity"
+#~ msgstr "Í þingi"
+
+#~ msgid "Hide filter"
+#~ msgstr "Fela síu"
+
+#~ msgid "Clear filter"
+#~ msgstr "Hreinsa síu"
+
 #~ msgid "Schulze, ordered list (old)"
 #~ msgstr "Schulze, raðaður listi (eldri aðferð)"
 
@@ -3200,9 +3206,6 @@ msgstr ""
 
 #~ msgid "Back to top"
 #~ msgstr "Fara efst"
-
-#~ msgid "in polity:"
-#~ msgstr "í þingi:"
 
 #~ msgid "All polities"
 #~ msgstr "Öll þing"
