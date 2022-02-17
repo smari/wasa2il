@@ -9,7 +9,16 @@
 
 {% block content %}
 <section class="content">
-<h1>{% trans "New task" %}</h1>
+<h1>
+    {% if task.id %}
+        {% trans 'Edit task' %}
+    {% else %}
+        {% trans 'New task' %}
+    {% endif %}
+    {% if not task.polity.is_front_polity %}
+        ({{ task.polity }})
+    {% endif %}
+</h1>
 
 {% crispy form %}
 <span id="cancel-url">{% if task.id %}{% url 'task_detail' task.polity_id task.id %}{% else %}{% url 'task_main' polity.id %}{% endif %}</span>
