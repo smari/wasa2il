@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "archlinux/archlinux"
+
+  # Sync the local project root folder into /app
+  config.vm.synced_folder "../../", "/app", type: "rsync",
+    rsync__exclude: [".git/", ".venv/", ".env", "*.log"]
+
+  # Enable provisioning with a shell script
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+
+    ### apt-get update
+    sudo pacman -S --noconfirm make
+    sudo pacman -S --noconfirm which
+
+    # Decided use pyenv to run a particular python version
+    sudo pacman -S --noconfirm patch  # to build python
+    sudo pacman -S --noconfirm gcc  # to build python
+    sudo pacman -S --noconfirm pyenv
+    eval "$(pyenv init -)"
+    echo '
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+    ' > ~/.bashrc
+
+    # Install and set to version 3.8.10
+    pyenv install 3.8.10
+    pyenv local 3.8.10
+
+    # The env.template defaults to MySQL. Using MariaDB instead.
+    sudo pacman -S --noconfirm mariadb
+    sudo mariadb-install-db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+    sudo systemctl start mariadb.service
+
+    # Setup the database
+    sudo mariadb -e "CREATE USER 'wasa2il'@'localhost' IDENTIFIED BY 'wasa2il';"
+    sudo mariadb -e "GRANT ALL PRIVILEGES ON *.* TO 'wasa2il'@'localhost' WITH GRANT OPTION;"
+    sudo mariadb -e "CREATE DATABASE wasa2il"
+
+    # Now that prereqs are setup, let's try the app itself!
+
+    cd /app
+    make setup
+    make test
+    make migrate
+    # NOTE: This script seems to be python 2.7 compatible, so disabling for now
+    # make load_fake_data
+  SHELL
+end

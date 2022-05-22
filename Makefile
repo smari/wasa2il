@@ -10,6 +10,7 @@
 # unexpected output/errors. It's assumed that all of the recipes here are written
 # in bash syntax.
 SHELL = /bin/bash
+.SHELLFLAGS = -e -u -o pipefail -c
 
 
 default: help
@@ -39,13 +40,16 @@ setup: .env .venv requirements.txt.log requirements-mysql.txt.log requirements-p
 
 
 requirements.txt.log: requirements.txt
-	pip install -r requirements.txt | tee requirements.txt.log
+	@pip install -r requirements.txt | tee .requirements.txt.tmp.log
+	@mv .requirements.txt.tmp.log requirements.txt.log
 
-requirements-mysql.txt.log: requirements-mysql.txt
-	@(grep '^W2_DATABASE_ENGINE' .env | grep 'mysql' > /dev/null && pip install -r requirements-mysql.txt || echo "Not using MySQL") | tee requirements-mysql.txt.log
+requirements-mysql.txt.log: .env requirements-mysql.txt
+	@(grep '^W2_DATABASE_ENGINE' .env | grep 'mysql' > /dev/null && pip install -r requirements-mysql.txt || echo "Not using MySQL") | tee .requirements-mysql.txt.tmp.log
+	@mv .requirements-mysql.txt.tmp.log requirements-mysql.txt.log
 
-requirements-postgresql.txt.log: requirements-postgresql.txt
-	@(grep '^W2_DATABASE_ENGINE' .env | grep 'postgresql' > /dev/null && pip install -r requirements-postgresql.txt || echo "Not using PostgreSQL") | tee requirements-postgresql.txt.log
+requirements-postgresql.txt.log: .env requirements-postgresql.txt
+	@(grep '^W2_DATABASE_ENGINE' .env | grep 'postgresql' > /dev/null && pip install -r requirements-postgresql.txt || echo "Not using PostgreSQL") | tee .requirements-postgresql.txt.tmp.log
+	@mv .requirements-postgresql.txt.tmp.log requirements-postgresql.txt.log
 
 
 .PHONY: test

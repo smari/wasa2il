@@ -98,6 +98,15 @@ If you have `docker-compose` installed, you need to:
 `docker-compose restart app`
 
 
+#### Vagrant (Virtual machines)
+
+Three are a few examples of virtual machines setting up the project. These are found under the `vagrants/` directory.
+
+These are mostly meant to make sure that we have solid examples of how to set up the project on a brand new computer, including necessary system packages.
+
+So these can be used to debug system-level problems, and also to test out changes made at that level, as opposed to at the python package level.
+
+
 #### SASS / SCSS / CSS
 To watch and compile `.scss` automatically:
 `cd core/static/css` and `scss --watch application.scss`
