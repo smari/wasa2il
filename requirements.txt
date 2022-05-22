@@ -2,7 +2,7 @@ commonmark==0.8.0
 gunicorn
 django-dotenv
 dj_database_url
-django
+django==2.2
 django-registration-redux
 django-bootstrap-form
 diff_match_patch

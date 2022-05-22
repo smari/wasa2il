@@ -30,18 +30,28 @@ help:
 	@echo "Please open the '.env' file and adjust to your local setup!"
 
 
-.PHONY: venv
-venv:  ## Creates a virtualenv at `./.venv`
+.venv:  ## Creates a virtualenv at `./.venv`
 	@python -m venv .venv
 
 
 .PHONY: setup
-setup: .env venv  ## Installs all python packages
+setup: .env .venv requirements.txt.log requirements-mysql.txt.log requirements-postgresql.txt.log  ## Sets up the project (installs dependencies etc.)
+
+
+requirements.txt.log: requirements.txt
+	pip install -r requirements.txt | tee requirements.txt.log
+
+requirements-mysql.txt.log: requirements-mysql.txt
+	@(grep '^W2_DATABASE_ENGINE' .env | grep 'mysql' > /dev/null && pip install -r requirements-mysql.txt || echo "Not using MySQL") | tee requirements-mysql.txt.log
+
+requirements-postgresql.txt.log: requirements-postgresql.txt
+	@(grep '^W2_DATABASE_ENGINE' .env | grep 'postgresql' > /dev/null && pip install -r requirements-postgresql.txt || echo "Not using PostgreSQL") | tee requirements-postgresql.txt.log
+
+
+.PHONY: test
+test: setup  ## Runs the unit tests
 	@. .venv/bin/activate
-	@# NOTE: this setuptools might only be needed on archlinux
-	@# TODO: Perhaps just fold into requirements with a comment?
-	@pip install "setuptools==58.0.0"
-	@pip install -r requirements.txt
+	@./manage.py test
 
 
 .PHONY: migrate
@@ -63,8 +73,9 @@ run: setup  ## Runs the Django development server
 
 .PHONY: clean
 clean:  ## Removes cached python files and virtualenv
-	@rm -rf **/__pycache__
-	@deactivate 2>/dev/null | true
+	@echo "Deleting '__pycache__/' directories"
+	@find . -name "__pycache__" -exec rm -rf {} \+
+	@echo "Deleting the virtualenv ('./.venv/')"
 	@rm -rf .venv
 
 
