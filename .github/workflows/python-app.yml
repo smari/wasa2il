@@ -46,6 +46,7 @@ jobs:
         W2_SECRET_KEY: supersecretkey-only-used-for-testing
 
     - name: Deploy to heroku
+      if: false # Heroku Github integration is temporarily broken because of a security issue
       uses: akhileshns/heroku-deploy@v3.8.9 # This is the action
       with:
         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
