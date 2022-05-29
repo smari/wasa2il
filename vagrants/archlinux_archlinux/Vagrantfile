@@ -43,6 +43,7 @@ eval "$(pyenv init -)"
     # Now that prereqs are setup, let's try the app itself!
 
     cd /app
+    make .env || true
     make setup
     make test
     make migrate

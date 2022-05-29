@@ -29,9 +29,10 @@ help:
 	@echo "Missing '.env' file. Creating one using 'env.example' as a template"
 	@cp env.example .env
 	@echo "Please open the '.env' file and adjust to your local setup!"
+	@exit 1
 
 
-.venv:  ## Creates a virtualenv at `./.venv`
+.venv: .env  ## Creates a virtualenv at `./.venv`
 	@python -m venv .venv
 
 
@@ -40,47 +41,45 @@ setup: .env .venv requirements.txt.log requirements-mysql.txt.log requirements-p
 
 
 requirements.txt.log: requirements.txt
-	@pip install -r requirements.txt | tee .requirements.txt.tmp.log
+	@. .venv/bin/activate && pip install -r requirements.txt | tee .requirements.txt.tmp.log
 	@mv .requirements.txt.tmp.log requirements.txt.log
 
 requirements-mysql.txt.log: .env requirements-mysql.txt
-	@(grep '^W2_DATABASE_ENGINE' .env | grep 'mysql' > /dev/null && pip install -r requirements-mysql.txt || echo "Not using MySQL") | tee .requirements-mysql.txt.tmp.log
+	@. .venv/bin/activate && (grep '^W2_DATABASE_ENGINE' .env | grep 'mysql' > /dev/null && pip install -r requirements-mysql.txt || echo "Not using MySQL") | tee .requirements-mysql.txt.tmp.log
 	@mv .requirements-mysql.txt.tmp.log requirements-mysql.txt.log
 
 requirements-postgresql.txt.log: .env requirements-postgresql.txt
-	@(grep '^W2_DATABASE_ENGINE' .env | grep 'postgresql' > /dev/null && pip install -r requirements-postgresql.txt || echo "Not using PostgreSQL") | tee .requirements-postgresql.txt.tmp.log
+	@. .venv/bin/activate && (grep '^W2_DATABASE_ENGINE' .env | grep 'postgresql' > /dev/null && pip install -r requirements-postgresql.txt || echo "Not using PostgreSQL") | tee .requirements-postgresql.txt.tmp.log
 	@mv .requirements-postgresql.txt.tmp.log requirements-postgresql.txt.log
 
 
 .PHONY: test
 test: setup  ## Runs the unit tests
-	@. .venv/bin/activate
-	@./manage.py test
+	@. .venv/bin/activate && ./manage.py test
 
 
 .PHONY: migrate
 migrate: setup  ## Runs the migrate Django management command
-	@. .venv/bin/activate
-	@./manage.py migrate
+	@. .venv/bin/activate && ./manage.py migrate
 
 
 .PHONY: load_fake_data
 load_fake_data: setup  ## Loads up fake data using custom Django management command
-	@. .venv/bin/activate
-	@./manage.py load_fake_data --full --reset
+	@. .venv/bin/activate && ./manage.py load_fake_data --full --reset
 
 .PHONY: run
 run: setup  ## Runs the Django development server
-	@. .venv/bin/activate
-	@./manage.py runserver
+	@. .venv/bin/activate && ./manage.py runserver
 
 
 .PHONY: clean
 clean:  ## Removes cached python files and virtualenv
 	@echo "Deleting '__pycache__/' directories"
 	@find . -name "__pycache__" -exec rm -rf {} \+
+	@echo "Deleting requirement log files"
+	@rm requirements*.log 2>/dev/null || true
 	@echo "Deleting the virtualenv ('./.venv/')"
-	@rm -rf .venv
+	@rm -rf .venv 2>/dev/null || true
 
 
 .PHONY: docker/build
