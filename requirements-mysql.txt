@@ -1,1 +1,2 @@
-mysqlclient
+# Packages required to run this project with MySQL as the DB
+mysqlclient==1.4.6

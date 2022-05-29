@@ -40,17 +40,46 @@ help:
 setup: .env .venv requirements.txt.log requirements-mysql.txt.log requirements-postgresql.txt.log  ## Sets up the project (installs dependencies etc.)
 
 
-requirements.txt.log: requirements.txt
-	@. .venv/bin/activate && pip install -r requirements.txt | tee .requirements.txt.tmp.log
+requirements.txt.log: .venv requirements.txt.freeze
+	@. .venv/bin/activate && pip install -r requirements.txt.freeze | tee .requirements.txt.tmp.log
 	@mv .requirements.txt.tmp.log requirements.txt.log
 
-requirements-mysql.txt.log: .env requirements-mysql.txt
-	@. .venv/bin/activate && (grep '^W2_DATABASE_ENGINE' .env | grep 'mysql' > /dev/null && pip install -r requirements-mysql.txt || echo "Not using MySQL") | tee .requirements-mysql.txt.tmp.log
+
+requirements-mysql.txt.log: .env .venv requirements-mysql.txt.freeze
+ifeq ($(shell grep '^W2_DATABASE_ENGINE' .env 2>/dev/null | grep 'mysql' > /dev/null && echo yes || echo no), yes)
+	@. .venv/bin/activate && pip install -r requirements-mysql.txt.freeze | tee .requirements-mysql.txt.tmp.log
+else
+	@echo "Not using MySQL" | tee .requirements-mysql.txt.tmp.log
+endif
 	@mv .requirements-mysql.txt.tmp.log requirements-mysql.txt.log
 
-requirements-postgresql.txt.log: .env requirements-postgresql.txt
-	@. .venv/bin/activate && (grep '^W2_DATABASE_ENGINE' .env | grep 'postgresql' > /dev/null && pip install -r requirements-postgresql.txt || echo "Not using PostgreSQL") | tee .requirements-postgresql.txt.tmp.log
+
+requirements-postgresql.txt.log: .env .venv requirements-postgresql.txt.freeze
+ifeq ($(shell grep '^W2_DATABASE_ENGINE' .env 2>/dev/null | grep 'psyco' > /dev/null && echo yes || echo no), yes)
+	@. .venv/bin/activate && pip install -r requirements-postgresql.txt.freeze | tee .requirements-postgresql.txt.tmp.log
+else
+	@echo "Not using PostgreSQL" | tee .requirements-postgresql.txt.tmp.log
+endif
 	@mv .requirements-postgresql.txt.tmp.log requirements-postgresql.txt.log
+
+
+.PHONY: freeze-dependencies
+freeze-dependencies:
+	@. .venv/bin/activate && pip freeze | grep -v 'mysqlclient' > requirements.txt.freeze
+ifeq ($(shell grep '^W2_DATABASE_ENGINE' .env 2>/dev/null | grep 'mysql' > /dev/null && echo yes || echo no), yes)
+	@. .venv/bin/activate && pip freeze | grep 'mysqlclient' > requirements-mysql.txt.freeze
+endif
+ifeq ($(shell grep '^W2_DATABASE_ENGINE' .env 2>/dev/null | grep 'psyco' > /dev/null && echo yes || echo no), yes)
+	@ .venv/bin/activate && pip freeze | grep 'psycopg' > requirements-postgresql.txt.freeze
+endif
+
+
+.PHONY: update-dependencies
+update-dependencies:
+	@rm -rf .venv/
+	@make .venv
+	@. .venv/bin/activate && pip install -r requirements.txt
+	@make freeze-dependencies
 
 
 .PHONY: test

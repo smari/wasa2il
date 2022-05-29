@@ -1,1 +1,2 @@
+# Packages required to run this project with PostgreSQL as the DB
 psycopg2
