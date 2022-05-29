@@ -1,0 +1,46 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  # Sync the local project root folder into /app
+  config.vm.synced_folder "../../", "/app", type: "rsync",
+    rsync__exclude: [".git/", ".venv/", ".env", "*.log"]
+
+  # Enable provisioning with a shell script
+  config.vm.provision "shell", inline: <<-SHELL
+
+    apt-get update
+    apt-get install -y make
+
+    apt-get install -y python3-pip
+
+    # Seems to be needed because `ensurepip` wasn't installed. Not quite sure why.
+    apt install python3.8-venv
+
+    # python3 is installed, but the `python` command does not exist.
+    ln -s `which python3` /usr/bin/python
+
+    # The env.template defaults to MySQL
+    apt-get install -y mysql-server
+
+    apt-get install -y libmysqlclient-dev  # needed for mysql_config
+    # Not needed as the project defaults to MySQL
+    # apt-get install -y libpq-dev  # needed for pg_config
+
+    # Setup the database
+    mysql -e "CREATE USER 'wasa2il'@'localhost' IDENTIFIED BY 'wasa2il';"
+    mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'wasa2il'@'localhost' WITH GRANT OPTION;"
+    mysql -e "CREATE DATABASE wasa2il"
+
+    # Now that prereqs are setup, let's try the app itself!
+
+    cd /app
+    sudo -u vagrant make setup
+    sudo -u vagrant make test
+    sudo -u vagrant make migrate
+    # NOTE: This script seems to be python 2.7 compatible, so disabling for now
+    # sudo -u vagrant make load_fake_data
+  SHELL
+end

@@ -41,10 +41,24 @@ Wasa2il must be set up on a web server capable of running Django. Instructions o
 
    `cp env.example .env`
 
+1. Run `make help` to see what make commands are available.
+
+
+#### Using make
+
+You can use `make` to do _most_ of the things you might need to. Behind the scenes
+much of what follows runs in a virtualenv under `./.venv`. It's encouraged to get
+to know how to use the virtualenv directly (see next section below).
+
+1.  Create a virtual environment: `make venv`
+1.  Install dependencies etc: `make setup` (edit the created `.env` file!)
+1.  Create the database: `make migrate`
+1.  **Optional:** Create some fake data: `make load_fake_data`
+1.  Run the development server: `make run`
 
 #### Using virtualenv
 
-1. Create a virtual environment
+1. Create a virtual environment (usually either kept under `.venv` or `venv`)
 
    `python3 -m venv venv`
 
@@ -82,6 +96,15 @@ If you have `docker-compose` installed, you need to:
 
 1. If the db container is not started before the web container tries to access it, resulting in a Django error, restart the web container:  
 `docker-compose restart app`
+
+
+#### Vagrant (Virtual machines)
+
+Three are a few examples of virtual machines setting up the project. These are found under the `vagrants/` directory.
+
+These are mostly meant to make sure that we have solid examples of how to set up the project on a brand new computer, including necessary system packages.
+
+So these can be used to debug system-level problems, and also to test out changes made at that level, as opposed to at the python package level.
 
 
 #### SASS / SCSS / CSS
