@@ -3,39 +3,51 @@
 {% load static %}
 
 <li><h4>
-  <i class="fas fa-users"></i>
+  <i class="fas fa-users fa-fw"></i>
   {{polity.name}}
 </h4></li>
 
 
-<li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/">
-  <i class="fas fa-asterisk"></i>
-  {% trans "Overview" %}
-</a></li>
-<li{% if request.resolver_match.url_name == "issues" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/issues">
-  <i class="fas fa-lightbulb"></i>
-  {% trans "Issues" %}
-</a></li>
-<li{% if request.resolver_match.url_name == "elections" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/elections/">
-  <i class="fas fa-check-square"></i>
-  {% trans "Elections" %}
-</a></li>
+<li{% if request.resolver_match.url_name == "polity" %} class="active"{% endif %}>
+  <a href="/polity/{{polity.id}}/">
+    <i class="fas fa-asterisk fa-fw"></i>
+    {% trans "Overview" %}
+  </a>
+</li>
+<li{% if request.resolver_match.url_name == "issues" %} class="active"{% endif %}>
+  <a href="/polity/{{polity.id}}/issues">
+    <i class="fas fa-lightbulb fa-fw"></i>
+    {% trans "Issues" %}
+  </a>
+</li>
+<li{% if request.resolver_match.url_name == "elections" %} class="active"{% endif %}>
+  <a href="/polity/{{polity.id}}/elections/">
+    <i class="fas fa-check-square fa-fw"></i>
+    {% trans "Elections" %}
+  </a>
+</li>
 {% if FEATURES.topic %}
-  <li{% if request.resolver_match.url_name == "topics" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/topics/">
-    <i class="fas fa-list"></i>
+  <li{% if request.resolver_match.url_name == "topics" %} class="active"{% endif %}>
+      <a href="/polity/{{polity.id}}/topics/">
+    <i class="fas fa-list fa-fw"></i>
     {% trans "Topics" %}
-  </a></li>
+  </a>
+</li>
 {% endif %}
-<li{% if request.resolver_match.url_name == "agreements" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/agreements/">
-  <i class="fas fa-book"></i>
-  {% trans "Agreements" %}
-</a></li>
+<li{% if request.resolver_match.url_name == "agreements" %} class="active"{% endif %}>
+  <a href="/polity/{{polity.id}}/agreements/">
+    <i class="fas fa-book fa-fw"></i>
+    {% trans "Agreements" %}
+  </a>
+</li>
 
 {% if FEATURES.tasks %}
-<li{% if request.resolver_match.url_name == "tasks" %} class="active"{% endif %}><a href="/polity/{{polity.id}}/tasks/">
-  <i class="fas fa-hand-paper"></i>
-  {% trans "Volunteer for tasks" %}
-</a></li>
+<li{% if request.resolver_match.url_name == "tasks" %} class="active"{% endif %}>
+  <a href="/polity/{{polity.id}}/tasks/">
+    <i class="fas fa-hand-paper fa-fw"></i>
+    {% trans "Volunteer for tasks" %}
+  </a>
+</li>
 {% endif %}
 
 <li>
