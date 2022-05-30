@@ -1,22 +1,33 @@
-commonmark==0.8.0
-gunicorn
-django-dotenv
-dj_database_url
-django==2.2
-django-registration-redux
-django-bootstrap-form
-diff_match_patch
-django-crispy-forms
-django-prosemirror
-django-termsandconditions
+# NOTE: Please try and keep this file tidy.
+# Only add direct requirements here. Any sub-dependencies will be set through
+# the `freeze-dependencies` make target.
+# To update dependencies, optionally update this file and then
+# run the `update-dependencies` make target, and
+
+# Django packages
+Django==2.2.28
+django-bootstrap-form==3.4
+django-crispy-forms==1.8.1
+django-dotenv==1.4.2
+django-prosemirror==0.0.12
+django-registration-redux==2.7
+django-termsandconditions==2.0
 django-utils-six
-python-graph-core
-requests
-lxml
-suds-jurko
-signxml
-python-dateutil
-markdown2
-pillow
-pilkit
-mdmail
+
+# Misc
+Pillow==7.0.0
+commonmark==0.8.0
+diff_match_patch==20181111
+lxml==4.4.2
+markdown2==2.3.8
+mdmail==0.1.3
+pilkit==2.0
+python-dateutil==2.8.1
+python-graph-core==1.8.2
+requests==2.22.0
+signxml==2.7.2
+suds-jurko==0.6
+
+# Unpinned (not found in production!)
+dj_database_url
+gunicorn

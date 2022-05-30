@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     apt-get install -y python3-pip
 
     # Seems to be needed because `ensurepip` wasn't installed. Not quite sure why.
-    apt install python3.8-venv
+    apt-get install -y python3.8-venv
 
     # python3 is installed, but the `python` command does not exist.
     ln -s `which python3` /usr/bin/python
@@ -37,6 +37,7 @@ Vagrant.configure("2") do |config|
     # Now that prereqs are setup, let's try the app itself!
 
     cd /app
+    sudo -u vagrant make .env || true
     sudo -u vagrant make setup
     sudo -u vagrant make test
     sudo -u vagrant make migrate
